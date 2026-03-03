@@ -8,6 +8,7 @@ import StickyCTA from './components/StickyCTA';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
+import ProductDetail from './pages/ProductDetail';
 import Inspirations from './pages/Inspirations';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
@@ -44,6 +45,7 @@ function AppRoutes() {
       {/* Public Site */}
       <Route path="/" element={<><Navbar /><Home /><Footer /><StickyCTA /></>} />
       <Route path="/products" element={<><Navbar /><Products /><Footer /><StickyCTA /></>} />
+      <Route path="/products/:slug" element={<><Navbar /><ProductDetail /><Footer /><StickyCTA /></>} />
       <Route path="/inspirations" element={<><Navbar /><Inspirations /><Footer /><StickyCTA /></>} />
       <Route path="/projects" element={<><Navbar /><Projects /><Footer /><StickyCTA /></>} />
       <Route path="/configurator" element={<><Navbar /><ProductConfigurator /><Footer /><StickyCTA /></>} />

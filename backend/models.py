@@ -60,9 +60,10 @@ class Lead(BaseModel):
     name: str
     company: Optional[str] = None
     email: str
-    phone: str
-    city: str
-    application: str
+    phone: str = ""
+    city: Optional[str] = None
+    application: str = ""
+    product_interest: Optional[str] = None
     timeline: Optional[str] = None
     budget: Optional[str] = None
     message: Optional[str] = None

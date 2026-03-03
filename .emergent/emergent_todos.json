@@ -1,22 +1,14 @@
 [
   {
-    "content": "Phase 1: Rewrite backend server.py with new data models + endpoints",
+    "content": "Switch from Fraunces to Cinzel font + apply global uppercase",
     "status": "completed"
   },
   {
-    "content": "Phase 1: Create seed script with BL-prefixed products, inspirations, projects data",
+    "content": "Update all page components for uppercase readability",
     "status": "completed"
   },
   {
-    "content": "Phase 1: Test all backend endpoints with curl",
-    "status": "completed"
-  },
-  {
-    "content": "Phase 2: Complete frontend rewrite (all pages, components, styles)",
-    "status": "completed"
-  },
-  {
-    "content": "Phase 3: Run testing agent + fix all bugs",
+    "content": "Screenshot verify all pages look correct",
     "status": "completed"
   }
 ]

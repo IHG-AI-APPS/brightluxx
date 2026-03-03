@@ -55,12 +55,12 @@ const Home = () => {
               <div className="text-xs uppercase tracking-[0.24em] text-[var(--blx-gold-3)] mb-4 font-medium font-sans">
                 Premium LED Displays
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold font-display mb-4 leading-[1.1]" data-testid="hero-title">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display mb-4 leading-[1.15]" data-testid="hero-title">
                 Engineered for
                 <br />
                 <span className="text-gradient">Brilliance</span>
               </h1>
-              <p className="text-sm md:text-base text-[var(--blx-text-2)] mb-8 max-w-lg font-light leading-relaxed">
+              <p className="text-xs md:text-sm text-[var(--blx-text-2)] mb-8 max-w-lg font-light leading-relaxed tracking-wider">
                 OEM-grade LED technology. UAE-ready delivery.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">

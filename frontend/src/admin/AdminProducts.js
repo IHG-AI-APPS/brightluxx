@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAdmin } from './AdminContext';
+import { ImageUploader, GalleryUploader } from './ImageUploader';
 import { Plus, Search, Pencil, Trash2, X, Save, Star, TrendingUp, Zap, ChevronLeft, ChevronRight, Download } from 'lucide-react';
 
 const EMPTY_PRODUCT = {
@@ -243,16 +244,18 @@ export default function AdminProducts() {
                 ))}
               </div>
               {/* Image */}
-              <div>
-                <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Image URL</label>
-                <input value={form.image_url} onChange={e => setForm({...form, image_url: e.target.value})} placeholder="https://..." className="input-luxury w-full py-2 text-xs" style={{ textTransform: 'none' }} />
-                {form.image_url && <img src={form.image_url} alt="Preview" className="mt-2 h-20 rounded-lg object-cover" />}
-              </div>
+              <ImageUploader
+                value={form.image_url}
+                onChange={(url) => setForm({...form, image_url: url})}
+                label="Product Image"
+              />
               {/* Gallery */}
-              <div>
-                <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Gallery URLs (comma separated)</label>
-                <input value={(form.gallery || []).join(', ')} onChange={e => setForm({...form, gallery: e.target.value.split(',').map(s => s.trim()).filter(Boolean)})} className="input-luxury w-full py-2 text-xs" style={{ textTransform: 'none' }} />
-              </div>
+              <GalleryUploader
+                value={form.gallery || []}
+                onChange={(urls) => setForm({...form, gallery: urls})}
+                label="Gallery Images"
+                max={8}
+              />
               {/* Key Specs Editor */}
               <div>
                 <div className="flex items-center justify-between mb-2">

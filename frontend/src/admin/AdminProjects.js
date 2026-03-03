@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAdmin } from './AdminContext';
+import { ImageUploader } from './ImageUploader';
 import { Plus, Search, Pencil, Trash2, X, Save, Star, MapPin, Download } from 'lucide-react';
 
 const EMPTY = { title: '', client_name: '', location: '', sector: '', screen_size: '', description: '', image_url: '', gallery: [], technologies_used: [], metrics: [], featured: false, status: 'published' };
@@ -121,7 +122,7 @@ export default function AdminProjects() {
                 <div><label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block">Screen Size</label><input value={form.screen_size} onChange={e => setForm({...form, screen_size: e.target.value})} className="input-luxury w-full py-1.5 text-xs" style={{ textTransform: 'none' }} /></div>
               </div>
               <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="input-luxury w-full py-2 text-xs resize-y" style={{ textTransform: 'none' }} /></div>
-              <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Image URL</label><input value={form.image_url} onChange={e => setForm({...form, image_url: e.target.value})} className="input-luxury w-full py-2 text-xs" style={{ textTransform: 'none' }} />{form.image_url && <img src={form.image_url} alt="Preview" className="mt-2 h-20 rounded-lg object-cover" />}</div>
+              <ImageUploader value={form.image_url} onChange={(url) => setForm({...form, image_url: url})} label="Image" />
               <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Technologies (comma separated)</label><input value={(form.technologies_used || []).join(', ')} onChange={e => setForm({...form, technologies_used: e.target.value.split(',').map(s => s.trim()).filter(Boolean)})} className="input-luxury w-full py-2 text-xs" style={{ textTransform: 'none' }} /></div>
               {/* Metrics */}
               <div>

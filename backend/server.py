@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, Header
+from fastapi import FastAPI, HTTPException, Depends, Header, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field
@@ -9,6 +9,8 @@ from jose import jwt, JWTError
 import os
 import uuid
 import re
+import shutil
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -611,6 +613,64 @@ async def admin_import(collection: str, data: List[dict], admin=Depends(get_curr
         except Exception as e:
             print(f"Import error: {e}")
     return {"success": True, "imported": imported}
+
+# File Upload
+UPLOAD_DIR = Path("/app/frontend/public/uploads")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".avif"}
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
+@app.post("/api/admin/upload")
+async def admin_upload_file(file: UploadFile = File(...), admin=Depends(get_current_admin)):
+    # Validate extension
+    ext = Path(file.filename).suffix.lower()
+    if ext not in ALLOWED_EXTENSIONS:
+        raise HTTPException(status_code=400, detail=f"File type {ext} not allowed. Accepted: {', '.join(ALLOWED_EXTENSIONS)}")
+
+    # Validate size
+    content = await file.read()
+    if len(content) > MAX_FILE_SIZE:
+        raise HTTPException(status_code=400, detail=f"File too large. Max size: {MAX_FILE_SIZE // (1024*1024)}MB")
+
+    # Generate unique filename
+    unique_name = f"{uuid.uuid4().hex[:12]}_{file.filename.replace(' ', '-')}"
+    file_path = UPLOAD_DIR / unique_name
+
+    # Save file
+    with open(file_path, "wb") as f:
+        f.write(content)
+
+    # Return public URL path
+    public_url = f"/uploads/{unique_name}"
+    return {
+        "success": True,
+        "url": public_url,
+        "filename": unique_name,
+        "size": len(content),
+        "content_type": file.content_type
+    }
+
+@app.post("/api/admin/upload/multiple")
+async def admin_upload_multiple(files: List[UploadFile] = File(...), admin=Depends(get_current_admin)):
+    uploaded = []
+    for file in files:
+        ext = Path(file.filename).suffix.lower()
+        if ext not in ALLOWED_EXTENSIONS:
+            continue
+        content = await file.read()
+        if len(content) > MAX_FILE_SIZE:
+            continue
+        unique_name = f"{uuid.uuid4().hex[:12]}_{file.filename.replace(' ', '-')}"
+        file_path = UPLOAD_DIR / unique_name
+        with open(file_path, "wb") as f:
+            f.write(content)
+        uploaded.append({
+            "url": f"/uploads/{unique_name}",
+            "filename": unique_name,
+            "size": len(content),
+            "original_name": file.filename
+        })
+    return {"success": True, "uploaded": uploaded, "count": len(uploaded)}
 
 if __name__ == "__main__":
     import uvicorn

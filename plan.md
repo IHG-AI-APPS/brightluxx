@@ -1,4 +1,4 @@
-# Brightluxx — Stabilization, Testing, Catalog Expansion & CMS Plan (Final Updated)
+# Brightluxx — Stabilization, Testing, Catalog Expansion, CMS & Media Upload Plan (Final Updated)
 
 ## Objectives
 - **Completed:** Restore complete UX by wiring newly-added features into the app shell (routes + navigation) without changing the approved **“Deep Space Modern”** system.
@@ -9,10 +9,12 @@
 - **Completed:** Resolve the previously non-blocking ESLint warning in `ProductConfigurator.js` (`react-hooks/exhaustive-deps`).
 - **Completed:** **Product expansion phase** — expanded catalog from **24 → 41 products**, inspirations **16 → 22**, and categories from **10 → 17** with new images and filters.
 - **Completed:** **Phase 5 — Advanced CMS Admin Panel** — fully dynamic CMS for managing Products, Inspirations, Projects, and Leads **without code changes**, including import/export.
+- **Completed:** **Phase 6 — CMS File Upload Support** — add secure local file uploads for CMS media (upload + URL fallback) across Products, Inspirations, and Projects.
 - **Remaining (optional only):**
   - Accessibility/focus behavior review (keyboard navigation for Tools dropdown + focus states for Compare dropdown/search).
   - Mitigate potential flaky automation timing on Compare flows (deterministic waits for test stability).
   - Security hardening for production (rotate JWT secret via env, stronger password policy, rate limiting) if/when needed.
+  - Production-grade media pipeline (image resizing, virus scanning, CDN/cloud storage) if/when needed.
 
 ---
 
@@ -73,7 +75,6 @@
 - **Automated testing:** Testing agent runs:
   - `iteration_3.json`: Backend **100%**, Overall **98%**
   - `iteration_4.json` (post catalog expansion): Backend **100%**, Frontend **95%+**, Overall **98%**
-- **Bug fixing loop:** Compare issues reported by automation were investigated; manual verification confirms Compare rendering works with new products.
 
 **Exit gate (achieved)**
 - Clean core flows with no runtime crashes; all key pages render.
@@ -262,13 +263,77 @@ Enable non-developer content management for Products, Inspirations, Projects, an
 
 ---
 
+### Phase 6 — CMS Media File Uploads (Local Storage + URL Fallback) ✅ COMPLETED
+**Goal (met)**
+Enable admin users to upload images directly in the CMS (no external hosting required), while keeping URL paste as a fallback for flexibility.
+
+**Guiding constraints (kept)**
+- No external storage services or API keys required.
+- Use existing frontend static server to serve uploaded files.
+- Admin-only access for uploads (JWT protected).
+
+#### Phase 6A — Backend: Upload APIs ✅ COMPLETED
+**Delivered (server.py additions)**
+- `POST /api/admin/upload`
+  - Single file upload via multipart form-data
+  - Validates extension + size (10MB)
+  - Saves to `/app/frontend/public/uploads/` with UUID-prefixed unique filenames
+  - Returns public URL path (`/uploads/<filename>`)
+- `POST /api/admin/upload/multiple`
+  - Multi-file upload for gallery fields
+  - Returns array of uploaded URLs
+- Static serving:
+  - Files served by frontend at `/uploads/<filename>`
+- Validation:
+  - Allowed types: **JPG, JPEG, PNG, WebP, GIF, SVG, AVIF**
+  - Max size: **10MB**
+- Security:
+  - Upload endpoints protected by JWT (`Authorization: Bearer ...`)
+
+**Verification (achieved)**
+- Single upload returns URL and file serves via public path (HTTP 200) ✅
+- Multi-upload returns list of URLs ✅
+- Invalid type rejected with 400 ✅
+- Unauthorized upload rejected with 401 ✅
+
+#### Phase 6B — Frontend: Reusable Upload Components ✅ COMPLETED
+**Delivered**
+- New file: `frontend/src/admin/ImageUploader.js`
+  - `ImageUploader`:
+    - Drag & drop + click to upload
+    - Mode toggle: **Upload File** / **Paste URL**
+    - Preview, clear button, spinner, error display
+  - `GalleryUploader`:
+    - Multi-image thumbnail grid
+    - Add/remove per image
+    - Counter (`0/max`) with max cap
+
+#### Phase 6C — CMS Integration ✅ COMPLETED
+**Integrated into:**
+- `AdminProducts`
+  - Product `image_url` uses `ImageUploader`
+  - Product `gallery` uses `GalleryUploader`
+- `AdminInspirations`
+  - `image_url` uses `ImageUploader`
+- `AdminProjects`
+  - `image_url` uses `ImageUploader`
+
+**Exit gate (achieved)**
+- CMS supports both **uploaded media** and **external URL** workflows across all content types.
+- UI is consistent with Deep Space Modern admin styling.
+
+---
+
 ## Next Actions (Immediate)
 1. **Optional:** Accessibility pass for public site dropdowns (keyboard navigation + focus states).
 2. **Optional:** Harden admin security for production:
    - Move `JWT_SECRET` to env and rotate
    - Add rate-limiting on `/api/admin/login`
    - Add password reset/change flow
-3. **Optional:** Add file uploads (instead of URL-only) for CMS media.
+3. **Optional:** Media hardening:
+   - Add server-side image resizing/optimization
+   - Add malware scanning
+   - Add CDN/cloud storage option (S3/Cloudinary) for production scalability
 
 ---
 
@@ -290,3 +355,7 @@ Enable non-developer content management for Products, Inspirations, Projects, an
   - Admin can securely login and manage **Products, Inspirations, Projects, and Leads** without code changes.
   - Admin changes are immediately reflected on the public site.
   - CMS supports bulk actions and import/export for operational scalability.
+- **CMS Media (achieved):**
+  - Admin can upload images to local storage and receive `/uploads/...` URLs.
+  - Uploads are JWT-protected, validated, and publicly accessible for rendering.
+  - CMS editors support both uploads and URL-based images for maximum flexibility.

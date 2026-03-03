@@ -1,46 +1,26 @@
 [
   {
-    "content": "Build backend: Admin auth (JWT login, protected routes, admin seed)",
+    "content": "Backend: Add file upload endpoint with local storage to /uploads/",
     "status": "completed"
   },
   {
-    "content": "Build backend: Full CRUD APIs for Products, Inspirations, Projects, Leads + Dashboard stats",
+    "content": "Frontend: Create reusable ImageUploader component (upload + URL fallback + drag-drop)",
     "status": "completed"
   },
   {
-    "content": "Build frontend: Admin auth (login page, token storage, protected route wrapper)",
+    "content": "Integrate ImageUploader into AdminProducts (image_url + gallery)",
     "status": "completed"
   },
   {
-    "content": "Build frontend: Admin layout (sidebar, topbar) + Dashboard page",
+    "content": "Integrate ImageUploader into AdminInspirations + AdminProjects",
     "status": "completed"
   },
   {
-    "content": "Build frontend: Products manager (table, add/edit/delete, specs editor)",
+    "content": "Create uploads directory and verify static serving",
     "status": "completed"
   },
   {
-    "content": "Build frontend: Inspirations + Projects managers",
-    "status": "completed"
-  },
-  {
-    "content": "Build frontend: Leads viewer with status management",
-    "status": "completed"
-  },
-  {
-    "content": "Build frontend: Bulk actions + export capabilities",
-    "status": "completed"
-  },
-  {
-    "content": "Verify frontend compilation + screenshots of all admin pages",
-    "status": "completed"
-  },
-  {
-    "content": "Run testing agent for comprehensive CMS validation",
-    "status": "completed"
-  },
-  {
-    "content": "Fix export/import 500 errors (Motor collection truth testing bug)",
+    "content": "Test upload flow end-to-end + screenshots",
     "status": "completed"
   }
 ]

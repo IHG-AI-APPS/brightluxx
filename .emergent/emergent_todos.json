@@ -1,26 +1,30 @@
 [
   {
-    "content": "Switch to Satoshi font (CDN), update typography hierarchy",
-    "status": "completed"
+    "content": "Add 20+ trending innovative products: COB MicroLED, MiP, Transparent, Flexible, Floor LED, All-in-One, DVLED",
+    "status": "in_progress"
   },
   {
-    "content": "Update backgrounds to #0B0B0B Deep Charcoal + glassmorphism cards/nav",
-    "status": "completed"
+    "content": "Add LED Screen Calculator tool (pixel pitch, viewing distance, screen size)",
+    "status": "pending"
   },
   {
-    "content": "Add LED pixel dot grid overlay effect",
-    "status": "completed"
+    "content": "Add Product Comparison feature (side-by-side specs)",
+    "status": "pending"
   },
   {
-    "content": "Add scroll-triggered glow effect behind product images",
-    "status": "completed"
+    "content": "Add Technology Guide section (COB vs MiP vs SMD)",
+    "status": "pending"
   },
   {
-    "content": "Gold accents ONLY for CTAs/icons, white/grey for everything else",
-    "status": "completed"
+    "content": "Update inspirations with 2025 trends (immersive, holographic, interactive floor)",
+    "status": "pending"
   },
   {
-    "content": "Screenshot verify all pages",
-    "status": "completed"
+    "content": "Build new frontend pages for Calculator + Compare + Tech Guide",
+    "status": "pending"
+  },
+  {
+    "content": "Test everything",
+    "status": "pending"
   }
 ]

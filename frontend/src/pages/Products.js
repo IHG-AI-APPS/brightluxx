@@ -28,12 +28,16 @@ const GlowCard = ({ children, className = '' }) => {
 
 const CATEGORIES = [
   { value: '', label: 'All Products' },
-  { value: 'micro-led', label: 'Micro LED' },
-  { value: 'indoor', label: 'Indoor' },
+  { value: 'cob-microled', label: 'COB MicroLED' },
+  { value: 'mip', label: 'MiP' },
+  { value: 'transparent', label: 'Transparent' },
+  { value: 'flexible', label: 'Flexible / Creative' },
+  { value: 'interactive', label: 'Interactive Floor' },
+  { value: 'all-in-one', label: 'All-in-One' },
+  { value: 'dvled', label: 'DVLED Cinema' },
   { value: 'outdoor', label: 'Outdoor' },
   { value: 'rental', label: 'Rental' },
-  { value: 'transparent', label: 'Transparent' },
-  { value: 'creative', label: 'Creative' },
+  { value: 'indoor', label: 'Indoor' },
 ];
 
 const Products = () => {

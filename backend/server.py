@@ -109,21 +109,100 @@ async def health():
 
 # Products
 @app.get("/api/products")
-async def get_products(category: Optional[str] = None, featured: Optional[bool] = None, search: Optional[str] = None):
+async def get_products(category: Optional[str] = None, featured: Optional[bool] = None, trending: Optional[bool] = None, new_arrival: Optional[bool] = None, search: Optional[str] = None):
     query = {}
     if category:
         query["category"] = category
     if featured is not None:
         query["featured"] = featured
+    if trending is not None:
+        query["trending"] = trending
+    if new_arrival is not None:
+        query["new_arrival"] = new_arrival
     if search:
         query["$or"] = [
             {"name": {"$regex": search, "$options": "i"}},
             {"product_code": {"$regex": search, "$options": "i"}},
             {"description": {"$regex": search, "$options": "i"}},
+            {"application": {"$regex": search, "$options": "i"}},
         ]
     cursor = products_col.find(query).sort("created_at", -1)
-    products = [serialize_doc(doc) for doc in await cursor.to_list(length=100)]
+    products = [serialize_doc(doc) for doc in await cursor.to_list(length=200)]
     return {"products": products}
+
+@app.get("/api/products/categories")
+async def get_product_categories():
+    pipeline = [{"$group": {"_id": "$category", "count": {"$sum": 1}}}, {"$sort": {"count": -1}}]
+    categories = []
+    async for doc in products_col.aggregate(pipeline):
+        categories.append({"value": doc["_id"], "label": doc["_id"].replace("-", " ").title(), "count": doc["count"]})
+    return {"categories": categories}
+
+@app.post("/api/products/compare")
+async def compare_products(product_codes: List[str]):
+    if len(product_codes) < 2 or len(product_codes) > 4:
+        raise HTTPException(status_code=400, detail="Select 2-4 products to compare")
+    products = []
+    for code in product_codes:
+        product = await products_col.find_one({"product_code": code})
+        if product:
+            products.append(serialize_doc(product))
+    return {"products": products}
+
+@app.post("/api/calculator/screen-size")
+async def calculate_screen_size(data: dict):
+    """Calculate recommended screen size based on venue parameters."""
+    width = data.get("venue_width", 10)  # metres
+    height = data.get("venue_height", 3)  # metres
+    viewing_distance = data.get("viewing_distance", 5)  # metres
+    content_type = data.get("content_type", "video")  # text, mixed, video
+    indoor = data.get("indoor", True)
+    
+    # Pixel pitch recommendation based on viewing distance
+    # Rule: Min viewing distance (m) ≈ pixel pitch (mm) x 1.5
+    recommended_pitch = round(viewing_distance / 1.5, 2)
+    
+    # Adjust for content type
+    if content_type == "text":
+        recommended_pitch = min(recommended_pitch, 1.5)  # Text needs finer pitch
+    elif content_type == "mixed":
+        recommended_pitch = min(recommended_pitch, 2.5)
+    
+    # Clamp to available pitches
+    available_pitches = [0.4, 0.6, 0.9, 1.2, 1.5, 1.9, 2.5, 2.9, 3.9, 4.7, 6.8, 7.8]
+    closest_pitch = min(available_pitches, key=lambda x: abs(x - recommended_pitch))
+    
+    # Screen dimensions (80% of wall for optimal viewing)
+    screen_width = min(width * 0.85, width - 0.5)
+    screen_height = min(height * 0.7, height - 0.5)
+    screen_area = round(screen_width * screen_height, 1)
+    
+    # Resolution
+    pixels_per_m = round(1000 / closest_pitch)
+    res_w = int(screen_width * pixels_per_m)
+    res_h = int(screen_height * pixels_per_m)
+    
+    # Brightness recommendation
+    brightness = "600-1,200 nits" if indoor else "5,000-10,000 nits"
+    
+    # Find matching products
+    pitch_query = {"pixel_pitch": {"$regex": str(closest_pitch)}}
+    matching = [serialize_doc(doc) for doc in await products_col.find(pitch_query).to_list(length=5)]
+    
+    return {
+        "recommended_pitch": closest_pitch,
+        "screen_width": round(screen_width, 1),
+        "screen_height": round(screen_height, 1),
+        "screen_area": screen_area,
+        "resolution": f"{res_w} x {res_h}",
+        "brightness": brightness,
+        "matching_products": matching,
+        "tips": [
+            f"At {viewing_distance}m viewing distance, {closest_pitch}mm pitch provides optimal clarity.",
+            f"Screen area: {screen_area} sqm ({round(screen_width, 1)}m x {round(screen_height, 1)}m).",
+            f"Recommended brightness: {brightness} for {'indoor' if indoor else 'outdoor'} use."
+        ]
+    }
 
 @app.get("/api/products/{slug}")
 async def get_product(slug: str):

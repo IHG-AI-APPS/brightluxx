@@ -37,6 +37,10 @@
   },
   {
     "content": "Run testing agent for comprehensive CMS validation",
-    "status": "in_progress"
+    "status": "completed"
+  },
+  {
+    "content": "Fix export/import 500 errors (Motor collection truth testing bug)",
+    "status": "completed"
   }
 ]

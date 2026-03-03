@@ -586,7 +586,7 @@ async def admin_delete_lead(lead_id: str, admin=Depends(get_current_admin)):
 async def admin_export(collection: str, admin=Depends(get_current_admin)):
     col_map = {"products": products_col, "inspirations": inspirations_col, "projects": projects_col, "leads": leads_col}
     col = col_map.get(collection)
-    if not col:
+    if col is None:
         raise HTTPException(status_code=400, detail="Invalid collection")
     cursor = col.find().sort("created_at", -1)
     items = [serialize_doc(doc) for doc in await cursor.to_list(length=1000)]
@@ -597,7 +597,7 @@ async def admin_export(collection: str, admin=Depends(get_current_admin)):
 async def admin_import(collection: str, data: List[dict], admin=Depends(get_current_admin)):
     col_map = {"products": products_col, "inspirations": inspirations_col, "projects": projects_col}
     col = col_map.get(collection)
-    if not col:
+    if col is None:
         raise HTTPException(status_code=400, detail="Invalid collection")
     imported = 0
     for item in data:

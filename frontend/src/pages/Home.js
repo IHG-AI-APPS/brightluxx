@@ -196,6 +196,30 @@ const Home = () => {
       {/* Featured Technologies */}
       <section className="py-14 sm:py-20" data-testid="featured-technologies">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          {/* Configurator CTA Banner */}
+          <div className="mb-12 bg-gradient-to-br from-[var(--blx-gold-1)] to-[var(--blx-gold-3)] rounded-2xl p-8 md:p-12 text-[var(--blx-bg)] relative overflow-hidden">
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="text-center md:text-left">
+                <div className="text-xs uppercase tracking-[0.24em] mb-3 opacity-90">
+                  Interactive Tool
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold mb-3 font-display">
+                  Configure Your Perfect Display
+                </h3>
+                <p className="text-base opacity-90 max-w-xl">
+                  Use our interactive configurator to design your LED display, see real-time pricing, and get an instant quote.
+                </p>
+              </div>
+              <Link
+                to="/configurator"
+                className="btn-glass px-8 py-4 whitespace-nowrap bg-black/20 hover:bg-black/30 border-white/30 text-white"
+                style={{backdropFilter: 'blur(8px)'}}
+              >
+                Try Configurator →
+              </Link>
+            </div>
+          </div>
+
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-2xl md:text-3xl font-semibold font-display mb-2">Featured Technologies</h2>
@@ -203,7 +227,7 @@ const Home = () => {
             </div>
             <Link
               to="/technologies"
-              className="text-[var(--blx-accent)] hover:text-[var(--blx-accent-2)] font-medium flex items-center gap-2"
+              className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-4)] font-medium flex items-center gap-2"
             >
               View All
               <ArrowRight size={18} />

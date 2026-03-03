@@ -1,6 +1,10 @@
 [
   {
-    "content": "Phase 3: Test visual enhancements",
+    "content": "Phase 3: Add configurator CTA to home page",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 3: Test configurator functionality",
     "status": "completed"
   }
 ]

@@ -18,6 +18,7 @@ import CaseStudyDetail from './pages/CaseStudyDetail';
 import Updates from './pages/Updates';
 import UpdateDetail from './pages/UpdateDetail';
 import Contact from './pages/Contact';
+import ProductConfigurator from './pages/ProductConfigurator';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
           <Route path="/updates" element={<Updates />} />
           <Route path="/updates/:slug" element={<UpdateDetail />} />
+          <Route path="/configurator" element={<ProductConfigurator />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
         <Footer />

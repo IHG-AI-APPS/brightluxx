@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 import { getProducts, getProjects } from '../api';
+import CdnImage from '../components/CdnImage';
 
 /* Scroll-triggered glow hook */
 const useInView = (ref) => {
@@ -125,7 +126,7 @@ const Home = () => {
             }].map((door) => (
               <GlowCard key={door.to}>
                 <Link to={door.to} className="entry-door group block" data-testid={`home-entry-door-${door.title.toLowerCase()}`}>
-                  <img src={door.img} alt={door.title} className="entry-door-image" />
+                  <CdnImage src={door.img} alt={door.title} className="entry-door-image" w={600} eager />
                   <div className="p-6">
                     <h3 className="text-xl mb-2">{door.title}</h3>
                     <p className="text-xs text-[var(--blx-text-2)] mb-4 leading-relaxed tracking-wider">
@@ -187,7 +188,7 @@ const Home = () => {
                 <GlowCard key={product._id}>
                   <div className="product-card group" data-testid="products-product-card">
                     <div className="relative overflow-hidden">
-                      <img src={product.image_url} alt={product.name} className="w-full h-48 object-cover" />
+                      <CdnImage src={product.image_url} alt={product.name} className="w-full h-48" w={400} />
                       <div className="absolute top-3 left-3">
                         <span className="category-badge">{product.product_code}</span>
                       </div>
@@ -227,7 +228,7 @@ const Home = () => {
               {featuredProjects.map((project) => (
                 <GlowCard key={project._id}>
                   <div className="product-card group" data-testid="project-case-study-card">
-                    <img src={project.image_url} alt={project.title} className="w-full h-52 object-cover" />
+                    <CdnImage src={project.image_url} alt={project.title} className="w-full h-52" w={600} />
                     <div className="p-5">
                       <div className="text-[0.625rem] tracking-[0.2em] text-[var(--blx-muted)] mb-1 font-bold">
                         {project.sector} &middot; {project.location}

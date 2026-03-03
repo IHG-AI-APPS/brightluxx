@@ -368,3 +368,42 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
+
+
+/* ========================================
+   CDN Image — Blur-up Lazy Loading
+   ======================================== */
+.cdn-img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.cdn-img-blur {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(20px);
+  transform: scale(1.1);
+  transition: opacity 0.4s ease-out;
+  z-index: 1;
+}
+
+.cdn-img-full {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  z-index: 2;
+}
+
+.cdn-img-show {
+  opacity: 1;
+}
+
+.cdn-img-hide {
+  opacity: 0;
+}

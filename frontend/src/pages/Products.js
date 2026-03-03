@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, SlidersHorizontal, Monitor } from 'lucide-react';
 import { getProducts } from '../api';
+import CdnImage from '../components/CdnImage';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -132,15 +133,15 @@ const Products = () => {
                   className="product-card group block"
                   data-testid="products-product-card"
                 >
-                  <div className="relative overflow-hidden">
+                  <div className="relative overflow-hidden h-48">
                     {product.image_url ? (
-                      <img src={product.image_url} alt={product.name} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <CdnImage src={product.image_url} alt={product.name} className="w-full h-48" imgClassName="group-hover:scale-105 transition-transform duration-500" w={400} />
                     ) : (
                       <div className="w-full h-48 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08), rgba(229,197,116,0.02))' }}>
                         <Monitor size={36} className="text-[var(--blx-muted)]" />
                       </div>
                     )}
-                    <div className="absolute top-3 left-3">
+                    <div className="absolute top-3 left-3 z-10">
                       <span className="category-badge">{product.product_code}</span>
                     </div>
                   </div>

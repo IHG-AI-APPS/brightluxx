@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Zap, Send, Phone, Check } from 'lucide-react';
 import { getProduct, getProducts, createLead } from '../api';
+import CdnImage from '../components/CdnImage';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -141,11 +142,12 @@ export default function ProductDetail() {
           <FadeIn>
             <div data-testid="product-gallery">
               <div className="rounded-2xl overflow-hidden mb-3 relative group">
-                <img
+                <CdnImage
                   src={gallery[activeImage]}
                   alt={product.name}
-                  className="w-full h-[360px] sm:h-[440px] object-cover"
-                  data-testid="product-main-image"
+                  className="w-full h-[360px] sm:h-[440px]"
+                  w={800}
+                  eager
                 />
                 {gallery.length > 1 && (
                   <>
@@ -390,7 +392,7 @@ export default function ProductDetail() {
                 <FadeIn key={p.id || p._id}>
                   <Link to={`/products/${p.slug}`} className="product-card group block" data-testid="related-product-card">
                     <div className="relative overflow-hidden">
-                      <img src={p.image_url} alt={p.name} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <CdnImage src={p.image_url} alt={p.name} className="w-full h-40" imgClassName="group-hover:scale-105 transition-transform duration-500" w={400} />
                       <div className="absolute top-3 left-3">
                         <span className="category-badge">{p.product_code}</span>
                       </div>

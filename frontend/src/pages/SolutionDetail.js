@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, Zap } from 'lucide-react';
 import { getProducts } from '../api';
+import CdnImage from '../components/CdnImage';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -197,7 +198,7 @@ export default function SolutionDetail() {
       {/* Hero */}
       <section className="relative py-16 sm:py-24 overflow-hidden" data-testid="solution-detail-hero">
         <div className="absolute inset-0">
-          <img src={solution.heroImage} alt={solution.title} className="w-full h-full object-cover opacity-30" />
+          <img src={solution.heroImage} alt={solution.title} className="w-full h-full object-cover opacity-30" loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--blx-bg)] via-[rgba(11,11,11,0.7)] to-[rgba(11,11,11,0.5)]" />
         </div>
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -237,7 +238,7 @@ export default function SolutionDetail() {
             </FadeIn>
             <FadeIn delay={100}>
               <div className="rounded-2xl overflow-hidden">
-                <img src={solution.image} alt={solution.title} className="w-full h-80 object-cover" data-testid="solution-detail-image" />
+                <CdnImage src={solution.image} alt={solution.title} className="w-full h-80" w={600} />
               </div>
             </FadeIn>
           </div>
@@ -280,7 +281,7 @@ export default function SolutionDetail() {
           <FadeIn>
             <div className="glass-panel overflow-hidden">
               <div className="grid lg:grid-cols-2">
-                <img src={solution.caseStudyImage} alt={solution.caseStudyTitle} className="w-full h-64 lg:h-full object-cover" />
+                <CdnImage src={solution.caseStudyImage} alt={solution.caseStudyTitle} className="w-full h-64 lg:h-full" w={600} />
                 <div className="p-6 lg:p-8 flex flex-col justify-center">
                   <div className="text-[0.625rem] tracking-[0.2em] text-[var(--blx-gold-3)] mb-2 font-bold">Featured Project</div>
                   <h3 className="text-sm font-bold tracking-wider mb-3">{solution.caseStudyTitle}</h3>
@@ -310,7 +311,7 @@ export default function SolutionDetail() {
                 <FadeIn key={product.id || product._id}>
                   <Link to={`/products`} className="product-card group block" data-testid="solution-product-card">
                     <div className="relative overflow-hidden">
-                      <img src={product.image_url} alt={product.name} className="w-full h-44 object-cover" />
+                      <CdnImage src={product.image_url} alt={product.name} className="w-full h-44" w={400} />
                       <div className="absolute top-3 left-3">
                         <span className="category-badge">{product.product_code}</span>
                       </div>

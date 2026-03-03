@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { getProjects } from '../api';
 import { MapPin, Maximize2, Building, X, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import CdnImage from '../components/CdnImage';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -108,7 +109,7 @@ const Projects = () => {
                 >
                   <div className="relative overflow-hidden">
                     {project.image_url ? (
-                      <img src={project.image_url} alt={project.title} className="w-full h-56 object-cover" />
+                      <CdnImage src={project.image_url} alt={project.title} className="w-full h-56" w={600} />
                     ) : (
                       <div className="w-full h-56 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08), rgba(229,197,116,0.02))' }}>
                         <Building size={40} className="text-[var(--blx-muted)]" />

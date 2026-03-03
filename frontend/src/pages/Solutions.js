@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Building2, ShoppingBag, MonitorPlay, Tv, Layers, TrafficCone, Theater, Zap, Globe } from 'lucide-react';
+import CdnImage from '../components/CdnImage';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -113,7 +114,7 @@ const SolutionCard = ({ solution, index }) => {
       <Link to={`/solutions/${solution.id}`} className="glass-panel h-full flex flex-col group hover:border-[rgba(229,197,116,0.15)] transition-all duration-300 overflow-hidden" data-testid={`solution-card-${solution.id}`}>
         {solution.image && (
           <div className="relative h-40 overflow-hidden">
-            <img src={solution.image} alt={solution.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <CdnImage src={solution.image} alt={solution.title} className="w-full h-full" imgClassName="group-hover:scale-105 transition-transform duration-500" w={500} />
             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(11,11,11,0.8)] to-transparent" />
           </div>
         )}

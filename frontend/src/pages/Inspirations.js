@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { getInspirations } from '../api';
 import { Sparkles } from 'lucide-react';
+import CdnImage from '../components/CdnImage';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -98,12 +99,13 @@ const Inspirations = () => {
             {inspirations.map((item, index) => (
               <GlowCard key={item._id} className="break-inside-avoid">
                 <div className="inspiration-card" data-testid="inspiration-card">
-                  <img
+                  <CdnImage
                     src={item.image_url}
                     alt={item.title}
-                    className={`w-full object-cover rounded-[var(--blx-radius-lg)] ${
+                    className={`w-full rounded-[var(--blx-radius-lg)] ${
                       index % 3 === 0 ? 'h-72' : index % 3 === 1 ? 'h-56' : 'h-64'
                     }`}
+                    w={600}
                   />
                   <div className="card-overlay rounded-[var(--blx-radius-lg)]">
                     <div>

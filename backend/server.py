@@ -33,8 +33,9 @@ app.add_middleware(
 
 # MongoDB
 MONGO_URL = os.getenv("MONGO_URL")
+DB_NAME = os.getenv("DB_NAME")
 client = AsyncIOMotorClient(MONGO_URL)
-db = client["brightluxx"]
+db = client[DB_NAME]
 
 # Collections
 products_col = db["products"]
@@ -76,6 +77,12 @@ class RateLimiter:
 
 login_limiter = RateLimiter(max_attempts=5, window_seconds=60)
 lead_limiter = RateLimiter(max_attempts=10, window_seconds=60)
+
+def get_client_ip(request: Request) -> str:
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
 
 # ─── Security Headers Middleware ───
 @app.middleware("http")
@@ -384,7 +391,7 @@ async def get_project(slug: str):
 # Leads (public)
 @app.post("/api/leads")
 async def create_lead(lead: Lead, request: Request):
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     if not lead_limiter.check(client_ip):
         raise HTTPException(status_code=429, detail="Too many submissions. Please wait a moment.")
     lead_dict = lead.dict()
@@ -418,7 +425,7 @@ async def search(q: str):
 # Auth
 @app.post("/api/admin/login")
 async def admin_login(creds: AdminLogin, request: Request):
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     if not login_limiter.check(client_ip):
         remaining_wait = 60
         raise HTTPException(status_code=429, detail=f"Too many login attempts. Try again in {remaining_wait}s.", headers={"Retry-After": str(remaining_wait)})

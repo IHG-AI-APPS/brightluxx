@@ -3,6 +3,53 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Ruler, Zap, Package, Download, Calculator } from 'lucide-react';
 import { createLead } from '../api';
 
+// Static configuration options (outside component to avoid recreating on each render)
+const displayTypes = [
+  {
+    id: 'microled',
+    name: 'MicroLED Pro',
+    description: 'Ultra-fine pitch for premium indoor applications',
+    basePrice: 15000,
+    image: '/generated/microled_display.png'
+  },
+  {
+    id: 'outdoor',
+    name: 'Outdoor DOOH',
+    description: 'High-brightness for outdoor visibility',
+    basePrice: 8000,
+    image: '/generated/outdoor_dooh_dubai.png'
+  },
+  {
+    id: 'transparent',
+    name: 'Transparent LED',
+    description: 'See-through displays for architectural glass',
+    basePrice: 18000,
+    image: '/generated/transparent_led_retail.png'
+  },
+  {
+    id: '3d',
+    name: '3D Holographic',
+    description: 'Glasses-free 3D for immersive experiences',
+    basePrice: 25000,
+    image: '/generated/3d_holographic_mall.png'
+  }
+];
+
+const pixelPitchOptions = [
+  { value: '0.9', label: '0.9mm (Ultra HD)', multiplier: 1.8 },
+  { value: '1.2', label: '1.2mm (Premium)', multiplier: 1.4 },
+  { value: '1.5', label: '1.5mm (Standard)', multiplier: 1.2 },
+  { value: '2.5', label: '2.5mm (Large Format)', multiplier: 1.0 },
+  { value: '3.9', label: '3.9mm (Outdoor)', multiplier: 0.8 }
+];
+
+const brightnessOptions = [
+  { value: '600', label: '600 nits (Indoor)', multiplier: 1.0 },
+  { value: '1500', label: '1500 nits (Bright Indoor)', multiplier: 1.2 },
+  { value: '5000', label: '5000 nits (Outdoor)', multiplier: 1.5 },
+  { value: '8000', label: '8000 nits (Extreme)', multiplier: 1.8 }
+];
+
 const ProductConfigurator = () => {
   // Configuration state
   const [config, setConfig] = useState({
@@ -23,53 +70,6 @@ const ProductConfigurator = () => {
     phone: '',
     company: ''
   });
-
-  // Display type options
-  const displayTypes = [
-    {
-      id: 'microled',
-      name: 'MicroLED Pro',
-      description: 'Ultra-fine pitch for premium indoor applications',
-      basePrice: 15000,
-      image: '/generated/microled_display.png'
-    },
-    {
-      id: 'outdoor',
-      name: 'Outdoor DOOH',
-      description: 'High-brightness for outdoor visibility',
-      basePrice: 8000,
-      image: '/generated/outdoor_dooh_dubai.png'
-    },
-    {
-      id: 'transparent',
-      name: 'Transparent LED',
-      description: 'See-through displays for architectural glass',
-      basePrice: 18000,
-      image: '/generated/transparent_led_retail.png'
-    },
-    {
-      id: '3d',
-      name: '3D Holographic',
-      description: 'Glasses-free 3D for immersive experiences',
-      basePrice: 25000,
-      image: '/generated/3d_holographic_mall.png'
-    }
-  ];
-
-  const pixelPitchOptions = [
-    { value: '0.9', label: '0.9mm (Ultra HD)', multiplier: 1.8 },
-    { value: '1.2', label: '1.2mm (Premium)', multiplier: 1.4 },
-    { value: '1.5', label: '1.5mm (Standard)', multiplier: 1.2 },
-    { value: '2.5', label: '2.5mm (Large Format)', multiplier: 1.0 },
-    { value: '3.9', label: '3.9mm (Outdoor)', multiplier: 0.8 }
-  ];
-
-  const brightnessOptions = [
-    { value: '600', label: '600 nits (Indoor)', multiplier: 1.0 },
-    { value: '1500', label: '1500 nits (Bright Indoor)', multiplier: 1.2 },
-    { value: '5000', label: '5000 nits (Outdoor)', multiplier: 1.5 },
-    { value: '8000', label: '8000 nits (Extreme)', multiplier: 1.8 }
-  ];
 
   // Calculate price
   useEffect(() => {

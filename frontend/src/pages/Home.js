@@ -46,35 +46,37 @@ const Home = () => {
   return (
     <div className="" data-testid="home-page">
       {/* Hero Section */}
-      <section className="relative hero-glow py-20" data-testid="hero-section">
+      <section className="relative hero-glow py-24 sm:py-32" data-testid="hero-section">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display mb-6 leading-tight" data-testid="hero-title">
+            <div className="text-xs uppercase tracking-[0.24em] text-[var(--blx-muted)] mb-4 font-medium">
+              OEM LED Display Excellence
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-display mb-8 leading-[1.1]" data-testid="hero-title">
               Premium LED Displays
               <br />
               <span className="text-gradient">Engineered for UAE</span>
             </h1>
-            <p className="text-base md:text-lg text-[var(--blx-text-2)] leading-relaxed mb-8 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-[var(--blx-text-2)] leading-relaxed mb-10 max-w-3xl mx-auto font-light">
               From MicroLED precision to outdoor DOOH brilliance. OEM-grade technology, UAE-ready delivery. 
               Built for extreme heat. Tuned for maximum visibility.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
               <Link
                 to="/contact"
-                className="px-8 py-4 bg-[var(--blx-accent)] text-[var(--blx-bg)] rounded-lg font-semibold hover:bg-[var(--blx-accent-2)] transition-colors inline-flex items-center justify-center gap-2"
+                className="btn-gold px-10 py-4 text-base"
                 data-testid="cta-get-quote"
               >
                 Get Quote in 2 Hours
-                <ArrowRight size={20} />
               </Link>
               <Link
                 to="/technologies"
-                className="px-8 py-4 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-lg font-semibold hover:border-[var(--blx-accent)] transition-colors"
+                className="btn-glass px-10 py-4 text-base"
                 data-testid="cta-explore-tech"
               >
                 Explore Technologies
@@ -149,33 +151,33 @@ const Home = () => {
       </section>
 
       {/* Trust Strip */}
-      <section className="py-12 bg-[var(--blx-bg-raised)] border-y border-[var(--blx-border)]" data-testid="trust-strip">
+      <section className="py-16 sm:py-20 bg-[var(--blx-bg-raised)] border-y border-[var(--blx-border)]" data-testid="trust-strip">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="flex flex-col items-center">
-              <div className="w-12 h-12 bg-[var(--blx-panel)] rounded-lg flex items-center justify-center mb-3">
-                <Zap className="text-[var(--blx-accent)]" size={24} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-14 h-14 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
+                <Zap className="text-[var(--blx-gold-3)]" size={26} />
               </div>
-              <h4 className="font-semibold mb-2">Built for UAE Heat</h4>
-              <p className="text-sm text-[var(--blx-text-2)]">
+              <h4 className="font-semibold text-lg mb-3">Built for UAE Heat</h4>
+              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed">
                 -20°C to +60°C operation. Advanced thermal management for extreme conditions.
               </p>
             </div>
-            <div className="flex flex-col items-center">
-              <div className="w-12 h-12 bg-[var(--blx-panel)] rounded-lg flex items-center justify-center mb-3">
-                <Shield className="text-[var(--blx-accent)]" size={24} />
+            <div className="flex flex-col items-center text-center">
+              <div className="w-14 h-14 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
+                <Shield className="text-[var(--blx-gold-3)]" size={26} />
               </div>
-              <h4 className="font-semibold mb-2">UAE-Ready Delivery</h4>
-              <p className="text-sm text-[var(--blx-text-2)]">
+              <h4 className="font-semibold text-lg mb-3">UAE-Ready Delivery</h4>
+              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed">
                 Local support. Fast installation. Comprehensive SLA coverage across UAE.
               </p>
             </div>
-            <div className="flex flex-col items-center">
-              <div className="w-12 h-12 bg-[var(--blx-panel)] rounded-lg flex items-center justify-center mb-3">
-                <Clock className="text-[var(--blx-accent)]" size={24} />
+            <div className="flex flex-col items-center text-center">
+              <div className="w-14 h-14 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
+                <Clock className="text-[var(--blx-gold-3)]" size={26} />
               </div>
-              <h4 className="font-semibold mb-2">Quote in 2 Hours</h4>
-              <p className="text-sm text-[var(--blx-text-2)]">
+              <h4 className="font-semibold text-lg mb-3">Quote in 2 Hours</h4>
+              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed">
                 Fast response. Clear pricing. Expert consultation for your project.
               </p>
             </div>
@@ -321,28 +323,27 @@ const Home = () => {
       )}
 
       {/* CTA Section */}
-      <section className="py-20 bg-[var(--blx-panel)] border-y border-[var(--blx-border)]" data-testid="cta-section">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
+      <section className="py-24 sm:py-32 bg-[var(--blx-panel)] border-y border-[var(--blx-border)] relative blx-noise" data-testid="cta-section">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display mb-6 leading-tight">
             Ready to Transform Your Space?
           </h2>
-          <p className="text-lg text-[var(--blx-text-2)] mb-8">
+          <p className="text-lg md:text-xl text-[var(--blx-text-2)] mb-10 leading-relaxed max-w-2xl mx-auto font-light">
             Get expert consultation and a detailed quote within 2 hours. No commitment required.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-5 justify-center">
             <Link
               to="/contact"
-              className="px-8 py-4 bg-[var(--blx-accent)] text-[var(--blx-bg)] rounded-lg font-semibold hover:bg-[var(--blx-accent-2)] transition-colors inline-flex items-center justify-center gap-2"
+              className="btn-gold px-10 py-4 text-base"
               data-testid="cta-contact"
             >
               Get in Touch
-              <ArrowRight size={20} />
             </Link>
             <a
               href={`https://wa.me/971559910711?text=${encodeURIComponent('Hi, I want to learn more about Brightluxx LED displays')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 bg-[#25D366] text-white rounded-lg font-semibold hover:bg-[#20BD5A] transition-colors inline-flex items-center justify-center gap-2"
+              className="btn-glass px-10 py-4 text-base"
               data-testid="cta-whatsapp"
             >
               WhatsApp Us

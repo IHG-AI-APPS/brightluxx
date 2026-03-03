@@ -11,11 +11,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="col-span-1">
-            <div className="text-2xl font-bold font-display mb-4">
-              <span className="text-gradient">Bright</span>
-              <span className="text-[var(--blx-text)]">luxx</span>
+            <div className="text-2xl font-bold font-display mb-4 tracking-tight">
+              <span className="text-gradient">BRIGHTLUXX</span>
             </div>
-            <p className="text-sm text-[var(--blx-text-2)] mb-4">
+            <p className="text-sm text-[var(--blx-text-2)] mb-4 leading-relaxed">
               Premium LED display solutions for UAE. OEM-grade engineering, UAE-ready delivery.
             </p>
           </div>

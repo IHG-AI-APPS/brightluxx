@@ -22,9 +22,8 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center" data-testid="logo-link">
-            <div className="text-2xl font-bold font-display">
-              <span className="text-gradient">Bright</span>
-              <span className="text-[var(--blx-text)]">luxx</span>
+            <div className="text-2xl font-bold font-display tracking-tight">
+              <span className="text-gradient">BRIGHTLUXX</span>
             </div>
           </Link>
 
@@ -46,7 +45,7 @@ const Navbar = () => {
             ))}
             <Link
               to="/contact"
-              className="px-4 py-2 bg-[var(--blx-accent)] text-[var(--blx-bg)] rounded-lg font-medium hover:bg-[var(--blx-accent-2)] transition-colors"
+              className="btn-gold px-5 py-2.5 text-sm"
               data-testid="cta-book-demo"
             >
               Book Demo
@@ -83,7 +82,7 @@ const Navbar = () => {
             <Link
               to="/contact"
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 bg-[var(--blx-accent)] text-[var(--blx-bg)] rounded-lg font-medium text-center"
+              className="btn-gold block text-center"
             >
               Book Demo
             </Link>

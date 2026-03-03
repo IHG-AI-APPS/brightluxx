@@ -10,6 +10,7 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 - **Tools:** Screen Calculator, Product Comparison, Technology Guide
 - **CMS:** Dynamic admin panel managing all content with media uploads
 - **Security:** Rate-limiting, JWT auth, bcrypt password hashing
+- **Images:** All images self-hosted locally with WebP optimization — zero external URL dependencies
 
 ## Tech Stack
 - **Frontend:** React, Tailwind CSS, shadcn/ui, framer-motion, react-router-dom, axios
@@ -30,9 +31,10 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 │   ├── admin_crud.py      # Admin CRUD routes
 │   └── upload.py          # File upload + image optimization
 /app/frontend/src/
-├── pages/                 # Public pages (Home, Products, Solutions, About, etc.)
+├── pages/                 # Public pages
 ├── admin/                 # CMS admin panel
-├── components/            # Shared UI components (Navbar, Footer, StickyCTA)
+├── components/            # Shared UI components
+/app/frontend/public/uploads/ # All self-hosted images (WebP optimized)
 ```
 
 ## Admin Credentials
@@ -40,24 +42,23 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 - Password: brightluxx2025
 
 ## What's Implemented (Complete)
-- Full public website: Home, Products, Solutions (NEW), Inspirations, Projects, Showroom, About (NEW), Contact
-- **57 products** across 19 categories (including road-signal, flexible, cob-microled)
-- **26 real projects** from brightluxx.com (Nesto, Indian Pavilion Expo 2020, Division Nine, etc.)
-- 22 inspirations
-- Solutions page with 8 industry verticals (Retail, Corporate, Outdoor, Events, Creative, Traffic, Immersive, Transparent)
-- About Us page (IHG Industry LLC, since 2012, Vision & Mission) — footer link only
+- Full public website with all pages
+- **57 products** across 19 categories — all with local WebP images
+- **26 real projects** from brightluxx.com — all with local images
+- **22 inspirations** — all with local images
+- Solutions page (8 industry verticals)
+- About Us page (IHG Industry LLC, since 2012)
 - Screen Calculator and Product Comparison tools
-- Complete CMS with CRUD for all content types
-- JWT auth with access + refresh tokens, rate limiting, password change
-- Image upload with server-side WebP optimization
-- Security headers, data import/export
+- Complete CMS with CRUD + media uploads
+- JWT auth, rate limiting, password change, security headers
+- Image upload with server-side WebP optimization (Pillow)
 - Mobile responsive design
-- Backend refactored into modular structure
+- Backend modular architecture
 
 ## What's Mocked
 - Lead capture saves to DB only — no real email notification service
 
 ## Backlog (Prioritized)
-- **P1:** Image CDN/Object Storage for scalable media delivery
-- **P2:** Real email service (SendGrid/Resend) for lead notifications
+- **P1:** Real email service (SendGrid/Resend) for lead notifications
+- **P2:** Image CDN for production scalability
 - **P3:** Advanced analytics integration

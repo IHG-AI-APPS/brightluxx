@@ -1,14 +1,19 @@
-from fastapi import FastAPI, HTTPException, Depends, Header, UploadFile, File
+from fastapi import FastAPI, HTTPException, Depends, Header, UploadFile, File, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from passlib.context import CryptContext
 from jose import jwt, JWTError
+from collections import defaultdict
+from PIL import Image as PILImage
 import os
 import uuid
 import re
+import io
+import time
 import shutil
 from pathlib import Path
 from dotenv import load_dotenv
@@ -40,8 +45,48 @@ admins_col = db["admins"]
 
 # Auth config
 SECRET_KEY = os.getenv("JWT_SECRET", "brightluxx-admin-secret-key-2025-change-in-production")
+REFRESH_SECRET = os.getenv("JWT_REFRESH_SECRET", SECRET_KEY + "-refresh")
 ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRY = 4 * 3600      # 4 hours
+REFRESH_TOKEN_EXPIRY = 7 * 24 * 3600  # 7 days
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# ─── Rate Limiter (in-memory, per-IP) ───
+class RateLimiter:
+    def __init__(self, max_attempts: int = 5, window_seconds: int = 60):
+        self.max = max_attempts
+        self.window = window_seconds
+        self.attempts = defaultdict(list)  # ip -> [timestamps]
+
+    def check(self, ip: str) -> bool:
+        now = time.time()
+        self.attempts[ip] = [t for t in self.attempts[ip] if now - t < self.window]
+        if len(self.attempts[ip]) >= self.max:
+            return False
+        self.attempts[ip].append(now)
+        return True
+
+    def remaining(self, ip: str) -> int:
+        now = time.time()
+        self.attempts[ip] = [t for t in self.attempts[ip] if now - t < self.window]
+        return max(0, self.max - len(self.attempts[ip]))
+
+    def reset(self, ip: str):
+        self.attempts.pop(ip, None)
+
+login_limiter = RateLimiter(max_attempts=5, window_seconds=60)
+lead_limiter = RateLimiter(max_attempts=10, window_seconds=60)
+
+# ─── Security Headers Middleware ───
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    return response
 
 # --- Pydantic Models ---
 
@@ -111,6 +156,10 @@ class AdminLogin(BaseModel):
     email: str
     password: str
 
+class AdminPasswordChange(BaseModel):
+    current_password: str
+    new_password: str
+
 class AdminProductCreate(BaseModel):
     product_code: str
     name: str
@@ -171,8 +220,14 @@ def slugify(text):
     text = re.sub(r'-+', '-', text)
     return text
 
-def create_token(data: dict):
-    return jwt.encode({**data, "exp": datetime.now(timezone.utc).timestamp() + 86400}, SECRET_KEY, algorithm=ALGORITHM)
+def create_token(data: dict, token_type: str = "access"):
+    if token_type == "refresh":
+        exp = datetime.now(timezone.utc) + timedelta(seconds=REFRESH_TOKEN_EXPIRY)
+        secret = REFRESH_SECRET
+    else:
+        exp = datetime.now(timezone.utc) + timedelta(seconds=ACCESS_TOKEN_EXPIRY)
+        secret = SECRET_KEY
+    return jwt.encode({**data, "exp": exp.timestamp(), "type": token_type}, secret, algorithm=ALGORITHM)
 
 async def get_current_admin(authorization: Optional[str] = Header(None)):
     if not authorization or not authorization.startswith("Bearer "):
@@ -180,12 +235,14 @@ async def get_current_admin(authorization: Optional[str] = Header(None)):
     token = authorization.split(" ")[1]
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        if payload.get("type") not in (None, "access"):
+            raise HTTPException(status_code=401, detail="Invalid token type")
         admin = await admins_col.find_one({"email": payload.get("email")})
         if not admin:
             raise HTTPException(status_code=401, detail="Admin not found")
         return serialize_doc(admin)
     except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
 
 # Seed admin on startup
 @app.on_event("startup")
@@ -326,7 +383,10 @@ async def get_project(slug: str):
 
 # Leads (public)
 @app.post("/api/leads")
-async def create_lead(lead: Lead):
+async def create_lead(lead: Lead, request: Request):
+    client_ip = request.client.host if request.client else "unknown"
+    if not lead_limiter.check(client_ip):
+        raise HTTPException(status_code=429, detail="Too many submissions. Please wait a moment.")
     lead_dict = lead.dict()
     lead_dict["id"] = str(uuid.uuid4())
     lead_dict["status"] = "new"
@@ -357,16 +417,55 @@ async def search(q: str):
 
 # Auth
 @app.post("/api/admin/login")
-async def admin_login(creds: AdminLogin):
+async def admin_login(creds: AdminLogin, request: Request):
+    client_ip = request.client.host if request.client else "unknown"
+    if not login_limiter.check(client_ip):
+        remaining_wait = 60
+        raise HTTPException(status_code=429, detail=f"Too many login attempts. Try again in {remaining_wait}s.", headers={"Retry-After": str(remaining_wait)})
     admin = await admins_col.find_one({"email": creds.email})
     if not admin or not pwd_context.verify(creds.password, admin["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    token = create_token({"email": admin["email"], "role": admin.get("role", "admin")})
-    return {"token": token, "admin": {"email": admin["email"], "name": admin.get("name", "Admin"), "role": admin.get("role", "admin")}}
+    login_limiter.reset(client_ip)
+    access_token = create_token({"email": admin["email"], "role": admin.get("role", "admin")}, "access")
+    refresh_token = create_token({"email": admin["email"], "role": admin.get("role", "admin")}, "refresh")
+    return {
+        "token": access_token,
+        "refresh_token": refresh_token,
+        "expires_in": ACCESS_TOKEN_EXPIRY,
+        "admin": {"email": admin["email"], "name": admin.get("name", "Admin"), "role": admin.get("role", "admin")}
+    }
+
+@app.post("/api/admin/refresh")
+async def admin_refresh_token(data: dict):
+    token = data.get("refresh_token", "")
+    try:
+        payload = jwt.decode(token, REFRESH_SECRET, algorithms=[ALGORITHM])
+        if payload.get("type") != "refresh":
+            raise HTTPException(status_code=401, detail="Invalid token type")
+        admin = await admins_col.find_one({"email": payload.get("email")})
+        if not admin:
+            raise HTTPException(status_code=401, detail="Admin not found")
+        new_access = create_token({"email": admin["email"], "role": admin.get("role", "admin")}, "access")
+        return {"token": new_access, "expires_in": ACCESS_TOKEN_EXPIRY}
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
 
 @app.get("/api/admin/me")
 async def admin_me(admin=Depends(get_current_admin)):
     return {"email": admin["email"], "name": admin.get("name", "Admin"), "role": admin.get("role", "super_admin")}
+
+@app.post("/api/admin/change-password")
+async def admin_change_password(data: AdminPasswordChange, admin=Depends(get_current_admin)):
+    admin_doc = await admins_col.find_one({"email": admin["email"]})
+    if not admin_doc:
+        raise HTTPException(status_code=404, detail="Admin not found")
+    if not pwd_context.verify(data.current_password, admin_doc["password"]):
+        raise HTTPException(status_code=400, detail="Current password is incorrect")
+    if len(data.new_password) < 8:
+        raise HTTPException(status_code=400, detail="New password must be at least 8 characters")
+    hashed = pwd_context.hash(data.new_password)
+    await admins_col.update_one({"email": admin["email"]}, {"$set": {"password": hashed, "password_changed_at": datetime.now(timezone.utc)}})
+    return {"success": True, "message": "Password changed successfully"}
 
 # Dashboard Stats
 @app.get("/api/admin/stats")
@@ -614,11 +713,57 @@ async def admin_import(collection: str, data: List[dict], admin=Depends(get_curr
             print(f"Import error: {e}")
     return {"success": True, "imported": imported}
 
-# File Upload
+# File Upload + Image Optimization
 UPLOAD_DIR = Path("/app/frontend/public/uploads")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".avif"}
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
+IMAGE_SIZES = {
+    "thumbnail": 200,
+    "medium": 800,
+    "large": 1600,
+}
+
+def optimize_image(content: bytes, filename: str) -> dict:
+    """Resize and convert images to WebP + original format. Returns dict of variant URLs."""
+    ext = Path(filename).suffix.lower()
+    # SVG and GIF: skip optimization (vector / animated)
+    if ext in (".svg", ".gif"):
+        return {}
+
+    try:
+        img = PILImage.open(io.BytesIO(content))
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGBA")
+        else:
+            img = img.convert("RGB")
+
+        base_name = Path(filename).stem
+        variants = {}
+
+        for size_name, max_dim in IMAGE_SIZES.items():
+            if img.width <= max_dim and img.height <= max_dim and size_name != "thumbnail":
+                continue  # Skip if image is already smaller
+
+            ratio = min(max_dim / img.width, max_dim / img.height)
+            new_w = int(img.width * ratio)
+            new_h = int(img.height * ratio)
+            resized = img.resize((new_w, new_h), PILImage.LANCZOS)
+
+            # Save as WebP
+            webp_name = f"{base_name}_{size_name}.webp"
+            webp_path = UPLOAD_DIR / webp_name
+            if resized.mode == "RGBA":
+                resized.save(str(webp_path), "WEBP", quality=82, method=4)
+            else:
+                resized.save(str(webp_path), "WEBP", quality=82, method=4)
+            variants[size_name] = f"/uploads/{webp_name}"
+
+        return variants
+    except Exception as e:
+        print(f"Image optimization error: {e}")
+        return {}
 
 @app.post("/api/admin/upload")
 async def admin_upload_file(file: UploadFile = File(...), admin=Depends(get_current_admin)):
@@ -636,18 +781,21 @@ async def admin_upload_file(file: UploadFile = File(...), admin=Depends(get_curr
     unique_name = f"{uuid.uuid4().hex[:12]}_{file.filename.replace(' ', '-')}"
     file_path = UPLOAD_DIR / unique_name
 
-    # Save file
+    # Save original
     with open(file_path, "wb") as f:
         f.write(content)
 
-    # Return public URL path
+    # Generate optimized variants
+    variants = optimize_image(content, unique_name)
+
     public_url = f"/uploads/{unique_name}"
     return {
         "success": True,
         "url": public_url,
         "filename": unique_name,
         "size": len(content),
-        "content_type": file.content_type
+        "content_type": file.content_type,
+        "variants": variants  # {"thumbnail": "/uploads/xxx_thumbnail.webp", "medium": ...}
     }
 
 @app.post("/api/admin/upload/multiple")
@@ -664,11 +812,13 @@ async def admin_upload_multiple(files: List[UploadFile] = File(...), admin=Depen
         file_path = UPLOAD_DIR / unique_name
         with open(file_path, "wb") as f:
             f.write(content)
+        variants = optimize_image(content, unique_name)
         uploaded.append({
             "url": f"/uploads/{unique_name}",
             "filename": unique_name,
             "size": len(content),
-            "original_name": file.filename
+            "original_name": file.filename,
+            "variants": variants
         })
     return {"success": True, "uploaded": uploaded, "count": len(uploaded)}
 

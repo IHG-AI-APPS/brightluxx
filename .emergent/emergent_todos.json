@@ -1,26 +1,30 @@
 [
   {
-    "content": "Backend: Add file upload endpoint with local storage to /uploads/",
-    "status": "completed"
+    "content": "Security: Rate limiter on login endpoint (IP-based, 5 attempts/minute)",
+    "status": "in_progress"
   },
   {
-    "content": "Frontend: Create reusable ImageUploader component (upload + URL fallback + drag-drop)",
-    "status": "completed"
+    "content": "Security: Password change endpoint + frontend UI",
+    "status": "pending"
   },
   {
-    "content": "Integrate ImageUploader into AdminProducts (image_url + gallery)",
-    "status": "completed"
+    "content": "Security: Token refresh with shorter expiry (4hr access + 7d refresh)",
+    "status": "pending"
   },
   {
-    "content": "Integrate ImageUploader into AdminInspirations + AdminProjects",
-    "status": "completed"
+    "content": "Security: Request logging + security headers middleware",
+    "status": "pending"
   },
   {
-    "content": "Create uploads directory and verify static serving",
-    "status": "completed"
+    "content": "Image: Server-side resize + WebP optimization on upload (thumbnail + medium + original)",
+    "status": "pending"
   },
   {
-    "content": "Test upload flow end-to-end + screenshots",
-    "status": "completed"
+    "content": "Image: Update upload response to include optimized variants",
+    "status": "pending"
+  },
+  {
+    "content": "Test all security + image features end-to-end",
+    "status": "pending"
   }
 ]

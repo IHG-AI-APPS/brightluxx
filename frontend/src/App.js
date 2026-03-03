@@ -26,6 +26,7 @@ import AdminProducts from './admin/AdminProducts';
 import AdminInspirations from './admin/AdminInspirations';
 import AdminProjects from './admin/AdminProjects';
 import AdminLeads from './admin/AdminLeads';
+import AdminSettings from './admin/AdminSettings';
 
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAdmin();
@@ -57,6 +58,7 @@ function AppRoutes() {
         <Route path="inspirations" element={<AdminInspirations />} />
         <Route path="projects" element={<AdminProjects />} />
         <Route path="leads" element={<AdminLeads />} />
+        <Route path="settings" element={<AdminSettings />} />
       </Route>
     </Routes>
   );

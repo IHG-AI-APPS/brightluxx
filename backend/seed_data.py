@@ -27,6 +27,17 @@ IMG = {
     "immersive": "https://images.unsplash.com/photo-1734266366152-3f3a41b45c56?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwxfHxMRUQlMjBmbG9vciUyMGRpc3BsYXklMjBpbnRlcmFjdGl2ZSUyMGltbWVyc2l2ZXxlbnwwfHx8fDE3NzI1NjI4MjF8MA&ixlib=rb-4.1.0&q=85",
     "pexels1": "https://images.pexels.com/photos/1103969/pexels-photo-1103969.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
     "pexels2": "https://images.pexels.com/photos/29861346/pexels-photo-29861346.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    # New category images
+    "3d_billboard": "https://images.unsplash.com/photo-1716046942830-05ecc130d311?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwxfHwzRCUyMGJpbGxib2FyZCUyMGFuYW1vcnBoaWMlMjBkaXNwbGF5JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzcyNTY1MTU5fDA&ixlib=rb-4.1.0&q=85",
+    "3d_building": "https://images.unsplash.com/photo-1558905021-0aa3a3434320?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwyfHwzRCUyMGJpbGxib2FyZCUyMGFuYW1vcnBoaWMlMjBkaXNwbGF5JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzcyNTY1MTU5fDA&ixlib=rb-4.1.0&q=85",
+    "poster": "https://images.unsplash.com/photo-1761295231159-4eb997ccca2b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxMRUQlMjBwb3N0ZXIlMjB0b3RlbSUyMGRpc3BsYXklMjByZXRhaWwlMjBhaXJwb3J0fGVufDB8fHx8MTc3MjU2NTE0NHww&ixlib=rb-4.1.0&q=85",
+    "cinema": "https://images.unsplash.com/photo-1751823886813-0cfc86cb9478?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjBMRUQlMjBzY3JlZW4lMjB0aGVhdGVyJTIwbW92aWV8ZW58MHx8fHwxNzcyNTY1MTQ1fDA&ixlib=rb-4.1.0&q=85",
+    "cinema2": "https://images.unsplash.com/photo-1561722798-9a732d141027?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwyfHxjaW5lbWElMjBMRUQlMjBzY3JlZW4lMjB0aGVhdGVyJTIwbW92aWV8ZW58MHx8fHwxNzcyNTY1MTQ1fDA&ixlib=rb-4.1.0&q=85",
+    "sphere": "https://images.unsplash.com/photo-1677476436258-6be9b6c59884?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwxfHxMRUQlMjBzcGhlcmUlMjBnbG9iZSUyMGRpc3BsYXklMjBpbnN0YWxsYXRpb258ZW58MHx8fHwxNzcyNTY1MTUyfDA&ixlib=rb-4.1.0&q=85",
+    "sphere2": "https://images.unsplash.com/photo-1621866546415-d71979c5d036?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwyfHxMRUQlMjBzcGhlcmUlMjBnbG9iZSUyMGRpc3BsYXklMjBpbnN0YWxsYXRpb258ZW58MHx8fHwxNzcyNTY1MTUyfDA&ixlib=rb-4.1.0&q=85",
+    "vp_stage": "https://images.unsplash.com/photo-1759784120360-8b5044b71f47?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHx2aXJ0dWFsJTIwcHJvZHVjdGlvbiUyMExFRCUyMHZvbHVtZSUyMGZpbG0lMjBzdGFnZXxlbnwwfHx8fDE3NzI1NjUxNTN8MA&ixlib=rb-4.1.0&q=85",
+    "shelf": "https://images.unsplash.com/photo-1764795850248-97a5e986b242?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwc2lnbmFnZSUyMGRpc3BsYXklMjBzY3JlZW4lMjByZXRhaWwlMjBzaGVsZnxlbnwwfHx8fDE3NzI1NjUxNjF8MA&ixlib=rb-4.1.0&q=85",
+    "shelf2": "https://images.unsplash.com/photo-1764795850443-c046dbe2660f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwyfHxkaWdpdGFsJTIwc2lnbmFnZSUyMGRpc3BsYXklMjBzY3JlZW4lMjByZXRhaWwlMjBzaGVsZnxlbnwwfHx8fDE3NzI1NjUxNjF8MA&ixlib=rb-4.1.0&q=85",
 }
 
 def _id():
@@ -443,6 +454,296 @@ PRODUCTS = [
         "image_url": IMG["control"], "gallery": [IMG["control"]],
         "featured": False, "trending": False, "new_arrival": False, "created_at": _now()
     },
+
+    # ── NAKED-EYE 3D LED ──
+    {
+        "id": _id(), "product_code": "BL-3DL390", "name": "NakedEye 3D Corner 3.9mm", "slug": "bl-3dl390",
+        "category": "naked-eye-3d", "tagline": "Glasses-free 3D. Jaw-dropping from every angle.",
+        "description": "L-shaped corner LED display engineered for anamorphic 3D content. Lenticular lens array and parallax barrier technology create stunning glasses-free 3D illusions visible from 120-degree viewing cone. The viral sensation transforming building corners into immersive spectacles across Dubai, Tokyo, and Seoul.",
+        "pixel_pitch": "3.91mm", "resolution": "2x 1920 x 1080 (dual-face)", "brightness": "6,500 nits",
+        "application": "Building Corners, Shopping Malls, Landmarks",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "3.91mm"}, {"label": "Technology", "value": "Lenticular + Parallax Barrier"},
+            {"label": "Brightness", "value": "6,500 nits"}, {"label": "3D Viewing Cone", "value": "120 degrees"},
+            {"label": "Configuration", "value": "L-shaped (90 deg corner)"}, {"label": "Refresh Rate", "value": "7,680Hz"},
+            {"label": "IP Rating", "value": "IP65"}, {"label": "Content", "value": "Real-time 3D rendering"},
+            {"label": "Panel Size", "value": "960 x 960mm"}, {"label": "Weight", "value": "30 kg/panel"}
+        ],
+        "image_url": IMG["3d_billboard"], "gallery": [IMG["3d_billboard"], IMG["3d_building"]],
+        "featured": True, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+    {
+        "id": _id(), "product_code": "BL-3DL250", "name": "NakedEye 3D Wall 2.5mm", "slug": "bl-3dl250",
+        "category": "naked-eye-3d", "tagline": "Flat-wall 3D. No glasses. Pure spectacle.",
+        "description": "High-resolution flat-wall naked-eye 3D display with advanced parallax barrier technology. 2.5mm pitch delivers crisp 3D visuals for indoor malls, showrooms, and exhibition halls. Supports real-time content switching between 2D and 3D modes.",
+        "pixel_pitch": "2.5mm", "resolution": "1920 x 1080 per face", "brightness": "1,500 nits",
+        "application": "Indoor Malls, Showrooms, Exhibitions",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "2.5mm"}, {"label": "Technology", "value": "Advanced Parallax Barrier"},
+            {"label": "Brightness", "value": "1,500 nits"}, {"label": "3D Viewing Cone", "value": "90 degrees"},
+            {"label": "Mode Switching", "value": "2D / 3D real-time"}, {"label": "Refresh Rate", "value": "3,840Hz"},
+            {"label": "Contrast", "value": "8,000:1"}, {"label": "Color Depth", "value": "16-bit"},
+            {"label": "Panel Size", "value": "640 x 480mm"}, {"label": "Content Format", "value": "SBS / Top-Bottom 3D"}
+        ],
+        "image_url": IMG["3d_building"], "gallery": [IMG["3d_building"]],
+        "featured": False, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+
+    # ── LED POSTER / TOTEM ──
+    {
+        "id": _id(), "product_code": "BL-PTR150", "name": "PosterLED Pro 1.5mm", "slug": "bl-ptr150",
+        "category": "poster-totem", "tagline": "Ultra-slim 29mm. Plug and play.",
+        "description": "Ultra-thin 29mm freestanding LED poster display. 4K resolution in a sleek portrait format. Plug-and-play USB/WiFi content management. Ideal for retail entrances, hotel lobbies, and airport terminals. Replaces traditional print posters with dynamic digital content.",
+        "pixel_pitch": "1.58mm", "resolution": "1920 x 1080 (Full HD)", "brightness": "800 nits",
+        "application": "Retail, Hotels, Airports, Banks",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "1.58mm"}, {"label": "Screen Size", "value": "72-inch (portrait)"},
+            {"label": "Brightness", "value": "800 nits"}, {"label": "Thickness", "value": "29mm"},
+            {"label": "Weight", "value": "22 kg"}, {"label": "Content", "value": "USB / WiFi / 4G"},
+            {"label": "Resolution", "value": "1920 x 1080"}, {"label": "Power", "value": "180W typical"},
+            {"label": "Installation", "value": "Floor standing / Wall mount"}, {"label": "OS", "value": "Android CMS"}
+        ],
+        "image_url": IMG["poster"], "gallery": [IMG["poster"]],
+        "featured": True, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+    {
+        "id": _id(), "product_code": "BL-PTR250", "name": "PosterLED Outdoor 2.5mm", "slug": "bl-ptr250",
+        "category": "poster-totem", "tagline": "Outdoor digital poster. IP65. Always on.",
+        "description": "Weatherproof outdoor LED poster totem with IP65 rating. High-brightness 4,000-nit display visible in direct sunlight. Die-cast aluminium housing with integrated cooling. Remote content management via 4G/5G. Perfect for smart city street furniture and outdoor retail.",
+        "pixel_pitch": "2.5mm", "resolution": "1920 x 3840 (4K portrait)", "brightness": "4,000 nits",
+        "application": "Street Furniture, Outdoor Retail, Smart Cities",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "2.5mm"}, {"label": "Screen Size", "value": "75-inch (portrait)"},
+            {"label": "Brightness", "value": "4,000 nits"}, {"label": "IP Rating", "value": "IP65"},
+            {"label": "Housing", "value": "Die-cast aluminium"}, {"label": "Cooling", "value": "Integrated smart fan"},
+            {"label": "Connectivity", "value": "4G / 5G / WiFi"}, {"label": "Operating Temp", "value": "-30 to 55 deg C"},
+            {"label": "Power", "value": "350W typical"}, {"label": "Weight", "value": "65 kg total"}
+        ],
+        "image_url": IMG["poster"], "gallery": [IMG["poster"]],
+        "featured": False, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+
+    # ── CINEMA LED ──
+    {
+        "id": _id(), "product_code": "BL-CNX093", "name": "CinemaLED Pro 0.9mm", "slug": "bl-cnx093",
+        "category": "cinema-led", "tagline": "DCI-P3. 4K HDR. The projector killer.",
+        "description": "DCI-certified cinema LED screen replacing traditional projectors. 0.9mm COB pitch delivers 4K resolution on screens up to 14 metres wide. 500-nit peak brightness with infinite contrast ratio eliminates the need for controlled lighting. Supports DCI-P3 color gamut and Dolby Vision.",
+        "pixel_pitch": "0.93mm", "resolution": "4096 x 2160 (DCI 4K)", "brightness": "500 nits",
+        "application": "Movie Theatres, Private Screening Rooms",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "0.93mm"}, {"label": "Resolution", "value": "4096 x 2160 (DCI 4K)"},
+            {"label": "Brightness", "value": "500 nits peak"}, {"label": "Contrast", "value": "Infinite (true black)"},
+            {"label": "Color Gamut", "value": "DCI-P3 98%"}, {"label": "HDR", "value": "Dolby Vision / HDR10+"},
+            {"label": "Screen Width", "value": "Up to 14m"}, {"label": "Technology", "value": "COB Micro LED"},
+            {"label": "Audio", "value": "Perforated for behind-screen speakers"}, {"label": "Certification", "value": "DCI / TPC"}
+        ],
+        "image_url": IMG["cinema"], "gallery": [IMG["cinema"], IMG["cinema2"]],
+        "featured": True, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+    {
+        "id": _id(), "product_code": "BL-CNX125", "name": "CinemaLED Standard 1.2mm", "slug": "bl-cnx125",
+        "category": "cinema-led", "tagline": "Budget-friendly cinema LED. No compromise on quality.",
+        "description": "Cost-effective cinema LED solution for mid-size theatres and premium screening rooms. 1.2mm pitch with 2K+ resolution. Front-serviceable modules allow maintenance without disrupting the screening schedule. HDR10 and HLG support for premium content delivery.",
+        "pixel_pitch": "1.25mm", "resolution": "2048 x 1080 (DCI 2K)", "brightness": "350 nits",
+        "application": "Mid-size Theatres, Screening Rooms, VIP Cinemas",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "1.25mm"}, {"label": "Resolution", "value": "2048 x 1080 (DCI 2K)"},
+            {"label": "Brightness", "value": "350 nits"}, {"label": "Contrast", "value": "15,000:1"},
+            {"label": "Color Gamut", "value": "DCI-P3 95%"}, {"label": "HDR", "value": "HDR10 / HLG"},
+            {"label": "Screen Width", "value": "Up to 18m"}, {"label": "Service", "value": "Front magnetic"},
+            {"label": "Lifespan", "value": "100,000 hrs"}, {"label": "Power", "value": "220W/sqm avg"}
+        ],
+        "image_url": IMG["cinema2"], "gallery": [IMG["cinema2"]],
+        "featured": False, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+
+    # ── LED SPHERE / GLOBE ──
+    {
+        "id": _id(), "product_code": "BL-SPH300", "name": "SphereVision 3mm", "slug": "bl-sph300",
+        "category": "sphere", "tagline": "360-degree storytelling. Visible from every angle.",
+        "description": "Full-sphere LED globe display for lobbies, museums, and exhibition centrepieces. Custom-moulded triangular modules tessellate into a seamless sphere from 1 to 5 metres diameter. 360-degree content playback with real-time mapping software included.",
+        "pixel_pitch": "3.0mm", "resolution": "Custom per sphere size", "brightness": "1,200 nits",
+        "application": "Museums, Lobbies, Planetariums, Exhibitions",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "3.0mm"}, {"label": "Shape", "value": "Full sphere (360 deg)"},
+            {"label": "Brightness", "value": "1,200 nits"}, {"label": "Diameter Range", "value": "1m to 5m"},
+            {"label": "Module Shape", "value": "Triangular tessellation"}, {"label": "Refresh Rate", "value": "3,840Hz"},
+            {"label": "Mapping Software", "value": "Included (real-time)"}, {"label": "Weight", "value": "15 kg/sqm"},
+            {"label": "Mounting", "value": "Ceiling / Floor stand"}, {"label": "Power", "value": "300W/sqm avg"}
+        ],
+        "image_url": IMG["sphere"], "gallery": [IMG["sphere"], IMG["sphere2"]],
+        "featured": True, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+    {
+        "id": _id(), "product_code": "BL-SPH500", "name": "SphereVision Immersive 5mm", "slug": "bl-sph500",
+        "category": "sphere", "tagline": "Walk inside the display. Dome-scale immersion.",
+        "description": "Large-format LED sphere/dome for immersive walk-in experiences. Scales from 5m to 30m+ diameter for planetariums, theme parks, and immersive art installations. Interior projection with 16K equivalent resolution at maximum scale.",
+        "pixel_pitch": "5.0mm", "resolution": "Up to 16K equivalent", "brightness": "800 nits",
+        "application": "Planetariums, Theme Parks, Immersive Art",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "5.0mm"}, {"label": "Shape", "value": "Dome / Full sphere"},
+            {"label": "Brightness", "value": "800 nits"}, {"label": "Diameter", "value": "5m to 30m+"},
+            {"label": "Resolution", "value": "Up to 16K equivalent"}, {"label": "Content", "value": "Real-time dome mapping"},
+            {"label": "Refresh Rate", "value": "3,840Hz"}, {"label": "Weight", "value": "12 kg/sqm"},
+            {"label": "Installation", "value": "Custom structural"}, {"label": "Audio", "value": "Compatible with spatial audio"}
+        ],
+        "image_url": IMG["sphere2"], "gallery": [IMG["sphere2"], IMG["sphere"]],
+        "featured": False, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+
+    # ── VIRTUAL PRODUCTION / LED VOLUME ──
+    {
+        "id": _id(), "product_code": "BL-VPX150", "name": "VP Stage Pro 1.5mm", "slug": "bl-vpx150",
+        "category": "virtual-production", "tagline": "Real-time virtual worlds. Camera-ready.",
+        "description": "Purpose-built LED volume for film and television virtual production. 1.5mm pitch optimised for in-camera VFX with ultra-low latency genlock sync. Curved LED walls with overhead ceiling panels create a 270-degree immersive stage. Compatible with Unreal Engine, Disguise, and Notch.",
+        "pixel_pitch": "1.56mm", "resolution": "640 x 360 per panel", "brightness": "1,800 nits",
+        "application": "Film Production, TV Studios, XR Stages",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "1.56mm"}, {"label": "Technology", "value": "VP-optimised LED"},
+            {"label": "Brightness", "value": "1,800 nits"}, {"label": "Latency", "value": "< 1 frame (genlock)"},
+            {"label": "Refresh Rate", "value": "7,680Hz"}, {"label": "Color Gamut", "value": "DCI-P3 97%"},
+            {"label": "Compatibility", "value": "Unreal / Disguise / Notch"}, {"label": "Curvature", "value": "270 deg concave"},
+            {"label": "Moire Control", "value": "Anti-moire coating"}, {"label": "Panel Size", "value": "500 x 500mm"}
+        ],
+        "image_url": IMG["vp_stage"], "gallery": [IMG["vp_stage"], IMG["event"]],
+        "featured": True, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+    {
+        "id": _id(), "product_code": "BL-VPX093", "name": "VP Stage Ultra 0.9mm", "slug": "bl-vpx093",
+        "category": "virtual-production", "tagline": "0.9mm. Hollywood-grade virtual production.",
+        "description": "The highest resolution LED volume on the market. 0.9mm COB pitch eliminates moire at any camera distance. Used in A-list film and commercial productions. HDR-capable with real-time color calibration for seamless compositing.",
+        "pixel_pitch": "0.93mm", "resolution": "960 x 540 per panel", "brightness": "1,200 nits",
+        "application": "Feature Films, Commercials, High-end TV",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "0.93mm"}, {"label": "Technology", "value": "COB VP-grade"},
+            {"label": "Brightness", "value": "1,200 nits"}, {"label": "Latency", "value": "< 0.5 frame"},
+            {"label": "Color Depth", "value": "20-bit"}, {"label": "Color Gamut", "value": "DCI-P3 98%"},
+            {"label": "HDR", "value": "HDR10+ / Dolby Vision"}, {"label": "Contrast", "value": "20,000:1"},
+            {"label": "Moire Control", "value": "Zero-moire at 1m+"}, {"label": "Calibration", "value": "Real-time per-pixel"}
+        ],
+        "image_url": IMG["vp_stage"], "gallery": [IMG["vp_stage"]],
+        "featured": False, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+
+    # ── SHELF EDGE / RETAIL LED ──
+    {
+        "id": _id(), "product_code": "BL-SHF120", "name": "ShelfEdge COB 1.2mm", "slug": "bl-shf120",
+        "category": "shelf-edge", "tagline": "Digital shelf tags. Dynamic pricing. Real-time.",
+        "description": "Ultra-thin 25mm COB shelf-edge LED display replacing traditional price tags and paper signage. Real-time content updates via WiFi for dynamic pricing, promotions, and video. Proven to increase retail conversion by 35%. Moisture and shock-resistant for high-traffic environments.",
+        "pixel_pitch": "1.25mm", "resolution": "300 x 60 per module", "brightness": "1,500 nits",
+        "application": "Supermarkets, Retail Chains, Pharmacies",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "1.25mm"}, {"label": "Technology", "value": "COB (Chip-on-Board)"},
+            {"label": "Brightness", "value": "1,500 nits"}, {"label": "Thickness", "value": "25mm"},
+            {"label": "Module Size", "value": "300 x 60mm"}, {"label": "Content", "value": "WiFi real-time CMS"},
+            {"label": "Power", "value": "8W per module"}, {"label": "Lifespan", "value": "50,000 hrs"},
+            {"label": "Protection", "value": "Shock + moisture resistant"}, {"label": "Installation", "value": "Clip-on rail mount"}
+        ],
+        "image_url": IMG["shelf"], "gallery": [IMG["shelf"], IMG["shelf2"]],
+        "featured": True, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+    {
+        "id": _id(), "product_code": "BL-SHF188", "name": "ShelfEdge SMD 1.8mm", "slug": "bl-shf188",
+        "category": "shelf-edge", "tagline": "Budget shelf display. Big impact.",
+        "description": "Cost-effective SMD shelf-edge display for large-scale retail rollouts. 28mm ultra-thin design with 90-degree rotation for irregular shelf shapes. Supports QR codes, video, and animated promotions. Daisy-chain up to 20 modules per controller.",
+        "pixel_pitch": "1.86mm", "resolution": "240 x 48 per module", "brightness": "3,000 nits",
+        "application": "Retail Chains, Convenience Stores, Duty-Free",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "1.86mm"}, {"label": "Technology", "value": "SMD"},
+            {"label": "Brightness", "value": "3,000 nits"}, {"label": "Thickness", "value": "28mm"},
+            {"label": "Rotation", "value": "90 deg (portrait/landscape)"}, {"label": "Daisy Chain", "value": "Up to 20 modules"},
+            {"label": "Content", "value": "QR / Video / Animation"}, {"label": "Weight", "value": "0.4 kg per module"},
+            {"label": "Power", "value": "6W per module"}, {"label": "Viewing Angle", "value": "160 deg"}
+        ],
+        "image_url": IMG["shelf2"], "gallery": [IMG["shelf2"]],
+        "featured": False, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+
+    # ── CEILING / SKY SCREEN ──
+    {
+        "id": _id(), "product_code": "BL-SKY390", "name": "SkyScreen 3.9mm", "slug": "bl-sky390",
+        "category": "ceiling-led", "tagline": "Look up. The ceiling is alive.",
+        "description": "Overhead LED canopy display transforming ceilings into dynamic digital skies. Lightweight aluminium frame with IP43 protection. Creates immersive experiences in shopping malls, hotel lobbies, and airport terminals. Content includes animated skies, art, and wayfinding.",
+        "pixel_pitch": "3.91mm", "resolution": "256 x 128 per panel", "brightness": "2,000 nits",
+        "application": "Shopping Malls, Hotel Lobbies, Airports",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "3.91mm"}, {"label": "Orientation", "value": "Overhead (ceiling mount)"},
+            {"label": "Brightness", "value": "2,000 nits"}, {"label": "Weight", "value": "9 kg/sqm"},
+            {"label": "Frame", "value": "Lightweight aluminium"}, {"label": "IP Rating", "value": "IP43"},
+            {"label": "Refresh Rate", "value": "3,840Hz"}, {"label": "Content", "value": "Sky / Art / Wayfinding"},
+            {"label": "Panel Size", "value": "500 x 500mm"}, {"label": "Power", "value": "280W/sqm avg"}
+        ],
+        "image_url": IMG["immersive"], "gallery": [IMG["immersive"]],
+        "featured": True, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+    {
+        "id": _id(), "product_code": "BL-SKY250", "name": "SkyScreen Premium 2.5mm", "slug": "bl-sky250",
+        "category": "ceiling-led", "tagline": "High-resolution ceiling. Architectural masterpiece.",
+        "description": "Fine-pitch ceiling LED for premium architectural applications. 2.5mm pitch delivers stunning overhead visuals with IoT integration for smart building systems. Supports interactive content triggered by occupancy sensors and time-of-day scheduling.",
+        "pixel_pitch": "2.5mm", "resolution": "384 x 192 per panel", "brightness": "1,500 nits",
+        "application": "Luxury Hotels, Corporate HQs, VIP Terminals",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "2.5mm"}, {"label": "Orientation", "value": "Overhead (ceiling mount)"},
+            {"label": "Brightness", "value": "1,500 nits"}, {"label": "Weight", "value": "10 kg/sqm"},
+            {"label": "IoT", "value": "Occupancy / Time-of-day triggers"}, {"label": "Contrast", "value": "5,000:1"},
+            {"label": "Panel Size", "value": "480 x 480mm"}, {"label": "Smart Integration", "value": "BACnet / KNX"},
+            {"label": "Content", "value": "Dynamic art / Digital sky"}, {"label": "Lifespan", "value": "100,000 hrs"}
+        ],
+        "image_url": IMG["immersive"], "gallery": [IMG["immersive"]],
+        "featured": False, "trending": False, "new_arrival": True, "created_at": _now()
+    },
+
+    # ── DVLED (Expanded) ──
+    {
+        "id": _id(), "product_code": "BL-DVL120", "name": "DVLED Cinema 1.2mm 165\"", "slug": "bl-dvl120",
+        "category": "dvled", "tagline": "165 inches of pure luxury. The statement piece.",
+        "description": "165-inch Direct View LED for high-end residential and yacht installations. 1.2mm pitch with ambient light sensor auto-adjusts brightness. Integrated Dolby Atmos soundbar. Designed for spaces where a traditional TV simply won't do.",
+        "pixel_pitch": "1.2mm", "resolution": "3840 x 2160 (4K UHD)", "brightness": "800 nits",
+        "application": "Luxury Residences, Yachts, Penthouses",
+        "key_specs": [
+            {"label": "Screen Size", "value": "165 inch (diagonal)"}, {"label": "Pixel Pitch", "value": "1.2mm"},
+            {"label": "Resolution", "value": "3840 x 2160 (4K)"}, {"label": "Brightness", "value": "800 nits"},
+            {"label": "Contrast", "value": "Infinite (true black)"}, {"label": "HDR", "value": "Dolby Vision / HDR10+"},
+            {"label": "Audio", "value": "Integrated Dolby Atmos"}, {"label": "Ambient Sensor", "value": "Auto-brightness"},
+            {"label": "Sizes", "value": "165 / 180 / 200 inch"}, {"label": "Weight", "value": "85 kg total"}
+        ],
+        "image_url": IMG["unsplash1"], "gallery": [IMG["unsplash1"]],
+        "featured": True, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+    {
+        "id": _id(), "product_code": "BL-DVL220", "name": "DVLED Residence 220\"", "slug": "bl-dvl220",
+        "category": "dvled", "tagline": "220 inches. The ultimate home cinema wall.",
+        "description": "220-inch modular DVLED wall for dedicated home cinema and entertainment rooms. 8K-capable resolution with ISF calibration. Acoustic transparency allows behind-screen speaker placement. White-glove installation and calibration service included.",
+        "pixel_pitch": "0.93mm", "resolution": "7680 x 4320 (8K)", "brightness": "1,000 nits",
+        "application": "Home Cinema, Entertainment Rooms, VIP Suites",
+        "key_specs": [
+            {"label": "Screen Size", "value": "220 inch"}, {"label": "Pixel Pitch", "value": "0.93mm"},
+            {"label": "Resolution", "value": "7680 x 4320 (8K)"}, {"label": "Brightness", "value": "1,000 nits peak"},
+            {"label": "Contrast", "value": "Infinite"}, {"label": "Color Gamut", "value": "DCI-P3 97%"},
+            {"label": "Calibration", "value": "ISF Level 3"}, {"label": "Acoustic", "value": "Transparent (AT) option"},
+            {"label": "Installation", "value": "White-glove included"}, {"label": "Warranty", "value": "5 years on-site"}
+        ],
+        "image_url": IMG["boardroom"], "gallery": [IMG["boardroom"]],
+        "featured": False, "trending": True, "new_arrival": True, "created_at": _now()
+    },
+
+    # ── OUTDOOR FINE PITCH ──
+    {
+        "id": _id(), "product_code": "BL-OFP150", "name": "Outdoor FinePitch 1.5mm", "slug": "bl-ofp150",
+        "category": "outdoor", "tagline": "Fine pitch meets full weatherproofing.",
+        "description": "The industry's finest outdoor pixel pitch. 1.5mm with full IP65 protection and 3,500-nit brightness. Designed for premium outdoor installations where close viewing distance demands high resolution: luxury retail storefronts, 5-star hotel entrances, and high-end wayfinding.",
+        "pixel_pitch": "1.56mm", "resolution": "384 x 216 per panel", "brightness": "3,500 nits",
+        "application": "Luxury Outdoor Retail, Hotel Entrances",
+        "key_specs": [
+            {"label": "Pixel Pitch", "value": "1.56mm"}, {"label": "Brightness", "value": "3,500 nits"},
+            {"label": "IP Rating", "value": "IP65 F&R"}, {"label": "Technology", "value": "GOB (Glue-on-Board)"},
+            {"label": "Panel Size", "value": "600 x 337.5mm"}, {"label": "Weight", "value": "18 kg/panel"},
+            {"label": "Operating Temp", "value": "-20 to 55 deg C"}, {"label": "Contrast", "value": "8,000:1"},
+            {"label": "Refresh Rate", "value": "7,680Hz"}, {"label": "Power", "value": "380W/sqm avg"}
+        ],
+        "image_url": IMG["outdoor"], "gallery": [IMG["outdoor"]],
+        "featured": False, "trending": True, "new_arrival": True, "created_at": _now()
+    },
 ]
 
 # =============================================
@@ -481,6 +782,18 @@ INSPIRATIONS = [
      "description": "Low-carbon outdoor networks with remote AI content management.", "image_url": IMG["pexels2"], "featured": False, "created_at": _now()},
     {"id": _id(), "title": "Expo Pavilion Ceiling", "slug": "expo-pavilion-ceiling", "category": "events",
      "description": "Overhead LED canvas turning ceilings into digital skies.", "image_url": IMG["immersive"], "featured": False, "created_at": _now()},
+    {"id": _id(), "title": "Naked-Eye 3D Billboard", "slug": "naked-eye-3d-billboard", "category": "outdoor",
+     "description": "L-shaped corner LED creating viral glasses-free 3D spectacles.", "image_url": IMG["3d_billboard"], "featured": True, "created_at": _now()},
+    {"id": _id(), "title": "LED Sphere Museum Installation", "slug": "led-sphere-museum", "category": "art",
+     "description": "Full-sphere LED globe as a museum centrepiece for 360-degree storytelling.", "image_url": IMG["sphere"], "featured": True, "created_at": _now()},
+    {"id": _id(), "title": "Virtual Production Film Stage", "slug": "virtual-production-film", "category": "corporate",
+     "description": "LED volume replacing green screens for in-camera VFX on A-list productions.", "image_url": IMG["vp_stage"], "featured": True, "created_at": _now()},
+    {"id": _id(), "title": "Digital Shelf Edge Revolution", "slug": "digital-shelf-edge", "category": "retail",
+     "description": "Ultra-thin COB shelf displays replacing paper price tags in hypermarkets.", "image_url": IMG["shelf"], "featured": False, "created_at": _now()},
+    {"id": _id(), "title": "Cinema LED Premiere", "slug": "cinema-led-premiere", "category": "art",
+     "description": "DCI-certified LED screens replacing projectors in next-generation movie theatres.", "image_url": IMG["cinema"], "featured": True, "created_at": _now()},
+    {"id": _id(), "title": "Sky Ceiling Mall Experience", "slug": "sky-ceiling-mall", "category": "retail",
+     "description": "Overhead LED canopy transforming mall ceilings into animated digital skies.", "image_url": IMG["immersive"], "featured": False, "created_at": _now()},
 ]
 
 # =============================================

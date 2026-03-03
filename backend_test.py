@@ -1,6 +1,10 @@
+"""
+Brightluxx LED Showcase Backend API Testing - Expanded Catalog
+Tests the expansion from 24 to 41 products across 17 categories
+"""
 import requests
-import sys
 import json
+import sys
 from datetime import datetime
 
 class BrightluxxAPITester:
@@ -8,318 +12,250 @@ class BrightluxxAPITester:
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
-        self.tests_failed = 0
         self.failed_tests = []
 
-    def run_test(self, name, method, endpoint, expected_status=200, data=None, params=None):
-        """Run a single API test"""
-        url = f"{self.base_url}{endpoint}"
+    def run_test(self, name, method, endpoint, expected_status=200, data=None, validation_func=None):
+        """Run a single API test with optional validation"""
+        url = f"{self.base_url}/{endpoint}"
         headers = {'Content-Type': 'application/json'}
-
+        
         self.tests_run += 1
         print(f"\n🔍 Testing {name}...")
-        print(f"   URL: {url}")
         
         try:
             if method == 'GET':
-                response = requests.get(url, headers=headers, params=params, timeout=30)
+                response = requests.get(url, headers=headers)
             elif method == 'POST':
-                response = requests.post(url, json=data, headers=headers, timeout=30)
-            else:
-                response = requests.request(method, url, json=data, headers=headers, params=params, timeout=30)
-
+                response = requests.post(url, json=data, headers=headers)
+            
             success = response.status_code == expected_status
+            response_data = response.json() if response.headers.get('content-type', '').startswith('application/json') else {}
+            
+            if success and validation_func:
+                validation_result = validation_func(response_data)
+                if isinstance(validation_result, tuple):
+                    success, validation_msg = validation_result
+                else:
+                    success = validation_result
+                    validation_msg = ""
+            else:
+                validation_msg = ""
             
             if success:
                 self.tests_passed += 1
-                print(f"✅ PASSED - Status: {response.status_code}")
-                
-                # Try to parse JSON response for additional validation
-                try:
-                    response_data = response.json()
-                    if endpoint.startswith('/api/products') and method == 'GET' and 'products' in response_data:
-                        print(f"   📊 Found {len(response_data['products'])} products")
-                    elif endpoint.startswith('/api/inspirations') and method == 'GET' and 'inspirations' in response_data:
-                        print(f"   📊 Found {len(response_data['inspirations'])} inspirations")
-                    elif endpoint.startswith('/api/projects') and method == 'GET' and 'projects' in response_data:
-                        print(f"   📊 Found {len(response_data['projects'])} projects")
-                    elif endpoint.startswith('/api/search') and method == 'GET':
-                        print(f"   📊 Search completed successfully")
-                    elif 'success' in response_data and response_data['success']:
-                        print(f"   ✅ Success response confirmed")
-                    return True, response_data
-                except:
-                    return True, {}
+                print(f"✅ Passed - Status: {response.status_code} {validation_msg}")
             else:
-                self.tests_failed += 1
-                self.failed_tests.append({
-                    'test': name,
-                    'expected': expected_status,
-                    'actual': response.status_code,
-                    'url': url,
-                    'response': response.text[:200] if response.text else 'No response body'
-                })
-                print(f"❌ FAILED - Expected {expected_status}, got {response.status_code}")
-                if response.text:
-                    print(f"   Response: {response.text[:200]}...")
-                return False, {}
-
-        except requests.exceptions.RequestException as e:
-            self.tests_failed += 1
-            self.failed_tests.append({
-                'test': name,
-                'error': str(e),
-                'url': url
-            })
-            print(f"❌ FAILED - Network Error: {str(e)}")
+                print(f"❌ Failed - Expected {expected_status}, got {response.status_code}")
+                if validation_msg:
+                    print(f"   Validation: {validation_msg}")
+                self.failed_tests.append(name)
+            
+            return success, response_data
+        
+        except Exception as e:
+            print(f"❌ Failed - Error: {str(e)}")
+            self.failed_tests.append(name)
             return False, {}
 
-    def test_health(self):
-        """Test health endpoint"""
-        return self.run_test("Health Check", "GET", "/api/health")
+    def test_total_products(self):
+        """Test that total products is now 41 (expanded from 24)"""
+        def validate_total(data):
+            products = data.get('products', [])
+            count = len(products)
+            if count == 41:
+                return True, f"- Found {count} products (expansion successful)"
+            return False, f"- Expected 41 products, found {count}"
+        
+        return self.run_test(
+            "GET /api/products returns 41 products total",
+            "GET", "api/products",
+            validation_func=validate_total
+        )
 
-    def test_products_endpoints(self):
-        """Test all products-related endpoints"""
-        # Get all products
-        success, data = self.run_test("Products List", "GET", "/api/products")
+    def test_categories_count(self):
+        """Test that categories endpoint returns 17 categories"""
+        def validate_categories(data):
+            categories = data.get('categories', [])
+            count = len(categories)
+            if count == 17:
+                return True, f"- Found {count} categories"
+            return False, f"- Expected 17 categories, found {count}"
         
-        if success and 'products' in data:
-            # Test specific category filtering as mentioned in requirements
-            self.run_test("Products by Category - cob-microled", "GET", "/api/products", params={'category': 'cob-microled'})
+        return self.run_test(
+            "GET /api/products/categories returns all 17 categories",
+            "GET", "api/products/categories",
+            validation_func=validate_categories
+        )
+
+    def test_new_category_filters(self):
+        """Test filtering for the 7 new categories"""
+        new_categories = [
+            ('naked-eye-3d', 2),
+            ('cinema-led', 2),
+            ('sphere', 2),
+            ('virtual-production', 2),
+            ('poster-totem', 2),
+            ('shelf-edge', 2),
+            ('ceiling-led', 2),
+        ]
+        
+        results = []
+        for category, expected_count in new_categories:
+            def validate_category_count(data, expected=expected_count):
+                products = data.get('products', [])
+                count = len(products)
+                if count == expected:
+                    return True, f"- Found {count} products in {category}"
+                return False, f"- Expected {expected} products in {category}, found {count}"
             
-            # Test trending filter
-            self.run_test("Trending Products", "GET", "/api/products", params={'trending': True})
+            success, _ = self.run_test(
+                f"GET /api/products?category={category} returns {expected_count} products",
+                "GET", f"api/products?category={category}",
+                validation_func=validate_category_count
+            )
+            results.append(success)
+        
+        return all(results)
+
+    def test_expanded_categories(self):
+        """Test DVLED (expanded to 3) and Outdoor (expanded to 5) categories"""
+        expanded_categories = [
+            ('dvled', 3),
+            ('outdoor', 5),
+        ]
+        
+        results = []
+        for category, expected_count in expanded_categories:
+            def validate_expanded_count(data, expected=expected_count):
+                products = data.get('products', [])
+                count = len(products)
+                if count == expected:
+                    return True, f"- Found {count} products in {category} (expanded successfully)"
+                return False, f"- Expected {expected} products in {category}, found {count}"
             
-            # Test search for COB as mentioned in requirements
-            self.run_test("Products Search - COB", "GET", "/api/products", params={'search': 'COB'})
-            
-            # Test categories endpoint
-            self.run_test("Product Categories", "GET", "/api/products/categories")
-            
-            # Get first product for detail test
-            if len(data['products']) > 0:
-                product = data['products'][0]
-                product_slug = product.get('slug')
-                if product_slug:
-                    self.run_test(f"Product Detail - {product_slug}", "GET", f"/api/products/{product_slug}")
+            success, _ = self.run_test(
+                f"GET /api/products?category={category} returns {expected_count} products (expanded)",
+                "GET", f"api/products?category={category}",
+                validation_func=validate_expanded_count
+            )
+            results.append(success)
+        
+        return all(results)
+
+    def test_new_product_comparison(self):
+        """Test comparison with new product codes from the expansion"""
+        new_product_codes = ['BL-3DL390', 'BL-CNX093', 'BL-SPH300']
+        
+        def validate_comparison(data):
+            products = data.get('products', [])
+            count = len(products)
+            if count == 3:
+                # Check if we got the right product codes
+                returned_codes = [p.get('product_code', '') for p in products]
+                if all(code in returned_codes for code in new_product_codes):
+                    return True, f"- Successfully compared 3 new products: {', '.join(returned_codes)}"
                 else:
-                    print("⚠️  Warning: Product missing slug field")
-                
-                # Check if products have BL-prefix codes
-                product_code = product.get('product_code', '')
-                if product_code.startswith('BL-'):
-                    print(f"   ✅ Product has proper BL-prefix code: {product_code}")
+                    return False, f"- Missing some product codes. Got: {returned_codes}"
+            return False, f"- Expected 3 products, got {count}"
+        
+        return self.run_test(
+            "POST /api/products/compare with new product codes returns 3 products",
+            "POST", "api/products/compare",
+            data=new_product_codes,
+            validation_func=validate_comparison
+        )
+
+    def test_search_functionality(self):
+        """Test search functionality still works with expanded catalog"""
+        def validate_search(data):
+            products = data.get('products', [])
+            count = len(products)
+            if count >= 1:
+                # Check if any returned products contain 'sphere' in name/code/description
+                sphere_found = any(
+                    'sphere' in str(p.get('name', '')).lower() or
+                    'sphere' in str(p.get('product_code', '')).lower() or 
+                    'sphere' in str(p.get('description', '')).lower()
+                    for p in products
+                )
+                if sphere_found:
+                    return True, f"- Found {count} sphere-related products"
                 else:
-                    print(f"   ⚠️  Product code doesn't have BL-prefix: {product_code}")
+                    return False, f"- Found {count} products but none sphere-related"
+            return False, f"- No products found for 'sphere' search"
         
-        return success
-    
-    def test_compare_products(self):
-        """Test product comparison endpoint"""
-        # Test with specific product codes mentioned in requirements
-        test_codes = ['BL-COB060', 'BL-COB093']
-        success, data = self.run_test("Compare Products", "POST", "/api/products/compare", data=test_codes)
-        
-        if success and 'products' in data:
-            if len(data['products']) == 2:
-                print(f"   ✅ Comparison returned {len(data['products'])} products as expected")
-            else:
-                print(f"   ⚠️  Comparison returned {len(data['products'])} products, expected 2")
-        
-        return success
-    
-    def test_calculator_endpoint(self):
-        """Test screen calculator endpoint"""
-        test_params = {
+        return self.run_test(
+            "GET /api/products?search=sphere returns sphere products",
+            "GET", "api/products?search=sphere",
+            validation_func=validate_search
+        )
+
+    def test_calculator_still_works(self):
+        """Test that calculator API still works after expansion"""
+        test_data = {
             "venue_width": 10,
-            "venue_height": 3,
-            "viewing_distance": 5,
+            "venue_height": 4,
+            "viewing_distance": 6,
             "content_type": "video",
             "indoor": True
         }
         
-        success, data = self.run_test("Screen Calculator", "POST", "/api/calculator/screen-size", data=test_params)
+        def validate_calculator(data):
+            required_keys = ['recommended_pitch', 'screen_width', 'screen_height', 'resolution', 'brightness']
+            if all(key in data for key in required_keys):
+                matching_products = data.get('matching_products', [])
+                return True, f"- Calculator working, found {len(matching_products)} matching products"
+            return False, "- Missing required calculation fields"
         
-        if success:
-            required_fields = ['recommended_pitch', 'screen_width', 'screen_height', 'resolution', 'brightness']
-            missing_fields = [field for field in required_fields if field not in data]
-            
-            if not missing_fields:
-                print(f"   ✅ Calculator response has all required fields")
-                print(f"   📊 Recommended pitch: {data.get('recommended_pitch')}mm")
-                print(f"   📊 Screen dimensions: {data.get('screen_width')}m x {data.get('screen_height')}m")
-            else:
-                print(f"   ⚠️  Calculator response missing fields: {missing_fields}")
-        
-        return success
+        return self.run_test(
+            "POST /api/calculator/screen-size still works after expansion",
+            "POST", "api/calculator/screen-size",
+            data=test_data,
+            validation_func=validate_calculator
+        )
 
-    def test_inspirations_endpoints(self):
-        """Test all inspirations-related endpoints"""
-        success, data = self.run_test("Inspirations List", "GET", "/api/inspirations")
+    def test_health_check(self):
+        """Basic health check"""
+        def validate_health(data):
+            if data.get('status') == 'ok':
+                return True, "- API healthy"
+            return False, "- API not healthy"
         
-        if success and 'inspirations' in data:
-            # Test category filtering
-            categories = ['retail', 'corporate', 'hospitality', 'events', 'outdoor', 'art']
-            for category in categories:
-                self.run_test(f"Inspirations by Category - {category}", "GET", "/api/inspirations", params={'category': category})
-        
-        return success
+        return self.run_test(
+            "GET /api/health returns ok",
+            "GET", "api/health",
+            validation_func=validate_health
+        )
 
-    def test_projects_endpoints(self):
-        """Test all projects-related endpoints"""
-        success, data = self.run_test("Projects List", "GET", "/api/projects")
+    def run_all_tests(self):
+        """Run all API tests for the expansion"""
+        print("🚀 Starting Brightluxx API Tests - Product Catalog Expansion")
+        print("=" * 70)
         
-        if success and 'projects' in data:
-            # Test sector filtering
-            sectors = ['retail', 'outdoor', 'corporate', 'hospitality', 'events']
-            for sector in sectors:
-                self.run_test(f"Projects by Sector - {sector}", "GET", "/api/projects", params={'sector': sector})
-            
-            # Test featured filter
-            self.run_test("Featured Projects", "GET", "/api/projects", params={'featured': True})
-            
-            # Get first project for detail test
-            if len(data['projects']) > 0:
-                project_slug = data['projects'][0].get('slug')
-                if project_slug:
-                    self.run_test(f"Project Detail - {project_slug}", "GET", f"/api/projects/{project_slug}")
-                else:
-                    print("⚠️  Warning: Project missing slug field")
+        # Test core expansion requirements
+        self.test_health_check()
+        self.test_total_products()
+        self.test_categories_count()
+        self.test_new_category_filters()
+        self.test_expanded_categories()
+        self.test_new_product_comparison()
+        self.test_search_functionality() 
+        self.test_calculator_still_works()
         
-        return success
-
-    def test_search(self):
-        """Test search functionality"""
-        search_queries = ["LED", "BL-", "display", "outdoor", "micro"]
+        # Print results
+        print("\n" + "=" * 70)
+        print(f"📊 Test Results: {self.tests_passed}/{self.tests_run} tests passed")
         
-        for query in search_queries:
-            self.run_test(f"Search - '{query}'", "GET", "/api/search", params={'q': query})
-
-    def test_create_lead(self):
-        """Test lead creation"""
-        test_lead = {
-            "name": f"Test User {datetime.now().strftime('%H%M%S')}",
-            "company": "Test Company Ltd",
-            "email": f"test{datetime.now().strftime('%H%M%S')}@example.com",
-            "phone": "+971501234567",
-            "city": "Dubai",
-            "application": "Retail",
-            "timeline": "1-3 months",
-            "budget": "$50k - $100k",
-            "message": "This is a test inquiry from automated testing",
-            "source": "contact_form"
-        }
-        
-        success, response_data = self.run_test("Create Lead", "POST", "/api/leads", data=test_lead, expected_status=200)
-        
-        if success and 'success' in response_data:
-            print(f"   📧 Lead created with ID: {response_data.get('leadId', 'N/A')}")
-        
-        return success
-
-    def test_invalid_routes(self):
-        """Test invalid routes for proper error handling"""
-        # Test non-existent product
-        self.run_test("Invalid Product", "GET", "/api/products/non-existent", expected_status=404)
-        
-        # Test non-existent project
-        self.run_test("Invalid Project", "GET", "/api/projects/non-existent", expected_status=404)
-
-    def test_expected_data_counts(self):
-        """Test if we have the expected number of data entries"""
-        print("\n📊 CHECKING EXPECTED DATA COUNTS")
-        print("-" * 40)
-        
-        # Check products count (expecting 12)
-        success, data = self.run_test("Products Count Check", "GET", "/api/products")
-        if success and 'products' in data:
-            product_count = len(data['products'])
-            if product_count >= 12:
-                print(f"   ✅ Products count: {product_count} (>= 12 expected)")
-            else:
-                print(f"   ⚠️  Products count: {product_count} (< 12 expected)")
-        
-        # Check inspirations count (expecting 12)
-        success, data = self.run_test("Inspirations Count Check", "GET", "/api/inspirations")
-        if success and 'inspirations' in data:
-            inspiration_count = len(data['inspirations'])
-            if inspiration_count >= 12:
-                print(f"   ✅ Inspirations count: {inspiration_count} (>= 12 expected)")
-            else:
-                print(f"   ⚠️  Inspirations count: {inspiration_count} (< 12 expected)")
-        
-        # Check projects count (expecting 6)
-        success, data = self.run_test("Projects Count Check", "GET", "/api/projects")
-        if success and 'projects' in data:
-            project_count = len(data['projects'])
-            if project_count >= 6:
-                print(f"   ✅ Projects count: {project_count} (>= 6 expected)")
-            else:
-                print(f"   ⚠️  Projects count: {project_count} (< 6 expected)")
+        if self.failed_tests:
+            print(f"❌ Failed Tests: {', '.join(self.failed_tests)}")
+            return 1
+        else:
+            print("✅ All expansion tests passed!")
+            return 0
 
 def main():
-    print("🚀 Starting Brightluxx API Testing...")
-    print("=" * 60)
-    
     tester = BrightluxxAPITester()
-    
-    # Run all tests
-    print("\n📋 BASIC API TESTS")
-    print("-" * 30)
-    tester.test_health()
-    
-    print("\n📋 CONTENT API TESTS")
-    print("-" * 30)
-    tester.test_products_endpoints()
-    tester.test_inspirations_endpoints() 
-    tester.test_projects_endpoints()
-    
-    print("\n📋 FUNCTIONALITY TESTS")
-    print("-" * 30)
-    tester.test_search()
-    tester.test_create_lead()
-    tester.test_compare_products()
-    tester.test_calculator_endpoint()
-    
-    print("\n📋 ERROR HANDLING TESTS")
-    print("-" * 30)
-    tester.test_invalid_routes()
-    
-    # Check expected data counts
-    tester.test_expected_data_counts()
-    
-    # Print final results
-    print("\n" + "=" * 60)
-    print("📊 FINAL TEST RESULTS")
-    print("=" * 60)
-    print(f"Total Tests Run: {tester.tests_run}")
-    print(f"Tests Passed: {tester.tests_passed} ✅")
-    print(f"Tests Failed: {tester.tests_failed} ❌")
-    
-    if tester.tests_failed > 0:
-        print(f"\n❌ FAILED TESTS SUMMARY:")
-        for i, failed_test in enumerate(tester.failed_tests, 1):
-            print(f"  {i}. {failed_test['test']}")
-            if 'expected' in failed_test:
-                print(f"     Expected: {failed_test['expected']}, Got: {failed_test['actual']}")
-            if 'error' in failed_test:
-                print(f"     Error: {failed_test['error']}")
-            if 'response' in failed_test:
-                print(f"     Response: {failed_test['response']}")
-            print(f"     URL: {failed_test['url']}")
-    
-    success_rate = (tester.tests_passed / tester.tests_run * 100) if tester.tests_run > 0 else 0
-    print(f"\n📈 Success Rate: {success_rate:.1f}%")
-    
-    if success_rate >= 90:
-        print("🎉 Backend API is working excellently!")
-        return 0
-    elif success_rate >= 70:
-        print("⚠️  Backend API has some issues but mostly functional")
-        return 1
-    else:
-        print("🚨 Backend API has significant issues")
-        return 1
+    return tester.run_all_tests()
 
 if __name__ == "__main__":
     sys.exit(main())

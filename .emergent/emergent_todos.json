@@ -1,10 +1,22 @@
 [
   {
-    "content": "Fix Compare table horizontal scroll on mobile",
+    "content": "Add ~18 new products across 7 new categories to seed_data.py",
     "status": "completed"
   },
   {
-    "content": "Verify fix with mobile screenshots",
+    "content": "Update Products.js category filter to include new categories",
     "status": "completed"
+  },
+  {
+    "content": "Re-seed database and verify products load",
+    "status": "completed"
+  },
+  {
+    "content": "Verify frontend compilation and take screenshots",
+    "status": "completed"
+  },
+  {
+    "content": "Run testing agent for validation",
+    "status": "in_progress"
   }
 ]

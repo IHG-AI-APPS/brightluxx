@@ -6,9 +6,9 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 ## Core Requirements
 - **Theme:** "Deep Space Modern" — deep charcoal (#0B0B0B), glassmorphism, LED pixel grid overlay, gold/amber gradient CTAs
 - **Typography:** Satoshi / SF Pro with strict hierarchy
-- **Pages:** Home, Products, Inspirations, Projects, Showroom, Contact
-- **Tools:** Screen Calculator, Product Comparison
-- **CMS:** Dynamic admin panel managing all content (Products, Inspirations, Projects, Leads) with media uploads
+- **Pages:** Home, Products, Solutions, Inspirations, Projects, Showroom, About, Contact
+- **Tools:** Screen Calculator, Product Comparison, Technology Guide
+- **CMS:** Dynamic admin panel managing all content with media uploads
 - **Security:** Rate-limiting, JWT auth, bcrypt password hashing
 
 ## Tech Stack
@@ -19,20 +19,20 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 ## Architecture
 ```
 /app/backend/
-├── server.py              # Slim entry point (58 lines): app, CORS, middleware, router includes
-├── database.py            # MongoDB connection + collection references
+├── server.py              # Slim entry point (58 lines)
+├── database.py            # MongoDB connection + collections
 ├── models.py              # All Pydantic models
-├── utils.py               # Helpers: serialize_doc, slugify, RateLimiter, get_client_ip
-├── auth.py                # JWT config, token creation, get_current_admin dependency
+├── utils.py               # Helpers: serialize_doc, slugify, RateLimiter
+├── auth.py                # JWT config, token creation, auth dependency
 ├── routes/
-│   ├── public.py          # Public routes (products, inspirations, projects, leads, search, calculator)
-│   ├── admin.py           # Admin auth (login, refresh, me, change-password, stats)
-│   ├── admin_crud.py      # Admin CRUD (products, inspirations, projects, leads, export/import)
+│   ├── public.py          # Public API routes
+│   ├── admin.py           # Admin auth routes
+│   ├── admin_crud.py      # Admin CRUD routes
 │   └── upload.py          # File upload + image optimization
 /app/frontend/src/
-├── admin/                 # CMS admin panel components
-├── pages/                 # Public-facing pages
-├── components/            # Shared UI components
+├── pages/                 # Public pages (Home, Products, Solutions, About, etc.)
+├── admin/                 # CMS admin panel
+├── components/            # Shared UI components (Navbar, Footer, StickyCTA)
 ```
 
 ## Admin Credentials
@@ -40,24 +40,24 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 - Password: brightluxx2025
 
 ## What's Implemented (Complete)
-- Full public website with all pages and tools
-- 41 products across 17 categories
-- 22 inspirations, 9 projects
+- Full public website: Home, Products, Solutions (NEW), Inspirations, Projects, Showroom, About (NEW), Contact
+- **57 products** across 19 categories (including road-signal, flexible, cob-microled)
+- **26 real projects** from brightluxx.com (Nesto, Indian Pavilion Expo 2020, Division Nine, etc.)
+- 22 inspirations
+- Solutions page with 8 industry verticals (Retail, Corporate, Outdoor, Events, Creative, Traffic, Immersive, Transparent)
+- About Us page (IHG Industry LLC, since 2012, Vision & Mission) — footer link only
 - Screen Calculator and Product Comparison tools
 - Complete CMS with CRUD for all content types
-- JWT auth with access (4h) + refresh (7d) tokens
-- Rate limiting (login: 5/min, leads: 10/min) with X-Forwarded-For support
-- Password change with validation
-- Image upload with server-side optimization (Pillow -> WebP variants)
-- Security headers (X-Frame-Options, X-XSS-Protection, nosniff)
-- Data import/export functionality
+- JWT auth with access + refresh tokens, rate limiting, password change
+- Image upload with server-side WebP optimization
+- Security headers, data import/export
 - Mobile responsive design
-- **Backend refactored** from monolithic 837-line server.py into modular files (Feb 2026)
+- Backend refactored into modular structure
 
 ## What's Mocked
 - Lead capture saves to DB only — no real email notification service
 
 ## Backlog (Prioritized)
-- **P1:** Image CDN/Object Storage integration for scalable media delivery
+- **P1:** Image CDN/Object Storage for scalable media delivery
 - **P2:** Real email service (SendGrid/Resend) for lead notifications
 - **P3:** Advanced analytics integration

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Search, SlidersHorizontal, X, Eye } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Eye, Monitor } from 'lucide-react';
 import { getProducts } from '../api';
 
 const useInView = (ref) => {
@@ -133,7 +133,13 @@ const Products = () => {
                   data-testid="products-product-card"
                 >
                   <div className="relative overflow-hidden">
-                    <img src={product.image_url} alt={product.name} className="w-full h-48 object-cover" />
+                    {product.image_url ? (
+                      <img src={product.image_url} alt={product.name} className="w-full h-48 object-cover" />
+                    ) : (
+                      <div className="w-full h-48 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08), rgba(229,197,116,0.02))' }}>
+                        <Monitor size={36} className="text-[var(--blx-muted)]" />
+                      </div>
+                    )}
                     <div className="absolute top-3 left-3">
                       <span className="category-badge">{product.product_code}</span>
                     </div>
@@ -178,7 +184,13 @@ const Products = () => {
               <X size={16} />
             </button>
 
-            <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-56 object-cover rounded-t-[var(--blx-radius-lg)]" />
+            {selectedProduct.image_url ? (
+              <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-56 object-cover rounded-t-[var(--blx-radius-lg)]" />
+            ) : (
+              <div className="w-full h-56 flex items-center justify-center rounded-t-[var(--blx-radius-lg)]" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08), rgba(229,197,116,0.02))' }}>
+                <Monitor size={48} className="text-[var(--blx-muted)]" />
+              </div>
+            )}
 
             <div className="p-6">
               <div className="flex items-center gap-3 mb-3">

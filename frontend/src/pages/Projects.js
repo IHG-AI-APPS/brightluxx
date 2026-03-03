@@ -107,7 +107,13 @@ const Projects = () => {
                   data-testid="project-case-study-card"
                 >
                   <div className="relative overflow-hidden">
-                    <img src={project.image_url} alt={project.title} className="w-full h-56 object-cover" />
+                    {project.image_url ? (
+                      <img src={project.image_url} alt={project.title} className="w-full h-56 object-cover" />
+                    ) : (
+                      <div className="w-full h-56 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08), rgba(229,197,116,0.02))' }}>
+                        <Building size={40} className="text-[var(--blx-muted)]" />
+                      </div>
+                    )}
                     <div className="absolute top-3 left-3">
                       <span className="category-badge">{project.sector}</span>
                     </div>
@@ -164,7 +170,13 @@ const Projects = () => {
               <X size={16} />
             </button>
 
-            <img src={selectedProject.image_url} alt={selectedProject.title} className="w-full h-64 object-cover rounded-t-[var(--blx-radius-lg)]" />
+            {selectedProject.image_url ? (
+              <img src={selectedProject.image_url} alt={selectedProject.title} className="w-full h-64 object-cover rounded-t-[var(--blx-radius-lg)]" />
+            ) : (
+              <div className="w-full h-64 flex items-center justify-center rounded-t-[var(--blx-radius-lg)]" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08), rgba(229,197,116,0.02))' }}>
+                <Building size={48} className="text-[var(--blx-muted)]" />
+              </div>
+            )}
 
             <div className="p-6">
               <div className="flex items-center gap-3 mb-3">

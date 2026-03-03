@@ -117,20 +117,21 @@ const Home = () => {
               </div>
             </Link>
 
-            {/* Applications Door */}
-            <Link to="/applications" className="entry-door group" data-testid="door-applications">
+            {/* Showroom Door (Changed from Applications) */}
+            <Link to="/showroom" className="entry-door group" data-testid="door-showroom">
               <img
-                src="/generated/transparent_led_retail.png"
-                alt="Applications"
+                src="/generated/corporate_boardroom.png"
+                alt="Virtual Showroom"
                 className="entry-door-image"
               />
               <div className="p-6">
-                <h3 className="text-2xl font-semibold mb-3 font-display">Applications</h3>
+                <div className="text-xs uppercase tracking-wider text-[var(--blx-gold-3)] mb-2">New</div>
+                <h3 className="text-2xl font-semibold mb-3 font-display">Virtual Showroom</h3>
                 <p className="text-[var(--blx-text-2)] mb-4 leading-relaxed">
-                  Retail, corporate, outdoor advertising, events. See where our displays make an impact.
+                  Explore immersive 360° tours of our LED installations across Dubai.
                 </p>
                 <div className="flex items-center text-[var(--blx-gold-3)] font-medium group-hover:gap-3 gap-2 transition-all">
-                  <span>Explore</span>
+                  <span>Tour Now</span>
                   <ArrowRight size={18} />
                 </div>
               </div>
@@ -139,7 +140,7 @@ const Home = () => {
             {/* Case Studies Door */}
             <Link to="/case-studies" className="entry-door group" data-testid="door-case-studies">
               <img
-                src="/generated/corporate_boardroom.png"
+                src="/generated/outdoor_dooh_dubai.png"
                 alt="Case Studies"
                 className="entry-door-image"
               />

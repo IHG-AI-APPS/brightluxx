@@ -19,6 +19,7 @@ import Updates from './pages/Updates';
 import UpdateDetail from './pages/UpdateDetail';
 import Contact from './pages/Contact';
 import ProductConfigurator from './pages/ProductConfigurator';
+import VirtualShowroom from './pages/VirtualShowroom';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/updates" element={<Updates />} />
           <Route path="/updates/:slug" element={<UpdateDetail />} />
           <Route path="/configurator" element={<ProductConfigurator />} />
+          <Route path="/showroom" element={<VirtualShowroom />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
         <Footer />

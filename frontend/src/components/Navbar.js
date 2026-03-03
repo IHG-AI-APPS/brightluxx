@@ -12,8 +12,8 @@ const Navbar = () => {
     { name: 'Technologies', path: '/technologies' },
     { name: 'Applications', path: '/applications' },
     { name: 'Case Studies', path: '/case-studies' },
+    { name: 'Showroom', path: '/showroom' },
     { name: 'Configurator', path: '/configurator' },
-    { name: 'What\'s New', path: '/updates' },
     { name: 'Contact', path: '/contact' },
   ];
 

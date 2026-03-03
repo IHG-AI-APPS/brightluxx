@@ -9,6 +9,8 @@ from routes.public import router as public_router
 from routes.admin import router as admin_router
 from routes.admin_crud import router as admin_crud_router
 from routes.upload import router as upload_router
+from routes.cdn import router as cdn_router
+from storage import init_storage
 
 app = FastAPI()
 
@@ -36,10 +38,18 @@ app.include_router(public_router)
 app.include_router(admin_router)
 app.include_router(admin_crud_router)
 app.include_router(upload_router)
+app.include_router(cdn_router)
 
 
 @app.on_event("startup")
-async def seed_admin():
+async def startup():
+    # Initialize object storage
+    try:
+        init_storage()
+    except Exception as e:
+        print(f"Warning: Object storage init failed: {e}. Local fallback active.")
+
+    # Seed admin user
     existing = await admins_col.find_one({"email": "admin@brightluxx.com"})
     if not existing:
         await admins_col.insert_one({

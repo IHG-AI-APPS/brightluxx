@@ -69,7 +69,7 @@ const Home = () => {
             muted
             loop
             playsInline
-            poster="/uploads/hero_banner.webp"
+            poster="/api/cdn/hero_banner.webp"
             data-testid="home-hero-video"
             className="w-full h-full object-cover"
           >
@@ -114,13 +114,13 @@ const Home = () => {
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[{
-              to: '/products', img: '/uploads/cob_microled_1.webp',
+              to: '/products', img: '/api/cdn/cob_microled_1.webp',
               title: 'Products', desc: 'MicroLED, outdoor, rental, transparent. Full range.', cta: 'Browse'
             }, {
-              to: '/inspirations', img: '/uploads/insp_retail.webp',
+              to: '/inspirations', img: '/api/cdn/insp_retail.webp',
               title: 'Inspirations', desc: 'See how LED transforms spaces across industries.', cta: 'Discover'
             }, {
-              to: '/projects', img: '/uploads/proj_indian_pavilion___expo_2020_dubai.webp',
+              to: '/projects', img: '/api/cdn/proj_indian_pavilion___expo_2020_dubai.webp',
               title: 'Projects', desc: 'Real installations. Proven results across UAE and MENA.', cta: 'View'
             }].map((door) => (
               <GlowCard key={door.to}>

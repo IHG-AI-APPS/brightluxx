@@ -69,7 +69,7 @@ const Home = () => {
             muted
             loop
             playsInline
-            poster="https://images.unsplash.com/photo-1699742983091-8465fbc56a5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwyfHxsZWQlMjBzY3JlZW4lMjBkaXNwbGF5JTIwc3RhZ2UlMjBsaWdodGluZ3xlbnwwfHx8YmxhY2t8MTc3MjU1OTg2MHww&ixlib=rb-4.1.0&q=85"
+            poster="/uploads/hero_banner.webp"
             data-testid="home-hero-video"
             className="w-full h-full object-cover"
           >
@@ -114,13 +114,13 @@ const Home = () => {
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[{
-              to: '/products', img: '/generated/microled_display.png',
+              to: '/products', img: '/uploads/cob_microled_1.webp',
               title: 'Products', desc: 'MicroLED, outdoor, rental, transparent. Full range.', cta: 'Browse'
             }, {
-              to: '/inspirations', img: '/generated/3d_holographic_mall.png',
+              to: '/inspirations', img: '/uploads/insp_retail.webp',
               title: 'Inspirations', desc: 'See how LED transforms spaces across industries.', cta: 'Discover'
             }, {
-              to: '/projects', img: '/generated/outdoor_dooh_dubai.png',
+              to: '/projects', img: '/uploads/proj_indian_pavilion___expo_2020_dubai.webp',
               title: 'Projects', desc: 'Real installations. Proven results across UAE and MENA.', cta: 'View'
             }].map((door) => (
               <GlowCard key={door.to}>

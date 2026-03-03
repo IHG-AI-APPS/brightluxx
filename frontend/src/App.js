@@ -17,6 +17,7 @@ import ScreenCalculator from './pages/ScreenCalculator';
 import TechGuide from './pages/TechGuide';
 import Compare from './pages/Compare';
 import Solutions from './pages/Solutions';
+import SolutionDetail from './pages/SolutionDetail';
 import About from './pages/About';
 
 // Admin
@@ -52,6 +53,7 @@ function AppRoutes() {
       <Route path="/tech-guide" element={<><Navbar /><TechGuide /><Footer /><StickyCTA /></>} />
       <Route path="/contact" element={<><Navbar /><Contact /><Footer /><StickyCTA /></>} />
       <Route path="/solutions" element={<><Navbar /><Solutions /><Footer /><StickyCTA /></>} />
+      <Route path="/solutions/:id" element={<><Navbar /><SolutionDetail /><Footer /><StickyCTA /></>} />
       <Route path="/about" element={<><Navbar /><About /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}

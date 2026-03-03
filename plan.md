@@ -1,11 +1,12 @@
-# Brightluxx — Stabilization & Testing Plan (Updated)
+# Brightluxx — Stabilization & Testing Plan (Final Update)
 
 ## Objectives
 - **Completed:** Restore complete UX by wiring newly-added features into the app shell (routes + navigation) without changing the approved “Deep Space Modern” system.
 - **Completed:** Deliver a working V1 core flow: **Browse Products → Compare → Calculate Screen → Contact/Lead**.
 - **Completed:** Add minimal missing frontend pieces (Compare page + API helpers) and fix testability issues (unique `data-testid`s).
 - **Completed:** Validate end-to-end behavior with build checks, screenshots, and automated testing; resolve any regressions.
-- **Remaining (optional hardening):** Minor refinement pass for mobile/responsiveness, accessibility/focus behavior, and addressing the existing non-blocking ESLint warning.
+- **Completed:** Mobile responsiveness hardening for Compare table (horizontal scroll + sticky spec labels + mobile hint).
+- **Remaining (optional only):** Accessibility/focus behavior review and addressing the existing non-blocking ESLint warning in `ProductConfigurator.js`.
 
 ---
 
@@ -35,7 +36,7 @@
 - **API helpers (P1):** Extended `frontend/src/api.js` with:
   - `compareProducts(productCodes)`
   - `calculateScreenSize(data)`
-  - (plus `getProductCategories()` for completeness)
+  - `getProductCategories()` (completeness)
 - **Test ID uniqueness (P1):** Fixed duplicate `data-testid` on Products category filter buttons.
 - **Bug fix (P2/UX):** Resolved Compare page dropdown overlay/click-through issue.
 
@@ -74,29 +75,38 @@
 
 ---
 
-### Phase 3 — UX Polish & Final Verification (no feature creep) ✅ LARGELY COMPLETE (Optional hardening)
-**User stories (met / optional)**
-1. Consistent layout/typography across Tools pages (met).
-2. Compare usable on mobile without layout breaking (verify; likely met).
-3. Clear next steps via CTAs (met).
-4. Loading and empty states look intentional (met).
-5. App feels fast and stable (met).
+### Phase 3 — UX Polish & Final Verification (no feature creep) ✅ COMPLETED
+**User stories (met)**
+1. Consistent layout/typography across Tools pages.
+2. Compare usable on mobile without layout breaking.
+3. Clear next steps via CTAs.
+4. Loading and empty states look intentional.
+5. App feels fast and stable.
 
-**Optional work items (if desired)**
-- **Responsive pass:** Confirm Compare table behavior on small screens (horizontal scroll / wrapping).
-- **Accessibility pass:** Keyboard navigation for Tools dropdown + focus states across Compare dropdown.
-- **Cleanup:** Address the non-blocking ESLint warning in `ProductConfigurator.js` (missing deps in `useEffect`).
-- **Final screenshots:** Re-capture final set after optional hardening.
+**Work items (completed)**
+- **Mobile responsiveness sweep (Compare):**
+  - Wrapped comparison grid in `overflow-x-auto` container + `-webkit-overflow-scrolling: touch` for smooth mobile scrolling
+  - Made left “Spec” column sticky (`sticky left-0 z-10`) so labels remain visible during horizontal scroll
+  - Reduced spec label column width from **200px → 120px**
+  - Product columns use `minmax(160px, 1fr)` for flexible sizing
+  - Added a mobile-only scroll hint: **“→ Scroll horizontally to see all specs”** (`sm:hidden`)
+  - Responsive typography (`text-xs sm:text-sm`) + responsive padding (`p-3 sm:p-4`) throughout table
+- **Mobile verification:**
+  - Compare @ 375px: horizontal scroll works, sticky labels visible, hint shown ✅
+  - Compare @ 1920px: full table visible without scroll, hint hidden ✅
+  - Calculator @ 375px: responsive layout + results rendering ✅
+  - Tech Guide @ 375px: responsive layout ✅
+  - Mobile nav menu: Tools section visible with all 3 links ✅
 
-**Exit gate (optional)**
-- Mobile + keyboard accessibility verified; lint warnings reduced to zero (if targeted).
+**Exit gate (achieved)**
+- Desktop + mobile experiences verified; Compare is usable on small screens.
 
 ---
 
 ## Next Actions (Immediate)
-1. **No critical work remaining** — V1 is stable and verified.
-2. (Optional) Run a short mobile responsiveness sweep for Compare + Calculator.
-3. (Optional) Fix the existing ESLint dependency warning in `ProductConfigurator.js` if you want a clean lint output.
+1. **No critical work remaining** — V1 is stable, tested, and mobile-verified.
+2. (Optional) Accessibility pass: keyboard navigation for Tools dropdown + focus states for Compare dropdown.
+3. (Optional) Fix ESLint dependency warning in `ProductConfigurator.js` for a clean lint output.
 
 ---
 
@@ -112,3 +122,4 @@
   - Key interactive elements have stable, unique `data-testid`s.
 - **UX (achieved):**
   - Consistent Deep Space Modern styling across new pages; screenshots verified.
+  - Compare table works on mobile via horizontal scroll + sticky spec labels + scroll hint.

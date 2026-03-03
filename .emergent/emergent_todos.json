@@ -1,42 +1,10 @@
 [
   {
-    "content": "Check service health & logs, verify backend is responding",
+    "content": "Fix Compare table horizontal scroll on mobile",
     "status": "completed"
   },
   {
-    "content": "Wire up missing routes in App.js (ScreenCalculator, TechGuide, Compare)",
-    "status": "completed"
-  },
-  {
-    "content": "Create Compare.js page with product comparison functionality",
-    "status": "completed"
-  },
-  {
-    "content": "Add API helpers for calculator and compare in api.js",
-    "status": "completed"
-  },
-  {
-    "content": "Add Tools links to Navbar (Calculator, Compare, Tech Guide)",
-    "status": "completed"
-  },
-  {
-    "content": "Fix duplicate data-testid on Products category filter buttons",
-    "status": "completed"
-  },
-  {
-    "content": "Run esbuild check for frontend compilation errors",
-    "status": "completed"
-  },
-  {
-    "content": "Screenshot all pages and verify UI",
-    "status": "completed"
-  },
-  {
-    "content": "Run testing agent for comprehensive validation",
-    "status": "completed"
-  },
-  {
-    "content": "Fix overlay issue on Compare page (LOW priority)",
+    "content": "Verify fix with mobile screenshots",
     "status": "completed"
   }
 ]

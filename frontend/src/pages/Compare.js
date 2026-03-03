@@ -243,56 +243,64 @@ const Compare = () => {
         {/* Comparison Results */}
         {comparisonData && comparisonData.length > 0 && (
           <div className="animate-fade-up" data-testid="compare-results">
-            {/* Product Headers */}
-            <div className="glass-panel overflow-hidden">
-              <div className="grid" style={{ gridTemplateColumns: `200px repeat(${comparisonData.length}, 1fr)` }}>
-                {/* Corner cell */}
-                <div className="p-4 bg-[var(--blx-bg-raised)] border-b border-r border-[var(--blx-border)]">
-                  <span className="text-[0.625rem] font-bold text-[var(--blx-muted)] tracking-[0.2em]">Specification</span>
+            {/* Scroll hint on mobile */}
+            <div className="sm:hidden mb-3 flex items-center gap-2 text-[0.625rem] text-[var(--blx-muted)] tracking-[0.15em]">
+              <ArrowRight size={12} /> Scroll horizontally to see all specs
+            </div>
+
+            {/* Scrollable comparison table */}
+            <div className="glass-panel overflow-x-auto -mx-4 sm:mx-0 px-0 sm:px-0" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <div style={{ minWidth: `${120 + comparisonData.length * 180}px` }}>
+                {/* Product Headers */}
+                <div className="grid" style={{ gridTemplateColumns: `120px repeat(${comparisonData.length}, minmax(160px, 1fr))` }}>
+                  {/* Corner cell */}
+                  <div className="p-3 sm:p-4 bg-[var(--blx-bg-raised)] border-b border-r border-[var(--blx-border)] sticky left-0 z-10" style={{ background: '#141414' }}>
+                    <span className="text-[0.5625rem] sm:text-[0.625rem] font-bold text-[var(--blx-muted)] tracking-[0.2em]">Spec</span>
+                  </div>
+                  {/* Product name headers */}
+                  {comparisonData.map((p) => (
+                    <div key={p.product_code} className="p-3 sm:p-4 bg-[var(--blx-bg-raised)] border-b border-r border-[var(--blx-border)] last:border-r-0 text-center">
+                      <img src={p.image_url} alt={p.name} className="w-full h-20 sm:h-28 object-cover rounded-lg mb-2 sm:mb-3" />
+                      <div className="text-xs sm:text-sm font-bold mb-1 leading-tight">{p.name}</div>
+                      <span className="category-badge text-[0.5rem] sm:text-[0.625rem]">{p.product_code}</span>
+                    </div>
+                  ))}
                 </div>
-                {/* Product name headers */}
-                {comparisonData.map((p) => (
-                  <div key={p.product_code} className="p-4 bg-[var(--blx-bg-raised)] border-b border-r border-[var(--blx-border)] last:border-r-0 text-center">
-                    <img src={p.image_url} alt={p.name} className="w-full h-28 object-cover rounded-lg mb-3" />
-                    <div className="text-sm font-bold mb-1">{p.name}</div>
-                    <span className="category-badge">{p.product_code}</span>
+
+                {/* Basic Info Rows */}
+                {[
+                  { label: 'Category', key: 'category' },
+                  { label: 'Pixel Pitch', key: 'pixel_pitch' },
+                  { label: 'Brightness', key: 'brightness' },
+                  { label: 'Resolution', key: 'resolution' },
+                  { label: 'Application', key: 'application' },
+                ].map((row) => (
+                  <div key={row.label} className="grid hover:bg-[rgba(255,255,255,0.02)] transition-colors duration-200" style={{ gridTemplateColumns: `120px repeat(${comparisonData.length}, minmax(160px, 1fr))` }}>
+                    <div className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] text-[0.5625rem] sm:text-[0.6875rem] font-bold text-[var(--blx-muted)] tracking-[0.1em] sticky left-0 z-10" style={{ background: 'var(--blx-bg)' }}>
+                      {row.label}
+                    </div>
+                    {comparisonData.map((p) => (
+                      <div key={p.product_code} className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] last:border-r-0 text-xs sm:text-sm text-[var(--blx-text-2)] tracking-wider" style={{ fontVariantNumeric: 'tabular-nums', textTransform: 'none' }}>
+                        {p[row.key] || '—'}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+
+                {/* Spec Rows */}
+                {getSpecLabels().map((label) => (
+                  <div key={label} className="grid hover:bg-[rgba(255,255,255,0.02)] transition-colors duration-200" style={{ gridTemplateColumns: `120px repeat(${comparisonData.length}, minmax(160px, 1fr))` }}>
+                    <div className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] text-[0.5625rem] sm:text-[0.6875rem] font-bold text-[var(--blx-muted)] tracking-[0.1em] sticky left-0 z-10" style={{ background: 'var(--blx-bg)' }}>
+                      {label}
+                    </div>
+                    {comparisonData.map((p) => (
+                      <div key={p.product_code} className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] last:border-r-0 text-xs sm:text-sm text-[var(--blx-text-2)] tracking-wider" style={{ fontVariantNumeric: 'tabular-nums', textTransform: 'none' }}>
+                        {getSpecValue(p, label)}
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
-
-              {/* Basic Info Rows */}
-              {[
-                { label: 'Category', key: 'category' },
-                { label: 'Pixel Pitch', key: 'pixel_pitch' },
-                { label: 'Brightness', key: 'brightness' },
-                { label: 'Resolution', key: 'resolution' },
-                { label: 'Application', key: 'application' },
-              ].map((row) => (
-                <div key={row.label} className="grid hover:bg-[rgba(255,255,255,0.02)] transition-colors duration-200" style={{ gridTemplateColumns: `200px repeat(${comparisonData.length}, 1fr)` }}>
-                  <div className="p-4 border-b border-r border-[var(--blx-border)] text-[0.6875rem] font-bold text-[var(--blx-muted)] tracking-[0.1em]">
-                    {row.label}
-                  </div>
-                  {comparisonData.map((p) => (
-                    <div key={p.product_code} className="p-4 border-b border-r border-[var(--blx-border)] last:border-r-0 text-sm text-[var(--blx-text-2)] tracking-wider font-variant-numeric" style={{ fontVariantNumeric: 'tabular-nums', textTransform: 'none' }}>
-                      {p[row.key] || '—'}
-                    </div>
-                  ))}
-                </div>
-              ))}
-
-              {/* Spec Rows */}
-              {getSpecLabels().map((label) => (
-                <div key={label} className="grid hover:bg-[rgba(255,255,255,0.02)] transition-colors duration-200" style={{ gridTemplateColumns: `200px repeat(${comparisonData.length}, 1fr)` }}>
-                  <div className="p-4 border-b border-r border-[var(--blx-border)] text-[0.6875rem] font-bold text-[var(--blx-muted)] tracking-[0.1em]">
-                    {label}
-                  </div>
-                  {comparisonData.map((p) => (
-                    <div key={p.product_code} className="p-4 border-b border-r border-[var(--blx-border)] last:border-r-0 text-sm text-[var(--blx-text-2)] tracking-wider" style={{ fontVariantNumeric: 'tabular-nums', textTransform: 'none' }}>
-                      {getSpecValue(p, label)}
-                    </div>
-                  ))}
-                </div>
-              ))}
             </div>
 
             {/* CTAs */}

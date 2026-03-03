@@ -1,0 +1,66 @@
+[
+  {
+    "content": "Phase 1 POC: Get LLM integration playbook and Emergent key",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 1 POC: Get web scraping best practices and setup",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 1 POC: Build combined test script - scraping + AI + normalization",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 1 POC: Test on 2-3 supplier sites and validate workflow",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 1 POC: Fix and iterate until working",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 1 POC: All user stories covered and tested",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 2: Get design guidelines from design agent",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: Backend - Setup MongoDB models and REST endpoints",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: Backend - Implement Technologies, Applications, Case Studies, Leads APIs",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: Frontend - Install dependencies and setup Tailwind",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: Frontend - Build Home page with hero and entry doors",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: Frontend - Build Technologies hub and detail pages",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: Frontend - Build Applications and Case Studies pages",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: Frontend - Build Contact and lead capture forms",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: End to End Testing using Testing Agent",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: All user stories covered in Development and testing",
+    "status": "pending"
+  }
+]

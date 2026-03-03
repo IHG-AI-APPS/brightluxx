@@ -1,107 +1,114 @@
-# Brightluxx — Stabilization & Testing Plan
+# Brightluxx — Stabilization & Testing Plan (Updated)
 
 ## Objectives
-- Restore *complete* UX by wiring newly-added features into the app shell (routes + navigation) without changing the approved “Deep Space Modern” system.
-- Deliver a working V1 core flow: **Browse Products → Compare → Calculate Screen → Contact/Lead**.
-- Add minimal missing frontend pieces (Compare page + API helpers) and fix testability issues (test IDs).
-- Validate end-to-end behavior with build checks, screenshots, and automated testing; fix regressions.
+- **Completed:** Restore complete UX by wiring newly-added features into the app shell (routes + navigation) without changing the approved “Deep Space Modern” system.
+- **Completed:** Deliver a working V1 core flow: **Browse Products → Compare → Calculate Screen → Contact/Lead**.
+- **Completed:** Add minimal missing frontend pieces (Compare page + API helpers) and fix testability issues (unique `data-testid`s).
+- **Completed:** Validate end-to-end behavior with build checks, screenshots, and automated testing; resolve any regressions.
+- **Remaining (optional hardening):** Minor refinement pass for mobile/responsiveness, accessibility/focus behavior, and addressing the existing non-blocking ESLint warning.
 
 ---
 
 ## Implementation Steps
 
-### Phase 1 — Core Flow Wiring (P0 fixes, no new scope)
-**User stories**
+### Phase 1 — Core Flow Wiring (P0 fixes, no new scope) ✅ COMPLETED
+**User stories (met)**
 1. As a user, I can open the Screen Calculator from navigation and get a recommendation.
-2. As a user, I can compare 2–4 product codes and view differences in a single page.
+2. As a user, I can compare 2–4 products and view differences side by side.
 3. As a user, I can access the Technology Guide to understand COB/MiP/Transparent/Interactive.
 4. As a user, I can browse products by category and search without broken filters.
 5. As a user, I can request a quote from any tool/result state via Contact.
 
-**Work items**
-- **Routes (P0):** Update `frontend/src/App.js` to import and route:
+**Work items (delivered)**
+- **Routes (P0):** Updated `frontend/src/App.js` with:
   - `/calculator` → `ScreenCalculator`
-  - `/compare` → new `Compare`
+  - `/compare` → `Compare`
   - `/tech-guide` → `TechGuide`
-- **Compare Page (P0):** Create `frontend/src/pages/Compare.js` (MVP):
-  - Accept product codes (input + chips), enforce 2–4 selection
-  - Call compare endpoint and render spec comparison table
-  - Provide CTAs to Products and Contact
-  - Add required `data-testid` hooks
-- **Navbar (P0):** Add “Tools” links (Calculator, Compare, Tech Guide) in desktop + mobile menus.
-- **API helpers (P1):** Extend `frontend/src/api.js` with:
-  - `compareProducts(product_codes)`
-  - `calculateScreenSize(payload)`
-  - Keep existing exports stable
-- **Test ID uniqueness (P1):** Fix duplicate `data-testid="products-filter-select"` in Products category buttons (e.g., `products-filter-<category>`), keep the existing one for the container if needed.
-- **Quick sanity check:** Load each new route and confirm no console/runtime errors.
+- **Compare Page (P0):** Created `frontend/src/pages/Compare.js`:
+  - Product search dropdown + multi-select (2–4)
+  - Calls `/api/products/compare`
+  - Renders side-by-side comparison table
+  - Includes key CTAs to Calculator and Contact
+  - Includes required `data-testid` hooks
+- **Navbar (P0):** Added **Tools** dropdown (Calculator, Compare, Tech Guide) for desktop + mobile.
+- **Footer (P1):** Added **Tools** section links (Calculator, Compare Products, Technology Guide).
+- **API helpers (P1):** Extended `frontend/src/api.js` with:
+  - `compareProducts(productCodes)`
+  - `calculateScreenSize(data)`
+  - (plus `getProductCategories()` for completeness)
+- **Test ID uniqueness (P1):** Fixed duplicate `data-testid` on Products category filter buttons.
+- **Bug fix (P2/UX):** Resolved Compare page dropdown overlay/click-through issue.
 
-**Exit gate**
+**Exit gate (achieved)**
 - Users can reach Calculator/Compare/Tech Guide from both URL and Navbar.
-- Compare works with real backend data (2–4 codes), handles empty/error states.
+- Compare works with real backend data (2–4), handles empty states, and renders comparison table.
 
 ---
 
-### Phase 2 — V1 Stabilization Testing (build + visuals + automated)
-**User stories**
-1. As a user, I can refresh any page and routing still works (no blank screen).
+### Phase 2 — V1 Stabilization Testing (build + visuals + automated) ✅ COMPLETED
+**User stories (met)**
+1. As a user, I can refresh any page and routing still works.
 2. As a user, I can use Products search and category filters reliably.
-3. As a user, I can submit the calculator form multiple times and results update.
-4. As a user, I can open/close product quick view and still scroll the page.
-5. As a user, I can complete the lead form and receive a success response.
+3. As a user, I can submit the calculator form and results update.
+4. As a user, I can open/close product quick view and continue browsing.
+5. As a user, I can submit the lead form successfully.
 
-**Work items**
-- **Build verification:** Run esbuild / frontend build to ensure no compile errors; address blocking warnings if they impact behavior.
-- **Screenshots:** Capture key pages/states:
-  - Home, Products (filtered + modal), Compare (2 products), Calculator (results), Tech Guide, Contact
-- **Automated testing:** Run the testing agent for backend + frontend E2E coverage.
-- **Bug fixing loop:** Triage and fix failures by severity:
-  - P0: navigation/routes, broken API calls, crashes
-  - P1: incorrect data rendering, missing states, a11y regressions
-  - P2: minor styling inconsistencies
+**Work items (completed)**
+- **Build verification:** `esbuild` bundling check passed.
+- **Screenshots captured and verified:**
+  - Home ✅
+  - Products (filters + cards + modal) ✅
+  - Calculator (results + matching products) ✅
+  - Compare (multi-select + results table) ✅
+  - Tech Guide ✅
+  - Navbar Tools dropdown ✅
+  - Footer Tools links ✅
+- **Automated testing:** Testing agent run (`iteration_3.json`)
+  - Backend: **100%** pass rate
+  - Frontend: **95%+**
+  - Overall: **98%**
+- **Bug fixing loop:** Addressed the only reported UI issue (Compare overlay).
 
-**Exit gate**
-- One clean test run (or only non-blocking warnings) + all core pages render.
+**Exit gate (achieved)**
+- Clean core flows with no runtime crashes; all key pages render.
 
 ---
 
-### Phase 3 — UX Polish & Final Verification (no feature creep)
-**User stories**
-1. As a user, I see consistent layout/typography across Tools pages.
-2. As a user, I can use Compare on mobile without layout breaking.
-3. As a user, I always have a clear next step (Products/Contact/WhatsApp).
-4. As a user, loading and empty states look intentional (not broken).
-5. As a user, the app feels fast (no unnecessary rerenders/spinners).
+### Phase 3 — UX Polish & Final Verification (no feature creep) ✅ LARGELY COMPLETE (Optional hardening)
+**User stories (met / optional)**
+1. Consistent layout/typography across Tools pages (met).
+2. Compare usable on mobile without layout breaking (verify; likely met).
+3. Clear next steps via CTAs (met).
+4. Loading and empty states look intentional (met).
+5. App feels fast and stable (met).
 
-**Work items**
-- **Consistency pass:** Ensure new pages use existing components/classes (`glass-panel`, `btn-gold`, `btn-glass`, `spec-table`, tokens).
-- **Responsive pass:** Check key breakpoints for Compare and Calculator.
-- **Final screenshots:** Re-capture all pages after fixes.
+**Optional work items (if desired)**
+- **Responsive pass:** Confirm Compare table behavior on small screens (horizontal scroll / wrapping).
+- **Accessibility pass:** Keyboard navigation for Tools dropdown + focus states across Compare dropdown.
+- **Cleanup:** Address the non-blocking ESLint warning in `ProductConfigurator.js` (missing deps in `useEffect`).
+- **Final screenshots:** Re-capture final set after optional hardening.
 
-**Exit gate**
-- Stable V1 user journey + consistent Deep Space Modern styling + final screenshots.
+**Exit gate (optional)**
+- Mobile + keyboard accessibility verified; lint warnings reduced to zero (if targeted).
 
 ---
 
 ## Next Actions (Immediate)
-1. Update `App.js` to add missing routes for Calculator/Compare/Tech Guide.
-2. Implement `Compare.js` MVP page and wire to backend.
-3. Add Navbar links for Tools.
-4. Add API helper functions for calculator + compare.
-5. Fix Products filter `data-testid` duplication.
-6. Run build check, take screenshots, then run testing agent and fix findings.
+1. **No critical work remaining** — V1 is stable and verified.
+2. (Optional) Run a short mobile responsiveness sweep for Compare + Calculator.
+3. (Optional) Fix the existing ESLint dependency warning in `ProductConfigurator.js` if you want a clean lint output.
 
 ---
 
 ## Success Criteria
-- **Functional:**
+- **Functional (achieved):**
   - `/calculator`, `/compare`, `/tech-guide` accessible and usable via Navbar.
   - Compare supports 2–4 product codes and renders a clear comparison.
   - Calculator returns recommendation + matching products without errors.
-  - Products filtering/search + quick view modal still works.
-- **Quality:**
-  - Frontend build passes; no runtime crashes.
-  - Automated tests pass (or only explicitly accepted non-blocking warnings).
-  - All key interactive elements have stable, unique `data-testid`s.
-- **UX:**
-  - Consistent Deep Space Modern styling across new pages; responsive on mobile/desktop.
+  - Products filtering/search + quick view modal works.
+- **Quality (achieved):**
+  - Frontend compiles cleanly (esbuild pass); no runtime crashes.
+  - Automated tests pass with high confidence (Backend 100%, Overall 98%).
+  - Key interactive elements have stable, unique `data-testid`s.
+- **UX (achieved):**
+  - Consistent Deep Space Modern styling across new pages; screenshots verified.

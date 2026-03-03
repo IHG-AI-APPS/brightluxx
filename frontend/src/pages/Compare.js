@@ -211,9 +211,12 @@ const Compare = () => {
           </div>
 
           {/* Compare Button */}
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex gap-3" style={{ position: 'relative', zIndex: 10 }}>
             <button
-              onClick={handleCompare}
+              onClick={() => {
+                setShowDropdown(false);
+                handleCompare();
+              }}
               disabled={selectedCodes.length < 2 || loading}
               className={`btn-gold px-8 py-3.5 ${
                 selectedCodes.length < 2 || loading ? 'opacity-50 cursor-not-allowed' : ''

@@ -21,6 +21,7 @@ const Footer = () => {
             <h3 className="text-[0.625rem] font-bold mb-4 tracking-[0.2em]">Explore</h3>
             <ul className="space-y-2 text-xs">
               <li><Link to="/products" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Products</Link></li>
+              <li><Link to="/solutions" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Solutions</Link></li>
               <li><Link to="/inspirations" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Inspirations</Link></li>
               <li><Link to="/projects" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Projects</Link></li>
               <li><Link to="/showroom" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Virtual Showroom</Link></li>
@@ -59,8 +60,13 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-[var(--blx-border)] text-center text-[0.6875rem] text-[var(--blx-muted)] tracking-widest">
+        <div className="mt-12 pt-8 border-t border-[var(--blx-border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.6875rem] text-[var(--blx-muted)] tracking-widest">
           <p>&copy; {currentYear} Brightluxx. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <Link to="/about" className="hover:text-[var(--blx-text)] transition-colors duration-200">About Us</Link>
+            <span className="opacity-30">|</span>
+            <span>A division of IHG Industry L.L.C</span>
+          </div>
         </div>
       </div>
     </footer>

@@ -30,9 +30,12 @@ const GlowCard = ({ children, className = '' }) => {
 const SECTORS = [
   { value: '', label: 'All Sectors' },
   { value: 'retail', label: 'Retail' },
-  { value: 'outdoor', label: 'Outdoor' },
   { value: 'corporate', label: 'Corporate' },
   { value: 'hospitality', label: 'Hospitality' },
+  { value: 'exhibitions', label: 'Exhibitions' },
+  { value: 'government', label: 'Government' },
+  { value: 'healthcare', label: 'Healthcare' },
+  { value: 'outdoor', label: 'Outdoor' },
   { value: 'events', label: 'Events' },
 ];
 

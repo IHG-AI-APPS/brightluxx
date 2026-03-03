@@ -16,6 +16,8 @@ import VirtualShowroom from './pages/VirtualShowroom';
 import ScreenCalculator from './pages/ScreenCalculator';
 import TechGuide from './pages/TechGuide';
 import Compare from './pages/Compare';
+import Solutions from './pages/Solutions';
+import About from './pages/About';
 
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
@@ -49,6 +51,8 @@ function AppRoutes() {
       <Route path="/compare" element={<><Navbar /><Compare /><Footer /><StickyCTA /></>} />
       <Route path="/tech-guide" element={<><Navbar /><TechGuide /><Footer /><StickyCTA /></>} />
       <Route path="/contact" element={<><Navbar /><Contact /><Footer /><StickyCTA /></>} />
+      <Route path="/solutions" element={<><Navbar /><Solutions /><Footer /><StickyCTA /></>} />
+      <Route path="/about" element={<><Navbar /><About /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

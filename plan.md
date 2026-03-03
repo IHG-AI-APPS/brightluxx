@@ -1,133 +1,138 @@
-# plan.md — Brightluxx Premium Showcase Website (CMS-driven)
+# Brightluxx Website Redesign — Development Plan
 
 ## 1) Objectives
-- Launch a premium, dark-first marketing showcase for Brightluxx (OEM LED brand) optimized for UAE lead generation.
-- Deliver a CMS-managed content system for Technologies, Applications, Case Studies, ISE/What’s New, and gated Resources.
-- Prove (via POC) the failure-prone core: supplier-site scraping + AI-assisted content generation + media/spec ingestion.
-- Implement fast lead capture flows (forms + WhatsApp CTA) with configurable email routing (mock first).
-
-## 2) Implementation Steps (Phased)
-
-### Phase 1 — Core POC (Isolation: scraping + AI generation + content normalization)
-**Goal:** validate we can reliably ingest supplier content and turn it into publishable “Technology” entries.
-
-**User stories (POC)**
-1. As an admin, I can provide a supplier URL and extract title/spec bullets/images into a normalized JSON.
-2. As an admin, I can run AI to generate a premium UAE-focused description from the extracted specs.
-3. As an admin, I can approve/edit the generated content before saving.
-4. As an editor, I can upload/attach images/videos and see them render correctly.
-5. As a marketer, I can preview a Technology page from the ingested data.
-
-**Steps**
-- Websearch best practices for resilient scraping (static vs JS sites) + Playwright patterns + rate limiting.
-- Define a **normalized content schema** (Technology) used everywhere:
-  - name, tagline, heroMedia, gallery[], keySpecs[], comparisonFields, applications[], FAQs, SEO fields.
-- Build standalone Python scripts:
-  - `scrape_test.py`: URL → extracted raw fields (BeautifulSoup first; fallback Playwright).
-  - `ai_generate_test.py`: normalized input → generated copy (OpenAI/Claude) + validation rules.
-  - `ingest_test.py`: combines scrape + AI → outputs final JSON ready for DB.
-- Add guardrails:
-  - source attribution fields, duplicate detection, selector configs per supplier domain, retry/backoff.
-- **Exit criteria:** at least 2 supplier pages (once links provided) successfully ingested into the normalized JSON with usable copy + media links.
+- Ship a premium, cinematic Brightluxx marketing site (dark stage + metallic gold) derived from the logo.
+- Implement new content architecture: **Products / Inspirations / Projects / Contact** (keep **Showroom** + **Configurator**).
+- Stand up a reliable backend with new models + endpoints and seed data (BL-* product codes).
+- Ensure core lead-capture flow works end-to-end (front→API→Mongo) and pages render fast, responsive, and stable.
 
 ---
 
-### Phase 2 — V1 App Development (MVP, no auth initially) ✅ COMPLETE
-**Goal:** ship working public site + minimal CMS editing to publish content; focus on lead-gen UX.
+## 2) Implementation Steps
 
-**Status**: ✅ Fully functional website delivered
-- Backend: FastAPI + MongoDB with all REST endpoints working (100% test success rate)
-- Frontend: React with dark-mode premium UI, all pages implemented
-- Features delivered:
-  - Home page with hero, 3 entry doors, trust strip, featured content
-  - Technologies Hub + Detail (4 technologies with category filtering)
-  - Applications Hub + Detail (4 applications with use cases)
-  - Case Studies Hub + Detail (3 UAE projects with metrics)
-  - Updates/ISE News Hub + Detail (3 articles)
-  - Contact form with lead capture (working, mock email)
-  - WhatsApp integration (0559910711) throughout site
-  - Sticky navigation + mobile responsive design
-  - Footer with contact information
-- Testing: 95% frontend, 100% backend (all major functionality verified)
+### Phase 1 — Core POC (Isolation: LLM + Data API)
+**Goal:** prove the riskiest part works before building the full UX: **LLM-assisted product copy generation + new API endpoints + Mongo persistence**.
 
-**User stories (V1)**
-1. As a visitor, I can quickly choose between Technologies / Applications / Case Studies from the home hero.
-2. As a visitor, I can watch a technology reel and understand key benefits within 10 seconds.
-3. As a visitor, I can compare LED options (MiP vs COB vs SMD) via a quick compare table.
-4. As a visitor, I can submit a “Get Quote in 2 Hours” form and receive confirmation.
-5. As a visitor, I can click a sticky WhatsApp CTA on any page to start a chat.
+**User stories**
+1. As an admin/dev, I can seed products with BL-* codes so the Products page has real content.
+2. As an admin/dev, I can generate consultant-style descriptions via LLM so product cards feel premium.
+3. As a visitor, I can fetch products from `/api/products` and see consistent fields (name, code, specs, images).
+4. As a visitor, I can fetch inspirations and projects from `/api/inspirations` and `/api/projects`.
+5. As a visitor, I can submit a lead and see a success response while data is stored in Mongo.
 
-**Backend (FastAPI + MongoDB)**
-- Implement core REST endpoints:
-  - Public: list/detail for Technologies, Applications, Case Studies, Updates, Resources.
-  - Leads: create lead (store + mock email send).
-  - Media: upload (images/video) + serve URLs (GridFS or local dev storage; cloud-ready abstraction).
-- Data models + migrations/seed script with sample content.
-- Basic SEO fields per content type (title, meta, canonical slug).
+**Steps**
+- Websearch: best-practice prompt pattern for “B2B consultant-style product description” (short + scannable).
+- Create a minimal Python test script:
+  - Calls the LLM once with a sample raw spec blob → returns structured JSON (title, shortDesc, bullets, keySpecs).
+  - Validates JSON schema + length constraints.
+- Backend overhaul (FastAPI):
+  - New collections: `products`, `inspirations`, `projects`.
+  - Add endpoints: `GET /api/products`, `GET /api/products/{slug}`, `GET /api/inspirations`, `GET /api/projects`.
+  - Keep: `/api/leads`, `/api/health`.
+- Seed script:
+  - Insert ~12–20 products (BL- prefix), 12 inspirations, 8 projects.
+  - Use the proven LLM prompt to generate descriptions for seeded products.
+- Verify with curl/pytest:
+  - Endpoints return correct payload shapes and published filtering (if used).
 
-**Frontend (React/Vite + Tailwind + Framer Motion)**
-- Dark-first premium UI: Inter/Space Grotesk, large type, generous spacing, minimal borders.
-- Core pages:
-  - Home (hero reel, 3 entry doors, proof blocks, sticky CTA)
-  - Technologies hub + Technology detail (media gallery, specs, quick compare, CTA)
-  - Applications hub + detail (use-cases + recommended tech)
-  - Case studies index + detail (video + metrics)
-  - What’s New (ISE-style monthly updates)
-  - Contact (fast form + map placeholder)
-- Lead-gen components:
-  - Multi-step/sectioned form with file upload, confirmation state, spam protection (honeypot).
-  - Sticky CTA (Book demo / WhatsApp / Get quote).
-
-**End-of-phase testing**
-- 1 full E2E pass: browse hubs → open detail → submit lead → verify stored lead + mock email log.
-- Performance smoke test: hero video lazy-load, images optimized, responsive checks.
+**Exit criteria (must pass before Phase 2)**
+- LLM test script returns valid JSON for 3 sample products.
+- All new endpoints return non-empty data and no 500s.
+- Lead creation still works and inserts into `leads`.
 
 ---
 
-### Phase 3 — CMS + Editorial Workflow (then add admin auth)
-**Note:** auth slows automated testing; confirm before enabling.
+### Phase 2 — V1 App Development (Frontend + Backend Wiring)
+**Goal:** implement the new premium UX using design_guidelines + shipped hero video.
 
-**User stories (CMS)**
-1. As an admin, I can create/edit/publish/unpublish Technologies with rich media.
-2. As an admin, I can manage Case Studies with metrics and video embeds/uploads.
-3. As an admin, I can post monthly “What’s New” updates and schedule publish dates.
-4. As a marketer, I can create gated Resources and capture leads before download.
-5. As an admin, I can see a simple leads inbox with filters (city, application, timeline).
+**User stories**
+1. As a visitor, I land on a cinematic homepage with autoplay hero video and clear CTAs.
+2. As a visitor, I can browse Products with filters/search and quick-view specs.
+3. As a visitor, I can browse Inspirations as a visual gallery with minimal copy.
+4. As a visitor, I can browse Projects and open a project detail view with media/specs.
+5. As a visitor, I can contact Brightluxx via form or WhatsApp in one click.
 
 **Steps**
-- Add Admin UI (minimal) for CRUD across all collections.
-- Add JWT auth + role(s): Admin/Editor.
-- Add versioning fields (draft/published, updatedBy, timestamps).
-- Add SEO editor per page + auto-sitemap generation.
-- E2E test: login → create technology → publish → visible on public site.
+- Global styling setup:
+  - Update fonts in `index.css`: **Fraunces** (display) + **Manrope** (body).
+  - Remove `transition: all` usages; add missing lightburst tokens.
+- Navigation + layout:
+  - Rewrite Navbar to minimalist style using **logo image** (`/assets/brightluxx-logo.png`).
+  - Update Footer to match new IA.
+- Routing:
+  - Update `App.js` routes to: `/` `/products` `/inspirations` `/projects` `/showroom` `/configurator` `/contact`.
+  - Update `api.js` for new endpoints.
+- Home page rewrite:
+  - Implement hero using `/assets/hero-video.mp4` with poster fallback.
+  - 3 entry doors → Products / Inspirations / Projects.
+  - Trust strip + final CTA with lead capture.
+- Products page:
+  - Grid of ProductCards with BL code badge + top specs.
+  - Filter bar (category/pitch/indoor-outdoor) + search.
+  - Quick view (Dialog desktop / Drawer mobile) with specs Table.
+- Inspirations page:
+  - Masonry-like gallery (grid/columns) + hover reveal.
+- Projects page:
+  - Case study card grid + detail view (Tabs: Overview/Media/Specs).
+- Contact page:
+  - Restyle existing lead form to match design system + sonner toast.
+- Conclude Phase 2 with 1 full E2E test pass via testing agent.
+
+**Exit criteria**
+- All pages render without console errors.
+- Products load from backend and quick-view works on desktop + mobile.
+- Lead form submit shows success UI and DB insert confirmed.
 
 ---
 
-### Phase 4 — Production hardening + integrations
-**User stories (hardening)**
-1. As a visitor, pages load fast on mobile even with video.
-2. As sales, I receive real emails with lead details and attachments.
-3. As an admin, I can re-run ingestion on a supplier URL and update an existing Technology.
-4. As marketing, I can track CTA conversions by page.
-5. As an owner, I can deploy safely with environment-based configs.
+### Phase 3 — Testing, Polish, Performance
+**User stories**
+1. As a visitor, the site feels fast and smooth on mobile and desktop.
+2. As a visitor, I can navigate all pages without broken links.
+3. As a visitor, reduced-motion users aren’t forced into heavy animations.
+4. As a visitor, images/videos load reliably with graceful fallbacks.
+5. As the business, forms and CTAs are consistently visible and drive leads.
 
 **Steps**
-- Replace mock email with real SMTP config; verify forwarding sales@brightluxx.com → sales@metroplusads.com.
-- Add analytics events (CTA clicks, form submit) + basic dashboard.
-- Media optimization pipeline: thumbnails, compression guidance, CDN-ready storage.
-- Scraper integration into CMS (save selector profiles per supplier domain).
-- Security/ops: rate limiting on forms, input validation, backups, env secrets.
-- Final regression test suite + deployment runbook.
+- Automated + manual testing:
+  - Backend endpoint tests (status codes, schema checks).
+  - Frontend UI checks (routes, loading states, empty states).
+- Visual QA:
+  - Screenshot verification across key breakpoints.
+- Performance:
+  - Optimize hero video usage (preload metadata, poster).
+  - Ensure placeholders when product images missing.
+- Final pass: copy trimming (minimal text), spacing, hover/focus states.
+- Conclude Phase 3 with testing agent run and bugfix iteration.
 
-## 3) Next Actions
-- You provide: supplier website links + existing Brightluxx/other site links for projects.
-- Confirm: preferred hosting (VPS vs managed) and media storage choice (local vs S3-compatible).
-- Confirm: WhatsApp CTA method (wa.me link vs Business API later).
-- Approve: content schema (Technology/CaseStudy/Update/Resource fields) before coding.
+---
+
+### Phase 4 — Future Enhancements (Post-V1)
+**User stories**
+1. As an admin, I can manage products/projects/inspirations in a CMS UI.
+2. As sales, I receive real email notifications for new leads.
+3. As marketing, I can A/B test hero CTAs and track conversions.
+4. As a visitor, I can download gated resources after lead capture.
+5. As a visitor, I can request a quote from any product detail.
+
+**Steps**
+- Add admin panel (simple protected routes) for CRUD content management.
+- Integrate email (SMTP/SendGrid) + optional Slack/WhatsApp notification.
+- Add analytics events for CTA clicks + form submissions.
+
+---
+
+## 3) Next Actions (Immediate)
+1. Implement Phase 1 POC script for LLM product copy (validate JSON + constraints).
+2. Rewrite `backend/server.py` with new models + endpoints and keep leads.
+3. Add seed script to populate `products/inspirations/projects` (12–20 products).
+4. Smoke test endpoints with curl.
+5. Start Phase 2: font swap + navbar/logo + routes + Home hero video.
+
+---
 
 ## 4) Success Criteria
-- POC: at least 2 supplier pages ingested end-to-end (scrape → AI copy → normalized JSON) with repeatable process.
-- V1: public site ships with premium UI, fast navigation, and working lead capture stored + routed (mock then real).
-- CMS: admin can publish/edit all key content types without developer help.
-- Lead-gen: measurable CTA conversions, clear user journeys, and reliable email delivery once configured.
-- Stability: no broken media, no broken routes, responsive across mobile/desktop, and regression checks pass.
+- Backend: `/api/products`, `/api/inspirations`, `/api/projects` return stable, well-structured data; `/api/leads` remains functional.
+- Frontend: New routes live; Home hero video autoplays; Products grid + quick view works; Inspirations/Projects render with media-first UI.
+- Leads: contact form reliably stores submissions; success feedback visible; WhatsApp CTAs work.
+- Quality: No `transition: all`, minimal gradients per rules, responsive layout, no broken links, no console errors.

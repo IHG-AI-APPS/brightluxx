@@ -37,14 +37,14 @@ class BrightluxxAPITester:
                 # Try to parse JSON response for additional validation
                 try:
                     response_data = response.json()
-                    if endpoint.startswith('/api/technologies') and method == 'GET' and 'technologies' in response_data:
-                        print(f"   📊 Found {len(response_data['technologies'])} technologies")
-                    elif endpoint.startswith('/api/applications') and method == 'GET' and 'applications' in response_data:
-                        print(f"   📊 Found {len(response_data['applications'])} applications")
-                    elif endpoint.startswith('/api/case-studies') and method == 'GET' and 'caseStudies' in response_data:
-                        print(f"   📊 Found {len(response_data['caseStudies'])} case studies")
-                    elif endpoint.startswith('/api/updates') and method == 'GET' and 'updates' in response_data:
-                        print(f"   📊 Found {len(response_data['updates'])} updates")
+                    if endpoint.startswith('/api/products') and method == 'GET' and 'products' in response_data:
+                        print(f"   📊 Found {len(response_data['products'])} products")
+                    elif endpoint.startswith('/api/inspirations') and method == 'GET' and 'inspirations' in response_data:
+                        print(f"   📊 Found {len(response_data['inspirations'])} inspirations")
+                    elif endpoint.startswith('/api/projects') and method == 'GET' and 'projects' in response_data:
+                        print(f"   📊 Found {len(response_data['projects'])} projects")
+                    elif endpoint.startswith('/api/search') and method == 'GET':
+                        print(f"   📊 Search completed successfully")
                     elif 'success' in response_data and response_data['success']:
                         print(f"   ✅ Success response confirmed")
                     return True, response_data
@@ -78,90 +78,79 @@ class BrightluxxAPITester:
         """Test health endpoint"""
         return self.run_test("Health Check", "GET", "/api/health")
 
-    def test_technologies_list(self):
-        """Test technologies listing"""
-        success, data = self.run_test("Technologies List", "GET", "/api/technologies")
+    def test_products_endpoints(self):
+        """Test all products-related endpoints"""
+        # Get all products
+        success, data = self.run_test("Products List", "GET", "/api/products")
         
-        if success and 'technologies' in data:
-            # Test with category filter
-            self.run_test("Technologies by Category", "GET", "/api/technologies", params={'category': 'micro-led'})
-            # Test with featured filter
-            self.run_test("Featured Technologies", "GET", "/api/technologies", params={'featured': True})
+        if success and 'products' in data:
+            # Test category filtering
+            categories = ['micro-led', 'indoor', 'outdoor', 'rental', 'transparent', 'creative']
+            for category in categories:
+                self.run_test(f"Products by Category - {category}", "GET", "/api/products", params={'category': category})
             
-            # Get first technology for detail test
-            if len(data['technologies']) > 0:
-                tech_slug = data['technologies'][0].get('slug')
-                if tech_slug:
-                    self.run_test(f"Technology Detail - {tech_slug}", "GET", f"/api/technologies/{tech_slug}")
+            # Test featured filter
+            self.run_test("Featured Products", "GET", "/api/products", params={'featured': True})
+            
+            # Test search
+            self.run_test("Products Search", "GET", "/api/products", params={'search': 'BL'})
+            
+            # Get first product for detail test
+            if len(data['products']) > 0:
+                product = data['products'][0]
+                product_slug = product.get('slug')
+                if product_slug:
+                    self.run_test(f"Product Detail - {product_slug}", "GET", f"/api/products/{product_slug}")
                 else:
-                    print("⚠️  Warning: Technology missing slug field")
+                    print("⚠️  Warning: Product missing slug field")
+                
+                # Check if products have BL-prefix codes
+                product_code = product.get('product_code', '')
+                if product_code.startswith('BL-'):
+                    print(f"   ✅ Product has proper BL-prefix code: {product_code}")
+                else:
+                    print(f"   ⚠️  Product code doesn't have BL-prefix: {product_code}")
         
         return success
 
-    def test_applications_list(self):
-        """Test applications listing"""
-        success, data = self.run_test("Applications List", "GET", "/api/applications")
+    def test_inspirations_endpoints(self):
+        """Test all inspirations-related endpoints"""
+        success, data = self.run_test("Inspirations List", "GET", "/api/inspirations")
         
-        if success and 'applications' in data:
-            # Test with featured filter
-            self.run_test("Featured Applications", "GET", "/api/applications", params={'featured': True})
-            
-            # Get first application for detail test
-            if len(data['applications']) > 0:
-                app_slug = data['applications'][0].get('slug')
-                if app_slug:
-                    self.run_test(f"Application Detail - {app_slug}", "GET", f"/api/applications/{app_slug}")
-                else:
-                    print("⚠️  Warning: Application missing slug field")
+        if success and 'inspirations' in data:
+            # Test category filtering
+            categories = ['retail', 'corporate', 'hospitality', 'events', 'outdoor', 'art']
+            for category in categories:
+                self.run_test(f"Inspirations by Category - {category}", "GET", "/api/inspirations", params={'category': category})
         
         return success
 
-    def test_case_studies_list(self):
-        """Test case studies listing"""
-        success, data = self.run_test("Case Studies List", "GET", "/api/case-studies")
+    def test_projects_endpoints(self):
+        """Test all projects-related endpoints"""
+        success, data = self.run_test("Projects List", "GET", "/api/projects")
         
-        if success and 'caseStudies' in data:
-            # Test with category filter
-            self.run_test("Case Studies by Category", "GET", "/api/case-studies", params={'category': 'retail'})
-            # Test with featured filter
-            self.run_test("Featured Case Studies", "GET", "/api/case-studies", params={'featured': True})
+        if success and 'projects' in data:
+            # Test sector filtering
+            sectors = ['retail', 'outdoor', 'corporate', 'hospitality', 'events']
+            for sector in sectors:
+                self.run_test(f"Projects by Sector - {sector}", "GET", "/api/projects", params={'sector': sector})
             
-            # Get first case study for detail test
-            if len(data['caseStudies']) > 0:
-                case_slug = data['caseStudies'][0].get('slug')
-                if case_slug:
-                    self.run_test(f"Case Study Detail - {case_slug}", "GET", f"/api/case-studies/{case_slug}")
+            # Test featured filter
+            self.run_test("Featured Projects", "GET", "/api/projects", params={'featured': True})
+            
+            # Get first project for detail test
+            if len(data['projects']) > 0:
+                project_slug = data['projects'][0].get('slug')
+                if project_slug:
+                    self.run_test(f"Project Detail - {project_slug}", "GET", f"/api/projects/{project_slug}")
                 else:
-                    print("⚠️  Warning: Case Study missing slug field")
+                    print("⚠️  Warning: Project missing slug field")
         
         return success
-
-    def test_updates_list(self):
-        """Test updates listing"""
-        success, data = self.run_test("Updates List", "GET", "/api/updates")
-        
-        if success and 'updates' in data:
-            # Test with limit
-            self.run_test("Updates with Limit", "GET", "/api/updates", params={'limit': 3})
-            
-            # Get first update for detail test
-            if len(data['updates']) > 0:
-                update_slug = data['updates'][0].get('slug')
-                if update_slug:
-                    self.run_test(f"Update Detail - {update_slug}", "GET", f"/api/updates/{update_slug}")
-                else:
-                    print("⚠️  Warning: Update missing slug field")
-        
-        return success
-
-    def test_resources_list(self):
-        """Test resources listing"""
-        return self.run_test("Resources List", "GET", "/api/resources")
 
     def test_search(self):
         """Test search functionality"""
-        # Test search with various queries
-        search_queries = ["LED", "display", "outdoor", "micro"]
+        search_queries = ["LED", "BL-", "display", "outdoor", "micro"]
         
         for query in search_queries:
             self.run_test(f"Search - '{query}'", "GET", "/api/search", params={'q': query})
@@ -181,7 +170,7 @@ class BrightluxxAPITester:
             "source": "contact_form"
         }
         
-        success, response_data = self.run_test("Create Lead", "POST", "/api/leads", data=test_lead)
+        success, response_data = self.run_test("Create Lead", "POST", "/api/leads", data=test_lead, expected_status=200)
         
         if success and 'success' in response_data:
             print(f"   📧 Lead created with ID: {response_data.get('leadId', 'N/A')}")
@@ -190,17 +179,43 @@ class BrightluxxAPITester:
 
     def test_invalid_routes(self):
         """Test invalid routes for proper error handling"""
-        # Test non-existent technology
-        self.run_test("Invalid Technology", "GET", "/api/technologies/non-existent", expected_status=404)
+        # Test non-existent product
+        self.run_test("Invalid Product", "GET", "/api/products/non-existent", expected_status=404)
         
-        # Test non-existent application
-        self.run_test("Invalid Application", "GET", "/api/applications/non-existent", expected_status=404)
+        # Test non-existent project
+        self.run_test("Invalid Project", "GET", "/api/projects/non-existent", expected_status=404)
+
+    def test_expected_data_counts(self):
+        """Test if we have the expected number of data entries"""
+        print("\n📊 CHECKING EXPECTED DATA COUNTS")
+        print("-" * 40)
         
-        # Test non-existent case study
-        self.run_test("Invalid Case Study", "GET", "/api/case-studies/non-existent", expected_status=404)
+        # Check products count (expecting 12)
+        success, data = self.run_test("Products Count Check", "GET", "/api/products")
+        if success and 'products' in data:
+            product_count = len(data['products'])
+            if product_count >= 12:
+                print(f"   ✅ Products count: {product_count} (>= 12 expected)")
+            else:
+                print(f"   ⚠️  Products count: {product_count} (< 12 expected)")
         
-        # Test non-existent update
-        self.run_test("Invalid Update", "GET", "/api/updates/non-existent", expected_status=404)
+        # Check inspirations count (expecting 12)
+        success, data = self.run_test("Inspirations Count Check", "GET", "/api/inspirations")
+        if success and 'inspirations' in data:
+            inspiration_count = len(data['inspirations'])
+            if inspiration_count >= 12:
+                print(f"   ✅ Inspirations count: {inspiration_count} (>= 12 expected)")
+            else:
+                print(f"   ⚠️  Inspirations count: {inspiration_count} (< 12 expected)")
+        
+        # Check projects count (expecting 6)
+        success, data = self.run_test("Projects Count Check", "GET", "/api/projects")
+        if success and 'projects' in data:
+            project_count = len(data['projects'])
+            if project_count >= 6:
+                print(f"   ✅ Projects count: {project_count} (>= 6 expected)")
+            else:
+                print(f"   ⚠️  Projects count: {project_count} (< 6 expected)")
 
 def main():
     print("🚀 Starting Brightluxx API Testing...")
@@ -215,11 +230,9 @@ def main():
     
     print("\n📋 CONTENT API TESTS")
     print("-" * 30)
-    tester.test_technologies_list()
-    tester.test_applications_list() 
-    tester.test_case_studies_list()
-    tester.test_updates_list()
-    tester.test_resources_list()
+    tester.test_products_endpoints()
+    tester.test_inspirations_endpoints() 
+    tester.test_projects_endpoints()
     
     print("\n📋 FUNCTIONALITY TESTS")
     print("-" * 30)
@@ -229,6 +242,9 @@ def main():
     print("\n📋 ERROR HANDLING TESTS")
     print("-" * 30)
     tester.test_invalid_routes()
+    
+    # Check expected data counts
+    tester.test_expected_data_counts()
     
     # Print final results
     print("\n" + "=" * 60)

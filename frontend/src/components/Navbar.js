@@ -9,47 +9,51 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   const navLinks = [
-    { name: 'Technologies', path: '/technologies' },
-    { name: 'Applications', path: '/applications' },
-    { name: 'Case Studies', path: '/case-studies' },
+    { name: 'Products', path: '/products' },
+    { name: 'Inspirations', path: '/inspirations' },
+    { name: 'Projects', path: '/projects' },
     { name: 'Showroom', path: '/showroom' },
-    { name: 'Configurator', path: '/configurator' },
     { name: 'Contact', path: '/contact' },
   ];
 
   return (
-    <nav className="sticky top-0 z-50 sticky-nav" data-testid="navbar">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <nav className="sticky top-0 z-50 sticky-nav" data-testid="site-header-nav">
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center" data-testid="logo-link">
-            <div className="text-2xl font-bold font-display tracking-tight">
-              <span className="text-gradient">BRIGHTLUXX</span>
-            </div>
+            <img
+              src="/assets/brightluxx-logo.png"
+              alt="Brightluxx"
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm font-medium transition-colors duration-200 relative pb-0.5 ${
                   isActive(link.path)
-                    ? 'text-[var(--blx-accent)]'
+                    ? 'text-[var(--blx-gold-3)]'
                     : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
                 }`}
-                data-testid={`nav-${link.name.toLowerCase().replace(/\s/g, '-')}`}
+                data-testid={`nav-${link.name.toLowerCase()}`}
               >
                 {link.name}
+                {isActive(link.path) && (
+                  <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-gold-3)]" />
+                )}
               </Link>
             ))}
             <Link
               to="/contact"
-              className="btn-gold px-5 py-2.5 text-sm"
-              data-testid="cta-book-demo"
+              className="btn-gold px-5 py-2 text-sm"
+              data-testid="site-header-request-quote-button"
             >
-              Book Demo
+              Get Quote
             </Link>
           </div>
 
@@ -57,7 +61,7 @@ const Navbar = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 text-[var(--blx-text)]"
-            data-testid="mobile-menu-button"
+            data-testid="site-header-mobile-menu-button"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -65,15 +69,15 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-4 space-y-4" data-testid="mobile-menu">
+          <div className="md:hidden py-4 space-y-2 border-t border-[var(--blx-hairline)]" data-testid="mobile-menu">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className={`block px-4 py-2 text-sm font-medium rounded-lg ${
+                className={`block px-4 py-3 text-sm font-medium rounded-lg ${
                   isActive(link.path)
-                    ? 'bg-[var(--blx-panel)] text-[var(--blx-accent)]'
+                    ? 'bg-[var(--blx-panel)] text-[var(--blx-gold-3)]'
                     : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-panel)]'
                 }`}
               >
@@ -83,9 +87,9 @@ const Navbar = () => {
             <Link
               to="/contact"
               onClick={() => setIsOpen(false)}
-              className="btn-gold block text-center"
+              className="btn-gold block text-center mx-4 mt-4"
             >
-              Book Demo
+              Get Quote
             </Link>
           </div>
         )}

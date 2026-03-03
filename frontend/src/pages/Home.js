@@ -1,37 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
-import { getTechnologies, getApplications, getCaseStudies, getUpdates } from '../api';
+import { getProducts, getProjects } from '../api';
 
 const Home = () => {
-  const [featuredTech, setFeaturedTech] = useState([]);
-  const [featuredApps, setFeaturedApps] = useState([]);
-  const [featuredCases, setFeaturedCases] = useState([]);
-  const [latestUpdates, setLatestUpdates] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [featuredProjects, setFeaturedProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [techRes, appsRes, casesRes, updatesRes] = await Promise.all([
-          getTechnologies({ featured: true }),
-          getApplications({ featured: true }),
-          getCaseStudies({ featured: true }),
-          getUpdates({ limit: 3 })
+        const [prodRes, projRes] = await Promise.all([
+          getProducts({ featured: true }),
+          getProjects({ featured: true })
         ]);
-        
-        setFeaturedTech(techRes.data.technologies.slice(0, 3));
-        setFeaturedApps(appsRes.data.applications.slice(0, 3));
-        setFeaturedCases(casesRes.data.caseStudies.slice(0, 3));
-        setLatestUpdates(updatesRes.data.updates);
-        setLoading(false);
+        setFeaturedProducts(prodRes.data.products.slice(0, 4));
+        setFeaturedProjects(projRes.data.projects.slice(0, 3));
       } catch (error) {
         console.error('Error fetching home data:', error);
+      } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -44,51 +35,50 @@ const Home = () => {
   }
 
   return (
-    <div className="" data-testid="home-page">
-      {/* Hero Section */}
-      <section className="relative py-12 sm:py-16" data-testid="hero-section">
-        {/* Hero Image/Video Container */}
-        <div className="hero-video-container mb-8 sm:mb-12 mx-4 sm:mx-6 max-w-7xl" style={{marginLeft: 'auto', marginRight: 'auto'}}>
-          <img
-            src="/generated/hero_main.png"
-            alt="Luxury LED Display Wall"
+    <div data-testid="home-page">
+      {/* Hero Section - Video */}
+      <section className="relative pt-6 sm:pt-10 pb-12 sm:pb-16" data-testid="hero-section">
+        <div className="hero-video-container mx-4 sm:mx-6 lg:mx-auto max-w-[1320px]">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="https://images.unsplash.com/photo-1699742983091-8465fbc56a5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwyfHxsZWQlMjBzY3JlZW4lMjBkaXNwbGF5JTIwc3RhZ2UlMjBsaWdodGluZ3xlbnwwfHx8YmxhY2t8MTc3MjU1OTg2MHww&ixlib=rb-4.1.0&q=85"
+            data-testid="home-hero-video"
             className="w-full h-full object-cover"
-          />
+          >
+            <source src="/assets/hero-video.mp4" type="video/mp4" />
+          </video>
           <div className="hero-overlay">
-            <div className="text-center max-w-4xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-              >
-                <div className="text-xs uppercase tracking-[0.24em] text-[var(--blx-gold-3)] mb-4 font-medium">
-                  OEM LED Display Excellence
-                </div>
-                <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-display mb-6 leading-[1.1]" data-testid="hero-title">
-                  Premium LED Displays
-                  <br />
-                  <span className="text-gradient">Engineered for UAE</span>
-                </h1>
-                <p className="text-base md:text-lg text-[var(--blx-text)] leading-relaxed mb-8 max-w-3xl mx-auto font-light drop-shadow-lg">
-                  From MicroLED precision to outdoor DOOH brilliance. OEM-grade technology, UAE-ready delivery.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  <Link
-                    to="/contact"
-                    className="btn-gold px-10 py-4 text-base"
-                    data-testid="cta-get-quote"
-                  >
-                    Get Quote in 2 Hours
-                  </Link>
-                  <Link
-                    to="/technologies"
-                    className="btn-glass px-10 py-4 text-base"
-                    data-testid="cta-explore-tech"
-                  >
-                    Explore Technologies
-                  </Link>
-                </div>
-              </motion.div>
+            <div className="max-w-2xl">
+              <div className="text-xs uppercase tracking-[0.24em] text-[var(--blx-gold-3)] mb-4 font-medium font-sans">
+                Premium LED Displays
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold font-display mb-4 leading-[1.1]" data-testid="hero-title">
+                Engineered for
+                <br />
+                <span className="text-gradient">Brilliance</span>
+              </h1>
+              <p className="text-sm md:text-base text-[var(--blx-text-2)] mb-8 max-w-lg font-light leading-relaxed">
+                OEM-grade LED technology. UAE-ready delivery.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  to="/contact"
+                  className="btn-gold px-8 py-3.5 text-sm"
+                  data-testid="home-hero-primary-cta"
+                >
+                  Get Quote
+                </Link>
+                <Link
+                  to="/products"
+                  className="btn-glass px-8 py-3.5 text-sm"
+                  data-testid="home-hero-secondary-cta"
+                >
+                  Explore Products
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -96,62 +86,58 @@ const Home = () => {
 
       {/* 3 Entry Doors */}
       <section className="py-14 sm:py-20" data-testid="entry-doors-section">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Technologies Door */}
-            <Link to="/technologies" className="entry-door group" data-testid="door-technologies">
+            <Link to="/products" className="entry-door group" data-testid="home-entry-door-products">
               <img
                 src="/generated/microled_display.png"
-                alt="Technologies"
+                alt="Products"
                 className="entry-door-image"
               />
               <div className="p-6">
-                <h3 className="text-2xl font-semibold mb-3 font-display">Technologies</h3>
-                <p className="text-[var(--blx-text-2)] mb-4 leading-relaxed">
-                  MicroLED, 3D displays, transparent screens, outdoor DOOH. Explore the latest LED innovations.
+                <h3 className="text-2xl font-semibold mb-2 font-display">Products</h3>
+                <p className="text-sm text-[var(--blx-text-2)] mb-4 leading-relaxed">
+                  MicroLED, outdoor, rental, transparent. Explore our full range.
                 </p>
-                <div className="flex items-center text-[var(--blx-gold-3)] font-medium group-hover:gap-3 gap-2 transition-all">
-                  <span>Explore</span>
-                  <ArrowRight size={18} />
+                <div className="flex items-center text-[var(--blx-gold-3)] text-sm font-medium group-hover:gap-3 gap-2 transition-[gap] duration-200">
+                  <span>Browse</span>
+                  <ArrowRight size={16} />
                 </div>
               </div>
             </Link>
 
-            {/* Showroom Door (Changed from Applications) */}
-            <Link to="/showroom" className="entry-door group" data-testid="door-showroom">
+            <Link to="/inspirations" className="entry-door group" data-testid="home-entry-door-inspirations">
               <img
-                src="/generated/corporate_boardroom.png"
-                alt="Virtual Showroom"
+                src="/generated/3d_holographic_mall.png"
+                alt="Inspirations"
                 className="entry-door-image"
               />
               <div className="p-6">
-                <div className="text-xs uppercase tracking-wider text-[var(--blx-gold-3)] mb-2">New</div>
-                <h3 className="text-2xl font-semibold mb-3 font-display">Virtual Showroom</h3>
-                <p className="text-[var(--blx-text-2)] mb-4 leading-relaxed">
-                  Explore immersive 360° tours of our LED installations across Dubai.
+                <h3 className="text-2xl font-semibold mb-2 font-display">Inspirations</h3>
+                <p className="text-sm text-[var(--blx-text-2)] mb-4 leading-relaxed">
+                  See how LED transforms spaces across industries.
                 </p>
-                <div className="flex items-center text-[var(--blx-gold-3)] font-medium group-hover:gap-3 gap-2 transition-all">
-                  <span>Tour Now</span>
-                  <ArrowRight size={18} />
+                <div className="flex items-center text-[var(--blx-gold-3)] text-sm font-medium group-hover:gap-3 gap-2 transition-[gap] duration-200">
+                  <span>Discover</span>
+                  <ArrowRight size={16} />
                 </div>
               </div>
             </Link>
 
-            {/* Case Studies Door */}
-            <Link to="/case-studies" className="entry-door group" data-testid="door-case-studies">
+            <Link to="/projects" className="entry-door group" data-testid="home-entry-door-projects">
               <img
                 src="/generated/outdoor_dooh_dubai.png"
-                alt="Case Studies"
+                alt="Projects"
                 className="entry-door-image"
               />
               <div className="p-6">
-                <h3 className="text-2xl font-semibold mb-3 font-display">Case Studies</h3>
-                <p className="text-[var(--blx-text-2)] mb-4 leading-relaxed">
-                  Real UAE projects. Proven results. See our installations across Dubai and beyond.
+                <h3 className="text-2xl font-semibold mb-2 font-display">Projects</h3>
+                <p className="text-sm text-[var(--blx-text-2)] mb-4 leading-relaxed">
+                  Real installations. Proven results across UAE and MENA.
                 </p>
-                <div className="flex items-center text-[var(--blx-gold-3)] font-medium group-hover:gap-3 gap-2 transition-all">
-                  <span>Explore</span>
-                  <ArrowRight size={18} />
+                <div className="flex items-center text-[var(--blx-gold-3)] text-sm font-medium group-hover:gap-3 gap-2 transition-[gap] duration-200">
+                  <span>View</span>
+                  <ArrowRight size={16} />
                 </div>
               </div>
             </Link>
@@ -160,195 +146,123 @@ const Home = () => {
       </section>
 
       {/* Trust Strip */}
-      <section className="py-16 sm:py-20 bg-[var(--blx-bg-raised)] border-y border-[var(--blx-border)]" data-testid="trust-strip">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+      <section className="py-14 sm:py-20 bg-[var(--blx-bg-raised)] border-y border-[var(--blx-border)]" data-testid="trust-strip">
+        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             <div className="flex flex-col items-center text-center">
-              <div className="w-14 h-14 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
-                <Zap className="text-[var(--blx-gold-3)]" size={26} />
+              <div className="w-12 h-12 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
+                <Zap className="text-[var(--blx-gold-3)]" size={22} />
               </div>
-              <h4 className="font-semibold text-lg mb-3">Built for UAE Heat</h4>
-              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed">
-                -20°C to +60°C operation. Advanced thermal management for extreme conditions.
+              <h4 className="font-semibold text-base mb-2">Gulf-Grade Engineering</h4>
+              <p className="text-sm text-[var(--blx-text-2)]">
+                Rated to 60C. Built for extreme heat.
               </p>
             </div>
             <div className="flex flex-col items-center text-center">
-              <div className="w-14 h-14 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
-                <Shield className="text-[var(--blx-gold-3)]" size={26} />
+              <div className="w-12 h-12 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
+                <Shield className="text-[var(--blx-gold-3)]" size={22} />
               </div>
-              <h4 className="font-semibold text-lg mb-3">UAE-Ready Delivery</h4>
-              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed">
-                Local support. Fast installation. Comprehensive SLA coverage across UAE.
+              <h4 className="font-semibold text-base mb-2">Local Support</h4>
+              <p className="text-sm text-[var(--blx-text-2)]">
+                UAE-based team. Fast delivery and installation.
               </p>
             </div>
             <div className="flex flex-col items-center text-center">
-              <div className="w-14 h-14 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
-                <Clock className="text-[var(--blx-gold-3)]" size={26} />
+              <div className="w-12 h-12 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
+                <Clock className="text-[var(--blx-gold-3)]" size={22} />
               </div>
-              <h4 className="font-semibold text-lg mb-3">Quote in 2 Hours</h4>
-              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed">
-                Fast response. Clear pricing. Expert consultation for your project.
+              <h4 className="font-semibold text-base mb-2">Quote in 2 Hours</h4>
+              <p className="text-sm text-[var(--blx-text-2)]">
+                Fast response. Expert consultation.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Technologies */}
-      <section className="py-14 sm:py-20" data-testid="featured-technologies">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          {/* Configurator CTA Banner */}
-          <div className="mb-12 bg-gradient-to-br from-[var(--blx-gold-1)] to-[var(--blx-gold-3)] rounded-2xl p-8 md:p-12 text-[var(--blx-bg)] relative overflow-hidden">
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="text-center md:text-left">
-                <div className="text-xs uppercase tracking-[0.24em] mb-3 opacity-90">
-                  Interactive Tool
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold mb-3 font-display">
-                  Configure Your Perfect Display
-                </h3>
-                <p className="text-base opacity-90 max-w-xl">
-                  Use our interactive configurator to design your LED display, see real-time pricing, and get an instant quote.
-                </p>
-              </div>
-              <Link
-                to="/configurator"
-                className="btn-glass px-8 py-4 whitespace-nowrap bg-black/20 hover:bg-black/30 border-white/30 text-white"
-                style={{backdropFilter: 'blur(8px)'}}
-              >
-                Try Configurator →
-              </Link>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-semibold font-display mb-2">Featured Technologies</h2>
-              <p className="text-[var(--blx-text-2)]">Latest innovations in LED display technology</p>
-            </div>
-            <Link
-              to="/technologies"
-              className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-4)] font-medium flex items-center gap-2"
-            >
-              View All
-              <ArrowRight size={18} />
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featuredTech.map((tech) => (
-              <Link
-                key={tech._id}
-                to={`/technologies/${tech.slug}`}
-                className="tech-card group"
-                data-testid={`tech-card-${tech.slug}`}
-              >
-                <img
-                  src={tech.heroMedia.url}
-                  alt={tech.heroMedia.alt}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold mb-2">{tech.name}</h3>
-                  <p className="text-sm text-[var(--blx-text-2)] mb-4">{tech.tagline}</p>
-                  <div className="flex items-center text-[var(--blx-accent)] text-sm font-medium group-hover:gap-3 gap-2 transition-all">
-                    <span>Learn More</span>
-                    <ArrowRight size={16} />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Case Studies */}
-      <section className="py-14 sm:py-20 bg-[var(--blx-bg-raised)]" data-testid="featured-case-studies">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-semibold font-display mb-2">UAE Success Stories</h2>
-              <p className="text-[var(--blx-text-2)]">Real projects. Proven results.</p>
-            </div>
-            <Link
-              to="/case-studies"
-              className="text-[var(--blx-accent)] hover:text-[var(--blx-accent-2)] font-medium flex items-center gap-2"
-            >
-              View All
-              <ArrowRight size={18} />
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featuredCases.map((caseStudy) => (
-              <Link
-                key={caseStudy._id}
-                to={`/case-studies/${caseStudy.slug}`}
-                className="tech-card group"
-                data-testid={`case-card-${caseStudy.slug}`}
-              >
-                <img
-                  src={caseStudy.heroImage}
-                  alt={caseStudy.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <div className="text-xs uppercase tracking-wider text-[var(--blx-muted)] mb-2">
-                    {caseStudy.category}
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{caseStudy.title}</h3>
-                  <p className="text-sm text-[var(--blx-text-2)] mb-4">{caseStudy.location}</p>
-                  <div className="flex items-center text-[var(--blx-accent)] text-sm font-medium group-hover:gap-3 gap-2 transition-all">
-                    <span>View Project</span>
-                    <ArrowRight size={16} />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Latest Updates */}
-      {latestUpdates.length > 0 && (
-        <section className="py-14 sm:py-20" data-testid="latest-updates">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      {/* Featured Products */}
+      {featuredProducts.length > 0 && (
+        <section className="py-14 sm:py-20" data-testid="featured-products">
+          <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
-              <div>
-                <h2 className="text-2xl md:text-3xl font-semibold font-display mb-2">What's New</h2>
-                <p className="text-[var(--blx-text-2)]">Latest ISE launches and industry updates</p>
-              </div>
+              <h2 className="text-2xl md:text-3xl font-display">Featured Products</h2>
               <Link
-                to="/updates"
-                className="text-[var(--blx-accent)] hover:text-[var(--blx-accent-2)] font-medium flex items-center gap-2"
+                to="/products"
+                className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-4)] font-medium flex items-center gap-2 text-sm transition-colors duration-200"
               >
-                View All
-                <ArrowRight size={18} />
+                View All <ArrowRight size={16} />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredProducts.map((product) => (
+                <div
+                  key={product._id}
+                  className="product-card group"
+                  data-testid={`products-product-card`}
+                >
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={product.image_url}
+                      alt={product.name}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="category-badge">{product.product_code}</span>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-semibold mb-1">{product.name}</h3>
+                    <p className="text-xs text-[var(--blx-muted)] mb-3">{product.tagline}</p>
+                    <div className="flex gap-3 text-xs text-[var(--blx-text-2)]">
+                      <span>{product.pixel_pitch}</span>
+                      <span className="text-[var(--blx-border-2)]">|</span>
+                      <span>{product.brightness}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Featured Projects */}
+      {featuredProjects.length > 0 && (
+        <section className="py-14 sm:py-20 bg-[var(--blx-bg-raised)]" data-testid="featured-projects">
+          <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-2xl md:text-3xl font-display">Recent Projects</h2>
+              <Link
+                to="/projects"
+                className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-4)] font-medium flex items-center gap-2 text-sm transition-colors duration-200"
+              >
+                View All <ArrowRight size={16} />
               </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {latestUpdates.map((update) => (
-                <Link
-                  key={update._id}
-                  to={`/updates/${update.slug}`}
-                  className="tech-card group"
-                  data-testid={`update-card-${update.slug}`}
+              {featuredProjects.map((project) => (
+                <div
+                  key={project._id}
+                  className="product-card group"
+                  data-testid={`project-case-study-card`}
                 >
                   <img
-                    src={update.heroImage}
-                    alt={update.title}
-                    className="w-full h-48 object-cover"
+                    src={project.image_url}
+                    alt={project.title}
+                    className="w-full h-52 object-cover"
                   />
-                  <div className="p-6">
-                    <div className="text-xs uppercase tracking-wider text-[var(--blx-accent)] mb-2">
-                      {update.category}
+                  <div className="p-5">
+                    <div className="text-xs uppercase tracking-wider text-[var(--blx-muted)] mb-1">
+                      {project.sector} &middot; {project.location}
                     </div>
-                    <h3 className="text-lg font-semibold mb-2">{update.title}</h3>
-                    <p className="text-sm text-[var(--blx-text-2)] mb-4 line-clamp-2">{update.excerpt}</p>
-                    <div className="flex items-center text-[var(--blx-accent)] text-sm font-medium group-hover:gap-3 gap-2 transition-all">
-                      <span>Read More</span>
-                      <ArrowRight size={16} />
+                    <h3 className="font-semibold mb-2">{project.title}</h3>
+                    <div className="flex gap-3 text-xs text-[var(--blx-text-2)]">
+                      {project.metrics.slice(0, 2).map((m, i) => (
+                        <span key={i}>{m.label}: {m.value}</span>
+                      ))}
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -356,28 +270,24 @@ const Home = () => {
       )}
 
       {/* CTA Section */}
-      <section className="py-24 sm:py-32 bg-[var(--blx-panel)] border-y border-[var(--blx-border)] relative blx-noise" data-testid="cta-section">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display mb-6 leading-tight">
+      <section className="py-20 sm:py-28 relative blx-noise" data-testid="cta-section">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative z-10">
+          <h2 className="text-3xl sm:text-4xl font-display mb-4 leading-tight">
             Ready to Transform Your Space?
           </h2>
-          <p className="text-lg md:text-xl text-[var(--blx-text-2)] mb-10 leading-relaxed max-w-2xl mx-auto font-light">
-            Get expert consultation and a detailed quote within 2 hours. No commitment required.
+          <p className="text-base text-[var(--blx-text-2)] mb-8 max-w-xl mx-auto">
+            Expert consultation. Detailed quote within 2 hours.
           </p>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center">
-            <Link
-              to="/contact"
-              className="btn-gold px-10 py-4 text-base"
-              data-testid="cta-contact"
-            >
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/contact" className="btn-gold px-10 py-4 text-sm" data-testid="cta-contact">
               Get in Touch
             </Link>
             <a
               href={`https://wa.me/971559910711?text=${encodeURIComponent('Hi, I want to learn more about Brightluxx LED displays')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-glass px-10 py-4 text-base"
-              data-testid="cta-whatsapp"
+              className="btn-glass px-10 py-4 text-sm"
+              data-testid="site-header-whatsapp-link"
             >
               WhatsApp Us
             </a>

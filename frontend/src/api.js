@@ -9,22 +9,21 @@ const api = axios.create({
   },
 });
 
-export const getTechnologies = (params) => api.get('/api/technologies', { params });
-export const getTechnology = (slug) => api.get(`/api/technologies/${slug}`);
+// Products
+export const getProducts = (params) => api.get('/api/products', { params });
+export const getProduct = (slug) => api.get(`/api/products/${slug}`);
 
-export const getApplications = (params) => api.get('/api/applications', { params });
-export const getApplication = (slug) => api.get(`/api/applications/${slug}`);
+// Inspirations
+export const getInspirations = (params) => api.get('/api/inspirations', { params });
 
-export const getCaseStudies = (params) => api.get('/api/case-studies', { params });
-export const getCaseStudy = (slug) => api.get(`/api/case-studies/${slug}`);
+// Projects
+export const getProjects = (params) => api.get('/api/projects', { params });
+export const getProject = (slug) => api.get(`/api/projects/${slug}`);
 
-export const getUpdates = (params) => api.get('/api/updates', { params });
-export const getUpdate = (slug) => api.get(`/api/updates/${slug}`);
-
-export const getResources = () => api.get('/api/resources');
-
+// Leads
 export const createLead = (data) => api.post('/api/leads', data);
 
+// Search
 export const search = (query) => api.get('/api/search', { params: { q: query } });
 
 export default api;

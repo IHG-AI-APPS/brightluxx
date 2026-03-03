@@ -18,10 +18,21 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 
 ## Architecture
 ```
-/app/backend/server.py       — Main API (auth, CRUD, uploads, security)
-/app/frontend/src/admin/     — CMS admin panel components
-/app/frontend/src/pages/     — Public-facing pages
-/app/frontend/src/components/ — Shared UI components
+/app/backend/
+├── server.py              # Slim entry point (58 lines): app, CORS, middleware, router includes
+├── database.py            # MongoDB connection + collection references
+├── models.py              # All Pydantic models
+├── utils.py               # Helpers: serialize_doc, slugify, RateLimiter, get_client_ip
+├── auth.py                # JWT config, token creation, get_current_admin dependency
+├── routes/
+│   ├── public.py          # Public routes (products, inspirations, projects, leads, search, calculator)
+│   ├── admin.py           # Admin auth (login, refresh, me, change-password, stats)
+│   ├── admin_crud.py      # Admin CRUD (products, inspirations, projects, leads, export/import)
+│   └── upload.py          # File upload + image optimization
+/app/frontend/src/
+├── admin/                 # CMS admin panel components
+├── pages/                 # Public-facing pages
+├── components/            # Shared UI components
 ```
 
 ## Admin Credentials
@@ -37,10 +48,11 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 - JWT auth with access (4h) + refresh (7d) tokens
 - Rate limiting (login: 5/min, leads: 10/min) with X-Forwarded-For support
 - Password change with validation
-- Image upload with server-side optimization (Pillow → WebP variants)
+- Image upload with server-side optimization (Pillow -> WebP variants)
 - Security headers (X-Frame-Options, X-XSS-Protection, nosniff)
 - Data import/export functionality
 - Mobile responsive design
+- **Backend refactored** from monolithic 837-line server.py into modular files (Feb 2026)
 
 ## What's Mocked
 - Lead capture saves to DB only — no real email notification service
@@ -49,4 +61,3 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 - **P1:** Image CDN/Object Storage integration for scalable media delivery
 - **P2:** Real email service (SendGrid/Resend) for lead notifications
 - **P3:** Advanced analytics integration
-- **P3:** Server.py refactoring (split into routes, models, utils)

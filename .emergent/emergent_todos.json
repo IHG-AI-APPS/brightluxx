@@ -1,22 +1,42 @@
 [
   {
-    "content": "Add ~18 new products across 7 new categories to seed_data.py",
+    "content": "Build backend: Admin auth (JWT login, protected routes, admin seed)",
     "status": "completed"
   },
   {
-    "content": "Update Products.js category filter to include new categories",
+    "content": "Build backend: Full CRUD APIs for Products, Inspirations, Projects, Leads + Dashboard stats",
     "status": "completed"
   },
   {
-    "content": "Re-seed database and verify products load",
+    "content": "Build frontend: Admin auth (login page, token storage, protected route wrapper)",
     "status": "completed"
   },
   {
-    "content": "Verify frontend compilation and take screenshots",
+    "content": "Build frontend: Admin layout (sidebar, topbar) + Dashboard page",
     "status": "completed"
   },
   {
-    "content": "Run testing agent for validation",
+    "content": "Build frontend: Products manager (table, add/edit/delete, specs editor)",
     "status": "completed"
+  },
+  {
+    "content": "Build frontend: Inspirations + Projects managers",
+    "status": "completed"
+  },
+  {
+    "content": "Build frontend: Leads viewer with status management",
+    "status": "completed"
+  },
+  {
+    "content": "Build frontend: Bulk actions + export capabilities",
+    "status": "completed"
+  },
+  {
+    "content": "Verify frontend compilation + screenshots of all admin pages",
+    "status": "completed"
+  },
+  {
+    "content": "Run testing agent for comprehensive CMS validation",
+    "status": "in_progress"
   }
 ]

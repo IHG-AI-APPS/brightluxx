@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 
 import Navbar from './components/Navbar';
@@ -17,26 +17,59 @@ import ScreenCalculator from './pages/ScreenCalculator';
 import TechGuide from './pages/TechGuide';
 import Compare from './pages/Compare';
 
+// Admin
+import { AdminProvider, useAdmin } from './admin/AdminContext';
+import AdminLogin from './admin/AdminLogin';
+import AdminLayout from './admin/AdminLayout';
+import AdminDashboard from './admin/AdminDashboard';
+import AdminProducts from './admin/AdminProducts';
+import AdminInspirations from './admin/AdminInspirations';
+import AdminProjects from './admin/AdminProjects';
+import AdminLeads from './admin/AdminLeads';
+
+const ProtectedRoute = ({ children }) => {
+  const { admin, loading } = useAdmin();
+  if (loading) return <div className="min-h-screen bg-[#0B0B0B] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[var(--blx-gold-3)] border-t-transparent rounded-full animate-spin" /></div>;
+  if (!admin) return <Navigate to="/admin" replace />;
+  return children;
+};
+
+function AppRoutes() {
+  return (
+    <Routes>
+      {/* Public Site */}
+      <Route path="/" element={<><Navbar /><Home /><Footer /><StickyCTA /></>} />
+      <Route path="/products" element={<><Navbar /><Products /><Footer /><StickyCTA /></>} />
+      <Route path="/inspirations" element={<><Navbar /><Inspirations /><Footer /><StickyCTA /></>} />
+      <Route path="/projects" element={<><Navbar /><Projects /><Footer /><StickyCTA /></>} />
+      <Route path="/configurator" element={<><Navbar /><ProductConfigurator /><Footer /><StickyCTA /></>} />
+      <Route path="/showroom" element={<><Navbar /><VirtualShowroom /><Footer /><StickyCTA /></>} />
+      <Route path="/calculator" element={<><Navbar /><ScreenCalculator /><Footer /><StickyCTA /></>} />
+      <Route path="/compare" element={<><Navbar /><Compare /><Footer /><StickyCTA /></>} />
+      <Route path="/tech-guide" element={<><Navbar /><TechGuide /><Footer /><StickyCTA /></>} />
+      <Route path="/contact" element={<><Navbar /><Contact /><Footer /><StickyCTA /></>} />
+
+      {/* Admin */}
+      <Route path="/admin" element={<AdminLogin />} />
+      <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="products" element={<AdminProducts />} />
+        <Route path="inspirations" element={<AdminInspirations />} />
+        <Route path="projects" element={<AdminProjects />} />
+        <Route path="leads" element={<AdminLeads />} />
+      </Route>
+    </Routes>
+  );
+}
+
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-[var(--blx-bg)] text-[var(--blx-text)]">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/inspirations" element={<Inspirations />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/configurator" element={<ProductConfigurator />} />
-          <Route path="/showroom" element={<VirtualShowroom />} />
-          <Route path="/calculator" element={<ScreenCalculator />} />
-          <Route path="/compare" element={<Compare />} />
-          <Route path="/tech-guide" element={<TechGuide />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-        <Footer />
-        <StickyCTA />
-      </div>
+      <AdminProvider>
+        <div className="min-h-screen bg-[var(--blx-bg)] text-[var(--blx-text)]">
+          <AppRoutes />
+        </div>
+      </AdminProvider>
     </Router>
   );
 }

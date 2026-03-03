@@ -1,4 +1,4 @@
-# Brightluxx — Stabilization, Testing & Catalog Expansion Plan (Updated)
+# Brightluxx — Stabilization, Testing, Catalog Expansion & CMS Plan (Updated)
 
 ## Objectives
 - **Completed:** Restore complete UX by wiring newly-added features into the app shell (routes + navigation) without changing the approved **“Deep Space Modern”** system.
@@ -6,11 +6,12 @@
 - **Completed:** Add missing frontend pieces (Compare page + API helpers) and fix testability issues (unique `data-testid`s).
 - **Completed:** Validate end-to-end behavior with build checks, screenshots, and automated testing; resolve regressions.
 - **Completed:** Mobile responsiveness hardening for Compare table (horizontal scroll + sticky spec labels + mobile hint).
-- **Completed:** Resolve the previously non-blocking ESLint warning in `ProductConfigurator.js`.
-- **Completed:** **Product expansion phase** — expanded catalog from **24 → 41 products** and categories from **10 → 17** with new images and inspirations.
+- **Completed:** Resolve the previously non-blocking ESLint warning in `ProductConfigurator.js` (react-hooks/exhaustive-deps).
+- **Completed:** **Product expansion phase** — expanded catalog from **24 → 41 products**, inspirations **16 → 22**, and categories from **10 → 17** with new images and filters.
+- **In Progress:** **Phase 5 — Advanced CMS Admin Panel**: Build a fully dynamic admin CMS to manage Products, Inspirations, Projects, and Leads without code changes.
 - **Remaining (optional only):**
   - Accessibility/focus behavior review (keyboard navigation for Tools dropdown + focus states for Compare dropdown/search).
-  - Investigate intermittent test-agent report about Compare rendering (appears timing-related; manually verified working).
+  - Mitigate potential flaky automation timing on Compare flows (deterministic waits for test stability).
 
 ---
 
@@ -71,7 +72,7 @@
 - **Automated testing:** Testing agent runs:
   - `iteration_3.json`: Backend **100%**, Overall **98%**
   - `iteration_4.json` (post catalog expansion): Backend **100%**, Frontend **95%+**, Overall **98%**
-- **Bug fixing loop:** Addressed the reported Compare overlay issue; Compare also verified working with new products.
+- **Bug fixing loop:** Compare issues reported by automation were investigated; manual verification confirms Compare rendering works with new products.
 
 **Exit gate (achieved)**
 - Clean core flows with no runtime crashes; all key pages render.
@@ -153,13 +154,109 @@ Expand catalog depth to cover trending 2025/2026 LED product lines beyond the in
 
 ---
 
+### Phase 5 — Advanced CMS Admin Panel (Fully Dynamic) 🚧 IN PROGRESS
+**Goal**
+Enable non-developer content management for Products, Inspirations, Projects, and Leads with secure admin access.
+
+**Guiding constraints**
+- Maintain **Deep Space Modern** design language in admin UI (glass panels, gold accents, dark surfaces).
+- Avoid infrastructure changes; keep implementation within current FastAPI + React app.
+- Start with URL-based images (upload can be added later).
+
+#### Phase 5A — Backend: Admin Auth + Security (P0)
+**Deliverables (planned)**
+- Add **JWT auth** to backend:
+  - `POST /api/admin/login` → returns access token
+  - `GET /api/admin/me` → validates token / returns admin identity
+- Create `admins` collection (or simple seed) and password hashing (bcrypt/passlib).
+- Add dependency `get_current_admin` for route protection.
+
+**Initial credentials (MVP)**
+- `admin@brightluxx.com / brightluxx2025` (seeded on startup)
+
+**Exit gate**
+- Admin routes require valid JWT; invalid token returns 401.
+
+#### Phase 5B — Backend: CMS CRUD APIs (P0)
+**Deliverables (planned)**
+- Products CRUD:
+  - `GET /api/admin/products` (search/filter/pagination)
+  - `POST /api/admin/products`
+  - `PUT /api/admin/products/{id}`
+  - `DELETE /api/admin/products/{id}`
+- Inspirations CRUD:
+  - `GET /api/admin/inspirations`, `POST`, `PUT`, `DELETE`
+- Projects CRUD:
+  - `GET /api/admin/projects`, `POST`, `PUT`, `DELETE`
+- Leads management:
+  - `GET /api/admin/leads` (filter by date/status/source)
+  - `PUT /api/admin/leads/{id}` (status update: new/contacted/qualified/won/lost)
+  - `DELETE /api/admin/leads/{id}`
+- Dashboard stats endpoint:
+  - `GET /api/admin/stats` (counts, recent items, recent leads)
+
+**Exit gate**
+- CRUD operations persist to MongoDB and are reflected on public pages.
+
+#### Phase 5C — Frontend: Admin Shell + Auth Gate (P0)
+**Deliverables (planned)**
+- Add routes:
+  - `/admin` (Login)
+  - `/admin/dashboard`
+  - `/admin/products`
+  - `/admin/inspirations`
+  - `/admin/projects`
+  - `/admin/leads`
+- AdminLayout:
+  - Sidebar navigation + top bar
+  - Token storage (localStorage) + Axios interceptor
+  - ProtectedRoute wrapper (redirect to `/admin`)
+
+**Exit gate**
+- User cannot access admin pages without auth; session persists across reload.
+
+#### Phase 5D — Frontend: Content Editors (P0/P1)
+**Deliverables (planned)**
+- **Products Manager**
+  - Table/list with search, category filter, sorting
+  - Add/Edit form with: core fields + key_specs editor (add/remove label/value rows)
+  - Featured/trending/new toggles
+  - Gallery URLs editor
+  - Soft validation (slug uniqueness, product_code uniqueness)
+- **Inspirations Manager**
+  - CRUD + featured toggle + image URL
+- **Projects Manager**
+  - CRUD + featured toggle
+  - Technologies_used multi-select (by product_code)
+  - Metrics editor (label/value rows)
+- **Leads Viewer**
+  - List view with filters
+  - Lead detail drawer
+  - Status + notes + timestamps
+
+**Exit gate**
+- Admin can fully manage content with no code changes.
+
+#### Phase 5E — Advanced CMS Capabilities (P1/P2)
+**Deliverables (planned)**
+- Bulk actions (delete, set featured)
+- Import/export:
+  - Export products/projects/inspirations to JSON/CSV
+  - Import products from JSON (with validation)
+- Draft/publish workflow (optional): `status: draft|published`
+- Audit log (who changed what, when) (optional)
+
+**Exit gate**
+- CMS supports efficient real-world operations at scale.
+
+---
+
 ## Next Actions (Immediate)
-1. **No critical work remaining** — V1 is stable, tested, mobile-verified, and catalog-expanded.
-2. (Optional) Accessibility pass:
-   - Keyboard navigation for Tools dropdown
-   - Focus trapping/ESC close behavior for Compare dropdown
-3. (Optional) Investigate/mitigate potential flaky automation on Compare page:
-   - Add deterministic waits around dropdown close and results render for test automation stability
+1. **Begin Phase 5A**: Implement admin JWT login + protected routes.
+2. **Proceed Phase 5B**: CRUD endpoints for all CMS entities.
+3. **Proceed Phase 5C/5D**: Admin UI shell + managers.
+4. (Optional) Accessibility pass for public site dropdowns.
+5. (Optional) Add deterministic waits to stabilize automated UI tests for Compare.
 
 ---
 
@@ -171,10 +268,13 @@ Expand catalog depth to cover trending 2025/2026 LED product lines beyond the in
   - Products filtering/search + quick view modal works.
   - Expanded catalog visible and filterable across **17 categories**.
 - **Quality (achieved):**
-  - Frontend compiles cleanly (esbuild pass); no runtime crashes.
+  - Frontend compiles cleanly; no runtime crashes.
   - Automated tests pass with high confidence (Backend **100%**, Overall **98%** post-expansion).
   - Key interactive elements have stable, unique `data-testid`s.
 - **UX (achieved):**
   - Consistent Deep Space Modern styling across new pages; screenshots verified.
   - Compare table works on mobile via horizontal scroll + sticky spec labels + scroll hint.
-  - New category filters displayed cleanly and operate correctly.
+- **CMS (target):**
+  - Admin can securely login and manage **Products, Inspirations, Projects, and Leads** without code changes.
+  - Admin changes are immediately reflected on the public site.
+  - CMS supports bulk actions and import/export for operational scalability.

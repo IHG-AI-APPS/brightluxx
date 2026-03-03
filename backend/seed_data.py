@@ -30,12 +30,12 @@ async def seed_database():
             "category": "micro-led",
             "heroMedia": {
                 "type": "image",
-                "url": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=1200",
+                "url": "/generated/microled_display.png",
                 "alt": "MicroLED Display"
             },
             "gallery": [
-                {"type": "image", "url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800", "alt": "View 1"},
-                {"type": "image", "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800", "alt": "View 2"}
+                {"type": "image", "url": "/generated/corporate_boardroom.png", "alt": "View 1"},
+                {"type": "image", "url": "/generated/control_room_led.png", "alt": "View 2"}
             ],
             "keySpecs": [
                 {"label": "Pixel Pitch", "value": "0.9mm - 1.5mm"},
@@ -77,11 +77,11 @@ async def seed_database():
             "category": "outdoor",
             "heroMedia": {
                 "type": "image",
-                "url": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=1200",
+                "url": "/generated/outdoor_dooh_dubai.png",
                 "alt": "Outdoor LED Display"
             },
             "gallery": [
-                {"type": "image", "url": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800", "alt": "Outdoor View"}
+                {"type": "image", "url": "/generated/outdoor_dooh_dubai.png", "alt": "Outdoor View"}
             ],
             "keySpecs": [
                 {"label": "Pixel Pitch", "value": "3.9mm - 10mm"},
@@ -118,7 +118,7 @@ async def seed_database():
             "category": "creative",
             "heroMedia": {
                 "type": "image",
-                "url": "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1200",
+                "url": "/generated/transparent_led_retail.png",
                 "alt": "Transparent LED Display"
             },
             "gallery": [],
@@ -154,7 +154,7 @@ async def seed_database():
             "category": "creative",
             "heroMedia": {
                 "type": "image",
-                "url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200",
+                "url": "/generated/3d_holographic_mall.png",
                 "alt": "3D Display"
             },
             "gallery": [],

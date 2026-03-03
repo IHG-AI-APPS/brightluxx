@@ -46,43 +46,51 @@ const Home = () => {
   return (
     <div className="" data-testid="home-page">
       {/* Hero Section */}
-      <section className="relative hero-glow py-24 sm:py-32" data-testid="hero-section">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <div className="text-xs uppercase tracking-[0.24em] text-[var(--blx-muted)] mb-4 font-medium">
-              OEM LED Display Excellence
-            </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-display mb-8 leading-[1.1]" data-testid="hero-title">
-              Premium LED Displays
-              <br />
-              <span className="text-gradient">Engineered for UAE</span>
-            </h1>
-            <p className="text-lg md:text-xl text-[var(--blx-text-2)] leading-relaxed mb-10 max-w-3xl mx-auto font-light">
-              From MicroLED precision to outdoor DOOH brilliance. OEM-grade technology, UAE-ready delivery. 
-              Built for extreme heat. Tuned for maximum visibility.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-              <Link
-                to="/contact"
-                className="btn-gold px-10 py-4 text-base"
-                data-testid="cta-get-quote"
+      <section className="relative py-12 sm:py-16" data-testid="hero-section">
+        {/* Hero Image/Video Container */}
+        <div className="hero-video-container mb-8 sm:mb-12 mx-4 sm:mx-6 max-w-7xl" style={{marginLeft: 'auto', marginRight: 'auto'}}>
+          <img
+            src="/generated/hero_main.png"
+            alt="Luxury LED Display Wall"
+            className="w-full h-full object-cover"
+          />
+          <div className="hero-overlay">
+            <div className="text-center max-w-4xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
               >
-                Get Quote in 2 Hours
-              </Link>
-              <Link
-                to="/technologies"
-                className="btn-glass px-10 py-4 text-base"
-                data-testid="cta-explore-tech"
-              >
-                Explore Technologies
-              </Link>
+                <div className="text-xs uppercase tracking-[0.24em] text-[var(--blx-gold-3)] mb-4 font-medium">
+                  OEM LED Display Excellence
+                </div>
+                <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-display mb-6 leading-[1.1]" data-testid="hero-title">
+                  Premium LED Displays
+                  <br />
+                  <span className="text-gradient">Engineered for UAE</span>
+                </h1>
+                <p className="text-base md:text-lg text-[var(--blx-text)] leading-relaxed mb-8 max-w-3xl mx-auto font-light drop-shadow-lg">
+                  From MicroLED precision to outdoor DOOH brilliance. OEM-grade technology, UAE-ready delivery.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <Link
+                    to="/contact"
+                    className="btn-gold px-10 py-4 text-base"
+                    data-testid="cta-get-quote"
+                  >
+                    Get Quote in 2 Hours
+                  </Link>
+                  <Link
+                    to="/technologies"
+                    className="btn-glass px-10 py-4 text-base"
+                    data-testid="cta-explore-tech"
+                  >
+                    Explore Technologies
+                  </Link>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -93,16 +101,16 @@ const Home = () => {
             {/* Technologies Door */}
             <Link to="/technologies" className="entry-door group" data-testid="door-technologies">
               <img
-                src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800"
+                src="/generated/microled_display.png"
                 alt="Technologies"
                 className="entry-door-image"
               />
               <div className="p-6">
                 <h3 className="text-2xl font-semibold mb-3 font-display">Technologies</h3>
-                <p className="text-[var(--blx-text-2)] mb-4">
+                <p className="text-[var(--blx-text-2)] mb-4 leading-relaxed">
                   MicroLED, 3D displays, transparent screens, outdoor DOOH. Explore the latest LED innovations.
                 </p>
-                <div className="flex items-center text-[var(--blx-accent)] font-medium group-hover:gap-3 gap-2 transition-all">
+                <div className="flex items-center text-[var(--blx-gold-3)] font-medium group-hover:gap-3 gap-2 transition-all">
                   <span>Explore</span>
                   <ArrowRight size={18} />
                 </div>
@@ -112,16 +120,16 @@ const Home = () => {
             {/* Applications Door */}
             <Link to="/applications" className="entry-door group" data-testid="door-applications">
               <img
-                src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800"
+                src="/generated/transparent_led_retail.png"
                 alt="Applications"
                 className="entry-door-image"
               />
               <div className="p-6">
                 <h3 className="text-2xl font-semibold mb-3 font-display">Applications</h3>
-                <p className="text-[var(--blx-text-2)] mb-4">
+                <p className="text-[var(--blx-text-2)] mb-4 leading-relaxed">
                   Retail, corporate, outdoor advertising, events. See where our displays make an impact.
                 </p>
-                <div className="flex items-center text-[var(--blx-accent)] font-medium group-hover:gap-3 gap-2 transition-all">
+                <div className="flex items-center text-[var(--blx-gold-3)] font-medium group-hover:gap-3 gap-2 transition-all">
                   <span>Explore</span>
                   <ArrowRight size={18} />
                 </div>
@@ -131,16 +139,16 @@ const Home = () => {
             {/* Case Studies Door */}
             <Link to="/case-studies" className="entry-door group" data-testid="door-case-studies">
               <img
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800"
+                src="/generated/corporate_boardroom.png"
                 alt="Case Studies"
                 className="entry-door-image"
               />
               <div className="p-6">
                 <h3 className="text-2xl font-semibold mb-3 font-display">Case Studies</h3>
-                <p className="text-[var(--blx-text-2)] mb-4">
+                <p className="text-[var(--blx-text-2)] mb-4 leading-relaxed">
                   Real UAE projects. Proven results. See our installations across Dubai and beyond.
                 </p>
-                <div className="flex items-center text-[var(--blx-accent)] font-medium group-hover:gap-3 gap-2 transition-all">
+                <div className="flex items-center text-[var(--blx-gold-3)] font-medium group-hover:gap-3 gap-2 transition-all">
                   <span>Explore</span>
                   <ArrowRight size={18} />
                 </div>

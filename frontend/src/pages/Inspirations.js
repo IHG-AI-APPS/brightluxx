@@ -1,6 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { getInspirations } from '../api';
 import { Sparkles } from 'lucide-react';
+
+const useInView = (ref) => {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold: 0.1 }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref]);
+  return inView;
+};
+
+const GlowCard = ({ children, className = '' }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref);
+  return (
+    <div ref={ref} className={`blx-scroll-glow ${inView ? 'in-view' : ''} ${className}`}>
+      {children}
+    </div>
+  );
+};
 
 const CATEGORIES = [
   { value: '', label: 'All' },
@@ -37,21 +61,19 @@ const Inspirations = () => {
   return (
     <div className="py-20" data-testid="inspirations-page">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-10">
-          <h1 className="text-3xl sm:text-4xl font-display mb-2" data-testid="inspirations-page-title">Inspirations</h1>
-          <p className="text-sm text-[var(--blx-text-2)]">Discover how LED transforms spaces across industries.</p>
+          <h1 data-testid="inspirations-page-title">Inspirations</h1>
+          <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider">Discover how LED transforms spaces across industries.</p>
         </div>
 
-        {/* Filter */}
         <div className="flex flex-wrap gap-2 mb-8">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
               onClick={() => setActiveCategory(cat.value)}
-              className={`px-4 py-2 text-xs font-medium rounded-full border transition-colors duration-200 ${
+              className={`px-4 py-2 text-[0.6875rem] font-bold rounded-full border tracking-widest transition-colors duration-200 ${
                 activeCategory === cat.value
-                  ? 'bg-[var(--blx-gold-3)] text-[#0A0A0A] border-[var(--blx-gold-3)]'
+                  ? 'bg-[var(--blx-gold-3)] text-[#0B0B0B] border-[var(--blx-gold-3)]'
                   : 'bg-transparent text-[var(--blx-text-2)] border-[var(--blx-border)] hover:border-[var(--blx-border-2)]'
               }`}
               data-testid="inspirations-filter-button"
@@ -61,7 +83,6 @@ const Inspirations = () => {
           ))}
         </div>
 
-        {/* Gallery Grid */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="loading-spinner"></div>
@@ -69,32 +90,30 @@ const Inspirations = () => {
         ) : inspirations.length === 0 ? (
           <div className="text-center py-20">
             <Sparkles size={48} className="mx-auto text-[var(--blx-muted)] mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No inspirations found</h3>
-            <p className="text-sm text-[var(--blx-text-2)]">Try a different category.</p>
+            <h3 className="text-base font-bold mb-2">No inspirations found</h3>
+            <p className="text-sm text-[var(--blx-text-2)] tracking-wider">Try a different category.</p>
           </div>
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5" data-testid="inspirations-gallery">
             {inspirations.map((item, index) => (
-              <div
-                key={item._id}
-                className="inspiration-card break-inside-avoid"
-                data-testid="inspiration-card"
-              >
-                <img
-                  src={item.image_url}
-                  alt={item.title}
-                  className={`w-full object-cover rounded-[var(--blx-radius-lg)] ${
-                    index % 3 === 0 ? 'h-72' : index % 3 === 1 ? 'h-56' : 'h-64'
-                  }`}
-                />
-                <div className="card-overlay rounded-[var(--blx-radius-lg)]">
-                  <div>
-                    <span className="category-badge mb-2">{item.category}</span>
-                    <h3 className="font-semibold text-white mt-2">{item.title}</h3>
-                    <p className="text-xs text-gray-300 mt-1">{item.description}</p>
+              <GlowCard key={item._id} className="break-inside-avoid">
+                <div className="inspiration-card" data-testid="inspiration-card">
+                  <img
+                    src={item.image_url}
+                    alt={item.title}
+                    className={`w-full object-cover rounded-[var(--blx-radius-lg)] ${
+                      index % 3 === 0 ? 'h-72' : index % 3 === 1 ? 'h-56' : 'h-64'
+                    }`}
+                  />
+                  <div className="card-overlay rounded-[var(--blx-radius-lg)]">
+                    <div>
+                      <span className="category-badge mb-2">{item.category}</span>
+                      <h3 className="text-sm font-bold text-white mt-2">{item.title}</h3>
+                      <p className="text-[0.6875rem] text-gray-300 mt-1 tracking-wider" style={{textTransform: 'none'}}>{item.description}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </GlowCard>
             ))}
           </div>
         )}

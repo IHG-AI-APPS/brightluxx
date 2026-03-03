@@ -1,7 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 import { getProducts, getProjects } from '../api';
+
+/* Scroll-triggered glow hook */
+const useInView = (ref) => {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold: 0.15 }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref]);
+  return inView;
+};
+
+const GlowCard = ({ children, className = '' }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref);
+  return (
+    <div ref={ref} className={`blx-scroll-glow ${inView ? 'in-view' : ''} ${className}`}>
+      {children}
+    </div>
+  );
+};
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -36,9 +61,9 @@ const Home = () => {
 
   return (
     <div data-testid="home-page">
-      {/* Hero Section - Video */}
+      {/* Hero Section — Video + LED Grid */}
       <section className="relative pt-6 sm:pt-10 pb-12 sm:pb-16" data-testid="hero-section">
-        <div className="hero-video-container mx-4 sm:mx-6 lg:mx-auto max-w-[1320px]">
+        <div className="hero-video-container mx-4 sm:mx-6 lg:mx-auto max-w-[1320px] blx-led-grid-strong">
           <video
             autoPlay
             muted
@@ -52,28 +77,28 @@ const Home = () => {
           </video>
           <div className="hero-overlay">
             <div className="max-w-2xl">
-              <div className="text-xs uppercase tracking-[0.24em] text-[var(--blx-gold-3)] mb-4 font-medium font-sans">
+              <div className="text-[0.6875rem] tracking-[0.28em] text-[var(--blx-gold-3)] mb-5 font-bold">
                 Premium LED Displays
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display mb-4 leading-[1.15]" data-testid="hero-title">
+              <h1 className="mb-4" data-testid="hero-title">
                 Engineered for
                 <br />
                 <span className="text-gradient">Brilliance</span>
               </h1>
-              <p className="text-xs md:text-sm text-[var(--blx-text-2)] mb-8 max-w-lg font-light leading-relaxed tracking-wider">
+              <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-lg font-light tracking-widest">
                 OEM-grade LED technology. UAE-ready delivery.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/contact"
-                  className="btn-gold px-8 py-3.5 text-sm"
+                  className="btn-gold px-8 py-3.5"
                   data-testid="home-hero-primary-cta"
                 >
                   Get Quote
                 </Link>
                 <Link
                   to="/products"
-                  className="btn-glass px-8 py-3.5 text-sm"
+                  className="btn-glass px-8 py-3.5"
                   data-testid="home-hero-secondary-cta"
                 >
                   Explore Products
@@ -88,94 +113,58 @@ const Home = () => {
       <section className="py-14 sm:py-20" data-testid="entry-doors-section">
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Link to="/products" className="entry-door group" data-testid="home-entry-door-products">
-              <img
-                src="/generated/microled_display.png"
-                alt="Products"
-                className="entry-door-image"
-              />
-              <div className="p-6">
-                <h3 className="text-2xl font-semibold mb-2 font-display">Products</h3>
-                <p className="text-sm text-[var(--blx-text-2)] mb-4 leading-relaxed">
-                  MicroLED, outdoor, rental, transparent. Explore our full range.
-                </p>
-                <div className="flex items-center text-[var(--blx-gold-3)] text-sm font-medium group-hover:gap-3 gap-2 transition-[gap] duration-200">
-                  <span>Browse</span>
-                  <ArrowRight size={16} />
-                </div>
-              </div>
-            </Link>
-
-            <Link to="/inspirations" className="entry-door group" data-testid="home-entry-door-inspirations">
-              <img
-                src="/generated/3d_holographic_mall.png"
-                alt="Inspirations"
-                className="entry-door-image"
-              />
-              <div className="p-6">
-                <h3 className="text-2xl font-semibold mb-2 font-display">Inspirations</h3>
-                <p className="text-sm text-[var(--blx-text-2)] mb-4 leading-relaxed">
-                  See how LED transforms spaces across industries.
-                </p>
-                <div className="flex items-center text-[var(--blx-gold-3)] text-sm font-medium group-hover:gap-3 gap-2 transition-[gap] duration-200">
-                  <span>Discover</span>
-                  <ArrowRight size={16} />
-                </div>
-              </div>
-            </Link>
-
-            <Link to="/projects" className="entry-door group" data-testid="home-entry-door-projects">
-              <img
-                src="/generated/outdoor_dooh_dubai.png"
-                alt="Projects"
-                className="entry-door-image"
-              />
-              <div className="p-6">
-                <h3 className="text-2xl font-semibold mb-2 font-display">Projects</h3>
-                <p className="text-sm text-[var(--blx-text-2)] mb-4 leading-relaxed">
-                  Real installations. Proven results across UAE and MENA.
-                </p>
-                <div className="flex items-center text-[var(--blx-gold-3)] text-sm font-medium group-hover:gap-3 gap-2 transition-[gap] duration-200">
-                  <span>View</span>
-                  <ArrowRight size={16} />
-                </div>
-              </div>
-            </Link>
+            {[{
+              to: '/products', img: '/generated/microled_display.png',
+              title: 'Products', desc: 'MicroLED, outdoor, rental, transparent. Full range.', cta: 'Browse'
+            }, {
+              to: '/inspirations', img: '/generated/3d_holographic_mall.png',
+              title: 'Inspirations', desc: 'See how LED transforms spaces across industries.', cta: 'Discover'
+            }, {
+              to: '/projects', img: '/generated/outdoor_dooh_dubai.png',
+              title: 'Projects', desc: 'Real installations. Proven results across UAE and MENA.', cta: 'View'
+            }].map((door) => (
+              <GlowCard key={door.to}>
+                <Link to={door.to} className="entry-door group block" data-testid={`home-entry-door-${door.title.toLowerCase()}`}>
+                  <img src={door.img} alt={door.title} className="entry-door-image" />
+                  <div className="p-6">
+                    <h3 className="text-xl mb-2">{door.title}</h3>
+                    <p className="text-xs text-[var(--blx-text-2)] mb-4 leading-relaxed tracking-wider">
+                      {door.desc}
+                    </p>
+                    <div className="flex items-center text-[var(--blx-gold-3)] text-xs font-bold group-hover:gap-3 gap-2 transition-[gap] duration-200 tracking-widest">
+                      <span>{door.cta}</span>
+                      <ArrowRight size={14} />
+                    </div>
+                  </div>
+                </Link>
+              </GlowCard>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Trust Strip */}
-      <section className="py-14 sm:py-20 bg-[var(--blx-bg-raised)] border-y border-[var(--blx-border)]" data-testid="trust-strip">
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-14 sm:py-20 relative blx-led-grid" data-testid="trust-strip">
+        <div className="absolute inset-0 bg-[var(--blx-bg-raised)]" style={{zIndex: -1}} />
+        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
-                <Zap className="text-[var(--blx-gold-3)]" size={22} />
+            {[{
+              icon: Zap, title: 'Gulf-Grade Engineering', desc: 'Rated to 60C. Built for extreme heat.'
+            }, {
+              icon: Shield, title: 'Local Support', desc: 'UAE-based team. Fast delivery and installation.'
+            }, {
+              icon: Clock, title: 'Quote in 2 Hours', desc: 'Fast response. Expert consultation.'
+            }].map((item) => (
+              <div key={item.title} className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 glass-panel flex items-center justify-center mb-4">
+                  <item.icon className="text-[var(--blx-gold-3)]" size={20} />
+                </div>
+                <h4 className="text-sm font-bold mb-2 tracking-widest">{item.title}</h4>
+                <p className="text-xs text-[var(--blx-text-2)] tracking-wider">
+                  {item.desc}
+                </p>
               </div>
-              <h4 className="font-semibold text-base mb-2">Gulf-Grade Engineering</h4>
-              <p className="text-sm text-[var(--blx-text-2)]">
-                Rated to 60C. Built for extreme heat.
-              </p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
-                <Shield className="text-[var(--blx-gold-3)]" size={22} />
-              </div>
-              <h4 className="font-semibold text-base mb-2">Local Support</h4>
-              <p className="text-sm text-[var(--blx-text-2)]">
-                UAE-based team. Fast delivery and installation.
-              </p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl flex items-center justify-center mb-4">
-                <Clock className="text-[var(--blx-gold-3)]" size={22} />
-              </div>
-              <h4 className="font-semibold text-base mb-2">Quote in 2 Hours</h4>
-              <p className="text-sm text-[var(--blx-text-2)]">
-                Fast response. Expert consultation.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -185,41 +174,35 @@ const Home = () => {
         <section className="py-14 sm:py-20" data-testid="featured-products">
           <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl md:text-3xl font-display">Featured Products</h2>
+              <h2>Featured Products</h2>
               <Link
                 to="/products"
-                className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-4)] font-medium flex items-center gap-2 text-sm transition-colors duration-200"
+                className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-4)] font-bold flex items-center gap-2 text-xs tracking-widest transition-colors duration-200"
               >
-                View All <ArrowRight size={16} />
+                View All <ArrowRight size={14} />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredProducts.map((product) => (
-                <div
-                  key={product._id}
-                  className="product-card group"
-                  data-testid={`products-product-card`}
-                >
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="absolute top-3 left-3">
-                      <span className="category-badge">{product.product_code}</span>
+                <GlowCard key={product._id}>
+                  <div className="product-card group" data-testid="products-product-card">
+                    <div className="relative overflow-hidden">
+                      <img src={product.image_url} alt={product.name} className="w-full h-48 object-cover" />
+                      <div className="absolute top-3 left-3">
+                        <span className="category-badge">{product.product_code}</span>
+                      </div>
+                    </div>
+                    <div className="p-5">
+                      <h3 className="text-sm font-bold mb-1">{product.name}</h3>
+                      <p className="text-[0.6875rem] text-[var(--blx-muted)] mb-3 tracking-wider">{product.tagline}</p>
+                      <div className="flex gap-3 text-[0.6875rem] text-[var(--blx-text-2)] tracking-wider">
+                        <span>{product.pixel_pitch}</span>
+                        <span className="text-[var(--blx-border-2)]">|</span>
+                        <span>{product.brightness}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="p-5">
-                    <h3 className="font-semibold mb-1">{product.name}</h3>
-                    <p className="text-xs text-[var(--blx-muted)] mb-3">{product.tagline}</p>
-                    <div className="flex gap-3 text-xs text-[var(--blx-text-2)]">
-                      <span>{product.pixel_pitch}</span>
-                      <span className="text-[var(--blx-border-2)]">|</span>
-                      <span>{product.brightness}</span>
-                    </div>
-                  </div>
-                </div>
+                </GlowCard>
               ))}
             </div>
           </div>
@@ -228,41 +211,36 @@ const Home = () => {
 
       {/* Featured Projects */}
       {featuredProjects.length > 0 && (
-        <section className="py-14 sm:py-20 bg-[var(--blx-bg-raised)]" data-testid="featured-projects">
-          <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-14 sm:py-20 relative blx-led-grid" data-testid="featured-projects">
+          <div className="absolute inset-0 bg-[var(--blx-bg-raised)]" style={{zIndex: -1}} />
+          <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl md:text-3xl font-display">Recent Projects</h2>
+              <h2>Recent Projects</h2>
               <Link
                 to="/projects"
-                className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-4)] font-medium flex items-center gap-2 text-sm transition-colors duration-200"
+                className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-4)] font-bold flex items-center gap-2 text-xs tracking-widest transition-colors duration-200"
               >
-                View All <ArrowRight size={16} />
+                View All <ArrowRight size={14} />
               </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {featuredProjects.map((project) => (
-                <div
-                  key={project._id}
-                  className="product-card group"
-                  data-testid={`project-case-study-card`}
-                >
-                  <img
-                    src={project.image_url}
-                    alt={project.title}
-                    className="w-full h-52 object-cover"
-                  />
-                  <div className="p-5">
-                    <div className="text-xs uppercase tracking-wider text-[var(--blx-muted)] mb-1">
-                      {project.sector} &middot; {project.location}
-                    </div>
-                    <h3 className="font-semibold mb-2">{project.title}</h3>
-                    <div className="flex gap-3 text-xs text-[var(--blx-text-2)]">
-                      {project.metrics.slice(0, 2).map((m, i) => (
-                        <span key={i}>{m.label}: {m.value}</span>
-                      ))}
+                <GlowCard key={project._id}>
+                  <div className="product-card group" data-testid="project-case-study-card">
+                    <img src={project.image_url} alt={project.title} className="w-full h-52 object-cover" />
+                    <div className="p-5">
+                      <div className="text-[0.625rem] tracking-[0.2em] text-[var(--blx-muted)] mb-1 font-bold">
+                        {project.sector} &middot; {project.location}
+                      </div>
+                      <h3 className="text-sm font-bold mb-2">{project.title}</h3>
+                      <div className="flex gap-3 text-[0.6875rem] text-[var(--blx-text-2)] tracking-wider">
+                        {project.metrics.slice(0, 2).map((m, i) => (
+                          <span key={i}>{m.label}: {m.value}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </GlowCard>
               ))}
             </div>
           </div>
@@ -272,21 +250,21 @@ const Home = () => {
       {/* CTA Section */}
       <section className="py-20 sm:py-28 relative blx-noise" data-testid="cta-section">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative z-10">
-          <h2 className="text-3xl sm:text-4xl font-display mb-4 leading-tight">
+          <h2 className="mb-4">
             Ready to Transform Your Space?
           </h2>
-          <p className="text-base text-[var(--blx-text-2)] mb-8 max-w-xl mx-auto">
+          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl mx-auto tracking-wider">
             Expert consultation. Detailed quote within 2 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact" className="btn-gold px-10 py-4 text-sm" data-testid="cta-contact">
+            <Link to="/contact" className="btn-gold px-10 py-4" data-testid="cta-contact">
               Get in Touch
             </Link>
             <a
               href={`https://wa.me/971559910711?text=${encodeURIComponent('Hi, I want to learn more about Brightluxx LED displays')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-glass px-10 py-4 text-sm"
+              className="btn-glass px-10 py-4"
               data-testid="site-header-whatsapp-link"
             >
               WhatsApp Us

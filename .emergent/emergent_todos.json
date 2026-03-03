@@ -1,14 +1,26 @@
 [
   {
-    "content": "Switch from Fraunces to Cinzel font + apply global uppercase",
+    "content": "Switch to Satoshi font (CDN), update typography hierarchy",
     "status": "completed"
   },
   {
-    "content": "Update all page components for uppercase readability",
+    "content": "Update backgrounds to #0B0B0B Deep Charcoal + glassmorphism cards/nav",
     "status": "completed"
   },
   {
-    "content": "Screenshot verify all pages look correct",
+    "content": "Add LED pixel dot grid overlay effect",
+    "status": "completed"
+  },
+  {
+    "content": "Add scroll-triggered glow effect behind product images",
+    "status": "completed"
+  },
+  {
+    "content": "Gold accents ONLY for CTAs/icons, white/grey for everything else",
+    "status": "completed"
+  },
+  {
+    "content": "Screenshot verify all pages",
     "status": "completed"
   }
 ]

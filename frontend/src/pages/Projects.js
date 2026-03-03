@@ -1,7 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { getProjects } from '../api';
 import { MapPin, Maximize2, Building, X, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+const useInView = (ref) => {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold: 0.1 }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref]);
+  return inView;
+};
+
+const GlowCard = ({ children, className = '' }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref);
+  return (
+    <div ref={ref} className={`blx-scroll-glow ${inView ? 'in-view' : ''} ${className}`}>
+      {children}
+    </div>
+  );
+};
 
 const SECTORS = [
   { value: '', label: 'All Sectors' },
@@ -38,21 +62,19 @@ const Projects = () => {
   return (
     <div className="py-20" data-testid="projects-page">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-10">
-          <h1 className="text-3xl sm:text-4xl font-display mb-2" data-testid="projects-page-title">Projects</h1>
-          <p className="text-sm text-[var(--blx-text-2)]">Real installations across UAE and MENA.</p>
+          <h1 data-testid="projects-page-title">Projects</h1>
+          <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider">Real installations across UAE and MENA.</p>
         </div>
 
-        {/* Sector Filter */}
         <div className="flex flex-wrap gap-2 mb-8">
           {SECTORS.map((s) => (
             <button
               key={s.value}
               onClick={() => setActiveSector(s.value)}
-              className={`px-4 py-2 text-xs font-medium rounded-full border transition-colors duration-200 ${
+              className={`px-4 py-2 text-[0.6875rem] font-bold rounded-full border tracking-widest transition-colors duration-200 ${
                 activeSector === s.value
-                  ? 'bg-[var(--blx-gold-3)] text-[#0A0A0A] border-[var(--blx-gold-3)]'
+                  ? 'bg-[var(--blx-gold-3)] text-[#0B0B0B] border-[var(--blx-gold-3)]'
                   : 'bg-transparent text-[var(--blx-text-2)] border-[var(--blx-border)] hover:border-[var(--blx-border-2)]'
               }`}
               data-testid="projects-filter-button"
@@ -62,7 +84,6 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* Projects Grid */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="loading-spinner"></div>
@@ -70,56 +91,52 @@ const Projects = () => {
         ) : projects.length === 0 ? (
           <div className="text-center py-20">
             <Building size={48} className="mx-auto text-[var(--blx-muted)] mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No projects found</h3>
-            <p className="text-sm text-[var(--blx-text-2)]">Try a different sector filter.</p>
+            <h3 className="text-base font-bold mb-2">No projects found</h3>
+            <p className="text-sm text-[var(--blx-text-2)] tracking-wider">Try a different sector filter.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
-              <div
-                key={project._id}
-                className="product-card group cursor-pointer"
-                onClick={() => setSelectedProject(project)}
-                data-testid="project-case-study-card"
-              >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={project.image_url}
-                    alt={project.title}
-                    className="w-full h-56 object-cover"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="category-badge">{project.sector}</span>
+              <GlowCard key={project._id}>
+                <div
+                  className="product-card group cursor-pointer"
+                  onClick={() => setSelectedProject(project)}
+                  data-testid="project-case-study-card"
+                >
+                  <div className="relative overflow-hidden">
+                    <img src={project.image_url} alt={project.title} className="w-full h-56 object-cover" />
+                    <div className="absolute top-3 left-3">
+                      <span className="category-badge">{project.sector}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-semibold text-lg mb-2">{project.title}</h3>
-                  <div className="flex items-center gap-4 text-xs text-[var(--blx-text-2)] mb-3">
-                    <span className="flex items-center gap-1">
-                      <MapPin size={12} /> {project.location}
-                    </span>
-                    {project.screen_size && (
+                  <div className="p-5">
+                    <h3 className="text-sm font-bold mb-2">{project.title}</h3>
+                    <div className="flex items-center gap-4 text-[0.6875rem] text-[var(--blx-text-2)] mb-3 tracking-wider">
                       <span className="flex items-center gap-1">
-                        <Maximize2 size={12} /> {project.screen_size}
+                        <MapPin size={12} /> {project.location}
                       </span>
-                    )}
+                      {project.screen_size && (
+                        <span className="flex items-center gap-1">
+                          <Maximize2 size={12} /> {project.screen_size}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[0.6875rem] text-[var(--blx-muted)] line-clamp-2 tracking-wider">{project.description}</p>
                   </div>
-                  <p className="text-xs text-[var(--blx-muted)] line-clamp-2">{project.description}</p>
                 </div>
-              </div>
+              </GlowCard>
             ))}
           </div>
         )}
 
-        {/* CTA */}
         <div className="mt-16 text-center">
-          <h3 className="text-xl font-display mb-3">Have a project in mind?</h3>
+          <h3 className="text-lg mb-3">Have a project in mind?</h3>
           <Link
             to="/contact"
-            className="btn-gold px-8 py-3.5 text-sm inline-flex items-center gap-2"
+            className="btn-gold px-8 py-3.5 inline-flex items-center gap-2"
             data-testid="projects-cta-contact"
           >
-            Discuss Your Project <ArrowRight size={16} />
+            Discuss Your Project <ArrowRight size={14} />
           </Link>
         </div>
       </div>
@@ -131,9 +148,9 @@ const Projects = () => {
           onClick={() => setSelectedProject(null)}
           data-testid="project-detail-modal"
         >
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-md" />
           <div
-            className="relative bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl"
+            className="relative glass-panel max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -144,39 +161,33 @@ const Projects = () => {
               <X size={16} />
             </button>
 
-            <img
-              src={selectedProject.image_url}
-              alt={selectedProject.title}
-              className="w-full h-64 object-cover rounded-t-2xl"
-            />
+            <img src={selectedProject.image_url} alt={selectedProject.title} className="w-full h-64 object-cover rounded-t-[var(--blx-radius-lg)]" />
 
             <div className="p-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="category-badge">{selectedProject.sector}</span>
-                <span className="text-xs text-[var(--blx-muted)]">{selectedProject.location}</span>
+                <span className="text-[0.625rem] text-[var(--blx-muted)] tracking-[0.2em] font-bold">{selectedProject.location}</span>
               </div>
-              <h2 className="text-2xl font-display mb-1">{selectedProject.title}</h2>
+              <h2 className="text-xl mb-1">{selectedProject.title}</h2>
               {selectedProject.client_name && (
-                <p className="text-sm text-[var(--blx-gold-3)] mb-4">{selectedProject.client_name}</p>
+                <p className="text-sm text-[var(--blx-gold-3)] mb-4 font-bold tracking-wider">{selectedProject.client_name}</p>
               )}
-              <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed">{selectedProject.description}</p>
+              <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed tracking-wider" style={{textTransform: 'none'}}>{selectedProject.description}</p>
 
-              {/* Metrics */}
               {selectedProject.metrics && selectedProject.metrics.length > 0 && (
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   {selectedProject.metrics.map((m, i) => (
-                    <div key={i} className="text-center p-3 bg-[var(--blx-bg-raised)] rounded-xl border border-[var(--blx-border)]">
-                      <div className="text-lg font-semibold text-[var(--blx-gold-3)]">{m.value}</div>
-                      <div className="text-xs text-[var(--blx-muted)]">{m.label}</div>
+                    <div key={i} className="text-center p-3 glass-panel">
+                      <div className="text-lg font-bold text-[var(--blx-gold-3)]">{m.value}</div>
+                      <div className="text-[0.625rem] text-[var(--blx-muted)] tracking-[0.15em]">{m.label}</div>
                     </div>
                   ))}
                 </div>
               )}
 
-              {/* Technologies Used */}
               {selectedProject.technologies_used && selectedProject.technologies_used.length > 0 && (
                 <div className="mb-6">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-[var(--blx-muted)] mb-2">Products Used</h4>
+                  <h4 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-2">Products Used</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedProject.technologies_used.map((t, i) => (
                       <span key={i} className="category-badge">{t}</span>
@@ -185,7 +196,7 @@ const Projects = () => {
                 </div>
               )}
 
-              <a href="/contact" className="btn-gold w-full py-3 text-sm text-center block" data-testid="project-detail-cta">
+              <a href="/contact" className="btn-gold w-full py-3 text-center block" data-testid="project-detail-cta">
                 Discuss a Similar Project
               </a>
             </div>

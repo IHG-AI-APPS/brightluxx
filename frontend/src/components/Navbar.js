@@ -35,22 +35,22 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors duration-200 relative pb-0.5 ${
+                className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
                   isActive(link.path)
-                    ? 'text-[var(--blx-gold-3)]'
+                    ? 'text-[var(--blx-text)]'
                     : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
                 }`}
                 data-testid={`nav-${link.name.toLowerCase()}`}
               >
                 {link.name}
                 {isActive(link.path) && (
-                  <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-gold-3)]" />
+                  <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />
                 )}
               </Link>
             ))}
             <Link
               to="/contact"
-              className="btn-gold px-5 py-2 text-sm"
+              className="btn-gold px-5 py-2"
               data-testid="site-header-request-quote-button"
             >
               Get Quote
@@ -75,10 +75,10 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className={`block px-4 py-3 text-sm font-medium rounded-lg ${
+                className={`block px-4 py-3 text-xs font-bold tracking-widest rounded-lg ${
                   isActive(link.path)
-                    ? 'bg-[var(--blx-panel)] text-[var(--blx-gold-3)]'
-                    : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-panel)]'
+                    ? 'bg-[var(--blx-glass)] text-[var(--blx-text)]'
+                    : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-glass)]'
                 }`}
               >
                 {link.name}

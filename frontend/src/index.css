@@ -1,58 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap');
+@import url('https://fonts.cdnfonts.com/css/satoshi');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Brightluxx Design Tokens */
+/* ========================================
+   BRIGHTLUXX — "Deep Space Modern" Theme
+   Font: Satoshi (Geometric Sans-Serif)
+   Background: #0B0B0B Deep Charcoal
+   Accents: Gold gradient (CTAs/Icons ONLY)
+   ======================================== */
+
 :root {
-  /* --- Base --- */
-  --blx-bg: #0A0A0A;
-  --blx-bg-2: #0F0F0F;
+  /* --- Base "Deep Space" --- */
+  --blx-bg: #0B0B0B;
+  --blx-bg-2: #101010;
   --blx-bg-raised: #141414;
-  --blx-panel: #121212;
-  --blx-panel-2: #171717;
+  --blx-panel: #111111;
+  --blx-panel-2: #161616;
 
-  /* --- Text --- */
+  /* --- Text (White/Light Grey) --- */
   --blx-text: #F5F5F5;
-  --blx-text-2: #D4C5B0;
-  --blx-muted: #A39A8B;
-  --blx-placeholder: rgba(245,245,245,0.55);
+  --blx-text-2: #B0B0B0;
+  --blx-muted: #787878;
+  --blx-placeholder: rgba(245,245,245,0.40);
 
-  /* --- Gold --- */
+  /* --- Gold (CTAs & Key Icons ONLY) --- */
   --blx-gold-1: #B8860B;
   --blx-gold-2: #C59F4A;
   --blx-gold-3: #E5C574;
   --blx-gold-4: #F0D78C;
 
   /* --- Semantic --- */
-  --blx-border: rgba(240,215,140,0.14);
-  --blx-border-2: rgba(240,215,140,0.22);
+  --blx-border: rgba(255,255,255,0.08);
+  --blx-border-2: rgba(255,255,255,0.14);
   --blx-accent: var(--blx-gold-3);
   --blx-accent-2: var(--blx-gold-4);
   --blx-ring: rgba(240,215,140,0.40);
   --blx-danger: #E35D5D;
   --blx-success: #6FD39B;
-  --blx-hairline: rgba(245,245,245,0.08);
+  --blx-hairline: rgba(255,255,255,0.06);
   --blx-focus: 0 0 0 3px rgba(240,215,140,0.40);
 
-  /* --- Lightburst Motif --- */
-  --blx-lightburst: radial-gradient(closest-side, rgba(240,215,140,0.38), rgba(240,215,140,0) 70%);
-  --blx-lightburst-soft: radial-gradient(closest-side, rgba(229,197,116,0.18), rgba(229,197,116,0) 72%);
+  /* --- Glassmorphism --- */
+  --blx-glass: rgba(255,255,255,0.04);
+  --blx-glass-border: rgba(255,255,255,0.08);
+  --blx-glass-strong: rgba(255,255,255,0.07);
+
+  /* --- Glow / Lightburst --- */
+  --blx-glow: radial-gradient(closest-side, rgba(240,215,140,0.20), rgba(240,215,140,0) 70%);
+  --blx-glow-strong: radial-gradient(closest-side, rgba(240,215,140,0.35), rgba(240,215,140,0) 70%);
+
+  /* --- Gold Gradients (CTAs only) --- */
+  --blx-gold-grad: linear-gradient(135deg, #B78E3A 0%, #C59F4A 34%, #E5C574 68%, #F0D78C 100%);
+  --blx-gold-sheen: linear-gradient(90deg, rgba(240,215,140,0) 0%, rgba(240,215,140,0.25) 45%, rgba(240,215,140,0) 100%);
 
   /* --- Radii --- */
   --blx-radius-sm: 10px;
   --blx-radius-md: 14px;
-  --blx-radius-lg: 22px;
-  --blx-radius-xl: 30px;
+  --blx-radius-lg: 20px;
+  --blx-radius-xl: 28px;
 
   /* --- Shadows --- */
   --blx-shadow-soft: 0 12px 40px rgba(0,0,0,0.55);
   --blx-shadow-lift: 0 24px 80px rgba(0,0,0,0.70);
-
-  /* --- Gold Gradients --- */
-  --blx-gold-grad: linear-gradient(135deg, #B78E3A 0%, #C59F4A 34%, #E5C574 68%, #F0D78C 100%);
-  --blx-gold-sheen: linear-gradient(90deg, rgba(240,215,140,0) 0%, rgba(240,215,140,0.25) 45%, rgba(240,215,140,0) 100%);
 
   /* --- Motion --- */
   --blx-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -61,7 +72,7 @@
   --blx-dur-2: 240ms;
   --blx-dur-3: 420ms;
 
-  /* shadcn theme mapping */
+  /* shadcn overrides */
   --background: 0 0% 4%;
   --foreground: 0 0% 96%;
   --card: 0 0% 7%;
@@ -72,21 +83,16 @@
   --primary-foreground: 0 0% 4%;
   --secondary: 0 0% 9%;
   --secondary-foreground: 0 0% 96%;
-  --muted: 30 8% 60%;
-  --muted-foreground: 30 8% 60%;
+  --muted: 0 0% 47%;
+  --muted-foreground: 0 0% 47%;
   --accent: 44 67% 67%;
   --accent-foreground: 0 0% 4%;
   --destructive: 0 65% 63%;
   --destructive-foreground: 0 0% 96%;
-  --border: 44 40% 20%;
-  --input: 44 40% 20%;
+  --border: 0 0% 14%;
+  --input: 0 0% 14%;
   --ring: 44 67% 67%;
   --radius: 14px;
-  --chart-1: 44 67% 67%;
-  --chart-2: 44 51% 54%;
-  --chart-3: 30 8% 60%;
-  --chart-4: 0 65% 63%;
-  --chart-5: 152 55% 64%;
 }
 
 .dark {
@@ -94,25 +100,71 @@
 }
 
 ::selection {
-  background: rgba(240,215,140,0.22);
+  background: rgba(240,215,140,0.20);
   color: #F5F5F5;
 }
 
+/* ======================================
+   GLOBAL TYPOGRAPHY — Satoshi
+   ====================================== */
 body {
   margin: 0;
-  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: var(--blx-bg);
   color: var(--blx-text);
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6, .font-display {
-  font-family: 'Cinzel', Georgia, serif;
+/* Headlines: Satoshi Bold, ALL CAPS, spaced out */
+h1, .h1 {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+h2, .h2 {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+h3, .h3 {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
   letter-spacing: 0.06em;
-  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+h4, h5, h6 {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.font-display {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+p, .body-text {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
 }
 
 html {
@@ -120,12 +172,12 @@ html {
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--blx-bg); }
-::-webkit-scrollbar-thumb { background: var(--blx-gold-1); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--blx-gold-2); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.20); }
 
-/* Utilities */
+/* Gold gradient text (CTAs/highlights only) */
 .text-gradient {
   background: var(--blx-gold-grad);
   -webkit-background-clip: text;
@@ -134,18 +186,77 @@ html {
   font-weight: 700;
 }
 
-/* Noise overlay */
+/* ======================================
+   LED PIXEL DOT GRID OVERLAY
+   A subtle low-opacity dot pattern
+   mimicking LED screen pixels
+   ====================================== */
+.blx-led-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.8) 0.5px, transparent 0.5px);
+  background-size: 6px 6px;
+}
+
+/* Stronger LED grid for hero sections */
+.blx-led-grid-strong::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.05;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.9) 0.6px, transparent 0.6px);
+  background-size: 5px 5px;
+}
+
+/* Noise texture overlay */
 .blx-noise::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.04;
+  opacity: 0.03;
   mix-blend-mode: overlay;
   background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22160%22 height=%22160%22 filter=%22url(%23n)%22 opacity=%220.35%22/%3E%3C/svg%3E');
 }
 
-/* Animations */
+/* ======================================
+   SCROLL-TRIGGERED GLOW
+   Gold radiance behind product images
+   ====================================== */
+.blx-scroll-glow {
+  position: relative;
+}
+
+.blx-scroll-glow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  transform: translate(-50%, -50%);
+  background: var(--blx-glow);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 800ms;
+  transition-timing-function: var(--blx-ease-out);
+}
+
+.blx-scroll-glow.in-view::after {
+  opacity: 1;
+}
+
+/* ======================================
+   ANIMATIONS
+   ====================================== */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
@@ -156,8 +267,8 @@ html {
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(240,215,140,0.3); }
-  50% { box-shadow: 0 0 40px rgba(240,215,140,0.5); }
+  0%, 100% { box-shadow: 0 0 20px rgba(240,215,140,0.2); }
+  50% { box-shadow: 0 0 40px rgba(240,215,140,0.4); }
 }
 
 .animate-glow {
@@ -166,5 +277,6 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up { animation: none; }
+  .blx-scroll-glow::after { transition: none; }
   html { scroll-behavior: auto; }
 }

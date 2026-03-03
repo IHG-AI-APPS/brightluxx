@@ -16,7 +16,7 @@ const StickyCTA = () => {
     <div className="sticky-cta-bar" data-testid="sticky-cta-bar">
       <button
         onClick={handleWhatsApp}
-        className="flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white rounded-lg font-medium hover:bg-[#20BD5A] transition-colors"
+        className="btn-glass flex items-center gap-2 px-6 py-3"
         data-testid="whatsapp-button"
       >
         <MessageCircle size={20} />
@@ -24,7 +24,7 @@ const StickyCTA = () => {
       </button>
       <a
         href="/contact"
-        className="flex items-center gap-2 px-6 py-3 bg-[var(--blx-accent)] text-[var(--blx-bg)] rounded-lg font-medium hover:bg-[var(--blx-accent-2)] transition-colors"
+        className="btn-gold flex items-center gap-2 px-6 py-3"
         data-testid="book-demo-button"
       >
         <PhoneCall size={20} />

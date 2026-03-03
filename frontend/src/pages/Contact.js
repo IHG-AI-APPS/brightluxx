@@ -121,19 +121,19 @@ const Contact = () => {
             </div>
 
             {/* WhatsApp CTA */}
-            <div className="bg-[#25D366] rounded-xl p-6 text-white">
+            <div className="bg-[var(--blx-panel)] border-2 border-[var(--blx-gold-2)] rounded-xl p-6">
               <div className="flex items-center gap-3 mb-3">
-                <MessageCircle size={24} />
+                <MessageCircle size={24} className="text-[var(--blx-gold-3)]" />
                 <h3 className="text-xl font-semibold">Quick Response</h3>
               </div>
-              <p className="text-sm mb-4 opacity-90">
+              <p className="text-sm mb-4 text-[var(--blx-text-2)]">
                 Get instant answers on WhatsApp. Available 24/7 for urgent inquiries.
               </p>
               <a
                 href={`https://wa.me/971559910711?text=${encodeURIComponent(whatsappMessage)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full px-4 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg font-semibold text-center transition-colors"
+                className="btn-gold block w-full text-center"
                 data-testid="whatsapp-cta"
               >
                 Chat on WhatsApp
@@ -181,7 +181,7 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-[var(--blx-bg)] border border-[var(--blx-border)] rounded-lg focus:outline-none focus:border-[var(--blx-accent)] text-[var(--blx-text)]"
+                      className="input-luxury w-full"
                       data-testid="input-name"
                     />
                   </div>
@@ -196,7 +196,7 @@ const Contact = () => {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[var(--blx-bg)] border border-[var(--blx-border)] rounded-lg focus:outline-none focus:border-[var(--blx-accent)] text-[var(--blx-text)]"
+                      className="input-luxury w-full"
                       data-testid="input-company"
                     />
                   </div>
@@ -212,7 +212,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-[var(--blx-bg)] border border-[var(--blx-border)] rounded-lg focus:outline-none focus:border-[var(--blx-accent)] text-[var(--blx-text)]"
+                      className="input-luxury w-full"
                       data-testid="input-email"
                     />
                   </div>
@@ -228,7 +228,7 @@ const Contact = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-[var(--blx-bg)] border border-[var(--blx-border)] rounded-lg focus:outline-none focus:border-[var(--blx-accent)] text-[var(--blx-text)]"
+                      className="input-luxury w-full"
                       data-testid="input-phone"
                     />
                   </div>
@@ -244,7 +244,7 @@ const Contact = () => {
                       value={formData.city}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-[var(--blx-bg)] border border-[var(--blx-border)] rounded-lg focus:outline-none focus:border-[var(--blx-accent)] text-[var(--blx-text)]"
+                      className="input-luxury w-full"
                       data-testid="input-city"
                     />
                   </div>
@@ -259,7 +259,7 @@ const Contact = () => {
                       value={formData.application}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-[var(--blx-bg)] border border-[var(--blx-border)] rounded-lg focus:outline-none focus:border-[var(--blx-accent)] text-[var(--blx-text)]"
+                      className="input-luxury w-full"
                       data-testid="input-application"
                     >
                       <option value="">Select Application</option>
@@ -282,7 +282,7 @@ const Contact = () => {
                       name="timeline"
                       value={formData.timeline}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[var(--blx-bg)] border border-[var(--blx-border)] rounded-lg focus:outline-none focus:border-[var(--blx-accent)] text-[var(--blx-text)]"
+                      className="input-luxury w-full"
                       data-testid="input-timeline"
                     >
                       <option value="">Select Timeline</option>
@@ -303,7 +303,7 @@ const Contact = () => {
                       name="budget"
                       value={formData.budget}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[var(--blx-bg)] border border-[var(--blx-border)] rounded-lg focus:outline-none focus:border-[var(--blx-accent)] text-[var(--blx-text)]"
+                      className="input-luxury w-full"
                       data-testid="input-budget"
                     >
                       <option value="">Select Budget</option>
@@ -326,7 +326,7 @@ const Contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows="4"
-                    className="w-full px-4 py-3 bg-[var(--blx-bg)] border border-[var(--blx-border)] rounded-lg focus:outline-none focus:border-[var(--blx-accent)] text-[var(--blx-text)] resize-none"
+                    className="input-luxury w-full resize-none"
                     placeholder="Tell us about your project requirements..."
                     data-testid="input-message"
                   ></textarea>
@@ -335,7 +335,7 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full px-6 py-4 bg-[var(--blx-accent)] text-[var(--blx-bg)] rounded-lg font-semibold hover:bg-[var(--blx-accent-2)] transition-colors ${
+                  className={`btn-gold w-full ${
                     loading ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   data-testid="submit-button"

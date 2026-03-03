@@ -160,14 +160,14 @@ const TechnologyDetail = () => {
             )}
 
             {/* CTA */}
-            <div className="bg-gradient-to-br from-[var(--blx-accent)] to-[var(--blx-accent-2)] rounded-xl p-6 text-[var(--blx-bg)]">
-              <h3 className="text-xl font-semibold mb-2">Interested?</h3>
-              <p className="text-sm mb-4 opacity-90">
+            <div className="bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl p-6">
+              <h3 className="text-xl font-semibold mb-2 text-[var(--blx-text)]">Interested?</h3>
+              <p className="text-sm mb-5 text-[var(--blx-text-2)]">
                 Get a detailed quote and consultation within 2 hours.
               </p>
               <Link
                 to="/contact"
-                className="block w-full px-4 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg font-semibold text-center transition-colors"
+                className="btn-gold block w-full text-center mb-3"
                 data-testid="cta-get-quote"
               >
                 Get Quote
@@ -176,7 +176,7 @@ const TechnologyDetail = () => {
                 href={`https://wa.me/971559910711?text=${encodeURIComponent(`Hi, I'm interested in ${technology.name}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full px-4 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg font-semibold text-center transition-colors mt-3"
+                className="btn-glass block w-full text-center"
                 data-testid="cta-whatsapp"
               >
                 WhatsApp Us

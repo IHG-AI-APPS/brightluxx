@@ -112,25 +112,24 @@ const ApplicationDetail = () => {
           )}
 
           {/* CTA */}
-          <div className="bg-gradient-to-br from-[var(--blx-accent)] to-[var(--blx-accent-2)] rounded-xl p-8 text-[var(--blx-bg)] text-center">
-            <h3 className="text-2xl font-semibold mb-3">Ready to Get Started?</h3>
-            <p className="text-lg mb-6 opacity-90">
+          <div className="bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl p-10 text-center relative blx-noise">
+            <h3 className="text-2xl font-semibold mb-4 text-[var(--blx-text)]">Ready to Get Started?</h3>
+            <p className="text-lg mb-8 text-[var(--blx-text-2)] font-light">
               Get expert consultation for your {application.name.toLowerCase()} project.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/contact"
-                className="px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2"
+                className="btn-gold px-8 py-4"
                 data-testid="cta-contact"
               >
                 Get Quote
-                <ArrowRight size={20} />
               </Link>
               <a
                 href={`https://wa.me/971559910711?text=${encodeURIComponent(`Hi, I'm interested in LED displays for ${application.name}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg font-semibold transition-colors"
+                className="btn-glass px-8 py-4"
                 data-testid="cta-whatsapp"
               >
                 WhatsApp Us

@@ -60,10 +60,10 @@ const TechnologiesHub = () => {
             <button
               key={cat.value}
               onClick={() => setFilter(cat.value)}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-5 py-2.5 rounded-xl font-medium transition-all ${
                 filter === cat.value
-                  ? 'bg-[var(--blx-accent)] text-[var(--blx-bg)]'
-                  : 'bg-[var(--blx-panel)] border border-[var(--blx-border)] hover:border-[var(--blx-accent)]'
+                  ? 'btn-gold'
+                  : 'btn-glass'
               }`}
               data-testid={`filter-${cat.value}`}
             >

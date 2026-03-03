@@ -110,22 +110,22 @@ const UpdateDetail = () => {
         </article>
 
         {/* CTA */}
-        <div className="mt-12 bg-gradient-to-br from-[var(--blx-accent)] to-[var(--blx-accent-2)] rounded-xl p-8 text-[var(--blx-bg)] text-center">
-          <h3 className="text-2xl font-semibold mb-3">Interested in This Technology?</h3>
-          <p className="text-lg mb-6 opacity-90">
+        <div className="mt-12 bg-[var(--blx-panel)] border border-[var(--blx-border)] rounded-xl p-10 text-center relative blx-noise">
+          <h3 className="text-2xl font-semibold mb-4 text-[var(--blx-text)]">Interested in This Technology?</h3>
+          <p className="text-lg mb-8 text-[var(--blx-text-2)] font-light">
             Get expert consultation and see how this can benefit your business.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/contact"
-              className="px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg font-semibold transition-colors"
+              className="btn-gold px-8 py-4"
               data-testid="cta-contact"
             >
               Contact Us
             </Link>
             <Link
               to="/technologies"
-              className="px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg font-semibold transition-colors"
+              className="btn-glass px-8 py-4"
             >
               View Technologies
             </Link>

@@ -1,171 +1,107 @@
-# Brightluxx Website Redesign — Development Plan (Updated)
+# Brightluxx — Stabilization & Testing Plan
 
-## 1) Objectives
-- Ship a premium, cinematic Brightluxx marketing site (dark stage + metallic gold) derived from the logo.
-- Implement the new content architecture: **Products / Inspirations / Projects / Contact** (preserve **Showroom** + **Configurator**).
-- Provide a reliable backend with new models + endpoints and seeded content (BL-* product codes).
-- Ensure core lead-capture flow works end-to-end (front → API → Mongo) and the site renders fast, responsive, and stable.
-- Ensure **logo usage is correct across dark UI**:
-  - Use the **dark-background variant only** (gold text + X lightburst) with **transparent background**.
-  - Avoid using the dual-version reference image in production UI.
-- Complete comprehensive testing and verify site quality with minimal console noise.
+## Objectives
+- Restore *complete* UX by wiring newly-added features into the app shell (routes + navigation) without changing the approved “Deep Space Modern” system.
+- Deliver a working V1 core flow: **Browse Products → Compare → Calculate Screen → Contact/Lead**.
+- Add minimal missing frontend pieces (Compare page + API helpers) and fix testability issues (test IDs).
+- Validate end-to-end behavior with build checks, screenshots, and automated testing; fix regressions.
 
 ---
 
-## 2) Implementation Steps
+## Implementation Steps
 
-### Phase 1 — Core POC (Isolation: LLM + Data API) ✅ COMPLETED
-**Goal:** prove the riskiest part works before building the full UX: **product data API + Mongo persistence**.
-
-**Delivered (What’s done)**
-- Backend overhaul (FastAPI + MongoDB):
-  - New collections: `products`, `inspirations`, `projects`.
-  - Endpoints implemented:
-    - `GET /api/products` (supports `category`, `featured`, `search`)
-    - `GET /api/products/{slug}`
-    - `GET /api/inspirations` (supports `category`)
-    - `GET /api/projects` (supports `sector`, `featured`)
-    - `GET /api/projects/{slug}`
-    - `POST /api/leads` (kept + confirmed working)
-    - `GET /api/health`
-    - `GET /api/search` (basic product search)
-- Seed script created and executed:
-  - Seeded **12 products** with **BL-** prefixed product codes
-  - Seeded **12 inspirations**
-  - Seeded **6 projects**
-  - Preserved leads collection
-- API verification:
-  - Manual curl smoke tests confirmed correct payload shapes and non-empty data.
-
-**Exit criteria (met)**
-- All new endpoints return stable non-empty data without 500s.
-- Lead creation works and inserts into `leads`.
-- Backend tests: **100% pass rate (37/37)**.
-
----
-
-### Phase 2 — V1 App Development (Frontend + Backend Wiring) ✅ COMPLETED
-**Goal:** implement the new premium UX using design guidelines + hero video.
-
-**Delivered (What’s done)**
-- Global styling setup:
-  - Fonts implemented in `index.css`: **Fraunces** (display) + **Manrope** (body).
-  - Premium dark theme tokens + gold accents added.
-  - Avoided `transition: all`; used scoped transitions.
-  - Noise overlay utility + premium hover/press states.
-- Navigation + layout:
-  - Minimalist Navbar.
-  - Updated Footer with new IA and contact details.
-  - Sticky mobile CTA bar (WhatsApp + Get Quote).
-- Routing + API wiring:
-  - Updated `App.js` routes: `/` `/products` `/inspirations` `/projects` `/showroom` `/configurator` `/contact`.
-  - Updated `api.js` to use new endpoints.
-- Home page rewrite:
-  - Cinematic autoplay hero video (`/assets/hero-video.mp4`) with poster fallback.
-  - 3 “entry doors” to Products / Inspirations / Projects.
-  - Trust strip + CTA section.
-- Products page:
-  - Grid of product cards with BL code badges.
-  - Filters (category) + search.
-  - Quick-view modal with a specs table and CTAs.
-- Inspirations page:
-  - Masonry-style gallery (CSS columns) + category filters.
-- Projects page:
-  - Case study card grid + sector filters.
-  - Project detail modal including metrics + products used.
-- Contact page:
-  - Restyled lead capture form consistent with new design system.
-  - WhatsApp integration and success-state UI.
-- Preserved experiences:
-  - **Virtual Showroom** and **Product Configurator** remain functional and visually compatible with the new theme.
-- Cleanup:
-  - Removed legacy/unused pages and old files from previous IA.
-
-**Exit criteria (met)**
-- All pages render and navigate correctly.
-- Products load from backend; quick-view works.
-- Lead form submit shows success UI and persists to DB.
-
----
-
-### Phase 3 — Testing, Polish, Performance ✅ COMPLETED
-**Goal:** validate quality, stability, and end-to-end lead generation.
-
-**Delivered (What’s done)**
-- Comprehensive test pass:
-  - Backend: **100% (37/37)**
-  - Frontend: **98%** (only minor console warnings; no functional impact)
-- Visual QA:
-  - Screenshot verification across key routes: Home, Products (+ modal), Inspirations, Projects (+ modal), Contact, Showroom.
-- Stability:
-  - Confirmed WhatsApp CTAs work with pre-filled messages.
-  - Confirmed lead capture inserts into Mongo and shows success UI.
-
-**Noted (minor)**
-- Minor console warnings (cosmetic only) reported around the product modal specs table hydration.
-
----
-
-### Phase 3.5 — Logo Asset Finalization ✅ COMPLETED
-**Goal:** fix logo usage logic based on the provided dual-version reference (white bg + black bg).
-
-**Context**
-- User-provided logo file contained **two logo versions side-by-side**:
-  - Left: logo on **white background** (reference for light backgrounds)
-  - Right: logo on **black background** (reference for dark backgrounds)
-
-**Delivered (What’s done)**
-- Extracted **only** the dark-background logo (right half), removed the black background, and produced a transparent PNG.
-- Deployed the transparent dark-optimized logo across the site:
-  - Navbar logo updated to: `/assets/brightluxx-logo-dark.png`
-  - Footer logo updated to: `/assets/brightluxx-logo-dark.png`
-
-**Exit criteria (met)**
-- Gold text and the **X lightburst effect** render cleanly on the dark theme.
-- No white/black reference blocks appear in production UI.
-
----
-
-### Phase 4 — Future Enhancements (Post-V1)
+### Phase 1 — Core Flow Wiring (P0 fixes, no new scope)
 **User stories**
-1. As an admin, I can manage products/projects/inspirations in a CMS UI.
-2. As sales, I receive real email notifications for new leads.
-3. As marketing, I can A/B test hero CTAs and track conversions.
-4. As a visitor, I can download gated resources after lead capture.
-5. As a visitor, I can deep-link/share individual products and projects with dedicated detail pages.
-6. As brand owner, I can maintain multiple logo variants (light/dark) and swap them safely without editing UI code.
+1. As a user, I can open the Screen Calculator from navigation and get a recommendation.
+2. As a user, I can compare 2–4 product codes and view differences in a single page.
+3. As a user, I can access the Technology Guide to understand COB/MiP/Transparent/Interactive.
+4. As a user, I can browse products by category and search without broken filters.
+5. As a user, I can request a quote from any tool/result state via Contact.
 
-**Steps**
-- Admin panel:
-  - Add protected CRUD UI for `products`, `inspirations`, `projects`.
-- Notifications:
-  - Integrate email (SMTP/SendGrid) + optional Slack/WhatsApp notifications for new leads.
-- Analytics:
-  - Add event tracking for CTAs, filters, modal opens, and form submissions.
-- Content pipeline:
-  - Implement real scraping ingestion from supplier sources (Unilumin, Leyard, etc.) into `products`.
-  - Add scheduled refresh + deduplication.
-- Performance/SEO:
-  - Add preloading strategies for hero media.
-  - Add meta tags, OpenGraph, structured data for products/projects.
-- Brand assets:
-  - Store official logo variants as separate assets (e.g., `logo-dark.svg`, `logo-light.svg`) and document usage rules.
+**Work items**
+- **Routes (P0):** Update `frontend/src/App.js` to import and route:
+  - `/calculator` → `ScreenCalculator`
+  - `/compare` → new `Compare`
+  - `/tech-guide` → `TechGuide`
+- **Compare Page (P0):** Create `frontend/src/pages/Compare.js` (MVP):
+  - Accept product codes (input + chips), enforce 2–4 selection
+  - Call compare endpoint and render spec comparison table
+  - Provide CTAs to Products and Contact
+  - Add required `data-testid` hooks
+- **Navbar (P0):** Add “Tools” links (Calculator, Compare, Tech Guide) in desktop + mobile menus.
+- **API helpers (P1):** Extend `frontend/src/api.js` with:
+  - `compareProducts(product_codes)`
+  - `calculateScreenSize(payload)`
+  - Keep existing exports stable
+- **Test ID uniqueness (P1):** Fix duplicate `data-testid="products-filter-select"` in Products category buttons (e.g., `products-filter-<category>`), keep the existing one for the container if needed.
+- **Quick sanity check:** Load each new route and confirm no console/runtime errors.
 
----
-
-## 3) Next Actions (Immediate)
-1. (Optional) Resolve the minor console hydration warnings in the product specs table.
-2. Replace placeholder inspiration/project media with fully licensed brand-approved assets.
-3. Add conversion tracking (CTA clicks, form submits) and define KPIs.
-4. Implement lead notification delivery (email/WhatsApp/Slack) for sales follow-up.
-5. Start supplier scraping ingestion pipeline to continuously expand the product catalog.
-6. (Brand) Provide/export **official SVG** logo variants (dark/light) for pixel-perfect scaling; swap PNG for SVG once available.
+**Exit gate**
+- Users can reach Calculator/Compare/Tech Guide from both URL and Navbar.
+- Compare works with real backend data (2–4 codes), handles empty/error states.
 
 ---
 
-## 4) Success Criteria
-- Backend: `/api/products`, `/api/inspirations`, `/api/projects` return stable, well-structured data; `/api/leads` remains functional.
-- Frontend: New routes live; Home hero video autoplays; Products grid + quick view works; Inspirations/Projects render with media-first UI.
-- Leads: contact form reliably stores submissions; success feedback visible; WhatsApp CTAs work.
-- Branding: production UI uses the **transparent dark-background logo variant only** on the dark theme (gold + X lightburst), with no reference background blocks.
-- Quality: scoped transitions (no `transition: all`), minimal gradients, responsive layout, no broken links, and only minor/no console warnings.
+### Phase 2 — V1 Stabilization Testing (build + visuals + automated)
+**User stories**
+1. As a user, I can refresh any page and routing still works (no blank screen).
+2. As a user, I can use Products search and category filters reliably.
+3. As a user, I can submit the calculator form multiple times and results update.
+4. As a user, I can open/close product quick view and still scroll the page.
+5. As a user, I can complete the lead form and receive a success response.
+
+**Work items**
+- **Build verification:** Run esbuild / frontend build to ensure no compile errors; address blocking warnings if they impact behavior.
+- **Screenshots:** Capture key pages/states:
+  - Home, Products (filtered + modal), Compare (2 products), Calculator (results), Tech Guide, Contact
+- **Automated testing:** Run the testing agent for backend + frontend E2E coverage.
+- **Bug fixing loop:** Triage and fix failures by severity:
+  - P0: navigation/routes, broken API calls, crashes
+  - P1: incorrect data rendering, missing states, a11y regressions
+  - P2: minor styling inconsistencies
+
+**Exit gate**
+- One clean test run (or only non-blocking warnings) + all core pages render.
+
+---
+
+### Phase 3 — UX Polish & Final Verification (no feature creep)
+**User stories**
+1. As a user, I see consistent layout/typography across Tools pages.
+2. As a user, I can use Compare on mobile without layout breaking.
+3. As a user, I always have a clear next step (Products/Contact/WhatsApp).
+4. As a user, loading and empty states look intentional (not broken).
+5. As a user, the app feels fast (no unnecessary rerenders/spinners).
+
+**Work items**
+- **Consistency pass:** Ensure new pages use existing components/classes (`glass-panel`, `btn-gold`, `btn-glass`, `spec-table`, tokens).
+- **Responsive pass:** Check key breakpoints for Compare and Calculator.
+- **Final screenshots:** Re-capture all pages after fixes.
+
+**Exit gate**
+- Stable V1 user journey + consistent Deep Space Modern styling + final screenshots.
+
+---
+
+## Next Actions (Immediate)
+1. Update `App.js` to add missing routes for Calculator/Compare/Tech Guide.
+2. Implement `Compare.js` MVP page and wire to backend.
+3. Add Navbar links for Tools.
+4. Add API helper functions for calculator + compare.
+5. Fix Products filter `data-testid` duplication.
+6. Run build check, take screenshots, then run testing agent and fix findings.
+
+---
+
+## Success Criteria
+- **Functional:**
+  - `/calculator`, `/compare`, `/tech-guide` accessible and usable via Navbar.
+  - Compare supports 2–4 product codes and renders a clear comparison.
+  - Calculator returns recommendation + matching products without errors.
+  - Products filtering/search + quick view modal still works.
+- **Quality:**
+  - Frontend build passes; no runtime crashes.
+  - Automated tests pass (or only explicitly accepted non-blocking warnings).
+  - All key interactive elements have stable, unique `data-testid`s.
+- **UX:**
+  - Consistent Deep Space Modern styling across new pages; responsive on mobile/desktop.

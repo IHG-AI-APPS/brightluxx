@@ -28,12 +28,11 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-[0.625rem] font-bold mb-4 tracking-[0.2em]">Solutions</h3>
+            <h3 className="text-[0.625rem] font-bold mb-4 tracking-[0.2em]">Tools</h3>
             <ul className="space-y-2 text-xs">
-              <li className="text-[var(--blx-text-2)] tracking-wider">Retail & Malls</li>
-              <li className="text-[var(--blx-text-2)] tracking-wider">Corporate & Boardrooms</li>
-              <li className="text-[var(--blx-text-2)] tracking-wider">Outdoor Advertising</li>
-              <li className="text-[var(--blx-text-2)] tracking-wider">Events & Staging</li>
+              <li><Link to="/calculator" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Screen Calculator</Link></li>
+              <li><Link to="/compare" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Compare Products</Link></li>
+              <li><Link to="/tech-guide" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Technology Guide</Link></li>
             </ul>
           </div>
 

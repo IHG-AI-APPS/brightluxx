@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 class BrightluxxAPITester:
-    def __init__(self, base_url="https://brightluxx-preview.preview.emergentagent.com"):
+    def __init__(self, base_url="https://brightluxx-preview-1.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
@@ -84,16 +84,17 @@ class BrightluxxAPITester:
         success, data = self.run_test("Products List", "GET", "/api/products")
         
         if success and 'products' in data:
-            # Test category filtering
-            categories = ['micro-led', 'indoor', 'outdoor', 'rental', 'transparent', 'creative']
-            for category in categories:
-                self.run_test(f"Products by Category - {category}", "GET", "/api/products", params={'category': category})
+            # Test specific category filtering as mentioned in requirements
+            self.run_test("Products by Category - cob-microled", "GET", "/api/products", params={'category': 'cob-microled'})
             
-            # Test featured filter
-            self.run_test("Featured Products", "GET", "/api/products", params={'featured': True})
+            # Test trending filter
+            self.run_test("Trending Products", "GET", "/api/products", params={'trending': True})
             
-            # Test search
-            self.run_test("Products Search", "GET", "/api/products", params={'search': 'BL'})
+            # Test search for COB as mentioned in requirements
+            self.run_test("Products Search - COB", "GET", "/api/products", params={'search': 'COB'})
+            
+            # Test categories endpoint
+            self.run_test("Product Categories", "GET", "/api/products/categories")
             
             # Get first product for detail test
             if len(data['products']) > 0:
@@ -110,6 +111,45 @@ class BrightluxxAPITester:
                     print(f"   ✅ Product has proper BL-prefix code: {product_code}")
                 else:
                     print(f"   ⚠️  Product code doesn't have BL-prefix: {product_code}")
+        
+        return success
+    
+    def test_compare_products(self):
+        """Test product comparison endpoint"""
+        # Test with specific product codes mentioned in requirements
+        test_codes = ['BL-COB060', 'BL-COB093']
+        success, data = self.run_test("Compare Products", "POST", "/api/products/compare", data=test_codes)
+        
+        if success and 'products' in data:
+            if len(data['products']) == 2:
+                print(f"   ✅ Comparison returned {len(data['products'])} products as expected")
+            else:
+                print(f"   ⚠️  Comparison returned {len(data['products'])} products, expected 2")
+        
+        return success
+    
+    def test_calculator_endpoint(self):
+        """Test screen calculator endpoint"""
+        test_params = {
+            "venue_width": 10,
+            "venue_height": 3,
+            "viewing_distance": 5,
+            "content_type": "video",
+            "indoor": True
+        }
+        
+        success, data = self.run_test("Screen Calculator", "POST", "/api/calculator/screen-size", data=test_params)
+        
+        if success:
+            required_fields = ['recommended_pitch', 'screen_width', 'screen_height', 'resolution', 'brightness']
+            missing_fields = [field for field in required_fields if field not in data]
+            
+            if not missing_fields:
+                print(f"   ✅ Calculator response has all required fields")
+                print(f"   📊 Recommended pitch: {data.get('recommended_pitch')}mm")
+                print(f"   📊 Screen dimensions: {data.get('screen_width')}m x {data.get('screen_height')}m")
+            else:
+                print(f"   ⚠️  Calculator response missing fields: {missing_fields}")
         
         return success
 
@@ -238,6 +278,8 @@ def main():
     print("-" * 30)
     tester.test_search()
     tester.test_create_lead()
+    tester.test_compare_products()
+    tester.test_calculator_endpoint()
     
     print("\n📋 ERROR HANDLING TESTS")
     print("-" * 30)

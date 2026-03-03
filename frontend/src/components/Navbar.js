@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
+  const isToolsActive = ['/calculator', '/compare', '/tech-guide'].includes(location.pathname);
 
   const navLinks = [
     { name: 'Products', path: '/products' },
     { name: 'Inspirations', path: '/inspirations' },
     { name: 'Projects', path: '/projects' },
     { name: 'Showroom', path: '/showroom' },
-    { name: 'Contact', path: '/contact' },
+  ];
+
+  const toolsLinks = [
+    { name: 'Screen Calculator', path: '/calculator' },
+    { name: 'Compare Products', path: '/compare' },
+    { name: 'Technology Guide', path: '/tech-guide' },
   ];
 
   return (
@@ -48,6 +55,67 @@ const Navbar = () => {
                 )}
               </Link>
             ))}
+
+            {/* Tools Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setToolsOpen(true)}
+              onMouseLeave={() => setToolsOpen(false)}
+            >
+              <button
+                className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 flex items-center gap-1 ${
+                  isToolsActive
+                    ? 'text-[var(--blx-text)]'
+                    : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
+                }`}
+                data-testid="nav-tools"
+              >
+                Tools
+                <ChevronDown size={12} className={`transition-transform duration-200 ${toolsOpen ? 'rotate-180' : ''}`} />
+                {isToolsActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />
+                )}
+              </button>
+
+              {toolsOpen && (
+                <div
+                  className="absolute top-full left-0 mt-1 w-52 glass-panel shadow-2xl py-2"
+                  style={{ backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'rgba(11,11,11,0.92)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 'var(--blx-radius-md)' }}
+                  data-testid="nav-tools-dropdown"
+                >
+                  {toolsLinks.map((link) => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className={`block px-4 py-2.5 text-[0.6875rem] font-bold tracking-wider transition-colors duration-200 ${
+                        isActive(link.path)
+                          ? 'text-[var(--blx-gold-3)] bg-[rgba(229,197,116,0.06)]'
+                          : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)] hover:bg-[rgba(255,255,255,0.04)]'
+                      }`}
+                      data-testid={`nav-tools-${link.path.substring(1)}`}
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <Link
+              to="/contact"
+              className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
+                isActive('/contact')
+                  ? 'text-[var(--blx-text)]'
+                  : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
+              }`}
+              data-testid="nav-contact"
+            >
+              Contact
+              {isActive('/contact') && (
+                <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />
+              )}
+            </Link>
+
             <Link
               to="/contact"
               className="btn-gold px-5 py-2"
@@ -84,6 +152,38 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
+
+            {/* Mobile Tools Section */}
+            <div className="px-4 pt-2">
+              <div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-2">Tools</div>
+            </div>
+            {toolsLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => setIsOpen(false)}
+                className={`block px-4 py-3 text-xs font-bold tracking-widest rounded-lg ${
+                  isActive(link.path)
+                    ? 'bg-[var(--blx-glass)] text-[var(--blx-gold-3)]'
+                    : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-glass)]'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+
+            <Link
+              to="/contact"
+              onClick={() => setIsOpen(false)}
+              className={`block px-4 py-3 text-xs font-bold tracking-widest rounded-lg ${
+                isActive('/contact')
+                  ? 'bg-[var(--blx-glass)] text-[var(--blx-text)]'
+                  : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-glass)]'
+              }`}
+            >
+              Contact
+            </Link>
+
             <Link
               to="/contact"
               onClick={() => setIsOpen(false)}

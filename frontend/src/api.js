@@ -12,6 +12,11 @@ const api = axios.create({
 // Products
 export const getProducts = (params) => api.get('/api/products', { params });
 export const getProduct = (slug) => api.get(`/api/products/${slug}`);
+export const getProductCategories = () => api.get('/api/products/categories');
+export const compareProducts = (productCodes) => api.post('/api/products/compare', productCodes);
+
+// Calculator
+export const calculateScreenSize = (data) => api.post('/api/calculator/screen-size', data);
 
 // Inspirations
 export const getInspirations = (params) => api.get('/api/inspirations', { params });

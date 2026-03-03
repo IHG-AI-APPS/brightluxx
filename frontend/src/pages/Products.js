@@ -97,7 +97,7 @@ const Products = () => {
                     ? 'bg-[var(--blx-gold-3)] text-[#0B0B0B] border-[var(--blx-gold-3)]'
                     : 'bg-transparent text-[var(--blx-text-2)] border-[var(--blx-border)] hover:border-[var(--blx-border-2)]'
                 }`}
-                data-testid="products-filter-select"
+                data-testid={`products-filter-${cat.value || 'all'}`}
               >
                 {cat.label}
               </button>

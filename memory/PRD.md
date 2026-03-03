@@ -61,6 +61,7 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 - [x] Rate limiting on critical endpoints
 - [x] Backend refactored from monolith to modular routes/models/utils
 - [x] **Real image replacement**: All 100+ images downloaded from brightluxx.com WordPress media library, converted to WebP, mapped to all products (57), projects (26), and inspirations (22)
+- [x] **Image CDN Integration**: All 194 images migrated to Emergent Object Storage. CDN endpoint (`/api/cdn/{path}`) with on-the-fly optimization (resize, quality, format conversion). Admin uploads go directly to cloud storage.
 - [x] Database seeded with real product data and project data from brightluxx.com
 
 ### Admin Credentials
@@ -71,9 +72,6 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 ## Prioritized Backlog
 
 ### P1 — Next Up
-- Image CDN Integration (Cloudinary/S3) for production scalability
-
-### P2
 - Real email notifications for lead capture (SendGrid integration)
 - Further modularize admin.py route file by resource
 

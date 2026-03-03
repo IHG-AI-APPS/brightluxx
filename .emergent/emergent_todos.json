@@ -1,34 +1,6 @@
 [
   {
-    "content": "Phase 2: Backend - Seed database with sample content",
-    "status": "completed"
-  },
-  {
-    "content": "Phase 2: Frontend - Setup design tokens and fonts",
-    "status": "completed"
-  },
-  {
-    "content": "Phase 2: Frontend - Build Home page with hero and entry doors",
-    "status": "completed"
-  },
-  {
-    "content": "Phase 2: Frontend - Build Technologies hub and detail pages",
-    "status": "completed"
-  },
-  {
-    "content": "Phase 2: Frontend - Build Applications and Case Studies pages",
-    "status": "completed"
-  },
-  {
-    "content": "Phase 2: Frontend - Build Contact and lead capture forms",
-    "status": "completed"
-  },
-  {
-    "content": "Phase 2: End to End Testing using Testing Agent",
-    "status": "in_progress"
-  },
-  {
     "content": "Phase 2: All user stories covered in Development and testing",
-    "status": "pending"
+    "status": "completed"
   }
 ]

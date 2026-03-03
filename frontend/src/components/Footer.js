@@ -12,9 +12,9 @@ const Footer = () => {
           {/* Brand */}
           <div className="col-span-1">
             <img
-              src="/assets/brightluxx-logo.png"
+              src="/assets/brightluxx-logo-dark.png"
               alt="Brightluxx"
-              className="h-7 w-auto mb-4"
+              className="h-6 w-auto mb-4"
             />
             <p className="text-sm text-[var(--blx-text-2)] leading-relaxed">
               Premium LED display solutions for UAE and MENA.

@@ -23,9 +23,9 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center" data-testid="logo-link">
             <img
-              src="/assets/brightluxx-logo.png"
+              src="/assets/brightluxx-logo-dark.png"
               alt="Brightluxx"
-              className="h-10 w-auto"
+              className="h-7 sm:h-8 w-auto"
             />
           </Link>
 

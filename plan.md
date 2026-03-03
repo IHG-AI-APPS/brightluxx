@@ -5,6 +5,9 @@
 - Implement the new content architecture: **Products / Inspirations / Projects / Contact** (preserve **Showroom** + **Configurator**).
 - Provide a reliable backend with new models + endpoints and seeded content (BL-* product codes).
 - Ensure core lead-capture flow works end-to-end (front → API → Mongo) and the site renders fast, responsive, and stable.
+- Ensure **logo usage is correct across dark UI**:
+  - Use the **dark-background variant only** (gold text + X lightburst) with **transparent background**.
+  - Avoid using the dual-version reference image in production UI.
 - Complete comprehensive testing and verify site quality with minimal console noise.
 
 ---
@@ -51,7 +54,7 @@
   - Avoided `transition: all`; used scoped transitions.
   - Noise overlay utility + premium hover/press states.
 - Navigation + layout:
-  - Minimalist Navbar with logo image (`/assets/brightluxx-logo.png`).
+  - Minimalist Navbar.
   - Updated Footer with new IA and contact details.
   - Sticky mobile CTA bar (WhatsApp + Get Quote).
 - Routing + API wiring:
@@ -103,6 +106,26 @@
 
 ---
 
+### Phase 3.5 — Logo Asset Finalization ✅ COMPLETED
+**Goal:** fix logo usage logic based on the provided dual-version reference (white bg + black bg).
+
+**Context**
+- User-provided logo file contained **two logo versions side-by-side**:
+  - Left: logo on **white background** (reference for light backgrounds)
+  - Right: logo on **black background** (reference for dark backgrounds)
+
+**Delivered (What’s done)**
+- Extracted **only** the dark-background logo (right half), removed the black background, and produced a transparent PNG.
+- Deployed the transparent dark-optimized logo across the site:
+  - Navbar logo updated to: `/assets/brightluxx-logo-dark.png`
+  - Footer logo updated to: `/assets/brightluxx-logo-dark.png`
+
+**Exit criteria (met)**
+- Gold text and the **X lightburst effect** render cleanly on the dark theme.
+- No white/black reference blocks appear in production UI.
+
+---
+
 ### Phase 4 — Future Enhancements (Post-V1)
 **User stories**
 1. As an admin, I can manage products/projects/inspirations in a CMS UI.
@@ -110,6 +133,7 @@
 3. As marketing, I can A/B test hero CTAs and track conversions.
 4. As a visitor, I can download gated resources after lead capture.
 5. As a visitor, I can deep-link/share individual products and projects with dedicated detail pages.
+6. As brand owner, I can maintain multiple logo variants (light/dark) and swap them safely without editing UI code.
 
 **Steps**
 - Admin panel:
@@ -124,6 +148,8 @@
 - Performance/SEO:
   - Add preloading strategies for hero media.
   - Add meta tags, OpenGraph, structured data for products/projects.
+- Brand assets:
+  - Store official logo variants as separate assets (e.g., `logo-dark.svg`, `logo-light.svg`) and document usage rules.
 
 ---
 
@@ -133,6 +159,7 @@
 3. Add conversion tracking (CTA clicks, form submits) and define KPIs.
 4. Implement lead notification delivery (email/WhatsApp/Slack) for sales follow-up.
 5. Start supplier scraping ingestion pipeline to continuously expand the product catalog.
+6. (Brand) Provide/export **official SVG** logo variants (dark/light) for pixel-perfect scaling; swap PNG for SVG once available.
 
 ---
 
@@ -140,4 +167,5 @@
 - Backend: `/api/products`, `/api/inspirations`, `/api/projects` return stable, well-structured data; `/api/leads` remains functional.
 - Frontend: New routes live; Home hero video autoplays; Products grid + quick view works; Inspirations/Projects render with media-first UI.
 - Leads: contact form reliably stores submissions; success feedback visible; WhatsApp CTAs work.
+- Branding: production UI uses the **transparent dark-background logo variant only** on the dark theme (gold + X lightburst), with no reference background blocks.
 - Quality: scoped transitions (no `transition: all`), minimal gradients, responsive layout, no broken links, and only minor/no console warnings.

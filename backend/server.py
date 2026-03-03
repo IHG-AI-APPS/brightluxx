@@ -499,9 +499,11 @@ async def admin_stats(admin=Depends(get_current_admin)):
 
     # Lead status breakdown
     lead_pipeline = [{"$group": {"_id": "$status", "count": {"$sum": 1}}}]
-    lead_statuses = []
+    lead_status_map = {}
     async for doc in leads_col.aggregate(lead_pipeline):
-        lead_statuses.append({"status": doc["_id"] or "new", "count": doc["count"]})
+        status_key = doc["_id"] or "new"
+        lead_status_map[status_key] = lead_status_map.get(status_key, 0) + doc["count"]
+    lead_statuses = [{"status": k, "count": v} for k, v in lead_status_map.items()]
 
     return {
         "products": product_count,

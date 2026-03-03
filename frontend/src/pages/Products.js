@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, SlidersHorizontal, Monitor } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
+import SEO from '../components/SEO';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -75,7 +76,12 @@ const Products = () => {
 
   return (
     <div className="py-20" data-testid="products-page">
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="LED Display Products"
+        description="Browse our complete range of LED display solutions — COB MicroLED, transparent, outdoor, rental, flexible, interactive floor, and more. Full specs and instant quotes."
+        path="/products"
+        image="/api/cdn/cob_microled_1.webp"
+      />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-10">
           <h1 data-testid="products-page-title">Products</h1>

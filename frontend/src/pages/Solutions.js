@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Building2, ShoppingBag, MonitorPlay, Tv, Layers, TrafficCone, Theater, Zap, Globe } from 'lucide-react';
 import CdnImage from '../components/CdnImage';
+import SEO from '../components/SEO';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -156,7 +157,12 @@ const SolutionCard = ({ solution, index }) => {
 export default function Solutions() {
   return (
     <div className="py-20" data-testid="solutions-page">
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="LED Display Solutions"
+        description="LED display solutions for every industry — retail, corporate, outdoor advertising, events, creative installations, traffic signage, virtual production, and transparent displays."
+        path="/solutions"
+        image="/api/cdn/sol_indoor_shop.webp"
+      />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12">
           <h1 data-testid="solutions-page-title">Solutions</h1>

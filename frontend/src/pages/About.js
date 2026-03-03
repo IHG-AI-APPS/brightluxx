@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Target, Eye, Award, MapPin, Calendar, Users, CheckCircle } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -49,7 +50,12 @@ const STATS = [
 export default function About() {
   return (
     <div className="py-20" data-testid="about-page">
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="About Us"
+        description="Brightluxx is a UAE-based LED display solutions company. Gulf-grade engineering, local support, and a commitment to transforming spaces with cutting-edge LED technology."
+        path="/about"
+        image="/api/cdn/about_banner.webp"
+      />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12">
           <h1 data-testid="about-page-title">About Brightluxx</h1>

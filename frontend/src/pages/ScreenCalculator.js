@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Calculator, Monitor, Sun, Moon, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import api from '../api';
 
 const ScreenCalculator = () => {
@@ -27,7 +28,7 @@ const ScreenCalculator = () => {
 
   return (
     <div className="py-20" data-testid="calculator-page">
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+      <SEO title="Screen Calculator" description="Calculate the ideal LED screen size, resolution, and pixel pitch for your space. Free tool from Brightluxx." path="/calculator" />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
           <h1 data-testid="calculator-page-title">Screen Calculator</h1>
           <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider">

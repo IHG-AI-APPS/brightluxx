@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Zap, Send, Phone, Check } from 'lucide-react';
 import { getProduct, getProducts, createLead } from '../api';
 import CdnImage from '../components/CdnImage';
+import SEO from '../components/SEO';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -120,6 +121,13 @@ export default function ProductDetail() {
 
   return (
     <div className="py-16" data-testid={`product-detail-${product.slug}`}>
+      <SEO
+        title={`${product.name} — ${product.product_code}`}
+        description={`${product.tagline}. ${product.pixel_pitch} pixel pitch, ${product.brightness} brightness. ${product.description?.slice(0, 100)}`}
+        image={product.image_url}
+        path={`/products/${product.slug}`}
+        type="product"
+      />
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Breadcrumb */}

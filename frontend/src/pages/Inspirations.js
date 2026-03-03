@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { getInspirations } from '../api';
 import { Sparkles } from 'lucide-react';
 import CdnImage from '../components/CdnImage';
+import SEO from '../components/SEO';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -61,7 +62,12 @@ const Inspirations = () => {
 
   return (
     <div className="py-20" data-testid="inspirations-page">
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="LED Display Inspirations"
+        description="Get inspired by stunning LED display installations — immersive retail, stadium screens, architectural media facades, interactive floors, transparent storefronts, and more."
+        path="/inspirations"
+        image="/api/cdn/insp_retail.webp"
+      />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
           <h1 data-testid="inspirations-page-title">Inspirations</h1>
           <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider">Discover how LED transforms spaces across industries.</p>

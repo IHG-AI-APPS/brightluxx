@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, Zap } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
+import SEO from '../components/SEO';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -195,7 +196,12 @@ export default function SolutionDetail() {
 
   return (
     <div data-testid={`solution-detail-${solution.id}`}>
-      {/* Hero */}
+      <SEO
+        title={`${solution.title} — LED Solutions`}
+        description={solution.description}
+        image={solution.heroImage}
+        path={`/solutions/${solution.id}`}
+      />      {/* Hero */}
       <section className="relative py-16 sm:py-24 overflow-hidden" data-testid="solution-detail-hero">
         <div className="absolute inset-0">
           <img src={solution.heroImage} alt={solution.title} className="w-full h-full object-cover opacity-30" loading="eager" />

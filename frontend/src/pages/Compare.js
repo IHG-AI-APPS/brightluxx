@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, X, ArrowRight, GitCompareArrows, Plus, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { getProducts, compareProducts } from '../api';
 
 const Compare = () => {
@@ -97,7 +98,7 @@ const Compare = () => {
 
   return (
     <div className="py-20" data-testid="compare-page">
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+      <SEO title="Compare LED Products" description="Compare LED display specifications side-by-side. Find the perfect screen for your project with our comparison tool." path="/compare" />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-10">
           <h1 data-testid="compare-page-title">Compare Products</h1>

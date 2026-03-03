@@ -1,6 +1,7 @@
 import React from 'react';
 import { Cpu, Layers, Zap, Eye, ArrowRight, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const techData = [
   {
@@ -72,7 +73,7 @@ const techData = [
 const TechGuide = () => {
   return (
     <div className="py-20" data-testid="tech-guide-page">
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+      <SEO title="LED Technology Guide" description="Learn about LED display technologies — COB, SMD, DIP, MiP. Understand pixel pitch, brightness, viewing distance, and refresh rates." path="/tech-guide" />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <h1 data-testid="tech-guide-title">Technology Guide</h1>
           <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider max-w-2xl">

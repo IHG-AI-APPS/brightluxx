@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 import { getProducts, getProjects } from '../api';
 import CdnImage from '../components/CdnImage';
+import SEO from '../components/SEO';
 
 /* Scroll-triggered glow hook */
 const useInView = (ref) => {
@@ -62,7 +63,11 @@ const Home = () => {
 
   return (
     <div data-testid="home-page">
-      {/* Hero Section — Video + LED Grid */}
+      <SEO
+        title="Premium LED Display Solutions"
+        description="Brightluxx — Leading supplier of digital LED screens in UAE. Indoor, outdoor, transparent, flexible, and rental LED displays. Gulf-grade engineering, local support."
+        path="/"
+      />      {/* Hero Section — Video + LED Grid */}
       <section className="relative pt-6 sm:pt-10 pb-12 sm:pb-16" data-testid="hero-section">
         <div className="hero-video-container mx-4 sm:mx-6 lg:mx-auto max-w-[1320px] blx-led-grid-strong">
           <video

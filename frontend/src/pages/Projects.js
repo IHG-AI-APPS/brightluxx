@@ -3,6 +3,7 @@ import { getProjects } from '../api';
 import { MapPin, Maximize2, Building, X, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CdnImage from '../components/CdnImage';
+import SEO from '../components/SEO';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -65,7 +66,12 @@ const Projects = () => {
 
   return (
     <div className="py-20" data-testid="projects-page">
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="Our Projects"
+        description="Real LED display installations across UAE and MENA — retail, corporate, outdoor, and event projects. See our completed work in Dubai, Abu Dhabi, Sharjah, and beyond."
+        path="/projects"
+        image="/api/cdn/proj_indian_pavilion___expo_2020_dubai.webp"
+      />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
           <h1 data-testid="projects-page-title">Projects</h1>
           <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider">Real installations across UAE and MENA.</p>

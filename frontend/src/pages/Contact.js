@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, MessageCircle, CheckCircle } from 'lucide-react';
 import { createLead } from '../api';
+import SEO from '../components/SEO';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +32,11 @@ const Contact = () => {
 
   return (
     <div className="py-20" data-testid="contact-page">
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="Contact Us"
+        description="Get a free LED display consultation. Contact Brightluxx — Dubai-based LED screen supplier. Quick quotes, expert advice, and local installation support across UAE."
+        path="/contact"
+      />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mb-12">
           <h1 data-testid="contact-page-title">Get in Touch</h1>
           <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider">

@@ -1,214 +1,253 @@
-"""Download all generated/stock images, optimize them, and update MongoDB."""
-import asyncio
-import os
-import uuid
-import io
-import requests
+"""
+Download REAL images from brightluxx.com WordPress media library.
+Map each project, product, solution, and inspiration to unique real images.
+"""
+import asyncio, os, io, uuid, requests
 from pathlib import Path
 from PIL import Image as PILImage
 from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
 
 load_dotenv()
-MONGO_URL = os.getenv("MONGO_URL")
-DB_NAME = os.getenv("DB_NAME")
-client = AsyncIOMotorClient(MONGO_URL)
-db = client[DB_NAME]
-
+client = AsyncIOMotorClient(os.getenv("MONGO_URL"))
+db = client[os.getenv("DB_NAME")]
 UPLOAD_DIR = Path("/app/frontend/public/uploads")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
-# ─── Generated product images (slug -> URL) ───
-PRODUCT_IMAGES = {
-    "indoor_led_module": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/6b20d5a34eee2f432d5b7902c46ced43fec1c5700db2f3bbbf338436e84af0d0.png",
-    "outdoor_led_screen": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/24fdd331b30184a6dba9d35d161d0294b903c9640b962b3fae190ee5f4dd2b94.png",
-    "flexible_led_curved": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/7cab28fd93547c4481b0fa272987cbfe8a610e506d112bcf42a7b6037075d069.png",
-    "transparent_led_glass": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/9b4aadc8042c34fb11125fda158738d1e0b81f6895a4c31af20c2e45982d29d1.png",
-    "sphere_led_display": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/6f5a80e6992a837ec26260ecf5d811668278b77c02107a76780e2cbda8d726e1.png",
-    "road_signal_led": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/91304cfe16f888cbab20d3d55aec782ae9cd1d991f34bc03052740c07e0094bb.png",
-    "interactive_floor_led": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/b2fb6cce9486fbc07c72152ce370e56f14c7af7d3567aa1171a23e8d9c16fc43.png",
-    "microled_control_room": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/0eaf91ff8074d36634deb5c75801f5b7050e8b02e9a472a2d99d9a8cd0cf40c0.png",
-}
-
-PROJECT_IMAGES = {
-    "project_retail_store": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/152c8739e72c849e35420f684cc81c78819e9193f7f26447a12322f63dcfb03f.png",
-    "project_exhibition": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/b3d91eda2f4136b4e4d15e1172647705d9a5ec98c42737ea4cfcc3f64bcc63ba.png",
-    "project_corporate_office": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/8403f122ebd5e508cc17c4b1dd07bee54d32a498c03bf2c3c7b2e70b4365fd9d.png",
-    "project_shopfront": "https://static.prod-images.emergentagent.com/jobs/570a2952-09bd-41f5-bdd1-0f8ddbff264e/images/db7061fe6c5c8246126232d3e69afc234348c8f6ecd00da88e7c4daaf89960e7.png",
-}
-
-# Stock image from Unsplash for digital signage
-STOCK_IMAGES = {
-    "stock_retail_digital": "https://images.unsplash.com/photo-1764795850248-97a5e986b242?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHw0fHxkaWdpdGFsJTIwc2lnbmFnZSUyMHNjcmVlbiUyMGRpc3BsYXl8ZW58MHx8fHwxNzcyNTcyMjIyfDA&ixlib=rb-4.1.0&q=85",
-    "stock_billboard_night": "https://images.unsplash.com/photo-1762417419967-d5ccd2ebe463?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwxfHxMRUQlMjBiaWxsYm9hcmQlMjBvdXRkb29yJTIwYWR2ZXJ0aXNpbmclMjBuaWdodHxlbnwwfHx8fDE3NzI1NzIyMjN8MA&ixlib=rb-4.1.0&q=85",
-    "stock_billboard_city": "https://images.unsplash.com/photo-1762417420551-2fec32ed3595?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwyfHxMRUQlMjBiaWxsYm9hcmQlMjBvdXRkb29yJTIwYWR2ZXJ0aXNpbmclMjBuaWdodHxlbnwwfHx8fDE3NzI1NzIyMjN8MA&ixlib=rb-4.1.0&q=85",
-}
-
-
-def download_and_optimize(url, slug):
-    """Download image, save locally, create optimized WebP variant."""
+def dl(url, slug):
+    """Download, optimize to WebP, return local path."""
     try:
-        resp = requests.get(url, timeout=30)
-        resp.raise_for_status()
-        content = resp.content
-
-        # Save original
-        ext = ".jpg" if "unsplash" in url or "pexels" in url else ".png"
-        filename = f"{slug}{ext}"
-        filepath = UPLOAD_DIR / filename
-        with open(filepath, "wb") as f:
-            f.write(content)
-
-        # Create optimized WebP
-        img = PILImage.open(io.BytesIO(content))
-        if img.mode in ("RGBA", "P"):
-            img = img.convert("RGBA")
-        else:
-            img = img.convert("RGB")
-
-        # Resize to max 1200px wide for web
-        max_w = 1200
-        if img.width > max_w:
-            ratio = max_w / img.width
-            img = img.resize((max_w, int(img.height * ratio)), PILImage.LANCZOS)
-
-        webp_name = f"{slug}.webp"
-        webp_path = UPLOAD_DIR / webp_name
-        img.save(str(webp_path), "WEBP", quality=82, method=4)
-
-        # Thumbnail
-        thumb = img.copy()
-        thumb.thumbnail((400, 400), PILImage.LANCZOS)
-        thumb_name = f"{slug}_thumb.webp"
-        thumb.save(str(UPLOAD_DIR / thumb_name), "WEBP", quality=75, method=4)
-
-        print(f"  OK: {slug} -> {webp_name} ({os.path.getsize(webp_path)} bytes)")
-        return f"/uploads/{webp_name}"
+        r = requests.get(url, timeout=20, headers={"User-Agent":"Mozilla/5.0"})
+        r.raise_for_status()
+        img = PILImage.open(io.BytesIO(r.content))
+        img = img.convert("RGBA") if img.mode in ("RGBA","P") else img.convert("RGB")
+        if img.width > 1200:
+            ratio = 1200 / img.width
+            img = img.resize((1200, int(img.height * ratio)), PILImage.LANCZOS)
+        out = UPLOAD_DIR / f"{slug}.webp"
+        img.save(str(out), "WEBP", quality=82, method=4)
+        print(f"  OK {slug} ({os.path.getsize(out)//1024}KB)")
+        return f"/uploads/{slug}.webp"
     except Exception as e:
-        print(f"  FAIL: {slug} -> {e}")
+        print(f"  FAIL {slug}: {e}")
         return ""
 
-
-# Category -> image slug mapping for products
-CATEGORY_IMAGE_MAP = {
-    "indoor": "indoor_led_module",
-    "fine-pitch": "indoor_led_module",
-    "cob-microled": "microled_control_room",
-    "outdoor": "outdoor_led_screen",
-    "rental": "outdoor_led_screen",
-    "flexible": "flexible_led_curved",
-    "transparent": "transparent_led_glass",
-    "sphere": "sphere_led_display",
-    "naked-eye-3d": "sphere_led_display",
-    "road-signal": "road_signal_led",
-    "interactive": "interactive_floor_led",
-    "floor-led": "interactive_floor_led",
-    "virtual-production": "microled_control_room",
-    "cinema": "microled_control_room",
-    "all-in-one": "indoor_led_module",
-    "conference": "indoor_led_module",
-    "poster": "indoor_led_module",
-    "sky-screen": "outdoor_led_screen",
+# ── PROJECTS: real brightluxx.com project photos ──
+PROJECT_IMAGES = {
+    "Nesto Hypermarket": ("proj_nesto", "https://brightluxx.com/wp-content/uploads/2022/05/Nesto-Hypermarket.jpg"),
+    "MICROVISION INTERIORS": ("proj_microvision", "https://brightluxx.com/wp-content/uploads/2022/05/P5-LED-Screen-at-MICROVISION-INTERIORS-LLC-1.jpg"),
+    "N W Z West Zone Mall": ("proj_westzone", "https://brightluxx.com/wp-content/uploads/2022/05/P10-LED-Screen-Outdoor-at-N-W-Z-WEST-ZONE-MALL-1.jpg"),
+    "Indian Pavilion": ("proj_expo2020", "https://brightluxx.com/wp-content/uploads/2022/05/Indoor-LED-Screen-at-Indian-Pavillion-Expo-2020.jpg"),
+    "Dubai World Trade Centre": ("proj_dwtc", "https://brightluxx.com/wp-content/uploads/2022/05/Exhibition-3.jpg"),
+    "MEB": ("proj_meb", "https://brightluxx.com/wp-content/uploads/2022/05/Indoor-P2.5-320x160mm-HD-LED-Video-Screen-Module-For-Meeting-room-Show.jpg"),
+    "FNAC": ("proj_fnac_airport", "https://brightluxx.com/wp-content/uploads/2022/05/FNAC-Fujairah-Airport.jpg"),
+    "Division Nine": ("proj_div9", "https://brightluxx.com/wp-content/uploads/2022/05/I2D-INTERIORS-KIJORA.jpg"),
+    "Infinity": ("proj_infinity", "https://brightluxx.com/wp-content/uploads/2022/05/Infinity-Cafe.jpg"),
+    "I2D Interiors": ("proj_i2d", "https://brightluxx.com/wp-content/uploads/2022/05/I2D-INTERIORS-KIJORA.jpg"),
+    "Al Mutakamela": ("proj_mutakamela", "https://brightluxx.com/wp-content/uploads/2022/05/Al-Mutakamela-Vehicle-TestingAlQouz-2.jpg"),
+    "Sharaf Exchange": ("proj_sharaf", "https://brightluxx.com/wp-content/uploads/2022/05/Outdoor-Shop-Signage-3.jpg"),
+    "Top Rock": ("proj_jehangir", "https://brightluxx.com/wp-content/uploads/2022/05/Jehangirs-Restaurant-Al-Mankhool-Dubai.jpg"),
+    "Fine Mart": ("proj_finemart", "https://brightluxx.com/wp-content/uploads/2022/05/finemart.jpg"),
+    "Cosmomed": ("proj_cosmomed", "https://brightluxx.com/wp-content/uploads/2022/05/FNAC-Cosmomed.jpg"),
+    "Planer First": ("proj_planer", "https://brightluxx.com/wp-content/uploads/2022/05/Planet-first.jpg"),
+    "Ahmed Al Maghribi": ("proj_maghribi", "https://brightluxx.com/wp-content/uploads/2022/05/Ahmed-al-maghribi.jpg"),
+    "Sulthan Gold": ("proj_sulthan1", "https://brightluxx.com/wp-content/uploads/2022/05/sulthan-gold.jpg"),
+    "Jawhara": ("proj_jawhara", "https://brightluxx.com/wp-content/uploads/2022/05/Indoor-Shop-Signage-4.jpg"),
+    "Oud Majed": ("proj_oud", "https://brightluxx.com/wp-content/uploads/2022/05/INDOOR-SHOP-SIGNAGE-3.jpg"),
+    "Shater": ("proj_shater", "https://brightluxx.com/wp-content/uploads/2022/05/Shater-restaurantAl-Nahda-Sharjah.jpg"),
+    "Sulthanate": ("proj_sulthanate", "https://brightluxx.com/wp-content/uploads/2022/05/Outdoor-Shop-Signage-1-1.jpg"),
+    "Bur Dubai": ("proj_sulthan2", "https://brightluxx.com/wp-content/uploads/2022/05/sulthan-gold-deira.jpg"),
+    "LED World LLC (Khorfakan)": ("proj_ledworld_kf", "https://brightluxx.com/wp-content/uploads/2022/06/Untitled-4.jpg"),
+    "LED World LLC (Ajman)": ("proj_ledworld_aj", "https://brightluxx.com/wp-content/uploads/2022/05/LED-World-Ajman.jpg"),
 }
 
-# Sector -> image slug mapping for projects
-SECTOR_IMAGE_MAP = {
-    "retail": "project_shopfront",
-    "corporate": "project_corporate_office",
-    "hospitality": "project_shopfront",
-    "exhibitions": "project_exhibition",
-    "government": "project_retail_store",
-    "healthcare": "project_retail_store",
+# ── PRODUCTS: real brightluxx.com module photos (unique per product) ──
+PRODUCT_IMAGES = {
+    "BL-ISF156": ("prod_isf156", "https://brightluxx.com/wp-content/uploads/2022/05/P1.5-Indoor-soft-flexible-LED-Display-module-for-round-custom-shapes-led-video-wall1-1.jpg"),
+    "BL-IP3": ("prod_ip3", "https://brightluxx.com/wp-content/uploads/2022/05/Indoor-P3-1-32Scan-64x64dot-192X192mm-LED-Screen-Video-Module1.jpg"),
+    "BL-IP307": ("prod_ip307", "https://brightluxx.com/wp-content/uploads/2022/05/P3.076-320x160mm-Indoor-HD-LED-Video-Screen-Module1.jpg"),
+    "BL-CRC400": ("prod_crc400", "https://brightluxx.com/wp-content/uploads/2022/05/P4-Indoor-Circular-Round-LED-Display-Module-Screen1.jpg"),
+    "BL-OR391": ("prod_or391", "https://brightluxx.com/wp-content/uploads/2022/05/P3.91-Outdoor-SMD-Full-Color-LED-Display-Module1.jpg"),
+    "BL-OP4HD": ("prod_op4hd", "https://brightluxx.com/wp-content/uploads/2022/05/P4-Outdoor-HD-LED-Display-Screen-Module-256x128mm-for-advertising1.jpg"),
+    "BL-OP5SMD": ("prod_op5smd", "https://brightluxx.com/wp-content/uploads/2022/05/Outdoor-P5-320x160mm-SMD-LED-Screen-Module-High-Brightness-And-Resolution1.jpg"),
+    "BL-OP667": ("prod_op667", "https://brightluxx.com/wp-content/uploads/2022/05/P6.67-mm-Outdoor-Nationstar-SMD-LED-display-screen-Module-320x160mm-IP671.jpg"),
+    "BL-SF150": ("prod_sf150", "https://brightluxx.com/wp-content/uploads/2022/05/P1.5-Indoor-soft-flexible-LED-Display-module-for-round-custom-shapes-led-video-wall1.jpg"),
+    "BL-SF400": ("prod_sf400", "https://brightluxx.com/wp-content/uploads/2022/05/P4-Indoor-soft-flexible-LED-Display-module-For-Creative-Led-Screen1.jpg"),
+    "BL-IP18": ("prod_ip18", "https://brightluxx.com/wp-content/uploads/2022/05/Indoor-P2.5-320x160mm-HD-LED-Video-Screen-Module-For-Meeting-room-Show1.jpg"),
+    "BL-RSL250": ("prod_rsl250", "https://brightluxx.com/wp-content/uploads/2022/05/Road-Signal-LED-Display.jpg"),
+    "BL-RSL400": ("prod_rsl400", "https://brightluxx.com/wp-content/uploads/2022/05/Road-Signal-LED-Display-2.jpg"),
+    "BL-FLR391": ("prod_flr391", "https://brightluxx.com/wp-content/uploads/2022/05/Floor-LED-Display.jpg"),
+    "BL-CLR120": ("prod_clr120", "https://brightluxx.com/wp-content/uploads/2022/05/Transparent-Glass-LED-Display.jpg"),
 }
+
+# ── PRODUCT CATEGORIES: for older products that need real category images ──
+CATEGORY_IMAGES = {
+    "indoor": ("cat_indoor", "https://brightluxx.com/wp-content/uploads/2022/05/Indoor-LED-Display-3.jpg"),
+    "outdoor": ("cat_outdoor", "https://brightluxx.com/wp-content/uploads/2022/05/Outdoor-SMD-LED-Display-1.jpg"),
+    "flexible": ("cat_flexible", "https://brightluxx.com/wp-content/uploads/2022/05/Curve-Flexible-LED-Display.jpg"),
+    "transparent": ("cat_transparent", "https://brightluxx.com/wp-content/uploads/2022/05/Transparent-Glass-LED-Display-2.jpg"),
+    "rental": ("cat_rental", "https://brightluxx.com/wp-content/uploads/2022/05/Die-Cast-Rental-LED-Display.jpg"),
+    "sphere": ("cat_sphere", "https://brightluxx.com/wp-content/uploads/2022/05/Spherical-LED-Display.jpg"),
+    "road-signal": ("cat_roadsignal", "https://brightluxx.com/wp-content/uploads/2022/05/Road-Signal-LED-Display-1.jpg"),
+    "interactive": ("cat_floor", "https://brightluxx.com/wp-content/uploads/2022/05/Floor-LED-Display-2.jpg"),
+    "poster": ("cat_poster", "https://brightluxx.com/wp-content/uploads/2022/05/Poster-LED-Display.jpg"),
+    "cob-microled": ("cat_cobmicro", "https://brightluxx.com/wp-content/uploads/2022/05/Indoor-LED-Display_02.jpg"),
+    "virtual-production": ("cat_vp", "https://brightluxx.com/wp-content/uploads/2022/05/Indoor-LED-Display.jpg"),
+    "all-in-one": ("cat_allinone", "https://brightluxx.com/wp-content/uploads/2022/05/Conference-Hall-4.jpg"),
+    "dvled": ("cat_dvled", "https://brightluxx.com/wp-content/uploads/2022/05/Home-Cinema-1.jpg"),
+    "mip": ("cat_mip", "https://brightluxx.com/wp-content/uploads/2022/05/pixel1-1.jpg"),
+    "cinema": ("cat_cinema", "https://brightluxx.com/wp-content/uploads/2022/05/HOME-CINEMA1.jpg"),
+    "fine-pitch": ("cat_finepitch", "https://brightluxx.com/wp-content/uploads/2022/05/Meeting-Room-4.jpg"),
+    "naked-eye-3d": ("cat_3d", "https://brightluxx.com/wp-content/uploads/2022/05/Spherical-LED-Display-2.jpg"),
+    "sky-screen": ("cat_sky", "https://brightluxx.com/wp-content/uploads/2022/05/OUTDOOR-SHOP-SIGNAGE-2.jpg"),
+    "shelf-edge": ("cat_shelf", "https://brightluxx.com/wp-content/uploads/2022/05/Shelf-LED-Display.jpg"),
+    "conference": ("cat_conf", "https://brightluxx.com/wp-content/uploads/2022/05/CONFERENCE-HALL.jpg"),
+}
+
+# ── SOLUTIONS: unique images per solution ──
+SOLUTION_IMAGES = {
+    "retail": ("sol_retail", "https://brightluxx.com/wp-content/uploads/2022/05/Indoor-Shop-Signage-4.jpg"),
+    "corporate": ("sol_corporate", "https://brightluxx.com/wp-content/uploads/2022/05/Conference-Hall-4.jpg"),
+    "outdoor": ("sol_outdoor", "https://brightluxx.com/wp-content/uploads/2022/05/Outdoor-Shop-Signage-3.jpg"),
+    "events": ("sol_events", "https://brightluxx.com/wp-content/uploads/2022/05/Exhibition-3.jpg"),
+    "creative": ("sol_creative", "https://brightluxx.com/wp-content/uploads/2022/05/Curve-Flexible-LED-Display-2.jpg"),
+    "traffic": ("sol_traffic", "https://brightluxx.com/wp-content/uploads/2022/05/Road-Signal-LED-Display-1.jpg"),
+    "immersive": ("sol_immersive", "https://brightluxx.com/wp-content/uploads/2022/05/Home-Cinema-1.jpg"),
+    "transparent": ("sol_transparent", "https://brightluxx.com/wp-content/uploads/2022/05/Transparent-Glass-LED-Display-2.jpg"),
+}
+
+# ── INSPIRATIONS: real LED application photos from brightluxx ──
+INSPIRATION_IMAGES = [
+    ("insp_sports_lounge", "https://brightluxx.com/wp-content/uploads/2022/05/Sports-Lounge-1.jpg"),
+    ("insp_road_adv", "https://brightluxx.com/wp-content/uploads/2022/05/road-advertising-1.jpg"),
+    ("insp_pavement", "https://brightluxx.com/wp-content/uploads/2022/05/Pavement-Advertising-1.jpg"),
+    ("insp_outdoor_sign1", "https://brightluxx.com/wp-content/uploads/2022/05/Outdoor-Shop-Signage-1-1.jpg"),
+    ("insp_outdoor_sign2", "https://brightluxx.com/wp-content/uploads/2022/05/OUTDOOR-SHOP-SIGNAGE-2.jpg"),
+    ("insp_meeting", "https://brightluxx.com/wp-content/uploads/2022/05/Meeting-Room-4.jpg"),
+    ("insp_indoor_sign", "https://brightluxx.com/wp-content/uploads/2022/05/INDOOR-SHOP-SIGNAGE-3.jpg"),
+    ("insp_cinema", "https://brightluxx.com/wp-content/uploads/2022/05/Home-Cinema-1.jpg"),
+    ("insp_exhibition", "https://brightluxx.com/wp-content/uploads/2022/05/Exhibition-3.jpg"),
+    ("insp_education", "https://brightluxx.com/wp-content/uploads/2022/05/Education-1.jpg"),
+    ("insp_conference", "https://brightluxx.com/wp-content/uploads/2022/05/Conference-Hall-4.jpg"),
+    ("insp_outdoor_led1", "https://brightluxx.com/wp-content/uploads/2022/04/OUTDOOR-LED-SOLUTIONS.jpg"),
+    ("insp_digital_banner", "https://brightluxx.com/wp-content/uploads/2022/04/DIGITAL-BANNERS.jpg"),
+    ("insp_poster_display", "https://brightluxx.com/wp-content/uploads/2022/04/Led-Poster-Displays.jpg"),
+    ("insp_indoor_screen", "https://brightluxx.com/wp-content/uploads/2022/04/Indoor-LED-Screens.jpg"),
+    ("insp_pixel_wall", "https://brightluxx.com/wp-content/uploads/2022/05/pixel1-1.jpg"),
+    ("insp_curtain", "https://brightluxx.com/wp-content/uploads/2022/05/Curtain-LED-Display.jpg"),
+    ("insp_perimeter", "https://brightluxx.com/wp-content/uploads/2022/05/Perimeter-LED-Display.jpg"),
+    ("insp_shelf", "https://brightluxx.com/wp-content/uploads/2022/05/Shelf-LED-Display.jpg"),
+    ("insp_floor_led", "https://brightluxx.com/wp-content/uploads/2022/05/Floor-LED-Display-2.jpg"),
+    ("insp_sphere", "https://brightluxx.com/wp-content/uploads/2022/05/Spherical-LED-Display-2.jpg"),
+    ("insp_range_pixel", "https://brightluxx.com/wp-content/uploads/2022/05/range-of-pixel-pitches-1.jpg"),
+]
 
 
 async def main():
-    # 1. Download all images
-    print("=== Downloading Product Images ===")
-    product_local = {}
-    for slug, url in PRODUCT_IMAGES.items():
-        local_url = download_and_optimize(url, slug)
-        product_local[slug] = local_url
+    # Clean old AI/stock images
+    for f in UPLOAD_DIR.glob("*.webp"):
+        f.unlink()
+    for f in UPLOAD_DIR.glob("*.png"):
+        if "test" not in f.name:
+            f.unlink()
+    for f in UPLOAD_DIR.glob("*.jpg"):
+        if "test" not in f.name:
+            f.unlink()
+    print("Cleaned old images\n")
 
-    print("\n=== Downloading Project Images ===")
-    project_local = {}
-    for slug, url in PROJECT_IMAGES.items():
-        local_url = download_and_optimize(url, slug)
-        project_local[slug] = local_url
+    # 1. Download project images
+    print("=== PROJECTS ===")
+    proj_urls = {}
+    for key, (slug, url) in PROJECT_IMAGES.items():
+        local = dl(url, slug)
+        if local:
+            proj_urls[key] = local
 
-    print("\n=== Downloading Stock Images ===")
-    stock_local = {}
-    for slug, url in STOCK_IMAGES.items():
-        local_url = download_and_optimize(url, slug)
-        stock_local[slug] = local_url
+    # 2. Download product-specific images
+    print("\n=== PRODUCTS (specific) ===")
+    prod_urls = {}
+    for code, (slug, url) in PRODUCT_IMAGES.items():
+        local = dl(url, slug)
+        if local:
+            prod_urls[code] = local
 
-    # 2. Update products in MongoDB
-    print("\n=== Updating Product Images in DB ===")
-    updated_products = 0
-    async for product in db.products.find({"$or": [{"image_url": ""}, {"image_url": {"$exists": False}}]}):
-        category = product.get("category", "")
-        slug = CATEGORY_IMAGE_MAP.get(category, "indoor_led_module")
-        local_url = product_local.get(slug, "")
-        if local_url:
-            await db.products.update_one(
-                {"_id": product["_id"]},
-                {"$set": {"image_url": local_url}}
-            )
-            updated_products += 1
-    print(f"  Updated {updated_products} products with images")
+    # 3. Download category fallback images
+    print("\n=== CATEGORIES (fallback) ===")
+    cat_urls = {}
+    for cat, (slug, url) in CATEGORY_IMAGES.items():
+        local = dl(url, slug)
+        if local:
+            cat_urls[cat] = local
 
-    # Also update products that already had external URLs (convert to local)
-    async for product in db.products.find({"image_url": {"$regex": "^http"}}):
-        category = product.get("category", "")
-        slug = CATEGORY_IMAGE_MAP.get(category, "indoor_led_module")
-        local_url = product_local.get(slug, "")
-        if local_url:
-            await db.products.update_one(
-                {"_id": product["_id"]},
-                {"$set": {"image_url": local_url}}
-            )
-            updated_products += 1
-    print(f"  Total products with local images: {updated_products}")
+    # 4. Download solution images
+    print("\n=== SOLUTIONS ===")
+    sol_urls = {}
+    for sol_id, (slug, url) in SOLUTION_IMAGES.items():
+        local = dl(url, slug)
+        if local:
+            sol_urls[sol_id] = local
 
-    # 3. Update projects in MongoDB
-    print("\n=== Updating Project Images in DB ===")
-    updated_projects = 0
-    async for project in db.projects.find():
-        sector = project.get("sector", "retail")
-        slug = SECTOR_IMAGE_MAP.get(sector, "project_shopfront")
-        local_url = project_local.get(slug, "")
-        if local_url:
-            await db.projects.update_one(
-                {"_id": project["_id"]},
-                {"$set": {"image_url": local_url}}
-            )
-            updated_projects += 1
-    print(f"  Updated {updated_projects} projects with images")
+    # 5. Download inspiration images
+    print("\n=== INSPIRATIONS ===")
+    insp_urls = []
+    for slug, url in INSPIRATION_IMAGES:
+        local = dl(url, slug)
+        if local:
+            insp_urls.append(local)
 
-    # 4. Update inspirations with stock images
-    print("\n=== Updating Inspirations with local images ===")
-    updated_insp = 0
-    inspiration_images = list(product_local.values()) + list(stock_local.values())
+    # ── UPDATE DATABASE ──
+    print("\n=== Updating Projects ===")
+    updated = 0
+    async for p in db.projects.find():
+        title = p.get("title", "")
+        matched = None
+        for key, url in proj_urls.items():
+            if key.lower() in title.lower():
+                matched = url
+                break
+        if matched:
+            await db.projects.update_one({"_id": p["_id"]}, {"$set": {"image_url": matched}})
+            updated += 1
+    print(f"  Updated {updated} projects")
+
+    print("\n=== Updating Products ===")
+    updated = 0
+    async for p in db.products.find():
+        code = p.get("product_code", "")
+        cat = p.get("category", "")
+        if code in prod_urls:
+            url = prod_urls[code]
+        elif cat in cat_urls:
+            url = cat_urls[cat]
+        else:
+            url = cat_urls.get("indoor", "")
+        if url:
+            await db.products.update_one({"_id": p["_id"]}, {"$set": {"image_url": url}})
+            updated += 1
+    print(f"  Updated {updated} products")
+
+    print("\n=== Updating Inspirations ===")
+    updated = 0
     idx = 0
-    async for insp in db.inspirations.find({"$or": [{"image_url": ""}, {"image_url": {"$regex": "^http"}}]}):
-        local_url = inspiration_images[idx % len(inspiration_images)]
-        if local_url:
-            await db.inspirations.update_one(
-                {"_id": insp["_id"]},
-                {"$set": {"image_url": local_url}}
-            )
-            updated_insp += 1
+    async for i in db.inspirations.find():
+        if idx < len(insp_urls):
+            await db.inspirations.update_one({"_id": i["_id"]}, {"$set": {"image_url": insp_urls[idx]}})
             idx += 1
-    print(f"  Updated {updated_insp} inspirations with images")
+            updated += 1
+    print(f"  Updated {updated} inspirations")
+
+    # Store solution images for frontend use
+    import json
+    with open("/app/frontend/src/data/solution_images.json", "w") as f:
+        json.dump(sol_urls, f, indent=2)
+    print(f"\n  Solution images saved to solution_images.json")
 
     # Summary
-    print("\n=== Summary ===")
-    total_files = len(list(UPLOAD_DIR.glob("*.webp")))
-    total_size = sum(f.stat().st_size for f in UPLOAD_DIR.glob("*.webp"))
-    print(f"  WebP files: {total_files}")
-    print(f"  Total size: {total_size / 1024:.0f} KB")
-    print(f"  Products updated: {updated_products}")
-    print(f"  Projects updated: {updated_projects}")
-    print(f"  Inspirations updated: {updated_insp}")
+    webp_files = list(UPLOAD_DIR.glob("*.webp"))
+    total_size = sum(f.stat().st_size for f in webp_files)
+    print(f"\n=== SUMMARY ===")
+    print(f"  Total WebP files: {len(webp_files)}")
+    print(f"  Total size: {total_size//1024} KB")
+    print(f"  All unique filenames: {len(set(f.name for f in webp_files))}")
 
 asyncio.run(main())

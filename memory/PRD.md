@@ -63,6 +63,7 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 - [x] **Real image replacement**: All 100+ images downloaded from brightluxx.com WordPress media library, converted to WebP, mapped to all products (57), projects (26), and inspirations (22)
 - [x] **Image CDN Integration**: All 194 images migrated to Emergent Object Storage. CDN endpoint (`/api/cdn/{path}`) with on-the-fly optimization (resize, quality, format conversion). Admin uploads go directly to cloud storage.
 - [x] **Blur-up Lazy Loading**: CdnImage component with 78-byte blur placeholders, IntersectionObserver-based lazy loading, and smooth CSS opacity transitions. Applied to all 135 images across all pages.
+- [x] **SEO Meta Tags & Open Graph**: Custom React 19-compatible SEO component with dynamic `<title>`, description, OG image/title/URL/type, Twitter Card, canonical URL, robots, and geo tags across all 12 pages. Product pages use `og:type=product` with product-specific OG images.
 - [x] Database seeded with real product data and project data from brightluxx.com
 
 ### Admin Credentials

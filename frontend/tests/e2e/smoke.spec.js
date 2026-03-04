@@ -50,7 +50,7 @@ test.describe('Navigation', () => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
-    for (const name of ['products', 'solutions', 'technologies', 'knowledge', 'resources', 'case studies']) {
+    for (const name of ['products', 'solutions', 'technologies', 'resources', 'case-studies']) {
       await expect(page.locator(`[data-testid="nav-${name}"]`)).toBeVisible();
     }
   });

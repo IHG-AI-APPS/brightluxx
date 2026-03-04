@@ -55,9 +55,18 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ### Technical SEO — 117+ URL sitemap, JSON-LD, Gmail SMTP notifications
 
+### UI/UX Polish — Mar 4, 2026
+- Removed "Made with Emergent" badge
+- Removed "Contact" nav link; header: Products, Solutions, Technologies, Case Studies, Tools, Resources, Get Quote
+- Added floating WhatsApp button (971559954274) stacked with AURA chat icon
+- Proper WhatsApp SVG icon, green branded button
+- Updated E2E smoke test to match current nav structure (22/22 pass)
+
 ---
 
 ## Remaining Tasks
-- (P6) Tender Monitoring Integration
+- (P1) Content Expansion: Media Facades, Immersive LED Rooms, Retail Experiential Screens pages
+- (P2) Enhance Specifier Toolkit: viewing distance calculator, installation diagrams, power estimators
+- (P3) Tender Monitoring Integration (ProTenders/MEED)
 
 ## Admin: `/admin` — admin@brightluxx.com / brightluxx2025

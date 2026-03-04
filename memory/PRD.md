@@ -5,10 +5,11 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ## Stack
 - **Frontend:** React (CRA), CSS variables, Lucide icons, Recharts, Playwright
-- **Backend:** FastAPI, Motor (async MongoDB)
+- **Backend:** FastAPI, Motor (async MongoDB), emergentintegrations (GPT-5.2)
 - **DB:** MongoDB | **CDN:** Emergent Object Storage + Pillow
 - **PDF:** fpdf2 (spec packs), reportlab (cheat sheets, BIM refs)
 - **Email:** Gmail SMTP → sales@metroplusads.com
+- **AI:** OpenAI GPT-5.2 via emergentintegrations for AURA chat
 
 ## Theme: "Deep Space Modern" — #0B0B0B, glassmorphism, gold/amber
 
@@ -19,58 +20,40 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 ### Core Site
 - Product catalog (57 products), CMS, admin panel, JWT auth, analytics, contact form
 
-### Knowledge Base (8 articles)
-- COB vs MiP vs SMD, Pixel Pitch, Brightness, IP Rating, Refresh Rate, Processing & Calibration, CMS Multi-Site, SLA Gap Analysis
+### Knowledge Base (8 articles) + Application Pages (8) + Latest Tech (4)
 
-### Application Pages (8) + Latest Tech (4) + For Architects Hub
+### Technology Pillar Pages (9) + For Architects Hub
 
-### Technology Pillar Pages (9)
-- MicroLED, COB LED, MiP LED, Fine Pitch LED, All-in-One dvLED, Transparent LED, 3D Anamorphic LED, Creative LED, Media Facade
+### Case Studies (8) — 6 verticals with JSON-LD
 
-### Case Studies (8)
-- 8 case studies across 6 verticals with JSON-LD
+### CPD / Lunch & Learn Programme — 6 sessions, booking form
 
-### CPD / Lunch & Learn Programme
-- 6 session topics, booking form, email notifications
+### SLA Gap Analysis Guide — tier comparison, 8 gaps, 28-item checklist
 
-### SLA Gap Analysis Guide
-- SLA tier comparison, 8 gaps, 28-item audit checklist
+### Design Assist Service — free spec support, booking form + email
 
-### Design Assist Service
-- Free spec support for architects, booking form + email
+### Digital Experience Architecture — 6 app categories, positioning page
 
-### Digital Experience Architecture
-- 6 application categories positioning Brightluxx for next-wave projects
+### LinkedIn Landing Page — standalone specifier toolkit LP
 
-### LinkedIn Landing Page
-- Standalone specifier toolkit LP for ad campaigns
+### Technology Selector Quiz — 5-step quiz, rule-based scoring, lead-gated
 
-### Technology Selector Quiz
-- Interactive 5-step quiz, rule-based scoring, lead-gated results
+### AURA Chat Assistant — Mar 4, 2026
+- AI-powered floating chat widget on ALL pages (GPT-5.2)
+- Custom AI-generated golden orb avatar
+- Expert LED specification advice using comprehensive system prompt
+- Session-based conversation history (MongoDB)
+- Lead capture after 3+ messages (soft gate with skip option)
+- Email notifications on lead capture
+- Knowledge of all technologies, case studies, specs, and services
 
-### Contractor Hub
-- Value Engineering, 3 SEO Pages, Spec Substitution Service
+### Contractor Hub — Value Engineering, SEO Pages, Spec Substitution
 
-### Tools (mega-menu)
-- Screen Calculator, Budget Estimator, Product Comparison, CPD, Design Assist, Technology Selector
+### Tools (mega-menu) — Calculator, Estimator, Comparison, CPD, Design Assist, Technology Selector
 
-### Lead-Gated Downloads (20+ assets)
-- 12 spec packs, 4 cheat sheets, 4 BIM references, SLA checklist
+### E2E Test Suite — 66 Playwright tests + pytest backend tests
 
-### Resource Library — 28+ resources
-
-### Technical SEO & JSON-LD
-- Dynamic sitemap (117+ URLs), structured data across all pages
-- Email notifications (Gmail SMTP) for all lead events
-
-### E2E Playwright Test Suite — Mar 4, 2026
-- 66 tests across 5 test files, 100% pass rate
-- **smoke.spec.js** (29): All 20 pages load, navbar links, Tools mega-menu
-- **lead-capture.spec.js** (7): Contact, Design Assist, CPD, LinkedIn LP forms
-- **technology-selector.spec.js** (4): Full quiz flow, lead gate unlock, back/restart
-- **content-pages.spec.js** (20): 9 tech pages, 8 case studies, SLA guide, DEA, CPD
-- **admin-and-api.spec.js** (6): Admin login, 5 API endpoints
-- Run: `cd /app/frontend && npx playwright test`
+### Technical SEO — 117+ URL sitemap, JSON-LD, Gmail SMTP notifications
 
 ---
 
@@ -78,4 +61,3 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - (P6) Tender Monitoring Integration
 
 ## Admin: `/admin` — admin@brightluxx.com / brightluxx2025
-## Email: smtp.gmail.com:587 — webadmin@ihgind.com → sales@metroplusads.com

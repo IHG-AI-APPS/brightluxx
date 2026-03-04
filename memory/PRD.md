@@ -128,6 +128,15 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added to Tools mega-menu and sitemap (priority 0.9)
 - Testing: 59/59 tests passed (15 backend + 44 frontend)
 
+### AED Pricing & Location Update — Mar 4, 2026
+- All pricing converted from USD to AED at Dubai lowest-to-mid market rates
+  - Budget Estimator, Screen Calculator, Project Planner, Spec Pack PDFs all in AED
+  - Example: P2.5 now AED 3,000-7,000/sqm (was $1,200-$2,500)
+- Location updated to Jebel Ali Industrial Area 1, Dubai, UAE (same as IHGIND)
+- Office phone updated to +971 4 258 5754 (Footer, Contact, PDFs)
+- Contact page budget dropdown fixed from USD to AED options
+- Testing: 100% pass (backend + frontend) — Iteration 39
+
 ### Tablet Optimization — Mar 4, 2026
 - Fixed navbar crowding on tablets: switched breakpoint from md (768px) to lg (1024px)
 - Tablets now show hamburger menu instead of crowded desktop nav

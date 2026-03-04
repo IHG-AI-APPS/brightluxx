@@ -29,6 +29,11 @@ import BrightnessNitsGuide from './pages/knowledge/BrightnessNitsGuide';
 import IpRatingGuide from './pages/knowledge/IpRatingGuide';
 import RefreshRateGuide from './pages/knowledge/RefreshRateGuide';
 
+// Applications
+import ApplicationsIndex from './pages/ApplicationsIndex';
+import ApplicationLanding from './pages/ApplicationLanding';
+import ForArchitects from './pages/ForArchitects';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -73,6 +78,9 @@ function AppRoutes() {
       <Route path="/knowledge/brightness-nits-guide" element={<><Navbar /><BrightnessNitsGuide /><Footer /><StickyCTA /></>} />
       <Route path="/knowledge/ip-rating-guide" element={<><Navbar /><IpRatingGuide /><Footer /><StickyCTA /></>} />
       <Route path="/knowledge/refresh-rate-guide" element={<><Navbar /><RefreshRateGuide /><Footer /><StickyCTA /></>} />
+      <Route path="/applications" element={<><Navbar /><ApplicationsIndex /><Footer /><StickyCTA /></>} />
+      <Route path="/applications/:appId" element={<><Navbar /><ApplicationLanding /><Footer /><StickyCTA /></>} />
+      <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

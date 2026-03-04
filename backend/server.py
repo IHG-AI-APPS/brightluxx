@@ -2,14 +2,16 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timezone
 import uuid
+import time
 
-from database import admins_col
+from database import admins_col, perf_col, analytics_col
 from auth import pwd_context
 from routes.public import router as public_router
 from routes.admin import router as admin_router
 from routes.admin_crud import router as admin_crud_router
 from routes.upload import router as upload_router
 from routes.cdn import router as cdn_router
+from routes.analytics import router as analytics_router
 from storage import init_storage
 
 app = FastAPI()
@@ -22,15 +24,36 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Skip perf logging for high-frequency/static endpoints
+_SKIP_PERF = {"/api/track", "/api/health", "/api/cdn/"}
+
 
 @app.middleware("http")
-async def security_headers(request: Request, call_next):
+async def perf_and_security(request: Request, call_next):
+    start = time.monotonic()
     response = await call_next(request)
+    elapsed_ms = (time.monotonic() - start) * 1000
+
+    # Security headers
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+
+    # Performance tracking (skip CDN/track/health)
+    path = request.url.path
+    if path.startswith("/api/") and not any(path.startswith(s) for s in _SKIP_PERF):
+        try:
+            await perf_col.insert_one({
+                "endpoint": f"{request.method} {path}",
+                "response_time_ms": round(elapsed_ms, 1),
+                "status_code": response.status_code,
+                "ts": datetime.now(timezone.utc),
+            })
+        except Exception:
+            pass
+
     return response
 
 
@@ -39,6 +62,7 @@ app.include_router(admin_router)
 app.include_router(admin_crud_router)
 app.include_router(upload_router)
 app.include_router(cdn_router)
+app.include_router(analytics_router)
 
 
 @app.on_event("startup")
@@ -48,6 +72,15 @@ async def startup():
         init_storage()
     except Exception as e:
         print(f"Warning: Object storage init failed: {e}. Local fallback active.")
+
+    # Create indexes for analytics collections
+    try:
+        await analytics_col.create_index([("ts", -1)])
+        await analytics_col.create_index([("event", 1), ("ts", -1)])
+        await perf_col.create_index([("ts", -1)])
+        await perf_col.create_index([("endpoint", 1), ("ts", -1)])
+    except Exception:
+        pass
 
     # Seed admin user
     existing = await admins_col.find_one({"email": "admin@brightluxx.com"})

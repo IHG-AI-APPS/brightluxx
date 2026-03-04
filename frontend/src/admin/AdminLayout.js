@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAdmin } from './AdminContext';
-import { LayoutDashboard, Package, Sparkles, FolderKanban, Users, LogOut, Download, Upload, ChevronLeft, Settings } from 'lucide-react';
+import { LayoutDashboard, Package, Sparkles, FolderKanban, Users, LogOut, Download, Upload, ChevronLeft, Settings, BarChart3, Activity } from 'lucide-react';
 
 const NAV = [
   { to: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -9,6 +9,8 @@ const NAV = [
   { to: '/admin/inspirations', icon: Sparkles, label: 'Inspirations' },
   { to: '/admin/projects', icon: FolderKanban, label: 'Projects' },
   { to: '/admin/leads', icon: Users, label: 'Leads' },
+  { to: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
+  { to: '/admin/performance', icon: Activity, label: 'Performance' },
   { to: '/admin/settings', icon: Settings, label: 'Settings' },
 ];
 

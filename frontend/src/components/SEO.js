@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { trackPageView } from '../lib/tracker';
 
 const SITE_NAME = 'Brightluxx';
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || '';
@@ -96,6 +97,11 @@ export default function SEO({ title, description, image, path = '', type = 'webs
 
     // JSON-LD
     setJsonLd(jsonLd);
+
+    // Auto-track page view (skip admin pages)
+    if (!noIndex && !canonicalUrl.includes('/admin')) {
+      trackPageView(path || location.pathname);
+    }
 
     return () => setJsonLd(null);
   }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, noIndex, jsonLd]);

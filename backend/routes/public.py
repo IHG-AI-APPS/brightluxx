@@ -9,11 +9,6 @@ import uuid
 router = APIRouter()
 
 
-@router.get("/api/health")
-async def health():
-    return {"status": "ok", "service": "brightluxx-api"}
-
-
 @router.get("/api/products")
 async def get_products(category: Optional[str] = None, featured: Optional[bool] = None, trending: Optional[bool] = None, new_arrival: Optional[bool] = None, search: Optional[str] = None):
     query = {}

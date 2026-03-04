@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Zap, Send, Phone, Che
 import { getProduct, getProducts, createLead } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
+import { trackProductView, trackQuoteRequest } from '../lib/tracker';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -58,6 +59,7 @@ export default function ProductDetail() {
       try {
         const res = await getProduct(slug);
         setProduct(res.data);
+        trackProductView(slug, res.data.category);
         // Fetch related products from same category
         const relRes = await getProducts({ category: res.data.category });
         setRelated(
@@ -88,6 +90,7 @@ export default function ProductDetail() {
         application: product.category,
         source: 'product_detail'
       });
+      trackQuoteRequest(product.slug);
       setSubmitted(true);
     } catch (e) {
       console.error('Error submitting quote:', e);

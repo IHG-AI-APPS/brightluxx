@@ -17,6 +17,8 @@ os.makedirs(PDF_DIR, exist_ok=True)
 class SpecPackRequest(BaseModel):
     email: str
     name: str = ""
+    company: str = ""
+    role: str = ""
     pack_id: str = ""
 
 
@@ -45,6 +47,8 @@ async def download_specpack(pack_id: str, data: SpecPackRequest, request: Reques
     await leads_col.insert_one({
         "name": data.name,
         "email": data.email,
+        "company": data.company,
+        "role": data.role,
         "source": "spec_pack_download",
         "spec_pack": pack_id,
         "spec_pack_title": SPEC_PACKS[pack_id],

@@ -120,6 +120,8 @@ export function buildFaqJsonLd(faqs) {
 export function SpecPackCTA({ packId, title, description, onDownload }) {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [company, setCompany] = useState('');
+  const [role, setRole] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const API = process.env.REACT_APP_BACKEND_URL || '';
@@ -131,7 +133,7 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
       const res = await fetch(`${API}/api/specpacks/${packId}/download`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, pack_id: packId }),
+        body: JSON.stringify({ email, name, company, role, pack_id: packId }),
       });
       const data = await res.json();
       if (data.download_url) {
@@ -182,6 +184,30 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
             style={{ textTransform: 'none' }}
             data-testid="specpack-email-input"
           />
+          <input
+            type="text"
+            placeholder="Company"
+            value={company}
+            onChange={e => setCompany(e.target.value)}
+            className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
+            style={{ textTransform: 'none' }}
+            data-testid="specpack-company-input"
+          />
+          <select
+            value={role}
+            onChange={e => setRole(e.target.value)}
+            className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
+            style={{ textTransform: 'none', color: role ? 'var(--blx-text)' : 'var(--blx-muted)' }}
+            data-testid="specpack-role-select"
+          >
+            <option value="" style={{ background: '#1a1a1a' }}>Select your role</option>
+            <option value="architect" style={{ background: '#1a1a1a' }}>Architect</option>
+            <option value="consultant" style={{ background: '#1a1a1a' }}>AV Consultant</option>
+            <option value="designer" style={{ background: '#1a1a1a' }}>Interior Designer</option>
+            <option value="integrator" style={{ background: '#1a1a1a' }}>Systems Integrator</option>
+            <option value="end-user" style={{ background: '#1a1a1a' }}>End User / Client</option>
+            <option value="other" style={{ background: '#1a1a1a' }}>Other</option>
+          </select>
           <button
             type="submit"
             disabled={loading}

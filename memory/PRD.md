@@ -128,6 +128,14 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added to Tools mega-menu and sitemap (priority 0.9)
 - Testing: 59/59 tests passed (15 backend + 44 frontend)
 
+### Tablet Optimization — Mar 4, 2026
+- Fixed navbar crowding on tablets: switched breakpoint from md (768px) to lg (1024px)
+- Tablets now show hamburger menu instead of crowded desktop nav
+- StickyCTA bar visible on tablets (below 1024px)
+- AuraChat/WhatsApp floating buttons hidden on tablets (shown lg+ only)
+- All tool pages, content pages, and homepage verified at 768px, 1024px, and 390px viewports
+- Testing: 100% pass (35/35 frontend across 3 viewports + 3/3 backend) — Iteration 38
+
 ### Sora 2 Hero Videos — Mar 4, 2026
 - Two AI-generated 12-second hero videos using Sora 2 via Emergent LLM key (v2 — regenerated with cinematographer-level prompts)
   - Video 1: Cinematic aerial Dubai Marina at golden hour with Burj Khalifa, LED facade display on glass building, ARRI Alexa anamorphic lens style

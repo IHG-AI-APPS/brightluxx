@@ -71,6 +71,8 @@ STATIC_ROUTES = [
     ("/case-studies/kapsarc-3d-anamorphic", 0.7, "monthly"),
     # CPD Programme
     ("/cpd-programme", 0.8, "monthly"),
+    # SLA Guide
+    ("/sla-guide", 0.8, "monthly"),
 ]
 
 BASE_URL = "https://brightluxx.com"

@@ -45,6 +45,7 @@ const RESOURCES = [
   { id: 'kb-rr', cat: 'guide', title: 'Refresh Rate & Camera Guide', desc: 'Flicker-free, camera-friendly specification', tags: ['Refresh Rate', 'Broadcast'], link: '/knowledge/refresh-rate-guide' },
   { id: 'kb-proc', cat: 'guide', title: 'Processing & Calibration', desc: 'Video processing, calibration workflows, colour management', tags: ['Processing', 'Calibration'], link: '/knowledge/processing-calibration' },
   { id: 'kb-cms', cat: 'guide', title: 'CMS for Multi-Site Signage', desc: 'Content management for multi-location networks', tags: ['CMS', 'Multi-Site'], link: '/knowledge/cms-multi-site' },
+  { id: 'kb-sla', cat: 'guide', title: 'SLA Gap Analysis', desc: 'Common SLA gaps, tier comparison, and audit checklist for LED display contracts', tags: ['SLA', 'Contracts', 'Maintenance'], link: '/sla-guide' },
 ];
 
 const CAT_ICONS = { specpack: FileText, cheatsheet: Layers, bim: Box, guide: BookOpen };

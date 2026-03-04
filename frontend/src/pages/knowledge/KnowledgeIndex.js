@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Cpu, Ruler, Sun, Shield, Camera, Download, Sliders, Monitor } from 'lucide-react';
+import { ArrowRight, BookOpen, Cpu, Ruler, Sun, Shield, Camera, Download, Sliders, Monitor, ShieldCheck } from 'lucide-react';
 import SEO from '../../components/SEO';
 import { buildFaqJsonLd } from '../../components/KnowledgeBase';
 
@@ -68,6 +68,16 @@ const GUIDES = [
     tags: ['CMS', 'Multi-Site', 'Network'],
     specPack: true,
   },
+  {
+    slug: '../sla-guide',
+    icon: ShieldCheck,
+    title: 'SLA Gap Analysis',
+    subtitle: 'Service Level Agreements',
+    description: 'Identify the 8 most common SLA gaps in LED display contracts. Includes tier comparison, audit checklist, and negotiation guidance for UAE/GCC.',
+    tags: ['SLA', 'Maintenance', 'Contracts'],
+    specPack: true,
+    externalPath: '/sla-guide',
+  },
 ];
 
 const TOP_FAQS = [
@@ -107,7 +117,7 @@ export default function KnowledgeIndex() {
           {GUIDES.map(guide => (
             <Link
               key={guide.slug}
-              to={`/knowledge/${guide.slug}`}
+              to={guide.externalPath || `/knowledge/${guide.slug}`}
               className="glass-panel p-6 group hover:border-[rgba(229,197,116,0.2)] transition-all duration-300"
               data-testid={`knowledge-card-${guide.slug}`}
             >

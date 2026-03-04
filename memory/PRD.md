@@ -1,90 +1,76 @@
 # Brightluxx — Product Requirements Document
 
 ## Original Problem Statement
-Build a premium, visually dramatic showcase website for Brightluxx to serve as a primary lead generation tool and high-end marketing asset. The focus is a "specifier knowledge base" to attract and convert architects, consultants, designers, AND contractors in the UAE/GCC region.
+Build a premium, visually dramatic showcase website for Brightluxx to serve as a primary lead generation tool and high-end marketing asset for architects, consultants, designers, and contractors in the UAE/GCC region.
 
 ## Stack
-- **Frontend:** React (CRA) with Tailwind-style CSS variables, Lucide icons, Recharts
-- **Backend:** FastAPI (Python) with Motor (async MongoDB)
+- **Frontend:** React (CRA), CSS variables, Lucide icons, Recharts
+- **Backend:** FastAPI (Python), Motor (async MongoDB)
 - **Database:** MongoDB
-- **CDN:** Emergent Object Storage with Pillow-based on-the-fly image processing
-- **PDF:** fpdf2/ReportLab for dynamic spec pack generation
+- **CDN:** Emergent Object Storage + Pillow
+- **PDF:** fpdf2 (spec packs), reportlab (cheat sheets, BIM refs)
 - **Email:** Gmail SMTP (webadmin@ihgind.com → sales@metroplusads.com)
 
 ## Theme
-"Deep Space Modern" — charcoal background (#0B0B0B), glassmorphism panels, gold/amber accents (--blx-gold-3)
-
-## Target Audiences
-1. **Architects & Consultants** — specifiers who need technical data, spec packs, BIM/CAD
-2. **Contractors & Procurement** — value engineering, cost control, spec substitution, BOQ templates
-3. **End Users** — hotel owners, mall operators, retailers seeking LED solutions
+"Deep Space Modern" — #0B0B0B, glassmorphism, gold/amber accents
 
 ---
 
 ## Completed Features
 
-### Phase 1-4 (Previous Sessions)
-- Full product catalog, CMS, admin panel, JWT auth
-- Inspirations gallery, project portfolio
-- Contact form with email notification
-- 5 original authority pages (COB vs MiP, Pixel Pitch, Brightness, IP Rating, Refresh Rate)
-- 8 application landing pages
-- 4 Latest Tech pages
-- For Architects & Consultants hub
+### Core Site (Phase 1-4)
+- Product catalog, CMS, admin panel, JWT auth
+- Inspirations, projects, contact form
+- 8 application landing pages, 4 Latest Tech pages
 - Custom analytics & performance monitoring
 
-### Phase 5 — PDF Spec Packs (Lead-Gated)
-- 12 spec packs with dynamic PDF generation
-- Lead capture form (name, email, company, role) before download
+### Knowledge Base (7 articles)
+- COB vs MiP vs SMD, Pixel Pitch, Brightness & Nits, IP Rating, Refresh Rate
+- Processing & Calibration (Phase 9), CMS for Multi-Site (Phase 9)
 
-### Phase 6 — Enhanced Screen Calculator (Mar 4, 2026)
-- Interactive specification tool at `/calculator`
+### Contractor Lead Generation (Phase 8)
+- Value Engineering Hub, 3 Contractor SEO Pages, Spec Substitution Service
 
-### Phase 7 — Email Notifications (Mar 4, 2026)
-- Gmail SMTP → sales@metroplusads.com for all lead events
+### Specifier Tools
+- Screen Calculator, Budget Estimator, Product Comparison
+- Tools mega-menu with grouped categories
 
-### Phase 8 — Contractor Lead Generation (Mar 4, 2026)
-- Value Engineering Hub (`/value-engineering`)
-- 3 Contractor SEO Pages (`/contractors/:pageId`)
-- Specification Substitution Service (`/spec-substitution`)
+### Lead-Gated Downloads
+- 12 spec packs (fpdf2)
+- 4 cheat sheets: pixel pitch, brightness, COB/MiP/SMD, outdoor checklist (reportlab)
+- 4 BIM/CAD references: All-in-One dvLED, Fine-Pitch Wall, Outdoor Cabinet, Transparent Film (reportlab)
 
-### Phase 9 — Content Expansion (Mar 4, 2026)
-- **Processing & Calibration Guide** (`/knowledge/processing-calibration`) — video processing comparison, calibration workflow, CMS options
-- **CMS for Multi-Site Guide** (`/knowledge/cms-multi-site`) — platform comparison, deployment architecture, UAE use cases
-- **Budget Estimator** (`/budget-estimator`) — instant project cost estimates by size/pitch with line-item breakdown, power requirements, WhatsApp CTA
-- **2 New Spec Packs** — Supermarket Promotions, Residential Cinema Wall (total: 12 packs)
-- Knowledge Base index updated to show 7 guides
+### Email Notifications (Phase 7)
+- Gmail SMTP for all lead events → sales@metroplusads.com
+
+### Technical SEO (Phase C — Mar 4, 2026)
+- Dynamic `/api/sitemap.xml` (94 URLs, includes DB products)
+- Lead-gated downloads: `/api/downloads/{type}/{id}/request` + `/api/downloads/{type}/{id}/file`
+- For Architects page fully updated with BIM, cheat sheets, spec packs, design assist, CPD
 
 ---
 
 ## Pending / Upcoming Tasks
 
-### Phase C — Technical SEO & Assets
-- (P1) **Dynamic sitemap.xml** — auto-generated from all routes
-- (P2) **BIM/CAD Downloads** — Revit families, CAD blocks on For Architects page
-- (P3) **Specifier Cheat Sheets** — 1-page downloadable PDFs
-
-### Phase D — Platform
-- (P4) **Product Comparison Tool enhancement** — improve existing compare page
-- (P5) **Backend Refactoring** — Split large admin.py
-- (P6) **E2E Test Suite** — Playwright tests
+### Phase D — Platform & Polish
+- (P1) **Backend Refactoring** — Split large admin.py
+- (P2) **Enhanced structured data** — JSON-LD across all pages
+- (P3) **E2E Test Suite** — Playwright tests
 
 ---
 
 ## Key Endpoints
-- `POST /api/specpacks/{pack_id}/download` — Lead-gated spec pack download (12 packs)
-- `GET /api/specpacks/{pack_id}/file` — Serve PDF file
-- `POST /api/leads` — Contact form with email notification
-- `POST /api/spec-substitution` — Spec substitution with file upload + email
-- `POST /api/track` — Analytics event tracking
-- `GET /api/admin/analytics` — Analytics dashboard data
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/sitemap.xml` | GET | Dynamic XML sitemap |
+| `/api/specpacks/{id}/download` | POST | Lead-gated spec pack |
+| `/api/specpacks/{id}/file` | GET | Serve spec pack PDF |
+| `/api/downloads/{type}/{id}/request` | POST | Lead-gated cheat sheet/BIM |
+| `/api/downloads/{type}/{id}/file` | GET | Serve cheat sheet/BIM PDF |
+| `/api/downloads/catalog` | GET | List all downloads |
+| `/api/spec-substitution` | POST | Spec substitution + file upload |
+| `/api/leads` | POST | Contact form |
+| `/api/track` | POST | Analytics event |
 
-## Admin Credentials
-- URL: `/admin`
-- Email: `admin@brightluxx.com`
-- Password: `brightluxx2025`
-
-## Email Configuration
-- SMTP: smtp.gmail.com:587
-- Sender: webadmin@ihgind.com
-- Notifications: sales@metroplusads.com
+## Admin: `/admin` — admin@brightluxx.com / brightluxx2025
+## Email: smtp.gmail.com:587 — webadmin@ihgind.com → sales@metroplusads.com

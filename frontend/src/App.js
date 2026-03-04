@@ -61,6 +61,11 @@ import CpdProgramme from './pages/CpdProgramme';
 // SLA Guide
 import SlaGuide from './pages/SlaGuide';
 
+// Design Assist & Digital Experience Architecture
+import DesignAssist from './pages/DesignAssist';
+import DigitalExperienceArchitecture from './pages/DigitalExperienceArchitecture';
+import SpecifierToolkitLP from './pages/SpecifierToolkitLP';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -123,6 +128,9 @@ function AppRoutes() {
       <Route path="/case-studies/:caseId" element={<><Navbar /><CaseStudyDetail /><Footer /><StickyCTA /></>} />
       <Route path="/cpd-programme" element={<><Navbar /><CpdProgramme /><Footer /><StickyCTA /></>} />
       <Route path="/sla-guide" element={<><Navbar /><SlaGuide /><Footer /><StickyCTA /></>} />
+      <Route path="/design-assist" element={<><Navbar /><DesignAssist /><Footer /><StickyCTA /></>} />
+      <Route path="/digital-experience-architecture" element={<><Navbar /><DigitalExperienceArchitecture /><Footer /><StickyCTA /></>} />
+      <Route path="/lp/specifier-toolkit" element={<SpecifierToolkitLP />} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

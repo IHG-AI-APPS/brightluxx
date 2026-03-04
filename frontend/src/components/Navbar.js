@@ -9,7 +9,7 @@ const Navbar = () => {
 
   const isActive = (path) => location.pathname === path;
   const isActivePrefix = (prefix) => location.pathname.startsWith(prefix);
-  const toolsPaths = ['/calculator', '/compare', '/tech-guide', '/budget-estimator', '/value-engineering', '/spec-substitution', '/cpd-programme'];
+  const toolsPaths = ['/calculator', '/compare', '/tech-guide', '/budget-estimator', '/value-engineering', '/spec-substitution', '/cpd-programme', '/design-assist'];
   const isToolsActive = toolsPaths.includes(location.pathname) || location.pathname.startsWith('/contractors');
 
   const navLinks = [
@@ -36,6 +36,7 @@ const Navbar = () => {
       links: [
         { name: 'Value Engineering', path: '/value-engineering', icon: Wrench, desc: 'Cost-saving alternatives' },
         { name: 'Spec Substitution', path: '/spec-substitution', icon: Upload, desc: 'Upload BOQ for review' },
+        { name: 'Design Assist', path: '/design-assist', icon: MonitorPlay, desc: 'Free specification support' },
       ],
     },
   ];

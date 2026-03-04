@@ -18,6 +18,16 @@ export default function CaseStudyDetail() {
         title={`${cs.title} | LED Case Study — Brightluxx`}
         description={cs.challenge.slice(0, 160)}
         path={`/case-studies/${cs.id}`}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": cs.title,
+          "description": cs.challenge.slice(0, 160),
+          "author": { "@type": "Organization", "name": "Brightluxx" },
+          "publisher": { "@type": "Organization", "name": "Brightluxx" },
+          "datePublished": `${cs.year}-01-01`,
+          "about": { "@type": "Thing", "name": cs.technology }
+        }}
       />
 
       {/* Hero Image */}

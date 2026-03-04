@@ -17,6 +17,13 @@ export default function CaseStudiesIndex() {
         title="LED Display Case Studies — Projects in UAE, KSA, GCC | Brightluxx"
         description="Explore real-world LED display installations across hospitality, retail, corporate, transport, entertainment, and healthcare in the UAE/GCC region. Specification precedents for architects and consultants."
         path="/case-studies"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "LED Display Case Studies",
+          "description": "Real-world LED display installations across UAE/GCC — specification precedents for architects and consultants.",
+          "publisher": { "@type": "Organization", "name": "Brightluxx" }
+        }}
       />
 
       {/* Hero */}

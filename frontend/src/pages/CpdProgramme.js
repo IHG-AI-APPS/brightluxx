@@ -110,6 +110,13 @@ export default function CpdProgramme() {
         title="CPD / Lunch & Learn Programme — LED Display Training | Brightluxx"
         description="Book a free CPD-accredited Lunch & Learn session for your architecture, engineering, or consulting team. 6 specialist topics covering MicroLED, pixel pitch, healthcare LED, hospitality, and more."
         path="/cpd-programme"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "EducationalOrganization",
+          "name": "Brightluxx CPD Programme",
+          "description": "Free CPD-accredited Lunch & Learn sessions for architects and consultants on LED display technology.",
+          "areaServed": { "@type": "Place", "name": "UAE, Saudi Arabia, Qatar, Bahrain, Kuwait, Oman" }
+        }}
       />
 
       {/* Hero */}

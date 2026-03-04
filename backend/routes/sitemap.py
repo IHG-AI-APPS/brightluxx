@@ -73,6 +73,10 @@ STATIC_ROUTES = [
     ("/cpd-programme", 0.8, "monthly"),
     # SLA Guide
     ("/sla-guide", 0.8, "monthly"),
+    # Design Assist & Digital Experience
+    ("/design-assist", 0.9, "monthly"),
+    ("/digital-experience-architecture", 0.8, "monthly"),
+    ("/lp/specifier-toolkit", 0.7, "monthly"),
 ]
 
 BASE_URL = "https://brightluxx.com"

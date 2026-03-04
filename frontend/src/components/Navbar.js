@@ -12,13 +12,17 @@ const Navbar = () => {
   const toolsPaths = ['/calculator', '/compare', '/tech-guide', '/budget-estimator', '/value-engineering', '/spec-substitution', '/cpd-programme', '/design-assist', '/technology-selector'];
   const isToolsActive = toolsPaths.includes(location.pathname) || location.pathname.startsWith('/contractors');
 
-  const navLinks = [
+  // Group 1: Before Tools
+  const navLinksGroup1 = [
     { name: 'Products', path: '/products' },
     { name: 'Solutions', path: '/solutions' },
     { name: 'Technologies', path: '/technology' },
-    { name: 'Knowledge', path: '/knowledge' },
-    { name: 'Resources', path: '/resources' },
     { name: 'Case Studies', path: '/case-studies' },
+  ];
+
+  // Group 2: After Tools
+  const navLinksGroup2 = [
+    { name: 'Resources', path: '/resources' },
   ];
 
   const toolsGroups = [
@@ -42,7 +46,23 @@ const Navbar = () => {
     },
   ];
 
-  const allToolsLinks = toolsGroups.flatMap(g => g.links);
+  const renderNavLink = (link) => (
+    <Link
+      key={link.path}
+      to={link.path}
+      className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
+        (['/knowledge', '/technology', '/case-studies'].includes(link.path) ? isActivePrefix(link.path) : isActive(link.path))
+          ? 'text-[var(--blx-text)]'
+          : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
+      }`}
+      data-testid={`nav-${link.name.toLowerCase().replace(' ', '-')}`}
+    >
+      {link.name}
+      {(['/knowledge', '/technology', '/case-studies'].includes(link.path) ? isActivePrefix(link.path) : isActive(link.path)) && (
+        <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />
+      )}
+    </Link>
+  );
 
   return (
     <nav className="sticky top-0 z-50 sticky-nav" data-testid="site-header-nav">
@@ -59,23 +79,7 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                  (['/knowledge', '/technology', '/case-studies'].includes(link.path) ? isActivePrefix(link.path) : isActive(link.path))
-                    ? 'text-[var(--blx-text)]'
-                    : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
-                }`}
-                data-testid={`nav-${link.name.toLowerCase()}`}
-              >
-                {link.name}
-                {(['/knowledge', '/technology', '/case-studies'].includes(link.path) ? isActivePrefix(link.path) : isActive(link.path)) && (
-                  <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />
-                )}
-              </Link>
-            ))}
+            {navLinksGroup1.map(renderNavLink)}
 
             {/* Tools Mega Dropdown */}
             <div
@@ -134,24 +138,11 @@ const Navbar = () => {
               )}
             </div>
 
-            <Link
-              to="/contact"
-              className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                isActive('/contact')
-                  ? 'text-[var(--blx-text)]'
-                  : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
-              }`}
-              data-testid="nav-contact"
-            >
-              Contact
-              {isActive('/contact') && (
-                <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />
-              )}
-            </Link>
+            {navLinksGroup2.map(renderNavLink)}
 
             <Link
               to="/contact"
-              className="btn-gold px-5 py-2"
+              className="btn-gold px-4 py-1.5 text-xs"
               data-testid="site-header-request-quote-button"
             >
               Get Quote
@@ -171,7 +162,7 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden py-4 space-y-2 border-t border-[var(--blx-hairline)]" data-testid="mobile-menu">
-            {navLinks.map((link) => (
+            {navLinksGroup1.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
@@ -210,22 +201,25 @@ const Navbar = () => {
               </React.Fragment>
             ))}
 
-            <Link
-              to="/contact"
-              onClick={() => setIsOpen(false)}
-              className={`block px-4 py-3 text-xs font-bold tracking-widest rounded-lg ${
-                isActive('/contact')
-                  ? 'bg-[var(--blx-glass)] text-[var(--blx-text)]'
-                  : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-glass)]'
-              }`}
-            >
-              Contact
-            </Link>
+            {navLinksGroup2.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => setIsOpen(false)}
+                className={`block px-4 py-3 text-xs font-bold tracking-widest rounded-lg ${
+                  isActive(link.path)
+                    ? 'bg-[var(--blx-glass)] text-[var(--blx-text)]'
+                    : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-glass)]'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
 
             <Link
               to="/contact"
               onClick={() => setIsOpen(false)}
-              className="btn-gold block text-center mx-4 mt-4"
+              className="btn-gold block text-center mx-4 mt-4 text-xs py-2.5"
             >
               Get Quote
             </Link>

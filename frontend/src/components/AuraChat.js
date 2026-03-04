@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Send, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { X, Send, ChevronDown, CheckCircle2, MessageCircle } from 'lucide-react';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 const AURA_AVATAR = 'https://static.prod-images.emergentagent.com/jobs/7211302e-e67e-4376-a9ca-401680b35a31/images/4de29b1557ed773232c26af312b994e1ed537e4dc5bd99c8787717c897722209.png';
@@ -28,6 +28,10 @@ export default function AuraChat() {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const sessionId = useRef(getSessionId());
+  
+  // WhatsApp config
+  const whatsappNumber = '971559910711';
+  const whatsappMessage = "Hi, I'm interested in Brightluxx LED displays";
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -87,6 +91,13 @@ export default function AuraChat() {
     }
   };
 
+  const handleWhatsApp = () => {
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
+      '_blank'
+    );
+  };
+
   const renderMarkdown = (text) => {
     return text
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
@@ -96,30 +107,43 @@ export default function AuraChat() {
 
   return (
     <>
-      {/* Floating Button */}
+      {/* Floating Buttons Container */}
       {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-50 group"
-          data-testid="aura-chat-button"
-          aria-label="Open AURA chat"
-        >
-          <div className="relative">
-            <img
-              src={AURA_AVATAR}
-              alt="AURA"
-              className="w-14 h-14 rounded-full object-cover"
-              style={{ border: '2px solid rgba(229,197,116,0.4)', boxShadow: '0 0 20px rgba(229,197,116,0.2)' }}
-            />
-            {pulse && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[var(--blx-gold-3)] animate-ping" />
-            )}
-            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[var(--blx-gold-3)]" />
-          </div>
-          <div className="absolute bottom-full right-0 mb-2 px-3 py-1.5 rounded-lg text-[0.5625rem] font-bold tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'rgba(11,11,11,0.9)', border: '1px solid rgba(229,197,116,0.2)' }}>
-            Ask AURA
-          </div>
-        </button>
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-4">
+          {/* WhatsApp Button - Hidden on Mobile if StickyCTA handles it, but here we show on desktop (md:flex) */}
+          <button
+            onClick={handleWhatsApp}
+            className="hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-110 hover:shadow-[0_0_20px_rgba(37,211,102,0.4)]"
+            data-testid="floating-whatsapp-button"
+            aria-label="Contact on WhatsApp"
+          >
+            <MessageCircle size={24} />
+          </button>
+
+          {/* AURA Button */}
+          <button
+            onClick={() => setOpen(true)}
+            className="group relative"
+            data-testid="aura-chat-button"
+            aria-label="Open AURA chat"
+          >
+            <div className="relative">
+              <img
+                src={AURA_AVATAR}
+                alt="AURA"
+                className="w-14 h-14 rounded-full object-cover"
+                style={{ border: '2px solid rgba(229,197,116,0.4)', boxShadow: '0 0 20px rgba(229,197,116,0.2)' }}
+              />
+              {pulse && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[var(--blx-gold-3)] animate-ping" />
+              )}
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[var(--blx-gold-3)]" />
+            </div>
+            <div className="absolute bottom-full right-0 mb-2 px-3 py-1.5 rounded-lg text-[0.5625rem] font-bold tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'rgba(11,11,11,0.9)', border: '1px solid rgba(229,197,116,0.2)' }}>
+              Ask AURA
+            </div>
+          </button>
+        </div>
       )}
 
       {/* Chat Window */}

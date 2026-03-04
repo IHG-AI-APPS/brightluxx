@@ -1,0 +1,59 @@
+{
+  "brand": {
+    "name": "Brightluxx",
+    "theme": "Deep Space Modern",
+    "font": "Satoshi",
+    "colors": {
+      "bg": "#0B0B0B",
+      "bg_raised": "#141414",
+      "text": "#F5F5F5",
+      "text_muted": "#B0B0B0",
+      "gold_primary": "#E5C574",
+      "gold_gradient": "linear-gradient(135deg, #B78E3A 0%, #C59F4A 34%, #E5C574 68%, #F0D78C 100%)",
+      "glass": "rgba(255,255,255,0.04)",
+      "glass_border": "rgba(255,255,255,0.08)"
+    }
+  },
+  "navigation": {
+    "structure": [
+      "Products",
+      "Solutions",
+      "Technologies",
+      "Case Studies",
+      "Tools (Mega Menu)",
+      "Resources"
+    ],
+    "ctas": {
+      "primary": "Get Quote (Gold Gradient)",
+      "floating": ["WhatsApp (Green/Glass)", "AURA Chat (Avatar)"]
+    },
+    "rules": {
+      "mobile": "Hamburger menu with bottom Sticky CTA bar",
+      "desktop": "Horizontal glassmorphism bar with vertical floating controls on right"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "btn-gold: Uppercase, tracking-widest, bold, gold gradient background, black text",
+      "glass": "btn-glass: Glassmorphism background, white text, subtle border"
+    },
+    "cards": {
+      "style": "Glassmorphism with 1px border, large radius (20px), hover lift effect"
+    }
+  },
+  "assets": {
+    "icons": "Lucide React",
+    "logo": "/assets/brightluxx-logo-dark.png"
+  },
+  "functionality": {
+    "tools_mega_menu": {
+      "groups": ["Specifier Tools", "Contractor Tools"],
+      "items": [
+        "Screen Calculator", "Budget Estimator", "Compare Products", 
+        "CPD Programme", "Technology Selector", "Value Engineering", 
+        "Spec Substitution", "Design Assist"
+      ]
+    }
+  },
+  "instructions_to_main_agent": "Maintain the 'Deep Space' aesthetic. Use pure black/dark grays. Avoid white backgrounds. Ensure high contrast for text. Use gold sparingly for focus."
+}

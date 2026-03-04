@@ -109,10 +109,20 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Power-saving tips section and 6 SEO-optimized FAQs
 - Added to Tools mega-menu in navbar, sitemap, and QuickInquiry form
 
+### Installation Method Guide — Mar 4, 2026
+- Comprehensive guide at `/installation-guide` covering 6 mounting methods:
+  - Wall-Mounted (Surface), Recessed (Flush), Ceiling-Hung, Freestanding, Ground-Supported, Curved & Creative
+- Each method: description, best-for applications, 6 technical specs, pros/cons, numbered installation sequence, GCC region note
+- Accordion-style UI with quick nav buttons to jump between methods
+- Comparison table: cost, complexity, aesthetics, best-for across all 6 methods
+- Universal GCC considerations: Heat, Dust, Structural Standards, Maintenance
+- Sidebar: Spec Pack CTA, Related Tools, Pre-Install Checklist (8 items), Site Support CTA
+- 6 SEO-optimized FAQs with JSON-LD structured data
+- Added to Tools mega-menu in navbar, sitemap, and QuickInquiry form
+
 ---
 
 ## Remaining Tasks
-- (P2) Installation Diagrams — Visual guides for different mounting types
 - (P3) Tender Monitoring Integration (ProTenders/MEED)
 
 ## Admin: `/admin` — admin@brightluxx.com / brightluxx2025

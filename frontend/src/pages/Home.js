@@ -30,6 +30,60 @@ const GlowCard = ({ children, className = '' }) => {
   );
 };
 
+/* Hero video player — crossfade between two Sora 2 videos */
+const HERO_VIDEOS = ['/videos/hero-video-1.mp4', '/videos/hero-video-2.mp4'];
+
+const HeroVideoPlayer = () => {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [fading, setFading] = useState(false);
+  const video0Ref = useRef(null);
+  const video1Ref = useRef(null);
+  const refs = useRef([video0Ref, video1Ref]);
+
+  useEffect(() => {
+    const activeVideo = refs.current[activeIdx]?.current;
+    if (!activeVideo) return;
+
+    const onEnded = () => {
+      setFading(true);
+      const nextIdx = (activeIdx + 1) % HERO_VIDEOS.length;
+      const nextVideo = refs.current[nextIdx]?.current;
+      if (nextVideo) {
+        nextVideo.currentTime = 0;
+        nextVideo.play().catch(() => {});
+      }
+      setTimeout(() => {
+        setActiveIdx(nextIdx);
+        setFading(false);
+      }, 800);
+    };
+
+    activeVideo.addEventListener('ended', onEnded);
+    return () => activeVideo.removeEventListener('ended', onEnded);
+  }, [activeIdx]);
+
+  return (
+    <div className="relative w-full h-full" data-testid="hero-video-player">
+      {HERO_VIDEOS.map((src, idx) => (
+        <video
+          key={src}
+          ref={idx === 0 ? video0Ref : video1Ref}
+          autoPlay={idx === 0}
+          muted
+          playsInline
+          preload={idx === 0 ? 'auto' : 'metadata'}
+          poster="/api/cdn/hero_banner.webp"
+          data-testid={`home-hero-video-${idx}`}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[800ms]"
+          style={{ opacity: idx === activeIdx ? 1 : fading && idx === (activeIdx + 1) % HERO_VIDEOS.length ? 1 : 0 }}
+        >
+          <source src={src} type="video/mp4" />
+        </video>
+      ))}
+    </div>
+  );
+};
+
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [featuredProjects, setFeaturedProjects] = useState([]);
@@ -88,20 +142,10 @@ const Home = () => {
             "publisher": { "@type": "Organization", "name": "Brightluxx" }
           }
         ]}
-      />      {/* Hero Section — Video + LED Grid */}
+      />      {/* Hero Section — Dual Sora 2 Videos + LED Grid */}
       <section className="relative pt-6 sm:pt-10 pb-12 sm:pb-16" data-testid="hero-section">
         <div className="hero-video-container mx-4 sm:mx-6 lg:mx-auto max-w-[1320px] blx-led-grid-strong">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/api/cdn/hero_banner.webp"
-            data-testid="home-hero-video"
-            className="w-full h-full object-cover"
-          >
-            <source src="/assets/hero-video.mp4" type="video/mp4" />
-          </video>
+          <HeroVideoPlayer />
           <div className="hero-overlay">
             <div className="max-w-2xl">
               <div className="text-[0.6875rem] tracking-[0.28em] text-[var(--blx-gold-3)] mb-5 font-bold">

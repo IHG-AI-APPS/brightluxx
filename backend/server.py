@@ -12,6 +12,7 @@ from routes.admin_crud import router as admin_crud_router
 from routes.upload import router as upload_router
 from routes.cdn import router as cdn_router
 from routes.analytics import router as analytics_router
+from routes.specpacks import router as specpacks_router
 from storage import init_storage
 
 app = FastAPI()
@@ -63,6 +64,7 @@ app.include_router(admin_crud_router)
 app.include_router(upload_router)
 app.include_router(cdn_router)
 app.include_router(analytics_router)
+app.include_router(specpacks_router)
 
 
 @app.on_event("startup")

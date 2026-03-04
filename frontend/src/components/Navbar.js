@@ -8,14 +8,15 @@ const Navbar = () => {
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
+  const isActivePrefix = (prefix) => location.pathname.startsWith(prefix);
   const isToolsActive = ['/calculator', '/compare', '/tech-guide'].includes(location.pathname);
 
   const navLinks = [
     { name: 'Products', path: '/products' },
     { name: 'Solutions', path: '/solutions' },
+    { name: 'Knowledge', path: '/knowledge' },
     { name: 'Inspirations', path: '/inspirations' },
     { name: 'Projects', path: '/projects' },
-    { name: 'Showroom', path: '/showroom' },
   ];
 
   const toolsLinks = [
@@ -44,14 +45,14 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                  isActive(link.path)
+                  (link.path === '/knowledge' ? isActivePrefix('/knowledge') : isActive(link.path))
                     ? 'text-[var(--blx-text)]'
                     : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
                 }`}
                 data-testid={`nav-${link.name.toLowerCase()}`}
               >
                 {link.name}
-                {isActive(link.path) && (
+                {(link.path === '/knowledge' ? isActivePrefix('/knowledge') : isActive(link.path)) && (
                   <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />
                 )}
               </Link>

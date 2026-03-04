@@ -21,6 +21,14 @@ import Solutions from './pages/Solutions';
 import SolutionDetail from './pages/SolutionDetail';
 import About from './pages/About';
 
+// Knowledge Base
+import KnowledgeIndex from './pages/knowledge/KnowledgeIndex';
+import CobVsMipVsSmd from './pages/knowledge/CobVsMipVsSmd';
+import PixelPitchGuide from './pages/knowledge/PixelPitchGuide';
+import BrightnessNitsGuide from './pages/knowledge/BrightnessNitsGuide';
+import IpRatingGuide from './pages/knowledge/IpRatingGuide';
+import RefreshRateGuide from './pages/knowledge/RefreshRateGuide';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -59,6 +67,12 @@ function AppRoutes() {
       <Route path="/solutions" element={<><Navbar /><Solutions /><Footer /><StickyCTA /></>} />
       <Route path="/solutions/:id" element={<><Navbar /><SolutionDetail /><Footer /><StickyCTA /></>} />
       <Route path="/about" element={<><Navbar /><About /><Footer /><StickyCTA /></>} />
+      <Route path="/knowledge" element={<><Navbar /><KnowledgeIndex /><Footer /><StickyCTA /></>} />
+      <Route path="/knowledge/cob-vs-mip-vs-smd" element={<><Navbar /><CobVsMipVsSmd /><Footer /><StickyCTA /></>} />
+      <Route path="/knowledge/pixel-pitch-guide" element={<><Navbar /><PixelPitchGuide /><Footer /><StickyCTA /></>} />
+      <Route path="/knowledge/brightness-nits-guide" element={<><Navbar /><BrightnessNitsGuide /><Footer /><StickyCTA /></>} />
+      <Route path="/knowledge/ip-rating-guide" element={<><Navbar /><IpRatingGuide /><Footer /><StickyCTA /></>} />
+      <Route path="/knowledge/refresh-rate-guide" element={<><Navbar /><RefreshRateGuide /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

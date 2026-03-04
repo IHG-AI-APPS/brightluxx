@@ -58,8 +58,9 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 ### UI/UX Polish — Mar 4, 2026
 - Removed "Made with Emergent" badge
 - Removed "Contact" nav link; header: Products, Solutions, Technologies, Case Studies, Tools, Resources, Get Quote
-- Added floating WhatsApp button (971559954274) stacked with AURA chat icon
-- Proper WhatsApp SVG icon, green branded button
+- Added floating WhatsApp button (971559954274) stacked with AURA chat icon (desktop)
+- Added sticky mobile CTA bar with WhatsApp + Get Quote (mobile only, with safe-area support)
+- Desktop: floating buttons bottom-right; Mobile: sticky bar at bottom — no duplication
 - Updated E2E smoke test to match current nav structure (22/22 pass)
 
 ---

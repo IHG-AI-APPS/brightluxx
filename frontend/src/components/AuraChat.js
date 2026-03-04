@@ -107,9 +107,9 @@ export default function AuraChat() {
 
   return (
     <>
-      {/* Floating Buttons Container */}
+      {/* Floating Buttons Container — Desktop only, mobile uses StickyCTA bar */}
       {!open && (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-4">
+        <div className="fixed bottom-6 right-6 z-50 hidden md:flex flex-col items-center gap-4">
           {/* WhatsApp Button */}
           <button
             onClick={handleWhatsApp}

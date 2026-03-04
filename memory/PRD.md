@@ -74,11 +74,22 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend `POST /api/site-visit-request` saves lead + sends email notification
 - Once per session (sessionStorage), dismissible via close or backdrop click
 
+### P1: Digital Experience Detail Pages — Mar 4, 2026
+- **Media Facades** (`/digital-experience/media-facades`) — 5 FAQs, 6 specs, 6 applications, 6 design considerations, GCC context
+- **Immersive LED Rooms** (`/digital-experience/immersive-led-rooms`) — 5 FAQs, 6 specs, 6 applications, 6 design considerations, GCC context
+- **Retail Experiential Screens** (`/digital-experience/retail-experiential-screens`) — 5 FAQs, 6 specs, 6 applications, 6 design considerations, GCC context
+- Shared component `DeaPageDetail.js` with data-driven rendering from `deaPages.js`
+- Each page: hero with background image, overview, tech specs, applications grid, gallery, GCC market context, design considerations, FAQ accordion, bottom CTA, sidebar (Specifier Tools, Design Assist CTA, related pages, related technologies)
+- Linked from Digital Experience Architecture overview page ("Full Guide" buttons)
+- Added to sitemap.xml (3 new URLs)
+- WhatsApp number updated site-wide to 971559954274 (24 files)
+- JSON-LD structured data for SEO on each page
+- QuickInquiry scroll-triggered form on all detail pages
+
 ---
 
 ## Remaining Tasks
-- (P1) Content Expansion: Media Facades, Immersive LED Rooms, Retail Experiential Screens pages
-- (P2) Enhance Specifier Toolkit: viewing distance calculator, installation diagrams, power estimators
+- (P2) Enhance Specifier Toolkit: viewing distance calculator, installation diagrams, power consumption estimators
 - (P3) Tender Monitoring Integration (ProTenders/MEED)
 
 ## Admin: `/admin` — admin@brightluxx.com / brightluxx2025

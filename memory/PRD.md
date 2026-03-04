@@ -1,7 +1,7 @@
 # Brightluxx — Product Requirements Document
 
 ## Original Problem Statement
-Build a premium, visually dramatic showcase website for Brightluxx to serve as a primary lead generation tool and high-end marketing asset. The focus is a "specifier knowledge base" to attract and convert architects, consultants, and designers in the UAE/GCC region.
+Build a premium, visually dramatic showcase website for Brightluxx to serve as a primary lead generation tool and high-end marketing asset. The focus is a "specifier knowledge base" to attract and convert architects, consultants, designers, AND contractors in the UAE/GCC region.
 
 ## Stack
 - **Frontend:** React (CRA) with Tailwind-style CSS variables, Lucide icons, Recharts
@@ -14,6 +14,11 @@ Build a premium, visually dramatic showcase website for Brightluxx to serve as a
 ## Theme
 "Deep Space Modern" — charcoal background (#0B0B0B), glassmorphism panels, gold/amber accents (--blx-gold-3)
 
+## Target Audiences
+1. **Architects & Consultants** — specifiers who need technical data, spec packs, BIM/CAD
+2. **Contractors & Procurement** — value engineering, cost control, spec substitution, BOQ templates
+3. **End Users** — hotel owners, mall operators, retailers seeking LED solutions
+
 ---
 
 ## Completed Features
@@ -23,7 +28,7 @@ Build a premium, visually dramatic showcase website for Brightluxx to serve as a
 - Product detail pages with specs, gallery
 - Inspirations gallery
 - Project portfolio
-- Contact form with lead capture
+- Contact form with lead capture + email notification
 - Admin CMS (CRUD for products, inspirations, projects, leads)
 - Admin authentication (JWT)
 
@@ -34,73 +39,67 @@ Build a premium, visually dramatic showcase website for Brightluxx to serve as a
 - Brightness & Nits guide
 - IP Rating guide
 - Refresh Rate guide
-- Reusable components: SpecifierAnswerBox, ComparisonTable, FAQSection, KnowledgeHero
 
 ### Phase 3 — Application Landing Pages & Latest Tech
 - 8 application landing pages (Retail, Hospitality, Corporate, Healthcare, Education, Outdoor, Transport, Worship)
-- Data-driven architecture with centralized `data/applications.js`
 - 4 Latest Tech pages (Glasses-free 3D, MicroLED, Transparent LED, AI-Powered)
 - For Architects & Consultants hub page
 
 ### Phase 4 — Analytics & Performance Monitoring
 - Custom analytics event tracking (`/api/track`)
-- Analytics dashboard in admin (`/admin/analytics`)
-- Performance metrics dashboard (`/admin/performance`)
-- Privacy-focused, no third-party trackers
+- Admin dashboards for analytics and performance
 
-### Phase 5 — PDF Spec Packs
+### Phase 5 — PDF Spec Packs (Lead-Gated)
 - Dynamic PDF generation with fpdf2 (10 spec packs)
-- Branded layouts with Brightluxx styling
-- Available packs: pixel-pitch, cob-mip-smd, brightness-nits, ip-rating, refresh-rate, retail-hospitality, outdoor-dooh, corporate-control, healthcare-wayfinding, education-campus
+- Lead capture form (name, email, company, role) before download
+- Email notification to sales@metroplusads.com on download
 
 ### Phase 6 — Enhanced Screen Calculator (Completed Mar 4, 2026)
 - Interactive specification tool at `/calculator`
-- Inputs: application type, screen dimensions, viewing distance, content type, environment
-- Outputs: pixel pitch recommendation, resolution, brightness, technology, cost estimate, power/HVAC, alternative options
-- Visual scale preview
-- WhatsApp integration with pre-filled results
+- Instant pixel pitch, resolution, brightness, technology, cost, power/HVAC recommendations
 
-### Phase 7 — Lead-Gated Content (Completed Mar 4, 2026)
-- SpecPackCTA component with name, email, company, role fields
-- Lead data captured to MongoDB before PDF download
-- Used across calculator page, application landing pages, knowledge base
+### Phase 7 — Email Notifications (Completed Mar 4, 2026)
+- Gmail SMTP integration (webadmin@ihgind.com → sales@metroplusads.com)
+- Triggered on spec pack downloads and contact form submissions
+- Non-blocking fire-and-forget pattern
 
-### Phase 8 — Email Notifications (Completed Mar 4, 2026)
-- Gmail SMTP integration (webadmin@ihgind.com)
-- All notifications sent to sales@metroplusads.com
-- Triggered on: spec pack downloads, contact form submissions
-- Branded HTML emails with lead details
-- Non-blocking (fire-and-forget via asyncio.to_thread)
+### Phase 8 — Contractor Lead Generation (Completed Mar 4, 2026)
+- **Value Engineering Hub** (`/value-engineering`) — substitution tables, cost guides, FAQ
+- **3 Contractor SEO Pages** (`/contractors/:pageId`):
+  - dvLED vs LCD comparison with 5-year TCO analysis
+  - LED Cost per sqm UAE guide with pricing tables
+  - LED Installation Guide with 5-phase checklists
+- **Specification Substitution Service** (`/spec-substitution`) — upload form with file attachments, email notification, 24-hour response promise
+- **Navbar updated** — Removed Inspirations from header (kept in footer)
 
 ---
 
 ## Pending / Upcoming Tasks
 
-### P3 — Product Comparison Tool
-- Interactive side-by-side product comparison
-- Select 2-4 products to compare specs
+### Phase B — Content Expansion
+- (P1) **2 New Authority pages** — Processing & Calibration guide, CMS for Multi-Site guide
+- (P2) **2 New Spec Packs** — Supermarket promotions, Residential cinema wall
+- (P3) **Budget Estimator Tool** — input size/pitch/indoor-outdoor → estimated cost range
+- (P4) **Specifier Cheat Sheets** — 1-page PDFs (pixel pitch, brightness, COB vs MiP, outdoor checklist)
 
-### P4 — BIM/CAD Downloads
-- Add downloadable BIM/CAD/Revit objects to For Architects page
+### Phase C — Technical SEO & Assets
+- (P5) **BIM/CAD Downloads** — Revit families, CAD blocks on For Architects page
+- (P6) **Dynamic sitemap.xml** — auto-generated from all routes
+- (P7) **Enhanced structured data** — JSON-LD across all pages
 
-### P5 — Dynamic Sitemap
-- `/sitemap.xml` endpoint for SEO
-
-### P6 — Backend Refactoring
-- Split large `admin.py` into smaller resource-specific modules
-
-### P7 — E2E Test Suite
-- Comprehensive Playwright test suite
+### Phase D — Platform
+- (P8) **Backend Refactoring** — Split large admin.py
+- (P9) **E2E Test Suite** — Playwright tests
 
 ---
 
 ## Key Endpoints
 - `POST /api/specpacks/{pack_id}/download` — Lead-gated spec pack download
 - `GET /api/specpacks/{pack_id}/file` — Serve PDF file
-- `POST /api/leads` — Contact form submission
+- `POST /api/leads` — Contact form with email notification
+- `POST /api/spec-substitution` — Spec substitution with file upload + email
 - `POST /api/track` — Analytics event tracking
 - `GET /api/admin/analytics` — Analytics dashboard data
-- `GET /api/admin/performance` — Performance dashboard data
 
 ## Admin Credentials
 - URL: `/admin`

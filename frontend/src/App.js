@@ -47,6 +47,10 @@ import ResourceLibrary from './pages/ResourceLibrary';
 import LatestTechIndex from './pages/LatestTechIndex';
 import LatestTechDetail from './pages/LatestTechDetail';
 
+// Technology Pillar Pages
+import TechnologyIndex from './pages/TechnologyIndex';
+import TechnologyPage from './pages/TechnologyPage';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -103,6 +107,8 @@ function AppRoutes() {
       <Route path="/resources" element={<><Navbar /><ResourceLibrary /><Footer /><StickyCTA /></>} />
       <Route path="/latest-tech" element={<><Navbar /><LatestTechIndex /><Footer /><StickyCTA /></>} />
       <Route path="/latest-tech/:techId" element={<><Navbar /><LatestTechDetail /><Footer /><StickyCTA /></>} />
+      <Route path="/technology" element={<><Navbar /><TechnologyIndex /><Footer /><StickyCTA /></>} />
+      <Route path="/technology/:techId" element={<><Navbar /><TechnologyPage /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

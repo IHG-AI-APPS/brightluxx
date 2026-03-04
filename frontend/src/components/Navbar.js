@@ -15,6 +15,7 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Products', path: '/products' },
     { name: 'Solutions', path: '/solutions' },
+    { name: 'Technologies', path: '/technology' },
     { name: 'Knowledge', path: '/knowledge' },
     { name: 'Resources', path: '/resources' },
     { name: 'Projects', path: '/projects' },
@@ -60,14 +61,14 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                  (link.path === '/knowledge' ? isActivePrefix('/knowledge') : isActive(link.path))
+                  (['/knowledge', '/technology'].includes(link.path) ? isActivePrefix(link.path) : isActive(link.path))
                     ? 'text-[var(--blx-text)]'
                     : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
                 }`}
                 data-testid={`nav-${link.name.toLowerCase()}`}
               >
                 {link.name}
-                {(link.path === '/knowledge' ? isActivePrefix('/knowledge') : isActive(link.path)) && (
+                {(['/knowledge', '/technology'].includes(link.path) ? isActivePrefix(link.path) : isActive(link.path)) && (
                   <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />
                 )}
               </Link>

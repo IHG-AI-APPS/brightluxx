@@ -206,7 +206,7 @@
   box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .sticky-cta-bar {
     display: none;
   }

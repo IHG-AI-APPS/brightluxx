@@ -82,7 +82,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-8">
             {navLinksGroup1.map(renderNavLink)}
 
             {/* Tools Mega Dropdown */}
@@ -156,7 +156,7 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-[var(--blx-text)]"
+            className="lg:hidden p-2 text-[var(--blx-text)]"
             data-testid="site-header-mobile-menu-button"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -165,7 +165,7 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-4 space-y-2 border-t border-[var(--blx-hairline)] overflow-x-hidden" data-testid="mobile-menu" style={{ overflowX: 'hidden' }}>
+          <div className="lg:hidden py-4 space-y-2 border-t border-[var(--blx-hairline)] overflow-x-hidden" data-testid="mobile-menu" style={{ overflowX: 'hidden' }}>
             {navLinksGroup1.map((link) => (
               <Link
                 key={link.path}

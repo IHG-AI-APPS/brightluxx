@@ -139,7 +139,7 @@ export default function AuraChat() {
     <>
       {/* Floating Buttons — Desktop only */}
       {!open && (
-        <div className="fixed bottom-6 right-6 z-50 hidden md:flex flex-col items-center gap-4">
+        <div className="fixed bottom-6 right-6 z-50 hidden lg:flex flex-col items-center gap-4">
           <button
             onClick={handleWhatsApp}
             className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-110 hover:shadow-[0_0_20px_rgba(37,211,102,0.4)]"

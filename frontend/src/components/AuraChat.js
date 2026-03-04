@@ -1,0 +1,251 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { X, Send, ChevronDown, CheckCircle2 } from 'lucide-react';
+
+const API = process.env.REACT_APP_BACKEND_URL;
+const AURA_AVATAR = 'https://static.prod-images.emergentagent.com/jobs/7211302e-e67e-4376-a9ca-401680b35a31/images/4de29b1557ed773232c26af312b994e1ed537e4dc5bd99c8787717c897722209.png';
+
+function getSessionId() {
+  let id = sessionStorage.getItem('aura_session');
+  if (!id) {
+    id = 'aura_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    sessionStorage.setItem('aura_session', id);
+  }
+  return id;
+}
+
+export default function AuraChat() {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    { role: 'assistant', content: "Hello, I'm **AURA** — your LED display specification assistant. I can help you choose the right technology, pixel pitch, and brightness for your project.\n\nWhat are you working on?" },
+  ]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [leadCaptured, setLeadCaptured] = useState(false);
+  const [leadForm, setLeadForm] = useState({ name: '', email: '', company: '', role: '' });
+  const [leadError, setLeadError] = useState('');
+  const [pulse, setPulse] = useState(true);
+  const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
+  const sessionId = useRef(getSessionId());
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, showLeadForm]);
+
+  useEffect(() => {
+    if (open && inputRef.current) inputRef.current.focus();
+    if (open) setPulse(false);
+  }, [open]);
+
+  const handleSend = async () => {
+    const text = input.trim();
+    if (!text || loading) return;
+
+    setInput('');
+    setMessages(prev => [...prev, { role: 'user', content: text }]);
+    setLoading(true);
+
+    try {
+      const res = await fetch(`${API}/api/chat/message`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId.current, message: text }),
+      });
+      const data = await res.json();
+      if (data.response) {
+        setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+        if (data.show_lead_form && !leadCaptured) {
+          setShowLeadForm(true);
+        }
+      } else {
+        setMessages(prev => [...prev, { role: 'assistant', content: "I'm having trouble connecting right now. Please try again or contact us directly." }]);
+      }
+    } catch {
+      setMessages(prev => [...prev, { role: 'assistant', content: "Connection error. Please try again." }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLeadSubmit = async (e) => {
+    e.preventDefault();
+    if (!leadForm.name || !leadForm.email || !leadForm.company) {
+      setLeadError('Please fill in all fields.');
+      return;
+    }
+    try {
+      await fetch(`${API}/api/chat/lead`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId.current, ...leadForm }),
+      });
+      setLeadCaptured(true);
+      setShowLeadForm(false);
+    } catch {
+      setLeadError('Error saving. Please try again.');
+    }
+  };
+
+  const renderMarkdown = (text) => {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\n/g, '<br/>');
+  };
+
+  return (
+    <>
+      {/* Floating Button */}
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          className="fixed bottom-6 right-6 z-50 group"
+          data-testid="aura-chat-button"
+          aria-label="Open AURA chat"
+        >
+          <div className="relative">
+            <img
+              src={AURA_AVATAR}
+              alt="AURA"
+              className="w-14 h-14 rounded-full object-cover"
+              style={{ border: '2px solid rgba(229,197,116,0.4)', boxShadow: '0 0 20px rgba(229,197,116,0.2)' }}
+            />
+            {pulse && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[var(--blx-gold-3)] animate-ping" />
+            )}
+            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[var(--blx-gold-3)]" />
+          </div>
+          <div className="absolute bottom-full right-0 mb-2 px-3 py-1.5 rounded-lg text-[0.5625rem] font-bold tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'rgba(11,11,11,0.9)', border: '1px solid rgba(229,197,116,0.2)' }}>
+            Ask AURA
+          </div>
+        </button>
+      )}
+
+      {/* Chat Window */}
+      {open && (
+        <div
+          className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] flex flex-col"
+          style={{
+            height: '560px',
+            maxHeight: 'calc(100vh - 6rem)',
+            background: '#0B0B0B',
+            border: '1px solid rgba(229,197,116,0.15)',
+            borderRadius: '16px',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(229,197,116,0.05)',
+          }}
+          data-testid="aura-chat-window"
+        >
+          {/* Header */}
+          <div className="flex items-center gap-3 px-4 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <img src={AURA_AVATAR} alt="AURA" className="w-8 h-8 rounded-full object-cover" style={{ border: '1.5px solid rgba(229,197,116,0.3)' }} />
+            <div className="flex-1">
+              <div className="text-xs font-bold tracking-[0.12em]" style={{ fontFamily: 'var(--blx-font)' }}>AURA</div>
+              <div className="text-[0.5rem] tracking-[0.15em] text-[var(--blx-gold-3)]">LED SPECIFICATION ASSISTANT</div>
+            </div>
+            <button onClick={() => setOpen(false)} className="p-1.5 rounded-lg hover:bg-[rgba(255,255,255,0.06)] transition-colors" data-testid="aura-close-button">
+              <X size={16} className="text-[var(--blx-muted)]" />
+            </button>
+          </div>
+
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3" style={{ scrollBehavior: 'smooth' }} data-testid="aura-messages">
+            {messages.map((msg, i) => (
+              <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                {msg.role === 'assistant' && (
+                  <img src={AURA_AVATAR} alt="AURA" className="w-6 h-6 rounded-full object-cover mr-2 mt-1 flex-shrink-0" style={{ border: '1px solid rgba(229,197,116,0.2)' }} />
+                )}
+                <div
+                  className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-[0.75rem] leading-relaxed ${
+                    msg.role === 'user'
+                      ? 'rounded-br-md'
+                      : 'rounded-bl-md'
+                  }`}
+                  style={{
+                    background: msg.role === 'user' ? 'rgba(229,197,116,0.12)' : 'rgba(255,255,255,0.04)',
+                    border: `1px solid ${msg.role === 'user' ? 'rgba(229,197,116,0.2)' : 'rgba(255,255,255,0.06)'}`,
+                    textTransform: 'none',
+                    fontFamily: 'var(--blx-font)',
+                  }}
+                  dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.content) }}
+                  data-testid={`aura-msg-${i}`}
+                />
+              </div>
+            ))}
+
+            {loading && (
+              <div className="flex justify-start">
+                <img src={AURA_AVATAR} alt="AURA" className="w-6 h-6 rounded-full object-cover mr-2 mt-1 flex-shrink-0" style={{ border: '1px solid rgba(229,197,116,0.2)' }} />
+                <div className="px-4 py-3 rounded-2xl rounded-bl-md" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div className="flex gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--blx-gold-3)] animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--blx-gold-3)] animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--blx-gold-3)] animate-bounce" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Lead Capture Form */}
+            {showLeadForm && !leadCaptured && (
+              <div className="mx-auto w-full p-4 rounded-xl" style={{ background: 'rgba(229,197,116,0.06)', border: '1px solid rgba(229,197,116,0.15)' }} data-testid="aura-lead-form">
+                <div className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)] mb-2">ENJOYING THE CONVERSATION?</div>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] mb-3" style={{ textTransform: 'none' }}>
+                  Share your details and I can provide more specific recommendations for your project.
+                </p>
+                <form onSubmit={handleLeadSubmit} className="space-y-2">
+                  <input type="text" placeholder="Name *" value={leadForm.name} onChange={e => setLeadForm(p => ({...p, name: e.target.value}))} className="input-luxury w-full text-xs py-2" data-testid="aura-lead-name" />
+                  <input type="email" placeholder="Work email *" value={leadForm.email} onChange={e => setLeadForm(p => ({...p, email: e.target.value}))} className="input-luxury w-full text-xs py-2" data-testid="aura-lead-email" />
+                  <input type="text" placeholder="Company *" value={leadForm.company} onChange={e => setLeadForm(p => ({...p, company: e.target.value}))} className="input-luxury w-full text-xs py-2" data-testid="aura-lead-company" />
+                  {leadError && <p className="text-red-400 text-[0.625rem]">{leadError}</p>}
+                  <div className="flex gap-2">
+                    <button type="submit" className="btn-gold flex-1 px-3 py-2 text-[0.625rem] font-bold tracking-[0.12em]" data-testid="aura-lead-submit">Save & Continue</button>
+                    <button type="button" onClick={() => setShowLeadForm(false)} className="btn-glass px-3 py-2 text-[0.625rem] font-bold tracking-[0.12em]" data-testid="aura-lead-skip">Skip</button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {leadCaptured && messages.length === messages.length && (
+              <div className="sr-only" data-testid="aura-lead-captured" />
+            )}
+
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input */}
+          <div className="px-3 py-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+            <form
+              onSubmit={e => { e.preventDefault(); handleSend(); }}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+            >
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                placeholder="Ask about LED displays..."
+                className="flex-1 bg-transparent border-none outline-none text-xs text-[var(--blx-text)]"
+                style={{ textTransform: 'none', fontFamily: 'var(--blx-font)' }}
+                disabled={loading}
+                data-testid="aura-input"
+              />
+              <button
+                type="submit"
+                disabled={loading || !input.trim()}
+                className={`p-1.5 rounded-lg transition-colors ${input.trim() ? 'text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.1)]' : 'text-[var(--blx-muted)]'}`}
+                data-testid="aura-send-button"
+              >
+                <Send size={14} />
+              </button>
+            </form>
+            <div className="text-center mt-1.5">
+              <span className="text-[0.45rem] text-[var(--blx-muted)] tracking-wider">AURA by Brightluxx — AI responses may not be fully accurate</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

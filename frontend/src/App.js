@@ -5,6 +5,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import StickyCTA from './components/StickyCTA';
+import AuraChat from './components/AuraChat';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -158,6 +159,7 @@ function App() {
       <AdminProvider>
         <div className="min-h-screen bg-[var(--blx-bg)] text-[var(--blx-text)]">
           <AppRoutes />
+          <AuraChat />
         </div>
       </AdminProvider>
     </Router>

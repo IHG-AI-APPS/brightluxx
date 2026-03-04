@@ -128,9 +128,20 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added to Tools mega-menu and sitemap (priority 0.9)
 - Testing: 59/59 tests passed (15 backend + 44 frontend)
 
+### Site-wide UI/UX Consistency Audit — Mar 4, 2026
+- Enforced `text-transform: uppercase` globally via `index.css` (body, body *)
+- Removed 415 inline `textTransform: 'none'` overrides across 57 files
+- Applied responsive fixes (flex-wrap, grid adjustments) to all tool pages
+- Improved mobile typography: letter-spacing, readability adjustments
+- Fixed mobile horizontal overflow on navbar menu
+- Input/textarea/select elements excluded from uppercase via !important override
+- Full regression tested: 100% pass (11/11 backend, 22/22 frontend) — Iteration 35
+
 ---
 
 ## Remaining Tasks
-- (P3) Tender Monitoring Integration (ProTenders/MEED)
+- (P1) Tender Monitoring Integration (ProTenders/MEED)
+- (P2) Enhance AI Chat "AURA" — fine-tune on Brightluxx product data
+- (P3) Admin Dashboard V2 — unified lead management with analytics
 
 ## Admin: `/admin` — admin@brightluxx.com / brightluxx2025

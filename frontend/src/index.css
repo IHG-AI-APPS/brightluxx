@@ -312,6 +312,9 @@ input::placeholder, textarea::placeholder {
 }
 
 /* Mobile overflow safety */
+html, body {
+  overflow-x: hidden;
+}
 .overflow-x-auto {
   -webkit-overflow-scrolling: touch;
 }

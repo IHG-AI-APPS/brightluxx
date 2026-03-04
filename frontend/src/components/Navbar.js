@@ -165,7 +165,7 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-4 space-y-2 border-t border-[var(--blx-hairline)]" data-testid="mobile-menu">
+          <div className="md:hidden py-4 space-y-2 border-t border-[var(--blx-hairline)] overflow-x-hidden" data-testid="mobile-menu" style={{ overflowX: 'hidden' }}>
             {navLinksGroup1.map((link) => (
               <Link
                 key={link.path}

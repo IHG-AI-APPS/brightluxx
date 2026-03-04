@@ -86,10 +86,23 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - JSON-LD structured data for SEO on each page
 - QuickInquiry scroll-triggered form on all detail pages
 
+### Viewing Distance Calculator — Mar 4, 2026
+- Interactive tool at `/viewing-distance` with two modes:
+  - "I know the Pixel Pitch" → calculates min/optimal/retina/max viewing distances
+  - "I know the Viewing Distance" → recommends premium/recommended/budget pixel pitches
+- Content type adjustment (Text/Mixed/Video) with multiplier
+- Quick-select presets (Control Room, Boardroom, Corporate Lobby, etc.)
+- Visual distance bar with color-coded zones
+- Full reference table: all 13 pixel pitches with viewing distance ranges
+- "How It Works" explainer cards
+- 6 SEO-optimized FAQs with JSON-LD structured data
+- Sidebar: Spec Pack CTA, Related Tools, Technical Guides, Design Assist CTA
+- Added to Tools mega-menu in navbar, sitemap, and QuickInquiry form
+
 ---
 
 ## Remaining Tasks
-- (P2) Enhance Specifier Toolkit: viewing distance calculator, installation diagrams, power consumption estimators
+- (P2) Enhance Specifier Toolkit: installation diagrams, power consumption estimators
 - (P3) Tender Monitoring Integration (ProTenders/MEED)
 
 ## Admin: `/admin` — admin@brightluxx.com / brightluxx2025

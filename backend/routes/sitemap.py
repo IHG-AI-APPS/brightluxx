@@ -15,6 +15,7 @@ STATIC_ROUTES = [
     ("/about", 0.5, "monthly"),
     ("/calculator", 0.8, "monthly"),
     ("/budget-estimator", 0.8, "monthly"),
+    ("/viewing-distance", 0.8, "monthly"),
     ("/compare", 0.6, "monthly"),
     ("/resources", 0.9, "weekly"),
     ("/for-architects", 0.8, "weekly"),

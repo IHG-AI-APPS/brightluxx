@@ -74,6 +74,9 @@ import TechnologySelector from './pages/TechnologySelector';
 // Digital Experience Detail Pages
 import DeaPageDetail from './pages/DeaPageDetail';
 
+// Viewing Distance Calculator
+import ViewingDistanceCalculator from './pages/ViewingDistanceCalculator';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -140,6 +143,7 @@ function AppRoutes() {
       <Route path="/digital-experience-architecture" element={<><Navbar /><DigitalExperienceArchitecture /><Footer /><StickyCTA /></>} />
       <Route path="/lp/specifier-toolkit" element={<SpecifierToolkitLP />} />
       <Route path="/technology-selector" element={<><Navbar /><TechnologySelector /><Footer /><StickyCTA /></>} />
+      <Route path="/viewing-distance" element={<><Navbar /><ViewingDistanceCalculator /><Footer /><StickyCTA /></>} />
       <Route path="/digital-experience/:pageId" element={<><Navbar /><DeaPageDetail /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}

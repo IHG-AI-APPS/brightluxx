@@ -77,6 +77,8 @@ STATIC_ROUTES = [
     ("/design-assist", 0.9, "monthly"),
     ("/digital-experience-architecture", 0.8, "monthly"),
     ("/lp/specifier-toolkit", 0.7, "monthly"),
+    # Technology Selector Quiz
+    ("/technology-selector", 0.8, "monthly"),
 ]
 
 BASE_URL = "https://brightluxx.com"

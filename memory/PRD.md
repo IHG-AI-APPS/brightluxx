@@ -99,10 +99,20 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Sidebar: Spec Pack CTA, Related Tools, Technical Guides, Design Assist CTA
 - Added to Tools mega-menu in navbar, sitemap, and QuickInquiry form
 
+### Power Consumption Estimator — Mar 4, 2026
+- Interactive tool at `/power-estimator` for MEP engineers and specifiers
+- Inputs: display size (W×H), pixel pitch (11 options), brightness %, hours/day, electricity rate (UAE/KSA/International)
+- Outputs: max/avg power (kW), daily/monthly/annual kWh, running costs in local currency, CO2 emissions
+- MEP specs: max current (A), breaker size, cable size, heat output (BTU/h & cooling tons)
+- GCC Climate Note with HVAC guidance for extreme temperatures
+- Full reference table: all pixel pitches with power consumption data
+- Power-saving tips section and 6 SEO-optimized FAQs
+- Added to Tools mega-menu in navbar, sitemap, and QuickInquiry form
+
 ---
 
 ## Remaining Tasks
-- (P2) Enhance Specifier Toolkit: installation diagrams, power consumption estimators
+- (P2) Installation Diagrams — Visual guides for different mounting types
 - (P3) Tender Monitoring Integration (ProTenders/MEED)
 
 ## Admin: `/admin` — admin@brightluxx.com / brightluxx2025

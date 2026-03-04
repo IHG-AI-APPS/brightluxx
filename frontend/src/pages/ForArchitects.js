@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Download, FileText, Phone, MessageCircle, BookOpen, Briefcase, Ruler, PenTool } from 'lucide-react';
+import { ArrowRight, Download, FileText, Phone, MessageCircle, BookOpen, Briefcase, Ruler, PenTool, CheckCircle, Box, Layers } from 'lucide-react';
 import SEO from '../components/SEO';
+import { SpecPackCTA } from '../components/KnowledgeBase';
 
 const SPEC_PACKS = [
   { id: 'cob-mip-smd', title: 'COB vs MiP vs SMD', desc: 'Technology comparison with specification tables' },
@@ -14,16 +15,87 @@ const SPEC_PACKS = [
   { id: 'corporate-control', title: 'Corporate & Control Room', desc: 'Fine-pitch specification' },
   { id: 'healthcare-wayfinding', title: 'Healthcare', desc: 'Hospital signage specification' },
   { id: 'education-campus', title: 'Education', desc: 'Campus signage specification' },
+  { id: 'supermarket-promotions', title: 'Supermarket', desc: 'Promotions network specification' },
+  { id: 'residential-cinema', title: 'Residential Cinema', desc: 'Home cinema wall specification' },
+];
+
+const BIM_ITEMS = [
+  { id: 'all-in-one-dvled', title: 'All-in-One dvLED Display', desc: 'Standard sizes: 110", 136", 163", 216". Wall-mount reference with dimensions, weight, and electrical.' },
+  { id: 'fine-pitch-wall', title: 'Fine-Pitch LED Wall', desc: 'Cabinet-based video wall configurations. P0.9 to P1.9 with mounting frame details.' },
+  { id: 'outdoor-cabinet', title: 'Outdoor LED Cabinet', desc: 'IP65 outdoor cabinets. P3.9 to P10 with structural and weather protection specs.' },
+  { id: 'transparent-film', title: 'Transparent LED Film', desc: 'Window-mount transparent display. Adhesive mounting details and controller specs.' },
+];
+
+const CHEATSHEETS = [
+  { id: 'pixel-pitch-cheatsheet', title: 'Pixel Pitch', desc: 'Viewing distance, resolution, cost per sqm' },
+  { id: 'brightness-cheatsheet', title: 'Brightness & Nits', desc: 'UAE/GCC environment brightness guide' },
+  { id: 'cob-mip-smd-cheatsheet', title: 'COB vs MiP vs SMD', desc: 'Technology comparison quick reference' },
+  { id: 'outdoor-checklist', title: 'Outdoor Durability', desc: 'Heat, dust, IP, service access checklist' },
 ];
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
+
+function LeadGatedDownload({ docType, docId, title, children }) {
+  const [showForm, setShowForm] = useState(false);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [downloaded, setDownloaded] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch(`${API}/api/downloads/${docType}/${docId}/request`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name }),
+      });
+      const data = await res.json();
+      if (data.download_url) {
+        window.open(`${API}${data.download_url}`, '_blank');
+        setDownloaded(true);
+        setShowForm(false);
+      }
+    } catch (err) { console.error(err); }
+    setLoading(false);
+  };
+
+  if (downloaded) {
+    return (
+      <div className="flex items-center gap-2 text-[0.625rem] text-emerald-400">
+        <CheckCircle size={12} /> Downloaded
+      </div>
+    );
+  }
+
+  if (showForm) {
+    return (
+      <form onSubmit={handleSubmit} className="flex gap-1.5 items-end">
+        <input type="text" placeholder="Name" value={name} onChange={e => setName(e.target.value)} required
+          className="w-20 px-2 py-1.5 rounded text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none" style={{ textTransform: 'none' }} />
+        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required
+          className="w-32 px-2 py-1.5 rounded text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none" style={{ textTransform: 'none' }} />
+        <button type="submit" disabled={loading} className="px-3 py-1.5 rounded text-[0.5rem] font-bold tracking-wider" style={{ background: 'var(--blx-gold-grad)', color: '#0B0B0B' }} data-testid={`download-submit-${docId}`}>
+          {loading ? '...' : 'GET'}
+        </button>
+      </form>
+    );
+  }
+
+  return (
+    <button onClick={() => setShowForm(true)} className="text-[0.625rem] font-bold tracking-wider text-[var(--blx-gold-3)] hover:underline flex items-center gap-1" data-testid={`download-btn-${docId}`}>
+      <Download size={10} /> {children || 'Download'}
+    </button>
+  );
+}
 
 export default function ForArchitects() {
   return (
     <div className="pb-20" data-testid="for-architects-page">
       <SEO
         title="For Architects & Consultants — LED Display Specification Resources"
-        description="Specification resources for architects, AV consultants, and interior designers. Downloadable spec packs, technical guides, BIM/CAD information, and design-assist services for LED display projects in UAE and GCC."
+        description="Specification resources for architects, AV consultants, and interior designers. Downloadable spec packs, BIM/CAD references, cheat sheets, and design-assist services for LED display projects in UAE and GCC."
         path="/for-architects"
         jsonLd={[{
           "@context": "https://schema.org", "@type": "Service",
@@ -40,18 +112,19 @@ export default function ForArchitects() {
         <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">FOR ARCHITECTS & CONSULTANTS</div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">
-              Specification<br />Resources
-            </h1>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">Specification<br />Resources</h1>
             <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-8" style={{ textTransform: 'none' }}>
-              Everything you need to specify LED displays with confidence. Downloadable spec packs, technical reference guides, and direct access to our technical team for design-assist consultations.
+              Everything you need to specify LED displays with confidence. Downloadable spec packs, BIM/CAD technical references, specifier cheat sheets, and direct access to our technical team.
             </p>
             <div className="flex flex-wrap gap-3">
-              <a href="#spec-packs" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
-                <Download size={14} /> Download Spec Packs
+              <a href="#bim-cad" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
+                <Box size={14} /> BIM / CAD References
+              </a>
+              <a href="#cheatsheets" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
+                <FileText size={14} /> Cheat Sheets
               </a>
               <a href="#design-assist" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
-                <Phone size={14} /> Book Design Assist Call
+                <Phone size={14} /> Design Assist
               </a>
             </div>
           </div>
@@ -62,14 +135,17 @@ export default function ForArchitects() {
         {/* Services Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
           {[
-            { icon: FileText, title: 'Spec Packs', desc: 'Downloadable PDF specification guides for every application and technology' },
-            { icon: Ruler, title: 'Technical Guides', desc: '5 deep-dive reference articles covering pixel pitch, brightness, IP, refresh rate' },
-            { icon: PenTool, title: 'BIM / CAD', desc: 'Revit families and CAD blocks for common LED display configurations' },
-            { icon: Briefcase, title: 'Design Assist', desc: 'Free 15-min technical consultation to help specify the right solution' },
+            { icon: FileText, title: '12 Spec Packs', desc: 'PDF specification guides for every application and technology', count: '12 PDFs' },
+            { icon: Box, title: '4 BIM References', desc: 'Technical reference docs with dimensions, mounting & electrical', count: '4 docs' },
+            { icon: Layers, title: '4 Cheat Sheets', desc: 'One-page quick reference for pixel pitch, brightness, technology', count: '4 PDFs' },
+            { icon: Briefcase, title: 'Design Assist', desc: 'Free 15-min technical consultation to help specify the right solution', count: 'Free' },
           ].map(service => (
             <div key={service.title} className="glass-panel p-5" data-testid={`architect-service-${service.title.toLowerCase().replace(/\s/g, '-')}`}>
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style={{ background: 'rgba(229,197,116,0.08)' }}>
-                <service.icon size={18} className="text-[var(--blx-gold-3)]" />
+              <div className="flex items-start justify-between mb-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(229,197,116,0.08)' }}>
+                  <service.icon size={18} className="text-[var(--blx-gold-3)]" />
+                </div>
+                <span className="text-[0.5rem] font-bold tracking-wider text-[var(--blx-gold-3)] px-2 py-1 rounded" style={{ background: 'rgba(229,197,116,0.08)' }}>{service.count}</span>
               </div>
               <h3 className="text-xs font-bold tracking-[0.15em] mb-2">{service.title}</h3>
               <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{service.desc}</p>
@@ -77,31 +153,79 @@ export default function ForArchitects() {
           ))}
         </div>
 
-        {/* Spec Packs Section */}
-        <div id="spec-packs" className="mb-16 scroll-mt-24">
-          <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">DOWNLOADABLE RESOURCES</div>
-          <h2 className="text-lg font-bold tracking-wider mb-2">Specification Packs</h2>
+        {/* BIM / CAD Section */}
+        <div id="bim-cad" className="mb-16 scroll-mt-24">
+          <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">BIM / CAD RESOURCES</div>
+          <h2 className="text-lg font-bold tracking-wider mb-2">Technical Reference Documents</h2>
           <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl" style={{ textTransform: 'none' }}>
-            Professional PDF guides ready for your tender documents. Each includes recommended specs, comparison tables, vendor checklists, and UAE/GCC climate guidance.
+            Downloadable technical reference PDFs with dimensions, mounting details, electrical requirements, and specification tables. For custom Revit families or AutoCAD blocks, contact our team.
           </p>
-          <div className="grid sm:grid-cols-2 gap-3">
-            {SPEC_PACKS.map(pack => (
-              <a
-                key={pack.id}
-                href={`${API}/api/specpacks/${pack.id}/file`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass-panel p-4 flex items-center gap-4 group hover:border-[rgba(229,197,116,0.2)] transition-all"
-                data-testid={`specpack-download-${pack.id}`}
-              >
+          <div className="grid sm:grid-cols-2 gap-3 mb-6">
+            {BIM_ITEMS.map(item => (
+              <div key={item.id} className="glass-panel p-5 flex items-start gap-4" data-testid={`bim-item-${item.id}`}>
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(229,197,116,0.08)' }}>
-                  <Download size={16} className="text-[var(--blx-gold-3)]" />
+                  <Box size={16} className="text-[var(--blx-gold-3)]" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-xs font-bold tracking-wider group-hover:text-[var(--blx-gold-3)] transition-colors">{pack.title}</h4>
-                  <p className="text-[0.625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{pack.desc}</p>
+                  <h4 className="text-xs font-bold tracking-wider mb-1">{item.title}</h4>
+                  <p className="text-[0.625rem] text-[var(--blx-muted)] mb-2" style={{ textTransform: 'none' }}>{item.desc}</p>
+                  <LeadGatedDownload docType="bim" docId={item.id} title={item.title}>PDF Reference</LeadGatedDownload>
                 </div>
-                <span className="text-[0.5rem] font-bold tracking-wider text-[var(--blx-muted)] px-2 py-1 rounded" style={{ background: 'rgba(255,255,255,0.04)' }}>PDF</span>
+              </div>
+            ))}
+          </div>
+          <div className="glass-panel p-4 flex items-center gap-4" style={{ background: 'rgba(229,197,116,0.04)', border: '1px solid rgba(229,197,116,0.1)' }}>
+            <PenTool size={16} className="text-[var(--blx-gold-3)] flex-shrink-0" />
+            <p className="text-xs text-[var(--blx-text-2)] flex-1" style={{ textTransform: 'none' }}>
+              Need custom Revit families, AutoCAD blocks, or project-specific technical drawings?
+            </p>
+            <a href="https://wa.me/971559910711?text=Hi%2C%20I%20need%20custom%20BIM%2FCAD%20files%20for%20LED%20displays%20for%20my%20project." target="_blank" rel="noopener noreferrer"
+              className="flex-shrink-0 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-wider border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors flex items-center gap-1.5" data-testid="bim-custom-request">
+              <MessageCircle size={12} /> Request Custom Files
+            </a>
+          </div>
+        </div>
+
+        {/* Cheat Sheets Section */}
+        <div id="cheatsheets" className="mb-16 scroll-mt-24">
+          <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">SPECIFIER CHEAT SHEETS</div>
+          <h2 className="text-lg font-bold tracking-wider mb-2">One-Page Quick Reference</h2>
+          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl" style={{ textTransform: 'none' }}>
+            Compact, printable one-page reference sheets. Keep on your desk or share with your team.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {CHEATSHEETS.map(cs => (
+              <div key={cs.id} className="glass-panel p-5" data-testid={`cheatsheet-${cs.id}`}>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: 'rgba(229,197,116,0.08)' }}>
+                  <FileText size={16} className="text-[var(--blx-gold-3)]" />
+                </div>
+                <h4 className="text-xs font-bold tracking-wider mb-1">{cs.title}</h4>
+                <p className="text-[0.625rem] text-[var(--blx-muted)] mb-3" style={{ textTransform: 'none' }}>{cs.desc}</p>
+                <LeadGatedDownload docType="cheatsheet" docId={cs.id} title={cs.title}>Download PDF</LeadGatedDownload>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Spec Packs Section */}
+        <div id="spec-packs" className="mb-16 scroll-mt-24">
+          <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">SPECIFICATION PACKS</div>
+          <h2 className="text-lg font-bold tracking-wider mb-2">Full Specification Guides</h2>
+          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl" style={{ textTransform: 'none' }}>
+            Comprehensive PDF guides for tender documents. Each includes recommended specs, comparison tables, vendor checklists, and UAE/GCC climate guidance.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {SPEC_PACKS.map(pack => (
+              <a key={pack.id} href={`${API}/api/specpacks/${pack.id}/file`} target="_blank" rel="noopener noreferrer"
+                className="glass-panel p-4 flex items-center gap-3 group hover:border-[rgba(229,197,116,0.2)] transition-all" data-testid={`specpack-${pack.id}`}>
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(229,197,116,0.08)' }}>
+                  <Download size={14} className="text-[var(--blx-gold-3)]" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-[0.6875rem] font-bold tracking-wider group-hover:text-[var(--blx-gold-3)] transition-colors">{pack.title}</h4>
+                  <p className="text-[0.5625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{pack.desc}</p>
+                </div>
+                <span className="text-[0.5rem] font-bold tracking-wider text-[var(--blx-muted)] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.04)' }}>PDF</span>
               </a>
             ))}
           </div>
@@ -111,52 +235,24 @@ export default function ForArchitects() {
         <div className="mb-16">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">TECHNICAL REFERENCE</div>
           <h2 className="text-lg font-bold tracking-wider mb-2">Knowledge Base</h2>
-          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl" style={{ textTransform: 'none' }}>
-            In-depth technical guides covering the fundamentals of LED display specification.
+          <p className="text-sm text-[var(--blx-text-2)] mb-6 max-w-xl" style={{ textTransform: 'none' }}>
+            In-depth technical guides covering LED display specification fundamentals.
           </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {[
-              { to: '/knowledge/cob-vs-mip-vs-smd', title: 'COB vs MiP vs SMD', desc: 'Technology comparison' },
-              { to: '/knowledge/pixel-pitch-guide', title: 'Pixel Pitch Guide', desc: 'Resolution & viewing distance' },
-              { to: '/knowledge/brightness-nits-guide', title: 'Brightness & Nits', desc: 'GCC environment guide' },
-              { to: '/knowledge/ip-rating-guide', title: 'IP Rating Guide', desc: 'Protection & serviceability' },
-              { to: '/knowledge/refresh-rate-guide', title: 'Refresh Rate Guide', desc: 'Camera-friendly spec' },
+              { to: '/knowledge/cob-vs-mip-vs-smd', title: 'COB vs MiP vs SMD' },
+              { to: '/knowledge/pixel-pitch-guide', title: 'Pixel Pitch Guide' },
+              { to: '/knowledge/brightness-nits-guide', title: 'Brightness & Nits' },
+              { to: '/knowledge/ip-rating-guide', title: 'IP Rating Guide' },
+              { to: '/knowledge/refresh-rate-guide', title: 'Refresh Rate Guide' },
+              { to: '/knowledge/processing-calibration', title: 'Processing & Calibration' },
+              { to: '/knowledge/cms-multi-site', title: 'CMS for Multi-Site' },
             ].map(guide => (
-              <Link key={guide.to} to={guide.to} className="glass-panel p-4 group hover:border-[rgba(229,197,116,0.2)] transition-all" data-testid={`kb-link-${guide.title.toLowerCase().replace(/\s/g, '-')}`}>
-                <div className="flex items-center gap-2 mb-2">
-                  <BookOpen size={14} className="text-[var(--blx-gold-3)]" />
-                  <h4 className="text-xs font-bold tracking-wider group-hover:text-[var(--blx-gold-3)] transition-colors">{guide.title}</h4>
-                </div>
-                <p className="text-[0.625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{guide.desc}</p>
+              <Link key={guide.to} to={guide.to} className="glass-panel p-4 group hover:border-[rgba(229,197,116,0.2)] transition-all flex items-center gap-2">
+                <BookOpen size={14} className="text-[var(--blx-gold-3)]" />
+                <h4 className="text-[0.6875rem] font-bold tracking-wider group-hover:text-[var(--blx-gold-3)] transition-colors">{guide.title}</h4>
               </Link>
             ))}
-          </div>
-        </div>
-
-        {/* BIM / CAD Section */}
-        <div className="mb-16">
-          <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">DESIGN TOOLS</div>
-          <h2 className="text-lg font-bold tracking-wider mb-2">BIM / CAD Resources</h2>
-          <div className="glass-panel p-6">
-            <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
-              Revit families and AutoCAD blocks for common LED display configurations are available on request. Our technical team can also provide custom detail drawings for your specific project requirements.
-            </p>
-            <div className="grid sm:grid-cols-2 gap-3 mb-4">
-              {['All-in-One dvLED (standard sizes)', 'Fine-pitch indoor wall (typical configurations)', 'Outdoor cabinet (P4/P6/P8/P10)', 'Transparent LED film (window mount)', 'Typical mounting details (wall, hanging, curved)', 'Structural loading requirements'].map((item, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--blx-gold-3)]" />
-                  <span className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{item}</span>
-                </div>
-              ))}
-            </div>
-            <a
-              href={`https://wa.me/971559910711?text=${encodeURIComponent("Hi, I'm an architect and need BIM/CAD files for LED displays for my project. Can you provide Revit families or CAD blocks?")}`}
-              target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold tracking-[0.15em] border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors"
-              data-testid="bim-cad-request-btn"
-            >
-              <MessageCircle size={14} /> Request BIM/CAD Files
-            </a>
           </div>
         </div>
 
@@ -167,22 +263,22 @@ export default function ForArchitects() {
               <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">FREE SERVICE</div>
               <h3 className="text-base font-bold tracking-wider mb-3">Design Assist Call</h3>
               <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
-                Book a free 15-minute call with our technical team. We help architects and consultants select the right technology, pixel pitch, brightness, and specifications for their projects.
+                Book a free 15-minute call with our technical team. We help architects and consultants select the right technology, pixel pitch, brightness, and specifications.
               </p>
               <ul className="space-y-1.5 mb-6">
-                {['Technology selection (COB/MiP/SMD)', 'Pixel pitch recommendation', 'Budgetary guidance', 'UAE climate considerations', 'Structural & electrical requirements'].map((item, i) => (
+                {['Technology selection (COB/MiP/SMD)', 'Pixel pitch recommendation', 'Budgetary guidance', 'UAE climate considerations', 'Structural & electrical'].map((item, i) => (
                   <li key={i} className="flex items-center gap-2">
-                    <div className="w-1 h-1 rounded-full bg-[var(--blx-gold-3)]" />
+                    <CheckCircle size={10} className="text-[var(--blx-gold-3)]" />
                     <span className="text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{item}</span>
                   </li>
                 ))}
               </ul>
               <div className="flex flex-wrap gap-3">
-                <Link to="/contact" className="btn-gold px-5 py-2.5 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
+                <Link to="/contact" className="btn-gold px-5 py-2.5 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="design-assist-cta">
                   Book a Call <ArrowRight size={14} />
                 </Link>
                 <a href="tel:+971559910711" className="btn-glass px-5 py-2.5 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
-                  <Phone size={14} /> Call Now
+                  <Phone size={14} /> +971 55 991 0711
                 </a>
               </div>
             </div>
@@ -197,12 +293,8 @@ export default function ForArchitects() {
                 <h4 className="text-xs font-bold tracking-wider mb-2" style={{ textTransform: 'none' }}>"Specifying dvLED Walls in GCC: Pitch, Brightness, IP, Service"</h4>
                 <p className="text-[0.625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Covers technology selection, specification best practices, common mistakes, and UAE-specific requirements. Available in-office or virtual.</p>
               </div>
-              <a
-                href={`https://wa.me/971559910711?text=${encodeURIComponent("Hi, I'd like to arrange a CPD/Lunch & Learn session on LED display specification for our architecture team. Can you provide details?")}`}
-                target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold tracking-[0.15em] border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors"
-                data-testid="cpd-request-btn"
-              >
+              <a href="https://wa.me/971559910711?text=Hi%2C%20I%27d%20like%20to%20arrange%20a%20CPD%2FLunch%20%26%20Learn%20session%20on%20LED%20display%20specification%20for%20our%20team." target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold tracking-[0.15em] border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors" data-testid="cpd-request-btn">
                 <MessageCircle size={14} /> Arrange a Session
               </a>
             </div>

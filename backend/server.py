@@ -14,6 +14,8 @@ from routes.cdn import router as cdn_router
 from routes.analytics import router as analytics_router
 from routes.specpacks import router as specpacks_router
 from routes.spec_substitution import router as spec_sub_router
+from routes.sitemap import router as sitemap_router
+from routes.downloads import router as downloads_router
 from storage import init_storage
 
 app = FastAPI()
@@ -67,6 +69,8 @@ app.include_router(cdn_router)
 app.include_router(analytics_router)
 app.include_router(specpacks_router)
 app.include_router(spec_sub_router)
+app.include_router(sitemap_router)
+app.include_router(downloads_router)
 
 
 @app.on_event("startup")

@@ -1,121 +1,120 @@
 # Brightluxx — Digital LED Screen Technologies Showcase
 
 ## Original Problem Statement
-Premium showcase website for Brightluxx, a company specializing in digital LED screen technologies. Goals: lead generation, high-end marketing, and a fully dynamic CMS.
+Premium showcase website for Brightluxx, a company specializing in digital LED screen technologies. Goals: lead generation, high-end marketing, and a fully dynamic CMS. Strategy pivoted to become a specifier knowledge base + spec pack factory targeting architects/consultants/designers in UAE + GCC.
 
 ## User Personas
+- **Architects/Interior Designers**: Specifying LED displays for projects — need tech guidance, spec packs, BIM/CAD
+- **AV Consultants**: Recommending solutions — need comparison data, vendor checklists
 - **Business Owners/Marketers**: Looking for LED display solutions for their venues
 - **Event Organizers**: Seeking rental LED panels for events
-- **Architects/Interior Designers**: Looking for creative LED installations
 - **Government/Traffic**: Infrastructure & road signage needs
 
 ## Core Requirements
 - **Theme**: "Deep Space Modern" — deep charcoal (#0B0B0B), Glassmorphism, LED pixel grid overlay, gold/amber CTA gradients
 - **Typography**: Satoshi font with strict hierarchy
-- **Pages**: Home, Products, Inspirations, Projects, Solutions (with detail pages), About Us, Contact, Showroom, Calculator, Compare, Tech Guide, Configurator
-- **CMS**: Full admin panel to manage all content (products, projects, inspirations, leads)
-- **Security**: Rate-limiting, JWT refresh tokens, secure auth
-- **Images**: ALL real images from brightluxx.com WordPress site — NO AI-generated images
+- **Pages**: Home, Products, Inspirations, Projects, Solutions, About Us, Contact, Showroom, Calculator, Compare, Tech Guide, Configurator, + Knowledge Base (5 authority pages)
+- **CMS**: Full admin panel to manage all content
+- **SEO/GEO**: FAQ schema, JSON-LD structured data, TechArticle schema — optimized for Google + AI search (ChatGPT/Perplexity/Gemini)
+- **Lead Capture**: Email-gated spec pack downloads, quote forms, WhatsApp CTAs
 
 ## Tech Stack
-- **Frontend**: React 19 + React Router + Tailwind CSS variables + Shadcn/UI + Recharts
+- **Frontend**: React 19 + React Router + Tailwind CSS + Shadcn/UI + Recharts
 - **Backend**: FastAPI (Python)
 - **Database**: MongoDB 7.0 (Motor async driver)
 - **Image Processing**: Pillow for WebP optimization
 - **Object Storage**: Emergent Object Storage (CDN)
+- **PDF Generation**: ReportLab for branded spec pack PDFs
 
 ## Architecture
 ```
 /app/
 ├── backend/
-│   ├── server.py          # FastAPI entry + perf middleware
-│   ├── database.py        # MongoDB connection (7 collections)
-│   ├── auth.py            # JWT auth + admin verification
-│   ├── utils.py           # Helpers (serialize_doc, rate limiter)
-│   ├── storage.py         # Emergent Object Storage utility
+│   ├── server.py, database.py, auth.py, utils.py, storage.py
+│   ├── specpack_generator.py   # Branded PDF generation
 │   └── routes/
-│       ├── admin.py       # Admin auth + CRUD
-│       ├── admin_crud.py  # Extended admin CRUD ops
-│       ├── public.py      # Public API endpoints
-│       ├── cdn.py         # CDN image proxy with optimization
-│       ├── analytics.py   # Event tracking + admin dashboards
-│       └── upload.py      # File upload handling
+│       ├── admin.py, admin_crud.py, public.py
+│       ├── cdn.py, analytics.py, upload.py
+│       └── specpacks.py        # Spec pack download + lead capture
 ├── frontend/src/
-│   ├── App.js             # Router (public + admin)
-│   ├── api.js             # Axios API client
-│   ├── lib/tracker.js     # Privacy-focused analytics tracker
+│   ├── App.js, api.js, lib/tracker.js
 │   ├── components/
-│   │   ├── CdnImage.js    # Lazy-loading blur-up image component
-│   │   ├── SEO.js         # Meta tags + JSON-LD structured data
-│   │   ├── Navbar.js, Footer.js, StickyCTA.js
-│   │   └── ui/            # Shadcn components
-│   ├── pages/             # 14 public pages
-│   └── admin/             # 10 admin panel components
+│   │   ├── KnowledgeBase.js    # Reusable: SpecifierAnswerBox, ComparisonTable, FAQSection, SpecPackCTA, KnowledgeHero
+│   │   ├── CdnImage.js, SEO.js, Navbar.js, Footer.js, StickyCTA.js
+│   │   └── ui/                 # Shadcn components
+│   ├── pages/
+│   │   ├── knowledge/          # 5 authority pages + index
+│   │   └── [14 other pages]
+│   └── admin/                  # 10 admin panel components
 ```
 
 ## What's Been Implemented
 
-### Completed (as of March 4, 2026)
-- [x] Full public site: Home, Products, Inspirations, Projects, Contact, Showroom, Calculator, Compare, Tech Guide, Configurator, About
-- [x] Solutions page with 8 solution categories + detail pages
-- [x] Product Detail Pages with gallery, specs, quote form, related products
-- [x] Admin CMS panel (products, projects, inspirations, leads management)
-- [x] JWT authentication with refresh tokens + rate limiting
-- [x] Real images from brightluxx.com (100+ images, WebP format)
-- [x] Image CDN Integration (Emergent Object Storage, on-the-fly optimization)
-- [x] Blur-up Lazy Loading (CdnImage component with IntersectionObserver)
-- [x] SEO Meta Tags & Open Graph (dynamic across all 14 pages)
-- [x] JSON-LD Structured Data (Product, Organization, WebSite, ItemList, BreadcrumbList, LocalBusiness)
-- [x] **Analytics & Performance Monitoring** — Custom privacy-focused event tracking system:
-  - Frontend tracker (sendBeacon with Blob) auto-tracks page views on all pages via SEO component
-  - Tracks: page_view, product_view, cta_click, quote_request events
-  - Performance middleware records response times for all /api/ endpoints
-  - Admin Analytics Dashboard: page views, unique visitors, top pages, top products, device breakdown, referrers, CTA clicks, lead funnel
-  - Admin Performance Dashboard: total requests, avg/p95 response times, endpoint table, status codes, slowest endpoints, system health
-  - Period selectors (7d/14d/30d for analytics, 1d/3d/7d for performance)
-  - **Tested**: 27/27 backend tests passed, all frontend rendering verified
+### Phase 1 — Core Site (Complete)
+- [x] Full public site with 14+ pages
+- [x] Admin CMS panel with JWT auth
+- [x] Real images from brightluxx.com
+- [x] Image CDN + blur-up lazy loading
+- [x] SEO meta tags + JSON-LD structured data
+- [x] Analytics & Performance monitoring dashboards (27/27 tests)
 
-### Admin Credentials
-- URL: `/admin`
-- Username: `admin@brightluxx.com`
-- Password: `brightluxx2025`
+### Phase 2 — Knowledge Base & GEO (Complete, March 4 2026)
+- [x] **5 Authority Pages** with deep technical content:
+  - COB vs MiP vs SMD comparison
+  - Pixel Pitch Guide (formulas, application tables, cost analysis)
+  - Brightness & Nits Guide (GCC-specific, thermal derating, solar orientation)
+  - IP Rating & Front Serviceability Guide
+  - Refresh Rate & Camera-Friendly Guide
+- [x] **Knowledge Base Index** (/knowledge) with guide cards
+- [x] **Reusable Components**: SpecifierAnswerBox, ComparisonTable, FAQSection, SpecPackCTA, KnowledgeHero
+- [x] **10 Branded Spec Pack PDFs** generated server-side (ReportLab):
+  - 5 technology guides + 5 application-specific packs
+  - Professional dark-theme branding with gold accents
+  - Tables, checklists, vendor questions, UAE/GCC guidance
+- [x] **Email-Gated Downloads**: Lead captured to MongoDB before PDF served
+- [x] **FAQ JSON-LD Schema** on all knowledge pages (GEO optimization)
+- [x] **TechArticle JSON-LD** on key pages
+- [x] **Navigation Updated**: "Knowledge" link in navbar with prefix-based active state
+- [x] **WhatsApp CTAs**: Contextual pre-filled messages per page
+- [x] **Testing**: 100% pass rate (iteration_16) — all backend + frontend tests passed
 
 ## Prioritized Backlog
 
-### P1 — Next Up
-- Real email notifications for lead capture (SendGrid integration)
-- Screen Calculator Tool (interactive calculator feature)
-- Product Comparison Tool (side-by-side comparison)
+### P1 — Application Landing Pages (Next)
+- Hospitality, Retail/Mall, Healthcare, Education, Supermarket, Corporate/Control Room, Outdoor DOOH, Residential Cinema Wall
+- Each with: hero visual, mini spec table, 3 project images, spec pack CTA, WhatsApp CTA
 
-### P2
-- Further modularize admin.py route file by resource
-- Dynamic sitemap.xml endpoint for SEO
+### P1 — "For Architects & Consultants" Hub Page
+- Dedicated specifier hub: spec packs, CAD/BIM info, lunch & learn CTA
 
-### P3
-- E2E test suite (Playwright/Cypress)
-- Web scraping robustness improvements
+### P1 — Latest Tech Showcase Pages
+- Glasses-free 3D, MicroLED Ultra Premium, MiP advancements, Stretch Signage
+
+### P2 — Enhanced Lead Capture & Email
+- Real email notifications (SendGrid) for lead/quote submissions
+- Smart WhatsApp CTA with contextual pre-filled messages
+- "Get Budgetary Estimate", "Book Design Assist Call"
+
+### P2 — Screen Calculator & Comparison Tools
+- Interactive screen calculator
+- Product comparison tool
+
+### P3 — Backend Refactoring & Infrastructure
+- Modularize admin.py
+- Dynamic sitemap.xml
+- E2E test suite
 
 ## Key APIs
-- `GET /api/products?category=X` — Public product listing
-- `GET /api/products/:slug` — Product detail
-- `GET /api/projects`, `GET /api/inspirations` — Public listings
-- `POST /api/leads` — Lead submission
-- `POST /api/admin/login` — Admin authentication
-- `CRUD /api/admin/products|projects|inspirations|leads` — Admin management
-- `GET /api/cdn/{path}` — CDN image proxy with optimization
-- `POST /api/track` — Public analytics event tracking
-- `GET /api/admin/analytics` — Analytics dashboard data (auth required)
-- `GET /api/admin/performance` — Performance dashboard data (auth required)
-- `GET /api/health` — System health check
+- `GET /api/specpacks` — List all 10 spec packs
+- `POST /api/specpacks/{id}/download` — Lead capture + download URL
+- `GET /api/specpacks/{id}/file` — Serve branded PDF
+- `POST /api/track` — Analytics event tracking
+- `GET /api/admin/analytics|performance` — Dashboard data
+- `GET /api/cdn/{path}` — CDN image proxy
 
 ## DB Collections
-- `products`: {name, category, product_code, pixel_pitch, brightness, image_url, gallery, specs, ...}
-- `projects`: {title, sector, location, image_url, description, ...}
-- `inspirations`: {title, description, image_url, category, ...}
-- `leads`: {name, email, message, status, source, ...}
-- `admins`: {id, email, password, name, role, created_at}
-- `analytics_events`: {event, page, referrer, product_slug, category, session_id, screen_width, ip_hash, ua_short, ts}
-- `performance_metrics`: {endpoint, response_time_ms, status_code, ts}
+- `products`, `projects`, `inspirations`, `leads`, `admins`
+- `analytics_events`, `performance_metrics`
 
 ## Mocked/Incomplete
-- Lead/Quote submission saves to DB but does NOT send email notifications (planned: SendGrid integration)
+- Lead/Quote submission saves to DB but does NOT send email notifications

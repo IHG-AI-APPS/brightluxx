@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import os
 
 from database import leads_col
+from email_service import notify_new_lead
 
 router = APIRouter()
 
@@ -44,7 +45,7 @@ async def download_specpack(pack_id: str, data: SpecPackRequest, request: Reques
 
     # Capture the lead
     ip = request.headers.get("x-forwarded-for", request.client.host).split(",")[0].strip()
-    await leads_col.insert_one({
+    lead_data = {
         "name": data.name,
         "email": data.email,
         "company": data.company,
@@ -55,7 +56,14 @@ async def download_specpack(pack_id: str, data: SpecPackRequest, request: Reques
         "ip": ip[:50],
         "status": "new",
         "created_at": datetime.now(timezone.utc),
-    })
+    }
+    await leads_col.insert_one(lead_data)
+
+    # Send email notification (fire-and-forget)
+    try:
+        await notify_new_lead(lead_data)
+    except Exception:
+        pass
 
     # Check if PDF exists, if not generate it
     pdf_path = os.path.join(PDF_DIR, f"{pack_id}.pdf")

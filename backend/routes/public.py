@@ -4,6 +4,7 @@ from typing import Optional, List
 from database import products_col, inspirations_col, projects_col, leads_col
 from models import Lead
 from utils import serialize_doc, lead_limiter, get_client_ip
+from email_service import notify_new_lead
 import uuid
 
 router = APIRouter()
@@ -141,6 +142,13 @@ async def create_lead(lead: Lead, request: Request):
     lead_dict["notes"] = ""
     result = await leads_col.insert_one(lead_dict)
     print(f"New lead from {lead.name} ({lead.email}) - {lead.application}")
+
+    # Send email notification (fire-and-forget)
+    try:
+        await notify_new_lead({**lead_dict, "source": "contact_form"})
+    except Exception:
+        pass
+
     return {
         "success": True,
         "message": "Thank you! We'll contact you within 2 hours.",

@@ -128,6 +128,16 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added to Tools mega-menu and sitemap (priority 0.9)
 - Testing: 59/59 tests passed (15 backend + 44 frontend)
 
+### Enhanced AURA Chat Assistant — Mar 4, 2026
+- Dynamic product knowledge: fetches all 57 products from MongoDB, auto-refreshes every 10 min
+- Page-aware context: frontend sends current page URL; AURA tailors responses (28 page mappings)
+- Expanded system prompt: all tools, services, case studies, DEA pages with internal links
+- Quick action suggestion chips: 4 clickable buttons (Choose Pixel Pitch, Estimate Budget, Best Tech for Retail, Book Consultation)
+- Clickable internal links: markdown [text](/path) rendered as gold links that navigate within the app
+- GPT-5.2 badge in chat header
+- Chat text exempt from global uppercase CSS rule
+- Testing: 100% pass (12/12 backend, 20/20 frontend) — Iteration 36
+
 ### Site-wide UI/UX Consistency Audit — Mar 4, 2026
 - Enforced `text-transform: uppercase` globally via `index.css` (body, body *)
 - Removed 415 inline `textTransform: 'none'` overrides across 57 files
@@ -141,7 +151,6 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ## Remaining Tasks
 - (P1) Tender Monitoring Integration (ProTenders/MEED)
-- (P2) Enhance AI Chat "AURA" — fine-tune on Brightluxx product data
-- (P3) Admin Dashboard V2 — unified lead management with analytics
+- (P2) Admin Dashboard V2 — unified lead management with analytics
 
 ## Admin: `/admin` — admin@brightluxx.com / brightluxx2025

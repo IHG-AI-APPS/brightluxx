@@ -67,6 +67,13 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   - Dismissible per-page via sessionStorage
 - Updated E2E smoke test to match current nav structure (22/22 pass)
 
+### Exit-Intent Popup — Mar 4, 2026
+- "Free Site Visit & Quote" popup triggered when desktop users move cursor to leave
+- 8-second delay before activation to avoid annoying early visitors
+- Form: Name, Company, Work Email, Phone/WhatsApp, Project Brief
+- Backend `POST /api/site-visit-request` saves lead + sends email notification
+- Once per session (sessionStorage), dismissible via close or backdrop click
+
 ---
 
 ## Remaining Tasks

@@ -20,6 +20,7 @@ from routes.cpd import router as cpd_router
 from routes.design_assist import router as design_assist_router
 from routes.chat import router as chat_router
 from routes.quick_inquiry import router as quick_inquiry_router
+from routes.site_visit import router as site_visit_router
 from storage import init_storage
 
 app = FastAPI()
@@ -79,6 +80,7 @@ app.include_router(cpd_router)
 app.include_router(design_assist_router)
 app.include_router(chat_router)
 app.include_router(quick_inquiry_router)
+app.include_router(site_visit_router)
 
 
 @app.on_event("startup")

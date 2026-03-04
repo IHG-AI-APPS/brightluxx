@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import StickyCTA from './components/StickyCTA';
 import AuraChat from './components/AuraChat';
+import ExitIntentPopup from './components/ExitIntentPopup';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -160,6 +161,7 @@ function App() {
         <div className="min-h-screen bg-[var(--blx-bg)] text-[var(--blx-text)]">
           <AppRoutes />
           <AuraChat />
+          <ExitIntentPopup />
         </div>
       </AdminProvider>
     </Router>

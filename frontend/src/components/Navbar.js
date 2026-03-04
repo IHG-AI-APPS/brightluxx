@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,7 +9,8 @@ const Navbar = () => {
 
   const isActive = (path) => location.pathname === path;
   const isActivePrefix = (prefix) => location.pathname.startsWith(prefix);
-  const isToolsActive = ['/calculator', '/compare', '/tech-guide'].includes(location.pathname);
+  const toolsPaths = ['/calculator', '/compare', '/tech-guide', '/budget-estimator', '/value-engineering', '/spec-substitution'];
+  const isToolsActive = toolsPaths.includes(location.pathname) || location.pathname.startsWith('/contractors');
 
   const navLinks = [
     { name: 'Products', path: '/products' },
@@ -18,11 +19,25 @@ const Navbar = () => {
     { name: 'Projects', path: '/projects' },
   ];
 
-  const toolsLinks = [
-    { name: 'Screen Calculator', path: '/calculator' },
-    { name: 'Compare Products', path: '/compare' },
-    { name: 'Technology Guide', path: '/tech-guide' },
+  const toolsGroups = [
+    {
+      label: 'SPECIFIER TOOLS',
+      links: [
+        { name: 'Screen Calculator', path: '/calculator', icon: Calculator, desc: 'Pixel pitch, resolution & specs' },
+        { name: 'Budget Estimator', path: '/budget-estimator', icon: DollarSign, desc: 'Project cost by size & pitch' },
+        { name: 'Compare Products', path: '/compare', icon: BarChart3, desc: 'Side-by-side comparison' },
+      ],
+    },
+    {
+      label: 'CONTRACTOR TOOLS',
+      links: [
+        { name: 'Value Engineering', path: '/value-engineering', icon: Wrench, desc: 'Cost-saving alternatives' },
+        { name: 'Spec Substitution', path: '/spec-substitution', icon: Upload, desc: 'Upload BOQ for review' },
+      ],
+    },
   ];
+
+  const allToolsLinks = toolsGroups.flatMap(g => g.links);
 
   return (
     <nav className="sticky top-0 z-50 sticky-nav" data-testid="site-header-nav">
@@ -57,7 +72,7 @@ const Navbar = () => {
               </Link>
             ))}
 
-            {/* Tools Dropdown */}
+            {/* Tools Mega Dropdown */}
             <div
               className="relative"
               onMouseEnter={() => setToolsOpen(true)}
@@ -80,23 +95,35 @@ const Navbar = () => {
 
               {toolsOpen && (
                 <div
-                  className="absolute top-full left-0 mt-1 w-52 glass-panel shadow-2xl py-2"
-                  style={{ backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'rgba(11,11,11,0.92)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 'var(--blx-radius-md)' }}
+                  className="absolute top-full -left-4 mt-1 shadow-2xl py-3 px-1"
+                  style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', background: 'rgba(11,11,11,0.95)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', width: '280px' }}
                   data-testid="nav-tools-dropdown"
                 >
-                  {toolsLinks.map((link) => (
-                    <Link
-                      key={link.path}
-                      to={link.path}
-                      className={`block px-4 py-2.5 text-[0.6875rem] font-bold tracking-wider transition-colors duration-200 ${
-                        isActive(link.path)
-                          ? 'text-[var(--blx-gold-3)] bg-[rgba(229,197,116,0.06)]'
-                          : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)] hover:bg-[rgba(255,255,255,0.04)]'
-                      }`}
-                      data-testid={`nav-tools-${link.path.substring(1)}`}
-                    >
-                      {link.name}
-                    </Link>
+                  {toolsGroups.map((group, gi) => (
+                    <div key={gi}>
+                      {gi > 0 && <div className="mx-3 my-2 border-t border-[rgba(255,255,255,0.06)]" />}
+                      <div className="px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">{group.label}</div>
+                      {group.links.map((link) => (
+                        <Link
+                          key={link.path}
+                          to={link.path}
+                          className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150 ${
+                            isActive(link.path)
+                              ? 'bg-[rgba(229,197,116,0.08)]'
+                              : 'hover:bg-[rgba(255,255,255,0.04)]'
+                          }`}
+                          data-testid={`nav-tools-${link.path.substring(1)}`}
+                        >
+                          <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${isActive(link.path) ? 'bg-[rgba(229,197,116,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'}`}>
+                            <link.icon size={13} className={isActive(link.path) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text-2)]'} />
+                          </div>
+                          <div>
+                            <div className={`text-[0.6875rem] font-bold tracking-wider ${isActive(link.path) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text)]'}`}>{link.name}</div>
+                            <div className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider" style={{ textTransform: 'none' }}>{link.desc}</div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                   ))}
                 </div>
               )}
@@ -155,22 +182,27 @@ const Navbar = () => {
             ))}
 
             {/* Mobile Tools Section */}
-            <div className="px-4 pt-2">
-              <div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-2">Tools</div>
-            </div>
-            {toolsLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setIsOpen(false)}
-                className={`block px-4 py-3 text-xs font-bold tracking-widest rounded-lg ${
-                  isActive(link.path)
-                    ? 'bg-[var(--blx-glass)] text-[var(--blx-gold-3)]'
-                    : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-glass)]'
-                }`}
-              >
-                {link.name}
-              </Link>
+            {toolsGroups.map((group, gi) => (
+              <React.Fragment key={gi}>
+                <div className="px-4 pt-2">
+                  <div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1">{group.label}</div>
+                </div>
+                {group.links.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center gap-3 mx-2 px-3 py-2.5 text-xs font-bold tracking-widest rounded-lg ${
+                      isActive(link.path)
+                        ? 'bg-[var(--blx-glass)] text-[var(--blx-gold-3)]'
+                        : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-glass)]'
+                    }`}
+                  >
+                    <link.icon size={14} className={isActive(link.path) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-muted)]'} />
+                    {link.name}
+                  </Link>
+                ))}
+              </React.Fragment>
             ))}
 
             <Link

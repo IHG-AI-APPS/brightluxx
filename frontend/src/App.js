@@ -83,6 +83,9 @@ import PowerConsumptionEstimator from './pages/PowerConsumptionEstimator';
 // Installation Guide
 import InstallationGuide from './pages/InstallationGuide';
 
+// Project Planner
+import ProjectPlanner from './pages/ProjectPlanner';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -152,6 +155,7 @@ function AppRoutes() {
       <Route path="/viewing-distance" element={<><Navbar /><ViewingDistanceCalculator /><Footer /><StickyCTA /></>} />
       <Route path="/power-estimator" element={<><Navbar /><PowerConsumptionEstimator /><Footer /><StickyCTA /></>} />
       <Route path="/installation-guide" element={<><Navbar /><InstallationGuide /><Footer /><StickyCTA /></>} />
+      <Route path="/project-planner" element={<><Navbar /><ProjectPlanner /><Footer /><StickyCTA /></>} />
       <Route path="/digital-experience/:pageId" element={<><Navbar /><DeaPageDetail /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}

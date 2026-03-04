@@ -18,6 +18,7 @@ STATIC_ROUTES = [
     ("/viewing-distance", 0.8, "monthly"),
     ("/power-estimator", 0.8, "monthly"),
     ("/installation-guide", 0.8, "monthly"),
+    ("/project-planner", 0.9, "monthly"),
     ("/compare", 0.6, "monthly"),
     ("/resources", 0.9, "weekly"),
     ("/for-architects", 0.8, "weekly"),

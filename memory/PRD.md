@@ -26,22 +26,25 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ### Technology Pillar Pages (9) — Mar 4, 2026
 - Technology Hub index page (/technology) with 9 tech cards
-- Individual pages: MicroLED, COB LED, MiP LED, Fine Pitch LED, All-in-One dvLED, Transparent LED, 3D Anamorphic LED, Creative LED, Media Facade
+- MicroLED, COB LED, MiP LED, Fine Pitch LED, All-in-One dvLED, Transparent LED, 3D Anamorphic LED, Creative LED, Media Facade
 - Each page: spec tables, comparison charts, use cases, FAQs, spec pack CTA, related technologies sidebar
-- Navbar "Technologies" link with active state highlighting
 
 ### Case Studies Section (8) — Mar 4, 2026
-- Case Studies index page (/case-studies) with category filters
-- 8 case studies: Jumeirah Al Naseem (Hospitality), Dubai Mall (Retail), ADNOC HQ (Corporate), Riyadh Metro (Transport), Expo City Dubai (Entertainment), Cleveland Clinic (Healthcare), The View at The Palm (Entertainment), KAPSARC (Corporate)
-- Each study: hero image, project team, challenge/solution/results, spec table, technology link, related projects
-- Replaced "Projects" in navbar with "Case Studies"
-- All URLs added to dynamic sitemap
+- Index page (/case-studies) with category filters (Hospitality, Retail, Corporate, Transport, Entertainment, Healthcare)
+- 8 detailed case studies with challenge/solution/results format, spec tables, technology links
+
+### CPD / Lunch & Learn Programme — Mar 4, 2026
+- Landing page (/cpd-programme) with 6 specialist session topics
+- Booking form with lead capture (name, email, company, role, topic, format, group size, date)
+- Backend API (POST /api/cpd/request) with email notifications via Gmail SMTP
+- Linked from Tools mega-menu in navbar
+- Stats, How It Works, Programme Formats, Why Attend sidebar, Coverage Area
 
 ### Contractor Hub
 - Value Engineering, 3 Contractor SEO Pages, Spec Substitution Service
 
 ### Tools (with mega-menu)
-- Screen Calculator, Budget Estimator, Product Comparison
+- Screen Calculator, Budget Estimator, Product Comparison, CPD Programme
 
 ### Lead-Gated Downloads (20 assets)
 - 12 spec packs, 4 cheat sheets, 4 BIM references
@@ -50,13 +53,12 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Searchable/filterable hub page (/resources) with all 27 resources
 
 ### Technical SEO
-- Dynamic /api/sitemap.xml with 110+ URLs (including technology & case study pages)
+- Dynamic /api/sitemap.xml with 110+ URLs
 - Email notifications (Gmail SMTP) for all lead events
 
 ---
 
 ## Remaining Tasks
-- (P3) CPD / Lunch & Learn Program Page
 - (P4) SLA Gap Analysis
 - (P5) E2E Playwright Test Suite
 - (P6) Tender Monitoring Integration

@@ -77,6 +77,9 @@ import DeaPageDetail from './pages/DeaPageDetail';
 // Viewing Distance Calculator
 import ViewingDistanceCalculator from './pages/ViewingDistanceCalculator';
 
+// Power Consumption Estimator
+import PowerConsumptionEstimator from './pages/PowerConsumptionEstimator';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -144,6 +147,7 @@ function AppRoutes() {
       <Route path="/lp/specifier-toolkit" element={<SpecifierToolkitLP />} />
       <Route path="/technology-selector" element={<><Navbar /><TechnologySelector /><Footer /><StickyCTA /></>} />
       <Route path="/viewing-distance" element={<><Navbar /><ViewingDistanceCalculator /><Footer /><StickyCTA /></>} />
+      <Route path="/power-estimator" element={<><Navbar /><PowerConsumptionEstimator /><Footer /><StickyCTA /></>} />
       <Route path="/digital-experience/:pageId" element={<><Navbar /><DeaPageDetail /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}

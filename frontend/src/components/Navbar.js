@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye } from 'lucide-react';
+import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,7 +9,7 @@ const Navbar = () => {
 
   const isActive = (path) => location.pathname === path;
   const isActivePrefix = (prefix) => location.pathname.startsWith(prefix);
-  const toolsPaths = ['/calculator', '/compare', '/tech-guide', '/budget-estimator', '/value-engineering', '/spec-substitution', '/cpd-programme', '/design-assist', '/technology-selector', '/viewing-distance'];
+  const toolsPaths = ['/calculator', '/compare', '/tech-guide', '/budget-estimator', '/value-engineering', '/spec-substitution', '/cpd-programme', '/design-assist', '/technology-selector', '/viewing-distance', '/power-estimator'];
   const isToolsActive = toolsPaths.includes(location.pathname) || location.pathname.startsWith('/contractors');
 
   // Group 1: Before Tools
@@ -35,6 +35,7 @@ const Navbar = () => {
         { name: 'CPD Programme', path: '/cpd-programme', icon: GraduationCap, desc: 'Free Lunch & Learn sessions' },
         { name: 'Technology Selector', path: '/technology-selector', icon: Cpu, desc: 'Find the right LED technology' },
         { name: 'Viewing Distance', path: '/viewing-distance', icon: Eye, desc: 'Pixel pitch vs. distance' },
+        { name: 'Power Estimator', path: '/power-estimator', icon: Zap, desc: 'Electrical load & HVAC' },
       ],
     },
     {

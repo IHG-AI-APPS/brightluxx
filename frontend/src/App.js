@@ -51,6 +51,10 @@ import LatestTechDetail from './pages/LatestTechDetail';
 import TechnologyIndex from './pages/TechnologyIndex';
 import TechnologyPage from './pages/TechnologyPage';
 
+// Case Studies
+import CaseStudiesIndex from './pages/CaseStudiesIndex';
+import CaseStudyDetail from './pages/CaseStudyDetail';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -109,6 +113,8 @@ function AppRoutes() {
       <Route path="/latest-tech/:techId" element={<><Navbar /><LatestTechDetail /><Footer /><StickyCTA /></>} />
       <Route path="/technology" element={<><Navbar /><TechnologyIndex /><Footer /><StickyCTA /></>} />
       <Route path="/technology/:techId" element={<><Navbar /><TechnologyPage /><Footer /><StickyCTA /></>} />
+      <Route path="/case-studies" element={<><Navbar /><CaseStudiesIndex /><Footer /><StickyCTA /></>} />
+      <Route path="/case-studies/:caseId" element={<><Navbar /><CaseStudyDetail /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

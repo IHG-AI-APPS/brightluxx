@@ -48,6 +48,27 @@ STATIC_ROUTES = [
     ("/latest-tech/microled", 0.6, "monthly"),
     ("/latest-tech/transparent-led", 0.6, "monthly"),
     ("/latest-tech/ai-powered", 0.6, "monthly"),
+    # Technology Pillar Pages
+    ("/technology", 0.9, "weekly"),
+    ("/technology/microled", 0.8, "monthly"),
+    ("/technology/cob-led", 0.8, "monthly"),
+    ("/technology/mip-led", 0.8, "monthly"),
+    ("/technology/fine-pitch-led", 0.8, "monthly"),
+    ("/technology/all-in-one-dvled", 0.8, "monthly"),
+    ("/technology/transparent-led", 0.8, "monthly"),
+    ("/technology/3d-anamorphic-led", 0.8, "monthly"),
+    ("/technology/creative-led", 0.8, "monthly"),
+    ("/technology/media-facade", 0.8, "monthly"),
+    # Case Studies
+    ("/case-studies", 0.9, "weekly"),
+    ("/case-studies/jumeirah-al-naseem-lobby", 0.7, "monthly"),
+    ("/case-studies/dubai-mall-flagship-retail", 0.7, "monthly"),
+    ("/case-studies/adnoc-hq-command-center", 0.7, "monthly"),
+    ("/case-studies/riyadh-metro-passenger-info", 0.7, "monthly"),
+    ("/case-studies/expo-city-dubai-event-hall", 0.7, "monthly"),
+    ("/case-studies/cleveland-clinic-abu-dhabi", 0.7, "monthly"),
+    ("/case-studies/the-view-at-the-palm-transparent", 0.7, "monthly"),
+    ("/case-studies/kapsarc-3d-anamorphic", 0.7, "monthly"),
 ]
 
 BASE_URL = "https://brightluxx.com"

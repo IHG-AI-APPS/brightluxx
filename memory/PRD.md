@@ -120,6 +120,14 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - 6 SEO-optimized FAQs with JSON-LD structured data
 - Added to Tools mega-menu in navbar, sitemap, and QuickInquiry form
 
+### Project Planner — Mar 4, 2026
+- Multi-step wizard at `/project-planner` combining all specifier tools into one workflow
+- 4 steps: Project basics → Dimensions → Usage → Results with PDF download
+- Results: recommended pixel pitch, power requirements, installation method, budgetary estimate
+- Lead-gated PDF: branded ReportLab PDF via `POST /api/project-planner/pdf`
+- Added to Tools mega-menu and sitemap (priority 0.9)
+- Testing: 59/59 tests passed (15 backend + 44 frontend)
+
 ---
 
 ## Remaining Tasks

@@ -19,26 +19,28 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 ### Core Site
 - Product catalog (57 products), CMS, admin panel, JWT auth, analytics, contact form
 
-### Knowledge Base (7 articles)
-- COB vs MiP vs SMD, Pixel Pitch, Brightness, IP Rating, Refresh Rate, Processing & Calibration, CMS Multi-Site
+### Knowledge Base (8 articles)
+- COB vs MiP vs SMD, Pixel Pitch, Brightness, IP Rating, Refresh Rate, Processing & Calibration, CMS Multi-Site, **SLA Gap Analysis**
 
 ### Application Pages (8) + Latest Tech (4) + For Architects Hub
 
 ### Technology Pillar Pages (9) — Mar 4, 2026
-- Technology Hub index page (/technology) with 9 tech cards
 - MicroLED, COB LED, MiP LED, Fine Pitch LED, All-in-One dvLED, Transparent LED, 3D Anamorphic LED, Creative LED, Media Facade
-- Each page: spec tables, comparison charts, use cases, FAQs, spec pack CTA, related technologies sidebar
 
 ### Case Studies Section (8) — Mar 4, 2026
-- Index page (/case-studies) with category filters (Hospitality, Retail, Corporate, Transport, Entertainment, Healthcare)
-- 8 detailed case studies with challenge/solution/results format, spec tables, technology links
+- 8 case studies across 6 verticals (Hospitality, Retail, Corporate, Transport, Entertainment, Healthcare)
 
 ### CPD / Lunch & Learn Programme — Mar 4, 2026
-- Landing page (/cpd-programme) with 6 specialist session topics
-- Booking form with lead capture (name, email, company, role, topic, format, group size, date)
-- Backend API (POST /api/cpd/request) with email notifications via Gmail SMTP
-- Linked from Tools mega-menu in navbar
-- Stats, How It Works, Programme Formats, Why Attend sidebar, Coverage Area
+- 6 session topics, booking form with lead capture, email notifications
+- Linked from Tools mega-menu
+
+### SLA Gap Analysis Guide — Mar 4, 2026
+- Specifier Quick Reference (7 key points)
+- SLA Tier Comparison table (Basic/Professional/Enterprise, 10 metrics)
+- 8 Common SLA Gaps with severity ratings and fixes
+- SLA Audit Checklist (7 categories, 28 items)
+- 6 FAQs, lead-gated spec pack download
+- Linked from Knowledge Base index, Resource Library, and sitemap
 
 ### Contractor Hub
 - Value Engineering, 3 Contractor SEO Pages, Spec Substitution Service
@@ -46,20 +48,19 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 ### Tools (with mega-menu)
 - Screen Calculator, Budget Estimator, Product Comparison, CPD Programme
 
-### Lead-Gated Downloads (20 assets)
-- 12 spec packs, 4 cheat sheets, 4 BIM references
+### Lead-Gated Downloads (20+ assets)
+- 12 spec packs, 4 cheat sheets, 4 BIM references, SLA checklist
 
 ### Resource Library
-- Searchable/filterable hub page (/resources) with all 27 resources
+- Searchable/filterable hub page (/resources) with 28+ resources
 
 ### Technical SEO
-- Dynamic /api/sitemap.xml with 110+ URLs
+- Dynamic /api/sitemap.xml with 112+ URLs
 - Email notifications (Gmail SMTP) for all lead events
 
 ---
 
 ## Remaining Tasks
-- (P4) SLA Gap Analysis
 - (P5) E2E Playwright Test Suite
 - (P6) Tender Monitoring Integration
 - (P7) Enhanced JSON-LD structured data across all pages

@@ -69,6 +69,8 @@ STATIC_ROUTES = [
     ("/case-studies/cleveland-clinic-abu-dhabi", 0.7, "monthly"),
     ("/case-studies/the-view-at-the-palm-transparent", 0.7, "monthly"),
     ("/case-studies/kapsarc-3d-anamorphic", 0.7, "monthly"),
+    # CPD Programme
+    ("/cpd-programme", 0.8, "monthly"),
 ]
 
 BASE_URL = "https://brightluxx.com"

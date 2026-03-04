@@ -16,6 +16,7 @@ from routes.specpacks import router as specpacks_router
 from routes.spec_substitution import router as spec_sub_router
 from routes.sitemap import router as sitemap_router
 from routes.downloads import router as downloads_router
+from routes.cpd import router as cpd_router
 from storage import init_storage
 
 app = FastAPI()
@@ -71,6 +72,7 @@ app.include_router(specpacks_router)
 app.include_router(spec_sub_router)
 app.include_router(sitemap_router)
 app.include_router(downloads_router)
+app.include_router(cpd_router)
 
 
 @app.on_event("startup")

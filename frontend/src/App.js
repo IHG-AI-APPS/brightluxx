@@ -55,6 +55,9 @@ import TechnologyPage from './pages/TechnologyPage';
 import CaseStudiesIndex from './pages/CaseStudiesIndex';
 import CaseStudyDetail from './pages/CaseStudyDetail';
 
+// CPD Programme
+import CpdProgramme from './pages/CpdProgramme';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -115,6 +118,7 @@ function AppRoutes() {
       <Route path="/technology/:techId" element={<><Navbar /><TechnologyPage /><Footer /><StickyCTA /></>} />
       <Route path="/case-studies" element={<><Navbar /><CaseStudiesIndex /><Footer /><StickyCTA /></>} />
       <Route path="/case-studies/:caseId" element={<><Navbar /><CaseStudyDetail /><Footer /><StickyCTA /></>} />
+      <Route path="/cpd-programme" element={<><Navbar /><CpdProgramme /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

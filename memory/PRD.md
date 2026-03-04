@@ -17,7 +17,7 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 ## Completed Features (All Phases)
 
 ### Core Site
-- Product catalog, CMS, admin panel, JWT auth, analytics, contact form
+- Product catalog (57 products), CMS, admin panel, JWT auth, analytics, contact form
 
 ### Knowledge Base (7 articles)
 - COB vs MiP vs SMD, Pixel Pitch, Brightness, IP Rating, Refresh Rate, Processing & Calibration, CMS Multi-Site
@@ -26,9 +26,16 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ### Technology Pillar Pages (9) — Mar 4, 2026
 - Technology Hub index page (/technology) with 9 tech cards
-- Individual technology pages: MicroLED, COB LED, MiP LED, Fine Pitch LED, All-in-One dvLED, Transparent LED, 3D Anamorphic LED, Creative LED, Media Facade
-- Each page includes: spec tables, comparison charts, use cases, FAQs, spec pack CTA, related technologies sidebar
+- Individual pages: MicroLED, COB LED, MiP LED, Fine Pitch LED, All-in-One dvLED, Transparent LED, 3D Anamorphic LED, Creative LED, Media Facade
+- Each page: spec tables, comparison charts, use cases, FAQs, spec pack CTA, related technologies sidebar
 - Navbar "Technologies" link with active state highlighting
+
+### Case Studies Section (8) — Mar 4, 2026
+- Case Studies index page (/case-studies) with category filters
+- 8 case studies: Jumeirah Al Naseem (Hospitality), Dubai Mall (Retail), ADNOC HQ (Corporate), Riyadh Metro (Transport), Expo City Dubai (Entertainment), Cleveland Clinic (Healthcare), The View at The Palm (Entertainment), KAPSARC (Corporate)
+- Each study: hero image, project team, challenge/solution/results, spec table, technology link, related projects
+- Replaced "Projects" in navbar with "Case Studies"
+- All URLs added to dynamic sitemap
 
 ### Contractor Hub
 - Value Engineering, 3 Contractor SEO Pages, Spec Substitution Service
@@ -39,21 +46,16 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 ### Lead-Gated Downloads (20 assets)
 - 12 spec packs, 4 cheat sheets, 4 BIM references
 
-### Resource Library (Mar 4, 2026)
-- Searchable/filterable hub page (`/resources`) with all 27 resources
-- Category filters: Spec Packs (12), Cheat Sheets (4), BIM/CAD (4), Knowledge Base (7)
-- Search by title, description, and tags
-- Added "Resources" to navbar
+### Resource Library
+- Searchable/filterable hub page (/resources) with all 27 resources
 
 ### Technical SEO
-- Dynamic `/api/sitemap.xml` with 94+ URLs
+- Dynamic /api/sitemap.xml with 110+ URLs (including technology & case study pages)
 - Email notifications (Gmail SMTP) for all lead events
 
 ---
 
 ## Remaining Tasks
-- (P1) Product Comparison Tool — interactive compare feature linked from Tools mega-menu
-- (P2) Case Studies Section — project examples for verticals (Retail, Hospitality, Corporate, etc.)
 - (P3) CPD / Lunch & Learn Program Page
 - (P4) SLA Gap Analysis
 - (P5) E2E Playwright Test Suite

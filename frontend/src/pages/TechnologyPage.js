@@ -4,6 +4,7 @@ import { ArrowRight, MessageCircle, Phone, Calculator, DollarSign } from 'lucide
 import SEO from '../components/SEO';
 import { SpecifierAnswerBox, ComparisonTable, FAQSection, buildFaqJsonLd, SpecPackCTA, SectionDivider } from '../components/KnowledgeBase';
 import { TECHNOLOGIES } from '../data/technologies';
+import QuickInquiry from '../components/QuickInquiry';
 
 function SpecTable({ specs, title }) {
   return (
@@ -190,6 +191,7 @@ export default function TechnologyPage() {
           </aside>
         </div>
       </div>
+      <QuickInquiry context={`${tech.title} technology`} />
     </div>
   );
 }

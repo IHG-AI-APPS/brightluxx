@@ -5,6 +5,7 @@ import { getProduct, getProducts, createLead } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
 import { trackProductView, trackQuoteRequest } from '../lib/tracker';
+import QuickInquiry from '../components/QuickInquiry';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -481,6 +482,7 @@ export default function ProductDetail() {
         </section>
 
       </div>
+      {product && <QuickInquiry context={product.name || product.title || 'this LED display'} />}
     </div>
   );
 }

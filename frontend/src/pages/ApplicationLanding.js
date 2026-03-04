@@ -5,6 +5,7 @@ import CdnImage from '../components/CdnImage';
 import SEO from '../components/SEO';
 import { SpecifierAnswerBox, ComparisonTable, FAQSection, buildFaqJsonLd, SpecPackCTA, SectionDivider } from '../components/KnowledgeBase';
 import { APPLICATIONS, getApplication } from '../data/applications';
+import QuickInquiry from '../components/QuickInquiry';
 
 export default function ApplicationLanding() {
   const { appId } = useParams();
@@ -198,6 +199,7 @@ export default function ApplicationLanding() {
           </aside>
         </div>
       </div>
+      <QuickInquiry context={`${app.title} LED displays`} />
     </div>
   );
 }

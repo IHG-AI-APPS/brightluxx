@@ -61,6 +61,10 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added floating WhatsApp button (971559954274) stacked with AURA chat icon (desktop)
 - Added sticky mobile CTA bar with WhatsApp + Get Quote (mobile only, with safe-area support)
 - Desktop: floating buttons bottom-right; Mobile: sticky bar at bottom — no duplication
+- Quick Inquiry floating form: appears after 30% scroll on product, solution, technology, and application pages
+  - Auto-fills page context (e.g., "MicroLED technology"), submits to `/api/quick-inquiry`
+  - Saves lead to MongoDB + sends email notification
+  - Dismissible per-page via sessionStorage
 - Updated E2E smoke test to match current nav structure (22/22 pass)
 
 ---

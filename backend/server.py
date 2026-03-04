@@ -19,6 +19,7 @@ from routes.downloads import router as downloads_router
 from routes.cpd import router as cpd_router
 from routes.design_assist import router as design_assist_router
 from routes.chat import router as chat_router
+from routes.quick_inquiry import router as quick_inquiry_router
 from storage import init_storage
 
 app = FastAPI()
@@ -77,6 +78,7 @@ app.include_router(downloads_router)
 app.include_router(cpd_router)
 app.include_router(design_assist_router)
 app.include_router(chat_router)
+app.include_router(quick_inquiry_router)
 
 
 @app.on_event("startup")

@@ -4,6 +4,7 @@ import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, Zap } fr
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { BASE_URL } from '../components/SEO';
+import QuickInquiry from '../components/QuickInquiry';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -395,6 +396,7 @@ export default function SolutionDetail() {
           </div>
         </section>
       </div>
+      <QuickInquiry context={`${solution.title} LED solutions`} />
     </div>
   );
 }

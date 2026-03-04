@@ -41,6 +41,7 @@ import ValueEngineering from './pages/ValueEngineering';
 import ContractorPage from './pages/ContractorPage';
 import SpecSubstitution from './pages/SpecSubstitution';
 import BudgetEstimator from './pages/BudgetEstimator';
+import ResourceLibrary from './pages/ResourceLibrary';
 
 // Latest Tech
 import LatestTechIndex from './pages/LatestTechIndex';
@@ -99,6 +100,7 @@ function AppRoutes() {
       <Route path="/contractors/:pageId" element={<><Navbar /><ContractorPage /><Footer /><StickyCTA /></>} />
       <Route path="/spec-substitution" element={<><Navbar /><SpecSubstitution /><Footer /><StickyCTA /></>} />
       <Route path="/budget-estimator" element={<><Navbar /><BudgetEstimator /><Footer /><StickyCTA /></>} />
+      <Route path="/resources" element={<><Navbar /><ResourceLibrary /><Footer /><StickyCTA /></>} />
       <Route path="/latest-tech" element={<><Navbar /><LatestTechIndex /><Footer /><StickyCTA /></>} />
       <Route path="/latest-tech/:techId" element={<><Navbar /><LatestTechDetail /><Footer /><StickyCTA /></>} />
 

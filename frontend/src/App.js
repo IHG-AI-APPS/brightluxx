@@ -34,6 +34,10 @@ import ApplicationsIndex from './pages/ApplicationsIndex';
 import ApplicationLanding from './pages/ApplicationLanding';
 import ForArchitects from './pages/ForArchitects';
 
+// Latest Tech
+import LatestTechIndex from './pages/LatestTechIndex';
+import LatestTechDetail from './pages/LatestTechDetail';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -81,6 +85,8 @@ function AppRoutes() {
       <Route path="/applications" element={<><Navbar /><ApplicationsIndex /><Footer /><StickyCTA /></>} />
       <Route path="/applications/:appId" element={<><Navbar /><ApplicationLanding /><Footer /><StickyCTA /></>} />
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
+      <Route path="/latest-tech" element={<><Navbar /><LatestTechIndex /><Footer /><StickyCTA /></>} />
+      <Route path="/latest-tech/:techId" element={<><Navbar /><LatestTechDetail /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

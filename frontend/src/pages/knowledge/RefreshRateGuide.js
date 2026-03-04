@@ -45,7 +45,7 @@ export default function RefreshRateGuide() {
 
             <h2 className="text-lg font-bold tracking-wider mb-4">Why Refresh Rate Matters</h2>
             <div className="glass-panel p-6 mb-8">
-              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Refresh rate (Hz) is how many times per second the display redraws its image. Low refresh rates cause visible flicker and horizontal scan lines through cameras. In 2026, with everyone filming on smartphones, this is a critical specification.
               </p>
               <div className="grid grid-cols-3 gap-3">
@@ -57,7 +57,7 @@ export default function RefreshRateGuide() {
                   <div key={item.label} className="text-center py-4 rounded-lg" style={{ background: 'rgba(255,255,255,0.02)' }}>
                     <item.icon size={20} className="text-[var(--blx-gold-3)] mx-auto mb-2" />
                     <div className="text-sm font-bold text-[var(--blx-gold-3)]">{item.value}</div>
-                    <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider mt-1" style={{ textTransform: 'none' }}>{item.label}</div>
+                    <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider mt-1">{item.label}</div>
                   </div>
                 ))}
               </div>
@@ -85,7 +85,7 @@ export default function RefreshRateGuide() {
 
             <h2 className="text-lg font-bold tracking-wider mb-4">Moire Pattern Prevention</h2>
             <div className="glass-panel p-6 mb-8">
-              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Moire patterns appear as wavy interference lines when a camera's sensor grid interferes with the LED pixel grid. Prevention strategies:
               </p>
               <ul className="space-y-2">
@@ -99,7 +99,7 @@ export default function RefreshRateGuide() {
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <span className="text-[var(--blx-gold-3)] font-bold text-xs mt-0.5">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="text-xs text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item}</span>
+                    <span className="text-xs text-[var(--blx-text-2)] leading-relaxed">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -138,7 +138,7 @@ export default function RefreshRateGuide() {
                   { to: '/knowledge/brightness-nits-guide', label: 'Brightness & Nits Guide' },
                   { to: '/knowledge/ip-rating-guide', label: 'IP Rating Guide' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={12} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}

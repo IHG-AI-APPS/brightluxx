@@ -147,7 +147,7 @@ export default function ProjectPlanner() {
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-3">
             Project Planner
           </h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed">
             Enter your project details once — get a complete specification including pixel pitch, power requirements, installation method, and budgetary estimate. Download as a professional PDF.
           </p>
         </div>
@@ -163,7 +163,7 @@ export default function ProjectPlanner() {
             <div className="space-y-5">
               <div>
                 <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2 block">PROJECT NAME (OPTIONAL)</label>
-                <input type="text" placeholder="e.g. Dubai Mall Flagship Store" value={p.projectName} onChange={e => upd('projectName', e.target.value)} className="input-luxury w-full text-sm py-3 px-4" data-testid="input-project-name" style={{ textTransform: 'none' }} />
+                <input type="text" placeholder="e.g. Dubai Mall Flagship Store" value={p.projectName} onChange={e => upd('projectName', e.target.value)} className="input-luxury w-full text-sm py-3 px-4" data-testid="input-project-name" />
               </div>
               <div>
                 <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-3 block">APPLICATION TYPE</label>
@@ -199,7 +199,7 @@ export default function ProjectPlanner() {
           <div className="glass-panel p-6 sm:p-8" data-testid="step-1">
             <h2 className="text-base font-bold tracking-wider mb-6">Display Dimensions & Viewing</h2>
             <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2 block">WIDTH (METERS)</label>
                   <div className="flex items-center gap-3">
@@ -226,7 +226,7 @@ export default function ProjectPlanner() {
                   <input type="range" min="0.5" max="100" step="0.5" value={p.viewingDistance} onChange={e => upd('viewingDistance', parseFloat(e.target.value))} className="flex-1 accent-[var(--blx-gold-3)]" data-testid="slider-distance" />
                   <span className="text-xl font-bold text-[var(--blx-gold-3)] w-16 text-center">{p.viewingDistance}m</span>
                 </div>
-                <div className="text-[0.5rem] text-[var(--blx-muted)] mt-1" style={{ textTransform: 'none' }}>Distance from the closest typical viewer to the display</div>
+                <div className="text-[0.5rem] text-[var(--blx-muted)] mt-1">Distance from the closest typical viewer to the display</div>
               </div>
             </div>
             <div className="flex justify-between mt-8">
@@ -247,11 +247,11 @@ export default function ProjectPlanner() {
             <div className="space-y-6">
               <div>
                 <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-3 block">CONTENT TYPE</label>
-                <div className="flex gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {[{ id: 'text', l: 'Text / Data', d: 'Dashboards, menus' }, { id: 'mixed', l: 'Mixed', d: 'Text + video, general' }, { id: 'video', l: 'Video / Cinematic', d: 'Full-motion video' }].map(ct => (
                     <button key={ct.id} onClick={() => upd('contentType', ct.id)} className={`flex-1 p-3 rounded-xl text-center transition-all ${p.contentType === ct.id ? 'bg-[rgba(229,197,116,0.1)] border border-[rgba(229,197,116,0.2)]' : 'bg-[rgba(255,255,255,0.03)] border border-[var(--blx-border)]'}`} data-testid={`ct-${ct.id}`}>
                       <div className={`text-[0.625rem] font-bold tracking-wider ${p.contentType === ct.id ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text)]'}`}>{ct.l}</div>
-                      <div className="text-[0.5rem] text-[var(--blx-muted)] mt-0.5" style={{ textTransform: 'none' }}>{ct.d}</div>
+                      <div className="text-[0.5rem] text-[var(--blx-muted)] mt-0.5">{ct.d}</div>
                     </button>
                   ))}
                 </div>
@@ -324,7 +324,7 @@ export default function ProjectPlanner() {
                   <div className="text-3xl font-bold text-[var(--blx-gold-3)]" data-testid="result-pitch">P{spec.best}</div>
                   <div className="text-xs text-[var(--blx-text-2)]">{spec.tech}</div>
                 </div>
-                <div className="space-y-1.5 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                <div className="space-y-1.5 text-[0.6875rem] text-[var(--blx-text-2)]">
                   <div className="flex justify-between"><span>Premium option:</span><span className="font-bold">P{spec.premium}</span></div>
                   <div className="flex justify-between"><span>Min viewing:</span><span>{spec.minView}m</span></div>
                   <div className="flex justify-between"><span>Optimal viewing:</span><span className="text-[var(--blx-gold-3)] font-bold">{spec.optView}m</span></div>
@@ -359,7 +359,7 @@ export default function ProjectPlanner() {
               <div className="glass-panel p-5">
                 <div className="flex items-center gap-2 text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4"><Layers size={12} /> INSTALLATION METHOD</div>
                 <div className="text-sm font-bold mb-3" data-testid="result-install">{spec.install}</div>
-                <div className="space-y-1.5 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                <div className="space-y-1.5 text-[0.6875rem] text-[var(--blx-text-2)]">
                   <div className="flex justify-between"><span>Circuit breaker:</span><span className="font-bold">{spec.breaker}A</span></div>
                   <div className="flex justify-between"><span>Max current:</span><span>{spec.maxAmps}A at 220V</span></div>
                   <div className="flex justify-between"><span>Cooling needed:</span><span>{spec.heatTons} tons</span></div>
@@ -376,7 +376,7 @@ export default function ProjectPlanner() {
                   <div className="text-[0.5rem] text-[var(--blx-muted)] mb-1">TOTAL PROJECT RANGE (USD)</div>
                   <div className="text-xl font-bold text-[var(--blx-gold-3)]" data-testid="result-budget">${spec.totalLow.toLocaleString()} — ${spec.totalHigh.toLocaleString()}</div>
                 </div>
-                <div className="space-y-1.5 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                <div className="space-y-1.5 text-[0.6875rem] text-[var(--blx-text-2)]">
                   <div className="flex justify-between"><span>LED hardware:</span><span>${spec.bLow.toLocaleString()} — ${spec.bHigh.toLocaleString()}</span></div>
                   <div className="flex justify-between"><span>Installation:</span><span>${Math.round(spec.bLow * 0.15).toLocaleString()} — ${Math.round(spec.bHigh * 0.15).toLocaleString()}</span></div>
                   <div className="flex justify-between"><span>Content system:</span><span>$3,000 — $8,000</span></div>
@@ -387,7 +387,7 @@ export default function ProjectPlanner() {
             {/* Download Section */}
             <div className="glass-panel p-6 sm:p-8 mb-4">
               <h3 className="text-sm font-bold tracking-wider mb-4">Download Full Specification PDF</h3>
-              <p className="text-[0.6875rem] text-[var(--blx-text-2)] mb-5" style={{ textTransform: 'none' }}>
+              <p className="text-[0.6875rem] text-[var(--blx-text-2)] mb-5">
                 Enter your details to receive a branded PDF specification report with all calculations, recommendations, and budgetary estimates.
               </p>
               <div className="grid sm:grid-cols-2 gap-3 mb-4">

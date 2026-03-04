@@ -33,7 +33,7 @@ export default function CaseStudiesIndex() {
         <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">PROJECT PORTFOLIO</div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">Case Studies</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed">
             Real-world LED display installations across the UAE and GCC. Each case study includes project specifications, technology rationale, and measurable outcomes — designed as specification precedents for architects and consultants.
           </p>
         </div>
@@ -99,7 +99,7 @@ export default function CaseStudiesIndex() {
                   <span className="flex items-center gap-1.5"><Calendar size={10} /> {cs.year}</span>
                   <span className="flex items-center gap-1.5"><Cpu size={10} /> {cs.displaySize}</span>
                 </div>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed line-clamp-2 mb-4" style={{ textTransform: 'none' }}>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed line-clamp-2 mb-4">
                   {cs.challenge}
                 </p>
                 <div className="flex items-center gap-1.5 text-[0.5625rem] font-bold tracking-wider text-[var(--blx-gold-3)] group-hover:gap-2.5 transition-all">
@@ -113,7 +113,7 @@ export default function CaseStudiesIndex() {
         {/* CTA */}
         <div className="mt-16 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
           <h2 className="text-lg font-bold tracking-wider mb-3">Have a Similar Project?</h2>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
             Our team provides free specification support, budgetary estimates, and technology recommendations for projects across the GCC region.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">

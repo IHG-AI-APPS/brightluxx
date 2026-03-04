@@ -86,7 +86,7 @@ export default function QuickInquiry({ context = '', pageUrl = '' }) {
           <div className="p-6 text-center" data-testid="quick-inquiry-success">
             <CheckCircle2 size={32} className="text-[var(--blx-success)] mx-auto mb-3" />
             <div className="text-sm font-bold tracking-wider mb-1">Thank You</div>
-            <div className="text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+            <div className="text-[0.6875rem] text-[var(--blx-text-2)]">
               We'll get back to you shortly.
             </div>
           </div>
@@ -95,10 +95,10 @@ export default function QuickInquiry({ context = '', pageUrl = '' }) {
             {/* Header */}
             <div className="mb-3 pr-6">
               <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-1">QUICK INQUIRY</div>
-              <div className="text-xs font-bold tracking-wider leading-snug" style={{ textTransform: 'none' }}>
+              <div className="text-xs font-bold tracking-wider leading-snug">
                 Interested in {context}?
               </div>
-              <div className="text-[0.625rem] text-[var(--blx-muted)] mt-0.5" style={{ textTransform: 'none' }}>
+              <div className="text-[0.625rem] text-[var(--blx-muted)] mt-0.5">
                 Get a callback in 2 hours
               </div>
             </div>

@@ -132,10 +132,10 @@ export default function DigitalExperienceArchitecture() {
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">
             Digital Experience<br />Architecture
           </h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-4">
             Buildings are becoming media platforms. Across UAE, Saudi Arabia, and the GCC, the most ambitious projects integrate LED displays not as afterthoughts, but as fundamental design elements — media facades, immersive environments, and interactive installations that define the architecture itself.
           </p>
-          <p className="text-xs text-[var(--blx-muted)] max-w-2xl leading-relaxed mb-8" style={{ textTransform: 'none' }}>
+          <p className="text-xs text-[var(--blx-muted)] max-w-2xl leading-relaxed mb-8">
             This is where malls, museums, hotels, and airports design entire experiences around LED — and the companies that position early win the defining projects of the decade.
           </p>
           <div className="flex flex-wrap gap-3">
@@ -166,7 +166,7 @@ export default function DigitalExperienceArchitecture() {
                       <div className="text-[0.5625rem] text-[var(--blx-gold-3)] tracking-wider">{app.tagline}</div>
                     </div>
                   </div>
-                  <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-6" style={{ textTransform: 'none' }}>{app.desc}</p>
+                  <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-6">{app.desc}</p>
 
                   {/* Spec Table */}
                   <div className="rounded-xl overflow-hidden mb-4" style={{ border: '1px solid var(--blx-hairline)' }}>
@@ -175,7 +175,7 @@ export default function DigitalExperienceArchitecture() {
                         {app.specs.map(([label, value], si) => (
                           <tr key={si} className="border-b border-[var(--blx-hairline)] last:border-0">
                             <td className="py-2.5 px-4 text-[0.5625rem] font-bold tracking-[0.12em] text-[var(--blx-muted)] w-[35%]">{label}</td>
-                            <td className="py-2.5 px-4 text-[0.6875rem]" style={{ textTransform: 'none' }}>{value}</td>
+                            <td className="py-2.5 px-4 text-[0.6875rem]">{value}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -196,7 +196,7 @@ export default function DigitalExperienceArchitecture() {
                   <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">TYPICAL PROJECTS</div>
                   <div className="space-y-2 mb-6">
                     {app.projects.map((p, pi) => (
-                      <div key={pi} className="flex items-center gap-2 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                      <div key={pi} className="flex items-center gap-2 text-[0.6875rem] text-[var(--blx-text-2)]">
                         <CheckCircle2 size={10} className="text-[var(--blx-gold-3)] flex-shrink-0" /> {p}
                       </div>
                     ))}
@@ -214,7 +214,7 @@ export default function DigitalExperienceArchitecture() {
         <div className="p-8 sm:p-12 rounded-2xl text-center mb-16" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">OUR POSITIONING</div>
           <h2 className="text-lg sm:text-xl font-bold tracking-wider mb-3">GCC Digital Display Design Partner</h2>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl mx-auto mb-8" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-xl mx-auto mb-8">
             We don't just supply LED screens. We collaborate with architects, consultants, and contractors from concept through commissioning to create digital experiences that define buildings.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
@@ -242,7 +242,7 @@ export default function DigitalExperienceArchitecture() {
             ].map(link => (
               <Link key={link.path} to={link.path} className="glass-panel p-5 group hover:border-[rgba(229,197,116,0.2)] transition-all">
                 <h3 className="text-xs font-bold tracking-wider mb-1 group-hover:text-[var(--blx-gold-3)] transition-colors">{link.title}</h3>
-                <p className="text-[0.6875rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{link.desc}</p>
+                <p className="text-[0.6875rem] text-[var(--blx-muted)]">{link.desc}</p>
                 <div className="flex items-center gap-1 mt-3 text-[0.5rem] font-bold tracking-wider text-[var(--blx-gold-3)] opacity-0 group-hover:opacity-100 transition-opacity">
                   Explore <ArrowRight size={10} />
                 </div>

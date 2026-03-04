@@ -130,7 +130,7 @@ export default function SlaGuide() {
             <span className="text-[var(--blx-gold-3)]">SLA Gap Analysis</span>
           </div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight">LED Display SLA Gap Analysis</h1>
-          <p className="text-sm text-[var(--blx-text-2)] mt-3 max-w-2xl tracking-wider leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] mt-3 max-w-2xl tracking-wider leading-relaxed">
             A specifier's guide to evaluating and negotiating LED display Service Level Agreements. Identify the 8 most common SLA gaps, compare warranty tiers, and protect your project from costly downtime.
           </p>
         </div>
@@ -148,7 +148,7 @@ export default function SlaGuide() {
 
             {/* Comparison Table */}
             <h2 className="text-base font-bold tracking-wider mb-4">SLA Tier Comparison</h2>
-            <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed" style={{ textTransform: 'none' }}>
+            <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed">
               LED display SLAs generally fall into three tiers. Understanding these tiers helps you specify the appropriate level of service for your project's criticality and budget.
             </p>
             <ComparisonTable
@@ -161,7 +161,7 @@ export default function SlaGuide() {
 
             {/* Common Gaps */}
             <h2 className="text-base font-bold tracking-wider mb-4" id="gaps">8 Common SLA Gaps</h2>
-            <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed" style={{ textTransform: 'none' }}>
+            <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed">
               After reviewing hundreds of LED display SLAs across UAE and GCC projects, these are the most frequent and costly gaps we encounter. Each gap includes a recommended fix you can add to your specification or tender document.
             </p>
             <div className="space-y-4 mb-10">
@@ -180,10 +180,10 @@ export default function SlaGuide() {
                       {gap.severity.toUpperCase()}
                     </span>
                   </div>
-                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-3" style={{ textTransform: 'none' }}>{gap.desc}</p>
+                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-3">{gap.desc}</p>
                   <div className="px-4 py-3 rounded-lg" style={{ background: 'rgba(229,197,116,0.06)', border: '1px solid rgba(229,197,116,0.12)' }}>
                     <span className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)]">FIX: </span>
-                    <span className="text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{gap.fix}</span>
+                    <span className="text-[0.6875rem] text-[var(--blx-text-2)]">{gap.fix}</span>
                   </div>
                 </div>
               ))}
@@ -193,7 +193,7 @@ export default function SlaGuide() {
 
             {/* SLA Checklist */}
             <h2 className="text-base font-bold tracking-wider mb-4" id="checklist">SLA Audit Checklist</h2>
-            <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed" style={{ textTransform: 'none' }}>
+            <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed">
               Use this checklist to audit your current LED display SLA or to build requirements for a new tender. Each item should be explicitly addressed in your Service Level Agreement.
             </p>
             <div className="space-y-4 mb-10">
@@ -204,7 +204,7 @@ export default function SlaGuide() {
                     {section.items.map((item, ii) => (
                       <div key={ii} className="flex items-start gap-2.5">
                         <div className="w-4 h-4 rounded border border-[var(--blx-border)] flex-shrink-0 mt-0.5" />
-                        <span className="text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{item}</span>
+                        <span className="text-[0.6875rem] text-[var(--blx-text-2)]">{item}</span>
                       </div>
                     ))}
                   </div>
@@ -220,7 +220,7 @@ export default function SlaGuide() {
             {/* Bottom CTA */}
             <div className="mt-10 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
               <h2 className="text-lg font-bold tracking-wider mb-3">Need SLA Review Support?</h2>
-              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
                 Our technical team can review your existing LED display SLA and identify gaps. Free for architects and consultants specifying Brightluxx products.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
@@ -248,10 +248,10 @@ export default function SlaGuide() {
             <div className="glass-panel p-5">
               <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">ON THIS PAGE</div>
               <div className="space-y-2">
-                <a href="#gaps" className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <a href="#gaps" className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <AlertTriangle size={10} className="text-[var(--blx-gold-3)]" /> 8 Common SLA Gaps
                 </a>
-                <a href="#checklist" className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <a href="#checklist" className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <CheckCircle2 size={10} className="text-[var(--blx-gold-3)]" /> SLA Audit Checklist
                 </a>
               </div>
@@ -260,16 +260,16 @@ export default function SlaGuide() {
             <div className="glass-panel p-5">
               <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">RELATED RESOURCES</div>
               <div className="space-y-2">
-                <Link to="/value-engineering" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <Link to="/value-engineering" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> Value Engineering Hub
                 </Link>
-                <Link to="/for-architects" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <Link to="/for-architects" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> For Architects
                 </Link>
-                <Link to="/knowledge" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <Link to="/knowledge" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> Knowledge Base
                 </Link>
-                <Link to="/case-studies" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <Link to="/case-studies" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> Case Studies
                 </Link>
               </div>

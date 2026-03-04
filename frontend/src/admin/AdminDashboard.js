@@ -51,7 +51,7 @@ export default function AdminDashboard() {
           <div className="space-y-2">
             {(stats?.categories || []).map(c => (
               <div key={c.category} className="flex items-center justify-between py-1.5">
-                <span className="text-xs tracking-wider capitalize" style={{ textTransform: 'none' }}>{(c.category || '').replace(/-/g, ' ')}</span>
+                <span className="text-xs tracking-wider capitalize">{(c.category || '').replace(/-/g, ' ')}</span>
                 <div className="flex items-center gap-3">
                   <div className="w-24 h-1.5 rounded-full bg-[var(--blx-glass)] overflow-hidden">
                     <div className="h-full rounded-full" style={{ width: `${Math.min((c.count / (stats?.products || 1)) * 100, 100)}%`, background: 'var(--blx-gold-3)' }} />
@@ -67,14 +67,14 @@ export default function AdminDashboard() {
         <div className="glass-panel p-6">
           <h3 className="text-xs font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-4 flex items-center gap-2"><Clock size={14} /> Recent Leads</h3>
           {(stats?.recent_leads || []).length === 0 ? (
-            <p className="text-xs text-[var(--blx-muted)] tracking-wider py-8 text-center" style={{ textTransform: 'none' }}>No leads yet</p>
+            <p className="text-xs text-[var(--blx-muted)] tracking-wider py-8 text-center">No leads yet</p>
           ) : (
             <div className="space-y-3">
               {(stats?.recent_leads || []).map(l => (
                 <div key={l.id || l._id} className="flex items-center justify-between py-2 border-b border-[var(--blx-border)] last:border-0">
                   <div>
                     <div className="text-xs font-bold tracking-wider">{l.name}</div>
-                    <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider" style={{ textTransform: 'none' }}>{l.email} - {l.application}</div>
+                    <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">{l.email} - {l.application}</div>
                   </div>
                   <span className={`text-[0.5rem] font-bold px-2 py-0.5 rounded-full tracking-[0.15em] ${l.status === 'new' ? 'bg-[rgba(229,197,116,0.15)] text-[var(--blx-gold-3)]' : 'bg-[rgba(255,255,255,0.05)] text-[var(--blx-muted)]'}`}>{(l.status || 'new').toUpperCase()}</span>
                 </div>
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
             {(stats?.lead_statuses || []).map(s => (
               <div key={s.status} className="glass-panel px-5 py-3 text-center">
                 <div className="text-lg font-bold tracking-wider">{s.count}</div>
-                <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-[0.15em] capitalize" style={{ textTransform: 'none' }}>{s.status}</div>
+                <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-[0.15em] capitalize">{s.status}</div>
               </div>
             ))}
           </div>

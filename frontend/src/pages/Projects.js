@@ -194,7 +194,7 @@ const Projects = () => {
               {selectedProject.client_name && (
                 <p className="text-sm text-[var(--blx-gold-3)] mb-4 font-bold tracking-wider">{selectedProject.client_name}</p>
               )}
-              <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed tracking-wider" style={{textTransform: 'none'}}>{selectedProject.description}</p>
+              <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed tracking-wider">{selectedProject.description}</p>
 
               {selectedProject.metrics && selectedProject.metrics.length > 0 && (
                 <div className="grid grid-cols-3 gap-4 mb-6">

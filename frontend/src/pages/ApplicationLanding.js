@@ -50,7 +50,7 @@ export default function ApplicationLanding() {
           </div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">{app.title}</h1>
           <p className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">{app.heroTagline}</p>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8" style={{ textTransform: 'none' }}>{app.heroDescription}</p>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8">{app.heroDescription}</p>
           <div className="flex flex-wrap gap-3">
             <Link to="/contact" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="app-hero-quote-cta">
               Get a Budgetary Estimate <ArrowRight size={14} />
@@ -78,7 +78,7 @@ export default function ApplicationLanding() {
                 <div key={i} className="glass-panel p-4" data-testid={`app-spec-${i}`}>
                   <div className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1">{spec.label}</div>
                   <div className="text-sm font-bold text-[var(--blx-gold-3)]">{spec.value}</div>
-                  <div className="text-[0.625rem] text-[var(--blx-text-2)] mt-1" style={{ textTransform: 'none' }}>{spec.detail}</div>
+                  <div className="text-[0.625rem] text-[var(--blx-text-2)] mt-1">{spec.detail}</div>
                 </div>
               ))}
             </div>
@@ -94,7 +94,7 @@ export default function ApplicationLanding() {
                     <CheckCircle size={16} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
                     <div>
                       <h3 className="text-xs font-bold tracking-[0.12em] mb-1.5">{a.name}</h3>
-                      <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{a.desc}</p>
+                      <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{a.desc}</p>
                     </div>
                   </div>
                 </div>
@@ -118,7 +118,7 @@ export default function ApplicationLanding() {
             {/* UAE Context */}
             <h2 className="text-lg font-bold tracking-wider mb-4">Where This Works in UAE</h2>
             <div className="glass-panel p-6 mb-10">
-              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{app.uaeContext}</p>
+              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed">{app.uaeContext}</p>
             </div>
 
             <SectionDivider />
@@ -129,7 +129,7 @@ export default function ApplicationLanding() {
             {/* Bottom CTAs */}
             <div className="mt-10 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
               <h2 className="text-lg font-bold tracking-wider mb-3">Ready to Specify?</h2>
-              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
                 Get a budgetary estimate or book a 15-minute design assist call with our technical team.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
@@ -162,7 +162,6 @@ export default function ApplicationLanding() {
                     key={a.id}
                     to={`/applications/${a.id}`}
                     className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors"
-                    style={{ textTransform: 'none' }}
                   >
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" />
                     {a.shortTitle}
@@ -180,7 +179,7 @@ export default function ApplicationLanding() {
                   { to: '/knowledge/brightness-nits-guide', label: 'Brightness & Nits Guide' },
                   { to: '/knowledge/ip-rating-guide', label: 'IP Rating Guide' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}
@@ -189,7 +188,7 @@ export default function ApplicationLanding() {
 
             <div className="glass-panel p-5">
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">BOOK A DEMO</h3>
-              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Visit our showroom or request a virtual demo to see LED displays in action.
               </p>
               <Link to="/showroom" className="block text-center py-2.5 rounded-lg text-xs font-bold tracking-[0.15em] border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors" data-testid="app-showroom-cta">

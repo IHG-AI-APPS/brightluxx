@@ -30,7 +30,7 @@ function BarList({ title, items, valueKey = 'views', labelKey = 'page', maxItems
           <div key={i} className="relative">
             <div className="absolute inset-0 rounded" style={{ width: `${(item[valueKey] / max) * 100}%`, background: 'rgba(229,197,116,0.06)' }} />
             <div className="relative flex items-center justify-between py-1.5 px-2">
-              <span className="text-[0.625rem] text-[var(--blx-text-2)] tracking-wider truncate max-w-[70%]" style={{ textTransform: 'none' }}>{item[labelKey]}</span>
+              <span className="text-[0.625rem] text-[var(--blx-text-2)] tracking-wider truncate max-w-[70%]">{item[labelKey]}</span>
               <span className="text-[0.625rem] font-bold text-[var(--blx-gold-3)]">{item[valueKey]?.toLocaleString()}</span>
             </div>
           </div>

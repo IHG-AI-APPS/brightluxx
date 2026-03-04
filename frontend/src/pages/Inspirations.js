@@ -117,7 +117,7 @@ const Inspirations = () => {
                     <div>
                       <span className="category-badge mb-2">{item.category}</span>
                       <h3 className="text-sm font-bold text-white mt-2">{item.title}</h3>
-                      <p className="text-[0.6875rem] text-gray-300 mt-1 tracking-wider" style={{textTransform: 'none'}}>{item.description}</p>
+                      <p className="text-[0.6875rem] text-gray-300 mt-1 tracking-wider">{item.description}</p>
                     </div>
                   </div>
                 </div>

@@ -31,7 +31,7 @@ export default function TechnologyIndex() {
         <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">LED DISPLAY TECHNOLOGIES</div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">Technology Hub</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed">
             9 LED display technologies explained for specifiers. Each guide includes specification tables, comparison charts, use cases, and FAQ — optimized for architects, AV consultants, and contractors in UAE/GCC.
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function TechnologyIndex() {
               </div>
               <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-1">{tech.tagline.toUpperCase()}</div>
               <h2 className="text-sm font-bold tracking-wider mb-2 group-hover:text-[var(--blx-gold-3)] transition-colors">{tech.title}</h2>
-              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>{tech.desc}</p>
+              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4">{tech.desc}</p>
               <div className="flex items-center gap-1.5 text-[0.5625rem] font-bold tracking-wider text-[var(--blx-gold-3)] group-hover:gap-2.5 transition-all">
                 Specification Guide <ArrowRight size={12} />
               </div>
@@ -65,7 +65,7 @@ export default function TechnologyIndex() {
         {/* CTA */}
         <div className="mt-16 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
           <h2 className="text-lg font-bold tracking-wider mb-3">Not Sure Which Technology?</h2>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
             Use our Screen Calculator to get a technology recommendation based on your application, viewing distance, and budget. Or contact our team for free specification support.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">

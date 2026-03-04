@@ -126,17 +126,17 @@ const SolutionCard = ({ solution, index }) => {
             </div>
             <div>
               <h3 className="text-sm font-bold tracking-wider mb-0.5">{solution.title}</h3>
-              <p className="text-[0.6875rem] text-[var(--blx-gold-3)] tracking-wider font-medium" style={{ textTransform: 'none' }}>{solution.tagline}</p>
+              <p className="text-[0.6875rem] text-[var(--blx-gold-3)] tracking-wider font-medium">{solution.tagline}</p>
             </div>
           </div>
 
-          <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-5 flex-grow" style={{ textTransform: 'none' }}>{solution.description}</p>
+          <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-5 flex-grow">{solution.description}</p>
 
           <div className="mb-5">
             <h4 className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-2">Applications</h4>
             <div className="flex flex-wrap gap-1.5">
               {solution.applications.slice(0, 4).map((app, i) => (
-                <span key={i} className="text-[0.5625rem] px-2.5 py-1 rounded-full tracking-wider font-medium" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'var(--blx-text-2)', textTransform: 'none' }}>{app}</span>
+                <span key={i} className="text-[0.5625rem] px-2.5 py-1 rounded-full tracking-wider font-medium" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'var(--blx-text-2)', }}>{app}</span>
               ))}
               {solution.applications.length > 4 && (
                 <span className="text-[0.5625rem] px-2.5 py-1 text-[var(--blx-muted)] tracking-wider">+{solution.applications.length - 4} more</span>
@@ -166,7 +166,7 @@ export default function Solutions() {
         {/* Header */}
         <div className="mb-12">
           <h1 data-testid="solutions-page-title">Solutions</h1>
-          <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider max-w-2xl" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider max-w-2xl">
             High-quality LED display solutions tailored for every industry. We combine decades of experience with cutting-edge technology to deliver exceptional visual experiences.
           </p>
         </div>
@@ -181,7 +181,7 @@ export default function Solutions() {
                 <span className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)]">Why Brightluxx</span>
               </div>
               <h2 className="text-base lg:text-lg font-bold mb-2 tracking-wider">One-Stop Solution for All Digital Display Needs</h2>
-              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider max-w-xl" style={{ textTransform: 'none' }}>
+              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider max-w-xl">
                 Since 2012, we've established ourselves as the UAE's leading manufacturer and supplier of LED display screens and digital signage solutions. From small retail screens to massive outdoor billboards, we deliver customizable, long-lasting products.
               </p>
             </div>
@@ -206,7 +206,7 @@ export default function Solutions() {
         {/* CTA */}
         <div className="mt-16 text-center">
           <h3 className="text-lg mb-2">Not sure which solution fits?</h3>
-          <p className="text-xs text-[var(--blx-text-2)] tracking-wider mb-6" style={{ textTransform: 'none' }}>Our experts will analyze your space and recommend the perfect LED setup.</p>
+          <p className="text-xs text-[var(--blx-text-2)] tracking-wider mb-6">Our experts will analyze your space and recommend the perfect LED setup.</p>
           <Link to="/contact" className="btn-gold px-8 py-3.5 inline-flex items-center gap-2" data-testid="solutions-cta-contact">
             Talk to an Expert <ArrowRight size={14} />
           </Link>

@@ -124,7 +124,7 @@ export default function AdminPerformance() {
             <tbody>
               {(d.endpoints || []).map((ep, i) => (
                 <tr key={i} className="border-b border-[var(--blx-hairline)] last:border-0">
-                  <td className="py-2.5 px-5 text-[0.625rem] tracking-wider font-medium" style={{ textTransform: 'none' }}>{ep.endpoint}</td>
+                  <td className="py-2.5 px-5 text-[0.625rem] tracking-wider font-medium">{ep.endpoint}</td>
                   <td className="py-2.5 px-3 text-[0.625rem] text-right text-[var(--blx-text-2)]">{ep.count}</td>
                   <td className="py-2.5 px-3 text-[0.625rem] text-right">
                     <span className={ep.avg_ms < 100 ? 'text-emerald-400' : ep.avg_ms < 300 ? 'text-amber-400' : 'text-red-400'}>{ep.avg_ms}ms</span>
@@ -176,7 +176,7 @@ export default function AdminPerformance() {
             <div className="space-y-3">
               {(d.slowest_endpoints || []).map((ep, i) => (
                 <div key={i} className="flex items-center justify-between py-1.5">
-                  <span className="text-[0.625rem] text-[var(--blx-text-2)] tracking-wider truncate max-w-[65%]" style={{ textTransform: 'none' }}>{ep.endpoint}</span>
+                  <span className="text-[0.625rem] text-[var(--blx-text-2)] tracking-wider truncate max-w-[65%]">{ep.endpoint}</span>
                   <div className="flex items-center gap-2">
                     <span className={`text-[0.625rem] font-bold ${ep.avg_ms < 100 ? 'text-emerald-400' : ep.avg_ms < 300 ? 'text-amber-400' : 'text-red-400'}`}>{ep.avg_ms}ms</span>
                     <span className="text-[0.5rem] text-[var(--blx-muted)]">({ep.count}x)</span>

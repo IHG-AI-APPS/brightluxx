@@ -45,7 +45,7 @@ export default function IpRatingGuide() {
 
             <h2 className="text-lg font-bold tracking-wider mb-6">IP Rating Explained</h2>
             <div className="glass-panel p-6 mb-8">
-              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4">
                 IP (Ingress Protection) ratings follow the format IPXY. The first digit (X) rates protection against solid particles, and the second digit (Y) rates protection against liquids.
               </p>
               <div className="grid sm:grid-cols-2 gap-6">
@@ -62,7 +62,7 @@ export default function IpRatingGuide() {
                   ].map(([val, desc]) => (
                     <div key={val} className="flex items-center gap-3 py-1.5 border-b border-[var(--blx-hairline)] last:border-0">
                       <span className="text-sm font-bold text-[var(--blx-gold-3)] w-6">{val}</span>
-                      <span className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{desc}</span>
+                      <span className="text-xs text-[var(--blx-text-2)]">{desc}</span>
                     </div>
                   ))}
                 </div>
@@ -80,7 +80,7 @@ export default function IpRatingGuide() {
                   ].map(([val, desc]) => (
                     <div key={val} className="flex items-center gap-3 py-1.5 border-b border-[var(--blx-hairline)] last:border-0">
                       <span className="text-sm font-bold text-[var(--blx-gold-3)] w-6">{val}</span>
-                      <span className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{desc}</span>
+                      <span className="text-xs text-[var(--blx-text-2)]">{desc}</span>
                     </div>
                   ))}
                 </div>
@@ -114,10 +114,10 @@ export default function IpRatingGuide() {
                   <Wrench size={16} className="text-[var(--blx-gold-3)]" />
                   <h3 className="text-xs font-bold tracking-[0.15em]">Front Service</h3>
                 </div>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] mb-3 leading-relaxed" style={{ textTransform: 'none' }}>Modules are removed and replaced from the viewing side.</p>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] mb-3 leading-relaxed">Modules are removed and replaced from the viewing side.</p>
                 <ul className="space-y-1.5">
                   {['Flush wall-mounted (no rear corridor)', 'High-rise facade installation', 'Ceiling-hung over public areas', 'Architectural integration (sealed void)', 'Most common in UAE high-rise buildings'].map((item, i) => (
-                    <li key={i} className="text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>- {item}</li>
+                    <li key={i} className="text-[0.6875rem] text-[var(--blx-text-2)]">- {item}</li>
                   ))}
                 </ul>
               </div>
@@ -126,10 +126,10 @@ export default function IpRatingGuide() {
                   <Shield size={16} className="text-[var(--blx-gold-3)]" />
                   <h3 className="text-xs font-bold tracking-[0.15em]">Rear Service</h3>
                 </div>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] mb-3 leading-relaxed" style={{ textTransform: 'none' }}>Modules are accessed from behind the display.</p>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] mb-3 leading-relaxed">Modules are accessed from behind the display.</p>
                 <ul className="space-y-1.5">
                   {['Service corridor available (min 600mm deep)', 'Stadium perimeter boards', 'Free-standing or double-sided totems', 'Lower cost panels', 'Requires structural depth planning'].map((item, i) => (
-                    <li key={i} className="text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>- {item}</li>
+                    <li key={i} className="text-[0.6875rem] text-[var(--blx-text-2)]">- {item}</li>
                   ))}
                 </ul>
               </div>
@@ -155,7 +155,7 @@ export default function IpRatingGuide() {
                   { to: '/knowledge/brightness-nits-guide', label: 'Brightness & Nits Guide' },
                   { to: '/knowledge/refresh-rate-guide', label: 'Refresh Rate Guide' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={12} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}

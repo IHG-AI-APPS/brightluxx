@@ -78,11 +78,11 @@ export default function CaseStudyDetail() {
 
             {/* Challenge */}
             <h2 className="text-base font-bold tracking-wider mb-3">The Challenge</h2>
-            <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-10" style={{ textTransform: 'none' }}>{cs.challenge}</p>
+            <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-10">{cs.challenge}</p>
 
             {/* Solution */}
             <h2 className="text-base font-bold tracking-wider mb-3">Our Solution</h2>
-            <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-10" style={{ textTransform: 'none' }}>{cs.solution}</p>
+            <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-10">{cs.solution}</p>
 
             {/* Results */}
             <h2 className="text-base font-bold tracking-wider mb-4">Results & Impact</h2>
@@ -90,7 +90,7 @@ export default function CaseStudyDetail() {
               {cs.results.map((r, i) => (
                 <div key={i} className="flex items-start gap-3 glass-panel p-4" data-testid={`case-result-${i}`}>
                   <CheckCircle2 size={16} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{r}</span>
+                  <span className="text-sm text-[var(--blx-text-2)] leading-relaxed">{r}</span>
                 </div>
               ))}
             </div>
@@ -103,7 +103,7 @@ export default function CaseStudyDetail() {
                   {cs.specs.map(([label, value], i) => (
                     <tr key={i} className="border-b border-[var(--blx-hairline)] last:border-0">
                       <td className="py-3 px-5 text-[0.625rem] font-bold tracking-[0.12em] text-[var(--blx-muted)] w-[40%]">{label}</td>
-                      <td className="py-3 px-5 text-xs" style={{ textTransform: 'none' }}>{value}</td>
+                      <td className="py-3 px-5 text-xs">{value}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -113,7 +113,7 @@ export default function CaseStudyDetail() {
             {/* Bottom CTA */}
             <div className="p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
               <h2 className="text-lg font-bold tracking-wider mb-3">Planning a Similar Project?</h2>
-              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
                 Get free specification support and budgetary pricing for your {cs.category} LED display project.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
@@ -136,8 +136,8 @@ export default function CaseStudyDetail() {
             <Link to={`/technology/${cs.techId}`} className="glass-panel p-5 block group hover:border-[rgba(229,197,116,0.2)] transition-all" data-testid="case-tech-link">
               <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-2">TECHNOLOGY USED</div>
               <div className="text-sm font-bold tracking-wider mb-1 group-hover:text-[var(--blx-gold-3)] transition-colors">{cs.technology}</div>
-              <div className="text-[0.6875rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Pixel Pitch: {cs.pixelPitch}</div>
-              <div className="text-[0.6875rem] text-[var(--blx-muted)] mt-1" style={{ textTransform: 'none' }}>Display: {cs.displaySize}</div>
+              <div className="text-[0.6875rem] text-[var(--blx-muted)]">Pixel Pitch: {cs.pixelPitch}</div>
+              <div className="text-[0.6875rem] text-[var(--blx-muted)] mt-1">Display: {cs.displaySize}</div>
               <div className="flex items-center gap-1.5 text-[0.5625rem] font-bold tracking-wider text-[var(--blx-gold-3)] mt-3 group-hover:gap-2.5 transition-all">
                 View Technology Guide <ArrowRight size={10} />
               </div>
@@ -159,13 +159,13 @@ export default function CaseStudyDetail() {
             <div className="glass-panel p-5">
               <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">SPECIFIER TOOLS</div>
               <div className="space-y-2">
-                <Link to="/calculator" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <Link to="/calculator" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> Screen Calculator
                 </Link>
-                <Link to="/budget-estimator" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <Link to="/budget-estimator" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> Budget Estimator
                 </Link>
-                <Link to="/resources" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <Link to="/resources" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> Resource Library
                 </Link>
               </div>

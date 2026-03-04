@@ -56,7 +56,7 @@ export default function LatestTechDetail() {
           )}
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">{tech.title}</h1>
           <p className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">{tech.heroTagline}</p>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8" style={{ textTransform: 'none' }}>{tech.heroDescription}</p>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8">{tech.heroDescription}</p>
           <div className="flex flex-wrap gap-3">
             <Link to="/contact" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="tech-hero-cta">
               Get Specification Advice <ArrowRight size={14} />
@@ -77,7 +77,7 @@ export default function LatestTechDetail() {
                 <h2 className="text-lg font-bold tracking-wider mb-4">{section.title}</h2>
 
                 {section.content && (
-                  <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>{section.content}</p>
+                  <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4">{section.content}</p>
                 )}
 
                 {section.bullets && (
@@ -86,7 +86,7 @@ export default function LatestTechDetail() {
                       {section.bullets.map((bullet, bi) => (
                         <li key={bi} className="flex items-start gap-3">
                           <CheckCircle size={14} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-                          <span className="text-xs text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{bullet}</span>
+                          <span className="text-xs text-[var(--blx-text-2)] leading-relaxed">{bullet}</span>
                         </li>
                       ))}
                     </ul>
@@ -99,7 +99,7 @@ export default function LatestTechDetail() {
                       <div key={spi} className="glass-panel p-4" data-testid={`tech-spec-${spi}`}>
                         <div className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1">{spec.label}</div>
                         <div className="text-sm font-bold text-[var(--blx-gold-3)]">{spec.value}</div>
-                        <div className="text-[0.625rem] text-[var(--blx-text-2)] mt-1" style={{ textTransform: 'none' }}>{spec.detail}</div>
+                        <div className="text-[0.625rem] text-[var(--blx-text-2)] mt-1">{spec.detail}</div>
                       </div>
                     ))}
                   </div>
@@ -112,14 +112,14 @@ export default function LatestTechDetail() {
             {/* What to Specify */}
             <div className="glass-panel p-6 mb-8" style={{ background: 'rgba(229,197,116,0.04)', borderColor: 'rgba(229,197,116,0.12)' }}>
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">WHAT TO SPECIFY</h3>
-              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-3" style={{ textTransform: 'none' }}>
+              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-3">
                 When specifying {tech.shortTitle.toLowerCase()} technology for your project, include these items in your tender document:
               </p>
               <ul className="space-y-1.5">
                 {['Technology type and specific model/series', 'Pixel pitch (if LED-based)', 'Brightness and contrast requirements', 'Viewing distance and optimal zone', 'Content management system', 'Installation and structural requirements', 'Warranty and maintenance SLA', 'Content creation requirements'].map((item, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <div className="w-1 h-1 rounded-full bg-[var(--blx-gold-3)]" />
-                    <span className="text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{item}</span>
+                    <span className="text-[0.6875rem] text-[var(--blx-text-2)]">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -131,7 +131,7 @@ export default function LatestTechDetail() {
             {/* Bottom CTA */}
             <div className="mt-10 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
               <h2 className="text-lg font-bold tracking-wider mb-3">Ready to Explore {tech.shortTitle}?</h2>
-              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
                 Our technical team can advise on the best {tech.shortTitle.toLowerCase()} solutions for your specific project requirements.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
@@ -160,7 +160,7 @@ export default function LatestTechDetail() {
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">MORE LATEST TECH</h3>
               <div className="space-y-1">
                 {LATEST_TECH.filter(t => t.id !== tech.id).map(t => (
-                  <Link key={t.id} to={`/latest-tech/${t.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={t.id} to={`/latest-tech/${t.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <Sparkles size={10} className="text-[var(--blx-gold-3)]" /> {t.shortTitle}
                   </Link>
                 ))}
@@ -175,7 +175,7 @@ export default function LatestTechDetail() {
                   { to: '/knowledge/pixel-pitch-guide', label: 'Pixel Pitch Guide' },
                   { to: '/knowledge/brightness-nits-guide', label: 'Brightness & Nits' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}
@@ -184,7 +184,7 @@ export default function LatestTechDetail() {
 
             <div className="glass-panel p-5">
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">VISIT OUR SHOWROOM</h3>
-              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>See the latest LED technologies in person at our Dubai showroom.</p>
+              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4">See the latest LED technologies in person at our Dubai showroom.</p>
               <Link to="/showroom" className="block text-center py-2.5 rounded-lg text-xs font-bold tracking-[0.15em] border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors">
                 Book a Visit
               </Link>

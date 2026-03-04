@@ -16,7 +16,7 @@ function SpecTable({ specs, title }) {
             {specs.map(([label, value], i) => (
               <tr key={i} className="border-b border-[var(--blx-hairline)] last:border-0">
                 <td className="py-3 px-5 text-[0.625rem] font-bold tracking-[0.12em] text-[var(--blx-muted)] w-[40%]">{label}</td>
-                <td className="py-3 px-5 text-xs" style={{ textTransform: 'none' }}>{value}</td>
+                <td className="py-3 px-5 text-xs">{value}</td>
               </tr>
             ))}
           </tbody>
@@ -69,7 +69,7 @@ export default function TechnologyPage() {
           </div>
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">{tech.heroTagline}</div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">{tech.title}</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8">
             {tech.heroDesc}
           </p>
           <div className="flex flex-wrap gap-3">
@@ -115,7 +115,7 @@ export default function TechnologyPage() {
               {tech.useCases.map((uc, i) => (
                 <div key={i} className="glass-panel p-5" data-testid={`tech-usecase-${i}`}>
                   <h3 className="text-xs font-bold tracking-[0.12em] mb-2">{uc.title}</h3>
-                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{uc.desc}</p>
+                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{uc.desc}</p>
                 </div>
               ))}
             </div>
@@ -128,7 +128,7 @@ export default function TechnologyPage() {
             {/* Bottom CTA */}
             <div className="mt-10 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
               <h2 className="text-lg font-bold tracking-wider mb-3">Specifying {tech.shortTitle}?</h2>
-              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
                 Talk to our technical team about {tech.shortTitle.toLowerCase()} for your project. Free specification support, budgetary pricing, and sample arrangements.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
@@ -156,10 +156,10 @@ export default function TechnologyPage() {
             <div className="glass-panel p-5">
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">SPECIFIER TOOLS</h3>
               <div className="space-y-2">
-                <Link to="/calculator" className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <Link to="/calculator" className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <Calculator size={12} className="text-[var(--blx-gold-3)]" /> Screen Calculator
                 </Link>
-                <Link to="/budget-estimator" className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                <Link to="/budget-estimator" className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                   <DollarSign size={12} className="text-[var(--blx-gold-3)]" /> Budget Estimator
                 </Link>
               </div>
@@ -170,7 +170,7 @@ export default function TechnologyPage() {
                 <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">RELATED TECHNOLOGIES</h3>
                 <div className="space-y-1">
                   {relatedTechs.map(rt => (
-                    <Link key={rt.id} to={`/technology/${rt.id}`} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                    <Link key={rt.id} to={`/technology/${rt.id}`} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                       <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {rt.title}
                     </Link>
                   ))}
@@ -182,7 +182,7 @@ export default function TechnologyPage() {
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">ALL TECHNOLOGIES</h3>
               <div className="space-y-1">
                 {TECHNOLOGIES.filter(t => t.id !== tech.id).map(t => (
-                  <Link key={t.id} to={`/technology/${t.id}`} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={t.id} to={`/technology/${t.id}`} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-muted)]" /> {t.shortTitle}
                   </Link>
                 ))}

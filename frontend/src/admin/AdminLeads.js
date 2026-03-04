@@ -117,16 +117,16 @@ export default function AdminLeads() {
                   <tr key={l.id || l._id} className="border-b border-[var(--blx-border)] hover:bg-[rgba(255,255,255,0.02)] transition-colors duration-200 cursor-pointer" onClick={() => openDetail(l)} data-testid={`admin-lead-row-${l.id}`}>
                     <td className="p-3">
                       <div className="text-xs font-bold tracking-wider">{l.name}</div>
-                      {l.company && <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider" style={{ textTransform: 'none' }}>{l.company}</div>}
+                      {l.company && <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">{l.company}</div>}
                     </td>
                     <td className="p-3">
-                      <div className="text-[0.625rem] text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>{l.email}</div>
-                      <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider" style={{ textTransform: 'none' }}>{l.phone}</div>
+                      <div className="text-[0.625rem] text-[var(--blx-text-2)] tracking-wider">{l.email}</div>
+                      <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">{l.phone}</div>
                     </td>
-                    <td className="p-3 text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>{l.application}</td>
-                    <td className="p-3 text-[0.625rem] text-[var(--blx-muted)] tracking-wider" style={{ textTransform: 'none' }}>{formatDate(l.created_at)}</td>
+                    <td className="p-3 text-xs text-[var(--blx-text-2)] tracking-wider">{l.application}</td>
+                    <td className="p-3 text-[0.625rem] text-[var(--blx-muted)] tracking-wider">{formatDate(l.created_at)}</td>
                     <td className="p-3 text-center">
-                      <select value={l.status || 'new'} onChange={e => { e.stopPropagation(); updateStatus(l.id, e.target.value); }} onClick={e => e.stopPropagation()} className="text-[0.5625rem] font-bold tracking-[0.15em] rounded-full px-3 py-1 border-0 cursor-pointer" style={{ background: sc.bg, color: sc.color, textTransform: 'none' }} data-testid={`admin-lead-status-${l.id}`}>
+                      <select value={l.status || 'new'} onChange={e => { e.stopPropagation(); updateStatus(l.id, e.target.value); }} onClick={e => e.stopPropagation()} className="text-[0.5625rem] font-bold tracking-[0.15em] rounded-full px-3 py-1 border-0 cursor-pointer" style={{ background: sc.bg, color: sc.color, }} data-testid={`admin-lead-status-${l.id}`}>
                         {STATUSES.filter(s => s.value).map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
                       </select>
                     </td>
@@ -153,25 +153,25 @@ export default function AdminLeads() {
             <div className="p-6 space-y-6">
               <div>
                 <h3 className="text-base font-bold tracking-wider mb-1">{detail.name}</h3>
-                {detail.company && <div className="text-xs text-[var(--blx-text-2)] tracking-wider flex items-center gap-2" style={{ textTransform: 'none' }}><Building size={12} /> {detail.company}</div>}
+                {detail.company && <div className="text-xs text-[var(--blx-text-2)] tracking-wider flex items-center gap-2"><Building size={12} /> {detail.company}</div>}
               </div>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 text-xs tracking-wider" style={{ textTransform: 'none' }}><Mail size={14} className="text-[var(--blx-muted)]" /> <a href={`mailto:${detail.email}`} className="text-[var(--blx-gold-3)] hover:underline">{detail.email}</a></div>
-                <div className="flex items-center gap-3 text-xs tracking-wider" style={{ textTransform: 'none' }}><Phone size={14} className="text-[var(--blx-muted)]" /> <a href={`tel:${detail.phone}`} className="hover:text-[var(--blx-gold-3)]">{detail.phone}</a></div>
-                {detail.city && <div className="flex items-center gap-3 text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}><MapPin size={14} className="text-[var(--blx-muted)]" /> {detail.city}</div>}
-                <div className="flex items-center gap-3 text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}><Clock size={14} className="text-[var(--blx-muted)]" /> {formatDate(detail.created_at)}</div>
+                <div className="flex items-center gap-3 text-xs tracking-wider"><Mail size={14} className="text-[var(--blx-muted)]" /> <a href={`mailto:${detail.email}`} className="text-[var(--blx-gold-3)] hover:underline">{detail.email}</a></div>
+                <div className="flex items-center gap-3 text-xs tracking-wider"><Phone size={14} className="text-[var(--blx-muted)]" /> <a href={`tel:${detail.phone}`} className="hover:text-[var(--blx-gold-3)]">{detail.phone}</a></div>
+                {detail.city && <div className="flex items-center gap-3 text-xs text-[var(--blx-text-2)] tracking-wider"><MapPin size={14} className="text-[var(--blx-muted)]" /> {detail.city}</div>}
+                <div className="flex items-center gap-3 text-xs text-[var(--blx-text-2)] tracking-wider"><Clock size={14} className="text-[var(--blx-muted)]" /> {formatDate(detail.created_at)}</div>
               </div>
               <div className="glass-panel p-4 space-y-2">
                 <div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">Application</div>
-                <div className="text-xs tracking-wider" style={{ textTransform: 'none' }}>{detail.application}</div>
-                {detail.timeline && <><div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mt-3">Timeline</div><div className="text-xs tracking-wider" style={{ textTransform: 'none' }}>{detail.timeline}</div></>}
-                {detail.budget && <><div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mt-3">Budget</div><div className="text-xs tracking-wider" style={{ textTransform: 'none' }}>{detail.budget}</div></>}
-                {detail.message && <><div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mt-3">Message</div><div className="text-xs tracking-wider" style={{ textTransform: 'none' }}>{detail.message}</div></>}
+                <div className="text-xs tracking-wider">{detail.application}</div>
+                {detail.timeline && <><div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mt-3">Timeline</div><div className="text-xs tracking-wider">{detail.timeline}</div></>}
+                {detail.budget && <><div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mt-3">Budget</div><div className="text-xs tracking-wider">{detail.budget}</div></>}
+                {detail.message && <><div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mt-3">Message</div><div className="text-xs tracking-wider">{detail.message}</div></>}
               </div>
               {/* Notes */}
               <div>
                 <div className="flex items-center gap-2 text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-2"><MessageSquare size={12} /> Notes</div>
-                <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={4} className="input-luxury w-full py-2 text-xs resize-y" style={{ textTransform: 'none' }} placeholder="Add internal notes..." data-testid="admin-lead-notes" />
+                <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={4} className="input-luxury w-full py-2 text-xs resize-y" placeholder="Add internal notes..." data-testid="admin-lead-notes" />
                 <button onClick={saveNotes_} disabled={savingNotes} className="btn-gold px-4 py-2 text-xs mt-2 flex items-center gap-2" data-testid="admin-lead-save-notes"><Save size={12} /> {savingNotes ? 'Saving...' : 'Save Notes'}</button>
               </div>
               {/* Status */}

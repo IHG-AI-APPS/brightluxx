@@ -281,7 +281,7 @@ const Compare = () => {
                       {row.label}
                     </div>
                     {comparisonData.map((p) => (
-                      <div key={p.product_code} className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] last:border-r-0 text-xs sm:text-sm text-[var(--blx-text-2)] tracking-wider" style={{ fontVariantNumeric: 'tabular-nums', textTransform: 'none' }}>
+                      <div key={p.product_code} className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] last:border-r-0 text-xs sm:text-sm text-[var(--blx-text-2)] tracking-wider" style={{ fontVariantNumeric: 'tabular-nums', }}>
                         {p[row.key] || '—'}
                       </div>
                     ))}
@@ -295,7 +295,7 @@ const Compare = () => {
                       {label}
                     </div>
                     {comparisonData.map((p) => (
-                      <div key={p.product_code} className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] last:border-r-0 text-xs sm:text-sm text-[var(--blx-text-2)] tracking-wider" style={{ fontVariantNumeric: 'tabular-nums', textTransform: 'none' }}>
+                      <div key={p.product_code} className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] last:border-r-0 text-xs sm:text-sm text-[var(--blx-text-2)] tracking-wider" style={{ fontVariantNumeric: 'tabular-nums', }}>
                         {getSpecValue(p, label)}
                       </div>
                     ))}
@@ -324,7 +324,7 @@ const Compare = () => {
           <div className="glass-panel p-12 text-center">
             <GitCompareArrows size={48} className="mx-auto text-[var(--blx-muted)] mb-4" />
             <h3 className="text-base font-bold mb-2">Select Products to Compare</h3>
-            <p className="text-sm text-[var(--blx-text-2)] tracking-wider mb-6" style={{ textTransform: 'none' }}>
+            <p className="text-sm text-[var(--blx-text-2)] tracking-wider mb-6">
               Choose 2 to 4 products from the search above to see a detailed side-by-side comparison of specifications.
             </p>
             <Link to="/products" className="btn-glass px-6 py-3 inline-flex items-center gap-2">

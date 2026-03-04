@@ -11,19 +11,19 @@ export function SpecifierAnswerBox({ title, items, recommendation }) {
       <div className="absolute top-0 left-0 w-1 h-full" style={{ background: 'var(--blx-gold-grad)' }} />
       <div className="p-6 pl-8">
         <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">SPECIFIER QUICK REFERENCE</div>
-        <h3 className="text-base font-bold tracking-wider mb-4" style={{ textTransform: 'none' }}>{title}</h3>
+        <h3 className="text-base font-bold tracking-wider mb-4">{title}</h3>
         <ul className="space-y-2 mb-4">
           {items.map((item, i) => (
             <li key={i} className="flex items-start gap-2.5">
               <CheckCircle size={14} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-              <span className="text-sm text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item}</span>
+              <span className="text-sm text-[var(--blx-text-2)] leading-relaxed">{item}</span>
             </li>
           ))}
         </ul>
         {recommendation && (
           <div className="mt-4 px-4 py-3 rounded-lg" style={{ background: 'rgba(229,197,116,0.06)', border: '1px solid rgba(229,197,116,0.12)' }}>
             <span className="text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)]">RECOMMENDED FOR: </span>
-            <span className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{recommendation}</span>
+            <span className="text-xs text-[var(--blx-text-2)]">{recommendation}</span>
           </div>
         )}
       </div>
@@ -51,7 +51,7 @@ export function ComparisonTable({ headers, rows, caption }) {
             {rows.map((row, ri) => (
               <tr key={ri} className="border-b border-[var(--blx-hairline)] last:border-0">
                 {row.map((cell, ci) => (
-                  <td key={ci} className={`py-3 px-5 text-xs ${ci === 0 ? 'text-left font-medium' : 'text-center text-[var(--blx-text-2)]'}`} style={{ textTransform: 'none' }}>
+                  <td key={ci} className={`py-3 px-5 text-xs ${ci === 0 ? 'text-left font-medium' : 'text-center text-[var(--blx-text-2)]'}`}>
                     {cell === 'best' ? <span className="text-[var(--blx-gold-3)] font-bold">Best</span> :
                      cell === 'good' ? <span className="text-emerald-400 font-bold">Good</span> :
                      cell === 'fair' ? <span className="text-amber-400 font-bold">Fair</span> :
@@ -83,11 +83,11 @@ export function FAQSection({ faqs, title = 'Frequently Asked Questions' }) {
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
               className="w-full flex items-center justify-between px-5 py-4 text-left"
             >
-              <span className="text-sm font-medium pr-4" style={{ textTransform: 'none' }}>{faq.q}</span>
+              <span className="text-sm font-medium pr-4">{faq.q}</span>
               <ChevronDown size={16} className={`text-[var(--blx-muted)] flex-shrink-0 transition-transform duration-300 ${openIndex === i ? 'rotate-180' : ''}`} />
             </button>
             <div className={`overflow-hidden transition-all duration-300 ${openIndex === i ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className="px-5 pb-4 text-sm text-[var(--blx-text-2)] leading-relaxed border-t border-[var(--blx-hairline)] pt-3" style={{ textTransform: 'none' }}>
+              <div className="px-5 pb-4 text-sm text-[var(--blx-text-2)] leading-relaxed border-t border-[var(--blx-hairline)] pt-3">
                 {faq.a}
               </div>
             </div>
@@ -152,7 +152,7 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
       <div className="glass-panel p-6 text-center" data-testid="specpack-success">
         <CheckCircle size={32} className="text-[var(--blx-gold-3)] mx-auto mb-3" />
         <p className="text-sm font-bold tracking-wider mb-1">Spec Pack Sent</p>
-        <p className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>Your download should open automatically. Check your email for a copy.</p>
+        <p className="text-xs text-[var(--blx-text-2)]">Your download should open automatically. Check your email for a copy.</p>
       </div>
     );
   }
@@ -161,8 +161,8 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
     <div className="relative overflow-hidden rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }} data-testid="specpack-cta">
       <div className="p-6">
         <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-2">FREE SPECIFICATION PACK</div>
-        <h3 className="text-base font-bold tracking-wider mb-2" style={{ textTransform: 'none' }}>{title}</h3>
-        <p className="text-xs text-[var(--blx-text-2)] mb-5 leading-relaxed" style={{ textTransform: 'none' }}>{description}</p>
+        <h3 className="text-base font-bold tracking-wider mb-2">{title}</h3>
+        <p className="text-xs text-[var(--blx-text-2)] mb-5 leading-relaxed">{description}</p>
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
             type="text"
@@ -171,7 +171,6 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
             onChange={e => setName(e.target.value)}
             required
             className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
-            style={{ textTransform: 'none' }}
             data-testid="specpack-name-input"
           />
           <input
@@ -181,7 +180,6 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
             onChange={e => setEmail(e.target.value)}
             required
             className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
-            style={{ textTransform: 'none' }}
             data-testid="specpack-email-input"
           />
           <input
@@ -190,14 +188,13 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
             value={company}
             onChange={e => setCompany(e.target.value)}
             className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
-            style={{ textTransform: 'none' }}
             data-testid="specpack-company-input"
           />
           <select
             value={role}
             onChange={e => setRole(e.target.value)}
             className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
-            style={{ textTransform: 'none', color: role ? 'var(--blx-text)' : 'var(--blx-muted)' }}
+            style={{ color: role ? 'var(--blx-text)' : 'var(--blx-muted)' }}
             data-testid="specpack-role-select"
           >
             <option value="" style={{ background: '#1a1a1a' }}>Select your role</option>
@@ -218,7 +215,7 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
             {loading ? 'Preparing...' : 'Download Spec Pack (PDF)'}
           </button>
         </form>
-        <p className="text-[0.5rem] text-[var(--blx-muted)] mt-3 text-center" style={{ textTransform: 'none' }}>Includes recommended specs, BOQ template & vendor checklist</p>
+        <p className="text-[0.5rem] text-[var(--blx-muted)] mt-3 text-center">Includes recommended specs, BOQ template & vendor checklist</p>
       </div>
     </div>
   );
@@ -249,7 +246,7 @@ export function KnowledgeHero({ title, subtitle, breadcrumb }) {
           </div>
         )}
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight">{title}</h1>
-        {subtitle && <p className="text-sm text-[var(--blx-text-2)] mt-3 max-w-2xl tracking-wider leading-relaxed" style={{ textTransform: 'none' }}>{subtitle}</p>}
+        {subtitle && <p className="text-sm text-[var(--blx-text-2)] mt-3 max-w-2xl tracking-wider leading-relaxed">{subtitle}</p>}
       </div>
     </div>
   );

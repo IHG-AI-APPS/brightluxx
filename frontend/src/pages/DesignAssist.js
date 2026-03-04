@@ -87,7 +87,7 @@ export default function DesignAssist() {
         <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">FOR ARCHITECTS & CONSULTANTS</div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">Design Assist</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-3" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-3">
             Free specification support for architecture and consulting firms designing projects with LED displays. From concept consultation to tender-ready specifications — we become an extension of your design team.
           </p>
           <p className="text-xs text-[var(--blx-gold-3)] font-bold tracking-wider mb-8">
@@ -111,15 +111,15 @@ export default function DesignAssist() {
           <div className="grid md:grid-cols-3 gap-6 text-center">
             <div>
               <div className="text-2xl font-bold text-[var(--blx-gold-3)] mb-1">87%</div>
-              <div className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>of LED display specifications in GCC projects are written or influenced by the architect's design team</div>
+              <div className="text-xs text-[var(--blx-text-2)]">of LED display specifications in GCC projects are written or influenced by the architect's design team</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-[var(--blx-gold-3)] mb-1">3x</div>
-              <div className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>projects with early design assist are 3x more likely to specify the correct technology and avoid costly changes</div>
+              <div className="text-xs text-[var(--blx-text-2)]">projects with early design assist are 3x more likely to specify the correct technology and avoid costly changes</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-[var(--blx-gold-3)] mb-1">AED 0</div>
-              <div className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>Design assist is completely free until project award — our investment in becoming your specification partner</div>
+              <div className="text-xs text-[var(--blx-text-2)]">Design assist is completely free until project award — our investment in becoming your specification partner</div>
             </div>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function DesignAssist() {
                   <svc.icon size={18} className="text-[var(--blx-gold-3)]" />
                 </div>
                 <h3 className="text-xs font-bold tracking-[0.12em] mb-2">{svc.title}</h3>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{svc.desc}</p>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{svc.desc}</p>
               </div>
             ))}
           </div>
@@ -148,7 +148,7 @@ export default function DesignAssist() {
               <div key={i} className="glass-panel p-5 relative">
                 <div className="text-3xl font-bold text-[var(--blx-gold-3)] opacity-20 mb-3">{p.step}</div>
                 <h3 className="text-xs font-bold tracking-[0.12em] mb-2">{p.title}</h3>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-3" style={{ textTransform: 'none' }}>{p.desc}</p>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-3">{p.desc}</p>
                 <div className="flex items-center gap-1 text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)]">
                   <Clock size={9} /> {p.time}
                 </div>
@@ -160,14 +160,14 @@ export default function DesignAssist() {
         {/* Who We Work With */}
         <div className="mb-16">
           <h2 className="text-base font-bold tracking-wider mb-2">Who We Work With</h2>
-          <p className="text-sm text-[var(--blx-text-2)] mb-6" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] mb-6">
             We support all four types of specifiers involved in LED display projects across the GCC.
           </p>
           <div className="grid sm:grid-cols-2 gap-4">
             {FIRM_TYPES.map((type, i) => (
               <div key={i} className="glass-panel p-5" data-testid={`da-firm-type-${i}`}>
                 <h3 className="text-xs font-bold tracking-[0.12em] mb-1">{type.title}</h3>
-                <p className="text-[0.6875rem] text-[var(--blx-gold-3)] mb-3" style={{ textTransform: 'none' }}>{type.desc}</p>
+                <p className="text-[0.6875rem] text-[var(--blx-gold-3)] mb-3">{type.desc}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {type.firms.map(firm => (
                     <span key={firm} className="px-2.5 py-1 text-[0.5625rem] tracking-wider text-[var(--blx-muted)] rounded-full" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
@@ -185,7 +185,7 @@ export default function DesignAssist() {
           <div className="grid lg:grid-cols-[1fr_360px] gap-10">
             <div>
               <h2 className="text-base font-bold tracking-wider mb-2">Request Design Assist</h2>
-              <p className="text-sm text-[var(--blx-text-2)] mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] mb-6">
                 Tell us about your project and we'll respond within 24 hours with an initial assessment and next steps. All information is treated confidentially.
               </p>
 
@@ -193,7 +193,7 @@ export default function DesignAssist() {
                 <div className="glass-panel p-8 text-center" data-testid="da-form-success">
                   <CheckCircle2 size={40} className="mx-auto text-[var(--blx-gold-3)] mb-4" />
                   <h3 className="text-base font-bold tracking-wider mb-2">Request Received</h3>
-                  <p className="text-sm text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                  <p className="text-sm text-[var(--blx-text-2)]">
                     Our design assist team will contact you within 24 hours. We look forward to supporting your project.
                   </p>
                 </div>
@@ -262,7 +262,7 @@ export default function DesignAssist() {
                   </div>
                   <div>
                     <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">PROJECT BRIEF</label>
-                    <textarea value={form.message} onChange={e => updateField('message', e.target.value)} className="input-luxury w-full h-28 resize-none" placeholder="Tell us about the project — location, scale, where you envision LED displays, and any technical requirements or constraints..." data-testid="da-field-message" style={{ textTransform: 'none' }} />
+                    <textarea value={form.message} onChange={e => updateField('message', e.target.value)} className="input-luxury w-full h-28 resize-none" placeholder="Tell us about the project — location, scale, where you envision LED displays, and any technical requirements or constraints..." data-testid="da-field-message" />
                   </div>
                   {error && <p className="text-red-400 text-xs" data-testid="da-form-error">{error}</p>}
                   <button type="submit" disabled={submitting} className={`btn-gold px-8 py-3.5 text-xs font-bold tracking-[0.15em] ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="da-submit-button">
@@ -278,7 +278,7 @@ export default function DesignAssist() {
                 <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">WHAT'S INCLUDED — FREE</div>
                 <ul className="space-y-2.5">
                   {['Initial concept consultation (15 min call)', 'Technology & pixel pitch recommendation', 'Budgetary pricing estimate', 'Integration diagrams & section details', 'Specification language for tender docs', 'Ongoing support through design phases', 'CPD sessions for your team'].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                    <li key={i} className="flex items-start gap-2 text-[0.6875rem] text-[var(--blx-text-2)]">
                       <CheckCircle2 size={12} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" /> {item}
                     </li>
                   ))}
@@ -288,10 +288,10 @@ export default function DesignAssist() {
               <div className="glass-panel p-5">
                 <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">QUICK CONTACT</div>
                 <div className="space-y-3">
-                  <a href="https://wa.me/971559954274?text=Hi%2C+I'm+an+architect+and+need+design+assist+for+an+LED+display+project." target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] transition-colors" style={{ textTransform: 'none' }}>
+                  <a href="https://wa.me/971559954274?text=Hi%2C+I'm+an+architect+and+need+design+assist+for+an+LED+display+project." target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] transition-colors">
                     <MessageCircle size={14} className="text-[var(--blx-gold-3)]" /> WhatsApp: +971 55 991 0711
                   </a>
-                  <a href="tel:+971559954274" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] transition-colors" style={{ textTransform: 'none' }}>
+                  <a href="tel:+971559954274" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] transition-colors">
                     <Phone size={14} className="text-[var(--blx-gold-3)]" /> Call: +971 55 991 0711
                   </a>
                 </div>
@@ -308,7 +308,7 @@ export default function DesignAssist() {
                     { label: 'CPD Programme', path: '/cpd-programme' },
                     { label: 'Resource Library', path: '/resources' },
                   ].map(link => (
-                    <Link key={link.path} to={link.path} className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                    <Link key={link.path} to={link.path} className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                       <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {link.label}
                     </Link>
                   ))}

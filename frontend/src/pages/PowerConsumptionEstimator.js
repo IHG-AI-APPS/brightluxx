@@ -81,7 +81,7 @@ function ResultCard({ label, value, unit, accent, sub, testId }) {
       <div className={`text-lg font-bold ${accent ? 'text-[var(--blx-gold-3)]' : ''}`} data-testid={testId}>
         {value}<span className="text-xs font-normal text-[var(--blx-muted)] ml-1">{unit}</span>
       </div>
-      {sub && <div className="text-[0.5rem] text-[var(--blx-muted)] mt-0.5" style={{ textTransform: 'none' }}>{sub}</div>}
+      {sub && <div className="text-[0.5rem] text-[var(--blx-muted)] mt-0.5">{sub}</div>}
     </div>
   );
 }
@@ -122,7 +122,7 @@ export default function PowerConsumptionEstimator() {
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-3">
             Power Consumption<br />Estimator
           </h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed">
             Calculate electrical load, running costs, heat output, and infrastructure requirements for any LED display. Essential for MEP specification in UAE/GCC projects.
           </p>
         </div>
@@ -134,7 +134,7 @@ export default function PowerConsumptionEstimator() {
           <div>
             <div className="glass-panel p-6 sm:p-8 mb-8" data-testid="power-calc-panel">
               {/* Display Size */}
-              <div className="grid grid-cols-2 gap-6 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2 block">WIDTH (METERS)</label>
                   <div className="flex items-center gap-3">
@@ -180,7 +180,7 @@ export default function PowerConsumptionEstimator() {
                     </button>
                   ))}
                 </div>
-                <div className="text-[0.5rem] text-[var(--blx-muted)] mt-1.5" style={{ textTransform: 'none' }}>{POWER_DATA[pitchIdx].tech} — Max {POWER_DATA[pitchIdx].maxW} W/sqm</div>
+                <div className="text-[0.5rem] text-[var(--blx-muted)] mt-1.5">{POWER_DATA[pitchIdx].tech} — Max {POWER_DATA[pitchIdx].maxW} W/sqm</div>
               </div>
 
               {/* Brightness */}
@@ -200,7 +200,7 @@ export default function PowerConsumptionEstimator() {
               </div>
 
               {/* Usage & Rate */}
-              <div className="grid grid-cols-2 gap-6 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2 block">HOURS PER DAY</label>
                   <div className="flex items-center gap-3">
@@ -251,7 +251,7 @@ export default function PowerConsumptionEstimator() {
                 <div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3 flex items-center gap-2">
                   <DollarSign size={12} /> RUNNING COSTS ({r.rate.label})
                 </div>
-                <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
                   <ResultCard label="MONTHLY" value={`${r.rate.symbol} ${Math.round(r.monthlyCost).toLocaleString()}`} unit="" accent sub={`${r.monthlykWh.toFixed(0)} kWh/month`} testId="result-monthly-cost" />
                   <ResultCard label="ANNUAL" value={`${r.rate.symbol} ${Math.round(r.annualCost).toLocaleString()}`} unit="" sub={`${r.annualkWh.toFixed(0)} kWh/year`} testId="result-annual-cost" />
                   <ResultCard label="CO2 / YEAR" value={`${(r.co2Annual / 1000).toFixed(1)}`} unit="tons" sub="Based on GCC grid average" testId="result-co2" />
@@ -272,7 +272,7 @@ export default function PowerConsumptionEstimator() {
                 <div className="p-4 rounded-xl mb-2" style={{ background: 'rgba(229,197,116,0.04)', border: '1px solid rgba(229,197,116,0.1)' }}>
                   <div className="flex items-start gap-3">
                     <Thermometer size={16} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-                    <div className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>
+                    <div className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">
                       <strong className="text-[var(--blx-gold-3)]">GCC Climate Note:</strong> In UAE/Saudi Arabia, ambient temperatures regularly exceed 45°C. LED displays generate {r.heatTons.toFixed(1)} tons of heat load that must be offset by HVAC. For outdoor installations, add 30-40% additional cooling capacity. Ensure rear-access ventilation space of minimum 600mm.
                     </div>
                   </div>
@@ -345,7 +345,7 @@ export default function PowerConsumptionEstimator() {
                     <item.icon size={16} className="text-[var(--blx-gold-3)]" />
                   </div>
                   <h3 className="text-xs font-bold tracking-wider mb-2">{item.title}</h3>
-                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item.desc}</p>
+                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -366,7 +366,7 @@ export default function PowerConsumptionEstimator() {
                     <Lightbulb size={14} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
                     <div>
                       <h3 className="text-xs font-bold tracking-wider mb-1.5">{tip.title}</h3>
-                      <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{tip.desc}</p>
+                      <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{tip.desc}</p>
                     </div>
                   </div>
                 </div>
@@ -394,7 +394,7 @@ export default function PowerConsumptionEstimator() {
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" />
                     <div>
                       <div className="text-xs font-bold tracking-wider">{link.label}</div>
-                      <div className="text-[0.5rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{link.desc}</div>
+                      <div className="text-[0.5rem] text-[var(--blx-muted)]">{link.desc}</div>
                     </div>
                   </Link>
                 ))}
@@ -403,7 +403,7 @@ export default function PowerConsumptionEstimator() {
 
             <div className="p-5 rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.06) 0%, rgba(183,142,58,0.03) 100%)', border: '1px solid rgba(229,197,116,0.12)' }}>
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-2">NEED MEP SUPPORT?</h3>
-              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Our engineers provide full MEP coordination including electrical schematics, HVAC load calculations, and structural requirements.
               </p>
               <Link to="/design-assist" className="btn-gold w-full py-2.5 text-[0.625rem] font-bold tracking-[0.12em] flex items-center justify-center gap-2">

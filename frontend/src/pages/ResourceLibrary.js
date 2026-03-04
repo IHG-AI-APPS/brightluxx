@@ -107,7 +107,7 @@ function DownloadCard({ item }) {
           <span className="text-[0.45rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.04)' }}>{catLabel}</span>
         </div>
         <h3 className="text-xs font-bold tracking-wider mb-1.5 group-hover:text-[var(--blx-gold-3)] transition-colors">{item.title}</h3>
-        <p className="text-[0.625rem] text-[var(--blx-muted)] leading-relaxed flex-1 mb-3" style={{ textTransform: 'none' }}>{item.desc}</p>
+        <p className="text-[0.625rem] text-[var(--blx-muted)] leading-relaxed flex-1 mb-3">{item.desc}</p>
         <div className="flex items-center gap-1.5 text-[0.5625rem] font-bold tracking-wider text-[var(--blx-gold-3)]">
           Read Guide <ArrowRight size={10} />
         </div>
@@ -124,7 +124,7 @@ function DownloadCard({ item }) {
         <span className="text-[0.45rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.04)' }}>{catLabel}</span>
       </div>
       <h3 className="text-xs font-bold tracking-wider mb-1.5">{item.title}</h3>
-      <p className="text-[0.625rem] text-[var(--blx-muted)] leading-relaxed flex-1 mb-3" style={{ textTransform: 'none' }}>{item.desc}</p>
+      <p className="text-[0.625rem] text-[var(--blx-muted)] leading-relaxed flex-1 mb-3">{item.desc}</p>
       <div className="flex flex-wrap gap-1 mb-3">
         {item.tags.map(t => (
           <span key={t} className="text-[0.45rem] font-bold tracking-wider text-[var(--blx-muted)] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>{t}</span>
@@ -138,10 +138,10 @@ function DownloadCard({ item }) {
       ) : showForm ? (
         <form onSubmit={handleDownload} className="space-y-2">
           <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} required
-            className="w-full px-3 py-2 rounded-lg text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none" style={{ textTransform: 'none' }}
+            className="w-full px-3 py-2 rounded-lg text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none"
             data-testid={`resource-name-${item.id}`} />
           <input type="email" placeholder="Work email" value={email} onChange={e => setEmail(e.target.value)} required
-            className="w-full px-3 py-2 rounded-lg text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none" style={{ textTransform: 'none' }}
+            className="w-full px-3 py-2 rounded-lg text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none"
             data-testid={`resource-email-${item.id}`} />
           <div className="flex gap-2">
             <button type="submit" disabled={loading} className="flex-1 py-2 rounded-lg text-[0.5625rem] font-bold tracking-wider flex items-center justify-center gap-1.5"
@@ -199,7 +199,7 @@ export default function ResourceLibrary() {
         <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">SPECIFICATION RESOURCES</div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider mb-3" data-testid="resource-library-title">Resource Library</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl mb-8" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-xl mb-8">
             {RESOURCES.length} downloadable resources for LED display specification. Spec packs, cheat sheets, BIM references, and technical guides — everything you need in one place.
           </p>
 
@@ -212,7 +212,6 @@ export default function ResourceLibrary() {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="w-full pl-11 pr-4 py-3 rounded-xl text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
-              style={{ textTransform: 'none' }}
               data-testid="resource-search-input"
             />
             {searchQuery && (
@@ -258,7 +257,7 @@ export default function ResourceLibrary() {
         ) : (
           <div className="text-center py-16" data-testid="resource-empty">
             <Search size={32} className="text-[var(--blx-muted)] mx-auto mb-4" />
-            <p className="text-sm text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>No resources match your search. Try a different term.</p>
+            <p className="text-sm text-[var(--blx-muted)]">No resources match your search. Try a different term.</p>
             <button onClick={() => { setSearchQuery(''); setActiveCategory('all'); }} className="mt-3 text-xs font-bold text-[var(--blx-gold-3)] hover:underline">
               Clear filters
             </button>
@@ -268,7 +267,7 @@ export default function ResourceLibrary() {
         {/* Bottom CTA */}
         <div className="mt-16 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
           <h2 className="text-lg font-bold tracking-wider mb-3">Need Something Specific?</h2>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
             Can't find what you need? Our technical team can prepare custom specification documents, project-specific technical drawings, or tailored cost analyses.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">

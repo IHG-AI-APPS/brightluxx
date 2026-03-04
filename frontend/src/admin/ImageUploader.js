@@ -168,7 +168,7 @@ export const ImageUploader = ({ value, onChange, label, compact = false }) => {
               <p className="text-xs font-bold tracking-wider mb-1">
                 {uploading ? 'Uploading...' : dragOver ? 'Drop here' : 'Drag & drop or click'}
               </p>
-              <p className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider" style={{ textTransform: 'none' }}>
+              <p className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">
                 JPG, PNG, WebP, GIF, SVG up to 10MB
               </p>
             </div>
@@ -195,7 +195,6 @@ export const ImageUploader = ({ value, onChange, label, compact = false }) => {
               onKeyDown={(e) => e.key === 'Enter' && handleUrlSubmit()}
               placeholder="https://example.com/image.jpg"
               className="input-luxury flex-1 py-2 text-xs"
-              style={{ textTransform: 'none' }}
               data-testid="image-uploader-url-input"
             />
             <button
@@ -224,7 +223,7 @@ export const ImageUploader = ({ value, onChange, label, compact = false }) => {
 
       {/* Error */}
       {error && (
-        <p className="text-[0.625rem] tracking-wider mt-2" style={{ color: '#f87171', textTransform: 'none' }} data-testid="image-uploader-error">{error}</p>
+        <p className="text-[0.625rem] tracking-wider mt-2" style={{ color: '#f87171', }} data-testid="image-uploader-error">{error}</p>
       )}
     </div>
   );

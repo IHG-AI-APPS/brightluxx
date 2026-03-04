@@ -73,9 +73,9 @@ function LeadGatedDownload({ docType, docId, title, children }) {
     return (
       <form onSubmit={handleSubmit} className="flex gap-1.5 items-end">
         <input type="text" placeholder="Name" value={name} onChange={e => setName(e.target.value)} required
-          className="w-20 px-2 py-1.5 rounded text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none" style={{ textTransform: 'none' }} />
+          className="w-20 px-2 py-1.5 rounded text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none" />
         <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required
-          className="w-32 px-2 py-1.5 rounded text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none" style={{ textTransform: 'none' }} />
+          className="w-32 px-2 py-1.5 rounded text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none" />
         <button type="submit" disabled={loading} className="px-3 py-1.5 rounded text-[0.5rem] font-bold tracking-wider" style={{ background: 'var(--blx-gold-grad)', color: '#0B0B0B' }} data-testid={`download-submit-${docId}`}>
           {loading ? '...' : 'GET'}
         </button>
@@ -113,7 +113,7 @@ export default function ForArchitects() {
           <div className="max-w-2xl">
             <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">FOR ARCHITECTS & CONSULTANTS</div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">Specification<br />Resources</h1>
-            <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-8" style={{ textTransform: 'none' }}>
+            <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-8">
               Everything you need to specify LED displays with confidence. Downloadable spec packs, BIM/CAD technical references, specifier cheat sheets, and direct access to our technical team.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -148,7 +148,7 @@ export default function ForArchitects() {
                 <span className="text-[0.5rem] font-bold tracking-wider text-[var(--blx-gold-3)] px-2 py-1 rounded" style={{ background: 'rgba(229,197,116,0.08)' }}>{service.count}</span>
               </div>
               <h3 className="text-xs font-bold tracking-[0.15em] mb-2">{service.title}</h3>
-              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{service.desc}</p>
+              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{service.desc}</p>
             </div>
           ))}
         </div>
@@ -157,7 +157,7 @@ export default function ForArchitects() {
         <div id="bim-cad" className="mb-16 scroll-mt-24">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">BIM / CAD RESOURCES</div>
           <h2 className="text-lg font-bold tracking-wider mb-2">Technical Reference Documents</h2>
-          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl">
             Downloadable technical reference PDFs with dimensions, mounting details, electrical requirements, and specification tables. For custom Revit families or AutoCAD blocks, contact our team.
           </p>
           <div className="grid sm:grid-cols-2 gap-3 mb-6">
@@ -168,7 +168,7 @@ export default function ForArchitects() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="text-xs font-bold tracking-wider mb-1">{item.title}</h4>
-                  <p className="text-[0.625rem] text-[var(--blx-muted)] mb-2" style={{ textTransform: 'none' }}>{item.desc}</p>
+                  <p className="text-[0.625rem] text-[var(--blx-muted)] mb-2">{item.desc}</p>
                   <LeadGatedDownload docType="bim" docId={item.id} title={item.title}>PDF Reference</LeadGatedDownload>
                 </div>
               </div>
@@ -176,7 +176,7 @@ export default function ForArchitects() {
           </div>
           <div className="glass-panel p-4 flex items-center gap-4" style={{ background: 'rgba(229,197,116,0.04)', border: '1px solid rgba(229,197,116,0.1)' }}>
             <PenTool size={16} className="text-[var(--blx-gold-3)] flex-shrink-0" />
-            <p className="text-xs text-[var(--blx-text-2)] flex-1" style={{ textTransform: 'none' }}>
+            <p className="text-xs text-[var(--blx-text-2)] flex-1">
               Need custom Revit families, AutoCAD blocks, or project-specific technical drawings?
             </p>
             <a href="https://wa.me/971559954274?text=Hi%2C%20I%20need%20custom%20BIM%2FCAD%20files%20for%20LED%20displays%20for%20my%20project." target="_blank" rel="noopener noreferrer"
@@ -190,7 +190,7 @@ export default function ForArchitects() {
         <div id="cheatsheets" className="mb-16 scroll-mt-24">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">SPECIFIER CHEAT SHEETS</div>
           <h2 className="text-lg font-bold tracking-wider mb-2">One-Page Quick Reference</h2>
-          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl">
             Compact, printable one-page reference sheets. Keep on your desk or share with your team.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -200,7 +200,7 @@ export default function ForArchitects() {
                   <FileText size={16} className="text-[var(--blx-gold-3)]" />
                 </div>
                 <h4 className="text-xs font-bold tracking-wider mb-1">{cs.title}</h4>
-                <p className="text-[0.625rem] text-[var(--blx-muted)] mb-3" style={{ textTransform: 'none' }}>{cs.desc}</p>
+                <p className="text-[0.625rem] text-[var(--blx-muted)] mb-3">{cs.desc}</p>
                 <LeadGatedDownload docType="cheatsheet" docId={cs.id} title={cs.title}>Download PDF</LeadGatedDownload>
               </div>
             ))}
@@ -211,7 +211,7 @@ export default function ForArchitects() {
         <div id="spec-packs" className="mb-16 scroll-mt-24">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">SPECIFICATION PACKS</div>
           <h2 className="text-lg font-bold tracking-wider mb-2">Full Specification Guides</h2>
-          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl">
             Comprehensive PDF guides for tender documents. Each includes recommended specs, comparison tables, vendor checklists, and UAE/GCC climate guidance.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -223,7 +223,7 @@ export default function ForArchitects() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="text-[0.6875rem] font-bold tracking-wider group-hover:text-[var(--blx-gold-3)] transition-colors">{pack.title}</h4>
-                  <p className="text-[0.5625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{pack.desc}</p>
+                  <p className="text-[0.5625rem] text-[var(--blx-muted)]">{pack.desc}</p>
                 </div>
                 <span className="text-[0.5rem] font-bold tracking-wider text-[var(--blx-muted)] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.04)' }}>PDF</span>
               </a>
@@ -235,7 +235,7 @@ export default function ForArchitects() {
         <div className="mb-16">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">TECHNICAL REFERENCE</div>
           <h2 className="text-lg font-bold tracking-wider mb-2">Knowledge Base</h2>
-          <p className="text-sm text-[var(--blx-text-2)] mb-6 max-w-xl" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] mb-6 max-w-xl">
             In-depth technical guides covering LED display specification fundamentals.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -262,14 +262,14 @@ export default function ForArchitects() {
             <div className="relative overflow-hidden rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.1) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.2)' }} data-testid="design-assist-section">
               <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">FREE SERVICE</div>
               <h3 className="text-base font-bold tracking-wider mb-3">Design Assist Call</h3>
-              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Book a free 15-minute call with our technical team. We help architects and consultants select the right technology, pixel pitch, brightness, and specifications.
               </p>
               <ul className="space-y-1.5 mb-6">
                 {['Technology selection (COB/MiP/SMD)', 'Pixel pitch recommendation', 'Budgetary guidance', 'UAE climate considerations', 'Structural & electrical'].map((item, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <CheckCircle size={10} className="text-[var(--blx-gold-3)]" />
-                    <span className="text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{item}</span>
+                    <span className="text-[0.6875rem] text-[var(--blx-text-2)]">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -286,12 +286,12 @@ export default function ForArchitects() {
             <div className="glass-panel p-8" data-testid="cpd-section">
               <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">CPD PROGRAM</div>
               <h3 className="text-base font-bold tracking-wider mb-3">Lunch &amp; Learn</h3>
-              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4">
                 We offer a 30-minute CPD-accredited presentation for architecture and design teams:
               </p>
               <div className="glass-panel p-4 mb-4" style={{ background: 'rgba(229,197,116,0.04)' }}>
-                <h4 className="text-xs font-bold tracking-wider mb-2" style={{ textTransform: 'none' }}>"Specifying dvLED Walls in GCC: Pitch, Brightness, IP, Service"</h4>
-                <p className="text-[0.625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Covers technology selection, specification best practices, common mistakes, and UAE-specific requirements. Available in-office or virtual.</p>
+                <h4 className="text-xs font-bold tracking-wider mb-2">"Specifying dvLED Walls in GCC: Pitch, Brightness, IP, Service"</h4>
+                <p className="text-[0.625rem] text-[var(--blx-muted)]">Covers technology selection, specification best practices, common mistakes, and UAE-specific requirements. Available in-office or virtual.</p>
               </div>
               <a href="https://wa.me/971559954274?text=Hi%2C%20I%27d%20like%20to%20arrange%20a%20CPD%2FLunch%20%26%20Learn%20session%20on%20LED%20display%20specification%20for%20our%20team." target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold tracking-[0.15em] border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors" data-testid="cpd-request-btn">

@@ -107,7 +107,7 @@ export default function KnowledgeIndex() {
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">
             LED Display<br />Specification Guides
           </h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed">
             Technical reference library for architects, AV consultants, and project specifiers. Each guide includes downloadable spec packs with comparison tables, vendor checklists, and UAE/GCC-specific recommendations.
           </p>
         </div>
@@ -133,7 +133,7 @@ export default function KnowledgeIndex() {
               </div>
               <h3 className="text-sm font-bold tracking-wider mb-1 group-hover:text-[var(--blx-gold-3)] transition-colors">{guide.title}</h3>
               <p className="text-[0.625rem] text-[var(--blx-gold-3)] tracking-wider mb-3">{guide.subtitle}</p>
-              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>{guide.description}</p>
+              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4">{guide.description}</p>
               <div className="flex flex-wrap gap-1.5">
                 {guide.tags.map(tag => (
                   <span key={tag} className="px-2 py-0.5 rounded text-[0.5rem] tracking-wider text-[var(--blx-muted)]" style={{ background: 'rgba(255,255,255,0.04)' }}>{tag}</span>
@@ -150,7 +150,7 @@ export default function KnowledgeIndex() {
         <div className="relative overflow-hidden rounded-2xl p-8 sm:p-12 text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">FOR ARCHITECTS & CONSULTANTS</div>
           <h2 className="text-lg sm:text-xl font-bold tracking-wider mb-3">Need Help Specifying?</h2>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-lg mx-auto mb-6" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-lg mx-auto mb-6">
             Our technical team offers free 15-minute design-assist calls. We help architects and consultants select the right technology, pixel pitch, and specifications for their projects.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">

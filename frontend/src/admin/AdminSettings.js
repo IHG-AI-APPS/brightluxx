@@ -46,7 +46,7 @@ export default function AdminSettings() {
     <div className="p-6 lg:p-8 space-y-8" data-testid="admin-settings-page">
       <div>
         <h1 className="text-lg font-bold tracking-wider">Settings</h1>
-        <p className="text-xs text-[var(--blx-muted)] tracking-wider mt-1" style={{ textTransform: 'none' }}>Security and account settings</p>
+        <p className="text-xs text-[var(--blx-muted)] tracking-wider mt-1">Security and account settings</p>
       </div>
 
       {/* Account Info */}
@@ -55,15 +55,15 @@ export default function AdminSettings() {
         <div className="space-y-3">
           <div className="flex items-center justify-between py-2 border-b border-[var(--blx-border)]">
             <span className="text-xs text-[var(--blx-muted)] tracking-wider">Email</span>
-            <span className="text-xs font-bold tracking-wider" style={{ textTransform: 'none' }}>{admin?.email}</span>
+            <span className="text-xs font-bold tracking-wider">{admin?.email}</span>
           </div>
           <div className="flex items-center justify-between py-2 border-b border-[var(--blx-border)]">
             <span className="text-xs text-[var(--blx-muted)] tracking-wider">Role</span>
-            <span className="text-xs font-bold tracking-wider capitalize" style={{ textTransform: 'none' }}>{admin?.role?.replace('_', ' ')}</span>
+            <span className="text-xs font-bold tracking-wider capitalize">{admin?.role?.replace('_', ' ')}</span>
           </div>
           <div className="flex items-center justify-between py-2">
             <span className="text-xs text-[var(--blx-muted)] tracking-wider">Token Expiry</span>
-            <span className="text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>4 hours (auto-refresh)</span>
+            <span className="text-xs text-[var(--blx-text-2)] tracking-wider">4 hours (auto-refresh)</span>
           </div>
         </div>
       </div>
@@ -73,12 +73,12 @@ export default function AdminSettings() {
         <h3 className="text-xs font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-4 flex items-center gap-2"><Key size={14} /> Change Password</h3>
 
         {error && (
-          <div className="flex items-center gap-2 p-3 rounded-lg text-xs tracking-wider mb-4" style={{ background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.2)', color: '#f87171', textTransform: 'none' }} data-testid="settings-password-error">
+          <div className="flex items-center gap-2 p-3 rounded-lg text-xs tracking-wider mb-4" style={{ background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.2)', color: '#f87171', }} data-testid="settings-password-error">
             <AlertCircle size={14} /> {error}
           </div>
         )}
         {success && (
-          <div className="flex items-center gap-2 p-3 rounded-lg text-xs tracking-wider mb-4" style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)', color: '#34d399', textTransform: 'none' }} data-testid="settings-password-success">
+          <div className="flex items-center gap-2 p-3 rounded-lg text-xs tracking-wider mb-4" style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)', color: '#34d399', }} data-testid="settings-password-success">
             <CheckCircle2 size={14} /> {success}
           </div>
         )}
@@ -105,7 +105,7 @@ export default function AdminSettings() {
                 data-testid="settings-new-password"
               />
             </div>
-            <p className="text-[0.5rem] text-[var(--blx-muted)] mt-1 tracking-wider" style={{ textTransform: 'none' }}>Minimum 8 characters</p>
+            <p className="text-[0.5rem] text-[var(--blx-muted)] mt-1 tracking-wider">Minimum 8 characters</p>
           </div>
           <div>
             <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Confirm New Password</label>
@@ -131,7 +131,7 @@ export default function AdminSettings() {
       {/* Security Info */}
       <div className="glass-panel p-6">
         <h3 className="text-xs font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-4 flex items-center gap-2"><Shield size={14} /> Security Features</h3>
-        <ul className="space-y-2 text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>
+        <ul className="space-y-2 text-xs text-[var(--blx-text-2)] tracking-wider">
           <li className="flex items-center gap-2"><CheckCircle2 size={12} className="text-emerald-400 flex-shrink-0" /> Rate limiting: 5 login attempts per minute per IP</li>
           <li className="flex items-center gap-2"><CheckCircle2 size={12} className="text-emerald-400 flex-shrink-0" /> JWT tokens with 4-hour expiry + 7-day refresh</li>
           <li className="flex items-center gap-2"><CheckCircle2 size={12} className="text-emerald-400 flex-shrink-0" /> Bcrypt password hashing (12 rounds)</li>

@@ -132,7 +132,7 @@ const Navbar = () => {
                           </div>
                           <div>
                             <div className={`text-[0.6875rem] font-bold tracking-wider ${isActive(link.path) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text)]'}`}>{link.name}</div>
-                            <div className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider" style={{ textTransform: 'none' }}>{link.desc}</div>
+                            <div className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider">{link.desc}</div>
                           </div>
                         </Link>
                       ))}

@@ -11,7 +11,7 @@ function SpecCard({ spec }) {
     <div className="glass-panel p-4">
       <div className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1">{spec.label}</div>
       <div className="text-sm font-bold text-[var(--blx-gold-3)]">{spec.value}</div>
-      <div className="text-[0.625rem] text-[var(--blx-text-2)] mt-1" style={{ textTransform: 'none' }}>{spec.detail}</div>
+      <div className="text-[0.625rem] text-[var(--blx-text-2)] mt-1">{spec.detail}</div>
     </div>
   );
 }
@@ -23,7 +23,7 @@ function ApplicationCard({ app, index }) {
         <CheckCircle2 size={16} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
         <div>
           <h3 className="text-xs font-bold tracking-[0.12em] mb-1.5">{app.name}</h3>
-          <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{app.desc}</p>
+          <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{app.desc}</p>
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@ function DesignCard({ item, index }) {
         </div>
         <div>
           <h3 className="text-xs font-bold tracking-[0.12em] mb-1.5">{item.title}</h3>
-          <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item.desc}</p>
+          <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{item.desc}</p>
         </div>
       </div>
     </div>
@@ -93,7 +93,7 @@ export default function DeaPageDetail() {
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">{page.heroTagline}</div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-2">{page.heroTitle}</h1>
           <p className="text-sm text-[var(--blx-text-2)] font-medium tracking-wider mb-4">{page.heroSubtitle}</p>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8" style={{ textTransform: 'none' }}>{page.heroDescription}</p>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8">{page.heroDescription}</p>
           <div className="flex flex-wrap gap-3">
             <Link to="/design-assist" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="dea-detail-da-cta">
               Request Design Assist <ArrowRight size={14} />
@@ -116,7 +116,7 @@ export default function DeaPageDetail() {
           <div>
             {/* Overview */}
             <h2 className="text-lg font-bold tracking-wider mb-4">{page.overview.title}</h2>
-            <div className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-10 space-y-4" style={{ textTransform: 'none' }}>
+            <div className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-10 space-y-4">
               {page.overview.content.split('\n\n').map((para, i) => (
                 <p key={i}>{para}</p>
               ))}
@@ -159,7 +159,7 @@ export default function DeaPageDetail() {
             {/* GCC Context */}
             <h2 className="text-lg font-bold tracking-wider mb-4">{page.gccContext.title}</h2>
             <div className="glass-panel p-6 mb-10">
-              <div className="text-sm text-[var(--blx-text-2)] leading-relaxed space-y-4" style={{ textTransform: 'none' }}>
+              <div className="text-sm text-[var(--blx-text-2)] leading-relaxed space-y-4">
                 {page.gccContext.content.split('\n\n').map((para, i) => (
                   <p key={i}>{para}</p>
                 ))}
@@ -184,7 +184,7 @@ export default function DeaPageDetail() {
             {/* Bottom CTA */}
             <div className="mt-10 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
               <h2 className="text-lg font-bold tracking-wider mb-3">Ready to Specify {page.shortTitle}?</h2>
-              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
                 Get a budgetary estimate or book a free design assist call with our engineering team.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
@@ -211,14 +211,14 @@ export default function DeaPageDetail() {
                   <Calculator size={14} className="text-[var(--blx-gold-3)]" />
                   <div>
                     <div className="text-xs font-bold tracking-wider">Screen Calculator</div>
-                    <div className="text-[0.5rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Size, resolution & pixel pitch</div>
+                    <div className="text-[0.5rem] text-[var(--blx-muted)]">Size, resolution & pixel pitch</div>
                   </div>
                 </Link>
                 <Link to="/budget-estimator" className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-colors">
                   <DollarSign size={14} className="text-[var(--blx-gold-3)]" />
                   <div>
                     <div className="text-xs font-bold tracking-wider">Budget Estimator</div>
-                    <div className="text-[0.5rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Project cost by size & pitch</div>
+                    <div className="text-[0.5rem] text-[var(--blx-muted)]">Project cost by size & pitch</div>
                   </div>
                 </Link>
               </div>
@@ -227,7 +227,7 @@ export default function DeaPageDetail() {
             {/* Design Assist CTA */}
             <div className="p-5 rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.06) 0%, rgba(183,142,58,0.03) 100%)', border: '1px solid rgba(229,197,116,0.12)' }}>
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-2">FREE DESIGN ASSIST</h3>
-              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Our engineers help you specify the right LED technology for your project — from concept to BOQ.
               </p>
               <Link to="/design-assist" className="btn-gold w-full py-2.5 text-[0.625rem] font-bold tracking-[0.12em] flex items-center justify-center gap-2">
@@ -244,7 +244,6 @@ export default function DeaPageDetail() {
                     key={p.id}
                     to={`/digital-experience/${p.id}`}
                     className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors"
-                    style={{ textTransform: 'none' }}
                   >
                     <p.icon size={14} className="text-[var(--blx-gold-3)] flex-shrink-0" />
                     {p.title}
@@ -268,7 +267,6 @@ export default function DeaPageDetail() {
                     key={techId}
                     to={`/technology/${techId}`}
                     className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors"
-                    style={{ textTransform: 'none' }}
                   >
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {techId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
                   </Link>

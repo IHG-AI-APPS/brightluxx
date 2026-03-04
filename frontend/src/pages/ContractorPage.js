@@ -25,8 +25,8 @@ function DvledVsLcd({ page }) {
               {page.comparison.map((row, i) => (
                 <tr key={i} className="border-b border-[var(--blx-hairline)] last:border-0">
                   <td className="py-3 px-5 text-xs font-medium">{row.spec}</td>
-                  <td className="py-3 px-5 text-xs text-center text-[var(--blx-gold-3)]" style={{ textTransform: 'none' }}>{row.dvled}</td>
-                  <td className="py-3 px-5 text-xs text-center text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{row.lcd}</td>
+                  <td className="py-3 px-5 text-xs text-center text-[var(--blx-gold-3)]">{row.dvled}</td>
+                  <td className="py-3 px-5 text-xs text-center text-[var(--blx-text-2)]">{row.lcd}</td>
                 </tr>
               ))}
             </tbody>
@@ -47,7 +47,7 @@ function DvledVsLcd({ page }) {
           ].map((col) => (
             <div key={col.label} className="p-4 rounded-xl" style={{ background: col.accent ? 'rgba(229,197,116,0.06)' : 'rgba(255,255,255,0.02)', border: `1px solid ${col.accent ? 'rgba(229,197,116,0.15)' : 'var(--blx-border)'}` }}>
               <div className={`text-sm font-bold mb-3 ${col.accent ? 'text-[var(--blx-gold-3)]' : ''}`}>{col.label}</div>
-              <div className="space-y-2 text-[0.6875rem]" style={{ textTransform: 'none' }}>
+              <div className="space-y-2 text-[0.6875rem]">
                 <div className="flex justify-between"><span className="text-[var(--blx-muted)]">Hardware</span><span>${col.data.hardware.toLocaleString()}</span></div>
                 <div className="flex justify-between"><span className="text-[var(--blx-muted)]">Installation</span><span>${col.data.install.toLocaleString()}</span></div>
                 <div className="flex justify-between"><span className="text-[var(--blx-muted)]">Power (5yr)</span><span>${col.data.power5yr.toLocaleString()}</span></div>
@@ -60,7 +60,7 @@ function DvledVsLcd({ page }) {
             </div>
           ))}
         </div>
-        <p className="text-[0.625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{page.tcoAnalysis.note}</p>
+        <p className="text-[0.625rem] text-[var(--blx-muted)]">{page.tcoAnalysis.note}</p>
       </div>
     </>
   );
@@ -86,16 +86,16 @@ function CostGuide() {
               {COST_PER_SQM_GUIDE.map((row, i) => (
                 <tr key={i} className="border-b border-[var(--blx-hairline)] last:border-0">
                   <td className="py-3 px-5 text-xs font-bold text-[var(--blx-gold-3)]">{row.pitch}</td>
-                  <td className="py-3 px-5 text-xs" style={{ textTransform: 'none' }}>{row.tech}</td>
+                  <td className="py-3 px-5 text-xs">{row.tech}</td>
                   <td className="py-3 px-5 text-xs text-center font-bold">{row.range}</td>
-                  <td className="py-3 px-5 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{row.use}</td>
+                  <td className="py-3 px-5 text-[0.6875rem] text-[var(--blx-text-2)]">{row.use}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         <div className="px-5 py-3 border-t border-[var(--blx-hairline)]">
-          <p className="text-[0.625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>
+          <p className="text-[0.625rem] text-[var(--blx-muted)]">
             Hardware costs only. Multiply by 1.3-1.4x for total installed project cost. Prices vary by brand, quantity, and project timeline.
           </p>
         </div>
@@ -119,7 +119,7 @@ function CostGuide() {
                 <tr key={i} className="border-b border-[var(--blx-hairline)] last:border-0">
                   <td className="py-3 px-5 text-xs font-medium">{row.item}</td>
                   <td className="py-3 px-5 text-xs text-center font-bold text-[var(--blx-gold-3)]">{row.pct}</td>
-                  <td className="py-3 px-5 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{row.notes}</td>
+                  <td className="py-3 px-5 text-[0.6875rem] text-[var(--blx-text-2)]">{row.notes}</td>
                 </tr>
               ))}
             </tbody>
@@ -141,7 +141,7 @@ function InstallationGuide({ page }) {
               {phase.items.map((item, i) => (
                 <div key={i} className="flex items-start gap-2.5">
                   <CheckCircle size={14} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item}</span>
+                  <span className="text-sm text-[var(--blx-text-2)] leading-relaxed">{item}</span>
                 </div>
               ))}
             </div>
@@ -182,7 +182,7 @@ export default function ContractorPage() {
           </div>
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">{page.heroTagline}</div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-wider leading-tight mb-4">{page.title}</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed" style={{ textTransform: 'none' }}>{page.heroDescription}</p>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed">{page.heroDescription}</p>
         </div>
       </div>
 
@@ -199,7 +199,7 @@ export default function ContractorPage() {
             {/* Bottom CTA */}
             <div className="mt-10 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
               <h2 className="text-lg font-bold tracking-wider mb-3">Need a Quote or Substitution Support?</h2>
-              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
                 Upload your tender specification and we'll provide equivalent alternatives with cost analysis — free of charge.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
@@ -232,7 +232,7 @@ export default function ContractorPage() {
                   { to: '/spec-substitution', label: 'Spec Substitution Service' },
                   { to: '/calculator', label: 'Screen Calculator' },
                 ].filter(l => l.to !== `/contractors/${page.id}`).map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}

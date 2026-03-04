@@ -167,6 +167,28 @@ p, .body-text {
   letter-spacing: 0.03em;
 }
 
+/* Mobile typography adjustments — uppercase needs wider line-height and smaller sizes */
+@media (max-width: 639px) {
+  body {
+    font-size: 14px;
+    letter-spacing: 0.05em;
+  }
+  p, .body-text {
+    font-size: 0.875rem;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+  }
+  h1, .h1 {
+    letter-spacing: 0.06em;
+  }
+  h2, .h2 {
+    letter-spacing: 0.05em;
+  }
+  .glass-panel {
+    padding: 1rem;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -273,6 +295,33 @@ html {
 
 .animate-glow {
   animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
+/* ======================================
+   FORCE UPPERCASE SITE-WIDE
+   Body already sets text-transform: uppercase.
+   This ensures inline overrides are neutralized.
+   Inputs/textareas remain normal case for usability.
+   ====================================== */
+body, body * {
+  text-transform: uppercase;
+}
+input, textarea, select,
+input::placeholder, textarea::placeholder {
+  text-transform: none !important;
+}
+
+/* Mobile overflow safety */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure all content containers don't overflow on mobile */
+@media (max-width: 639px) {
+  .max-w-\[1320px\] {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

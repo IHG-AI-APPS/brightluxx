@@ -29,7 +29,7 @@ export default function ValueEngineering() {
           </div>
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">FOR CONTRACTORS & PROCUREMENT</div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">Value Engineering<br/>LED Displays</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8">
             Reduce LED display costs by 20-40% without compromising on specification. Approved alternatives, cost breakdowns, BOQ templates, and free specification substitution support for UAE/GCC contractors.
           </p>
           <div className="flex flex-wrap gap-3">
@@ -78,7 +78,7 @@ export default function ValueEngineering() {
                     </div>
                     <div>
                       <h3 className="text-xs font-bold tracking-[0.12em] mb-1.5">{item.title}</h3>
-                      <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item.desc}</p>
+                      <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 </div>
@@ -105,15 +105,15 @@ export default function ValueEngineering() {
                   <tbody>
                     {VALUE_ENGINEERING_TABLE.map((row, i) => (
                       <tr key={i} className="border-b border-[var(--blx-hairline)] last:border-0">
-                        <td className="py-3 px-5 text-xs font-medium" style={{ textTransform: 'none' }}>{row.specified}</td>
-                        <td className="py-3 px-5 text-xs text-[var(--blx-gold-3)] font-bold" style={{ textTransform: 'none' }}>{row.alternative}</td>
+                        <td className="py-3 px-5 text-xs font-medium">{row.specified}</td>
+                        <td className="py-3 px-5 text-xs text-[var(--blx-gold-3)] font-bold">{row.alternative}</td>
                         <td className="py-3 px-5 text-xs text-center font-bold text-emerald-400">{row.costImpact}</td>
                         <td className="py-3 px-5 text-xs text-center">
                           <span className={`px-2 py-0.5 rounded text-[0.5rem] font-bold tracking-wider ${row.risk === 'low' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}`}>
                             {row.risk.toUpperCase()}
                           </span>
                         </td>
-                        <td className="py-3 px-5 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{row.notes}</td>
+                        <td className="py-3 px-5 text-[0.6875rem] text-[var(--blx-text-2)]">{row.notes}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -141,16 +141,16 @@ export default function ValueEngineering() {
                     {COST_PER_SQM_GUIDE.map((row, i) => (
                       <tr key={i} className="border-b border-[var(--blx-hairline)] last:border-0">
                         <td className="py-3 px-5 text-xs font-bold text-[var(--blx-gold-3)]">{row.pitch}</td>
-                        <td className="py-3 px-5 text-xs" style={{ textTransform: 'none' }}>{row.tech}</td>
+                        <td className="py-3 px-5 text-xs">{row.tech}</td>
                         <td className="py-3 px-5 text-xs text-center font-bold">{row.range}</td>
-                        <td className="py-3 px-5 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{row.use}</td>
+                        <td className="py-3 px-5 text-[0.6875rem] text-[var(--blx-text-2)]">{row.use}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
               <div className="px-5 py-3 border-t border-[var(--blx-hairline)]">
-                <p className="text-[0.625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>
+                <p className="text-[0.625rem] text-[var(--blx-muted)]">
                   Prices are indicative hardware costs for UAE market (2026). Multiply by 1.3-1.4x for total installed project cost including processing, structure, cabling, installation, and CMS.
                 </p>
               </div>
@@ -175,7 +175,7 @@ export default function ValueEngineering() {
                       <tr key={i} className="border-b border-[var(--blx-hairline)] last:border-0">
                         <td className="py-3 px-5 text-xs font-medium">{row.item}</td>
                         <td className="py-3 px-5 text-xs text-center font-bold text-[var(--blx-gold-3)]">{row.pct}</td>
-                        <td className="py-3 px-5 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{row.notes}</td>
+                        <td className="py-3 px-5 text-[0.6875rem] text-[var(--blx-text-2)]">{row.notes}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -191,7 +191,7 @@ export default function ValueEngineering() {
             {/* Bottom CTA */}
             <div className="mt-10 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
               <h2 className="text-lg font-bold tracking-wider mb-3">Have a Tender with LED Specified?</h2>
-              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
                 Upload your BOQ or spec sheet. We'll provide equivalent alternatives with cost savings and consultant-ready comparison documents — free of charge.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
@@ -226,7 +226,7 @@ export default function ValueEngineering() {
                   { to: '/spec-substitution', label: 'Free Spec Substitution' },
                   { to: '/calculator', label: 'Screen Calculator' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}
@@ -242,7 +242,7 @@ export default function ValueEngineering() {
                   { to: '/knowledge/brightness-nits-guide', label: 'Brightness & Nits Guide' },
                   { to: '/knowledge/ip-rating-guide', label: 'IP Rating Guide' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}

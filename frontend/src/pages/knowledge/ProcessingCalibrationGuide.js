@@ -93,7 +93,7 @@ export default function ProcessingCalibrationGuide() {
                   <div className="text-2xl font-bold text-[var(--blx-gold-3)] opacity-30 flex-shrink-0">{item.step}</div>
                   <div>
                     <h3 className="text-xs font-bold tracking-[0.12em] mb-1.5">{item.title}</h3>
-                    <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item.desc}</p>
+                    <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -131,7 +131,7 @@ export default function ProcessingCalibrationGuide() {
               ].map((item, i) => (
                 <div key={i} className="glass-panel p-5" data-testid={`cms-option-${i}`}>
                   <h3 className="text-xs font-bold tracking-[0.12em] mb-2">{item.title}</h3>
-                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-3" style={{ textTransform: 'none' }}>{item.desc}</p>
+                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-3">{item.desc}</p>
                   <div className="text-[0.625rem] font-bold text-[var(--blx-gold-3)]">{item.cost}</div>
                 </div>
               ))}
@@ -159,7 +159,7 @@ export default function ProcessingCalibrationGuide() {
                   { to: '/knowledge/cms-multi-site', label: 'CMS for Multi-Site' },
                   { to: '/calculator', label: 'Screen Calculator' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}

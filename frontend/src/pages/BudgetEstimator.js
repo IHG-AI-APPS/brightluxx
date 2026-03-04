@@ -84,7 +84,7 @@ export default function BudgetEstimator() {
         <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">BUDGETARY PLANNING TOOL</div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-wider mb-3" data-testid="budget-estimator-title">Budget Estimator</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-xl">
             Enter your screen dimensions and pixel pitch to get an instant project cost estimate. Includes hardware, processing, structure, installation, and spare parts.
           </p>
         </div>
@@ -163,7 +163,7 @@ export default function BudgetEstimator() {
               <div className="text-3xl font-bold mb-2">
                 ${results.totalLow.toLocaleString()} — ${results.totalHigh.toLocaleString()}
               </div>
-              <div className="text-[0.625rem] text-[var(--blx-muted)] mb-6" style={{ textTransform: 'none' }}>
+              <div className="text-[0.625rem] text-[var(--blx-muted)] mb-6">
                 Total installed cost for {results.area} sqm {pitchData.label} {pitchData.tech} LED display
               </div>
 
@@ -179,7 +179,7 @@ export default function BudgetEstimator() {
                 ].map((item, i) => (
                   <div key={i} className="flex items-center justify-between px-3 py-2.5 rounded-lg" style={{ background: 'rgba(255,255,255,0.02)' }}>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs" style={{ textTransform: 'none' }}>{item.label}</span>
+                      <span className="text-xs">{item.label}</span>
                       <span className="text-[0.5rem] text-[var(--blx-muted)]">({item.pct})</span>
                     </div>
                     <span className="text-xs font-bold">${item.low.toLocaleString()} — ${item.high.toLocaleString()}</span>
@@ -201,7 +201,7 @@ export default function BudgetEstimator() {
                 <span className="text-2xl font-bold">${pitchData.high.toLocaleString()}</span>
                 <span className="text-xs text-[var(--blx-muted)]">per sqm</span>
               </div>
-              <p className="text-[0.625rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+              <p className="text-[0.625rem] text-[var(--blx-text-2)]">
                 {pitchData.label} {pitchData.tech} — hardware only. Multiply by 1.3-1.4x for total project cost.
               </p>
             </div>
@@ -239,7 +239,7 @@ export default function BudgetEstimator() {
 
             <div className="glass-panel p-6 mb-10" style={{ background: 'rgba(229,197,116,0.04)', border: '1px solid rgba(229,197,116,0.1)' }}>
               <h3 className="text-xs font-bold tracking-[0.15em] text-[var(--blx-gold-3)] mb-3">IMPORTANT NOTES</h3>
-              <div className="space-y-2 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+              <div className="space-y-2 text-[0.6875rem] text-[var(--blx-text-2)]">
                 <p>These estimates are for budgetary planning purposes only. Actual pricing depends on brand selection, quantity, specific features, and project timeline.</p>
                 <p>Excludes: content creation, structural engineering calculations, municipality approvals, and ongoing CMS subscription fees.</p>
                 <p>For a formal quotation, contact our sales team with your project details.</p>
@@ -257,7 +257,7 @@ export default function BudgetEstimator() {
                     { to: '/contractors/led-cost-per-sqm', label: 'LED Cost per sqm Guide' },
                     { to: '/compare', label: 'Product Comparison' },
                   ].map(link => (
-                    <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                    <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                       <ArrowRight size={12} className="text-[var(--blx-gold-3)]" /> {link.label}
                     </Link>
                   ))}

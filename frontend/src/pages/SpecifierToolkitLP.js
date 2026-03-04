@@ -65,7 +65,7 @@ export default function SpecifierToolkitLP() {
           <h1 className="text-2xl sm:text-3xl font-bold tracking-wider leading-tight mb-4">
             Digital Display<br />Specifier Toolkit
           </h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-lg mx-auto leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-lg mx-auto leading-relaxed">
             Everything architects, AV consultants, and contractors need to specify LED displays for GCC projects. One toolkit, immediate access.
           </p>
         </div>
@@ -82,13 +82,13 @@ export default function SpecifierToolkitLP() {
                   </div>
                   <div>
                     <div className="text-xs font-bold tracking-wider">{item.title}</div>
-                    <div className="text-[0.6875rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{item.desc}</div>
+                    <div className="text-[0.6875rem] text-[var(--blx-muted)]">{item.desc}</div>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-4 text-[0.5625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>
+            <div className="mt-6 flex flex-wrap gap-4 text-[0.5625rem] text-[var(--blx-muted)]">
               <span className="flex items-center gap-1"><CheckCircle2 size={10} className="text-[var(--blx-gold-3)]" /> No cost</span>
               <span className="flex items-center gap-1"><CheckCircle2 size={10} className="text-[var(--blx-gold-3)]" /> Immediate access</span>
               <span className="flex items-center gap-1"><CheckCircle2 size={10} className="text-[var(--blx-gold-3)]" /> UAE/GCC specific</span>
@@ -102,7 +102,7 @@ export default function SpecifierToolkitLP() {
               <div className="text-center py-6" data-testid="toolkit-form-success">
                 <CheckCircle2 size={40} className="mx-auto text-[var(--blx-gold-3)] mb-4" />
                 <h3 className="text-base font-bold tracking-wider mb-2">You're In</h3>
-                <p className="text-sm text-[var(--blx-text-2)] mb-6" style={{ textTransform: 'none' }}>
+                <p className="text-sm text-[var(--blx-text-2)] mb-6">
                   Access your toolkit resources below:
                 </p>
                 <div className="space-y-2">
@@ -160,7 +160,7 @@ export default function SpecifierToolkitLP() {
                   <button type="submit" disabled={submitting} className={`btn-gold w-full px-6 py-3.5 text-xs font-bold tracking-[0.15em] ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="toolkit-submit-button">
                     {submitting ? 'Processing...' : 'Get Toolkit Access'}
                   </button>
-                  <p className="text-[0.5rem] text-[var(--blx-muted)] text-center" style={{ textTransform: 'none' }}>
+                  <p className="text-[0.5rem] text-[var(--blx-muted)] text-center">
                     No spam. Your data is confidential.
                   </p>
                 </form>

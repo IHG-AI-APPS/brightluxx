@@ -82,7 +82,7 @@ export default function AdminInspirations() {
                 {item.featured && <Star size={12} className="text-[var(--blx-gold-3)]" fill="currentColor" />}
               </div>
               <h3 className="text-xs font-bold tracking-wider mb-1">{item.title}</h3>
-              <p className="text-[0.625rem] text-[var(--blx-muted)] tracking-wider line-clamp-2" style={{ textTransform: 'none' }}>{item.description}</p>
+              <p className="text-[0.625rem] text-[var(--blx-muted)] tracking-wider line-clamp-2">{item.description}</p>
               <div className="flex gap-1 mt-3">
                 <button onClick={() => openEdit(item)} className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.06)] transition-colors duration-200"><Pencil size={14} className="text-[var(--blx-muted)]" /></button>
                 <button onClick={() => handleDelete(item.id)} className="p-2 rounded-lg hover:bg-[rgba(220,38,38,0.08)] transition-colors duration-200"><Trash2 size={14} className="text-[var(--blx-muted)]" /></button>
@@ -103,8 +103,8 @@ export default function AdminInspirations() {
             </div>
             <div className="p-6 space-y-4">
               <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Title*</label><input value={form.title} onChange={e => setForm({...form, title: e.target.value})} className="input-luxury w-full py-2 text-xs" data-testid="admin-inspiration-title-input" /></div>
-              <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Category*</label><input value={form.category} onChange={e => setForm({...form, category: e.target.value})} placeholder="e.g. retail, corporate" className="input-luxury w-full py-2 text-xs" style={{ textTransform: 'none' }} data-testid="admin-inspiration-category-input" /></div>
-              <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="input-luxury w-full py-2 text-xs resize-y" style={{ textTransform: 'none' }} /></div>
+              <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Category*</label><input value={form.category} onChange={e => setForm({...form, category: e.target.value})} placeholder="e.g. retail, corporate" className="input-luxury w-full py-2 text-xs" data-testid="admin-inspiration-category-input" /></div>
+              <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="input-luxury w-full py-2 text-xs resize-y" /></div>
               <ImageUploader value={form.image_url} onChange={(url) => setForm({...form, image_url: url})} label="Image" />
               <label className="flex items-center gap-2 cursor-pointer text-xs tracking-wider"><input type="checkbox" checked={form.featured} onChange={e => setForm({...form, featured: e.target.checked})} className="accent-[var(--blx-gold-3)]" /><Star size={14} /> Featured</label>
             </div>

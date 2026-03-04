@@ -204,7 +204,7 @@ const Contact = () => {
 
                 <div className="mb-5">
                   <label htmlFor="message" className="block text-xs font-bold mb-1.5 tracking-wider">Project Details</label>
-                  <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="3" className="input-luxury w-full resize-none" placeholder="Tell us about your project..." data-testid="input-message" style={{textTransform: 'none'}}></textarea>
+                  <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="3" className="input-luxury w-full resize-none" placeholder="Tell us about your project..." data-testid="input-message"></textarea>
                 </div>
 
                 <button

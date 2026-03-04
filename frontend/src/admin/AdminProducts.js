@@ -119,7 +119,7 @@ export default function AdminProducts() {
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
           <input type="text" placeholder="Search products..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} className="input-luxury w-full pl-9 py-2 text-xs" data-testid="admin-products-search" />
         </div>
-        <select value={catFilter} onChange={e => { setCatFilter(e.target.value); setPage(1); }} className="input-luxury py-2 px-3 text-xs min-w-[150px]" data-testid="admin-products-category-filter" style={{ textTransform: 'none' }}>
+        <select value={catFilter} onChange={e => { setCatFilter(e.target.value); setPage(1); }} className="input-luxury py-2 px-3 text-xs min-w-[150px]" data-testid="admin-products-category-filter">
           <option value="">All Categories</option>
           {categories.map(c => <option key={c.value} value={c.value}>{c.label} ({c.count})</option>)}
         </select>
@@ -158,13 +158,13 @@ export default function AdminProducts() {
                       {p.image_url && <img src={p.image_url} alt={p.name} className="w-10 h-8 object-cover rounded-lg flex-shrink-0" />}
                       <div>
                         <div className="text-xs font-bold tracking-wider">{p.name}</div>
-                        <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider truncate max-w-[200px]" style={{ textTransform: 'none' }}>{p.tagline}</div>
+                        <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider truncate max-w-[200px]">{p.tagline}</div>
                       </div>
                     </div>
                   </td>
                   <td className="p-3"><span className="category-badge text-[0.5rem]">{p.product_code}</span></td>
-                  <td className="p-3 text-xs text-[var(--blx-text-2)] tracking-wider capitalize" style={{ textTransform: 'none' }}>{(p.category || '').replace(/-/g, ' ')}</td>
-                  <td className="p-3 text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>{p.pixel_pitch}</td>
+                  <td className="p-3 text-xs text-[var(--blx-text-2)] tracking-wider capitalize">{(p.category || '').replace(/-/g, ' ')}</td>
+                  <td className="p-3 text-xs text-[var(--blx-text-2)] tracking-wider">{p.pixel_pitch}</td>
                   <td className="p-3 text-center">
                     <div className="flex items-center justify-center gap-1">
                       {p.featured && <Star size={12} className="text-[var(--blx-gold-3)]" fill="currentColor" />}
@@ -222,24 +222,24 @@ export default function AdminProducts() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Category*</label>
-                  <input value={form.category} onChange={e => setForm({...form, category: e.target.value})} placeholder="e.g. cob-microled" className="input-luxury w-full py-2 text-xs" style={{ textTransform: 'none' }} data-testid="admin-product-category-input" />
+                  <input value={form.category} onChange={e => setForm({...form, category: e.target.value})} placeholder="e.g. cob-microled" className="input-luxury w-full py-2 text-xs" data-testid="admin-product-category-input" />
                 </div>
                 <div>
                   <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Tagline</label>
-                  <input value={form.tagline} onChange={e => setForm({...form, tagline: e.target.value})} placeholder="Short tagline" className="input-luxury w-full py-2 text-xs" style={{ textTransform: 'none' }} />
+                  <input value={form.tagline} onChange={e => setForm({...form, tagline: e.target.value})} placeholder="Short tagline" className="input-luxury w-full py-2 text-xs" />
                 </div>
               </div>
               {/* Description */}
               <div>
                 <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Description</label>
-                <textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="input-luxury w-full py-2 text-xs resize-y" style={{ textTransform: 'none' }} data-testid="admin-product-description-input" />
+                <textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="input-luxury w-full py-2 text-xs resize-y" data-testid="admin-product-description-input" />
               </div>
               {/* Specs Row */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {['pixel_pitch', 'resolution', 'brightness', 'application'].map(f => (
                   <div key={f}>
-                    <label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block capitalize" style={{ textTransform: 'none' }}>{f.replace('_', ' ')}</label>
-                    <input value={form[f]} onChange={e => setForm({...form, [f]: e.target.value})} className="input-luxury w-full py-1.5 text-xs" style={{ textTransform: 'none' }} />
+                    <label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block capitalize">{f.replace('_', ' ')}</label>
+                    <input value={form[f]} onChange={e => setForm({...form, [f]: e.target.value})} className="input-luxury w-full py-1.5 text-xs" />
                   </div>
                 ))}
               </div>
@@ -265,8 +265,8 @@ export default function AdminProducts() {
                 <div className="space-y-2">
                   {(form.key_specs || []).map((spec, i) => (
                     <div key={i} className="flex gap-2 items-center">
-                      <input value={spec.label} onChange={e => updateSpec(i, 'label', e.target.value)} placeholder="Label" className="input-luxury flex-1 py-1.5 text-xs" style={{ textTransform: 'none' }} />
-                      <input value={spec.value} onChange={e => updateSpec(i, 'value', e.target.value)} placeholder="Value" className="input-luxury flex-1 py-1.5 text-xs" style={{ textTransform: 'none' }} />
+                      <input value={spec.label} onChange={e => updateSpec(i, 'label', e.target.value)} placeholder="Label" className="input-luxury flex-1 py-1.5 text-xs" />
+                      <input value={spec.value} onChange={e => updateSpec(i, 'value', e.target.value)} placeholder="Value" className="input-luxury flex-1 py-1.5 text-xs" />
                       <button onClick={() => removeSpec(i)} className="p-1.5 rounded hover:bg-[rgba(220,38,38,0.1)] transition-colors duration-200"><X size={14} className="text-[var(--blx-muted)]" /></button>
                     </div>
                   ))}
@@ -281,7 +281,7 @@ export default function AdminProducts() {
                   </label>
                 ))}
                 <label className="flex items-center gap-2 cursor-pointer text-xs tracking-wider">
-                  <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="input-luxury py-1 px-2 text-xs" style={{ textTransform: 'none' }}>
+                  <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="input-luxury py-1 px-2 text-xs">
                     <option value="published">Published</option>
                     <option value="draft">Draft</option>
                   </select>

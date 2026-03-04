@@ -59,7 +59,7 @@ export default function About() {
         {/* Header */}
         <div className="mb-12">
           <h1 data-testid="about-page-title">About Brightluxx</h1>
-          <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider">
             The digital display division of IHG Industry L.L.C
           </p>
         </div>
@@ -82,7 +82,7 @@ export default function About() {
           <FadeIn>
             <div className="glass-panel p-6 lg:p-8">
               <h2 className="text-base font-bold tracking-wider mb-4">Who We Are</h2>
-              <div className="space-y-4 text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider" style={{ textTransform: 'none' }}>
+              <div className="space-y-4 text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider">
                 <p>
                   <strong className="text-[var(--blx-text)]">Brightluxx</strong> is a one-stop solution for all digital display needs. As the digital display division of <strong className="text-[var(--blx-text)]">IHG Industry L.L.C</strong>, we deliver exceptional digital solutions to the LED sector with high-quality, customizable, and long-lasting products.
                 </p>
@@ -105,7 +105,7 @@ export default function About() {
                   </div>
                   <h3 className="text-sm font-bold tracking-wider">Our Vision</h3>
                 </div>
-                <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider" style={{ textTransform: 'none' }}>
+                <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider">
                   We're focused on how people interact with their screens — what features matter most, the environments they're used in. Every day we gain new knowledge, uncovering ways to help you find the finest solutions you may not even be aware of.
                 </p>
               </div>
@@ -119,7 +119,7 @@ export default function About() {
                   </div>
                   <h3 className="text-sm font-bold tracking-wider">Our Mission</h3>
                 </div>
-                <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider" style={{ textTransform: 'none' }}>
+                <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider">
                   To develop visual technology by establishing relationships and creating customer-driven solutions focused on value creation and integration of new opportunities. Through high-end technology and flawless services, we strive to provide the highest value to our consumers.
                 </p>
               </div>
@@ -135,7 +135,7 @@ export default function About() {
               {CAPABILITIES.map((cap, i) => (
                 <div key={i} className="flex items-center gap-3 py-2">
                   <CheckCircle size={14} className="text-[var(--blx-gold-3)] flex-shrink-0" />
-                  <span className="text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>{cap}</span>
+                  <span className="text-xs text-[var(--blx-text-2)] tracking-wider">{cap}</span>
                 </div>
               ))}
             </div>
@@ -145,7 +145,7 @@ export default function About() {
         {/* CTA */}
         <div className="text-center">
           <h3 className="text-lg mb-2">Ready to Transform Your Space?</h3>
-          <p className="text-xs text-[var(--blx-text-2)] tracking-wider mb-6" style={{ textTransform: 'none' }}>Let's discuss how our LED solutions can elevate your business.</p>
+          <p className="text-xs text-[var(--blx-text-2)] tracking-wider mb-6">Let's discuss how our LED solutions can elevate your business.</p>
           <div className="flex items-center justify-center gap-4">
             <Link to="/contact" className="btn-gold px-8 py-3.5 inline-flex items-center gap-2" data-testid="about-cta-contact">
               Get in Touch <ArrowRight size={14} />

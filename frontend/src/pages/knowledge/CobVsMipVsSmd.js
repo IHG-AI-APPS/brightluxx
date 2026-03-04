@@ -103,7 +103,7 @@ export default function CobVsMipVsSmd() {
                     </div>
                     <div>
                       <h3 className="text-sm font-bold tracking-wider">{tech.title}</h3>
-                      <p className="text-xs text-[var(--blx-text-2)] mt-2 leading-relaxed" style={{ textTransform: 'none' }}>{tech.desc}</p>
+                      <p className="text-xs text-[var(--blx-text-2)] mt-2 leading-relaxed">{tech.desc}</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-4 gap-3">
@@ -157,7 +157,7 @@ export default function CobVsMipVsSmd() {
                     {section.items.map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <Shield size={12} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-                        <span className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{item}</span>
+                        <span className="text-xs text-[var(--blx-text-2)]">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -182,7 +182,7 @@ export default function CobVsMipVsSmd() {
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="text-[var(--blx-gold-3)] font-bold text-xs mt-0.5">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="text-xs text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item}</span>
+                    <span className="text-xs text-[var(--blx-text-2)] leading-relaxed">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -226,7 +226,7 @@ export default function CobVsMipVsSmd() {
                   { to: '/knowledge/ip-rating-guide', label: 'IP Rating Guide' },
                   { to: '/knowledge/refresh-rate-guide', label: 'Refresh Rate Guide' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={12} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}
@@ -235,7 +235,7 @@ export default function CobVsMipVsSmd() {
 
             <div className="glass-panel p-5">
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">NEED HELP SPECIFYING?</h3>
-              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Our technical team offers free 15-minute design-assist calls for architects and consultants.
               </p>
               <Link to="/contact" className="block text-center py-2.5 rounded-lg text-xs font-bold tracking-[0.15em] border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors">

@@ -174,7 +174,7 @@ export default function ScreenCalculator() {
         <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">INTERACTIVE SPECIFICATION TOOL</div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-wider mb-3" data-testid="calculator-page-title">Screen Calculator</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-xl">
             Enter your screen dimensions and viewing distance to get instant pixel pitch, resolution, technology, cost, and power recommendations.
           </p>
         </div>
@@ -366,12 +366,12 @@ export default function ScreenCalculator() {
                 </div>
                 <div>
                   <div className="text-base font-bold">{results.techRec}</div>
-                  <p className="text-xs text-[var(--blx-text-2)] mt-1 leading-relaxed" style={{ textTransform: 'none' }}>{results.techWhy}</p>
+                  <p className="text-xs text-[var(--blx-text-2)] mt-1 leading-relaxed">{results.techWhy}</p>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 text-[0.625rem] text-[var(--blx-muted)]">
                 <Info size={10} />
-                <span style={{ textTransform: 'none' }}>{results.brightnessNote}</span>
+                <span>{results.brightnessNote}</span>
               </div>
             </div>
 
@@ -384,10 +384,10 @@ export default function ScreenCalculator() {
                 <div className="text-2xl font-bold mb-1">
                   ${results.costLow.toLocaleString()} — ${results.costHigh.toLocaleString()}
                 </div>
-                <div className="text-[0.625rem] text-[var(--blx-muted)] mb-4" style={{ textTransform: 'none' }}>
+                <div className="text-[0.625rem] text-[var(--blx-muted)] mb-4">
                   Hardware only. Based on ${results.costRange[0].toLocaleString()}-${results.costRange[1].toLocaleString()}/sqm x {results.area} sqm
                 </div>
-                <div className="space-y-1.5 text-[0.625rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                <div className="space-y-1.5 text-[0.625rem] text-[var(--blx-text-2)]">
                   <div className="flex justify-between"><span>Processing system</span><span>Add 10-15%</span></div>
                   <div className="flex justify-between"><span>Installation</span><span>Add 10-20%</span></div>
                   <div className="flex justify-between"><span>Content creation</span><span>Variable</span></div>
@@ -406,17 +406,17 @@ export default function ScreenCalculator() {
                   <div>
                     <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">POWER CONSUMPTION</div>
                     <div className="text-base font-bold">{results.totalPower.toLocaleString()} W</div>
-                    <div className="text-[0.5625rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{results.powerPerSqm} W/sqm x {results.area} sqm</div>
+                    <div className="text-[0.5625rem] text-[var(--blx-text-2)]">{results.powerPerSqm} W/sqm x {results.area} sqm</div>
                   </div>
                   <div>
                     <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">HEAT OUTPUT</div>
                     <div className="text-base font-bold">{results.heatBtu.toLocaleString()} BTU/hr</div>
-                    <div className="text-[0.5625rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>Factor this into HVAC calculations</div>
+                    <div className="text-[0.5625rem] text-[var(--blx-text-2)]">Factor this into HVAC calculations</div>
                   </div>
                   <div>
                     <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">ELECTRICAL REQUIREMENT</div>
                     <div className="text-base font-bold">{Math.ceil(results.totalPower / 220)} A @ 220V</div>
-                    <div className="text-[0.5625rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>Dedicated circuit recommended</div>
+                    <div className="text-[0.5625rem] text-[var(--blx-text-2)]">Dedicated circuit recommended</div>
                   </div>
                 </div>
               </div>
@@ -435,8 +435,8 @@ export default function ScreenCalculator() {
                       {i > 0 && <div className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2">{i === 1 ? 'BUDGET' : 'PREMIUM'}</div>}
                       <div className="text-lg font-bold text-[var(--blx-gold-3)]">{opt.label}</div>
                       <div className="text-[0.5625rem] text-[var(--blx-muted)] mt-1">{opt.tech}</div>
-                      <div className="text-[0.5625rem] text-[var(--blx-text-2)] mt-2" style={{ textTransform: 'none' }}>{res} px</div>
-                      <div className="text-[0.5625rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>${(results.area * cost[0]).toLocaleString()} — ${(results.area * cost[1]).toLocaleString()}</div>
+                      <div className="text-[0.5625rem] text-[var(--blx-text-2)] mt-2">{res} px</div>
+                      <div className="text-[0.5625rem] text-[var(--blx-text-2)]">${(results.area * cost[0]).toLocaleString()} — ${(results.area * cost[1]).toLocaleString()}</div>
                     </div>
                   );
                 })}
@@ -470,7 +470,7 @@ export default function ScreenCalculator() {
                     { to: '/knowledge/brightness-nits-guide', label: 'Brightness & Nits Guide' },
                     { to: '/for-architects', label: 'For Architects & Consultants' },
                   ].map(link => (
-                    <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                    <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                       <ArrowRight size={12} className="text-[var(--blx-gold-3)]" /> {link.label}
                     </Link>
                   ))}

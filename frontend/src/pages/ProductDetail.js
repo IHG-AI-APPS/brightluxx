@@ -254,8 +254,8 @@ export default function ProductDetail() {
               </div>
 
               <h1 className="mb-2" data-testid="product-detail-title">{product.name}</h1>
-              <p className="text-sm text-[var(--blx-gold-3)] font-medium tracking-wider mb-4" style={{ textTransform: 'none' }}>{product.tagline}</p>
-              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-6" style={{ textTransform: 'none' }}>{product.description}</p>
+              <p className="text-sm text-[var(--blx-gold-3)] font-medium tracking-wider mb-4">{product.tagline}</p>
+              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-6">{product.description}</p>
 
               {/* Quick Specs */}
               <div className="flex flex-wrap gap-3 mb-6">
@@ -301,7 +301,7 @@ export default function ProductDetail() {
                   <h4 className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-2">Ideal For</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {applications.map((app, i) => (
-                      <span key={i} className="text-[0.5625rem] px-2.5 py-1 rounded-full tracking-wider font-medium" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'var(--blx-text-2)', textTransform: 'none' }}>
+                      <span key={i} className="text-[0.5625rem] px-2.5 py-1 rounded-full tracking-wider font-medium" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'var(--blx-text-2)', }}>
                         {app}
                       </span>
                     ))}
@@ -328,20 +328,20 @@ export default function ProductDetail() {
                   <tbody>
                     <tr className="border-b border-[var(--blx-hairline)]">
                       <td className="py-3 px-6 text-xs font-medium tracking-wider">Pixel Pitch</td>
-                      <td className="py-3 px-6 text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>{product.pixel_pitch}</td>
+                      <td className="py-3 px-6 text-xs text-[var(--blx-text-2)] tracking-wider">{product.pixel_pitch}</td>
                     </tr>
                     <tr className="border-b border-[var(--blx-hairline)]">
                       <td className="py-3 px-6 text-xs font-medium tracking-wider">Resolution</td>
-                      <td className="py-3 px-6 text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>{product.resolution}</td>
+                      <td className="py-3 px-6 text-xs text-[var(--blx-text-2)] tracking-wider">{product.resolution}</td>
                     </tr>
                     <tr className="border-b border-[var(--blx-hairline)]">
                       <td className="py-3 px-6 text-xs font-medium tracking-wider">Brightness</td>
-                      <td className="py-3 px-6 text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>{product.brightness}</td>
+                      <td className="py-3 px-6 text-xs text-[var(--blx-text-2)] tracking-wider">{product.brightness}</td>
                     </tr>
                     {product.key_specs.map((spec, i) => (
                       <tr key={i} className={i < product.key_specs.length - 1 ? 'border-b border-[var(--blx-hairline)]' : ''}>
                         <td className="py-3 px-6 text-xs font-medium tracking-wider">{spec.label}</td>
-                        <td className="py-3 px-6 text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>{spec.value}</td>
+                        <td className="py-3 px-6 text-xs text-[var(--blx-text-2)] tracking-wider">{spec.value}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -358,10 +358,10 @@ export default function ProductDetail() {
               <div className="grid lg:grid-cols-2 gap-8">
                 <div>
                   <h2 className="mb-2">Request a Quote</h2>
-                  <p className="text-xs text-[var(--blx-text-2)] tracking-wider mb-4" style={{ textTransform: 'none' }}>
+                  <p className="text-xs text-[var(--blx-text-2)] tracking-wider mb-4">
                     Get pricing, lead times, and custom configuration options for the {product.name}. Our team typically responds within 2 hours.
                   </p>
-                  <div className="space-y-3 text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>
+                  <div className="space-y-3 text-xs text-[var(--blx-text-2)] tracking-wider">
                     <div className="flex items-center gap-2"><Zap size={14} className="text-[var(--blx-gold-3)]" /> Free project consultation</div>
                     <div className="flex items-center gap-2"><Zap size={14} className="text-[var(--blx-gold-3)]" /> Custom size & configuration options</div>
                     <div className="flex items-center gap-2"><Zap size={14} className="text-[var(--blx-gold-3)]" /> Competitive volume pricing</div>
@@ -375,7 +375,7 @@ export default function ProductDetail() {
                         <Check size={24} className="text-[var(--blx-gold-3)]" />
                       </div>
                       <h3 className="text-sm font-bold mb-1">Quote Request Sent</h3>
-                      <p className="text-xs text-[var(--blx-text-2)] tracking-wider text-center" style={{ textTransform: 'none' }}>
+                      <p className="text-xs text-[var(--blx-text-2)] tracking-wider text-center">
                         We'll contact you within 2 hours with pricing for {product.product_code}.
                       </p>
                     </div>
@@ -450,7 +450,7 @@ export default function ProductDetail() {
                     </div>
                     <div className="p-4">
                       <h3 className="text-xs font-bold mb-1 tracking-wider">{p.name}</h3>
-                      <p className="text-[0.625rem] text-[var(--blx-muted)] tracking-wider line-clamp-1" style={{ textTransform: 'none' }}>{p.tagline}</p>
+                      <p className="text-[0.625rem] text-[var(--blx-muted)] tracking-wider line-clamp-1">{p.tagline}</p>
                       <div className="flex gap-2 mt-2 text-[0.625rem] text-[var(--blx-text-2)]">
                         <span>{p.pixel_pitch}</span>
                         <span className="text-[var(--blx-border-2)]">|</span>
@@ -467,7 +467,7 @@ export default function ProductDetail() {
         {/* Bottom CTA */}
         <section className="text-center py-8" data-testid="product-bottom-cta">
           <h3 className="text-lg mb-2">Not Sure Which Product Is Right?</h3>
-          <p className="text-xs text-[var(--blx-text-2)] tracking-wider mb-6" style={{ textTransform: 'none' }}>Use our tools to find the perfect LED display for your project.</p>
+          <p className="text-xs text-[var(--blx-text-2)] tracking-wider mb-6">Use our tools to find the perfect LED display for your project.</p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <Link to="/calculator" className="btn-gold px-8 py-3.5 inline-flex items-center gap-2" data-testid="product-cta-calculator">
               Screen Calculator

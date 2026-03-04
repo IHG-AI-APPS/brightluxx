@@ -101,7 +101,7 @@ export default function ViewingDistanceCalculator() {
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-3">
             Viewing Distance<br />Calculator
           </h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed">
             Find the optimal pixel pitch for your viewing distance, or calculate the ideal viewing range for a specific pixel pitch. Essential for LED display specification.
           </p>
         </div>
@@ -109,7 +109,7 @@ export default function ViewingDistanceCalculator() {
 
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Mode Toggle */}
-        <div className="flex gap-2 mb-8" data-testid="mode-toggle">
+        <div className="grid grid-cols-1 sm:grid-cols-2 sm:w-auto gap-2 mb-8" data-testid="mode-toggle">
           <button
             onClick={() => setMode('pitch-to-distance')}
             className={`flex-1 sm:flex-none px-5 py-3 rounded-xl text-xs font-bold tracking-wider transition-all ${
@@ -218,7 +218,7 @@ export default function ViewingDistanceCalculator() {
               {/* Content Type */}
               <div className="mb-6">
                 <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-3 block">CONTENT TYPE</label>
-                <div className="flex gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {[
                     { id: 'text', label: 'Text / Data', desc: 'Dashboards, menus, presentations' },
                     { id: 'mixed', label: 'Mixed', desc: 'Text + video, general use' },
@@ -235,7 +235,7 @@ export default function ViewingDistanceCalculator() {
                       data-testid={`content-${ct.id}`}
                     >
                       <div className={`text-[0.625rem] font-bold tracking-wider ${contentType === ct.id ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text)]'}`}>{ct.label}</div>
-                      <div className="text-[0.5rem] text-[var(--blx-muted)] mt-0.5" style={{ textTransform: 'none' }}>{ct.desc}</div>
+                      <div className="text-[0.5rem] text-[var(--blx-muted)] mt-0.5">{ct.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -281,9 +281,9 @@ export default function ViewingDistanceCalculator() {
                       </div>
                       <div className="flex justify-between text-[0.5rem] text-[var(--blx-muted)]">
                         <span>0m</span>
-                        <span style={{ textTransform: 'none' }}>Min: {distResults.minDist.toFixed(1)}m</span>
-                        <span style={{ textTransform: 'none' }}>Optimal: {distResults.optimalDist.toFixed(1)}m</span>
-                        <span style={{ textTransform: 'none' }}>Max: {distResults.maxDist.toFixed(1)}m</span>
+                        <span>Min: {distResults.minDist.toFixed(1)}m</span>
+                        <span>Optimal: {distResults.optimalDist.toFixed(1)}m</span>
+                        <span>Max: {distResults.maxDist.toFixed(1)}m</span>
                       </div>
                     </div>
 
@@ -291,22 +291,22 @@ export default function ViewingDistanceCalculator() {
                       <div className="p-4 rounded-xl" style={{ background: 'rgba(227,93,93,0.06)', border: '1px solid rgba(227,93,93,0.15)' }}>
                         <div className="text-[0.5rem] font-bold tracking-[0.15em] text-[#E35D5D] mb-1">MINIMUM</div>
                         <div className="text-lg font-bold" data-testid="result-min-distance">{distResults.minDist.toFixed(1)}m</div>
-                        <div className="text-[0.5rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Pixels may be visible</div>
+                        <div className="text-[0.5rem] text-[var(--blx-muted)]">Pixels may be visible</div>
                       </div>
                       <div className="p-4 rounded-xl" style={{ background: 'rgba(229,197,116,0.06)', border: '1px solid rgba(229,197,116,0.15)' }}>
                         <div className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)] mb-1">OPTIMAL</div>
                         <div className="text-lg font-bold text-[var(--blx-gold-3)]" data-testid="result-optimal-distance">{distResults.optimalDist.toFixed(1)}m</div>
-                        <div className="text-[0.5rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Best image quality</div>
+                        <div className="text-[0.5rem] text-[var(--blx-muted)]">Best image quality</div>
                       </div>
                       <div className="p-4 rounded-xl" style={{ background: 'rgba(111,211,155,0.06)', border: '1px solid rgba(111,211,155,0.15)' }}>
                         <div className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-success)] mb-1">RETINA</div>
                         <div className="text-lg font-bold" data-testid="result-retina-distance">{distResults.retinaDist.toFixed(1)}m</div>
-                        <div className="text-[0.5rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Pixels invisible to eye</div>
+                        <div className="text-[0.5rem] text-[var(--blx-muted)]">Pixels invisible to eye</div>
                       </div>
                       <div className="p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--blx-border)' }}>
                         <div className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1">MAXIMUM</div>
                         <div className="text-lg font-bold" data-testid="result-max-distance">{distResults.maxDist.toFixed(1)}m</div>
-                        <div className="text-[0.5rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Content still readable</div>
+                        <div className="text-[0.5rem] text-[var(--blx-muted)]">Content still readable</div>
                       </div>
                     </div>
                   </>
@@ -323,11 +323,11 @@ export default function ViewingDistanceCalculator() {
                           <div className={`text-[0.5rem] font-bold tracking-[0.15em] mb-2 ${item.label === 'RECOMMENDED' ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-muted)]'}`}>{item.label}</div>
                           <div className={`text-xl font-bold ${item.label === 'RECOMMENDED' ? 'text-[var(--blx-gold-3)]' : ''}`} data-testid={`result-${item.label.toLowerCase()}-pitch`}>{item.data.label}</div>
                           <div className="text-[0.5rem] text-[var(--blx-muted)] mt-1">{item.data.tech}</div>
-                          <div className="text-[0.5625rem] text-[var(--blx-text-2)] mt-2" style={{ textTransform: 'none' }}>{item.data.use}</div>
+                          <div className="text-[0.5625rem] text-[var(--blx-text-2)] mt-2">{item.data.use}</div>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-4 p-3 rounded-lg text-[0.625rem] text-[var(--blx-text-2)]" style={{ background: 'rgba(229,197,116,0.04)', textTransform: 'none' }}>
+                    <div className="mt-4 p-3 rounded-lg text-[0.625rem] text-[var(--blx-text-2)]" style={{ background: 'rgba(229,197,116,0.04)', }}>
                       Ideal pixel pitch for {distance}m viewing distance with {contentType} content: <strong className="text-[var(--blx-gold-3)]">{pitchResults.idealPitch.toFixed(1)}mm</strong>. Closest available: {pitchResults.recommended.label}.
                     </div>
                   </>
@@ -377,11 +377,11 @@ export default function ViewingDistanceCalculator() {
                       return (
                         <tr key={p.pitch} className="border-b border-[var(--blx-hairline)] hover:bg-[rgba(255,255,255,0.02)]">
                           <td className="py-2.5 px-4 text-sm font-bold text-[var(--blx-gold-3)]">{p.label}</td>
-                          <td className="py-2.5 px-4 text-xs" style={{ textTransform: 'none' }}>{res.minDist.toFixed(1)}m</td>
-                          <td className="py-2.5 px-4 text-xs font-bold" style={{ textTransform: 'none' }}>{res.optimalDist.toFixed(1)}m</td>
-                          <td className="py-2.5 px-4 text-xs" style={{ textTransform: 'none' }}>{res.maxDist.toFixed(1)}m</td>
+                          <td className="py-2.5 px-4 text-xs">{res.minDist.toFixed(1)}m</td>
+                          <td className="py-2.5 px-4 text-xs font-bold">{res.optimalDist.toFixed(1)}m</td>
+                          <td className="py-2.5 px-4 text-xs">{res.maxDist.toFixed(1)}m</td>
                           <td className="py-2.5 px-4 text-xs text-[var(--blx-text-2)]">{p.tech}</td>
-                          <td className="py-2.5 px-4 text-[0.6875rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{p.use}</td>
+                          <td className="py-2.5 px-4 text-[0.6875rem] text-[var(--blx-muted)]">{p.use}</td>
                         </tr>
                       );
                     })}
@@ -400,7 +400,7 @@ export default function ViewingDistanceCalculator() {
                   <Ruler size={16} className="text-[var(--blx-gold-3)]" />
                 </div>
                 <h3 className="text-xs font-bold tracking-wider mb-2">Minimum Distance</h3>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">
                   <strong>Pixel Pitch x 1.0</strong> — The closest distance before individual pixels become visible. Acceptable for quick glances but not sustained viewing.
                 </p>
               </div>
@@ -409,7 +409,7 @@ export default function ViewingDistanceCalculator() {
                   <Eye size={16} className="text-[var(--blx-gold-3)]" />
                 </div>
                 <h3 className="text-xs font-bold tracking-wider mb-2">Optimal Distance</h3>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">
                   <strong>Pixel Pitch x 3.0</strong> — The sweet spot. Image appears smooth, text is crisp, and the full screen is comfortably within the field of view.
                 </p>
               </div>
@@ -418,7 +418,7 @@ export default function ViewingDistanceCalculator() {
                   <ArrowLeftRight size={16} className="text-[var(--blx-gold-3)]" />
                 </div>
                 <h3 className="text-xs font-bold tracking-wider mb-2">Maximum Distance</h3>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">
                   <strong>Pixel Pitch x 8.0</strong> — Beyond this, content becomes difficult to read. The display is still visible but fine detail is lost.
                 </p>
               </div>
@@ -447,7 +447,7 @@ export default function ViewingDistanceCalculator() {
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" />
                     <div>
                       <div className="text-xs font-bold tracking-wider">{link.label}</div>
-                      <div className="text-[0.5rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{link.desc}</div>
+                      <div className="text-[0.5rem] text-[var(--blx-muted)]">{link.desc}</div>
                     </div>
                   </Link>
                 ))}
@@ -462,7 +462,7 @@ export default function ViewingDistanceCalculator() {
                   { to: '/knowledge/brightness-nits-guide', label: 'Brightness & Nits Guide' },
                   { to: '/knowledge/cob-vs-mip-vs-smd', label: 'COB vs MiP vs SMD' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}
@@ -471,7 +471,7 @@ export default function ViewingDistanceCalculator() {
 
             <div className="p-5 rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.06) 0%, rgba(183,142,58,0.03) 100%)', border: '1px solid rgba(229,197,116,0.12)' }}>
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-2">NEED HELP SPECIFYING?</h3>
-              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Our engineers can recommend the exact pixel pitch, brightness, and technology for your project.
               </p>
               <Link to="/design-assist" className="btn-gold w-full py-2.5 text-[0.625rem] font-bold tracking-[0.12em] flex items-center justify-center gap-2">

@@ -60,7 +60,7 @@ export default function PixelPitchGuide() {
             {/* What is Pixel Pitch */}
             <h2 className="text-lg font-bold tracking-wider mb-4">What is Pixel Pitch?</h2>
             <div className="glass-panel p-6 mb-8">
-              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Pixel pitch is the distance (in millimetres) between the centre of one LED pixel and the centre of the adjacent pixel. It determines three critical factors:
               </p>
               <div className="grid grid-cols-3 gap-4">
@@ -72,7 +72,7 @@ export default function PixelPitchGuide() {
                   <div key={item.label} className="text-center py-4 rounded-lg" style={{ background: 'rgba(255,255,255,0.02)' }}>
                     <item.icon size={20} className="text-[var(--blx-gold-3)] mx-auto mb-2" />
                     <div className="text-xs font-bold tracking-wider">{item.label}</div>
-                    <div className="text-[0.625rem] text-[var(--blx-muted)] mt-1" style={{ textTransform: 'none' }}>{item.desc}</div>
+                    <div className="text-[0.625rem] text-[var(--blx-muted)] mt-1">{item.desc}</div>
                   </div>
                 ))}
               </div>
@@ -86,18 +86,18 @@ export default function PixelPitchGuide() {
               <div className="space-y-4">
                 <div className="p-4 rounded-lg" style={{ background: 'rgba(229,197,116,0.06)', border: '1px solid rgba(229,197,116,0.12)' }}>
                   <div className="text-xs text-[var(--blx-muted)] tracking-wider mb-1">MINIMUM VIEWING DISTANCE</div>
-                  <div className="text-lg font-bold" style={{ textTransform: 'none' }}>Distance (m) = Pixel Pitch (mm) <span className="text-[var(--blx-gold-3)]">x 1.5</span></div>
+                  <div className="text-lg font-bold">Distance (m) = Pixel Pitch (mm) <span className="text-[var(--blx-gold-3)]">x 1.5</span></div>
                 </div>
                 <div className="p-4 rounded-lg" style={{ background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.12)' }}>
                   <div className="text-xs text-[var(--blx-muted)] tracking-wider mb-1">COMFORTABLE VIEWING DISTANCE</div>
-                  <div className="text-lg font-bold" style={{ textTransform: 'none' }}>Distance (m) = Pixel Pitch (mm) <span className="text-emerald-400">x 2.5</span></div>
+                  <div className="text-lg font-bold">Distance (m) = Pixel Pitch (mm) <span className="text-emerald-400">x 2.5</span></div>
                 </div>
               </div>
             </div>
 
             <div className="glass-panel p-6 mb-8">
               <h3 className="text-xs font-bold tracking-[0.15em] text-[var(--blx-gold-3)] mb-3">EXAMPLE CALCULATION</h3>
-              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed">
                 <strong>Project:</strong> 4m wide x 2.25m tall lobby wall at P1.5<br />
                 <strong>Horizontal pixels:</strong> 4000mm / 1.5mm = 2,667 pixels<br />
                 <strong>Vertical pixels:</strong> 2250mm / 1.5mm = 1,500 pixels<br />
@@ -179,7 +179,7 @@ export default function PixelPitchGuide() {
                   { to: '/knowledge/ip-rating-guide', label: 'IP Rating Guide' },
                   { to: '/knowledge/refresh-rate-guide', label: 'Refresh Rate Guide' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={12} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}

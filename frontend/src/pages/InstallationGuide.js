@@ -222,9 +222,9 @@ function InstallMethod({ method, isOpen, onToggle }) {
       {/* Content */}
       {isOpen && (
         <div className="px-5 sm:px-6 pb-6">
-          <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-5" style={{ textTransform: 'none' }}>{method.desc}</p>
+          <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-5">{method.desc}</p>
 
-          <div className="text-[0.5625rem] text-[var(--blx-muted)] mb-5" style={{ textTransform: 'none' }}>
+          <div className="text-[0.5625rem] text-[var(--blx-muted)] mb-5">
             <strong className="text-[var(--blx-text)]">Best for: </strong>{method.when}
           </div>
 
@@ -237,7 +237,7 @@ function InstallMethod({ method, isOpen, onToggle }) {
               <div key={i} className="p-3 rounded-lg" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--blx-hairline)' }}>
                 <div className="text-[0.5rem] font-bold tracking-[0.12em] text-[var(--blx-muted)] mb-0.5">{s.label}</div>
                 <div className="text-xs font-bold text-[var(--blx-gold-3)]">{s.value}</div>
-                <div className="text-[0.5rem] text-[var(--blx-muted)] mt-0.5" style={{ textTransform: 'none' }}>{s.note}</div>
+                <div className="text-[0.5rem] text-[var(--blx-muted)] mt-0.5">{s.note}</div>
               </div>
             ))}
           </div>
@@ -250,7 +250,7 @@ function InstallMethod({ method, isOpen, onToggle }) {
               </div>
               <div className="space-y-1.5">
                 {method.pros.map((p, i) => (
-                  <div key={i} className="flex items-start gap-2 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                  <div key={i} className="flex items-start gap-2 text-[0.6875rem] text-[var(--blx-text-2)]">
                     <CheckCircle2 size={10} className="text-[var(--blx-success)] mt-0.5 flex-shrink-0" /> {p}
                   </div>
                 ))}
@@ -262,7 +262,7 @@ function InstallMethod({ method, isOpen, onToggle }) {
               </div>
               <div className="space-y-1.5">
                 {method.cons.map((c, i) => (
-                  <div key={i} className="flex items-start gap-2 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                  <div key={i} className="flex items-start gap-2 text-[0.6875rem] text-[var(--blx-text-2)]">
                     <AlertTriangle size={10} className="text-[#E3935D] mt-0.5 flex-shrink-0" /> {c}
                   </div>
                 ))}
@@ -280,7 +280,7 @@ function InstallMethod({ method, isOpen, onToggle }) {
                 <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 text-[0.5rem] font-bold" style={{ background: 'rgba(229,197,116,0.1)', border: '1px solid rgba(229,197,116,0.15)', color: 'var(--blx-gold-3)' }}>
                   {i + 1}
                 </div>
-                <div className="text-[0.6875rem] text-[var(--blx-text-2)] pt-0.5" style={{ textTransform: 'none' }}>{step}</div>
+                <div className="text-[0.6875rem] text-[var(--blx-text-2)] pt-0.5">{step}</div>
               </div>
             ))}
           </div>
@@ -291,7 +291,7 @@ function InstallMethod({ method, isOpen, onToggle }) {
               <ThermometerSun size={16} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
               <div>
                 <div className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)] mb-1">GCC REGION NOTE</div>
-                <div className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{method.gccNote}</div>
+                <div className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{method.gccNote}</div>
               </div>
             </div>
           </div>
@@ -339,7 +339,7 @@ export default function InstallationGuide() {
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-3">
             Installation<br />Method Guide
           </h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed">
             Comprehensive guide to LED display mounting methods with structural requirements, step-by-step sequences, and GCC-specific engineering considerations. Essential for architects, MEP engineers, and fit-out contractors.
           </p>
         </div>
@@ -407,7 +407,7 @@ export default function InstallationGuide() {
                         <td className="py-2.5 px-4 text-xs text-[var(--blx-text-2)]">{row.cost}</td>
                         <td className="py-2.5 px-4 text-xs text-[var(--blx-text-2)]">{row.complexity}</td>
                         <td className="py-2.5 px-4 text-xs text-[var(--blx-gold-3)]">{row.aesthetics}</td>
-                        <td className="py-2.5 px-4 text-[0.6875rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{row.best}</td>
+                        <td className="py-2.5 px-4 text-[0.6875rem] text-[var(--blx-muted)]">{row.best}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -431,7 +431,7 @@ export default function InstallationGuide() {
                     <item.icon size={16} className="text-[var(--blx-gold-3)]" />
                   </div>
                   <h3 className="text-xs font-bold tracking-wider mb-2">{item.title}</h3>
-                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item.desc}</p>
+                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -442,7 +442,7 @@ export default function InstallationGuide() {
             {/* Bottom CTA */}
             <div className="mt-10 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
               <h2 className="text-lg font-bold tracking-wider mb-3">Need Installation Engineering Support?</h2>
-              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
                 Our engineers provide full installation design including structural calculations, MEP coordination, and shop drawings for your specific project.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
@@ -473,7 +473,7 @@ export default function InstallationGuide() {
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" />
                     <div>
                       <div className="text-xs font-bold tracking-wider">{link.label}</div>
-                      <div className="text-[0.5rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{link.desc}</div>
+                      <div className="text-[0.5rem] text-[var(--blx-muted)]">{link.desc}</div>
                     </div>
                   </Link>
                 ))}
@@ -494,7 +494,7 @@ export default function InstallationGuide() {
                   'Municipality permits (outdoor)',
                   'Maintenance access designed',
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                  <div key={i} className="flex items-center gap-2 text-[0.6875rem] text-[var(--blx-text-2)]">
                     <div className="w-4 h-4 rounded border border-[var(--blx-border)] flex-shrink-0" />
                     {item}
                   </div>
@@ -504,7 +504,7 @@ export default function InstallationGuide() {
 
             <div className="p-5 rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.06) 0%, rgba(183,142,58,0.03) 100%)', border: '1px solid rgba(229,197,116,0.12)' }}>
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-2">NEED SITE SUPPORT?</h3>
-              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Our installation engineers are based in UAE and available for site surveys, structural assessments, and installation supervision across the GCC.
               </p>
               <Link to="/contact" className="btn-gold w-full py-2.5 text-[0.625rem] font-bold tracking-[0.12em] flex items-center justify-center gap-2">

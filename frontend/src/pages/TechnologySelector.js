@@ -257,7 +257,7 @@ export default function TechnologySelector() {
         <div className="relative max-w-[800px] mx-auto px-4 sm:px-6 text-center">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">INTERACTIVE TOOL</div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-wider leading-tight mb-3">Technology Selector</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-lg mx-auto" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-lg mx-auto">
             Answer 5 questions about your project and get a personalized LED technology recommendation with pixel pitch, specification, and case study.
           </p>
         </div>
@@ -291,7 +291,7 @@ export default function TechnologySelector() {
                 </button>
               )}
               <h2 className="text-base sm:text-lg font-bold tracking-wider mb-2" data-testid="quiz-question">{currentStep.question}</h2>
-              <p className="text-xs text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{currentStep.subtitle}</p>
+              <p className="text-xs text-[var(--blx-muted)]">{currentStep.subtitle}</p>
             </div>
 
             {/* Options */}
@@ -312,7 +312,7 @@ export default function TechnologySelector() {
                   )}
                   <div className="flex-1">
                     <div className="text-xs font-bold tracking-wider group-hover:text-[var(--blx-gold-3)] transition-colors">{opt.label}</div>
-                    <div className="text-[0.6875rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>{opt.desc}</div>
+                    <div className="text-[0.6875rem] text-[var(--blx-muted)]">{opt.desc}</div>
                   </div>
                   <ChevronRight size={16} className="text-[var(--blx-muted)] group-hover:text-[var(--blx-gold-3)] transition-colors flex-shrink-0" />
                 </button>
@@ -325,7 +325,7 @@ export default function TechnologySelector() {
             <div className="text-center mb-8">
               <CheckCircle2 size={32} className="mx-auto text-[var(--blx-gold-3)] mb-3" />
               <h2 className="text-lg font-bold tracking-wider mb-2">Your Recommendation</h2>
-              <p className="text-xs text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>
+              <p className="text-xs text-[var(--blx-muted)]">
                 Based on your project requirements, here's our technology recommendation.
               </p>
             </div>
@@ -341,7 +341,7 @@ export default function TechnologySelector() {
                 <div data-testid="quiz-lead-gate">
                   <div className="flex items-center gap-2 mb-4 px-4 py-3 rounded-lg" style={{ background: 'rgba(229,197,116,0.06)', border: '1px solid rgba(229,197,116,0.12)' }}>
                     <Lock size={14} className="text-[var(--blx-gold-3)]" />
-                    <span className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>Enter your details to unlock the full recommendation with reasoning, alternatives, and downloadable spec pack.</span>
+                    <span className="text-xs text-[var(--blx-text-2)]">Enter your details to unlock the full recommendation with reasoning, alternatives, and downloadable spec pack.</span>
                   </div>
                   <form onSubmit={handleUnlock} className="space-y-3" data-testid="quiz-unlock-form">
                     <div className="grid sm:grid-cols-2 gap-3">
@@ -374,7 +374,7 @@ export default function TechnologySelector() {
                     {reasons.map((r, i) => (
                       <div key={i} className="flex items-start gap-2">
                         <CheckCircle2 size={12} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{r}</span>
+                        <span className="text-sm text-[var(--blx-text-2)]">{r}</span>
                       </div>
                     ))}
                   </div>

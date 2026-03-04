@@ -126,7 +126,7 @@ export default function CpdProgramme() {
         <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">PROFESSIONAL DEVELOPMENT</div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">CPD / Lunch & Learn Programme</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed mb-8">
             Free, CPD-accredited sessions delivered at your office or virtually. Our technical team educates architects, consultants, and contractors on LED display technology — from specification basics to advanced application design.
           </p>
           <div className="flex flex-wrap gap-3">
@@ -163,7 +163,7 @@ export default function CpdProgramme() {
               <div key={i} className="glass-panel p-6">
                 <div className="text-2xl font-bold text-[var(--blx-gold-3)] opacity-30 mb-3">{item.step}</div>
                 <h3 className="text-xs font-bold tracking-[0.12em] mb-2">{item.title}</h3>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item.desc}</p>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -183,7 +183,7 @@ export default function CpdProgramme() {
                   <div className="text-[0.5625rem] text-[var(--blx-muted)]">AT YOUR PREMISES</div>
                 </div>
               </div>
-              <ul className="space-y-1.5 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+              <ul className="space-y-1.5 text-[0.6875rem] text-[var(--blx-text-2)]">
                 <li className="flex items-start gap-2"><CheckCircle2 size={12} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" /> Presentation with live LED display samples</li>
                 <li className="flex items-start gap-2"><CheckCircle2 size={12} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" /> Lunch provided for all attendees</li>
                 <li className="flex items-start gap-2"><CheckCircle2 size={12} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" /> Ideal for teams of 5-30 people</li>
@@ -200,7 +200,7 @@ export default function CpdProgramme() {
                   <div className="text-[0.5625rem] text-[var(--blx-muted)]">MICROSOFT TEAMS / ZOOM</div>
                 </div>
               </div>
-              <ul className="space-y-1.5 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+              <ul className="space-y-1.5 text-[0.6875rem] text-[var(--blx-text-2)]">
                 <li className="flex items-start gap-2"><CheckCircle2 size={12} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" /> Full presentation with screen sharing</li>
                 <li className="flex items-start gap-2"><CheckCircle2 size={12} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" /> Interactive Q&A session included</li>
                 <li className="flex items-start gap-2"><CheckCircle2 size={12} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" /> Recording provided for your team</li>
@@ -225,11 +225,11 @@ export default function CpdProgramme() {
                   </div>
                 </div>
                 <h3 className="text-xs font-bold tracking-wider mb-2">{session.title}</h3>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>{session.desc}</p>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4">{session.desc}</p>
                 <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-2">LEARNING OUTCOMES</div>
                 <ul className="space-y-1.5 mb-4">
                   {session.outcomes.map((o, i) => (
-                    <li key={i} className="flex items-start gap-2 text-[0.625rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                    <li key={i} className="flex items-start gap-2 text-[0.625rem] text-[var(--blx-text-2)]">
                       <CheckCircle2 size={10} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" /> {o}
                     </li>
                   ))}
@@ -247,7 +247,7 @@ export default function CpdProgramme() {
           <div className="grid lg:grid-cols-[1fr_380px] gap-10">
             <div>
               <h2 className="text-base font-bold tracking-wider mb-2">Book a Session</h2>
-              <p className="text-sm text-[var(--blx-text-2)] mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] mb-6">
                 All sessions are completely free. Submit your request and our team will contact you within 24 hours to confirm the date and logistics.
               </p>
 
@@ -255,7 +255,7 @@ export default function CpdProgramme() {
                 <div className="glass-panel p-8 text-center" data-testid="cpd-form-success">
                   <CheckCircle2 size={40} className="mx-auto text-[var(--blx-gold-3)] mb-4" />
                   <h3 className="text-base font-bold tracking-wider mb-2">Session Requested</h3>
-                  <p className="text-sm text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                  <p className="text-sm text-[var(--blx-text-2)]">
                     Thank you! Our team will contact you within 24 hours to schedule your session.
                   </p>
                 </div>
@@ -327,7 +327,7 @@ export default function CpdProgramme() {
                   </div>
                   <div>
                     <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">ADDITIONAL NOTES</label>
-                    <textarea value={form.message} onChange={e => updateField('message', e.target.value)} className="input-luxury w-full h-24 resize-none" placeholder="Any specific topics or project context you'd like us to cover..." data-testid="cpd-field-message" style={{ textTransform: 'none' }} />
+                    <textarea value={form.message} onChange={e => updateField('message', e.target.value)} className="input-luxury w-full h-24 resize-none" placeholder="Any specific topics or project context you'd like us to cover..." data-testid="cpd-field-message" />
                   </div>
                   {error && <p className="text-red-400 text-xs" data-testid="cpd-form-error">{error}</p>}
                   <button type="submit" disabled={submitting} className={`btn-gold px-8 py-3.5 text-xs font-bold tracking-[0.15em] ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="cpd-submit-button">
@@ -349,7 +349,7 @@ export default function CpdProgramme() {
                     'Direct access to our technical engineering team',
                     'Completely free — no obligations',
                   ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-[0.6875rem] text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                    <li key={i} className="flex items-start gap-2 text-[0.6875rem] text-[var(--blx-text-2)]">
                       <CheckCircle2 size={12} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" /> {item}
                     </li>
                   ))}
@@ -359,16 +359,16 @@ export default function CpdProgramme() {
               <div className="glass-panel p-5">
                 <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">RELATED RESOURCES</div>
                 <div className="space-y-2">
-                  <Link to="/technology" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link to="/technology" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> Technology Hub
                   </Link>
-                  <Link to="/for-architects" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link to="/for-architects" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> For Architects
                   </Link>
-                  <Link to="/resources" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link to="/resources" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> Resource Library
                   </Link>
-                  <Link to="/case-studies" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link to="/case-studies" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> Case Studies
                   </Link>
                 </div>

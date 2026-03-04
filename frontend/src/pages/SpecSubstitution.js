@@ -58,7 +58,7 @@ export default function SpecSubstitution() {
           <div className="relative max-w-[600px] mx-auto px-4 text-center pt-16">
             <CheckCircle size={48} className="text-[var(--blx-gold-3)] mx-auto mb-6" />
             <h1 className="text-2xl font-bold tracking-wider mb-4">Specification Received</h1>
-            <p className="text-sm text-[var(--blx-text-2)] mb-8 leading-relaxed" style={{ textTransform: 'none' }}>
+            <p className="text-sm text-[var(--blx-text-2)] mb-8 leading-relaxed">
               Our technical team will review your specification and provide a detailed comparison report within 24 hours. We'll contact you at <strong className="text-[var(--blx-text)]">{formData.email}</strong>.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
@@ -97,7 +97,7 @@ export default function SpecSubstitution() {
           </div>
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">FREE SPECIFICATION REVIEW SERVICE</div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">Specification<br/>Substitution Support</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed">
             Upload your BOQ or spec sheet. We'll provide equivalent alternatives with cost savings and consultant-ready comparison documents — within 24 hours, free of charge.
           </p>
         </div>
@@ -110,7 +110,7 @@ export default function SpecSubstitution() {
             <div key={i} className="glass-panel p-5" data-testid={`spec-sub-step-${i}`}>
               <div className="text-2xl font-bold text-[var(--blx-gold-3)] opacity-40 mb-2">{step.num}</div>
               <h3 className="text-xs font-bold tracking-[0.12em] mb-2">{step.title}</h3>
-              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{step.desc}</p>
+              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{step.desc}</p>
             </div>
           ))}
         </div>
@@ -120,7 +120,7 @@ export default function SpecSubstitution() {
           <div>
             <div className="glass-panel p-8" data-testid="spec-sub-form-panel">
               <h2 className="text-lg font-bold tracking-wider mb-2">Submit Your Specification</h2>
-              <p className="text-xs text-[var(--blx-text-2)] mb-6" style={{ textTransform: 'none' }}>
+              <p className="text-xs text-[var(--blx-text-2)] mb-6">
                 Fill in the details below and upload your BOQ, specification, or tender drawings. Our team will respond within 24 hours.
               </p>
 
@@ -129,14 +129,12 @@ export default function SpecSubstitution() {
                   <div>
                     <label className="block text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2">YOUR NAME *</label>
                     <input type="text" name="name" value={formData.name} onChange={handleChange} required
-                      className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
-                      style={{ textTransform: 'none' }} data-testid="spec-sub-name" />
+                      className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors" data-testid="spec-sub-name" />
                   </div>
                   <div>
                     <label className="block text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2">WORK EMAIL *</label>
                     <input type="email" name="email" value={formData.email} onChange={handleChange} required
-                      className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
-                      style={{ textTransform: 'none' }} data-testid="spec-sub-email" />
+                      className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors" data-testid="spec-sub-email" />
                   </div>
                 </div>
 
@@ -144,29 +142,25 @@ export default function SpecSubstitution() {
                   <div>
                     <label className="block text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2">COMPANY *</label>
                     <input type="text" name="company" value={formData.company} onChange={handleChange} required
-                      className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
-                      style={{ textTransform: 'none' }} data-testid="spec-sub-company" />
+                      className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors" data-testid="spec-sub-company" />
                   </div>
                   <div>
                     <label className="block text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2">PHONE</label>
                     <input type="tel" name="phone" value={formData.phone} onChange={handleChange}
-                      className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
-                      style={{ textTransform: 'none' }} data-testid="spec-sub-phone" />
+                      className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors" data-testid="spec-sub-phone" />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2">PROJECT NAME</label>
                   <input type="text" name="projectName" value={formData.projectName} onChange={handleChange}
-                    className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors"
-                    style={{ textTransform: 'none' }} data-testid="spec-sub-project" placeholder="e.g., Marriott Al Jaddaf Lobby LED Wall" />
+                    className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors" data-testid="spec-sub-project" placeholder="e.g., Marriott Al Jaddaf Lobby LED Wall" />
                 </div>
 
                 <div>
                   <label className="block text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2">DESCRIPTION / NOTES</label>
                   <textarea name="description" value={formData.description} onChange={handleChange} rows="4"
-                    className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors resize-none"
-                    style={{ textTransform: 'none' }} data-testid="spec-sub-description"
+                    className="w-full px-4 py-2.5 rounded-lg text-sm bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none transition-colors resize-none" data-testid="spec-sub-description"
                     placeholder="Describe the specification you want alternatives for. Include pixel pitch, size, indoor/outdoor, brand specified..." />
                 </div>
 
@@ -177,10 +171,10 @@ export default function SpecSubstitution() {
                     <input type="file" multiple accept=".pdf,.xlsx,.xls,.doc,.docx,.dwg,.jpg,.jpeg,.png" onChange={handleFiles}
                       className="absolute inset-0 opacity-0 cursor-pointer" data-testid="spec-sub-file-input" />
                     <Upload size={24} className="text-[var(--blx-muted)] mx-auto mb-2" />
-                    <p className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+                    <p className="text-xs text-[var(--blx-text-2)]">
                       Drop files here or click to browse
                     </p>
-                    <p className="text-[0.5rem] text-[var(--blx-muted)] mt-1" style={{ textTransform: 'none' }}>
+                    <p className="text-[0.5rem] text-[var(--blx-muted)] mt-1">
                       PDF, Excel, Word, DWG, Images — Max 5 files
                     </p>
                   </div>
@@ -190,7 +184,7 @@ export default function SpecSubstitution() {
                         <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--blx-border)' }}>
                           <div className="flex items-center gap-2">
                             <FileText size={14} className="text-[var(--blx-gold-3)]" />
-                            <span className="text-xs" style={{ textTransform: 'none' }}>{f.name}</span>
+                            <span className="text-xs">{f.name}</span>
                             <span className="text-[0.5rem] text-[var(--blx-muted)]">({(f.size / 1024).toFixed(0)} KB)</span>
                           </div>
                           <button type="button" onClick={() => removeFile(i)} className="text-[var(--blx-muted)] hover:text-red-400 text-xs">Remove</button>
@@ -208,7 +202,7 @@ export default function SpecSubstitution() {
                   {!loading && <ArrowRight size={14} />}
                 </button>
 
-                <p className="text-[0.5rem] text-[var(--blx-muted)] text-center" style={{ textTransform: 'none' }}>
+                <p className="text-[0.5rem] text-[var(--blx-muted)] text-center">
                   100% free. No obligation. Response within 24 hours. Your data is confidential.
                 </p>
               </form>
@@ -229,7 +223,7 @@ export default function SpecSubstitution() {
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-2.5">
                     <CheckCircle size={14} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-                    <span className="text-xs text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>{item}</span>
+                    <span className="text-xs text-[var(--blx-text-2)]">{item}</span>
                   </div>
                 ))}
               </div>
@@ -237,7 +231,7 @@ export default function SpecSubstitution() {
 
             <div className="glass-panel p-5">
               <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">PREFER TO TALK?</h3>
-              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-xs text-[var(--blx-text-2)] leading-relaxed mb-4">
                 Send us the spec via WhatsApp or call directly. We'll respond immediately during business hours.
               </p>
               <div className="space-y-2">
@@ -262,7 +256,7 @@ export default function SpecSubstitution() {
                   { to: '/contractors/led-installation-guide', label: 'Installation Guide' },
                   { to: '/calculator', label: 'Screen Calculator' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}

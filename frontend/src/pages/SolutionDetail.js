@@ -226,7 +226,7 @@ export default function SolutionDetail() {
               {solution.tagline}
             </div>
             <h1 className="mb-4" data-testid="solution-detail-title">{solution.title}</h1>
-            <p className="text-sm text-[var(--blx-text-2)] leading-relaxed tracking-wider" style={{ textTransform: 'none' }}>
+            <p className="text-sm text-[var(--blx-text-2)] leading-relaxed tracking-wider">
               {solution.description}
             </p>
             <div className="mt-8 flex gap-4">
@@ -246,7 +246,7 @@ export default function SolutionDetail() {
         <section className="py-14" data-testid="solution-description">
           <div className="grid lg:grid-cols-2 gap-8">
             <FadeIn>
-              <div className="space-y-4 text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider" style={{ textTransform: 'none' }}>
+              <div className="space-y-4 text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider">
                 {solution.longDescription.split('\n\n').map((para, i) => (
                   <p key={i}>{para}</p>
                 ))}
@@ -270,7 +270,7 @@ export default function SolutionDetail() {
                   {solution.applications.map((app, i) => (
                     <div key={i} className="flex items-center gap-3 py-1.5">
                       <CheckCircle size={14} className="text-[var(--blx-gold-3)] flex-shrink-0" />
-                      <span className="text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>{app}</span>
+                      <span className="text-xs text-[var(--blx-text-2)] tracking-wider">{app}</span>
                     </div>
                   ))}
                 </div>
@@ -283,7 +283,7 @@ export default function SolutionDetail() {
                   {solution.benefits.map((benefit, i) => (
                     <div key={i} className="flex items-start gap-3 py-1.5">
                       <Zap size={14} className="text-[var(--blx-gold-3)] flex-shrink-0 mt-0.5" />
-                      <span className="text-xs text-[var(--blx-text-2)] tracking-wider" style={{ textTransform: 'none' }}>{benefit}</span>
+                      <span className="text-xs text-[var(--blx-text-2)] tracking-wider">{benefit}</span>
                     </div>
                   ))}
                 </div>
@@ -301,7 +301,7 @@ export default function SolutionDetail() {
                 <div className="p-6 lg:p-8 flex flex-col justify-center">
                   <div className="text-[0.625rem] tracking-[0.2em] text-[var(--blx-gold-3)] mb-2 font-bold">Featured Project</div>
                   <h3 className="text-sm font-bold tracking-wider mb-3">{solution.caseStudyTitle}</h3>
-                  <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-5" style={{ textTransform: 'none' }}>
+                  <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-5">
                     {solution.caseStudyDesc}
                   </p>
                   <Link to="/projects" className="text-[var(--blx-gold-3)] text-xs font-bold tracking-wider inline-flex items-center gap-2 hover:gap-3 transition-[gap]" data-testid="solution-view-projects">
@@ -383,7 +383,7 @@ export default function SolutionDetail() {
         {/* CTA */}
         <section className="py-14 text-center" data-testid="solution-bottom-cta">
           <h3 className="text-lg mb-2">Need a Custom Solution?</h3>
-          <p className="text-xs text-[var(--blx-text-2)] tracking-wider mb-6" style={{ textTransform: 'none' }}>
+          <p className="text-xs text-[var(--blx-text-2)] tracking-wider mb-6">
             Our experts will analyze your specific requirements and recommend the perfect LED setup.
           </p>
           <div className="flex items-center justify-center gap-4">

@@ -10,7 +10,7 @@ module.exports = defineConfig({
   reporter: [['html', { open: 'never' }], ['list']],
   timeout: 30000,
   use: {
-    baseURL: process.env.BASE_URL || 'https://deepspace-showcase.preview.emergentagent.com',
+    baseURL: process.env.BASE_URL || 'https://brightluxx-preview-2.preview.emergentagent.com',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     headless: true,

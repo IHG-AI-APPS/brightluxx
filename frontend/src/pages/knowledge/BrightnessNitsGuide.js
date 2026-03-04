@@ -52,7 +52,7 @@ export default function BrightnessNitsGuide() {
 
             <h2 className="text-lg font-bold tracking-wider mb-4">Understanding Nits (cd/m2)</h2>
             <div className="glass-panel p-6 mb-8">
-              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4" style={{ textTransform: 'none' }}>
+              <p className="text-sm text-[var(--blx-text-2)] leading-relaxed mb-4">
                 A "nit" (candela per square metre) measures luminance — how bright a display appears to the human eye. In the GCC, extreme ambient light demands significantly higher brightness than temperate climates.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -64,7 +64,7 @@ export default function BrightnessNitsGuide() {
                 ].map(item => (
                   <div key={item.label} className="text-center py-3 rounded-lg" style={{ background: 'rgba(255,255,255,0.02)' }}>
                     <div className="text-lg font-bold text-[var(--blx-gold-3)]">{item.value}</div>
-                    <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider" style={{ textTransform: 'none' }}>{item.label} (nits)</div>
+                    <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">{item.label} (nits)</div>
                   </div>
                 ))}
               </div>
@@ -105,7 +105,7 @@ export default function BrightnessNitsGuide() {
                   </div>
                   <ul className="space-y-1.5">
                     {card.items.map((item, i) => (
-                      <li key={i} className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>- {item}</li>
+                      <li key={i} className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">- {item}</li>
                     ))}
                   </ul>
                 </div>
@@ -150,7 +150,7 @@ export default function BrightnessNitsGuide() {
                   { to: '/knowledge/ip-rating-guide', label: 'IP Rating Guide' },
                   { to: '/knowledge/refresh-rate-guide', label: 'Refresh Rate Guide' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={12} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}

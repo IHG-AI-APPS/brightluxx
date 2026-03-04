@@ -31,7 +31,7 @@ export default function ApplicationsIndex() {
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">
             Solutions by<br />Application
           </h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed">
             Every space has unique display requirements. Explore application-specific LED solutions with recommended specifications, project examples, and downloadable spec packs tailored for UAE and GCC environments.
           </p>
         </div>
@@ -60,7 +60,7 @@ export default function ApplicationsIndex() {
                 </div>
                 <div className="p-4">
                   <p className="text-[0.625rem] text-[var(--blx-gold-3)] tracking-wider mb-2">{app.heroTagline}</p>
-                  <p className="text-[0.625rem] text-[var(--blx-text-2)] leading-relaxed line-clamp-2" style={{ textTransform: 'none' }}>
+                  <p className="text-[0.625rem] text-[var(--blx-text-2)] leading-relaxed line-clamp-2">
                     {app.heroDescription.slice(0, 120)}...
                   </p>
                   <div className="flex items-center gap-1 mt-3 text-[0.625rem] text-[var(--blx-gold-3)] font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
@@ -76,7 +76,7 @@ export default function ApplicationsIndex() {
         <div className="relative overflow-hidden rounded-2xl p-8 sm:p-12 text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">DON'T SEE YOUR APPLICATION?</div>
           <h2 className="text-lg sm:text-xl font-bold tracking-wider mb-3">Custom LED Solutions</h2>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-lg mx-auto mb-6" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-lg mx-auto mb-6">
             We design bespoke LED display solutions for any environment. Tell us about your project and our technical team will recommend the right specification.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">

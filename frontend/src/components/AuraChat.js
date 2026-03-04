@@ -188,7 +188,6 @@ export default function AuraChat() {
                   style={{
                     background: msg.role === 'user' ? 'rgba(229,197,116,0.12)' : 'rgba(255,255,255,0.04)',
                     border: `1px solid ${msg.role === 'user' ? 'rgba(229,197,116,0.2)' : 'rgba(255,255,255,0.06)'}`,
-                    textTransform: 'none',
                     fontFamily: 'var(--blx-font)',
                   }}
                   dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.content) }}
@@ -214,7 +213,7 @@ export default function AuraChat() {
             {showLeadForm && !leadCaptured && (
               <div className="mx-auto w-full p-4 rounded-xl" style={{ background: 'rgba(229,197,116,0.06)', border: '1px solid rgba(229,197,116,0.15)' }} data-testid="aura-lead-form">
                 <div className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)] mb-2">ENJOYING THE CONVERSATION?</div>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] mb-3" style={{ textTransform: 'none' }}>
+                <p className="text-[0.6875rem] text-[var(--blx-text-2)] mb-3">
                   Share your details and I can provide more specific recommendations for your project.
                 </p>
                 <form onSubmit={handleLeadSubmit} className="space-y-2">
@@ -251,7 +250,7 @@ export default function AuraChat() {
                 onChange={e => setInput(e.target.value)}
                 placeholder="Ask about LED displays..."
                 className="flex-1 bg-transparent border-none outline-none text-xs text-[var(--blx-text)]"
-                style={{ textTransform: 'none', fontFamily: 'var(--blx-font)' }}
+                style={{ fontFamily: 'var(--blx-font)' }}
                 disabled={loading}
                 data-testid="aura-input"
               />

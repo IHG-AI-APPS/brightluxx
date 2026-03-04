@@ -95,7 +95,7 @@ export default function CmsMultiSiteGuide() {
                   </div>
                   <div>
                     <h3 className="text-xs font-bold tracking-[0.12em] mb-1.5">{item.title}</h3>
-                    <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed" style={{ textTransform: 'none' }}>{item.desc}</p>
+                    <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -114,8 +114,8 @@ export default function CmsMultiSiteGuide() {
               ].map((item, i) => (
                 <div key={i} className="glass-panel p-5" data-testid={`cms-usecase-${i}`}>
                   <h3 className="text-xs font-bold tracking-[0.12em] mb-2">{item.title}</h3>
-                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-2" style={{ textTransform: 'none' }}>{item.desc}</p>
-                  <p className="text-[0.5625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Examples: {item.example}</p>
+                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-2">{item.desc}</p>
+                  <p className="text-[0.5625rem] text-[var(--blx-muted)]">Examples: {item.example}</p>
                 </div>
               ))}
             </div>
@@ -157,7 +157,7 @@ export default function CmsMultiSiteGuide() {
                   { to: '/applications/retail', label: 'LED for Retail' },
                   { to: '/applications/hospitality', label: 'LED for Hospitality' },
                 ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors" style={{ textTransform: 'none' }}>
+                  <Link key={link.to} to={link.to} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--blx-text)] transition-colors">
                     <ArrowRight size={10} className="text-[var(--blx-gold-3)]" /> {link.label}
                   </Link>
                 ))}

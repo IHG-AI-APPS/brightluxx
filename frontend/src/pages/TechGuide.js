@@ -95,7 +95,7 @@ const TechGuide = () => {
                   </div>
                 </div>
 
-                <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed tracking-wider max-w-3xl" style={{textTransform: 'none'}}>
+                <p className="text-sm text-[var(--blx-text-2)] mb-6 leading-relaxed tracking-wider max-w-3xl">
                   {tech.description}
                 </p>
 

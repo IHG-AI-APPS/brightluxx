@@ -30,7 +30,7 @@ export default function LatestTechIndex() {
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">
             Latest LED<br />Technology
           </h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-2xl leading-relaxed">
             The most exciting LED display innovations from ISE 2026 and the cutting edge of commercial signage technology. Each page includes specification guidance, UAE application context, and what to ask vendors.
           </p>
         </div>
@@ -67,7 +67,7 @@ export default function LatestTechIndex() {
                 </div>
                 <div className="p-5">
                   <p className="text-[0.625rem] text-[var(--blx-gold-3)] tracking-wider mb-2">{tech.heroTagline}</p>
-                  <p className="text-xs text-[var(--blx-text-2)] leading-relaxed line-clamp-3 mb-4" style={{ textTransform: 'none' }}>
+                  <p className="text-xs text-[var(--blx-text-2)] leading-relaxed line-clamp-3 mb-4">
                     {tech.heroDescription}
                   </p>
                   <div className="flex items-center gap-1 text-xs text-[var(--blx-gold-3)] font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
@@ -83,7 +83,7 @@ export default function LatestTechIndex() {
         <div className="relative overflow-hidden rounded-2xl p-8 sm:p-12 text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
           <Sparkles size={24} className="text-[var(--blx-gold-3)] mx-auto mb-4" />
           <h2 className="text-lg sm:text-xl font-bold tracking-wider mb-3">Interested in the Latest Technology?</h2>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-lg mx-auto mb-6" style={{ textTransform: 'none' }}>
+          <p className="text-sm text-[var(--blx-text-2)] max-w-lg mx-auto mb-6">
             Our technical team stays at the forefront of LED innovation. Book a consultation to explore how cutting-edge technology can elevate your next project.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">

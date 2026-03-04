@@ -95,7 +95,7 @@ export default function ExitIntentPopup() {
               <CheckCircle2 size={28} className="text-[var(--blx-success)]" />
             </div>
             <div className="text-lg font-bold tracking-wider mb-2">We'll Be in Touch</div>
-            <div className="text-sm text-[var(--blx-text-2)]" style={{ textTransform: 'none' }}>
+            <div className="text-sm text-[var(--blx-text-2)]">
               Our team will contact you within 24 hours to schedule your free site visit.
             </div>
           </div>
@@ -108,7 +108,7 @@ export default function ExitIntentPopup() {
               </div>
               <div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-1">BEFORE YOU GO</div>
               <div className="text-base font-bold tracking-wider leading-snug">Free Site Visit & Quote</div>
-              <div className="text-[0.75rem] text-[var(--blx-text-2)] mt-1.5 leading-relaxed" style={{ textTransform: 'none' }}>
+              <div className="text-[0.75rem] text-[var(--blx-text-2)] mt-1.5 leading-relaxed">
                 Our engineers will visit your site, take measurements, and deliver a detailed quotation — at no cost.
               </div>
             </div>
@@ -158,7 +158,6 @@ export default function ExitIntentPopup() {
                 onChange={e => setForm(p => ({ ...p, project_brief: e.target.value }))}
                 className="input-luxury w-full text-xs py-2.5 px-3 resize-none"
                 rows={2}
-                style={{ textTransform: 'none' }}
                 data-testid="exit-intent-brief"
               />
               <button
@@ -176,7 +175,7 @@ export default function ExitIntentPopup() {
                 )}
               </button>
               <div className="text-center pt-1">
-                <span className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider" style={{ textTransform: 'none' }}>No obligation. Available across UAE.</span>
+                <span className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider">No obligation. Available across UAE.</span>
               </div>
             </form>
           </>

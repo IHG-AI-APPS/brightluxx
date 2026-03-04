@@ -34,6 +34,8 @@ SPEC_PACKS = {
     "brightness-nits": "Brightness & Nits Guide for GCC",
     "ip-rating": "IP Rating & Serviceability Guide",
     "refresh-rate": "Refresh Rate & Camera Guide",
+    "supermarket-promotions": "Supermarket Digital Signage Spec Pack",
+    "residential-cinema": "Residential Cinema Wall Spec Pack",
 }
 
 

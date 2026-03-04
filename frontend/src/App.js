@@ -28,6 +28,8 @@ import PixelPitchGuide from './pages/knowledge/PixelPitchGuide';
 import BrightnessNitsGuide from './pages/knowledge/BrightnessNitsGuide';
 import IpRatingGuide from './pages/knowledge/IpRatingGuide';
 import RefreshRateGuide from './pages/knowledge/RefreshRateGuide';
+import ProcessingCalibrationGuide from './pages/knowledge/ProcessingCalibrationGuide';
+import CmsMultiSiteGuide from './pages/knowledge/CmsMultiSiteGuide';
 
 // Applications
 import ApplicationsIndex from './pages/ApplicationsIndex';
@@ -38,6 +40,7 @@ import ForArchitects from './pages/ForArchitects';
 import ValueEngineering from './pages/ValueEngineering';
 import ContractorPage from './pages/ContractorPage';
 import SpecSubstitution from './pages/SpecSubstitution';
+import BudgetEstimator from './pages/BudgetEstimator';
 
 // Latest Tech
 import LatestTechIndex from './pages/LatestTechIndex';
@@ -87,12 +90,15 @@ function AppRoutes() {
       <Route path="/knowledge/brightness-nits-guide" element={<><Navbar /><BrightnessNitsGuide /><Footer /><StickyCTA /></>} />
       <Route path="/knowledge/ip-rating-guide" element={<><Navbar /><IpRatingGuide /><Footer /><StickyCTA /></>} />
       <Route path="/knowledge/refresh-rate-guide" element={<><Navbar /><RefreshRateGuide /><Footer /><StickyCTA /></>} />
+      <Route path="/knowledge/processing-calibration" element={<><Navbar /><ProcessingCalibrationGuide /><Footer /><StickyCTA /></>} />
+      <Route path="/knowledge/cms-multi-site" element={<><Navbar /><CmsMultiSiteGuide /><Footer /><StickyCTA /></>} />
       <Route path="/applications" element={<><Navbar /><ApplicationsIndex /><Footer /><StickyCTA /></>} />
       <Route path="/applications/:appId" element={<><Navbar /><ApplicationLanding /><Footer /><StickyCTA /></>} />
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />
       <Route path="/contractors/:pageId" element={<><Navbar /><ContractorPage /><Footer /><StickyCTA /></>} />
       <Route path="/spec-substitution" element={<><Navbar /><SpecSubstitution /><Footer /><StickyCTA /></>} />
+      <Route path="/budget-estimator" element={<><Navbar /><BudgetEstimator /><Footer /><StickyCTA /></>} />
       <Route path="/latest-tech" element={<><Navbar /><LatestTechIndex /><Footer /><StickyCTA /></>} />
       <Route path="/latest-tech/:techId" element={<><Navbar /><LatestTechDetail /><Footer /><StickyCTA /></>} />
 

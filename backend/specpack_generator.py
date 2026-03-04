@@ -791,6 +791,88 @@ def _generate_application_pack(pack_id, path):
                 ]),
             ],
         },
+        "supermarket-promotions": {
+            "title": "Supermarket Digital Signage",
+            "subtitle": "LED Display Specification for Grocery &amp; Supermarket Promotions",
+            "sections": [
+                ("ENTRANCE FEATURE DISPLAY", [
+                    ("Type", "SMD or MiP indoor panel"),
+                    ("Pixel Pitch", "P2.5 - P4 (viewing 3-10m)"),
+                    ("Brightness", "1,000 - 1,500 nits (bright retail lighting)"),
+                    ("Size", "2m x 1.5m typical for store entrance"),
+                    ("Content", "Welcome messages, daily deals, promotions"),
+                    ("Orientation", "Landscape 16:9"),
+                    ("Mounting", "Wall or ceiling suspended"),
+                ]),
+                ("AISLE END CAPS", [
+                    ("Type", "Slim indoor LED panel"),
+                    ("Pixel Pitch", "P2.5 - P3.9 (close viewing)"),
+                    ("Brightness", "800 - 1,200 nits"),
+                    ("Size", "Portrait 0.5m x 1m typical"),
+                    ("Content", "Category promotions, product highlights"),
+                    ("Integration", "POS system for dynamic pricing"),
+                    ("Durability", "IP20 minimum for indoor retail"),
+                ]),
+                ("CHECKOUT ZONE DISPLAYS", [
+                    ("Type", "Indoor SMD panels"),
+                    ("Pixel Pitch", "P2.5 - P4"),
+                    ("Brightness", "1,000 - 1,500 nits"),
+                    ("Content", "Last-minute deals, loyalty programs, queue entertainment"),
+                    ("Mounting", "Above checkout lanes, visible from queue"),
+                    ("CMS", "Dayparting for time-based content"),
+                ]),
+                ("DELI / FRESH SECTION", [
+                    ("Type", "Indoor panel with IP43+ protection"),
+                    ("Pixel Pitch", "P2.5 - P4"),
+                    ("Brightness", "800 - 1,200 nits"),
+                    ("IP Rating", "IP43 minimum (food service area)"),
+                    ("Content", "Menu boards, pricing, freshness messaging"),
+                    ("Special", "Easy-clean surface for hygiene compliance"),
+                ]),
+            ],
+        },
+        "residential-cinema": {
+            "title": "Residential Cinema Wall",
+            "subtitle": "Home Theatre LED Wall Specification for Luxury Residences",
+            "sections": [
+                ("DEDICATED HOME CINEMA ROOM", [
+                    ("Type", "COB (best-in-class contrast for cinema)"),
+                    ("Pixel Pitch", "P0.9 - P1.5 (close viewing 2-4m)"),
+                    ("Brightness", "300 - 600 nits (dark room, HDR content)"),
+                    ("Contrast", "15,000:1+ ANSI (cinema-grade black levels)"),
+                    ("Aspect", "2.35:1 CinemaScope or 16:9"),
+                    ("Size", "3-6m diagonal typical for villa cinema"),
+                    ("HDR", "HDR10, Dolby Vision support essential"),
+                    ("Processing", "Premium processor (Novastar A10s or equivalent)"),
+                ]),
+                ("LIVING ROOM FEATURE WALL", [
+                    ("Type", "MiP or COB (lifestyle aesthetics)"),
+                    ("Pixel Pitch", "P1.2 - P2.5"),
+                    ("Brightness", "600 - 1,000 nits (mixed lighting)"),
+                    ("Size", "2-4m wide typical"),
+                    ("Content", "TV, streaming, art display mode"),
+                    ("Integration", "Smart home automation (Control4, Crestron)"),
+                    ("Ambient", "Auto-brightness for day/night modes"),
+                ]),
+                ("OUTDOOR ENTERTAINMENT AREA", [
+                    ("Type", "Outdoor-rated SMD or MiP"),
+                    ("Pixel Pitch", "P2.5 - P4"),
+                    ("Brightness", "3,000 - 5,000 nits (evening/night use)"),
+                    ("IP Rating", "IP65 minimum (pool, garden exposure)"),
+                    ("Content", "Sports, movies, ambient video"),
+                    ("Weather", "Rated for UAE climate (-10C to +55C)"),
+                    ("Audio", "Integrate with outdoor speaker system"),
+                ]),
+                ("INSTALLATION CONSIDERATIONS", [
+                    ("Power", "Dedicated circuit, whole-house UPS recommended"),
+                    ("Cooling", "Silent operation essential (< 30dB)"),
+                    ("Control", "Integration with home automation"),
+                    ("Calibration", "ISF/THX calibration for cinema grade"),
+                    ("Service", "Front-service essential (flush wall mount)"),
+                    ("Support", "Local service contract for residential"),
+                ]),
+            ],
+        },
     }
 
     cfg = configs.get(pack_id)
@@ -855,6 +937,8 @@ def generate_spec_pack(pack_id, path):
         "corporate-control": _generate_application_pack,
         "healthcare-wayfinding": _generate_application_pack,
         "education-campus": _generate_application_pack,
+        "supermarket-promotions": _generate_application_pack,
+        "residential-cinema": _generate_application_pack,
     }
     gen = generators.get(pack_id)
     if gen:

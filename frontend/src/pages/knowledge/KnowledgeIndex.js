@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Cpu, Ruler, Sun, Shield, Camera, Download } from 'lucide-react';
+import { ArrowRight, BookOpen, Cpu, Ruler, Sun, Shield, Camera, Download, Sliders, Monitor } from 'lucide-react';
 import SEO from '../../components/SEO';
 import { buildFaqJsonLd } from '../../components/KnowledgeBase';
 
@@ -48,6 +48,24 @@ const GUIDES = [
     subtitle: 'Flicker-Free Displays',
     description: 'Eliminating flicker, banding, and moire on camera. Refresh rate tables, greyscale bit depth, and processing system guidance.',
     tags: ['Camera', 'Broadcast', 'Refresh Rate'],
+    specPack: true,
+  },
+  {
+    slug: 'processing-calibration',
+    icon: Sliders,
+    title: 'Processing & Calibration',
+    subtitle: 'Image Quality Fundamentals',
+    description: 'Video processing systems, camera-based calibration, colour management, and content delivery. The specifications that define image quality.',
+    tags: ['Processing', 'Calibration', 'Colour'],
+    specPack: true,
+  },
+  {
+    slug: 'cms-multi-site',
+    icon: Monitor,
+    title: 'CMS for Multi-Site Signage',
+    subtitle: 'Content Management Networks',
+    description: 'Specifying and deploying content management systems for multi-location signage networks. Platform comparison, cost analysis, and UAE use cases.',
+    tags: ['CMS', 'Multi-Site', 'Network'],
     specPack: true,
   },
 ];

@@ -18,54 +18,62 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 - **Images**: ALL real images from brightluxx.com WordPress site — NO AI-generated images
 
 ## Tech Stack
-- **Frontend**: React + React Router + Tailwind-style CSS variables + Shadcn/UI components
+- **Frontend**: React 19 + React Router + Tailwind CSS variables + Shadcn/UI + Recharts
 - **Backend**: FastAPI (Python)
-- **Database**: MongoDB (Motor async driver)
+- **Database**: MongoDB 7.0 (Motor async driver)
 - **Image Processing**: Pillow for WebP optimization
-- **Web Scraping**: BeautifulSoup4 + WordPress REST API
+- **Object Storage**: Emergent Object Storage (CDN)
 
 ## Architecture
 ```
 /app/
 ├── backend/
-│   ├── server.py          # FastAPI entry point (~60 lines)
-│   ├── models.py          # Pydantic models
-│   ├── database.py        # MongoDB connection
-│   ├── security.py        # Auth, JWT, password hashing
-│   ├── dependencies.py    # Rate limiter
-│   ├── seed_data.py       # Initial data seeding
+│   ├── server.py          # FastAPI entry + perf middleware
+│   ├── database.py        # MongoDB connection (7 collections)
+│   ├── auth.py            # JWT auth + admin verification
+│   ├── utils.py           # Helpers (serialize_doc, rate limiter)
+│   ├── storage.py         # Emergent Object Storage utility
 │   └── routes/
-│       ├── admin.py       # CMS admin endpoints
-│       ├── auth.py        # Auth endpoints
+│       ├── admin.py       # Admin auth + CRUD
+│       ├── admin_crud.py  # Extended admin CRUD ops
 │       ├── public.py      # Public API endpoints
-│       └── static.py      # Static file serving
-├── frontend/
-│   └── src/
-│       ├── App.js         # Router (public + admin)
-│       ├── pages/         # All public pages
-│       ├── admin/         # Admin panel components
-│       └── components/    # Shared components
-└── frontend/public/uploads/ # Real images (WebP)
+│       ├── cdn.py         # CDN image proxy with optimization
+│       ├── analytics.py   # Event tracking + admin dashboards
+│       └── upload.py      # File upload handling
+├── frontend/src/
+│   ├── App.js             # Router (public + admin)
+│   ├── api.js             # Axios API client
+│   ├── lib/tracker.js     # Privacy-focused analytics tracker
+│   ├── components/
+│   │   ├── CdnImage.js    # Lazy-loading blur-up image component
+│   │   ├── SEO.js         # Meta tags + JSON-LD structured data
+│   │   ├── Navbar.js, Footer.js, StickyCTA.js
+│   │   └── ui/            # Shadcn components
+│   ├── pages/             # 14 public pages
+│   └── admin/             # 10 admin panel components
 ```
 
 ## What's Been Implemented
 
-### Completed (as of March 2026)
-- [x] Full public site: Home, Products, Inspirations, Projects, Contact, Showroom, Calculator, Compare, Tech Guide, Configurator
-- [x] Solutions page with 8 solution categories
-- [x] **Solution Detail Pages** (/solutions/:id) — 8 dedicated pages with hero, description, applications, benefits, featured project, recommended products, and cross-navigation
-- [x] **Product Detail Pages** (/products/:slug) — Full product pages with image gallery, specs table, quote form, related products, WhatsApp CTA, and breadcrumb navigation
-- [x] About Us page with company info, vision, mission, capabilities
+### Completed (as of March 4, 2026)
+- [x] Full public site: Home, Products, Inspirations, Projects, Contact, Showroom, Calculator, Compare, Tech Guide, Configurator, About
+- [x] Solutions page with 8 solution categories + detail pages
+- [x] Product Detail Pages with gallery, specs, quote form, related products
 - [x] Admin CMS panel (products, projects, inspirations, leads management)
-- [x] JWT authentication with refresh tokens
-- [x] Rate limiting on critical endpoints
-- [x] Backend refactored from monolith to modular routes/models/utils
-- [x] **Real image replacement**: All 100+ images downloaded from brightluxx.com WordPress media library, converted to WebP, mapped to all products (57), projects (26), and inspirations (22)
-- [x] **Image CDN Integration**: All 194 images migrated to Emergent Object Storage. CDN endpoint (`/api/cdn/{path}`) with on-the-fly optimization (resize, quality, format conversion). Admin uploads go directly to cloud storage.
-- [x] **Blur-up Lazy Loading**: CdnImage component with 78-byte blur placeholders, IntersectionObserver-based lazy loading, and smooth CSS opacity transitions. Applied to all 135 images across all pages.
-- [x] **SEO Meta Tags & Open Graph**: Custom React 19-compatible SEO component with dynamic `<title>`, description, OG image/title/URL/type, Twitter Card, canonical URL, robots, and geo tags across all 12 pages. Product pages use `og:type=product` with product-specific OG images.
-- [x] **JSON-LD Structured Data**: Product schema (name, SKU, brand, image, offers, 7+ specs), Organization + WebSite (Home), ItemList (Products listing, 57 items), BreadcrumbList (Product/Solution detail pages), LocalBusiness (Contact with hours, address, phone). Auto-cleanup on navigation.
-- [x] Database seeded with real product data and project data from brightluxx.com
+- [x] JWT authentication with refresh tokens + rate limiting
+- [x] Real images from brightluxx.com (100+ images, WebP format)
+- [x] Image CDN Integration (Emergent Object Storage, on-the-fly optimization)
+- [x] Blur-up Lazy Loading (CdnImage component with IntersectionObserver)
+- [x] SEO Meta Tags & Open Graph (dynamic across all 14 pages)
+- [x] JSON-LD Structured Data (Product, Organization, WebSite, ItemList, BreadcrumbList, LocalBusiness)
+- [x] **Analytics & Performance Monitoring** — Custom privacy-focused event tracking system:
+  - Frontend tracker (sendBeacon with Blob) auto-tracks page views on all pages via SEO component
+  - Tracks: page_view, product_view, cta_click, quote_request events
+  - Performance middleware records response times for all /api/ endpoints
+  - Admin Analytics Dashboard: page views, unique visitors, top pages, top products, device breakdown, referrers, CTA clicks, lead funnel
+  - Admin Performance Dashboard: total requests, avg/p95 response times, endpoint table, status codes, slowest endpoints, system health
+  - Period selectors (7d/14d/30d for analytics, 1d/3d/7d for performance)
+  - **Tested**: 27/27 backend tests passed, all frontend rendering verified
 
 ### Admin Credentials
 - URL: `/admin`
@@ -76,23 +84,38 @@ Premium showcase website for Brightluxx, a company specializing in digital LED s
 
 ### P1 — Next Up
 - Real email notifications for lead capture (SendGrid integration)
+- Screen Calculator Tool (interactive calculator feature)
+- Product Comparison Tool (side-by-side comparison)
+
+### P2
 - Further modularize admin.py route file by resource
+- Dynamic sitemap.xml endpoint for SEO
 
 ### P3
-- Advanced analytics integration (privacy-focused)
-- SEO optimization (meta tags, Open Graph, structured data)
+- E2E test suite (Playwright/Cypress)
+- Web scraping robustness improvements
 
 ## Key APIs
-- `GET /api/products?category=X` — Public product listing with optional category filter
-- `GET /api/projects` — Public project listing
-- `GET /api/inspirations` — Public inspirations
-- `POST /api/contact` — Lead submission
+- `GET /api/products?category=X` — Public product listing
+- `GET /api/products/:slug` — Product detail
+- `GET /api/projects`, `GET /api/inspirations` — Public listings
+- `POST /api/leads` — Lead submission
 - `POST /api/admin/login` — Admin authentication
 - `CRUD /api/admin/products|projects|inspirations|leads` — Admin management
+- `GET /api/cdn/{path}` — CDN image proxy with optimization
+- `POST /api/track` — Public analytics event tracking
+- `GET /api/admin/analytics` — Analytics dashboard data (auth required)
+- `GET /api/admin/performance` — Performance dashboard data (auth required)
+- `GET /api/health` — System health check
 
 ## DB Collections
 - `products`: {name, category, product_code, pixel_pitch, brightness, image_url, gallery, specs, ...}
 - `projects`: {title, sector, location, image_url, description, ...}
 - `inspirations`: {title, description, image_url, category, ...}
-- `leads`: {name, email, message, status, ...}
-- `admins`: {username, hashed_password}
+- `leads`: {name, email, message, status, source, ...}
+- `admins`: {id, email, password, name, role, created_at}
+- `analytics_events`: {event, page, referrer, product_slug, category, session_id, screen_width, ip_hash, ua_short, ts}
+- `performance_metrics`: {endpoint, response_time_ms, status_code, ts}
+
+## Mocked/Incomplete
+- Lead/Quote submission saves to DB but does NOT send email notifications (planned: SendGrid integration)

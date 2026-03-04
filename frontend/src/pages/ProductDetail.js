@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Zap, Send, Phone, Check } from 'lucide-react';
 import { getProduct, getProducts, createLead } from '../api';
 import CdnImage from '../components/CdnImage';
-import SEO from '../components/SEO';
+import SEO, { resolveImage, BASE_URL } from '../components/SEO';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -119,6 +119,44 @@ export default function ProductDetail() {
   const gallery = product.gallery?.length ? product.gallery : [product.image_url];
   const applications = product.application ? product.application.split(',').map(a => a.trim()) : [];
 
+  const productJsonLd = product ? [
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": product.name,
+      "description": product.description,
+      "image": resolveImage(product.image_url),
+      "sku": product.product_code,
+      "brand": { "@type": "Brand", "name": "Brightluxx" },
+      "category": CATEGORY_LABELS[product.category] || product.category,
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/InStock",
+        "priceCurrency": "AED",
+        "price": "0",
+        "priceValidUntil": "2027-12-31",
+        "seller": { "@type": "Organization", "name": "Brightluxx" },
+        "url": `${BASE_URL}/products/${product.slug}`,
+      },
+      "additionalProperty": [
+        ...(product.pixel_pitch ? [{ "@type": "PropertyValue", "name": "Pixel Pitch", "value": product.pixel_pitch }] : []),
+        ...(product.brightness ? [{ "@type": "PropertyValue", "name": "Brightness", "value": product.brightness }] : []),
+        ...(product.resolution ? [{ "@type": "PropertyValue", "name": "Resolution", "value": product.resolution }] : []),
+        ...(product.key_specs || []).map(s => ({ "@type": "PropertyValue", "name": s.label, "value": s.value })),
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": BASE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Products", "item": `${BASE_URL}/products` },
+        { "@type": "ListItem", "position": 3, "name": CATEGORY_LABELS[product.category] || product.category, "item": `${BASE_URL}/products?category=${product.category}` },
+        { "@type": "ListItem", "position": 4, "name": product.name },
+      ]
+    }
+  ] : undefined;
+
   return (
     <div className="py-16" data-testid={`product-detail-${product.slug}`}>
       <SEO
@@ -127,6 +165,7 @@ export default function ProductDetail() {
         image={product.image_url}
         path={`/products/${product.slug}`}
         type="product"
+        jsonLd={productJsonLd}
       />
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
 

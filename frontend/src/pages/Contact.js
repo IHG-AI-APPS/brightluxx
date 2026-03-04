@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, MessageCircle, CheckCircle } from 'lucide-react';
 import { createLead } from '../api';
-import SEO from '../components/SEO';
+import SEO, { BASE_URL } from '../components/SEO';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -36,6 +36,29 @@ const Contact = () => {
         title="Contact Us"
         description="Get a free LED display consultation. Contact Brightluxx — Dubai-based LED screen supplier. Quick quotes, expert advice, and local installation support across UAE."
         path="/contact"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Brightluxx",
+          "description": "Premium digital LED display solutions provider in UAE",
+          "url": BASE_URL,
+          "telephone": "+971-55-991-0711",
+          "email": "info@brightluxx.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Al Quoz Industrial Area",
+            "addressLocality": "Dubai",
+            "addressRegion": "Dubai",
+            "addressCountry": "AE"
+          },
+          "geo": { "@type": "GeoCoordinates", "latitude": "25.1653", "longitude": "55.2359" },
+          "openingHoursSpecification": [
+            { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "18:00" },
+            { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "14:00" }
+          ],
+          "priceRange": "$$",
+          "areaServed": ["UAE", "GCC", "MENA"]
+        }}
       />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mb-12">
           <h1 data-testid="contact-page-title">Get in Touch</h1>

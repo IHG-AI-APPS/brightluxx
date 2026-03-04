@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, SlidersHorizontal, Monitor } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
-import SEO from '../components/SEO';
+import SEO, { resolveImage, BASE_URL } from '../components/SEO';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -81,6 +81,21 @@ const Products = () => {
         description="Browse our complete range of LED display solutions — COB MicroLED, transparent, outdoor, rental, flexible, interactive floor, and more. Full specs and instant quotes."
         path="/products"
         image="/api/cdn/cob_microled_1.webp"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "Brightluxx LED Display Products",
+          "description": "Complete catalog of LED display solutions",
+          "url": `${BASE_URL}/products`,
+          "numberOfItems": products.length,
+          "itemListElement": products.slice(0, 20).map((p, i) => ({
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": p.name,
+            "url": `${BASE_URL}/products/${p.slug}`,
+            "image": resolveImage(p.image_url),
+          }))
+        }}
       />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-10">

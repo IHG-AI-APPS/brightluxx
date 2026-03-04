@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, Zap } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
-import SEO from '../components/SEO';
+import SEO, { BASE_URL } from '../components/SEO';
 
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -201,6 +201,15 @@ export default function SolutionDetail() {
         description={solution.description}
         image={solution.heroImage}
         path={`/solutions/${solution.id}`}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": BASE_URL },
+            { "@type": "ListItem", "position": 2, "name": "Solutions", "item": `${BASE_URL}/solutions` },
+            { "@type": "ListItem", "position": 3, "name": solution.title },
+          ]
+        }}
       />      {/* Hero */}
       <section className="relative py-16 sm:py-24 overflow-hidden" data-testid="solution-detail-hero">
         <div className="absolute inset-0">

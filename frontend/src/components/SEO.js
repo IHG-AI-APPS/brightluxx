@@ -26,8 +26,33 @@ function setCanonical(url) {
   el.setAttribute('href', url);
 }
 
+function setJsonLd(data) {
+  // Remove existing JSON-LD scripts managed by SEO component
+  document.querySelectorAll('script[data-seo-jsonld]').forEach(el => el.remove());
+  if (!data) return;
+  const items = Array.isArray(data) ? data : [data];
+  items.forEach((item, i) => {
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-seo-jsonld', `seo-${i}`);
+    script.textContent = JSON.stringify(item);
+    document.head.appendChild(script);
+  });
+}
+
+/** Resolve image to absolute URL */
+export function resolveImage(image) {
+  if (!image) return DEFAULT_IMAGE;
+  if (image.startsWith('http')) return image;
+  if (image.startsWith('/api/cdn/')) return `${BASE_URL}${image}?w=1200&q=80`;
+  if (image.startsWith('/')) return `${BASE_URL}${image}`;
+  return image;
+}
+
+export { BASE_URL, SITE_NAME };
+
 /**
- * SEO — Dynamic meta tags for every page (React 19 compatible).
+ * SEO — Dynamic meta tags + JSON-LD for every page (React 19 compatible).
  * Props:
  *   title: string — page title (appended with " | Brightluxx")
  *   description: string — meta description
@@ -35,23 +60,14 @@ function setCanonical(url) {
  *   path: string — page path for canonical URL
  *   type: string — og:type (default "website")
  *   noIndex: boolean — prevent indexing
+ *   jsonLd: object|array — JSON-LD structured data to inject
  */
-export default function SEO({ title, description, image, path = '', type = 'website', noIndex = false }) {
+export default function SEO({ title, description, image, path = '', type = 'website', noIndex = false, jsonLd }) {
   const location = useLocation();
   const pageTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Premium LED Display Solutions`;
   const pageDescription = description || DEFAULT_DESCRIPTION;
   const canonicalUrl = `${BASE_URL}${path || location.pathname}`;
-
-  let ogImage = DEFAULT_IMAGE;
-  if (image) {
-    if (image.startsWith('http')) {
-      ogImage = image;
-    } else if (image.startsWith('/api/cdn/')) {
-      ogImage = `${BASE_URL}${image}?w=1200&q=80`;
-    } else if (image.startsWith('/')) {
-      ogImage = `${BASE_URL}${image}`;
-    }
-  }
+  const ogImage = resolveImage(image);
 
   useEffect(() => {
     document.title = pageTitle;
@@ -77,7 +93,12 @@ export default function SEO({ title, description, image, path = '', type = 'webs
     setMeta('robots', noIndex ? 'noindex, nofollow' : 'index, follow');
     setMeta('author', 'Brightluxx');
     setMeta('geo.region', 'AE');
-  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, noIndex]);
+
+    // JSON-LD
+    setJsonLd(jsonLd);
+
+    return () => setJsonLd(null);
+  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, noIndex, jsonLd]);
 
   return null;
 }

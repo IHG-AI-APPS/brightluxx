@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 import { getProducts, getProjects } from '../api';
 import CdnImage from '../components/CdnImage';
-import SEO from '../components/SEO';
+import SEO, { resolveImage, BASE_URL } from '../components/SEO';
 
 /* Scroll-triggered glow hook */
 const useInView = (ref) => {
@@ -67,6 +67,27 @@ const Home = () => {
         title="Premium LED Display Solutions"
         description="Brightluxx — Leading supplier of digital LED screens in UAE. Indoor, outdoor, transparent, flexible, and rental LED displays. Gulf-grade engineering, local support."
         path="/"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Brightluxx",
+            "url": BASE_URL,
+            "logo": resolveImage("/api/cdn/brightluxx_logo_white.webp"),
+            "description": "Premium digital LED display solutions for retail, corporate, outdoor, events, and creative installations across UAE and MENA.",
+            "address": { "@type": "PostalAddress", "addressLocality": "Dubai", "addressRegion": "Dubai", "addressCountry": "AE" },
+            "contactPoint": { "@type": "ContactPoint", "telephone": "+971-55-991-0711", "contactType": "sales", "availableLanguage": ["English", "Arabic"] },
+            "sameAs": ["https://brightluxx.com"]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Brightluxx",
+            "url": BASE_URL,
+            "description": "Premium digital LED display solutions — indoor, outdoor, transparent, flexible, rental, and creative LED screens.",
+            "publisher": { "@type": "Organization", "name": "Brightluxx" }
+          }
+        ]}
       />      {/* Hero Section — Video + LED Grid */}
       <section className="relative pt-6 sm:pt-10 pb-12 sm:pb-16" data-testid="hero-section">
         <div className="hero-video-container mx-4 sm:mx-6 lg:mx-auto max-w-[1320px] blx-led-grid-strong">

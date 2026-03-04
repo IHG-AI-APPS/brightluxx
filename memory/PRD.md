@@ -128,6 +128,14 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added to Tools mega-menu and sitemap (priority 0.9)
 - Testing: 59/59 tests passed (15 backend + 44 frontend)
 
+### Sora 2 Hero Videos — Mar 4, 2026
+- Two AI-generated 12-second hero videos using Sora 2 (OpenAI) via Emergent LLM key
+  - Video 1: Dubai skyline with LED screens on skyscrapers, transitioning to luxury hotel lobby with MicroLED video wall
+  - Video 2: Premium Dubai mall with curved LED digital signage, then outdoor LED TV at luxury villa by infinity pool
+- HeroVideoPlayer component: crossfade transition between videos (800ms), poster image fallback
+- Videos served from `/videos/hero-video-1.mp4` and `/videos/hero-video-2.mp4`
+- Testing: 100% pass (11/11 backend, 21/21 frontend) — Iteration 37
+
 ### Enhanced AURA Chat Assistant — Mar 4, 2026
 - Dynamic product knowledge: fetches all 57 products from MongoDB, auto-refreshes every 10 min
 - Page-aware context: frontend sends current page URL; AURA tailors responses (28 page mappings)

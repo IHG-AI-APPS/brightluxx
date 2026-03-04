@@ -74,9 +74,9 @@ const Contact = () => {
               <h3 className="text-base font-bold mb-5">Contact Information</h3>
               <div className="space-y-5">
                 {[{
-                  icon: MapPin, label: 'Location', value: 'Dubai, UAE'
+                  icon: MapPin, label: 'Location', value: 'Jebel Ali Industrial Area 1, Dubai, UAE', href: 'https://maps.google.com/?q=Jebel+Ali+Industrial+Area+1+Dubai'
                 }, {
-                  icon: Phone, label: 'Phone', value: '+971 55 991 0711', href: 'tel:+971559954274'
+                  icon: Phone, label: 'Phone', value: '+971 4 258 5754', href: 'tel:+97142585754'
                 }, {
                   icon: Mail, label: 'Email', value: 'sales@brightluxx.com', href: 'mailto:sales@brightluxx.com'
                 }].map((item) => (
@@ -193,10 +193,10 @@ const Contact = () => {
                     <label htmlFor="budget" className="block text-xs font-bold mb-1.5 tracking-wider">Budget Range</label>
                     <select id="budget" name="budget" value={formData.budget} onChange={handleChange} className="input-luxury w-full" data-testid="input-budget">
                       <option value="">Select Budget</option>
-                      <option value="Under $50k">Under $50k</option>
-                      <option value="$50k - $100k">$50k - $100k</option>
-                      <option value="$100k - $250k">$100k - $250k</option>
-                      <option value="$250k+">$250k+</option>
+                      <option value="Under AED 200k">Under AED 200k</option>
+                      <option value="AED 200k - 400k">AED 200k - 400k</option>
+                      <option value="AED 400k - 1M">AED 400k - 1M</option>
+                      <option value="AED 1M+">AED 1M+</option>
                       <option value="Not decided">Not decided</option>
                     </select>
                   </div>

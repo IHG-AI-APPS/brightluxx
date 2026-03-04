@@ -140,7 +140,7 @@ export default function ApplicationLanding() {
                   <MessageCircle size={14} /> WhatsApp
                 </a>
                 <a href="tel:+971559954274" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="app-bottom-call-cta">
-                  <Phone size={14} /> +971 55 991 0711
+                  <Phone size={14} /> +971 4 258 5754
                 </a>
               </div>
             </div>

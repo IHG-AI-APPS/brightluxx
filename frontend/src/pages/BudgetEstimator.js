@@ -5,16 +5,16 @@ import SEO from '../components/SEO';
 import { buildFaqJsonLd, SpecPackCTA, SectionDivider } from '../components/KnowledgeBase';
 
 const PITCH_DATA = [
-  { label: 'P0.9', pitch: 0.9, low: 8000, high: 14000, tech: 'COB/MiP', powerW: 250 },
-  { label: 'P1.2', pitch: 1.2, low: 4000, high: 8000, tech: 'COB/MiP', powerW: 250 },
-  { label: 'P1.5', pitch: 1.5, low: 2500, high: 5000, tech: 'MiP/SMD', powerW: 250 },
-  { label: 'P1.9', pitch: 1.9, low: 1800, high: 3500, tech: 'MiP/SMD', powerW: 300 },
-  { label: 'P2.5', pitch: 2.5, low: 1200, high: 2500, tech: 'SMD', powerW: 350 },
-  { label: 'P3.9', pitch: 3.9, low: 800, high: 1800, tech: 'SMD', powerW: 350 },
-  { label: 'P4.8', pitch: 4.8, low: 600, high: 1500, tech: 'SMD outdoor', powerW: 600 },
-  { label: 'P6', pitch: 6.0, low: 500, high: 1200, tech: 'SMD outdoor', powerW: 700 },
-  { label: 'P8', pitch: 8.0, low: 400, high: 900, tech: 'SMD outdoor', powerW: 750 },
-  { label: 'P10', pitch: 10.0, low: 300, high: 700, tech: 'SMD outdoor', powerW: 800 },
+  { label: 'P0.9', pitch: 0.9, low: 22000, high: 40000, tech: 'COB/MiP', powerW: 250 },
+  { label: 'P1.2', pitch: 1.2, low: 10000, high: 22000, tech: 'COB/MiP', powerW: 250 },
+  { label: 'P1.5', pitch: 1.5, low: 6500, high: 14000, tech: 'MiP/SMD', powerW: 250 },
+  { label: 'P1.9', pitch: 1.9, low: 4500, high: 9500, tech: 'MiP/SMD', powerW: 300 },
+  { label: 'P2.5', pitch: 2.5, low: 3000, high: 7000, tech: 'SMD', powerW: 350 },
+  { label: 'P3.9', pitch: 3.9, low: 2000, high: 5000, tech: 'SMD', powerW: 350 },
+  { label: 'P4.8', pitch: 4.8, low: 1500, high: 4000, tech: 'SMD outdoor', powerW: 600 },
+  { label: 'P6', pitch: 6.0, low: 1200, high: 3000, tech: 'SMD outdoor', powerW: 700 },
+  { label: 'P8', pitch: 8.0, low: 900, high: 2200, tech: 'SMD outdoor', powerW: 750 },
+  { label: 'P10', pitch: 10.0, low: 650, high: 1800, tech: 'SMD outdoor', powerW: 800 },
 ];
 
 const FAQS = [
@@ -161,7 +161,7 @@ export default function BudgetEstimator() {
                 <span className="text-[0.5rem] font-bold tracking-wider px-2 py-1 rounded" style={{ background: 'rgba(229,197,116,0.08)', color: 'var(--blx-gold-3)' }}>2026 UAE MARKET</span>
               </div>
               <div className="text-3xl font-bold mb-2">
-                ${results.totalLow.toLocaleString()} — ${results.totalHigh.toLocaleString()}
+                AED {results.totalLow.toLocaleString()} — {results.totalHigh.toLocaleString()}
               </div>
               <div className="text-[0.625rem] text-[var(--blx-muted)] mb-6">
                 Total installed cost for {results.area} sqm {pitchData.label} {pitchData.tech} LED display
@@ -182,12 +182,12 @@ export default function BudgetEstimator() {
                       <span className="text-xs">{item.label}</span>
                       <span className="text-[0.5rem] text-[var(--blx-muted)]">({item.pct})</span>
                     </div>
-                    <span className="text-xs font-bold">${item.low.toLocaleString()} — ${item.high.toLocaleString()}</span>
+                    <span className="text-xs font-bold">AED {item.low.toLocaleString()} — {item.high.toLocaleString()}</span>
                   </div>
                 ))}
                 <div className="flex items-center justify-between px-3 py-3 rounded-lg border-t border-[var(--blx-hairline)] mt-2 pt-3">
                   <span className="text-xs font-bold">Total Project Estimate</span>
-                  <span className="text-sm font-bold text-[var(--blx-gold-3)]">${results.totalLow.toLocaleString()} — ${results.totalHigh.toLocaleString()}</span>
+                  <span className="text-sm font-bold text-[var(--blx-gold-3)]">AED {results.totalLow.toLocaleString()} — {results.totalHigh.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -196,9 +196,9 @@ export default function BudgetEstimator() {
             <div className="glass-panel p-6 mb-6" data-testid="budget-per-sqm">
               <h3 className="text-xs font-bold tracking-[0.15em] text-[var(--blx-gold-3)] mb-4">HARDWARE COST PER SQM</h3>
               <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-2xl font-bold">${pitchData.low.toLocaleString()}</span>
+                <span className="text-2xl font-bold">AED {pitchData.low.toLocaleString()}</span>
                 <span className="text-[var(--blx-muted)]">—</span>
-                <span className="text-2xl font-bold">${pitchData.high.toLocaleString()}</span>
+                <span className="text-2xl font-bold">{pitchData.high.toLocaleString()}</span>
                 <span className="text-xs text-[var(--blx-muted)]">per sqm</span>
               </div>
               <p className="text-[0.625rem] text-[var(--blx-text-2)]">
@@ -230,7 +230,7 @@ export default function BudgetEstimator() {
               <Link to="/contact" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="budget-quote-cta">
                 Get Formal Quote <ArrowRight size={14} />
               </Link>
-              <a href={`https://wa.me/971559954274?text=${encodeURIComponent(`Hi, I used your budget estimator. I need a ${width}m x ${height}m ${pitchData.label} LED display. Estimated budget: $${results.totalLow.toLocaleString()} - $${results.totalHigh.toLocaleString()}. Can you provide a formal quotation?`)}`} target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="budget-whatsapp-cta">
+              <a href={`https://wa.me/971559954274?text=${encodeURIComponent(`Hi, I used your budget estimator. I need a ${width}m x ${height}m ${pitchData.label} LED display. Estimated budget: AED ${results.totalLow.toLocaleString()} - ${results.totalHigh.toLocaleString()}. Can you provide a formal quotation?`)}`} target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="budget-whatsapp-cta">
                 <MessageCircle size={14} /> WhatsApp with Estimate
               </a>
             </div>

@@ -241,7 +241,7 @@ export default function SpecSubstitution() {
                 </a>
                 <a href="tel:+971559954274"
                   className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold border border-[var(--blx-border)] text-[var(--blx-text-2)] hover:border-[var(--blx-border-2)] transition-colors justify-center" data-testid="spec-sub-call">
-                  <Phone size={14} /> +971 55 991 0711
+                  <Phone size={14} /> +971 4 258 5754
                 </a>
               </div>
             </div>

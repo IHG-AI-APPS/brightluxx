@@ -289,10 +289,10 @@ export default function DesignAssist() {
                 <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">QUICK CONTACT</div>
                 <div className="space-y-3">
                   <a href="https://wa.me/971559954274?text=Hi%2C+I'm+an+architect+and+need+design+assist+for+an+LED+display+project." target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] transition-colors">
-                    <MessageCircle size={14} className="text-[var(--blx-gold-3)]" /> WhatsApp: +971 55 991 0711
+                    <MessageCircle size={14} className="text-[var(--blx-gold-3)]" /> WhatsApp: +971 4 258 5754
                   </a>
                   <a href="tel:+971559954274" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs text-[var(--blx-text-2)] hover:bg-[rgba(255,255,255,0.04)] transition-colors">
-                    <Phone size={14} className="text-[var(--blx-gold-3)]" /> Call: +971 55 991 0711
+                    <Phone size={14} className="text-[var(--blx-gold-3)]" /> Call: +971 4 258 5754
                   </a>
                 </div>
               </div>

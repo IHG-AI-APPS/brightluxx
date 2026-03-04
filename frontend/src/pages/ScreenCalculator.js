@@ -30,9 +30,9 @@ const APPLICATIONS = [
 ];
 
 const COST_PER_SQM = {
-  0.7: [12000, 20000], 0.9: [8000, 14000], 1.2: [4000, 8000], 1.5: [2500, 5000],
-  1.9: [1800, 3500], 2.5: [1200, 2500], 3.9: [800, 1800], 4.8: [600, 1500],
-  6.0: [500, 1200], 8.0: [400, 900], 10.0: [300, 700],
+  0.7: [30000, 55000], 0.9: [22000, 40000], 1.2: [10000, 22000], 1.5: [6500, 14000],
+  1.9: [4500, 9500], 2.5: [3000, 7000], 3.9: [2000, 5000], 4.8: [1500, 4000],
+  6.0: [1200, 3000], 8.0: [900, 2200], 10.0: [650, 1800],
 };
 
 function calcResults(params) {
@@ -382,10 +382,10 @@ export default function ScreenCalculator() {
                   <DollarSign size={14} className="inline -mt-0.5" /> ESTIMATED COST
                 </h3>
                 <div className="text-2xl font-bold mb-1">
-                  ${results.costLow.toLocaleString()} — ${results.costHigh.toLocaleString()}
+                  AED {results.costLow.toLocaleString()} — {results.costHigh.toLocaleString()}
                 </div>
                 <div className="text-[0.625rem] text-[var(--blx-muted)] mb-4">
-                  Hardware only. Based on ${results.costRange[0].toLocaleString()}-${results.costRange[1].toLocaleString()}/sqm x {results.area} sqm
+                  Hardware only. Based on AED {results.costRange[0].toLocaleString()}-{results.costRange[1].toLocaleString()}/sqm x {results.area} sqm
                 </div>
                 <div className="space-y-1.5 text-[0.625rem] text-[var(--blx-text-2)]">
                   <div className="flex justify-between"><span>Processing system</span><span>Add 10-15%</span></div>
@@ -393,7 +393,7 @@ export default function ScreenCalculator() {
                   <div className="flex justify-between"><span>Content creation</span><span>Variable</span></div>
                   <div className="flex justify-between border-t border-[var(--blx-hairline)] pt-1.5 mt-1.5 font-bold">
                     <span>Estimated total budget</span>
-                    <span className="text-[var(--blx-gold-3)]">${Math.round(results.costLow * 1.25).toLocaleString()} — ${Math.round(results.costHigh * 1.35).toLocaleString()}</span>
+                    <span className="text-[var(--blx-gold-3)]">AED {Math.round(results.costLow * 1.25).toLocaleString()} — {Math.round(results.costHigh * 1.35).toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -436,7 +436,7 @@ export default function ScreenCalculator() {
                       <div className="text-lg font-bold text-[var(--blx-gold-3)]">{opt.label}</div>
                       <div className="text-[0.5625rem] text-[var(--blx-muted)] mt-1">{opt.tech}</div>
                       <div className="text-[0.5625rem] text-[var(--blx-text-2)] mt-2">{res} px</div>
-                      <div className="text-[0.5625rem] text-[var(--blx-text-2)]">${(results.area * cost[0]).toLocaleString()} — ${(results.area * cost[1]).toLocaleString()}</div>
+                      <div className="text-[0.5625rem] text-[var(--blx-text-2)]">AED {(results.area * cost[0]).toLocaleString()} — {(results.area * cost[1]).toLocaleString()}</div>
                     </div>
                   );
                 })}

@@ -42,7 +42,7 @@ def _draw_bg(canvas, doc):
     canvas.rect(0, PAGE_H - 2*mm, PAGE_W, 2*mm, fill=1)
     canvas.setFont('Helvetica', 6)
     canvas.setFillColor(BLX_MUTED)
-    canvas.drawString(15*mm, 8*mm, "BRIGHTLUXX  |  brightluxx.com  |  +971 55 991 0711")
+    canvas.drawString(15*mm, 8*mm, "BRIGHTLUXX  |  brightluxx.com  |  +971 4 258 5754")
     canvas.setFillColor(BLX_GOLD_DARK)
     canvas.rect(0, 0, PAGE_W, 1*mm, fill=1)
     canvas.restoreState()
@@ -321,7 +321,7 @@ def generate_bim_reference(bim_type, path):
     story.append(Spacer(1, 3*mm))
     story.append(Paragraph("NOTES FOR ARCHITECTS", s['CS_H2']))
     story.append(Paragraph("This reference document provides typical dimensions and specifications. Actual dimensions vary by manufacturer and configuration. Contact Brightluxx for project-specific technical drawings, Revit families, and structural calculations.", s['CS_Body']))
-    story.append(Paragraph("For custom Revit families or AutoCAD blocks: WhatsApp +971 55 991 0711 or email info@brightluxx.com", s['CS_Small']))
+    story.append(Paragraph("For custom Revit families or AutoCAD blocks: WhatsApp +971 4 258 5754 or email info@brightluxx.com", s['CS_Small']))
 
     doc.build(story, onFirstPage=_draw_bg, onLaterPages=_draw_bg)
 

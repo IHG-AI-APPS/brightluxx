@@ -52,7 +52,7 @@ def _draw_bg(canvas, doc):
     # Footer
     canvas.setFont('Helvetica', 7)
     canvas.setFillColor(BLX_MUTED)
-    canvas.drawString(20*mm, 10*mm, "BRIGHTLUXX  |  Premium LED Display Solutions  |  brightluxx.com  |  +971 55 991 0711")
+    canvas.drawString(20*mm, 10*mm, "BRIGHTLUXX  |  Premium LED Display Solutions  |  brightluxx.com  |  +971 4 258 5754")
     canvas.drawRightString(PAGE_W - 20*mm, 10*mm, f"Page {doc.page}")
     # Bottom gold line
     canvas.setFillColor(BLX_GOLD_DARK)
@@ -77,7 +77,7 @@ def _cover_page(canvas, doc):
     # Footer on cover
     canvas.setFont('Helvetica', 8)
     canvas.setFillColor(BLX_MUTED)
-    canvas.drawCentredString(PAGE_W / 2, 15*mm, "brightluxx.com  |  +971 55 991 0711  |  Dubai, UAE")
+    canvas.drawCentredString(PAGE_W / 2, 15*mm, "brightluxx.com  |  +971 4 258 5754  |  Dubai, UAE")
     canvas.restoreState()
 
 
@@ -192,7 +192,7 @@ def _generate_cob_mip_smd(path):
             ['Field Repair', 'Single LED', 'Module replacement', 'Single LED'],
             ['Repair Cost', 'Low', 'Medium-High', 'Low-Medium'],
             ['Lifespan', '50,000-80,000 hrs', '100,000+ hrs', '80,000-100,000 hrs'],
-            ['Cost per sqm (P1.2)', 'USD 2,500-4,000', 'USD 5,000-8,000', 'USD 3,500-6,000'],
+            ['Cost per sqm (P1.2)', 'AED 7,500-12,000', 'AED 15,000-25,000', 'AED 10,000-18,000'],
             ['Colour Accuracy', 'Good (DCI-P3 80%+)', 'Excellent (DCI-P3 95%+)', 'Very Good (DCI-P3 90%+)'],
             ['Refresh Rate', '1,920-3,840 Hz', '3,840-7,680 Hz', '3,840-7,680 Hz'],
             ['UAE Suitability', 'Good for outdoor', 'Best for indoor premium', 'Versatile indoor'],
@@ -314,7 +314,7 @@ def _generate_cob_mip_smd(path):
     story.append(Spacer(1, 10*mm))
     story.append(_gold_hr())
     story.append(Paragraph("BRIGHTLUXX  |  Premium LED Display Solutions", styles['BLX_H3']))
-    story.append(Paragraph("Dubai, UAE  |  +971 55 991 0711  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
+    story.append(Paragraph("Jebel Ali Industrial Area 1, Dubai, UAE  |  +971 4 258 5754  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
     story.append(Paragraph("For custom specification assistance, contact our technical team for a design-assist consultation.", styles['BLX_Body']))
 
     doc.build(story, onFirstPage=_cover_page, onLaterPages=_draw_bg)
@@ -393,16 +393,16 @@ def _generate_pixel_pitch(path):
     story.append(Paragraph("COST vs PITCH TRADE-OFF", styles['BLX_H1']))
     story.append(Paragraph("Approximate cost relationship (2026 market):", styles['BLX_Body']))
     story.append(_make_table(
-        ['Pixel Pitch', 'Cost/sqm (USD)', 'Typical Technology'],
+        ['Pixel Pitch', 'Cost/sqm (AED)', 'Typical Technology'],
         [
-            ['P0.7', '$12,000 - $20,000', 'COB / MiP'],
-            ['P0.9', '$8,000 - $14,000', 'COB / MiP'],
-            ['P1.2', '$4,000 - $8,000', 'COB / MiP / SMD'],
-            ['P1.5', '$2,500 - $5,000', 'MiP / SMD'],
-            ['P2.5', '$1,200 - $2,500', 'SMD'],
-            ['P3.9', '$800 - $1,800', 'SMD'],
-            ['P4-P6', '$600 - $1,500', 'SMD (outdoor)'],
-            ['P8-P10', '$400 - $900', 'SMD (outdoor)'],
+            ['P0.7', 'AED 30,000 - 55,000', 'COB / MiP'],
+            ['P0.9', 'AED 22,000 - 40,000', 'COB / MiP'],
+            ['P1.2', 'AED 10,000 - 22,000', 'COB / MiP / SMD'],
+            ['P1.5', 'AED 6,500 - 14,000', 'MiP / SMD'],
+            ['P2.5', 'AED 3,000 - 7,000', 'SMD'],
+            ['P3.9', 'AED 2,000 - 5,000', 'SMD'],
+            ['P4-P6', 'AED 1,500 - 4,000', 'SMD (outdoor)'],
+            ['P8-P10', 'AED 900 - 2,200', 'SMD (outdoor)'],
         ],
         [35*mm, 40*mm, 65*mm],
     ))
@@ -410,7 +410,7 @@ def _generate_pixel_pitch(path):
     story.append(Spacer(1, 10*mm))
     story.append(_gold_hr())
     story.append(Paragraph("BRIGHTLUXX  |  Premium LED Display Solutions", styles['BLX_H3']))
-    story.append(Paragraph("Dubai, UAE  |  +971 55 991 0711  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
+    story.append(Paragraph("Jebel Ali Industrial Area 1, Jebel Ali Industrial Area 1, Dubai, UAE  |  +971 4 258 5754  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
 
     doc.build(story, onFirstPage=_cover_page, onLaterPages=_draw_bg)
 
@@ -491,7 +491,7 @@ def _generate_brightness_nits(path):
     story.append(Spacer(1, 10*mm))
     story.append(_gold_hr())
     story.append(Paragraph("BRIGHTLUXX  |  Premium LED Display Solutions", styles['BLX_H3']))
-    story.append(Paragraph("Dubai, UAE  |  +971 55 991 0711  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
+    story.append(Paragraph("Jebel Ali Industrial Area 1, Dubai, UAE  |  +971 4 258 5754  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
 
     doc.build(story, onFirstPage=_cover_page, onLaterPages=_draw_bg)
 
@@ -561,7 +561,7 @@ def _generate_ip_rating(path):
     story.append(Spacer(1, 10*mm))
     story.append(_gold_hr())
     story.append(Paragraph("BRIGHTLUXX  |  Premium LED Display Solutions", styles['BLX_H3']))
-    story.append(Paragraph("Dubai, UAE  |  +971 55 991 0711  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
+    story.append(Paragraph("Jebel Ali Industrial Area 1, Dubai, UAE  |  +971 4 258 5754  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
 
     doc.build(story, onFirstPage=_cover_page, onLaterPages=_draw_bg)
 
@@ -628,7 +628,7 @@ def _generate_refresh_rate(path):
     story.append(Spacer(1, 10*mm))
     story.append(_gold_hr())
     story.append(Paragraph("BRIGHTLUXX  |  Premium LED Display Solutions", styles['BLX_H3']))
-    story.append(Paragraph("Dubai, UAE  |  +971 55 991 0711  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
+    story.append(Paragraph("Jebel Ali Industrial Area 1, Dubai, UAE  |  +971 4 258 5754  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
 
     doc.build(story, onFirstPage=_cover_page, onLaterPages=_draw_bg)
 
@@ -919,7 +919,7 @@ def _generate_application_pack(pack_id, path):
     story.append(Spacer(1, 10*mm))
     story.append(_gold_hr())
     story.append(Paragraph("BRIGHTLUXX  |  Premium LED Display Solutions", styles['BLX_H3']))
-    story.append(Paragraph("Dubai, UAE  |  +971 55 991 0711  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
+    story.append(Paragraph("Jebel Ali Industrial Area 1, Dubai, UAE  |  +971 4 258 5754  |  info@brightluxx.com  |  brightluxx.com", styles['BLX_Body']))
 
     doc.build(story, onFirstPage=_cover_page, onLaterPages=_draw_bg)
 

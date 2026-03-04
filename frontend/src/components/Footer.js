@@ -42,12 +42,14 @@ const Footer = () => {
             <ul className="space-y-3 text-xs">
               <li className="flex items-start gap-2 text-[var(--blx-text-2)] tracking-wider">
                 <MapPin size={14} className="mt-0.5 flex-shrink-0" />
-                <span>Dubai, UAE</span>
+                <a href="https://maps.google.com/?q=Jebel+Ali+Industrial+Area+1+Dubai" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--blx-text)] transition-colors duration-200">
+                  Jebel Ali Industrial Area 1, Dubai, UAE
+                </a>
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={14} className="flex-shrink-0" />
-                <a href="tel:+971559954274" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">
-                  +971 55 991 0711
+                <a href="tel:+97142585754" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">
+                  +971 4 258 5754
                 </a>
               </li>
               <li className="flex items-center gap-2">

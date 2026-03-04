@@ -278,7 +278,7 @@ export default function ForArchitects() {
                   Book a Call <ArrowRight size={14} />
                 </Link>
                 <a href="tel:+971559954274" className="btn-glass px-5 py-2.5 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
-                  <Phone size={14} /> +971 55 991 0711
+                  <Phone size={14} /> +971 4 258 5754
                 </a>
               </div>
             </div>

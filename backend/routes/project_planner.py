@@ -146,7 +146,7 @@ def _calc_spec(req: ProjectPlannerRequest):
     size_cat = 'small' if area < 10 else 'large' if area > 30 else 'medium'
     install = INSTALL_METHODS.get(req.environment, INSTALL_METHODS['indoor']).get(size_cat, 'Wall-Mounted')
 
-    cost_sqm = {0.9: 3500, 1.2: 2800, 1.5: 2200, 1.9: 1800, 2.5: 1400, 3.9: 900, 4.8: 700, 6.0: 600, 8.0: 500, 10.0: 400, 16.0: 350}
+    cost_sqm = {0.9: 11000, 1.2: 8500, 1.5: 6500, 1.9: 5000, 2.5: 3500, 3.9: 2500, 4.8: 2000, 6.0: 1500, 8.0: 1200, 10.0: 900, 16.0: 750}
     budget_low = cost_sqm.get(best, 1000) * area * 0.8
     budget_high = cost_sqm.get(best, 1000) * area * 1.3
 
@@ -273,12 +273,12 @@ async def generate_project_pdf(req: ProjectPlannerRequest):
     story.append(Paragraph("BUDGETARY ESTIMATE", st['H1']))
     story.append(Paragraph(f"Hardware cost range for {spec['area']} m² P{spec['recommended_pitch']} {req.environment} LED display:", st['B']))
     budget_data = [
-        ['Component', 'Estimate (USD)'],
-        ['LED Display Hardware', f'${int(spec["budget_low"]):,} — ${int(spec["budget_high"]):,}'],
-        ['Installation & Commissioning', f'${int(spec["budget_low"]*0.15):,} — ${int(spec["budget_high"]*0.15):,}'],
-        ['Content System (Media Server)', f'${3000:,} — ${8000:,}'],
-        ['Structural/MEP Works', f'${int(spec["budget_low"]*0.1):,} — ${int(spec["budget_high"]*0.1):,}'],
-        ['Total Estimated Range', f'${int(spec["budget_low"]*1.25 + 3000):,} — ${int(spec["budget_high"]*1.25 + 8000):,}'],
+        ['Component', 'Estimate (AED)'],
+        ['LED Display Hardware', f'AED {int(spec["budget_low"]):,} — {int(spec["budget_high"]):,}'],
+        ['Installation & Commissioning', f'AED {int(spec["budget_low"]*0.15):,} — {int(spec["budget_high"]*0.15):,}'],
+        ['Content System (Media Server)', f'AED {10000:,} — {25000:,}'],
+        ['Structural/MEP Works', f'AED {int(spec["budget_low"]*0.1):,} — {int(spec["budget_high"]*0.1):,}'],
+        ['Total Estimated Range', f'AED {int(spec["budget_low"]*1.25 + 10000):,} — {int(spec["budget_high"]*1.25 + 25000):,}'],
     ]
     story.append(_tbl(budget_data, [65*mm, 95*mm]))
     story.append(Paragraph("Note: Estimates are budgetary and subject to final specification, supplier selection, and site conditions.", st['SM']))

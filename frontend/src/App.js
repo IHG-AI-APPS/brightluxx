@@ -34,6 +34,11 @@ import ApplicationsIndex from './pages/ApplicationsIndex';
 import ApplicationLanding from './pages/ApplicationLanding';
 import ForArchitects from './pages/ForArchitects';
 
+// Contractors
+import ValueEngineering from './pages/ValueEngineering';
+import ContractorPage from './pages/ContractorPage';
+import SpecSubstitution from './pages/SpecSubstitution';
+
 // Latest Tech
 import LatestTechIndex from './pages/LatestTechIndex';
 import LatestTechDetail from './pages/LatestTechDetail';
@@ -85,6 +90,9 @@ function AppRoutes() {
       <Route path="/applications" element={<><Navbar /><ApplicationsIndex /><Footer /><StickyCTA /></>} />
       <Route path="/applications/:appId" element={<><Navbar /><ApplicationLanding /><Footer /><StickyCTA /></>} />
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
+      <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />
+      <Route path="/contractors/:pageId" element={<><Navbar /><ContractorPage /><Footer /><StickyCTA /></>} />
+      <Route path="/spec-substitution" element={<><Navbar /><SpecSubstitution /><Footer /><StickyCTA /></>} />
       <Route path="/latest-tech" element={<><Navbar /><LatestTechIndex /><Footer /><StickyCTA /></>} />
       <Route path="/latest-tech/:techId" element={<><Navbar /><LatestTechDetail /><Footer /><StickyCTA /></>} />
 

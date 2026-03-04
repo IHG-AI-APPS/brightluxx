@@ -123,7 +123,7 @@ export default function RefreshRateGuide() {
 
             <div className="flex flex-wrap gap-4 mt-10">
               <Link to="/contact" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">Get Camera-Friendly Spec <ArrowRight size={14} /></Link>
-              <a href={`https://wa.me/971559910711?text=${encodeURIComponent("Hi, I need a camera-friendly LED display specification for my project. Can you help?")}`} target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em]">WhatsApp a Specialist</a>
+              <a href={`https://wa.me/971559954274?text=${encodeURIComponent("Hi, I need a camera-friendly LED display specification for my project. Can you help?")}`} target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em]">WhatsApp a Specialist</a>
             </div>
           </div>
 

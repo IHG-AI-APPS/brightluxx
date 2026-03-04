@@ -133,7 +133,7 @@ export default function BrightnessNitsGuide() {
               <Link to="/contact" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="kb-contact-cta">
                 Get Brightness Recommendation <ArrowRight size={14} />
               </Link>
-              <a href={`https://wa.me/971559910711?text=${encodeURIComponent("Hi, I need help specifying LED brightness for an outdoor project in Dubai. Can you advise?")}`} target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em]" data-testid="kb-whatsapp-cta">
+              <a href={`https://wa.me/971559954274?text=${encodeURIComponent("Hi, I need help specifying LED brightness for an outdoor project in Dubai. Can you advise?")}`} target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em]" data-testid="kb-whatsapp-cta">
                 WhatsApp a Specialist
               </a>
             </div>

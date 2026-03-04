@@ -154,7 +154,7 @@ export default function PixelPitchGuide() {
                 Try Our Screen Calculator <ArrowRight size={14} />
               </Link>
               <a
-                href={`https://wa.me/971559910711?text=${encodeURIComponent("Hi, I need help determining the right pixel pitch for my project. Can you assist?")}`}
+                href={`https://wa.me/971559954274?text=${encodeURIComponent("Hi, I need help determining the right pixel pitch for my project. Can you assist?")}`}
                 target="_blank" rel="noopener noreferrer"
                 className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em]"
                 data-testid="kb-whatsapp-cta"

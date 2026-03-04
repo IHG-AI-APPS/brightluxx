@@ -158,7 +158,7 @@ export default function KnowledgeIndex() {
               Book a Design Assist Call <ArrowRight size={14} />
             </Link>
             <a
-              href={`https://wa.me/971559910711?text=${encodeURIComponent("Hi, I'm an architect/consultant and need help specifying LED displays for a project. Can we schedule a quick call?")}`}
+              href={`https://wa.me/971559954274?text=${encodeURIComponent("Hi, I'm an architect/consultant and need help specifying LED displays for a project. Can we schedule a quick call?")}`}
               target="_blank" rel="noopener noreferrer"
               className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em]"
             >

@@ -285,7 +285,7 @@ export default function ProductDetail() {
                   <Send size={14} /> Request Quote
                 </a>
                 <a
-                  href={`https://wa.me/971559910711?text=${encodeURIComponent(`Hi, I'm interested in ${product.product_code} - ${product.name}. Can you share pricing and availability?`)}`}
+                  href={`https://wa.me/971559954274?text=${encodeURIComponent(`Hi, I'm interested in ${product.product_code} - ${product.name}. Can you share pricing and availability?`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-glass px-6 py-3.5 inline-flex items-center gap-2"

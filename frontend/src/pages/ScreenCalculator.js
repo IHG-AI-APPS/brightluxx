@@ -448,7 +448,7 @@ export default function ScreenCalculator() {
               <Link to="/contact" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="calc-quote-cta">
                 Get Detailed Quote <ArrowRight size={14} />
               </Link>
-              <a href={`https://wa.me/971559910711?text=${encodeURIComponent(`Hi, I used your screen calculator. I need a ${screenW}m x ${screenH}m LED display at ${viewDist}m viewing distance (${isIndoor ? 'indoor' : 'outdoor'}). The calculator recommended ${results.recommended.label}. Can you provide a detailed quotation?`)}`} target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="calc-whatsapp-cta">
+              <a href={`https://wa.me/971559954274?text=${encodeURIComponent(`Hi, I used your screen calculator. I need a ${screenW}m x ${screenH}m LED display at ${viewDist}m viewing distance (${isIndoor ? 'indoor' : 'outdoor'}). The calculator recommended ${results.recommended.label}. Can you provide a detailed quotation?`)}`} target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="calc-whatsapp-cta">
                 <MessageCircle size={14} /> WhatsApp with Results
               </a>
               <Link to="/knowledge/pixel-pitch-guide" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">

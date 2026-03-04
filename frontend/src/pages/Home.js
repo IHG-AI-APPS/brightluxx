@@ -288,7 +288,7 @@ const Home = () => {
               Get in Touch
             </Link>
             <a
-              href={`https://wa.me/971559910711?text=${encodeURIComponent('Hi, I want to learn more about Brightluxx LED displays')}`}
+              href={`https://wa.me/971559954274?text=${encodeURIComponent('Hi, I want to learn more about Brightluxx LED displays')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-glass px-10 py-4"

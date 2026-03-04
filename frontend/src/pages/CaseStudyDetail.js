@@ -120,10 +120,10 @@ export default function CaseStudyDetail() {
                 <Link to="/contact" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
                   Get a Quote <ArrowRight size={14} />
                 </Link>
-                <a href="https://wa.me/971559910711" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
+                <a href="https://wa.me/971559954274" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
                   <MessageCircle size={14} /> WhatsApp
                 </a>
-                <a href="tel:+971559910711" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
+                <a href="tel:+971559954274" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
                   <Phone size={14} /> Call
                 </a>
               </div>

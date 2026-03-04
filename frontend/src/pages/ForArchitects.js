@@ -179,7 +179,7 @@ export default function ForArchitects() {
             <p className="text-xs text-[var(--blx-text-2)] flex-1" style={{ textTransform: 'none' }}>
               Need custom Revit families, AutoCAD blocks, or project-specific technical drawings?
             </p>
-            <a href="https://wa.me/971559910711?text=Hi%2C%20I%20need%20custom%20BIM%2FCAD%20files%20for%20LED%20displays%20for%20my%20project." target="_blank" rel="noopener noreferrer"
+            <a href="https://wa.me/971559954274?text=Hi%2C%20I%20need%20custom%20BIM%2FCAD%20files%20for%20LED%20displays%20for%20my%20project." target="_blank" rel="noopener noreferrer"
               className="flex-shrink-0 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-wider border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors flex items-center gap-1.5" data-testid="bim-custom-request">
               <MessageCircle size={12} /> Request Custom Files
             </a>
@@ -277,7 +277,7 @@ export default function ForArchitects() {
                 <Link to="/contact" className="btn-gold px-5 py-2.5 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="design-assist-cta">
                   Book a Call <ArrowRight size={14} />
                 </Link>
-                <a href="tel:+971559910711" className="btn-glass px-5 py-2.5 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
+                <a href="tel:+971559954274" className="btn-glass px-5 py-2.5 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
                   <Phone size={14} /> +971 55 991 0711
                 </a>
               </div>
@@ -293,7 +293,7 @@ export default function ForArchitects() {
                 <h4 className="text-xs font-bold tracking-wider mb-2" style={{ textTransform: 'none' }}>"Specifying dvLED Walls in GCC: Pitch, Brightness, IP, Service"</h4>
                 <p className="text-[0.625rem] text-[var(--blx-muted)]" style={{ textTransform: 'none' }}>Covers technology selection, specification best practices, common mistakes, and UAE-specific requirements. Available in-office or virtual.</p>
               </div>
-              <a href="https://wa.me/971559910711?text=Hi%2C%20I%27d%20like%20to%20arrange%20a%20CPD%2FLunch%20%26%20Learn%20session%20on%20LED%20display%20specification%20for%20our%20team." target="_blank" rel="noopener noreferrer"
+              <a href="https://wa.me/971559954274?text=Hi%2C%20I%27d%20like%20to%20arrange%20a%20CPD%2FLunch%20%26%20Learn%20session%20on%20LED%20display%20specification%20for%20our%20team." target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold tracking-[0.15em] border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors" data-testid="cpd-request-btn">
                 <MessageCircle size={14} /> Arrange a Session
               </a>

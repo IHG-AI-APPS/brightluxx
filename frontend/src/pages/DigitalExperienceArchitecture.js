@@ -19,6 +19,7 @@ const APPLICATIONS = [
     ],
     projects: ['Malls', 'Stadiums', 'Entertainment districts', 'Cultural venues', 'Corporate HQs'],
     techLink: '/technology/media-facade',
+    detailLink: '/digital-experience/media-facades',
   },
   {
     id: 'immersive-rooms',
@@ -35,6 +36,7 @@ const APPLICATIONS = [
     ],
     projects: ['Museums', 'Brand experience centers', 'Corporate showrooms', 'Exhibitions', 'Virtual production'],
     techLink: '/technology/creative-led',
+    detailLink: '/digital-experience/immersive-led-rooms',
   },
   {
     id: 'retail-experiential',
@@ -51,6 +53,7 @@ const APPLICATIONS = [
     ],
     projects: ['Flagship stores', 'Shopping malls', 'Pop-up experiences', 'Digital window displays', 'In-store media walls'],
     techLink: '/technology/cob-led',
+    detailLink: '/digital-experience/retail-experiential-screens',
   },
   {
     id: 'corporate-experience',
@@ -181,6 +184,11 @@ export default function DigitalExperienceArchitecture() {
                   <Link to={app.techLink} className="inline-flex items-center gap-1.5 text-[0.5625rem] font-bold tracking-wider text-[var(--blx-gold-3)] hover:gap-2.5 transition-all">
                     View Technology Guide <ArrowRight size={10} />
                   </Link>
+                  {app.detailLink && (
+                    <Link to={app.detailLink} className="inline-flex items-center gap-1.5 text-[0.5625rem] font-bold tracking-wider text-[var(--blx-text)] hover:text-[var(--blx-gold-3)] hover:gap-2.5 transition-all ml-4">
+                      Full Guide <ArrowRight size={10} />
+                    </Link>
+                  )}
                 </div>
 
                 {/* Projects sidebar */}
@@ -213,10 +221,10 @@ export default function DigitalExperienceArchitecture() {
             <Link to="/design-assist" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="dea-bottom-da-cta">
               Start a Design Conversation <ArrowRight size={14} />
             </Link>
-            <a href="https://wa.me/971559910711" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
+            <a href="https://wa.me/971559954274" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
               <MessageCircle size={14} /> WhatsApp
             </a>
-            <a href="tel:+971559910711" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
+            <a href="tel:+971559954274" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
               <Phone size={14} /> Call
             </a>
           </div>

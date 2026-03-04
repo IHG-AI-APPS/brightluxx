@@ -359,7 +359,7 @@ const VirtualShowroom = () => {
                 Schedule a Visit
               </button>
               <a
-                href={`https://wa.me/971559910711?text=${encodeURIComponent('Hi, I want to schedule a showroom visit')}`}
+                href={`https://wa.me/971559954274?text=${encodeURIComponent('Hi, I want to schedule a showroom visit')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-glass px-8 py-4"

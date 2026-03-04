@@ -71,6 +71,9 @@ import SpecifierToolkitLP from './pages/SpecifierToolkitLP';
 // Technology Selector Quiz
 import TechnologySelector from './pages/TechnologySelector';
 
+// Digital Experience Detail Pages
+import DeaPageDetail from './pages/DeaPageDetail';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -137,6 +140,7 @@ function AppRoutes() {
       <Route path="/digital-experience-architecture" element={<><Navbar /><DigitalExperienceArchitecture /><Footer /><StickyCTA /></>} />
       <Route path="/lp/specifier-toolkit" element={<SpecifierToolkitLP />} />
       <Route path="/technology-selector" element={<><Navbar /><TechnologySelector /><Footer /><StickyCTA /></>} />
+      <Route path="/digital-experience/:pageId" element={<><Navbar /><DeaPageDetail /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

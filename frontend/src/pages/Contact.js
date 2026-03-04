@@ -76,7 +76,7 @@ const Contact = () => {
                 {[{
                   icon: MapPin, label: 'Location', value: 'Dubai, UAE'
                 }, {
-                  icon: Phone, label: 'Phone', value: '+971 55 991 0711', href: 'tel:+971559910711'
+                  icon: Phone, label: 'Phone', value: '+971 55 991 0711', href: 'tel:+971559954274'
                 }, {
                   icon: Mail, label: 'Email', value: 'sales@brightluxx.com', href: 'mailto:sales@brightluxx.com'
                 }].map((item) => (
@@ -108,7 +108,7 @@ const Contact = () => {
                 Instant answers on WhatsApp. Available 24/7.
               </p>
               <a
-                href={`https://wa.me/971559910711?text=${encodeURIComponent('Hi, I want to get a quote for LED displays')}`}
+                href={`https://wa.me/971559954274?text=${encodeURIComponent('Hi, I want to get a quote for LED displays')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-gold block w-full text-center"

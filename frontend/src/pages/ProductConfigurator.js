@@ -336,7 +336,7 @@ const ProductConfigurator = () => {
                   </button>
 
                   <a
-                    href={`https://wa.me/971559910711?text=${encodeURIComponent(`Hi, I configured a ${selectedType.name} display (${config.width}m x ${config.height}m). Estimated: $${estimatedPrice.toLocaleString()}`)}`}
+                    href={`https://wa.me/971559954274?text=${encodeURIComponent(`Hi, I configured a ${selectedType.name} display (${config.width}m x ${config.height}m). Estimated: $${estimatedPrice.toLocaleString()}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-glass w-full text-center"

@@ -206,7 +206,7 @@ export default function ContractorPage() {
                 <Link to="/spec-substitution" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
                   <Upload size={14} /> Submit Specification <ArrowRight size={14} />
                 </Link>
-                <a href="https://wa.me/971559910711" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
+                <a href="https://wa.me/971559954274" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
                   <MessageCircle size={14} /> WhatsApp
                 </a>
               </div>

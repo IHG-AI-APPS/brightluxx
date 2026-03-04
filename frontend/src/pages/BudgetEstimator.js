@@ -230,7 +230,7 @@ export default function BudgetEstimator() {
               <Link to="/contact" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="budget-quote-cta">
                 Get Formal Quote <ArrowRight size={14} />
               </Link>
-              <a href={`https://wa.me/971559910711?text=${encodeURIComponent(`Hi, I used your budget estimator. I need a ${width}m x ${height}m ${pitchData.label} LED display. Estimated budget: $${results.totalLow.toLocaleString()} - $${results.totalHigh.toLocaleString()}. Can you provide a formal quotation?`)}`} target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="budget-whatsapp-cta">
+              <a href={`https://wa.me/971559954274?text=${encodeURIComponent(`Hi, I used your budget estimator. I need a ${width}m x ${height}m ${pitchData.label} LED display. Estimated budget: $${results.totalLow.toLocaleString()} - $${results.totalHigh.toLocaleString()}. Can you provide a formal quotation?`)}`} target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="budget-whatsapp-cta">
                 <MessageCircle size={14} /> WhatsApp with Estimate
               </a>
             </div>

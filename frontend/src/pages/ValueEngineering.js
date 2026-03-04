@@ -36,7 +36,7 @@ export default function ValueEngineering() {
             <Link to="/spec-substitution" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="ve-hero-substitution-cta">
               Free Spec Substitution <ArrowRight size={14} />
             </Link>
-            <a href="https://wa.me/971559910711?text=Hi%2C%20I%20have%20a%20tender%20with%20LED%20displays%20specified.%20Can%20you%20provide%20value%20engineering%20alternatives%3F" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="ve-hero-whatsapp-cta">
+            <a href="https://wa.me/971559954274?text=Hi%2C%20I%20have%20a%20tender%20with%20LED%20displays%20specified.%20Can%20you%20provide%20value%20engineering%20alternatives%3F" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="ve-hero-whatsapp-cta">
               <MessageCircle size={14} /> WhatsApp Us
             </a>
           </div>
@@ -198,10 +198,10 @@ export default function ValueEngineering() {
                 <Link to="/spec-substitution" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="ve-bottom-substitution-cta">
                   <Upload size={14} /> Submit Specification <ArrowRight size={14} />
                 </Link>
-                <a href="https://wa.me/971559910711?text=Hi%2C%20I%20have%20a%20tender%20with%20LED%20displays.%20Can%20you%20provide%20value%20engineering%20alternatives%3F" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="ve-bottom-whatsapp-cta">
+                <a href="https://wa.me/971559954274?text=Hi%2C%20I%20have%20a%20tender%20with%20LED%20displays.%20Can%20you%20provide%20value%20engineering%20alternatives%3F" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="ve-bottom-whatsapp-cta">
                   <MessageCircle size={14} /> WhatsApp
                 </a>
-                <a href="tel:+971559910711" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="ve-bottom-call-cta">
+                <a href="tel:+971559954274" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="ve-bottom-call-cta">
                   <Phone size={14} /> +971 55 991 0711
                 </a>
               </div>

@@ -65,7 +65,7 @@ export default function SpecSubstitution() {
               <Link to="/value-engineering" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
                 <ArrowRight size={14} /> Value Engineering Hub
               </Link>
-              <a href="https://wa.me/971559910711" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
+              <a href="https://wa.me/971559954274" target="_blank" rel="noopener noreferrer" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2">
                 <MessageCircle size={14} /> WhatsApp Us
               </a>
             </div>
@@ -241,11 +241,11 @@ export default function SpecSubstitution() {
                 Send us the spec via WhatsApp or call directly. We'll respond immediately during business hours.
               </p>
               <div className="space-y-2">
-                <a href="https://wa.me/971559910711" target="_blank" rel="noopener noreferrer"
+                <a href="https://wa.me/971559954274" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold border border-[var(--blx-gold-3)] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.08)] transition-colors justify-center" data-testid="spec-sub-whatsapp">
                   <MessageCircle size={14} /> WhatsApp
                 </a>
-                <a href="tel:+971559910711"
+                <a href="tel:+971559954274"
                   className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold border border-[var(--blx-border)] text-[var(--blx-text-2)] hover:border-[var(--blx-border-2)] transition-colors justify-center" data-testid="spec-sub-call">
                   <Phone size={14} /> +971 55 991 0711
                 </a>

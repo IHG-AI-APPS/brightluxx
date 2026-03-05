@@ -97,6 +97,9 @@ import DistributionPage from './pages/DistributionPage';
 import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
 import TechnicalSupportPage from './pages/TechnicalSupportPage';
 
+// Phase 5: Tools
+import LedModuleCalculator from './pages/LedModuleCalculator';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -179,6 +182,7 @@ function AppRoutes() {
       <Route path="/distribution" element={<><Navbar /><DistributionPage /><Footer /><StickyCTA /></>} />
       <Route path="/supplier-registration" element={<><Navbar /><SupplierRegistrationPage /><Footer /><StickyCTA /></>} />
       <Route path="/technical-support" element={<><Navbar /><TechnicalSupportPage /><Footer /><StickyCTA /></>} />
+      <Route path="/led-calculator" element={<><Navbar /><LedModuleCalculator /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

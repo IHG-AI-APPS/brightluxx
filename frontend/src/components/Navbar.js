@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package } from 'lucide-react';
+import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3 } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const isActive = (path) => location.pathname === path;
   const isActivePrefix = (prefix) => location.pathname.startsWith(prefix);
-  const toolsPaths = ['/calculator', '/compare', '/tech-guide', '/budget-estimator', '/value-engineering', '/spec-substitution', '/cpd-programme', '/design-assist', '/technology-selector', '/viewing-distance', '/power-estimator', '/installation-guide', '/project-planner'];
+  const toolsPaths = ['/calculator', '/compare', '/tech-guide', '/budget-estimator', '/value-engineering', '/spec-substitution', '/cpd-programme', '/design-assist', '/technology-selector', '/viewing-distance', '/power-estimator', '/installation-guide', '/project-planner', '/led-calculator'];
   const isToolsActive = toolsPaths.includes(location.pathname) || location.pathname.startsWith('/contractors');
 
   const navLinksGroup1 = [
@@ -82,6 +82,7 @@ const Navbar = () => {
         { name: 'Power Estimator', path: '/power-estimator', icon: Zap, desc: 'Electrical load & HVAC' },
         { name: 'Installation Guide', path: '/installation-guide', icon: Layers, desc: 'Mounting methods & specs' },
         { name: 'Project Planner', path: '/project-planner', icon: FileText, desc: 'Full spec in one workflow' },
+        { name: 'LED Module Calculator', path: '/led-calculator', icon: Grid3X3, desc: 'Module & cabinet sizing' },
       ],
     },
     {

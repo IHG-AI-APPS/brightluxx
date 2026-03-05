@@ -66,9 +66,9 @@ const Footer = () => {
             <ul className="space-y-2 text-xs">
               <li><Link to="/factory-tour" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Factory Tour</Link></li>
               <li><Link to="/faq" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">FAQ</Link></li>
-              <li><Link to="/for-architects" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">For Architects</Link></li>
-              <li><Link to="/calculator" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Screen Calculator</Link></li>
-              <li><Link to="/budget-estimator" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Budget Estimator</Link></li>
+              <li><Link to="/distribution" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Distribution</Link></li>
+              <li><Link to="/supplier-registration" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Supplier Registration</Link></li>
+              <li><Link to="/technical-support" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Technical Support</Link></li>
               <li><Link to="/resources" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Resources</Link></li>
             </ul>
           </div>

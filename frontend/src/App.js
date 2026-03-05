@@ -92,6 +92,11 @@ import Blog from './pages/Blog';
 import FAQ from './pages/FAQ';
 import FactoryTour from './pages/FactoryTour';
 
+// Phase 4: Lead Generation & Partnerships
+import DistributionPage from './pages/DistributionPage';
+import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
+import TechnicalSupportPage from './pages/TechnicalSupportPage';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -169,6 +174,11 @@ function AppRoutes() {
       <Route path="/blog" element={<><Navbar /><Blog /><Footer /><StickyCTA /></>} />
       <Route path="/faq" element={<><Navbar /><FAQ /><Footer /><StickyCTA /></>} />
       <Route path="/factory-tour" element={<><Navbar /><FactoryTour /><Footer /><StickyCTA /></>} />
+
+      {/* Phase 4: Lead Generation & Partnerships */}
+      <Route path="/distribution" element={<><Navbar /><DistributionPage /><Footer /><StickyCTA /></>} />
+      <Route path="/supplier-registration" element={<><Navbar /><SupplierRegistrationPage /><Footer /><StickyCTA /></>} />
+      <Route path="/technical-support" element={<><Navbar /><TechnicalSupportPage /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

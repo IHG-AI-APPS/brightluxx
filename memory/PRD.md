@@ -128,6 +128,17 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added to Tools mega-menu and sitemap (priority 0.9)
 - Testing: 59/59 tests passed (15 backend + 44 frontend)
 
+### Phase 5: LED Module & Cabinet Calculator — Mar 5, 2026
+- Interactive calculator at `/led-calculator` for computing module/cabinet counts from target screen dimensions
+- Inputs: target width/height (mm/cm/ft), module/cabinet size (8 presets), pixel pitch (14 options from P0.7-P10)
+- Outputs: modules wide/high/total, actual dimensions, screen area, resolution (with FHD/4K detection), total pixels, max/avg power, weight, min/optimal/max viewing distance
+- Visual module grid layout preview (up to 20x12 cells)
+- Reference table: 11 common pitch/module/cabinet combinations with typical use cases
+- 6 SEO-optimized FAQs with JSON-LD structured data
+- Sidebar: Spec Pack CTA, 6 related tools, Design Assist CTA
+- Added to Tools mega-menu in navbar (Grid3X3 icon) and sitemap
+- Testing: 100% pass — Iteration 44
+
 ### Phase 4: Lead Generation & Partnerships — Mar 5, 2026
 - **Distribution/Franchise page** (/distribution): 4 distribution brands (Metroplus, IHG Industry, LED World, IHG Brand India), 4 partner benefits, franchise application form, distribution addresses sidebar
 - **Supplier Registration page** (/supplier-registration): 6 supplier requirements, 4-step registration process, registration form with product categories & certifications
@@ -226,7 +237,14 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Factory/Showroom Tour section
 - Brand Value page (manufacturing, warranty, origin)
 
-### Phase 5: Tools
-- LED Module Calculator (module/cabinet size calculator)
+## Remaining Tasks
+### Phase 6: Final Polish & Review
+- Quotation disclaimer (installation & structural work not included unless site assessment done)
+- Content emphasizing professional installation and high-quality workmanship
+- Review and improve quality of all product images
+
+### Future
+- Tender Monitoring Integration (ProTenders/MEED)
+- Admin Dashboard V2 (unified lead management)
 
 ## Admin: `/admin` — admin@brightluxx.com / brightluxx2025

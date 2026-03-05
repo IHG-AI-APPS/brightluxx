@@ -128,6 +128,15 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added to Tools mega-menu and sitemap (priority 0.9)
 - Testing: 59/59 tests passed (15 backend + 44 frontend)
 
+### Phase 4: Lead Generation & Partnerships — Mar 5, 2026
+- **Distribution/Franchise page** (/distribution): 4 distribution brands (Metroplus, IHG Industry, LED World, IHG Brand India), 4 partner benefits, franchise application form, distribution addresses sidebar
+- **Supplier Registration page** (/supplier-registration): 6 supplier requirements, 4-step registration process, registration form with product categories & certifications
+- **Technical Support page** (/technical-support): 3 support tiers (Standard 24h, Priority 4h, Emergency 1h), 4 service offerings, support request form with urgency selector, emergency contact sidebar
+- Backend: 3 POST endpoints (`/api/franchise-request`, `/api/supplier-registration`, `/api/technical-support`) — saves to MongoDB + creates leads + sends email notifications
+- Footer updated with links to all 3 new pages
+- Cross-links between Distribution ↔ Supplier Registration pages
+- Testing: 100% pass — Iteration 43
+
 ### Phase 3: New Pages & Services — Mar 5, 2026
 - **Services page** (/services): 6 service cards (Installation, Repair & Maintenance, 24/7 Support, Supply, Design Assist, Warranty), quotation disclaimer, 6-step process
 - **Blog page** (/blog): 8 articles, 5 category filters (Technology, Guides, Industry, Technical), real-time search
@@ -216,12 +225,6 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - FAQ section
 - Factory/Showroom Tour section
 - Brand Value page (manufacturing, warranty, origin)
-
-### Phase 4: Forms & Distribution
-- Distribution info (Metroplus, IHG Industry, LED World, IHG Brand India) + Franchise request form
-- Supplier registration form
-- Enhanced enquiry (site visit + technical support)
-- Quotation disclaimer (installation & structural work not included)
 
 ### Phase 5: Tools
 - LED Module Calculator (module/cabinet size calculator)

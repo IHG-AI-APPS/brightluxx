@@ -390,6 +390,9 @@ export default function ProjectPlanner() {
               <p className="text-[0.6875rem] text-[var(--blx-text-2)] mb-5">
                 Enter your details to receive a branded PDF specification report with all calculations, recommendations, and budgetary estimates.
               </p>
+              <p className="text-[10px] text-[var(--blx-text-2)] mb-5 leading-relaxed" data-testid="planner-disclaimer">
+                Note: Budgetary estimates are indicative and cover hardware only. Installation costs and structural work are quoted separately after a site survey confirms conditions, material availability, and structural requirements.
+              </p>
               <div className="grid sm:grid-cols-2 gap-3 mb-4">
                 <input type="text" placeholder="Name *" value={p.name} onChange={e => upd('name', e.target.value)} className="input-luxury text-xs py-2.5 px-3" data-testid="pdf-name" />
                 <input type="text" placeholder="Company" value={p.company} onChange={e => upd('company', e.target.value)} className="input-luxury text-xs py-2.5 px-3" data-testid="pdf-company" />

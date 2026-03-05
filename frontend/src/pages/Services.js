@@ -103,6 +103,43 @@ export default function Services() {
         </div>
       </section>
 
+      {/* Quality Workmanship */}
+      <section className="py-16 sm:py-20 relative blx-led-grid" data-testid="quality-workmanship">
+        <div className="absolute inset-0 bg-[var(--blx-bg-raised)]" style={{zIndex: -1}} />
+        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-12">
+            <div className="text-[0.625rem] tracking-[0.3em] text-[var(--blx-gold-3)] mb-3 font-bold">QUALITY COMMITMENT</div>
+            <h2>Professional Installation & Workmanship</h2>
+            <p className="text-xs text-[var(--blx-text-2)] mt-3 tracking-wider max-w-lg mx-auto">
+              Every Brightluxx installation is executed by certified engineers to the highest industry standards, ensuring flawless performance and longevity.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: Shield, title: 'Certified Engineers', items: ['Factory-trained LED technicians', 'Annual recertification programme', 'Full PPE and safety compliance', 'Insured and licensed for UAE'] },
+              { icon: CheckCircle, title: 'Precision Standards', items: ['Pixel-perfect alignment (<0.5mm tolerance)', 'Colour calibration to D65 standard', 'Seam brightness uniformity >97%', 'Full-screen test before handover'] },
+              { icon: Wrench, title: 'Professional Tools', items: ['Laser alignment and levelling', 'Calibrated power analysis equipment', 'Thermal imaging for heat verification', 'Professional cable management'] },
+              { icon: Zap, title: 'Quality Assurance', items: ['48-hour burn-in test on-site', 'Documented inspection checklist', 'Photo/video completion report', '30-day post-install support'] },
+            ].map((item) => (
+              <div key={item.title} className="glass-panel p-6" data-testid={`workmanship-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: 'rgba(229,197,116,0.08)', border: '1px solid rgba(229,197,116,0.15)' }}>
+                  <item.icon size={18} className="text-[var(--blx-gold-3)]" />
+                </div>
+                <h3 className="text-xs font-bold mb-3 tracking-widest">{item.title}</h3>
+                <ul className="space-y-2">
+                  {item.items.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-[0.6875rem] text-[var(--blx-text-2)] tracking-wider">
+                      <CheckCircle size={11} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Quotation Disclaimer */}
       <section className="py-12 relative blx-led-grid" data-testid="quotation-disclaimer">
         <div className="absolute inset-0 bg-[var(--blx-bg-raised)]" style={{zIndex: -1}} />

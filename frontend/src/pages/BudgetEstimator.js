@@ -241,6 +241,7 @@ export default function BudgetEstimator() {
               <h3 className="text-xs font-bold tracking-[0.15em] text-[var(--blx-gold-3)] mb-3">IMPORTANT NOTES</h3>
               <div className="space-y-2 text-[0.6875rem] text-[var(--blx-text-2)]">
                 <p>These estimates are for budgetary planning purposes only. Actual pricing depends on brand selection, quantity, specific features, and project timeline.</p>
+                <p><strong className="text-[var(--blx-text)]">Installation costs and structural work are not included</strong> in hardware estimates. These are quoted separately after a site survey confirms installation conditions, material availability, and structural requirements.</p>
                 <p>Excludes: content creation, structural engineering calculations, municipality approvals, and ongoing CMS subscription fees.</p>
                 <p>For a formal quotation, contact our sales team with your project details.</p>
               </div>

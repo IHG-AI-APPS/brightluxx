@@ -215,6 +215,10 @@ const Contact = () => {
                 >
                   {loading ? 'Submitting...' : 'Get Quote in 2 Hours'}
                 </button>
+
+                <p className="text-[10px] text-[var(--blx-text-2)] mt-4 leading-relaxed tracking-wider" data-testid="contact-disclaimer">
+                  Note: Standard quotations cover hardware, processing, and cabling. Installation costs and structural work are quoted separately after a site survey confirms conditions and requirements.
+                </p>
               </form>
             )}
           </div>

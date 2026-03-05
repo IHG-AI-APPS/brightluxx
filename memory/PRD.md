@@ -128,6 +128,12 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added to Tools mega-menu and sitemap (priority 0.9)
 - Testing: 59/59 tests passed (15 backend + 44 frontend)
 
+### Phase 6: Final Polish & Review — Mar 5, 2026
+- **Quotation disclaimers** added to Budget Estimator, Contact page, and Project Planner — all consistently state installation/structural work quoted separately after site survey
+- **Professional Installation & Workmanship** section added to Services page: 4 cards (Certified Engineers, Precision Standards, Professional Tools, Quality Assurance) with 16 detailed quality commitments
+- **Product images** updated for all 15 products that were missing images (accessories, custom shapes, digital signage, smart TVs, ready-made) — all 72 products now have images
+- Testing: 100% pass + regression on Phases 4-5 — Iteration 45
+
 ### Phase 5: LED Module & Cabinet Calculator — Mar 5, 2026
 - Interactive calculator at `/led-calculator` for computing module/cabinet counts from target screen dimensions
 - Inputs: target width/height (mm/cm/ft), module/cabinet size (8 presets), pixel pitch (14 options from P0.7-P10)
@@ -238,11 +244,6 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Brand Value page (manufacturing, warranty, origin)
 
 ## Remaining Tasks
-### Phase 6: Final Polish & Review
-- Quotation disclaimer (installation & structural work not included unless site assessment done)
-- Content emphasizing professional installation and high-quality workmanship
-- Review and improve quality of all product images
-
 ### Future
 - Tender Monitoring Integration (ProTenders/MEED)
 - Admin Dashboard V2 (unified lead management)

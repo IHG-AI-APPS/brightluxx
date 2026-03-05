@@ -53,21 +53,23 @@ const Footer = () => {
             <h3 className="text-[0.625rem] font-bold mb-4 tracking-[0.2em]">Explore</h3>
             <ul className="space-y-2 text-xs">
               <li><Link to="/products" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Products</Link></li>
+              <li><Link to="/services" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Services</Link></li>
               <li><Link to="/solutions" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Solutions</Link></li>
-              <li><Link to="/inspirations" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Inspirations</Link></li>
-              <li><Link to="/projects" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Projects</Link></li>
+              <li><Link to="/applications" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Applications</Link></li>
               <li><Link to="/case-studies" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Case Studies</Link></li>
+              <li><Link to="/blog" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Blog</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-[0.625rem] font-bold mb-4 tracking-[0.2em]">Tools & Resources</h3>
+            <h3 className="text-[0.625rem] font-bold mb-4 tracking-[0.2em]">Company</h3>
             <ul className="space-y-2 text-xs">
+              <li><Link to="/factory-tour" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Factory Tour</Link></li>
+              <li><Link to="/faq" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">FAQ</Link></li>
+              <li><Link to="/for-architects" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">For Architects</Link></li>
               <li><Link to="/calculator" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Screen Calculator</Link></li>
               <li><Link to="/budget-estimator" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Budget Estimator</Link></li>
-              <li><Link to="/power-estimator" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Power Estimator</Link></li>
-              <li><Link to="/technology-selector" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Technology Selector</Link></li>
-              <li><Link to="/for-architects" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">For Architects</Link></li>
+              <li><Link to="/resources" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Resources</Link></li>
             </ul>
           </div>
 

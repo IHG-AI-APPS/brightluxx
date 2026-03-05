@@ -86,6 +86,12 @@ import InstallationGuide from './pages/InstallationGuide';
 // Project Planner
 import ProjectPlanner from './pages/ProjectPlanner';
 
+// Phase 3: New Pages
+import Services from './pages/Services';
+import Blog from './pages/Blog';
+import FAQ from './pages/FAQ';
+import FactoryTour from './pages/FactoryTour';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -157,6 +163,12 @@ function AppRoutes() {
       <Route path="/installation-guide" element={<><Navbar /><InstallationGuide /><Footer /><StickyCTA /></>} />
       <Route path="/project-planner" element={<><Navbar /><ProjectPlanner /><Footer /><StickyCTA /></>} />
       <Route path="/digital-experience/:pageId" element={<><Navbar /><DeaPageDetail /><Footer /><StickyCTA /></>} />
+
+      {/* Phase 3: New Pages */}
+      <Route path="/services" element={<><Navbar /><Services /><Footer /><StickyCTA /></>} />
+      <Route path="/blog" element={<><Navbar /><Blog /><Footer /><StickyCTA /></>} />
+      <Route path="/faq" element={<><Navbar /><FAQ /><Footer /><StickyCTA /></>} />
+      <Route path="/factory-tour" element={<><Navbar /><FactoryTour /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLogin />} />

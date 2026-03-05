@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText } from 'lucide-react';
+import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
@@ -12,17 +13,60 @@ const Navbar = () => {
   const toolsPaths = ['/calculator', '/compare', '/tech-guide', '/budget-estimator', '/value-engineering', '/spec-substitution', '/cpd-programme', '/design-assist', '/technology-selector', '/viewing-distance', '/power-estimator', '/installation-guide', '/project-planner'];
   const isToolsActive = toolsPaths.includes(location.pathname) || location.pathname.startsWith('/contractors');
 
-  // Group 1: Before Tools
   const navLinksGroup1 = [
-    { name: 'Products', path: '/products' },
     { name: 'Solutions', path: '/solutions' },
     { name: 'Technologies', path: '/technology' },
     { name: 'Case Studies', path: '/case-studies' },
   ];
 
-  // Group 2: After Tools
   const navLinksGroup2 = [
     { name: 'Resources', path: '/resources' },
+  ];
+
+  const productCategories = [
+    {
+      label: 'INDOOR DISPLAYS',
+      items: [
+        { name: 'COB MicroLED', cat: 'cob-microled', desc: 'Ultra-premium P0.4-P0.9' },
+        { name: 'MiP LED', cat: 'mip', desc: 'Next-gen P0.7-P1.5' },
+        { name: 'Fine Pitch Indoor', cat: 'indoor', desc: 'Corporate P1.8-P3' },
+        { name: 'All-in-One dvLED', cat: 'all-in-one', desc: 'Plug & play solutions' },
+        { name: 'Cinema LED', cat: 'cinema-led', desc: 'Theatre-grade P0.9-P1.2' },
+        { name: 'DVLED Cinema', cat: 'dvled', desc: 'Direct-view cinema walls' },
+      ],
+    },
+    {
+      label: 'OUTDOOR & RENTAL',
+      items: [
+        { name: 'Outdoor LED', cat: 'outdoor', desc: 'Weatherproof P4-P10' },
+        { name: 'Rental LED', cat: 'rental', desc: 'Event & touring displays' },
+        { name: 'Road Signals', cat: 'road-signal', desc: 'Traffic & VMS displays' },
+      ],
+    },
+    {
+      label: 'CREATIVE & CUSTOM',
+      items: [
+        { name: 'Transparent LED', cat: 'transparent', desc: 'Glass facade displays' },
+        { name: 'Flexible / Creative', cat: 'flexible', desc: 'Curved & custom shapes' },
+        { name: 'Custom LED Shapes', cat: 'custom-shapes', desc: 'Round, cube, cone' },
+        { name: 'LED Sphere', cat: 'sphere', desc: '360° spherical displays' },
+        { name: 'Naked-Eye 3D', cat: 'naked-eye-3d', desc: 'Glasses-free 3D' },
+        { name: 'Ceiling / Sky Screen', cat: 'ceiling-led', desc: 'Overhead displays' },
+      ],
+    },
+    {
+      label: 'SPECIALITY & READY-MADE',
+      items: [
+        { name: 'Digital Signage', cat: 'digital-signage', desc: 'Commercial displays & kiosks' },
+        { name: 'Smart TVs', cat: 'smart-tv', desc: 'Commercial & outdoor TVs' },
+        { name: 'Ready-Made', cat: 'ready-made', desc: 'Plug & play packages' },
+        { name: 'Interactive Floor', cat: 'interactive', desc: 'Touch-responsive floors' },
+        { name: 'Virtual Production', cat: 'virtual-production', desc: 'XR/VP stage panels' },
+        { name: 'LED Poster / Totem', cat: 'poster-totem', desc: 'Standalone displays' },
+        { name: 'Shelf Edge', cat: 'shelf-edge', desc: 'Retail strip displays' },
+        { name: 'Accessories', cat: 'accessories', desc: 'Controllers, cables, mounts' },
+      ],
+    },
   ];
 
   const toolsGroups = [
@@ -68,21 +112,91 @@ const Navbar = () => {
     </Link>
   );
 
+  const CATEGORY_ICONS = {
+    'cob-microled': Cpu, 'mip': Cpu, 'indoor': Monitor, 'all-in-one': Tv,
+    'cinema-led': MonitorPlay, 'dvled': MonitorPlay, 'outdoor': Monitor,
+    'rental': Package, 'road-signal': Monitor, 'transparent': Eye,
+    'flexible': Shapes, 'custom-shapes': Shapes, 'sphere': Shapes,
+    'naked-eye-3d': Eye, 'ceiling-led': Layers, 'digital-signage': Monitor,
+    'smart-tv': Tv, 'ready-made': ShoppingBag, 'interactive': Zap,
+    'virtual-production': MonitorPlay, 'poster-totem': Monitor,
+    'shelf-edge': Monitor, 'accessories': Settings,
+  };
+
   return (
     <nav className="sticky top-0 z-50 sticky-nav" data-testid="site-header-nav">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center" data-testid="logo-link">
-            <img
-              src="/assets/brightluxx-logo-dark.png"
-              alt="Brightluxx"
-              className="h-7 sm:h-8 w-auto"
-            />
+            <img src="/assets/brightluxx-logo-dark.png" alt="Brightluxx" className="h-7 sm:h-8 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-7">
+
+            {/* Products Mega Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setProductsOpen(true)}
+              onMouseLeave={() => setProductsOpen(false)}
+            >
+              <button
+                className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 flex items-center gap-1 ${
+                  isActivePrefix('/products') ? 'text-[var(--blx-text)]' : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
+                }`}
+                data-testid="nav-products"
+              >
+                Products
+                <ChevronDown size={12} className={`transition-transform duration-200 ${productsOpen ? 'rotate-180' : ''}`} />
+                {isActivePrefix('/products') && <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />}
+              </button>
+
+              {productsOpen && (
+                <div
+                  className="absolute top-full -left-4 mt-1 shadow-2xl py-4 px-4"
+                  style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', background: 'rgba(11,11,11,0.97)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', width: '680px' }}
+                  data-testid="nav-products-dropdown"
+                >
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-1">
+                    {productCategories.map((group, gi) => (
+                      <div key={gi} className="mb-2">
+                        <div className="px-2 pt-1 pb-2 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">{group.label}</div>
+                        {group.items.map((item) => {
+                          const Icon = CATEGORY_ICONS[item.cat] || Monitor;
+                          return (
+                            <Link
+                              key={item.cat}
+                              to={`/products?category=${item.cat}`}
+                              onClick={() => setProductsOpen(false)}
+                              className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg transition-colors duration-150 hover:bg-[rgba(255,255,255,0.04)]"
+                              data-testid={`nav-product-cat-${item.cat}`}
+                            >
+                              <Icon size={12} className="text-[var(--blx-text-2)] flex-shrink-0" />
+                              <div>
+                                <div className="text-[0.625rem] font-bold tracking-wider text-[var(--blx-text)]">{item.name}</div>
+                                <div className="text-[0.45rem] text-[var(--blx-muted)] tracking-wider">{item.desc}</div>
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-[rgba(255,255,255,0.06)]">
+                    <Link
+                      to="/products"
+                      onClick={() => setProductsOpen(false)}
+                      className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.06)] transition-colors duration-150"
+                      data-testid="nav-products-view-all"
+                    >
+                      View All 72 Products
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {navLinksGroup1.map(renderNavLink)}
 
             {/* Tools Mega Dropdown */}
@@ -93,17 +207,13 @@ const Navbar = () => {
             >
               <button
                 className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 flex items-center gap-1 ${
-                  isToolsActive
-                    ? 'text-[var(--blx-text)]'
-                    : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
+                  isToolsActive ? 'text-[var(--blx-text)]' : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
                 }`}
                 data-testid="nav-tools"
               >
                 Tools
                 <ChevronDown size={12} className={`transition-transform duration-200 ${toolsOpen ? 'rotate-180' : ''}`} />
-                {isToolsActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />
-                )}
+                {isToolsActive && <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />}
               </button>
 
               {toolsOpen && (
@@ -121,9 +231,7 @@ const Navbar = () => {
                           key={link.path}
                           to={link.path}
                           className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150 ${
-                            isActive(link.path)
-                              ? 'bg-[rgba(229,197,116,0.08)]'
-                              : 'hover:bg-[rgba(255,255,255,0.04)]'
+                            isActive(link.path) ? 'bg-[rgba(229,197,116,0.08)]' : 'hover:bg-[rgba(255,255,255,0.04)]'
                           }`}
                           data-testid={`nav-tools-${link.path.substring(1)}`}
                         >
@@ -144,11 +252,7 @@ const Navbar = () => {
 
             {navLinksGroup2.map(renderNavLink)}
 
-            <Link
-              to="/contact"
-              className="btn-gold px-4 py-1.5 text-xs"
-              data-testid="site-header-request-quote-button"
-            >
+            <Link to="/contact" className="btn-gold px-4 py-1.5 text-xs" data-testid="site-header-request-quote-button">
               Get Quote
             </Link>
           </div>
@@ -166,67 +270,54 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="lg:hidden py-4 space-y-2 border-t border-[var(--blx-hairline)] overflow-x-hidden" data-testid="mobile-menu" style={{ overflowX: 'hidden' }}>
-            {navLinksGroup1.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setIsOpen(false)}
-                className={`block px-4 py-3 text-xs font-bold tracking-widest rounded-lg ${
-                  isActive(link.path)
-                    ? 'bg-[var(--blx-glass)] text-[var(--blx-text)]'
-                    : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-glass)]'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+            <Link to="/products" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Products</Link>
 
-            {/* Mobile Tools Section */}
-            {toolsGroups.map((group, gi) => (
-              <React.Fragment key={gi}>
-                <div className="px-4 pt-2">
-                  <div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1">{group.label}</div>
-                </div>
-                {group.links.map((link) => (
+            {/* Mobile Product Categories */}
+            <div className="px-4 pb-2">
+              <div className="grid grid-cols-2 gap-1">
+                {productCategories.flatMap(g => g.items).slice(0, 8).map((item) => (
                   <Link
-                    key={link.path}
-                    to={link.path}
+                    key={item.cat}
+                    to={`/products?category=${item.cat}`}
                     onClick={() => setIsOpen(false)}
-                    className={`flex items-center gap-3 mx-2 px-3 py-2.5 text-xs font-bold tracking-widest rounded-lg ${
-                      isActive(link.path)
-                        ? 'bg-[var(--blx-glass)] text-[var(--blx-gold-3)]'
-                        : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-glass)]'
-                    }`}
+                    className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-[var(--blx-gold-3)] py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]"
                   >
-                    <link.icon size={14} className={isActive(link.path) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-muted)]'} />
-                    {link.name}
+                    {item.name}
                   </Link>
                 ))}
-              </React.Fragment>
+              </div>
+            </div>
+
+            {navLinksGroup1.map((link) => (
+              <Link key={link.path} to={link.path} onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">{link.name}</Link>
             ))}
 
-            {navLinksGroup2.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setIsOpen(false)}
-                className={`block px-4 py-3 text-xs font-bold tracking-widest rounded-lg ${
-                  isActive(link.path)
-                    ? 'bg-[var(--blx-glass)] text-[var(--blx-text)]'
-                    : 'text-[var(--blx-text-2)] hover:bg-[var(--blx-glass)]'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+            <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
+              <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">SPECIFIER TOOLS</div>
+              {toolsGroups[0].links.map((link) => (
+                <Link key={link.path} to={link.path} onClick={() => setIsOpen(false)} className="flex items-center gap-2 px-4 py-1.5">
+                  <link.icon size={12} className="text-[var(--blx-text-2)]" />
+                  <span className="text-xs tracking-wider text-[var(--blx-text-2)] hover:text-[var(--blx-text)]">{link.name}</span>
+                </Link>
+              ))}
+            </div>
 
-            <Link
-              to="/contact"
-              onClick={() => setIsOpen(false)}
-              className="btn-gold block text-center mx-4 mt-4 text-xs py-2.5"
-            >
-              Get Quote
-            </Link>
+            <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
+              <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">CONTRACTOR TOOLS</div>
+              {toolsGroups[1].links.map((link) => (
+                <Link key={link.path} to={link.path} onClick={() => setIsOpen(false)} className="flex items-center gap-2 px-4 py-1.5">
+                  <link.icon size={12} className="text-[var(--blx-text-2)]" />
+                  <span className="text-xs tracking-wider text-[var(--blx-text-2)] hover:text-[var(--blx-text)]">{link.name}</span>
+                </Link>
+              ))}
+            </div>
+
+            <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
+              {navLinksGroup2.map((link) => (
+                <Link key={link.path} to={link.path} onClick={() => setIsOpen(false)} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">{link.name}</Link>
+              ))}
+              <Link to="/contact" onClick={() => setIsOpen(false)} className="block px-4 py-3 mt-2 btn-gold text-center text-xs font-bold tracking-widest">Get Quote</Link>
+            </div>
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Search, SlidersHorizontal, Monitor } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
@@ -33,28 +33,43 @@ const CATEGORIES = [
   { value: '', label: 'All Products' },
   { value: 'cob-microled', label: 'COB MicroLED' },
   { value: 'mip', label: 'MiP' },
-  { value: 'transparent', label: 'Transparent' },
-  { value: 'flexible', label: 'Flexible / Creative' },
-  { value: 'interactive', label: 'Interactive Floor' },
-  { value: 'naked-eye-3d', label: 'Naked-Eye 3D' },
-  { value: 'cinema-led', label: 'Cinema LED' },
-  { value: 'sphere', label: 'LED Sphere' },
-  { value: 'virtual-production', label: 'Virtual Production' },
-  { value: 'poster-totem', label: 'LED Poster / Totem' },
-  { value: 'shelf-edge', label: 'Shelf Edge' },
-  { value: 'ceiling-led', label: 'Ceiling / Sky Screen' },
+  { value: 'indoor', label: 'Fine Pitch Indoor' },
   { value: 'all-in-one', label: 'All-in-One' },
+  { value: 'cinema-led', label: 'Cinema LED' },
   { value: 'dvled', label: 'DVLED Cinema' },
   { value: 'outdoor', label: 'Outdoor' },
   { value: 'rental', label: 'Rental' },
-  { value: 'indoor', label: 'Indoor' },
+  { value: 'transparent', label: 'Transparent' },
+  { value: 'flexible', label: 'Flexible / Creative' },
+  { value: 'custom-shapes', label: 'Custom Shapes' },
+  { value: 'sphere', label: 'LED Sphere' },
+  { value: 'naked-eye-3d', label: 'Naked-Eye 3D' },
+  { value: 'ceiling-led', label: 'Ceiling / Sky Screen' },
+  { value: 'digital-signage', label: 'Digital Signage' },
+  { value: 'smart-tv', label: 'Smart TVs' },
+  { value: 'ready-made', label: 'Ready-Made' },
+  { value: 'interactive', label: 'Interactive Floor' },
+  { value: 'virtual-production', label: 'Virtual Production' },
+  { value: 'poster-totem', label: 'LED Poster / Totem' },
+  { value: 'shelf-edge', label: 'Shelf Edge' },
+  { value: 'road-signal', label: 'Road Signals' },
+  { value: 'accessories', label: 'Accessories' },
 ];
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeCategory = searchParams.get('category') || '';
   const [searchQuery, setSearchQuery] = useState('');
+
+  const setActiveCategory = (cat) => {
+    if (cat) {
+      setSearchParams({ category: cat });
+    } else {
+      setSearchParams({});
+    }
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -64,7 +79,8 @@ const Products = () => {
         if (activeCategory) params.category = activeCategory;
         if (searchQuery) params.search = searchQuery;
         const res = await getProducts(params);
-        setProducts(res.data.products);
+        const data = res?.data || res;
+        setProducts(Array.isArray(data) ? data : data?.products || []);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {

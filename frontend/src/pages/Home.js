@@ -152,8 +152,14 @@ const Home = () => {
   const [featuredProjects, setFeaturedProjects] = useState([]);
 
   useEffect(() => {
-    getProducts({ limit: 4, featured: true }).then(setFeaturedProducts).catch(() => {});
-    getProjects({ limit: 3, featured: true }).then(setFeaturedProjects).catch(() => {});
+    getProducts({ limit: 4, featured: true }).then(res => {
+      const data = res?.data || res;
+      setFeaturedProducts(Array.isArray(data) ? data : data?.products || []);
+    }).catch(() => {});
+    getProjects({ limit: 3, featured: true }).then(res => {
+      const data = res?.data || res;
+      setFeaturedProjects(Array.isArray(data) ? data : data?.projects || []);
+    }).catch(() => {});
   }, []);
 
   return (

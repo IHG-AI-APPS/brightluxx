@@ -121,27 +121,28 @@ const Products = () => {
 
         {/* Search Bar */}
         <div className="mb-6">
-          <div className="relative max-w-lg">
-            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
+          <div className="relative max-w-md">
+            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
             <input
               type="text"
               placeholder="Search products, BL codes, or pixel pitch..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="input-luxury w-full pl-11 pr-4 py-3"
+              className="w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-sm tracking-wider text-[var(--blx-text)] pl-10 pr-4 py-2.5 focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200"
+              style={{ fontFamily: "'Satoshi', sans-serif" }}
               data-testid="products-search-input"
             />
           </div>
         </div>
 
-        {/* Category Filters — horizontal scroll */}
-        <div className="mb-8 -mx-4 px-4 overflow-x-auto scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
-          <div className="flex gap-2 pb-2 min-w-max">
+        {/* Category Filters — wrapping rows */}
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-2">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.value}
                 onClick={() => setActiveCategory(cat.value)}
-                className={`px-4 py-2 text-[0.65rem] font-bold rounded-full border tracking-widest transition-colors duration-200 whitespace-nowrap flex-shrink-0 ${
+                className={`px-3.5 py-1.5 text-[0.65rem] font-bold rounded-full border tracking-widest transition-colors duration-200 ${
                   activeCategory === cat.value
                     ? 'bg-[var(--blx-gold-3)] text-[#0B0B0B] border-[var(--blx-gold-3)]'
                     : 'bg-transparent text-[var(--blx-text-2)] border-[var(--blx-border)] hover:border-[var(--blx-border-2)]'

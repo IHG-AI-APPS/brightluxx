@@ -114,30 +114,34 @@ const Products = () => {
         }}
       />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-10">
+        <div className="mb-8">
           <h1 data-testid="products-page-title">Products</h1>
           <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider">Explore our complete range of LED display solutions.</p>
         </div>
 
-        {/* Filter Bar */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-          <div className="relative flex-1 max-w-md">
+        {/* Search Bar */}
+        <div className="mb-6">
+          <div className="relative max-w-lg">
             <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
             <input
               type="text"
-              placeholder="Search products or BL codes..."
+              placeholder="Search products, BL codes, or pixel pitch..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="input-luxury w-full pl-10"
+              className="input-luxury w-full pl-11 pr-4 py-3"
               data-testid="products-search-input"
             />
           </div>
-          <div className="flex flex-wrap gap-2">
+        </div>
+
+        {/* Category Filters — horizontal scroll */}
+        <div className="mb-8 -mx-4 px-4 overflow-x-auto scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
+          <div className="flex gap-2 pb-2 min-w-max">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.value}
                 onClick={() => setActiveCategory(cat.value)}
-                className={`px-4 py-2 text-[0.6875rem] font-bold rounded-full border tracking-widest transition-colors duration-200 ${
+                className={`px-4 py-2 text-[0.65rem] font-bold rounded-full border tracking-widest transition-colors duration-200 whitespace-nowrap flex-shrink-0 ${
                   activeCategory === cat.value
                     ? 'bg-[var(--blx-gold-3)] text-[#0B0B0B] border-[var(--blx-gold-3)]'
                     : 'bg-transparent text-[var(--blx-text-2)] border-[var(--blx-border)] hover:border-[var(--blx-border-2)]'

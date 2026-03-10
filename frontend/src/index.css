@@ -345,3 +345,8 @@ html, body {
 .animate-scroll-x:hover {
   animation-play-state: paused;
 }
+
+
+/* Hide scrollbar for horizontal scroll filters */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import './App.css';
 
 import Navbar from './components/Navbar';
@@ -200,10 +200,17 @@ function AppRoutes() {
   );
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [pathname]);
+  return null;
+}
+
 function App() {
   return (
     <Router>
       <AdminProvider>
+        <ScrollToTop />
         <div className="min-h-screen bg-[var(--blx-bg)] text-[var(--blx-text)]">
           <AppRoutes />
           <AuraChat />

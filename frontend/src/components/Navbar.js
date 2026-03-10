@@ -159,7 +159,8 @@ const Navbar = () => {
   const closeAll = () => { setProductsOpen(false); setSolutionsOpen(false); setTechOpen(false); setToolsOpen(false); setIsOpen(false); };
 
   return (
-    <nav className="sticky top-0 z-50 sticky-nav" data-testid="site-header-nav">
+    <>
+    <nav className="fixed top-0 left-0 right-0 z-50" style={{ backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'rgba(11,11,11,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }} data-testid="site-header-nav">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -424,6 +425,9 @@ const Navbar = () => {
         )}
       </div>
     </nav>
+    {/* Spacer for fixed navbar */}
+    <div className="h-16" />
+    </>
   );
 };
 

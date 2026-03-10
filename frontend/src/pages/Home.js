@@ -303,7 +303,7 @@ const Home = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredProducts.map((product) => (
                 <GlowCard key={product._id}>
-                  <div className="product-card group" data-testid="products-product-card">
+                  <Link to={`/products/${product.slug}`} className="product-card group block" data-testid="products-product-card">
                     <div className="relative overflow-hidden">
                       <CdnImage src={product.image_url} alt={product.name} className="w-full h-48" w={400} />
                       <div className="absolute top-3 left-3">
@@ -319,7 +319,7 @@ const Home = () => {
                         <span>{product.brightness}</span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </GlowCard>
               ))}
             </div>

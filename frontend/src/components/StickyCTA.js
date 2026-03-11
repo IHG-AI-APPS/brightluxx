@@ -1,8 +1,10 @@
 import React from 'react';
 import { PhoneCall } from 'lucide-react';
+import { useSiteSettings } from '../contexts/SiteSettingsContext';
 
 const StickyCTA = () => {
-  const whatsappNumber = '971559954274';
+  const { contact } = useSiteSettings();
+  const whatsappNumber = (contact?.whatsapp || '+971559954274').replace(/[^0-9]/g, '');
   const whatsappMessage = "Hi, I'm interested in Brightluxx LED displays";
 
   const handleWhatsApp = () => {

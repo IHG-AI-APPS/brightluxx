@@ -23,6 +23,7 @@ from routes.quick_inquiry import router as quick_inquiry_router
 from routes.site_visit import router as site_visit_router
 from routes.project_planner import router as project_planner_router
 from routes.partners import router as partners_router
+from routes.site_settings import router as site_settings_router
 from storage import init_storage
 
 app = FastAPI()
@@ -85,6 +86,7 @@ app.include_router(quick_inquiry_router)
 app.include_router(site_visit_router)
 app.include_router(project_planner_router)
 app.include_router(partners_router)
+app.include_router(site_settings_router)
 
 
 @app.on_event("startup")

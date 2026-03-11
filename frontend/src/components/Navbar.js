@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid } from 'lucide-react';
+import { useSiteSettings } from '../contexts/SiteSettingsContext';
 
 /* Dropdown wrapper — handles stable hover with a delay so the menu doesn't vanish mid-transition */
 function DropdownWrap({ trigger, children, isOpen, setOpen, testId }) {
@@ -26,6 +27,7 @@ const Navbar = () => {
   const [techOpen, setTechOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const location = useLocation();
+  const { branding } = useSiteSettings();
 
   const isActive = (path) => location.pathname === path;
   const isActivePrefix = (prefix) => location.pathname.startsWith(prefix);
@@ -165,7 +167,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center" data-testid="logo-link">
-            <img src="/assets/brightluxx-logo-dark.png" alt="Brightluxx" className="h-7 sm:h-8 w-auto" />
+            <img src={branding?.logo_url || '/assets/brightluxx-logo-dark.png'} alt={branding?.company_name || 'Brightluxx'} className="h-7 sm:h-8 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}

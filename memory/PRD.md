@@ -128,6 +128,12 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added to Tools mega-menu and sitemap (priority 0.9)
 - Testing: 59/59 tests passed (15 backend + 44 frontend)
 
+### Dynamic Site Settings — Mar 11, 2026
+- Admin page at `/admin/site-settings`: Branding (logo, favicon, company name, tagline, year), Company Details (phone, email, WhatsApp, address), Social Media (6 platforms), Embeds (Google Maps), SEO defaults
+- Backend API: GET/PUT `/api/site-settings` with MongoDB persistence
+- `SiteSettingsProvider` context wraps entire app — Navbar, Footer, StickyCTA all use dynamic values
+- Admin sidebar updated with "Site Settings" (Globe icon) and "Account" labels
+
 ### Mega Menu & Page Redesign — Mar 5, 2026
 - **Fixed mega menu instability** — DropdownWrap component with 120ms leave delay prevents accidental close. Replaced `mt-1` gap with `pt-2` internal padding
 - **Solutions mega dropdown** — 8 industry items (Retail, Corporate, Outdoor, Events, Creative, Traffic, Immersive, Transparent) linking to sub-pages

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { SiteSettingsProvider } from './contexts/SiteSettingsContext';
 import './App.css';
 
 import Navbar from './components/Navbar';
@@ -110,6 +111,7 @@ import AdminInspirations from './admin/AdminInspirations';
 import AdminProjects from './admin/AdminProjects';
 import AdminLeads from './admin/AdminLeads';
 import AdminSettings from './admin/AdminSettings';
+import AdminSiteSettings from './admin/AdminSiteSettings';
 import AdminAnalytics from './admin/AdminAnalytics';
 import AdminPerformance from './admin/AdminPerformance';
 
@@ -195,6 +197,7 @@ function AppRoutes() {
         <Route path="analytics" element={<AdminAnalytics />} />
         <Route path="performance" element={<AdminPerformance />} />
         <Route path="settings" element={<AdminSettings />} />
+        <Route path="site-settings" element={<AdminSiteSettings />} />
       </Route>
     </Routes>
   );
@@ -209,6 +212,7 @@ function ScrollToTop() {
 function App() {
   return (
     <Router>
+      <SiteSettingsProvider>
       <AdminProvider>
         <ScrollToTop />
         <div className="min-h-screen bg-[var(--blx-bg)] text-[var(--blx-text)]">
@@ -217,6 +221,7 @@ function App() {
           <ExitIntentPopup />
         </div>
       </AdminProvider>
+      </SiteSettingsProvider>
     </Router>
   );
 }

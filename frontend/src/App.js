@@ -115,6 +115,8 @@ import AdminSiteSettings from './admin/AdminSiteSettings';
 import AdminAnalytics from './admin/AdminAnalytics';
 import AdminPerformance from './admin/AdminPerformance';
 import AdminResources from './pages/admin/AdminResources';
+import AdminTaxonomy from './pages/admin/AdminTaxonomy';
+import AdminHomepage from './pages/admin/AdminHomepage';
 
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAdmin();
@@ -200,6 +202,8 @@ function AppRoutes() {
         <Route path="settings" element={<AdminSettings />} />
         <Route path="site-settings" element={<AdminSiteSettings />} />
         <Route path="resources" element={<AdminResources />} />
+        <Route path="taxonomy" element={<AdminTaxonomy />} />
+        <Route path="homepage" element={<AdminHomepage />} />
       </Route>
     </Routes>
   );

@@ -15,6 +15,7 @@ export default function AdminProjects() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
+  const [sectors, setSectors] = useState([]);
 
   const fetch_ = useCallback(async () => {
     setLoading(true);
@@ -23,6 +24,10 @@ export default function AdminProjects() {
       if (search) params.search = search;
       const res = await api().get('/api/admin/projects', { params });
       setItems(res.data.projects); setTotal(res.data.total);
+      
+      // Extract unique sectors from projects
+      const secs = [...new Set(res.data.projects.map(p => p.sector).filter(Boolean))];
+      setSectors(secs.sort());
     } catch (e) { console.error(e); }
     setLoading(false);
   }, [api, page, search]);
@@ -118,7 +123,35 @@ export default function AdminProjects() {
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div><label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block">Location</label><input value={form.location} onChange={e => setForm({...form, location: e.target.value})} className="input-luxury w-full py-1.5 text-xs" /></div>
-                <div><label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block">Sector</label><input value={form.sector} onChange={e => setForm({...form, sector: e.target.value})} placeholder="e.g. retail" className="input-luxury w-full py-1.5 text-xs" /></div>
+                <div>
+                  <label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block">Sector</label>
+                  <select 
+                    value={sectors.includes(form.sector) ? form.sector : (form.sector ? '__new__' : '')} 
+                    onChange={e => {
+                      if (e.target.value === '__new__') {
+                        setForm({...form, sector: '', showNewSector: true});
+                      } else {
+                        setForm({...form, sector: e.target.value, showNewSector: false});
+                      }
+                    }} 
+                    className="input-luxury w-full py-1.5 text-xs bg-[var(--blx-bg-raised)]"
+                  >
+                    <option value="">Select sector...</option>
+                    {sectors.map(sec => (
+                      <option key={sec} value={sec}>{sec.charAt(0).toUpperCase() + sec.slice(1)}</option>
+                    ))}
+                    <option value="__new__">+ Add New</option>
+                  </select>
+                  {(form.showNewSector || (form.sector && !sectors.includes(form.sector))) && (
+                    <input 
+                      value={form.sector} 
+                      onChange={e => setForm({...form, sector: e.target.value})}
+                      placeholder="e.g. retail"
+                      className="input-luxury w-full py-1.5 text-xs mt-1"
+                      autoFocus
+                    />
+                  )}
+                </div>
                 <div><label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block">Screen Size</label><input value={form.screen_size} onChange={e => setForm({...form, screen_size: e.target.value})} className="input-luxury w-full py-1.5 text-xs" /></div>
               </div>
               <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="input-luxury w-full py-2 text-xs resize-y" /></div>

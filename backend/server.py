@@ -25,6 +25,8 @@ from routes.project_planner import router as project_planner_router
 from routes.partners import router as partners_router
 from routes.site_settings import router as site_settings_router
 from routes.resources import router as resources_router
+from routes.taxonomy import router as taxonomy_router
+from routes.homepage import router as homepage_router
 from storage import init_storage
 
 app = FastAPI()
@@ -89,6 +91,8 @@ app.include_router(project_planner_router)
 app.include_router(partners_router)
 app.include_router(site_settings_router)
 app.include_router(resources_router)
+app.include_router(taxonomy_router)
+app.include_router(homepage_router)
 
 
 @app.on_event("startup")

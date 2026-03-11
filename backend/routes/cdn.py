@@ -48,34 +48,30 @@ async def serve_image(
     f: Optional[str] = None,
 ):
     """
-    Serve images from external CDN with optional on-the-fly optimization.
+    Serve images from external CDN or Emergent Storage with optional on-the-fly optimization.
     Query params:
       - w: max width (px)
       - h: max height (px)
       - q: quality (1-100, default 82)
       - f: format (webp, jpeg, png)
     """
-    needs_transform = w or h or (q and q != 82) or (f and f != "webp")
-    
-    if not needs_transform:
-        return RedirectResponse(
-            url=f"{EXTERNAL_CDN_BASE}/uploads/{path}",
-            status_code=302,
-            headers={
-                "Cache-Control": "public, max-age=31536000, immutable",
-            }
-        )
-    
     quality = min(max(q or 82, 1), 100)
     output_format = f if f in ("webp", "jpeg", "jpg", "png") else "webp"
-
+    needs_transform = w or h or (q and q != 82) or (f and f != "webp")
+    
+    # Try to fetch from external CDN first
+    image_data = None
+    content_type = None
+    
     try:
         image_data, content_type = await fetch_from_external(path)
     except HTTPException:
+        # External CDN doesn't have it, try Emergent Storage
         try:
             storage_path = f"{APP_NAME}/uploads/{path}"
             image_data, content_type = get_cached_or_fetch(storage_path)
         except Exception:
+            # Try local file as last resort
             local_path = LOCAL_UPLOAD_DIR / path
             if local_path.exists() and local_path.is_file():
                 with open(local_path, "rb") as lf:
@@ -85,8 +81,10 @@ async def serve_image(
                 content_type = ct_map.get(ext, "application/octet-stream")
             else:
                 raise HTTPException(status_code=404, detail="Image not found")
-
-    image_data, content_type = optimize_and_serve(image_data, w, h, quality, output_format)
+    
+    # Apply transformations if needed
+    if needs_transform:
+        image_data, content_type = optimize_and_serve(image_data, w, h, quality, output_format)
 
     return Response(
         content=image_data,

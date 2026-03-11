@@ -28,6 +28,7 @@ async def admin_upload_file(file: UploadFile = File(...), admin=Depends(get_curr
     content_type = file.content_type or "application/octet-stream"
 
     storage_path = upload_file(unique_name, content, content_type)
+    # Use CDN route which will serve from Emergent Storage
     cdn_url = f"/api/cdn/{unique_name}"
 
     return {

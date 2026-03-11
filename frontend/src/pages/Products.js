@@ -1,3 +1,4 @@
+import { cdnUrl } from '../config/cdn';
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Search, SlidersHorizontal, Monitor } from 'lucide-react';
@@ -96,7 +97,7 @@ const Products = () => {
         title="LED Display Products"
         description="Browse our complete range of LED display solutions — COB MicroLED, transparent, outdoor, rental, flexible, interactive floor, and more. Full specs and instant quotes."
         path="/products"
-        image="/api/cdn/cob_microled_1.webp"
+        image={cdnUrl('cob_microled_1.webp')}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "ItemList",

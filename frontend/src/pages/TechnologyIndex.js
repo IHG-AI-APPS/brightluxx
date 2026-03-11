@@ -3,17 +3,18 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Cpu, Layers, Box, Monitor, Eye, Sparkles, Building2, Cuboid, MonitorPlay } from 'lucide-react';
 import CdnImage from '../components/CdnImage';
 import SEO from '../components/SEO';
+import { cdnUrl } from '../config/cdn';
 
 const TECH_CARDS = [
-  { id: 'microled', title: 'MicroLED', tagline: 'ULTRA-PREMIUM', icon: Sparkles, pitch: 'P0.4 — P0.9', image: '/api/cdn/indoor_1.webp', color: '#c084fc' },
-  { id: 'cob-led', title: 'COB LED', tagline: 'PREMIUM STANDARD', icon: Cpu, pitch: 'P0.4 — P1.9', image: '/api/cdn/indoor_2.webp', color: '#60a5fa' },
-  { id: 'mip-led', title: 'MiP LED', tagline: 'SMART SPEC', icon: Layers, pitch: 'P0.7 — P2.5', image: '/api/cdn/indoor_3.webp', color: '#34d399' },
-  { id: 'fine-pitch-led', title: 'Fine Pitch', tagline: 'COMMERCIAL', icon: Monitor, pitch: 'P0.9 — P2.5', image: '/api/cdn/sol_meeting.webp', color: '#fbbf24' },
-  { id: 'all-in-one-dvled', title: 'All-in-One dvLED', tagline: 'LCD REPLACEMENT', icon: MonitorPlay, pitch: 'P0.9 — P1.8', image: '/api/cdn/sol_indoor_shop.webp', color: '#f472b6' },
-  { id: 'transparent-led', title: 'Transparent LED', tagline: 'SEE THROUGH', icon: Eye, pitch: 'P3.9 — P10', image: '/api/cdn/transparent_1.webp', color: '#67e8f9' },
-  { id: '3d-anamorphic-led', title: '3D Anamorphic', tagline: 'GLASSES-FREE 3D', icon: Cuboid, pitch: 'P2.5 — P6', image: '/api/cdn/sol_outdoor_shop.webp', color: '#fb923c' },
-  { id: 'creative-led', title: 'Creative LED', tagline: 'BEYOND RECTANGLES', icon: Box, pitch: 'P1.5 — P4', image: '/api/cdn/flexible_1.webp', color: '#a78bfa' },
-  { id: 'media-facade', title: 'Media Facade', tagline: 'BUILDING SCALE', icon: Building2, pitch: 'P15 — P50', image: '/api/cdn/sol_road.webp', color: '#4ade80' },
+  { id: 'microled', title: 'MicroLED', tagline: 'ULTRA-PREMIUM', icon: Sparkles, pitch: 'P0.4 — P0.9', image: cdnUrl('indoor_1.webp'), color: '#c084fc' },
+  { id: 'cob-led', title: 'COB LED', tagline: 'PREMIUM STANDARD', icon: Cpu, pitch: 'P0.4 — P1.9', image: cdnUrl('indoor_2.webp'), color: '#60a5fa' },
+  { id: 'mip-led', title: 'MiP LED', tagline: 'SMART SPEC', icon: Layers, pitch: 'P0.7 — P2.5', image: cdnUrl('indoor_3.webp'), color: '#34d399' },
+  { id: 'fine-pitch-led', title: 'Fine Pitch', tagline: 'COMMERCIAL', icon: Monitor, pitch: 'P0.9 — P2.5', image: cdnUrl('sol_meeting.webp'), color: '#fbbf24' },
+  { id: 'all-in-one-dvled', title: 'All-in-One dvLED', tagline: 'LCD REPLACEMENT', icon: MonitorPlay, pitch: 'P0.9 — P1.8', image: cdnUrl('sol_indoor_shop.webp'), color: '#f472b6' },
+  { id: 'transparent-led', title: 'Transparent LED', tagline: 'SEE THROUGH', icon: Eye, pitch: 'P3.9 — P10', image: cdnUrl('transparent_1.webp'), color: '#67e8f9' },
+  { id: '3d-anamorphic-led', title: '3D Anamorphic', tagline: 'GLASSES-FREE 3D', icon: Cuboid, pitch: 'P2.5 — P6', image: cdnUrl('sol_outdoor_shop.webp'), color: '#fb923c' },
+  { id: 'creative-led', title: 'Creative LED', tagline: 'BEYOND RECTANGLES', icon: Box, pitch: 'P1.5 — P4', image: cdnUrl('flexible_1.webp'), color: '#a78bfa' },
+  { id: 'media-facade', title: 'Media Facade', tagline: 'BUILDING SCALE', icon: Building2, pitch: 'P15 — P50', image: cdnUrl('sol_road.webp'), color: '#4ade80' },
 ];
 
 export default function TechnologyIndex() {

@@ -1,3 +1,4 @@
+import { cdnUrl } from '../config/cdn';
 import React, { useEffect, useState, useRef } from 'react';
 import { getInspirations } from '../api';
 import { Sparkles } from 'lucide-react';
@@ -66,7 +67,7 @@ const Inspirations = () => {
         title="LED Display Inspirations"
         description="Get inspired by stunning LED display installations — immersive retail, stadium screens, architectural media facades, interactive floors, transparent storefronts, and more."
         path="/inspirations"
-        image="/api/cdn/insp_retail.webp"
+        image={cdnUrl('insp_retail.webp')}
       />      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
           <h1 data-testid="inspirations-page-title">Inspirations</h1>

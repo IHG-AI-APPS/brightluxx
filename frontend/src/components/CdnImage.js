@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { cdnUrl, EXTERNAL_CDN } from '../config/cdn';
 
 /**
  * CdnImage — Lazy-loading image with blur-up placeholder.
- * Uses the CDN endpoint's resize capability for ultra-tiny (20px) blur previews.
+ * Images are served from the external CDN at files.ihgbrands.com.
  *
  * Props:
- *   src: string — CDN image path (e.g., "/api/cdn/hero.webp")
+ *   src: string — Image path or full URL
  *   alt: string
  *   className: string — applied to the wrapper
  *   imgClassName: string — applied to the img element
- *   w: number — optional CDN width optimization for the full image
- *   q: number — optional CDN quality (default 82)
+ *   w: number — optional width for optimization
+ *   q: number — optional quality (default 82)
  *   eager: boolean — skip lazy loading (for above-the-fold images)
  */
 export default function CdnImage({ src, alt = '', className = '', imgClassName = '', w, q, eager = false }) {
@@ -37,13 +38,12 @@ export default function CdnImage({ src, alt = '', className = '', imgClassName =
     );
   }
 
-  // Build CDN URLs
-  const isCdn = src.startsWith('/api/cdn/');
-  const blurSrc = isCdn ? `${src}?w=20&q=10` : src;
-  const params = new URLSearchParams();
-  if (w) params.set('w', w);
-  if (q) params.set('q', q);
-  const fullSrc = isCdn && params.toString() ? `${src}?${params}` : src;
+  // Get the full CDN URL
+  const fullCdnUrl = cdnUrl(src);
+  
+  // For blur placeholder, use a smaller version (external CDN doesn't support resize, so use same image)
+  const blurSrc = fullCdnUrl;
+  const fullSrc = fullCdnUrl;
 
   return (
     <div ref={containerRef} className={`cdn-img-wrap ${className}`} data-testid="cdn-image">

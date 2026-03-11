@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { trackPageView } from '../lib/tracker';
+import { cdnUrl, EXTERNAL_CDN } from '../config/cdn';
 
 const SITE_NAME = 'Brightluxx';
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || '';
-const DEFAULT_IMAGE = `${BASE_URL}/api/cdn/hero_banner.webp?w=1200&q=80`;
+const DEFAULT_IMAGE = cdnUrl('hero_banner.webp');
 const DEFAULT_DESCRIPTION = 'Premium digital LED display solutions for retail, corporate, outdoor, events, and creative installations. UAE-based with Gulf-grade engineering.';
 
 function setMeta(name, content, attr = 'name') {
@@ -45,9 +46,8 @@ function setJsonLd(data) {
 export function resolveImage(image) {
   if (!image) return DEFAULT_IMAGE;
   if (image.startsWith('http')) return image;
-  if (image.startsWith('/api/cdn/')) return `${BASE_URL}${image}?w=1200&q=80`;
-  if (image.startsWith('/')) return `${BASE_URL}${image}`;
-  return image;
+  // Convert local paths to external CDN URLs
+  return cdnUrl(image);
 }
 
 export { BASE_URL, SITE_NAME };

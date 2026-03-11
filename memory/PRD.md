@@ -245,11 +245,15 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 ### Media Migration to External Server — Mar 11, 2026
 - Migrated all media assets to external file server at `https://files.ihgbrands.com/brightluxx`
 - Hero videos now served from `files.ihgbrands.com/brightluxx/videos/`
-- CDN route (`/api/cdn/*`) updated to redirect to external server for standard image requests (302 redirect)
-- CDN transformations (w/h/q/f params) fetch from external server and apply Pillow transforms
-- Fallback chain: External server → Emergent Object Storage → Local uploads directory
-- All 72 product images and 26 project images verified loading correctly
-- Testing: 100% pass (backend 18/20 actual - 2 cache header tests are proxy-related) — Iteration 47
+- **Database Updated:** All 57 products, 26 projects, and 22 inspirations now have direct external CDN URLs in MongoDB
+- **Frontend Updated:** Created centralized CDN config (`/app/frontend/src/config/cdn.js`) and updated all components:
+  - Home.js, Solutions.js, TechnologyIndex.js, SolutionDetail.js, Products.js, Inspirations.js, Projects.js, About.js
+  - CdnImage.js component now uses external URLs directly
+  - SEO.js and lib/utils.js updated to use external CDN
+  - Data files (applications.js, latestTech.js) updated
+- **Backend:** CDN route kept as fallback for any remaining /api/cdn/ requests
+- All images now load directly from `https://files.ihgbrands.com/brightluxx/uploads/` without redirect
+- Testing: Verified all images load from external server — Iteration 47
 
 ---
 

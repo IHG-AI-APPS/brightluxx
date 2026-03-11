@@ -4,6 +4,7 @@ import { ArrowRight, Zap, Shield, Clock, Award, Factory, Package, Truck, Graduat
 import { getProducts, getProjects } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
+import { EXTERNAL_CDN, cdnUrl } from '../config/cdn';
 
 /* Scroll-triggered glow hook */
 const useInView = (ref) => {
@@ -31,7 +32,6 @@ const GlowCard = ({ children, className = '' }) => {
 };
 
 /* Hero video player — crossfade between two Sora 2 videos */
-const EXTERNAL_CDN = 'https://files.ihgbrands.com/brightluxx';
 const HERO_VIDEOS = [`${EXTERNAL_CDN}/videos/hero-video-1.mp4`, `${EXTERNAL_CDN}/videos/hero-video-2.mp4`];
 
 const HeroVideoPlayer = () => {
@@ -73,7 +73,7 @@ const HeroVideoPlayer = () => {
           muted
           playsInline
           preload={idx === 0 ? 'auto' : 'metadata'}
-          poster="/api/cdn/hero_banner.webp"
+          poster={cdnUrl('hero_banner.webp')}
           data-testid={`home-hero-video-${idx}`}
           className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[800ms]"
           style={{ opacity: idx === activeIdx ? 1 : fading && idx === (activeIdx + 1) % HERO_VIDEOS.length ? 1 : 0 }}
@@ -172,7 +172,7 @@ const Home = () => {
         schemaType="Organization"
         schemaData={{
           "@type": "Organization", "name": "Brightluxx",
-          "url": BASE_URL, "logo": resolveImage('/api/cdn/hero_banner.webp'),
+          "url": BASE_URL, "logo": cdnUrl('hero_banner.webp'),
           "sameAs": [
             "https://www.instagram.com/brightluxx/",
             "https://www.linkedin.com/company/brightluxx/",
@@ -240,13 +240,13 @@ const Home = () => {
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[{
-              to: '/products', img: '/api/cdn/cob_microled_1.webp',
+              to: '/products', img: cdnUrl('cob_microled_1.webp'),
               title: 'Products', desc: 'MicroLED, outdoor, rental, transparent. Full range.', cta: 'Browse'
             }, {
-              to: '/inspirations', img: '/api/cdn/insp_retail.webp',
+              to: '/inspirations', img: cdnUrl('insp_retail.webp'),
               title: 'Inspirations', desc: 'See how LED transforms spaces across industries.', cta: 'Discover'
             }, {
-              to: '/projects', img: '/api/cdn/proj_indian_pavilion___expo_2020_dubai.webp',
+              to: '/projects', img: cdnUrl('proj_indian_pavilion___expo_2020_dubai.webp'),
               title: 'Projects', desc: 'Real installations. Proven results across UAE and MENA.', cta: 'View'
             }].map((door) => (
               <GlowCard key={door.to}>

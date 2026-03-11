@@ -3,16 +3,17 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Building2, ShoppingBag, MonitorPlay, Tv, Layers, TrafficCone, Theater, Globe } from 'lucide-react';
 import CdnImage from '../components/CdnImage';
 import SEO from '../components/SEO';
+import { cdnUrl } from '../config/cdn';
 
 const SOLUTIONS = [
-  { id: 'retail', icon: ShoppingBag, title: 'Retail & Hospitality', image: '/api/cdn/sol_indoor_shop.webp', tags: ['Shopfronts', 'Video Walls', 'Menu Boards'] },
-  { id: 'corporate', icon: Building2, title: 'Corporate & Conference', image: '/api/cdn/sol_meeting.webp', tags: ['Boardrooms', 'Lobbies', 'Command Centres'] },
-  { id: 'outdoor', icon: MonitorPlay, title: 'Outdoor & DOOH', image: '/api/cdn/sol_outdoor_shop.webp', tags: ['Billboards', 'Facades', 'Signage'] },
-  { id: 'events', icon: Theater, title: 'Events & Exhibitions', image: '/api/cdn/sol_exhibition.webp', tags: ['Concerts', 'Trade Shows', 'Stages'] },
-  { id: 'creative', icon: Layers, title: 'Creative & Curved', image: '/api/cdn/flexible_1.webp', tags: ['Cylinders', 'Waves', 'Art Installations'] },
-  { id: 'traffic', icon: TrafficCone, title: 'Road & Traffic', image: '/api/cdn/sol_road.webp', tags: ['VMS Signs', 'Highway', 'Toll Plaza'] },
-  { id: 'immersive', icon: Tv, title: 'Immersive & VP', image: '/api/cdn/vp_1.webp', tags: ['XR Studios', 'Virtual Production', 'Simulation'] },
-  { id: 'transparent', icon: Globe, title: 'Transparent & Glass', image: '/api/cdn/transparent_1.webp', tags: ['Glass Facades', 'Retail Windows', 'Museums'] },
+  { id: 'retail', icon: ShoppingBag, title: 'Retail & Hospitality', image: cdnUrl('sol_indoor_shop.webp'), tags: ['Shopfronts', 'Video Walls', 'Menu Boards'] },
+  { id: 'corporate', icon: Building2, title: 'Corporate & Conference', image: cdnUrl('sol_meeting.webp'), tags: ['Boardrooms', 'Lobbies', 'Command Centres'] },
+  { id: 'outdoor', icon: MonitorPlay, title: 'Outdoor & DOOH', image: cdnUrl('sol_outdoor_shop.webp'), tags: ['Billboards', 'Facades', 'Signage'] },
+  { id: 'events', icon: Theater, title: 'Events & Exhibitions', image: cdnUrl('sol_exhibition.webp'), tags: ['Concerts', 'Trade Shows', 'Stages'] },
+  { id: 'creative', icon: Layers, title: 'Creative & Curved', image: cdnUrl('flexible_1.webp'), tags: ['Cylinders', 'Waves', 'Art Installations'] },
+  { id: 'traffic', icon: TrafficCone, title: 'Road & Traffic', image: cdnUrl('sol_road.webp'), tags: ['VMS Signs', 'Highway', 'Toll Plaza'] },
+  { id: 'immersive', icon: Tv, title: 'Immersive & VP', image: cdnUrl('vp_1.webp'), tags: ['XR Studios', 'Virtual Production', 'Simulation'] },
+  { id: 'transparent', icon: Globe, title: 'Transparent & Glass', image: cdnUrl('transparent_1.webp'), tags: ['Glass Facades', 'Retail Windows', 'Museums'] },
 ];
 
 export default function Solutions() {
@@ -22,7 +23,7 @@ export default function Solutions() {
         title="LED Display Solutions"
         description="LED display solutions for every industry — retail, corporate, outdoor advertising, events, creative installations, traffic signage, virtual production, and transparent displays."
         path="/solutions"
-        image="/api/cdn/sol_indoor_shop.webp"
+        image={cdnUrl('sol_indoor_shop.webp')}
       />
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">

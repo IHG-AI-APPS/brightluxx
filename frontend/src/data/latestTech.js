@@ -1,3 +1,5 @@
+import { cdnUrl } from '../config/cdn';
+
 /**
  * Latest Technology showcase data.
  * ISE 2026 trends and cutting-edge LED technologies.
@@ -11,7 +13,7 @@ export const LATEST_TECH = [
     badge: 'ISE 2026 AWARD WINNER',
     heroTagline: 'Autostereoscopic Displays for Retail, Museums & Activations',
     heroDescription: 'Create jaw-dropping 3D content visible to the naked eye. Samsung\'s Spatial Signage and anamorphic corner displays are transforming how brands engage customers in high-traffic environments.',
-    heroImage: '/api/cdn/sol_indoor_shop.webp',
+    heroImage: cdnUrl('sol_indoor_shop.webp'),
     whatsappMessage: "Hi, I'm interested in glasses-free 3D LED signage for a project. Can you provide options and specifications?",
     sections: [
       {
@@ -61,7 +63,7 @@ export const LATEST_TECH = [
     badge: 'FLAGSHIP TECHNOLOGY',
     heroTagline: 'The Ultimate Display for Boardrooms, Flagships & Luxury Spaces',
     heroDescription: 'MicroLED represents the absolute pinnacle of display technology. With individually addressable RGB micro-chips, these displays deliver unmatched contrast, colour accuracy, and longevity — engineered for spaces where only the best will do.',
-    heroImage: '/api/cdn/cob_microled_1.webp',
+    heroImage: cdnUrl('cob_microled_1.webp'),
     whatsappMessage: "Hi, I'm interested in MicroLED premium displays for a flagship space. Can you provide specifications and pricing guidance?",
     sections: [
       {
@@ -113,7 +115,7 @@ export const LATEST_TECH = [
     badge: 'FASTEST GROWING 2025-2026',
     heroTagline: 'Mini LED in Package: COB Quality Meets SMD Serviceability',
     heroDescription: 'MiP is the technology that bridges the gap between premium COB and cost-effective SMD. With individually replaceable mini LED chips delivering near-COB contrast, MiP is becoming the default choice for mid-to-high-end commercial installations.',
-    heroImage: '/api/cdn/sol_conference.webp',
+    heroImage: cdnUrl('sol_conference.webp'),
     whatsappMessage: "Hi, I'm interested in MiP LED technology for a commercial project. Can you explain the advantages and pricing?",
     sections: [
       {
@@ -165,7 +167,7 @@ export const LATEST_TECH = [
     badge: 'RETAIL INNOVATION',
     heroTagline: 'Shelf-Edge, Kiosks & Constrained-Space Signage',
     heroDescription: 'Ultra-wide 32:9 stretch displays are revolutionising retail shelf-edge signage, transport information, and any space where traditional 16:9 screens don\'t fit. Replace paper price tags with dynamic digital content in the most space-constrained environments.',
-    heroImage: '/api/cdn/insp_retail.webp',
+    heroImage: cdnUrl('insp_retail.webp'),
     whatsappMessage: "Hi, I'm interested in stretch/ultra-wide displays for retail shelf-edge or constrained spaces. What options are available?",
     sections: [
       {

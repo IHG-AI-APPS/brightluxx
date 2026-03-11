@@ -1,3 +1,5 @@
+import { cdnUrl } from '../config/cdn';
+
 /**
  * Application-specific landing page data.
  * Each application targets high-intent UAE/GCC search keywords.
@@ -12,7 +14,7 @@ export const APPLICATIONS = [
     heroDescription: 'Transform guest experiences with immersive LED displays. From lobby feature walls that create stunning first impressions to digital menu boards and ballroom backdrops, LED technology drives guest engagement and brand perception in the UAE hospitality sector.',
     keywords: 'hotel lobby LED wall, digital signage for hotels, ballroom LED screen, restaurant display, hospitality digital signage UAE',
     specPackId: 'retail-hospitality',
-    heroImage: '/api/cdn/sol_indoor_shop.webp',
+    heroImage: cdnUrl('sol_indoor_shop.webp'),
     whatsappMessage: "Hi, I'm looking at LED display solutions for a hospitality project. Can you assist with specifications?",
     specs: [
       { label: 'Recommended Pitch', value: 'P1.2 - P2.5', detail: 'Lobby: P1.2-1.5 | Restaurant: P2.5' },
@@ -31,9 +33,9 @@ export const APPLICATIONS = [
       { name: 'Poolside & Outdoor', desc: 'IP-rated outdoor displays for pool bars, beach clubs, and al-fresco dining in GCC heat.' },
     ],
     projectImages: [
-      { src: '/api/cdn/sol_indoor_shop.webp', alt: 'Hotel lobby LED feature wall' },
-      { src: '/api/cdn/proj_sulthan_gold___diamond___bur_dubai.webp', alt: 'Hospitality display project in Dubai' },
-      { src: '/api/cdn/sol_conference.webp', alt: 'Hotel conference LED screen' },
+      { src: cdnUrl('sol_indoor_shop.webp'), alt: 'Hotel lobby LED feature wall' },
+      { src: cdnUrl('proj_sulthan_gold___diamond___bur_dubai.webp'), alt: 'Hospitality display project in Dubai' },
+      { src: cdnUrl('sol_conference.webp'), alt: 'Hotel conference LED screen' },
     ],
     faqs: [
       { q: "What pixel pitch for a hotel lobby video wall?", a: "For hotel lobbies with 3-8m viewing distance, P1.5-P2.5 is ideal. For luxury 5-star properties where the display is a design centrepiece viewed up close, specify P1.2-P1.5 with COB or MiP technology for superior contrast and colour accuracy." },
@@ -51,7 +53,7 @@ export const APPLICATIONS = [
     heroDescription: 'Drive foot traffic and increase dwell time with eye-catching LED displays. From transparent shopfront windows to towering mall atrium installations and 3D anamorphic corners, LED is the backbone of modern retail marketing in the Gulf.',
     keywords: 'mall atrium LED screen, retail store digital signage, shopfront transparent LED, anamorphic 3D LED mall, retail digital signage UAE',
     specPackId: 'retail-hospitality',
-    heroImage: '/api/cdn/insp_retail.webp',
+    heroImage: cdnUrl('insp_retail.webp'),
     whatsappMessage: "Hi, I'm looking at LED display solutions for a retail/mall project in the UAE. Can you help with specifications?",
     specs: [
       { label: 'Shopfront Pitch', value: 'P2.5 - P3.9', detail: 'Transparent: P2.5-3.9 | Standard: P1.5-2.5' },
@@ -70,9 +72,9 @@ export const APPLICATIONS = [
       { name: 'Interactive Wayfinding', desc: 'Touch-enabled directories and navigation displays for large shopping centres.' },
     ],
     projectImages: [
-      { src: '/api/cdn/insp_retail.webp', alt: 'Retail LED display installation' },
-      { src: '/api/cdn/proj_shopfront_screen___fine_mart.webp', alt: 'Fine Mart shopfront LED screen' },
-      { src: '/api/cdn/transparent_1.webp', alt: 'Transparent LED film retail' },
+      { src: cdnUrl('insp_retail.webp'), alt: 'Retail LED display installation' },
+      { src: cdnUrl('proj_shopfront_screen___fine_mart.webp'), alt: 'Fine Mart shopfront LED screen' },
+      { src: cdnUrl('transparent_1.webp'), alt: 'Transparent LED film retail' },
     ],
     faqs: [
       { q: "What LED display for a mall atrium?", a: "P2.5-P4 SMD panels for mall atriums with 5-15m viewing distances. For large cylindrical or curved installations, flexible LED panels are available. Brightness should be 1,500-2,500 nits to compete with skylight ambient light. Cloud CMS is essential for managing content across the mall." },
@@ -90,7 +92,7 @@ export const APPLICATIONS = [
     heroDescription: 'Improve patient experience and operational efficiency with digital signage designed for healthcare environments. From wayfinding systems to patient information displays and medical imaging walls, LED technology transforms how hospitals communicate.',
     keywords: 'hospital wayfinding digital signage, patient info display, clinic reception video wall, healthcare digital signage UAE',
     specPackId: 'healthcare-wayfinding',
-    heroImage: '/api/cdn/sol_meeting.webp',
+    heroImage: cdnUrl('sol_meeting.webp'),
     whatsappMessage: "Hi, I'm looking at digital signage solutions for a healthcare facility. Can you help with specifications?",
     specs: [
       { label: 'Wayfinding Pitch', value: 'P2.5 - P4', detail: 'Corridor viewing at 2-8m distance' },
@@ -109,9 +111,9 @@ export const APPLICATIONS = [
       { name: 'Staff Communication', desc: 'Back-of-house displays for schedules, KPIs, training content, and internal communications.' },
     ],
     projectImages: [
-      { src: '/api/cdn/sol_meeting.webp', alt: 'Healthcare digital signage' },
-      { src: '/api/cdn/sol_conference.webp', alt: 'Medical conference room display' },
-      { src: '/api/cdn/proj_kijora_office_display___i2d_interiors.webp', alt: 'Clinical display installation' },
+      { src: cdnUrl('sol_meeting.webp'), alt: 'Healthcare digital signage' },
+      { src: cdnUrl('sol_conference.webp'), alt: 'Medical conference room display' },
+      { src: cdnUrl('proj_kijora_office_display___i2d_interiors.webp'), alt: 'Clinical display installation' },
     ],
     faqs: [
       { q: "What digital signage for hospital wayfinding?", a: "P2.5-P4 indoor LED panels or large-format LCD displays positioned at key decision points (entrances, elevator lobbies, corridor intersections). Interactive touch capability recommended. Integration with hospital management system for real-time department updates." },
@@ -128,7 +130,7 @@ export const APPLICATIONS = [
     heroDescription: 'Engage students, communicate effectively, and modernise learning environments with LED display networks. From auditorium walls to campus-wide digital signage, LED technology transforms educational communication.',
     keywords: 'campus digital signage network, auditorium LED wall, lecture hall display, education digital signage UAE',
     specPackId: 'education-campus',
-    heroImage: '/api/cdn/sol_conference.webp',
+    heroImage: cdnUrl('sol_conference.webp'),
     whatsappMessage: "Hi, I'm looking at LED display solutions for an educational institution. Can you help?",
     specs: [
       { label: 'Auditorium Pitch', value: 'P2.5 - P3.9', detail: 'Viewing distance 5-20m' },
@@ -147,9 +149,9 @@ export const APPLICATIONS = [
       { name: 'Emergency Communication', desc: 'Network-connected displays with override capability for campus-wide emergency alerts and evacuation instructions.' },
     ],
     projectImages: [
-      { src: '/api/cdn/sol_conference.webp', alt: 'University auditorium LED display' },
-      { src: '/api/cdn/proj_conference_room_screen___fnac_fujairah_a.webp', alt: 'Education conference display' },
-      { src: '/api/cdn/proj_exhibition_display___dubai_world_trade_c.webp', alt: 'Campus exhibition display' },
+      { src: cdnUrl('sol_conference.webp'), alt: 'University auditorium LED display' },
+      { src: cdnUrl('proj_conference_room_screen___fnac_fujairah_a.webp'), alt: 'Education conference display' },
+      { src: cdnUrl('proj_exhibition_display___dubai_world_trade_c.webp'), alt: 'Campus exhibition display' },
     ],
     faqs: [
       { q: "What LED display for a university auditorium?", a: "P2.5-P3.9 SMD or MiP panels for auditoriums with 5-20m viewing. Minimum 4m wide for 200+ seat halls. HDMI, USB-C, and wireless casting inputs for lecturer convenience. Integration with room AV system and video conferencing for hybrid learning." },
@@ -166,7 +168,7 @@ export const APPLICATIONS = [
     heroDescription: 'Deliver pixel-perfect presentations, enable 24/7 monitoring, and transform corporate spaces with fine-pitch LED technology. From executive boardrooms to operations command centres, LED walls are the premium alternative to projectors and LCD.',
     keywords: 'control room video wall, corporate boardroom LED, command centre display, dvLED wall UAE',
     specPackId: 'corporate-control',
-    heroImage: '/api/cdn/sol_conference.webp',
+    heroImage: cdnUrl('sol_conference.webp'),
     whatsappMessage: "Hi, I need LED display solutions for a corporate/control room environment. Can you provide specifications?",
     specs: [
       { label: 'Control Room', value: 'P0.7 - P1.2', detail: 'COB for 24/7 operation, data-dense content' },
@@ -185,9 +187,9 @@ export const APPLICATIONS = [
       { name: 'Experience Centre', desc: 'Immersive LED environments for showcasing products, capabilities, and innovations to clients and partners.' },
     ],
     projectImages: [
-      { src: '/api/cdn/sol_conference.webp', alt: 'Corporate boardroom LED wall' },
-      { src: '/api/cdn/proj_kijora_office_display___i2d_interiors.webp', alt: 'Office LED display' },
-      { src: '/api/cdn/proj_conference_room_screen___fnac_fujairah_a.webp', alt: 'Conference room display' },
+      { src: cdnUrl('sol_conference.webp'), alt: 'Corporate boardroom LED wall' },
+      { src: cdnUrl('proj_kijora_office_display___i2d_interiors.webp'), alt: 'Office LED display' },
+      { src: cdnUrl('proj_conference_room_screen___fnac_fujairah_a.webp'), alt: 'Conference room display' },
     ],
     faqs: [
       { q: "LED vs LCD video wall for control rooms?", a: "LED (specifically COB dvLED) is superior for control rooms: no bezels disrupting data views, higher reliability for 24/7 operation (100,000+ hours vs 60,000), lower power consumption, and better contrast for dark-room environments. The initial cost premium is offset by 40% lower total cost of ownership over 7 years." },
@@ -204,7 +206,7 @@ export const APPLICATIONS = [
     heroDescription: 'Dominate the urban landscape with high-brightness outdoor LED displays engineered for the Gulf climate. From highway billboards to building facades and street-level signage, outdoor LED is the most impactful advertising medium in the UAE.',
     keywords: 'LED video wall Dubai, outdoor LED billboard UAE, building facade LED, DOOH digital signage Dubai',
     specPackId: 'outdoor-dooh',
-    heroImage: '/api/cdn/outdoor_1.webp',
+    heroImage: cdnUrl('outdoor_1.webp'),
     whatsappMessage: "Hi, I need outdoor LED display solutions for a project in the UAE. Can you assist with specifications?",
     specs: [
       { label: 'Billboard Pitch', value: 'P6 - P10', detail: 'Highway viewing at 20-80m' },
@@ -223,9 +225,9 @@ export const APPLICATIONS = [
       { name: 'Events & Temporary', desc: 'Rental outdoor LED for concerts, exhibitions, festivals, and national celebrations. IP65 rated for open-air.' },
     ],
     projectImages: [
-      { src: '/api/cdn/outdoor_1.webp', alt: 'Outdoor LED billboard Dubai' },
-      { src: '/api/cdn/proj_outdoor_led_screen___n_w_z_west_zone_mal.webp', alt: 'Mall outdoor LED screen' },
-      { src: '/api/cdn/proj_external_screen___al_mutakamela_vehicle_.webp', alt: 'External LED screen UAE' },
+      { src: cdnUrl('outdoor_1.webp'), alt: 'Outdoor LED billboard Dubai' },
+      { src: cdnUrl('proj_outdoor_led_screen___n_w_z_west_zone_mal.webp'), alt: 'Mall outdoor LED screen' },
+      { src: cdnUrl('proj_external_screen___al_mutakamela_vehicle_.webp'), alt: 'External LED screen UAE' },
     ],
     faqs: [
       { q: "How bright should an outdoor LED billboard be in Dubai?", a: "Minimum 5,500 nits for shaded locations, 7,000-10,000 nits for direct sunlight. South and west-facing displays need 30% more brightness. Always specify auto-brightness sensors — they save 30-50% energy and extend LED lifespan by dimming at night." },
@@ -243,7 +245,7 @@ export const APPLICATIONS = [
     heroDescription: 'Drive sales and modernise the shopping experience with strategically placed LED displays. From dynamic pricing on shelf edges to promotional end-cap screens and checkout queue entertainment, LED technology increases basket size and improves customer engagement.',
     keywords: 'digital signage for supermarkets, shelf-edge stretch displays, promo screens network, grocery store LED',
     specPackId: 'retail-hospitality',
-    heroImage: '/api/cdn/sol_indoor_shop.webp',
+    heroImage: cdnUrl('sol_indoor_shop.webp'),
     whatsappMessage: "Hi, I'm looking at LED display solutions for a supermarket chain. Can you help with specifications?",
     specs: [
       { label: 'Shelf-Edge', value: 'Stretch 32:9', detail: 'Ultra-thin along shelf edges' },
@@ -262,9 +264,9 @@ export const APPLICATIONS = [
       { name: 'Multi-Branch Network', desc: 'Centralized content management across all store locations with regional and store-level customization.' },
     ],
     projectImages: [
-      { src: '/api/cdn/sol_indoor_shop.webp', alt: 'Supermarket LED display' },
-      { src: '/api/cdn/proj_shopfront_screen___fine_mart.webp', alt: 'Retail store display' },
-      { src: '/api/cdn/insp_retail.webp', alt: 'Retail LED signage' },
+      { src: cdnUrl('sol_indoor_shop.webp'), alt: 'Supermarket LED display' },
+      { src: cdnUrl('proj_shopfront_screen___fine_mart.webp'), alt: 'Retail store display' },
+      { src: cdnUrl('insp_retail.webp'), alt: 'Retail LED signage' },
     ],
     faqs: [
       { q: "What are shelf-edge LED displays?", a: "Ultra-thin, stretched aspect ratio (32:9 or similar) displays that mount along shelf edges, replacing traditional paper price labels. They display dynamic pricing, promotions, nutritional info, and cross-sell suggestions. Average size: 23-37 inches wide, 3-4 inches tall." },
@@ -281,7 +283,7 @@ export const APPLICATIONS = [
     heroDescription: 'The ultimate home entertainment upgrade. MicroLED and COB technology bring cinema-quality displays into luxury residences, penthouses, and home theatres. Seamless, bezel-free walls that make even the largest TVs look small.',
     keywords: 'home cinema LED wall, residential MicroLED, luxury villa display, home theater LED screen Dubai',
     specPackId: 'retail-hospitality',
-    heroImage: '/api/cdn/cob_microled_1.webp',
+    heroImage: cdnUrl('cob_microled_1.webp'),
     whatsappMessage: "Hi, I'm interested in a home cinema LED wall for a residential project. Can you provide options?",
     specs: [
       { label: 'Home Cinema', value: 'P0.9 - P1.5', detail: 'COB/MiP for 2-4m viewing' },
@@ -300,9 +302,9 @@ export const APPLICATIONS = [
       { name: 'Smart Home Integration', desc: 'Integration with Crestron, Control4, Savant, and other home automation systems for seamless control.' },
     ],
     projectImages: [
-      { src: '/api/cdn/cob_microled_1.webp', alt: 'Residential MicroLED display' },
-      { src: '/api/cdn/sol_meeting.webp', alt: 'Home cinema LED wall' },
-      { src: '/api/cdn/sol_conference.webp', alt: 'Luxury residential display' },
+      { src: cdnUrl('cob_microled_1.webp'), alt: 'Residential MicroLED display' },
+      { src: cdnUrl('sol_meeting.webp'), alt: 'Home cinema LED wall' },
+      { src: cdnUrl('sol_conference.webp'), alt: 'Luxury residential display' },
     ],
     faqs: [
       { q: "LED wall vs projector for home cinema?", a: "LED walls deliver 10x the brightness, infinite contrast, zero maintenance (no bulbs), no throw distance requirement, and perfect image in any lighting. A 150-inch COB LED wall produces cinema-quality images that projectors simply cannot match. The cost premium is significant but the quality difference is transformational." },

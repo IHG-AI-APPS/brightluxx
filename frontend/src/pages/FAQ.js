@@ -82,13 +82,14 @@ export default function FAQ() {
             <p className="text-sm text-[var(--blx-text-2)] tracking-wider">Everything you need to know about LED displays, our products, and services.</p>
           </div>
           <div className="mt-8 max-w-md relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
+            <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--blx-muted)] z-10" />
             <input
               type="text"
               placeholder="Search questions..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="input-luxury pl-9 pr-4 py-3 text-xs w-full"
+              className="w-full py-3 pr-4 text-xs rounded-lg bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] focus:outline-none transition-colors"
+              style={{ paddingLeft: '2.5rem' }}
               data-testid="faq-search"
             />
           </div>

@@ -47,11 +47,11 @@ export default function AdminLogin() {
           <div>
             <label className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-2 block">Email</label>
             <div className="relative">
-              <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
+              <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
               <input
                 type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@brightluxx.com" required
-                className="input-luxury w-full pl-11"
+                className="w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-sm tracking-wider text-[var(--blx-text)] pl-10 pr-4 py-3 focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200"
                 data-testid="admin-login-email"
               />
             </div>
@@ -60,11 +60,11 @@ export default function AdminLogin() {
           <div>
             <label className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-2 block">Password</label>
             <div className="relative">
-              <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
+              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
               <input
                 type={showPw ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password" required
-                className="input-luxury w-full pl-11 pr-11"
+                className="w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-sm tracking-wider text-[var(--blx-text)] pl-10 pr-11 py-3 focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200"
                 data-testid="admin-login-password"
               />
               <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--blx-muted)] hover:text-[var(--blx-text)] transition-colors duration-200">

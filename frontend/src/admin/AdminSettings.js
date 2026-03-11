@@ -90,7 +90,7 @@ export default function AdminSettings() {
               <Lock size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
               <input
                 type="password" value={currentPw} onChange={e => setCurrentPw(e.target.value)}
-                required className="input-luxury w-full pl-9 py-2 text-xs"
+                required className="w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-xs tracking-wider text-[var(--blx-text)] pl-9 pr-4 py-2.5 focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200"
                 data-testid="settings-current-password"
               />
             </div>
@@ -101,7 +101,7 @@ export default function AdminSettings() {
               <Key size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
               <input
                 type="password" value={newPw} onChange={e => setNewPw(e.target.value)}
-                required minLength={8} className="input-luxury w-full pl-9 py-2 text-xs"
+                required minLength={8} className="w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-xs tracking-wider text-[var(--blx-text)] pl-9 pr-4 py-2.5 focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200"
                 data-testid="settings-new-password"
               />
             </div>
@@ -113,7 +113,7 @@ export default function AdminSettings() {
               <Key size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
               <input
                 type="password" value={confirmPw} onChange={e => setConfirmPw(e.target.value)}
-                required className="input-luxury w-full pl-9 py-2 text-xs"
+                required className="w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-xs tracking-wider text-[var(--blx-text)] pl-9 pr-4 py-2.5 focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200"
                 data-testid="settings-confirm-password"
               />
             </div>

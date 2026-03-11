@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAdmin } from './AdminContext';
-import { Globe, Building2, Share2, Code, Search as SearchIcon, Save, CheckCircle2, AlertCircle, Image, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import { Globe, Building2, Share2, Code, Search as SearchIcon, Save, CheckCircle2, AlertCircle, Image, Upload, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 
 const INPUT = "w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-xs tracking-wider text-[var(--blx-text)] px-4 py-2.5 focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200";
 const LABEL = "text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block";
@@ -13,6 +13,55 @@ function Field({ label, name, value, onChange, type = 'text', placeholder, rows 
         <textarea name={name} value={value || ''} onChange={onChange} rows={rows} placeholder={placeholder} className={`${INPUT} resize-none`} data-testid={`site-${name}`} />
       ) : (
         <input type={type} name={name} value={value || ''} onChange={onChange} placeholder={placeholder} className={INPUT} data-testid={`site-${name}`} />
+      )}
+    </div>
+  );
+}
+
+function FileUploadField({ label, name, value, onChange, api, accept = 'image/*' }) {
+  const fileRef = useRef(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await api().post('/api/admin/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      if (res.data?.url) {
+        onChange(res.data.url);
+      }
+    } catch (err) {
+      console.error('Upload failed:', err);
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = '';
+    }
+  };
+
+  return (
+    <div>
+      <label className={LABEL}>{label}</label>
+      <div className="flex gap-2">
+        <input type="text" value={value || ''} onChange={e => onChange(e.target.value)} placeholder="URL or upload a file" className={`${INPUT} flex-1`} data-testid={`site-${name}`} />
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          disabled={uploading}
+          className="btn-glass px-3 py-2 text-[0.6rem] flex items-center gap-1.5 whitespace-nowrap disabled:opacity-50"
+          data-testid={`site-${name}-upload-btn`}
+        >
+          <Upload size={12} /> {uploading ? 'Uploading...' : 'Upload'}
+        </button>
+        <input ref={fileRef} type="file" accept={accept} onChange={handleUpload} className="hidden" />
+      </div>
+      {value && (
+        <div className="mt-2 p-3 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[var(--blx-border)] flex items-center gap-3">
+          <img src={value} alt="Preview" className="h-8 w-auto max-w-[120px] object-contain" onError={e => { e.target.style.display = 'none'; }} />
+          <span className="text-[0.55rem] text-[var(--blx-muted)] truncate flex-1">{value}</span>
+        </div>
       )}
     </div>
   );
@@ -73,15 +122,8 @@ export default function AdminSiteSettings() {
       <div className="glass-panel p-6" data-testid="site-settings-branding">
         <h3 className="text-xs font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-5 flex items-center gap-2"><Image size={14} /> Branding</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Field label="Logo URL" name="logo_url" value={settings?.branding?.logo_url} onChange={e => update('branding', 'logo_url', e.target.value)} placeholder="/assets/logo.png or https://..." />
-            {settings?.branding?.logo_url && (
-              <div className="mt-2 p-3 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[var(--blx-border)]">
-                <img src={settings.branding.logo_url} alt="Logo preview" className="h-8 w-auto" onError={e => { e.target.style.display = 'none'; }} />
-              </div>
-            )}
-          </div>
-          <Field label="Favicon URL" name="favicon_url" value={settings?.branding?.favicon_url} onChange={e => update('branding', 'favicon_url', e.target.value)} placeholder="/favicon.ico" />
+          <FileUploadField label="Logo" name="logo_url" value={settings?.branding?.logo_url} onChange={v => update('branding', 'logo_url', v)} api={api} accept="image/png,image/jpeg,image/svg+xml,image/webp" />
+          <FileUploadField label="Favicon" name="favicon_url" value={settings?.branding?.favicon_url} onChange={v => update('branding', 'favicon_url', v)} api={api} accept="image/x-icon,image/png,image/svg+xml" />
           <Field label="Company Name" name="company_name" value={settings?.branding?.company_name} onChange={e => update('branding', 'company_name', e.target.value)} />
           <Field label="Tagline" name="tagline" value={settings?.branding?.tagline} onChange={e => update('branding', 'tagline', e.target.value)} />
           <Field label="Established Year" name="established_year" value={settings?.branding?.established_year} onChange={e => update('branding', 'established_year', e.target.value)} />

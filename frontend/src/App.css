@@ -19,8 +19,14 @@
   height: 85vh;
   min-height: 550px;
   overflow: hidden;
-  border-radius: var(--blx-radius-xl);
+  border-radius: 0;
   box-shadow: var(--blx-shadow-lift);
+}
+
+@media (min-width: 640px) {
+  .hero-video-container {
+    border-radius: var(--blx-radius-xl);
+  }
 }
 
 .hero-video-container video,
@@ -37,8 +43,14 @@
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  padding: 3rem;
+  padding: 1.5rem 1.25rem 5rem;
   z-index: 2;
+}
+
+@media (min-width: 640px) {
+  .hero-overlay {
+    padding: 2.5rem 2.5rem 3rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -204,6 +216,13 @@
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Bottom spacer for sticky CTA on mobile */
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: 72px;
+  }
 }
 
 @media (min-width: 1024px) {

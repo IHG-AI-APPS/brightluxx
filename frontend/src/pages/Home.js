@@ -184,8 +184,8 @@ const Home = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-6 sm:pt-10 pb-12 sm:pb-16" data-testid="hero-section">
-        <div className="hero-video-container mx-4 sm:mx-6 lg:mx-auto max-w-[1320px] blx-led-grid-strong">
+      <section className="relative pt-0 sm:pt-10 pb-8 sm:pb-16" data-testid="hero-section">
+        <div className="hero-video-container sm:mx-6 lg:mx-auto max-w-[1320px] blx-led-grid-strong">
           <HeroVideoPlayer />
           <div className="hero-overlay">
             <div className="max-w-2xl">

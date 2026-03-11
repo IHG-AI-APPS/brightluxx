@@ -94,21 +94,21 @@ export default function AdminInspirations() {
 
       {/* Edit Modal */}
       {editing !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" data-testid="admin-inspiration-modal">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" data-testid="admin-inspiration-modal">
           <div className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={() => setEditing(null)} />
-          <div className="relative glass-panel w-full max-w-lg shadow-2xl" onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between p-6 border-b border-[var(--blx-border)]">
+          <div className="relative glass-panel w-full max-w-lg shadow-2xl my-auto max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-6 border-b border-[var(--blx-border)] flex-shrink-0">
               <h2 className="text-sm font-bold tracking-wider">{editing === 'new' ? 'New Inspiration' : 'Edit Inspiration'}</h2>
               <button onClick={() => setEditing(null)} className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.06)]" data-testid="admin-inspiration-modal-close"><X size={18} /></button>
             </div>
-            <div className="p-6 space-y-4">
+            <div className="p-6 space-y-4 overflow-y-auto flex-1">
               <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Title*</label><input value={form.title} onChange={e => setForm({...form, title: e.target.value})} className="input-luxury w-full py-2 text-xs" data-testid="admin-inspiration-title-input" /></div>
               <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Category*</label><input value={form.category} onChange={e => setForm({...form, category: e.target.value})} placeholder="e.g. retail, corporate" className="input-luxury w-full py-2 text-xs" data-testid="admin-inspiration-category-input" /></div>
               <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="input-luxury w-full py-2 text-xs resize-y" /></div>
               <ImageUploader value={form.image_url} onChange={(url) => setForm({...form, image_url: url})} label="Image" />
               <label className="flex items-center gap-2 cursor-pointer text-xs tracking-wider"><input type="checkbox" checked={form.featured} onChange={e => setForm({...form, featured: e.target.checked})} className="accent-[var(--blx-gold-3)]" /><Star size={14} /> Featured</label>
             </div>
-            <div className="flex items-center justify-end gap-3 p-6 border-t border-[var(--blx-border)]">
+            <div className="flex items-center justify-end gap-3 p-6 border-t border-[var(--blx-border)] flex-shrink-0">
               <button onClick={() => setEditing(null)} className="btn-glass px-6 py-2.5 text-xs">Cancel</button>
               <button onClick={handleSave} disabled={saving || !form.title || !form.category} className="btn-gold px-6 py-2.5 text-xs flex items-center gap-2 disabled:opacity-50" data-testid="admin-inspiration-save-button"><Save size={14} /> {saving ? 'Saving...' : 'Save'}</button>
             </div>

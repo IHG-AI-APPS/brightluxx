@@ -436,12 +436,12 @@ export default function AdminResources() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-[var(--blx-bg-raised)] rounded-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-[var(--blx-border)]">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-[var(--blx-bg-raised)] rounded-xl w-full max-w-lg max-h-[90vh] flex flex-col my-auto">
+            <div className="p-6 border-b border-[var(--blx-border)] flex-shrink-0">
               <h2 className="text-lg font-bold">{editingResource ? 'Edit Resource' : 'Add New Resource'}</h2>
             </div>
-            <form onSubmit={handleSave} className="p-6 space-y-4">
+            <form id="resource-form" onSubmit={handleSave} className="p-6 space-y-4 overflow-y-auto flex-1">
               <div>
                 <label className="block text-xs font-medium text-[var(--blx-muted)] mb-1">Title *</label>
                 <input
@@ -633,26 +633,26 @@ export default function AdminResources() {
                 />
                 <label htmlFor="is_active" className="text-sm">Active (visible on website)</label>
               </div>
-
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="flex-1 px-4 py-2 rounded-lg text-sm font-medium border border-[var(--blx-border)] hover:bg-[rgba(255,255,255,0.05)]"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="flex-1 px-4 py-2 rounded-lg text-sm font-medium"
-                  style={{ background: 'var(--blx-gold-grad)', color: '#0B0B0B' }}
-                  data-testid="save-resource-btn"
-                >
-                  {saving ? 'Saving...' : editingResource ? 'Update Resource' : 'Create Resource'}
-                </button>
-              </div>
             </form>
+            <div className="flex gap-3 p-6 border-t border-[var(--blx-border)] flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="flex-1 px-4 py-2 rounded-lg text-sm font-medium border border-[var(--blx-border)] hover:bg-[rgba(255,255,255,0.05)]"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                form="resource-form"
+                disabled={saving}
+                className="flex-1 px-4 py-2 rounded-lg text-sm font-medium"
+                style={{ background: 'var(--blx-gold-grad)', color: '#0B0B0B' }}
+                data-testid="save-resource-btn"
+              >
+                {saving ? 'Saving...' : editingResource ? 'Update Resource' : 'Create Resource'}
+              </button>
+            </div>
           </div>
         </div>
       )}

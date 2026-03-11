@@ -133,11 +133,12 @@ const AnimatedCounter = ({ end, suffix = '', prefix = '' }) => {
 };
 
 /* Client logo carousel */
-const CLIENT_LOGOS = [
-  'RTA Dubai', 'Dubai Police', 'DEWA', 'Emirates NBD', 'Dubai Islamic Bank',
-  'Etihad Airways', 'Sharjah Airport', 'ADNOC', 'Emaar', 'Carrefour',
-  'Mashreq Bank', 'RAKBANK', 'Al Naboodah', 'Jumeirah Group', 'BEEAH',
-  'City Centre', 'Abu Dhabi Islamic Bank', 'Ministry of Finance UAE',
+/* Default Client logos */
+const DEFAULT_CLIENTS = [
+  { name: 'RTA Dubai' }, { name: 'Dubai Police' }, { name: 'DEWA' }, { name: 'Emirates NBD' }, { name: 'Dubai Islamic Bank' },
+  { name: 'Etihad Airways' }, { name: 'Sharjah Airport' }, { name: 'ADNOC' }, { name: 'Emaar' }, { name: 'Carrefour' },
+  { name: 'Mashreq Bank' }, { name: 'RAKBANK' }, { name: 'Al Naboodah' }, { name: 'Jumeirah Group' }, { name: 'BEEAH' },
+  { name: 'City Centre' }, { name: 'Abu Dhabi Islamic Bank' }, { name: 'Ministry of Finance UAE' },
 ];
 
 /* Partner technology brands */
@@ -206,6 +207,7 @@ const Home = () => {
   const stats = homeContent?.stats?.length > 0 ? homeContent.stats : DEFAULT_STATS;
   const entryDoors = homeContent?.entry_doors?.length > 0 ? homeContent.entry_doors : DEFAULT_ENTRY_DOORS;
   const whyChoose = homeContent?.why_brightluxx_items?.length > 0 ? homeContent.why_brightluxx_items : DEFAULT_WHY_CHOOSE;
+  const clients = homeContent?.clients?.length > 0 ? homeContent.clients : DEFAULT_CLIENTS;
   const sectionTitles = homeContent || {};
 
   return (
@@ -410,13 +412,17 @@ const Home = () => {
           </div>
           <div className="relative overflow-hidden" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
             <div className="flex gap-8 animate-scroll-x">
-              {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((name, i) => (
+              {[...clients, ...clients].map((client, i) => (
                 <div
-                  key={`${name}-${i}`}
+                  key={`${client.name}-${i}`}
                   className="flex-shrink-0 px-6 py-4 glass-panel flex items-center justify-center min-w-[160px]"
-                  data-testid={i < CLIENT_LOGOS.length ? `client-logo-${i}` : undefined}
+                  data-testid={i < clients.length ? `client-logo-${i}` : undefined}
                 >
-                  <span className="text-[0.6875rem] font-bold tracking-wider text-[var(--blx-text-2)] whitespace-nowrap">{name}</span>
+                  {client.logo_url ? (
+                    <img src={client.logo_url} alt={client.name} className="h-8 max-w-[120px] object-contain" />
+                  ) : (
+                    <span className="text-[0.6875rem] font-bold tracking-wider text-[var(--blx-text-2)] whitespace-nowrap">{client.name}</span>
+                  )}
                 </div>
               ))}
             </div>

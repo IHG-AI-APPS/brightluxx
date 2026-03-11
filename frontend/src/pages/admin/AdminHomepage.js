@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Save, RotateCcw, Plus, Trash2, GripVertical, Image, Video, Type, BarChart3, Layout, Zap, Upload, X, Film, Loader2 } from 'lucide-react';
+import { Save, RotateCcw, Plus, Trash2, GripVertical, Image, Video, Type, BarChart3, Layout, Zap, Upload, X, Film, Loader2, Users } from 'lucide-react';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -316,6 +316,23 @@ export default function AdminHomepage() {
     updateContent({ why_brightluxx_items: items });
   };
 
+  // Client management
+  const updateClient = (index, field, value) => {
+    const clients = [...(content.clients || [])];
+    clients[index] = { ...clients[index], [field]: value };
+    updateContent({ clients });
+  };
+
+  const addClient = () => {
+    const clients = [...(content.clients || []), { name: 'New Client', logo_url: '' }];
+    updateContent({ clients });
+  };
+
+  const removeClient = (index) => {
+    const clients = (content.clients || []).filter((_, i) => i !== index);
+    updateContent({ clients });
+  };
+
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -358,6 +375,7 @@ export default function AdminHomepage() {
     { id: 'hero', label: 'Hero Section', icon: Video },
     { id: 'stats', label: 'Statistics', icon: BarChart3 },
     { id: 'entry_doors', label: 'Entry Doors', icon: Layout },
+    { id: 'clients', label: 'Clients', icon: Users },
     { id: 'sections', label: 'Section Titles', icon: Type },
     { id: 'why', label: 'Why Brightluxx', icon: Zap },
   ];
@@ -569,6 +587,75 @@ export default function AdminHomepage() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Clients */}
+          {activeSection === 'clients' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-bold">Client Logos</h2>
+                <button
+                  onClick={addClient}
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2 border border-[var(--blx-border)] hover:bg-[rgba(255,255,255,0.05)]"
+                >
+                  <Plus size={14} /> Add Client
+                </button>
+              </div>
+              <p className="text-xs text-[var(--blx-muted)]">
+                Manage the client logos shown in the scrolling carousel. You can add a logo image or just show the client name.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {(content.clients || []).map((client, i) => (
+                  <div key={i} className="p-4 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[var(--blx-border)]">
+                    <div className="flex items-start justify-between mb-3">
+                      <span className="text-[0.625rem] font-bold text-[var(--blx-gold-3)]">#{i + 1}</span>
+                      <button
+                        onClick={() => removeClient(i)}
+                        className="p-1 text-red-400 hover:bg-red-500/20 rounded"
+                        title="Remove client"
+                      >
+                        <Trash2 size={12} />
+                      </button>
+                    </div>
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs text-[var(--blx-muted)] mb-1">Client Name *</label>
+                        <input
+                          value={client.name || ''}
+                          onChange={(e) => updateClient(i, 'name', e.target.value)}
+                          placeholder="Company name"
+                          className="w-full px-2 py-1.5 rounded text-sm bg-[var(--blx-bg)] border border-[var(--blx-border)]"
+                        />
+                      </div>
+                      <div>
+                        <ImageUploadField
+                          label="Logo (optional)"
+                          value={client.logo_url || ''}
+                          onChange={(url) => updateClient(i, 'logo_url', url)}
+                        />
+                      </div>
+                      {/* Preview */}
+                      <div className="p-3 rounded-lg glass-panel text-center">
+                        {client.logo_url ? (
+                          <img src={client.logo_url} alt={client.name} className="h-8 mx-auto object-contain" />
+                        ) : (
+                          <span className="text-xs font-bold tracking-wider text-[var(--blx-text-2)]">{client.name || 'Client Name'}</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {(content.clients || []).length === 0 && (
+                <div className="text-center py-8 glass-panel">
+                  <Users size={32} className="mx-auto mb-3 text-[var(--blx-muted)]" />
+                  <p className="text-sm text-[var(--blx-muted)]">No clients added yet</p>
+                  <button onClick={addClient} className="mt-3 text-xs text-[var(--blx-gold-3)]">+ Add your first client</button>
+                </div>
+              )}
             </div>
           )}
 

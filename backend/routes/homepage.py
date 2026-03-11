@@ -40,10 +40,16 @@ class EntryDoor(BaseModel):
     cta_text: str = "Explore"
 
 
+class ClientItem(BaseModel):
+    name: str
+    logo_url: Optional[str] = None
+
+
 class HomepageContent(BaseModel):
     hero: Optional[HeroSection] = None
     stats: Optional[List[StatItem]] = None
     entry_doors: Optional[List[EntryDoor]] = None
+    clients: Optional[List[ClientItem]] = None
     featured_products_title: str = "Featured Products"
     featured_products_subtitle: str = "Premium LED displays engineered for the Gulf region"
     projects_title: str = "Case Studies"
@@ -105,6 +111,27 @@ DEFAULT_WHY_ITEMS = [
     {"icon": "HeartHandshake", "title": "5-Year Warranty", "description": "Industry-leading warranty with local support."},
 ]
 
+DEFAULT_CLIENTS = [
+    {"name": "RTA Dubai", "logo_url": None},
+    {"name": "Dubai Police", "logo_url": None},
+    {"name": "DEWA", "logo_url": None},
+    {"name": "Emirates NBD", "logo_url": None},
+    {"name": "Dubai Islamic Bank", "logo_url": None},
+    {"name": "Etihad Airways", "logo_url": None},
+    {"name": "Sharjah Airport", "logo_url": None},
+    {"name": "ADNOC", "logo_url": None},
+    {"name": "Emaar", "logo_url": None},
+    {"name": "Carrefour", "logo_url": None},
+    {"name": "Mashreq Bank", "logo_url": None},
+    {"name": "RAKBANK", "logo_url": None},
+    {"name": "Al Naboodah", "logo_url": None},
+    {"name": "Jumeirah Group", "logo_url": None},
+    {"name": "BEEAH", "logo_url": None},
+    {"name": "City Centre", "logo_url": None},
+    {"name": "Abu Dhabi Islamic Bank", "logo_url": None},
+    {"name": "Ministry of Finance UAE", "logo_url": None},
+]
+
 
 @router.get("/api/homepage-content")
 async def get_homepage_content():
@@ -117,6 +144,7 @@ async def get_homepage_content():
             "hero": DEFAULT_HERO,
             "stats": DEFAULT_STATS,
             "entry_doors": DEFAULT_ENTRY_DOORS,
+            "clients": DEFAULT_CLIENTS,
             "featured_products_title": "Featured Products",
             "featured_products_subtitle": "Premium LED displays engineered for the Gulf region",
             "projects_title": "Case Studies",
@@ -124,6 +152,10 @@ async def get_homepage_content():
             "why_brightluxx_title": "Why Brightluxx?",
             "why_brightluxx_items": DEFAULT_WHY_ITEMS,
         }}
+    
+    # Add defaults for missing fields
+    if "clients" not in content or not content.get("clients"):
+        content["clients"] = DEFAULT_CLIENTS
     
     return {"content": content}
 
@@ -140,6 +172,7 @@ async def admin_get_homepage_content(admin=Depends(get_current_admin)):
             "hero": DEFAULT_HERO,
             "stats": DEFAULT_STATS,
             "entry_doors": DEFAULT_ENTRY_DOORS,
+            "clients": DEFAULT_CLIENTS,
             "featured_products_title": "Featured Products",
             "featured_products_subtitle": "Premium LED displays engineered for the Gulf region",
             "projects_title": "Case Studies",
@@ -148,6 +181,10 @@ async def admin_get_homepage_content(admin=Depends(get_current_admin)):
             "why_brightluxx_items": DEFAULT_WHY_ITEMS,
             "is_default": True,
         }
+    
+    # Add defaults for missing fields
+    if "clients" not in content or not content.get("clients"):
+        content["clients"] = DEFAULT_CLIENTS
     
     content["is_default"] = False
     return content

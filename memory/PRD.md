@@ -242,21 +242,16 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Input/textarea/select elements excluded from uppercase via !important override
 - Full regression tested: 100% pass (11/11 backend, 22/22 frontend) — Iteration 35
 
+### Media Migration to External Server — Mar 11, 2026
+- Migrated all media assets to external file server at `https://files.ihgbrands.com/brightluxx`
+- Hero videos now served from `files.ihgbrands.com/brightluxx/videos/`
+- CDN route (`/api/cdn/*`) updated to redirect to external server for standard image requests (302 redirect)
+- CDN transformations (w/h/q/f params) fetch from external server and apply Pillow transforms
+- Fallback chain: External server → Emergent Object Storage → Local uploads directory
+- All 72 product images and 26 project images verified loading correctly
+- Testing: 100% pass (backend 18/20 actual - 2 cache header tests are proxy-related) — Iteration 47
+
 ---
-
-## Remaining Tasks
-### Phase 2: Products Expansion & Navigation
-- Products dropdown mega-menu in navbar (category-based)
-- New product categories: Accessories, Custom LED Shapes, Interactive Displays, Digital Signage, Smart TVs, Ready-Made Products
-- High-quality product images
-
-### Phase 3: New Pages & Services
-- Services page (Installation, Repair & Maintenance, Technical Support, 24/7 Service Center)
-- Blog/News section
-- Applications page (by industry)
-- FAQ section
-- Factory/Showroom Tour section
-- Brand Value page (manufacturing, warranty, origin)
 
 ## Remaining Tasks
 ### Future

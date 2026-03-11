@@ -184,8 +184,8 @@ const Home = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-0 sm:pt-10 pb-8 sm:pb-16" data-testid="hero-section">
-        <div className="hero-video-container sm:mx-6 lg:mx-auto max-w-[1320px] blx-led-grid-strong">
+      <section className="relative pb-6 sm:pb-16 -mt-16" data-testid="hero-section">
+        <div className="hero-video-container mx-0 sm:mx-6 lg:mx-auto max-w-none sm:max-w-[1320px] blx-led-grid-strong">
           <HeroVideoPlayer />
           <div className="hero-overlay">
             <div className="max-w-2xl">
@@ -200,11 +200,11 @@ const Home = () => {
               <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-lg font-light tracking-widest">
                 OEM-grade LED technology. UAE-ready delivery. 1,500+ screens installed.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/contact" className="btn-gold px-8 py-3.5" data-testid="home-hero-primary-cta">
+              <div className="flex flex-col sm:flex-row gap-2.5">
+                <Link to="/contact" className="btn-gold px-5 py-2 sm:px-8 sm:py-3 text-[0.7rem] sm:text-sm text-center" data-testid="home-hero-primary-cta">
                   Get Quote
                 </Link>
-                <Link to="/products" className="btn-glass px-8 py-3.5" data-testid="home-hero-secondary-cta">
+                <Link to="/products" className="btn-glass px-5 py-2 sm:px-8 sm:py-3 text-[0.7rem] sm:text-sm text-center" data-testid="home-hero-secondary-cta">
                   Explore Products
                 </Link>
               </div>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, FileText, Box, Layers, Download, CheckCircle, Filter, ArrowRight, BookOpen, X } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -11,41 +11,6 @@ const CATEGORIES = [
   { id: 'cheatsheet', label: 'Cheat Sheets' },
   { id: 'bim', label: 'BIM / CAD' },
   { id: 'guide', label: 'Knowledge Base' },
-];
-
-const RESOURCES = [
-  // Spec Packs
-  { id: 'sp-cob', cat: 'specpack', title: 'COB vs MiP vs SMD', desc: 'Technology comparison with specification tables', tags: ['Technology', 'Comparison'], packId: 'cob-mip-smd' },
-  { id: 'sp-pitch', cat: 'specpack', title: 'Pixel Pitch Guide', desc: 'Viewing distance formulas and cost analysis', tags: ['Pixel Pitch', 'Calculator'], packId: 'pixel-pitch' },
-  { id: 'sp-bright', cat: 'specpack', title: 'Brightness & Nits', desc: 'GCC-specific brightness specification', tags: ['Brightness', 'Outdoor'], packId: 'brightness-nits' },
-  { id: 'sp-ip', cat: 'specpack', title: 'IP Rating Guide', desc: 'Protection ratings and serviceability', tags: ['IP Rating', 'Outdoor'], packId: 'ip-rating' },
-  { id: 'sp-refresh', cat: 'specpack', title: 'Refresh Rate Guide', desc: 'Camera-friendly specification', tags: ['Refresh Rate', 'Broadcast'], packId: 'refresh-rate' },
-  { id: 'sp-retail', cat: 'specpack', title: 'Retail & Hospitality', desc: 'Application-specific spec pack', tags: ['Retail', 'Hospitality'], packId: 'retail-hospitality' },
-  { id: 'sp-outdoor', cat: 'specpack', title: 'Outdoor & DOOH', desc: 'Outdoor billboard specification', tags: ['Outdoor', 'DOOH'], packId: 'outdoor-dooh' },
-  { id: 'sp-corp', cat: 'specpack', title: 'Corporate & Control Room', desc: 'Fine-pitch specification', tags: ['Corporate', 'Control Room'], packId: 'corporate-control' },
-  { id: 'sp-health', cat: 'specpack', title: 'Healthcare', desc: 'Hospital signage specification', tags: ['Healthcare', 'Wayfinding'], packId: 'healthcare-wayfinding' },
-  { id: 'sp-edu', cat: 'specpack', title: 'Education', desc: 'Campus signage specification', tags: ['Education', 'Campus'], packId: 'education-campus' },
-  { id: 'sp-super', cat: 'specpack', title: 'Supermarket', desc: 'Promotions network specification', tags: ['Supermarket', 'Retail'], packId: 'supermarket-promotions' },
-  { id: 'sp-resi', cat: 'specpack', title: 'Residential Cinema', desc: 'Home cinema wall specification', tags: ['Residential', 'Premium'], packId: 'residential-cinema' },
-  // Cheat Sheets
-  { id: 'cs-pitch', cat: 'cheatsheet', title: 'Pixel Pitch Cheat Sheet', desc: 'One-page quick reference: viewing distance, resolution, cost per sqm', tags: ['Pixel Pitch', 'Quick Ref'], docId: 'pixel-pitch-cheatsheet' },
-  { id: 'cs-bright', cat: 'cheatsheet', title: 'Brightness & Nits Cheat Sheet', desc: 'UAE/GCC environment brightness guide on one page', tags: ['Brightness', 'UAE'], docId: 'brightness-cheatsheet' },
-  { id: 'cs-tech', cat: 'cheatsheet', title: 'COB vs MiP vs SMD Cheat Sheet', desc: 'Technology comparison quick reference', tags: ['Technology', 'Comparison'], docId: 'cob-mip-smd-cheatsheet' },
-  { id: 'cs-outdoor', cat: 'cheatsheet', title: 'Outdoor Durability Checklist', desc: 'Heat, dust, IP, service access checklist for UAE', tags: ['Outdoor', 'UAE', 'Checklist'], docId: 'outdoor-checklist' },
-  // BIM / CAD
-  { id: 'bim-aio', cat: 'bim', title: 'All-in-One dvLED Reference', desc: 'Dimensions, mounting, electrical for 110"-216" displays', tags: ['dvLED', 'Indoor'], bimId: 'all-in-one-dvled' },
-  { id: 'bim-fp', cat: 'bim', title: 'Fine-Pitch Wall Reference', desc: 'Cabinet-based video wall. P0.9 to P1.9 configurations', tags: ['Fine Pitch', 'Video Wall'], bimId: 'fine-pitch-wall' },
-  { id: 'bim-od', cat: 'bim', title: 'Outdoor Cabinet Reference', desc: 'IP65 outdoor cabinets. P3.9 to P10 with structural specs', tags: ['Outdoor', 'Billboard'], bimId: 'outdoor-cabinet' },
-  { id: 'bim-tf', cat: 'bim', title: 'Transparent LED Film Reference', desc: 'Window-mount display. Adhesive mounting and controller details', tags: ['Transparent', 'Retail'], bimId: 'transparent-film' },
-  // Knowledge Base (links, not downloads)
-  { id: 'kb-cob', cat: 'guide', title: 'COB vs MiP vs SMD — Full Guide', desc: 'Deep-dive technology comparison with real-install insights', tags: ['Technology'], link: '/knowledge/cob-vs-mip-vs-smd' },
-  { id: 'kb-pitch', cat: 'guide', title: 'Pixel Pitch Explained', desc: 'Resolution, viewing distance, cost analysis, and calculator', tags: ['Pixel Pitch'], link: '/knowledge/pixel-pitch-guide' },
-  { id: 'kb-bright', cat: 'guide', title: 'Brightness & Nits Guide', desc: 'Indoor vs outdoor GCC brightness specification', tags: ['Brightness', 'Outdoor'], link: '/knowledge/brightness-nits-guide' },
-  { id: 'kb-ip', cat: 'guide', title: 'IP Rating & Serviceability', desc: 'Protection ratings, front vs rear service, UAE requirements', tags: ['IP Rating'], link: '/knowledge/ip-rating-guide' },
-  { id: 'kb-rr', cat: 'guide', title: 'Refresh Rate & Camera Guide', desc: 'Flicker-free, camera-friendly specification', tags: ['Refresh Rate', 'Broadcast'], link: '/knowledge/refresh-rate-guide' },
-  { id: 'kb-proc', cat: 'guide', title: 'Processing & Calibration', desc: 'Video processing, calibration workflows, colour management', tags: ['Processing', 'Calibration'], link: '/knowledge/processing-calibration' },
-  { id: 'kb-cms', cat: 'guide', title: 'CMS for Multi-Site Signage', desc: 'Content management for multi-location networks', tags: ['CMS', 'Multi-Site'], link: '/knowledge/cms-multi-site' },
-  { id: 'kb-sla', cat: 'guide', title: 'SLA Gap Analysis', desc: 'Common SLA gaps, tier comparison, and audit checklist for LED display contracts', tags: ['SLA', 'Contracts', 'Maintenance'], link: '/sla-guide' },
 ];
 
 const CAT_ICONS = { specpack: FileText, cheatsheet: Layers, bim: Box, guide: BookOpen };
@@ -62,22 +27,22 @@ function DownloadCard({ item }) {
     setLoading(true);
     try {
       let url;
-      if (item.packId) {
-        const res = await fetch(`${API}/api/specpacks/${item.packId}/download`, {
+      if (item.pack_id) {
+        const res = await fetch(`${API}/api/specpacks/${item.pack_id}/download`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name, pack_id: item.packId }),
+          body: JSON.stringify({ email, name, pack_id: item.pack_id }),
         });
         const d = await res.json();
         url = d.download_url;
-      } else if (item.docId) {
-        const res = await fetch(`${API}/api/downloads/cheatsheet/${item.docId}/request`, {
+      } else if (item.doc_id) {
+        const res = await fetch(`${API}/api/downloads/cheatsheet/${item.doc_id}/request`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, name }),
         });
         const d = await res.json();
         url = d.download_url;
-      } else if (item.bimId) {
-        const res = await fetch(`${API}/api/downloads/bim/${item.bimId}/request`, {
+      } else if (item.bim_id) {
+        const res = await fetch(`${API}/api/downloads/bim/${item.bim_id}/request`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, name }),
         });
@@ -93,8 +58,8 @@ function DownloadCard({ item }) {
     setLoading(false);
   };
 
-  const Icon = CAT_ICONS[item.cat] || FileText;
-  const catLabel = item.cat === 'specpack' ? 'SPEC PACK' : item.cat === 'cheatsheet' ? 'CHEAT SHEET' : item.cat === 'bim' ? 'BIM / CAD' : 'GUIDE';
+  const Icon = CAT_ICONS[item.category] || FileText;
+  const catLabel = item.category === 'specpack' ? 'SPEC PACK' : item.category === 'cheatsheet' ? 'CHEAT SHEET' : item.category === 'bim' ? 'BIM / CAD' : 'GUIDE';
 
   // Knowledge base items link out instead of download
   if (item.link) {
@@ -107,7 +72,7 @@ function DownloadCard({ item }) {
           <span className="text-[0.45rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.04)' }}>{catLabel}</span>
         </div>
         <h3 className="text-xs font-bold tracking-wider mb-1.5 group-hover:text-[var(--blx-gold-3)] transition-colors">{item.title}</h3>
-        <p className="text-[0.625rem] text-[var(--blx-muted)] leading-relaxed flex-1 mb-3">{item.desc}</p>
+        <p className="text-[0.625rem] text-[var(--blx-muted)] leading-relaxed flex-1 mb-3">{item.description}</p>
         <div className="flex items-center gap-1.5 text-[0.5625rem] font-bold tracking-wider text-[var(--blx-gold-3)]">
           Read Guide <ArrowRight size={10} />
         </div>
@@ -124,9 +89,9 @@ function DownloadCard({ item }) {
         <span className="text-[0.45rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.04)' }}>{catLabel}</span>
       </div>
       <h3 className="text-xs font-bold tracking-wider mb-1.5">{item.title}</h3>
-      <p className="text-[0.625rem] text-[var(--blx-muted)] leading-relaxed flex-1 mb-3">{item.desc}</p>
+      <p className="text-[0.625rem] text-[var(--blx-muted)] leading-relaxed flex-1 mb-3">{item.description}</p>
       <div className="flex flex-wrap gap-1 mb-3">
-        {item.tags.map(t => (
+        {(item.tags || []).map(t => (
           <span key={t} className="text-[0.45rem] font-bold tracking-wider text-[var(--blx-muted)] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>{t}</span>
         ))}
       </div>
@@ -165,25 +130,35 @@ function DownloadCard({ item }) {
 export default function ResourceLibrary() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [resources, setResources] = useState([]);
+  const [counts, setCounts] = useState({ all: 0, specpack: 0, cheatsheet: 0, bim: 0, guide: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const res = await fetch(`${API}/api/resources`);
+        const data = await res.json();
+        setResources(data.resources || []);
+        setCounts(data.counts || { all: 0, specpack: 0, cheatsheet: 0, bim: 0, guide: 0 });
+      } catch (err) {
+        console.error('Failed to fetch resources:', err);
+      }
+      setLoading(false);
+    };
+    fetchResources();
+  }, []);
 
   const filtered = useMemo(() => {
-    return RESOURCES.filter(r => {
-      if (activeCategory !== 'all' && r.cat !== activeCategory) return false;
+    return resources.filter(r => {
+      if (activeCategory !== 'all' && r.category !== activeCategory) return false;
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
-        return r.title.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q) || r.tags.some(t => t.toLowerCase().includes(q));
+        return r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q) || (r.tags || []).some(t => t.toLowerCase().includes(q));
       }
       return true;
     });
-  }, [activeCategory, searchQuery]);
-
-  const counts = useMemo(() => ({
-    all: RESOURCES.length,
-    specpack: RESOURCES.filter(r => r.cat === 'specpack').length,
-    cheatsheet: RESOURCES.filter(r => r.cat === 'cheatsheet').length,
-    bim: RESOURCES.filter(r => r.cat === 'bim').length,
-    guide: RESOURCES.filter(r => r.cat === 'guide').length,
-  }), []);
+  }, [activeCategory, searchQuery, resources]);
 
   return (
     <div className="pb-20" data-testid="resource-library-page">
@@ -200,7 +175,7 @@ export default function ResourceLibrary() {
           <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">SPECIFICATION RESOURCES</div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider mb-3" data-testid="resource-library-title">Resource Library</h1>
           <p className="text-sm text-[var(--blx-text-2)] max-w-xl mb-8">
-            {RESOURCES.length} downloadable resources for LED display specification. Spec packs, cheat sheets, BIM references, and technical guides — everything you need in one place.
+            {counts.all || 0} downloadable resources for LED display specification. Spec packs, cheat sheets, BIM references, and technical guides — everything you need in one place.
           </p>
 
           {/* Search */}
@@ -245,12 +220,17 @@ export default function ResourceLibrary() {
         {/* Results Count */}
         <div className="flex items-center justify-between mb-6">
           <p className="text-xs text-[var(--blx-muted)]" data-testid="resource-count">
-            {filtered.length} {filtered.length === 1 ? 'resource' : 'resources'} {searchQuery && `matching "${searchQuery}"`}
+            {loading ? 'Loading...' : `${filtered.length} ${filtered.length === 1 ? 'resource' : 'resources'} ${searchQuery ? `matching "${searchQuery}"` : ''}`}
           </p>
         </div>
 
         {/* Grid */}
-        {filtered.length > 0 ? (
+        {loading ? (
+          <div className="text-center py-16">
+            <div className="w-8 h-8 border-2 border-[var(--blx-gold-3)] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-sm text-[var(--blx-muted)]">Loading resources...</p>
+          </div>
+        ) : filtered.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3" data-testid="resource-grid">
             {filtered.map(item => <DownloadCard key={item.id} item={item} />)}
           </div>

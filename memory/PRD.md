@@ -255,6 +255,14 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - All images now load directly from `https://files.ihgbrands.com/brightluxx/uploads/` without redirect
 - Testing: Verified all images load from external server — Iteration 47
 
+### Dynamic Resource Library — Mar 11, 2026
+- Created backend API endpoints for resources (`/api/resources`, `/api/admin/resources`)
+- Implemented MongoDB collection `resources` with schema: id, title, description, category, tags, pack_id/doc_id/bim_id/link, is_active, order
+- Built admin page (`AdminResources.js`) with full CRUD: create, edit, delete, toggle active status, category filtering, search
+- Converted public ResourceLibrary.js from hardcoded array to dynamic API-driven content
+- Seeded 28 default resources: 12 Spec Packs, 4 Cheat Sheets, 4 BIM/CAD, 8 Knowledge Base guides
+- Added Resources link to admin sidebar navigation
+
 ---
 
 ## Remaining Tasks

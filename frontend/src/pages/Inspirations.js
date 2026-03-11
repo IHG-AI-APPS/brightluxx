@@ -1,7 +1,7 @@
 import { cdnUrl } from '../config/cdn';
 import React, { useEffect, useState, useRef } from 'react';
 import { getInspirations } from '../api';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, X, ZoomIn } from 'lucide-react';
 import CdnImage from '../components/CdnImage';
 import SEO from '../components/SEO';
 
@@ -29,6 +29,51 @@ const GlowCard = ({ children, className = '' }) => {
   );
 };
 
+// Detail Modal Component
+const InspirationModal = ({ item, onClose }) => {
+  if (!item) return null;
+  
+  return (
+    <div 
+      className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 overflow-y-auto"
+      onClick={onClose}
+      data-testid="inspiration-modal"
+    >
+      <div 
+        className="bg-[var(--blx-bg-raised)] rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Image */}
+        <div className="relative h-64 sm:h-80 overflow-hidden">
+          <CdnImage
+            src={item.image_url}
+            alt={item.title}
+            className="w-full h-full object-cover"
+            w={800}
+          />
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 flex items-center justify-center hover:bg-black/80 transition-colors"
+            data-testid="close-modal-btn"
+          >
+            <X size={20} />
+          </button>
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[var(--blx-bg-raised)] to-transparent h-20" />
+        </div>
+        
+        {/* Content */}
+        <div className="p-6 sm:p-8">
+          <span className="category-badge mb-3 inline-block">{item.category}</span>
+          <h2 className="text-xl sm:text-2xl font-bold tracking-wider mb-4">{item.title}</h2>
+          <p className="text-sm text-[var(--blx-text-2)] leading-relaxed tracking-wider">
+            {item.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const CATEGORIES = [
   { value: '', label: 'All' },
   { value: 'retail', label: 'Retail' },
@@ -43,6 +88,7 @@ const Inspirations = () => {
   const [inspirations, setInspirations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     const fetchInspirations = async () => {
@@ -102,29 +148,46 @@ const Inspirations = () => {
             <p className="text-sm text-[var(--blx-text-2)] tracking-wider">Try a different category.</p>
           </div>
         ) : (
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5" data-testid="inspirations-gallery">
-            {inspirations.map((item, index) => (
-              <GlowCard key={item._id} className="break-inside-avoid">
-                <div className="inspiration-card" data-testid="inspiration-card">
-                  <CdnImage
-                    src={item.image_url}
-                    alt={item.title}
-                    className={`w-full rounded-[var(--blx-radius-lg)] ${
-                      index % 3 === 0 ? 'h-72' : index % 3 === 1 ? 'h-56' : 'h-64'
-                    }`}
-                    w={600}
-                  />
-                  <div className="card-overlay rounded-[var(--blx-radius-lg)]">
-                    <div>
-                      <span className="category-badge mb-2">{item.category}</span>
-                      <h3 className="text-sm font-bold text-white mt-2">{item.title}</h3>
-                      <p className="text-[0.6875rem] text-gray-300 mt-1 tracking-wider">{item.description}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" data-testid="inspirations-gallery">
+            {inspirations.map((item) => (
+              <GlowCard key={item._id || item.id} className="h-full">
+                <div 
+                  className="inspiration-card cursor-pointer h-full flex flex-col" 
+                  data-testid="inspiration-card"
+                  onClick={() => setSelectedItem(item)}
+                >
+                  <div className="relative overflow-hidden rounded-t-[var(--blx-radius-lg)]">
+                    <CdnImage
+                      src={item.image_url}
+                      alt={item.title}
+                      className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
+                      w={600}
+                    />
+                    {/* Hover overlay with zoom icon */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+                        <ZoomIn size={24} className="text-white" />
+                      </div>
                     </div>
+                  </div>
+                  {/* Card content - always visible */}
+                  <div className="p-4 flex-1 flex flex-col bg-[var(--blx-panel)] rounded-b-[var(--blx-radius-lg)]">
+                    <span className="category-badge mb-2 self-start">{item.category}</span>
+                    <h3 className="text-sm font-bold text-white mb-2 tracking-wider">{item.title}</h3>
+                    <p className="text-[0.6875rem] text-[var(--blx-text-2)] line-clamp-2 tracking-wider flex-1">{item.description}</p>
+                    <span className="text-[0.625rem] text-[var(--blx-gold-3)] font-bold tracking-wider mt-3 hover:underline">
+                      View Details →
+                    </span>
                   </div>
                 </div>
               </GlowCard>
             ))}
           </div>
+        )}
+
+        {/* Detail Modal */}
+        {selectedItem && (
+          <InspirationModal item={selectedItem} onClose={() => setSelectedItem(null)} />
         )}
       </div>
     </div>

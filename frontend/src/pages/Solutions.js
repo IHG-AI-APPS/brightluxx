@@ -46,27 +46,25 @@ export default function Solutions() {
                 data-testid={`solution-card-${sol.id}`}
               >
                 {/* Image */}
-                <CdnImage
+                <img
                   src={sol.image}
                   alt={sol.title}
-                  className="absolute inset-0 w-full h-full"
-                  imgClassName="group-hover:scale-110 transition-transform duration-700 ease-out"
-                  w={400}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
 
                 {/* Content */}
-                <div className="absolute inset-x-0 bottom-0 p-5">
+                <div className="absolute inset-x-0 bottom-0 p-5 z-10">
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center backdrop-blur-md" style={{ background: 'rgba(229,197,116,0.15)', border: '1px solid rgba(229,197,116,0.25)' }}>
                       <Icon size={14} className="text-[var(--blx-gold-3)]" />
                     </div>
-                    <h2 className="text-sm font-bold tracking-wider">{sol.title}</h2>
+                    <h2 className="text-sm font-bold tracking-wider text-white">{sol.title}</h2>
                   </div>
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {sol.tags.map((tag) => (
-                      <span key={tag} className="text-[0.55rem] px-2 py-0.5 rounded-full tracking-wider font-medium" style={{ background: 'rgba(255,255,255,0.08)', color: 'var(--blx-text-2)' }}>
+                      <span key={tag} className="text-[0.55rem] px-2 py-0.5 rounded-full tracking-wider font-medium" style={{ background: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.8)' }}>
                         {tag}
                       </span>
                     ))}

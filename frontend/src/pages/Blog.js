@@ -1,84 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Clock, Tag, ArrowRight } from 'lucide-react';
+import { Search, Clock, Tag, ArrowRight, Image } from 'lucide-react';
 import SEO from '../components/SEO';
 
-const BLOG_POSTS = [
-  {
-    slug: 'microled-vs-oled-2025',
-    title: 'MicroLED vs OLED: Which Technology Wins in 2025?',
-    excerpt: 'A deep comparison of MicroLED and OLED for commercial applications. Brightness, lifespan, burn-in resistance, and total cost of ownership.',
-    category: 'Technology',
-    date: 'Feb 2026',
-    readTime: '8 min',
-  },
-  {
-    slug: 'choosing-pixel-pitch-guide',
-    title: 'The Complete Guide to Choosing the Right Pixel Pitch',
-    excerpt: 'How to select the optimal pixel pitch for your LED display based on viewing distance, content type, budget, and application environment.',
-    category: 'Guides',
-    date: 'Jan 2026',
-    readTime: '6 min',
-  },
-  {
-    slug: 'led-displays-dubai-retail',
-    title: 'How LED Displays Are Transforming Dubai Retail',
-    excerpt: 'Case studies of LED display installations in Dubai malls — from interactive storefronts to immersive brand experiences.',
-    category: 'Industry',
-    date: 'Jan 2026',
-    readTime: '5 min',
-  },
-  {
-    slug: 'outdoor-led-uae-heat-guide',
-    title: 'Outdoor LED Displays in UAE Heat: What You Need to Know',
-    excerpt: 'Engineering LED displays for 60C+ temperatures. IP ratings, cooling systems, brightness requirements, and Gulf-grade specifications.',
-    category: 'Technical',
-    date: 'Dec 2025',
-    readTime: '7 min',
-  },
-  {
-    slug: 'cob-led-technology-explained',
-    title: 'COB LED Technology Explained: Why It Matters',
-    excerpt: 'Chip-on-Board LED delivers superior durability, anti-glare performance, and close-viewing quality. Understanding the advantages.',
-    category: 'Technology',
-    date: 'Dec 2025',
-    readTime: '5 min',
-  },
-  {
-    slug: 'led-display-maintenance-tips',
-    title: '10 Essential LED Display Maintenance Tips',
-    excerpt: 'Keep your LED display performing at its best. From cleaning schedules to calibration intervals — practical tips for facility managers.',
-    category: 'Guides',
-    date: 'Nov 2025',
-    readTime: '4 min',
-  },
-  {
-    slug: 'transparent-led-architecture',
-    title: 'Transparent LED: The Future of Architectural Facades',
-    excerpt: 'How transparent LED screens are revolutionizing building facades across the GCC. Design considerations and case studies.',
-    category: 'Industry',
-    date: 'Nov 2025',
-    readTime: '6 min',
-  },
-  {
-    slug: 'led-power-consumption-guide',
-    title: 'LED Display Power Consumption: A Complete Guide for MEP Engineers',
-    excerpt: 'Calculate electrical load, HVAC impact, breaker sizing, and running costs. Essential reading for MEP consultants.',
-    category: 'Technical',
-    date: 'Oct 2025',
-    readTime: '9 min',
-  },
-];
-
-const CATEGORIES = ['All', 'Technology', 'Guides', 'Industry', 'Technical'];
+const API = process.env.REACT_APP_BACKEND_URL || '';
 
 export default function Blog() {
+  const [blogs, setBlogs] = useState([]);
+  const [categories, setCategories] = useState(['All']);
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const filtered = BLOG_POSTS.filter(p => {
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${API}/api/blogs`);
+        const data = await res.json();
+        setBlogs(data.blogs || []);
+        setCategories(data.categories || ['All']);
+      } catch (err) {
+        console.error('Failed to fetch blogs:', err);
+      }
+      setLoading(false);
+    };
+    fetchBlogs();
+  }, []);
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '';
+    return new Date(dateStr).toLocaleDateString('en-US', {
+      month: 'short',
+      year: 'numeric',
+    });
+  };
+
+  const filtered = blogs.filter(p => {
     const matchCat = activeCategory === 'All' || p.category === activeCategory;
-    const matchSearch = !searchQuery || p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchSearch = !searchQuery || p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.excerpt?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchCat && matchSearch;
   });
 
@@ -104,7 +64,7 @@ export default function Blog() {
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <div className="flex flex-wrap gap-2" data-testid="blog-categories">
-              {CATEGORIES.map(cat => (
+              {categories.map(cat => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
@@ -137,32 +97,48 @@ export default function Blog() {
       {/* Articles Grid */}
       <section className="pb-16" data-testid="blog-grid">
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map(post => (
-              <article key={post.slug} className="glass-panel overflow-hidden group" data-testid={`blog-post-${post.slug}`}>
-                <div className="h-48 bg-gradient-to-br from-[rgba(229,197,116,0.08)] to-[rgba(229,197,116,0.02)] flex items-center justify-center">
-                  <Tag size={32} className="text-[var(--blx-gold-3)] opacity-30" />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="category-badge">{post.category}</span>
-                    <span className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider flex items-center gap-1">
-                      <Clock size={10} /> {post.readTime}
-                    </span>
-                  </div>
-                  <h3 className="text-sm font-bold mb-2 tracking-wider leading-snug">{post.title}</h3>
-                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-4 line-clamp-3">{post.excerpt}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider">{post.date}</span>
-                    <span className="flex items-center gap-1 text-[var(--blx-gold-3)] text-[0.625rem] font-bold tracking-wider group-hover:gap-2 transition-[gap]">
-                      Read <ArrowRight size={12} />
-                    </span>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-          {filtered.length === 0 && (
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="w-8 h-8 border-2 border-[var(--blx-gold-3)] border-t-transparent rounded-full animate-spin mx-auto" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filtered.map(post => (
+                <Link to={`/blog/${post.slug}`} key={post.slug || post.id}>
+                  <article className="glass-panel overflow-hidden group h-full" data-testid={`blog-post-${post.slug}`}>
+                    <div className="h-48 bg-gradient-to-br from-[rgba(229,197,116,0.08)] to-[rgba(229,197,116,0.02)] flex items-center justify-center overflow-hidden">
+                      {post.image_url ? (
+                        <img 
+                          src={post.image_url} 
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <Image size={32} className="text-[var(--blx-gold-3)] opacity-30" />
+                      )}
+                    </div>
+                    <div className="p-6">
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="category-badge">{post.category}</span>
+                        <span className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider flex items-center gap-1">
+                          <Clock size={10} /> {post.read_time}
+                        </span>
+                      </div>
+                      <h3 className="text-sm font-bold mb-2 tracking-wider leading-snug">{post.title}</h3>
+                      <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-4 line-clamp-3">{post.excerpt}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider">{formatDate(post.published_at)}</span>
+                        <span className="flex items-center gap-1 text-[var(--blx-gold-3)] text-[0.625rem] font-bold tracking-wider group-hover:gap-2 transition-[gap]">
+                          Read <ArrowRight size={12} />
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+          )}
+          {!loading && filtered.length === 0 && (
             <div className="text-center py-16 text-[var(--blx-muted)] text-sm tracking-wider">No articles found.</div>
           )}
         </div>

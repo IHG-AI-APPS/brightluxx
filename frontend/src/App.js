@@ -90,6 +90,7 @@ import ProjectPlanner from './pages/ProjectPlanner';
 // Phase 3: New Pages
 import Services from './pages/Services';
 import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 import FAQ from './pages/FAQ';
 import FactoryTour from './pages/FactoryTour';
 
@@ -117,6 +118,7 @@ import AdminPerformance from './admin/AdminPerformance';
 import AdminResources from './pages/admin/AdminResources';
 import AdminTaxonomy from './pages/admin/AdminTaxonomy';
 import AdminHomepage from './pages/admin/AdminHomepage';
+import AdminBlog from './pages/admin/AdminBlog';
 
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAdmin();
@@ -180,6 +182,7 @@ function AppRoutes() {
       {/* Phase 3: New Pages */}
       <Route path="/services" element={<><Navbar /><Services /><Footer /><StickyCTA /></>} />
       <Route path="/blog" element={<><Navbar /><Blog /><Footer /><StickyCTA /></>} />
+      <Route path="/blog/:slug" element={<><Navbar /><BlogPost /><Footer /><StickyCTA /></>} />
       <Route path="/faq" element={<><Navbar /><FAQ /><Footer /><StickyCTA /></>} />
       <Route path="/factory-tour" element={<><Navbar /><FactoryTour /><Footer /><StickyCTA /></>} />
 
@@ -204,6 +207,7 @@ function AppRoutes() {
         <Route path="resources" element={<AdminResources />} />
         <Route path="taxonomy" element={<AdminTaxonomy />} />
         <Route path="homepage" element={<AdminHomepage />} />
+        <Route path="blog" element={<AdminBlog />} />
       </Route>
     </Routes>
   );

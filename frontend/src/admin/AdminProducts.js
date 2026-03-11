@@ -222,7 +222,29 @@ export default function AdminProducts() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Category*</label>
-                  <input value={form.category} onChange={e => setForm({...form, category: e.target.value})} placeholder="e.g. cob-microled" className="input-luxury w-full py-2 text-xs" data-testid="admin-product-category-input" />
+                  <select 
+                    value={form.category} 
+                    onChange={e => setForm({...form, category: e.target.value})} 
+                    className="input-luxury w-full py-2 text-xs bg-[var(--blx-bg-raised)]" 
+                    data-testid="admin-product-category-input"
+                  >
+                    <option value="">Select category...</option>
+                    {categories.map(cat => (
+                      <option key={cat.value || cat} value={cat.value || cat}>
+                        {cat.label || (typeof cat === 'string' ? cat.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : cat)}
+                      </option>
+                    ))}
+                    <option value="__new__">+ Add New Category</option>
+                  </select>
+                  {form.category === '__new__' && (
+                    <input 
+                      value={form.newCategory || ''} 
+                      onChange={e => setForm({...form, newCategory: e.target.value, category: e.target.value ? e.target.value : '__new__'})}
+                      placeholder="Enter new category (e.g. cob-microled)"
+                      className="input-luxury w-full py-2 text-xs mt-2"
+                      autoFocus
+                    />
+                  )}
                 </div>
                 <div>
                   <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Tagline</label>

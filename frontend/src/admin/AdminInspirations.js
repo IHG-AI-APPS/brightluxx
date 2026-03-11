@@ -15,6 +15,7 @@ export default function AdminInspirations() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const fetch_ = useCallback(async () => {
     setLoading(true);
@@ -23,6 +24,10 @@ export default function AdminInspirations() {
       if (search) params.search = search;
       const res = await api().get('/api/admin/inspirations', { params });
       setItems(res.data.inspirations); setTotal(res.data.total);
+      
+      // Extract unique categories from inspirations
+      const cats = [...new Set(res.data.inspirations.map(i => i.category).filter(Boolean))];
+      setCategories(cats.sort());
     } catch (e) { console.error(e); }
     setLoading(false);
   }, [api, page, search]);
@@ -103,7 +108,37 @@ export default function AdminInspirations() {
             </div>
             <div className="p-6 space-y-4 overflow-y-auto flex-1">
               <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Title*</label><input value={form.title} onChange={e => setForm({...form, title: e.target.value})} className="input-luxury w-full py-2 text-xs" data-testid="admin-inspiration-title-input" /></div>
-              <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Category*</label><input value={form.category} onChange={e => setForm({...form, category: e.target.value})} placeholder="e.g. retail, corporate" className="input-luxury w-full py-2 text-xs" data-testid="admin-inspiration-category-input" /></div>
+              <div>
+                <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Category*</label>
+                <select 
+                  value={categories.includes(form.category) ? form.category : (form.category ? '__new__' : '')} 
+                  onChange={e => {
+                    if (e.target.value === '__new__') {
+                      setForm({...form, category: '', showNewCategory: true});
+                    } else {
+                      setForm({...form, category: e.target.value, showNewCategory: false});
+                    }
+                  }} 
+                  className="input-luxury w-full py-2 text-xs bg-[var(--blx-bg-raised)]" 
+                  data-testid="admin-inspiration-category-select"
+                >
+                  <option value="">Select category...</option>
+                  {categories.map(cat => (
+                    <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>
+                  ))}
+                  <option value="__new__">+ Add New Category</option>
+                </select>
+                {(form.showNewCategory || (form.category && !categories.includes(form.category))) && (
+                  <input 
+                    value={form.category} 
+                    onChange={e => setForm({...form, category: e.target.value})}
+                    placeholder="Enter new category (e.g. retail, corporate)"
+                    className="input-luxury w-full py-2 text-xs mt-2"
+                    autoFocus
+                    data-testid="admin-inspiration-category-input"
+                  />
+                )}
+              </div>
               <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="input-luxury w-full py-2 text-xs resize-y" /></div>
               <ImageUploader value={form.image_url} onChange={(url) => setForm({...form, image_url: url})} label="Image" />
               <label className="flex items-center gap-2 cursor-pointer text-xs tracking-wider"><input type="checkbox" checked={form.featured} onChange={e => setForm({...form, featured: e.target.checked})} className="accent-[var(--blx-gold-3)]" /><Star size={14} /> Featured</label>

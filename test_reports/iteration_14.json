@@ -16,7 +16,7 @@
   },
   "passed_tests": [
     "1. Home page (/) - Organization JSON-LD: name=Brightluxx, telephone=+971-55-991-0711, address in Dubai",
-    "2. Home page (/) - WebSite JSON-LD: name=Brightluxx, url=https://deepspace-preview.preview.emergentagent.com",
+    "2. Home page (/) - WebSite JSON-LD: name=Brightluxx, url=https://media-migration-2.preview.emergentagent.com",
     "3. Products listing (/products) - ItemList JSON-LD with numberOfItems=57, itemListElement with product names and URLs (up to 20 items)",
     "4. Product detail (/products/cob-microled-04mm) - Product JSON-LD: name=COB MicroLED 0.4mm, sku=BL-COB040, brand=Brightluxx, offers with priceCurrency=AED price=0, additionalProperty specs (pixel pitch 0.4mm, brightness 600 nits, resolution 600x337, etc.)",
     "5. Product detail (/products/cob-microled-04mm) - BreadcrumbList JSON-LD: Home > Products > COB MicroLED > COB MicroLED 0.4mm (4 items)",

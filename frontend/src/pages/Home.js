@@ -31,7 +31,8 @@ const GlowCard = ({ children, className = '' }) => {
 };
 
 /* Hero video player — crossfade between two Sora 2 videos */
-const HERO_VIDEOS = ['/videos/hero-video-1.mp4', '/videos/hero-video-2.mp4'];
+const EXTERNAL_CDN = 'https://files.ihgbrands.com/brightluxx';
+const HERO_VIDEOS = [`${EXTERNAL_CDN}/videos/hero-video-1.mp4`, `${EXTERNAL_CDN}/videos/hero-video-2.mp4`];
 
 const HeroVideoPlayer = () => {
   const [activeIdx, setActiveIdx] = useState(0);

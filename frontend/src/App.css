@@ -342,6 +342,12 @@
   text-transform: none;
 }
 
+/* Global fix: all input/textarea/select text should be normal case */
+input, textarea, select,
+input::placeholder, textarea::placeholder {
+  text-transform: none !important;
+}
+
 .input-luxury:focus {
   outline: none;
   border-color: var(--blx-gold-3);

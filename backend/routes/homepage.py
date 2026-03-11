@@ -113,7 +113,7 @@ async def get_homepage_content():
     
     if not content:
         # Return defaults
-        return {
+        return {"content": {
             "hero": DEFAULT_HERO,
             "stats": DEFAULT_STATS,
             "entry_doors": DEFAULT_ENTRY_DOORS,
@@ -123,9 +123,9 @@ async def get_homepage_content():
             "projects_subtitle": "Real installations across UAE and MENA",
             "why_brightluxx_title": "Why Brightluxx?",
             "why_brightluxx_items": DEFAULT_WHY_ITEMS,
-        }
+        }}
     
-    return content
+    return {"content": content}
 
 
 @router.get("/api/admin/homepage-content")

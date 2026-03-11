@@ -6,6 +6,13 @@ import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
 import { EXTERNAL_CDN, cdnUrl } from '../config/cdn';
 
+const API = process.env.REACT_APP_BACKEND_URL || '';
+
+// Icon mapping for dynamic content
+const ICON_MAP = {
+  Factory, Package, Truck, GraduationCap, Wrench, HeartHandshake, Shield, Clock, Award, Zap, Settings
+};
+
 /* Scroll-triggered glow hook */
 const useInView = (ref) => {
   const [inView, setInView] = useState(false);
@@ -31,24 +38,26 @@ const GlowCard = ({ children, className = '' }) => {
   );
 };
 
-/* Hero video player — crossfade between two Sora 2 videos */
-const HERO_VIDEOS = [`${EXTERNAL_CDN}/videos/hero-video-1.mp4`, `${EXTERNAL_CDN}/videos/hero-video-2.mp4`];
-
-const HeroVideoPlayer = () => {
+/* Hero video player — crossfade between videos */
+const HeroVideoPlayer = ({ videos, posterImage }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [fading, setFading] = useState(false);
-  const video0Ref = useRef(null);
-  const video1Ref = useRef(null);
-  const refs = useRef([video0Ref, video1Ref]);
+  const videoRefs = useRef([]);
+
+  // Use provided videos or fallback
+  const heroVideos = videos?.length > 0 ? videos : [`${EXTERNAL_CDN}/videos/hero-video-1.mp4`, `${EXTERNAL_CDN}/videos/hero-video-2.mp4`];
+  const poster = posterImage || cdnUrl('hero_banner.webp');
 
   useEffect(() => {
-    const activeVideo = refs.current[activeIdx]?.current;
+    if (heroVideos.length <= 1) return;
+    
+    const activeVideo = videoRefs.current[activeIdx];
     if (!activeVideo) return;
 
     const onEnded = () => {
       setFading(true);
-      const nextIdx = (activeIdx + 1) % HERO_VIDEOS.length;
-      const nextVideo = refs.current[nextIdx]?.current;
+      const nextIdx = (activeIdx + 1) % heroVideos.length;
+      const nextVideo = videoRefs.current[nextIdx];
       if (nextVideo) {
         nextVideo.currentTime = 0;
         nextVideo.play().catch(() => {});
@@ -61,22 +70,22 @@ const HeroVideoPlayer = () => {
 
     activeVideo.addEventListener('ended', onEnded);
     return () => activeVideo.removeEventListener('ended', onEnded);
-  }, [activeIdx]);
+  }, [activeIdx, heroVideos.length]);
 
   return (
     <div className="relative w-full h-full" data-testid="hero-video-player">
-      {HERO_VIDEOS.map((src, idx) => (
+      {heroVideos.map((src, idx) => (
         <video
           key={src}
-          ref={idx === 0 ? video0Ref : video1Ref}
+          ref={el => videoRefs.current[idx] = el}
           autoPlay={idx === 0}
           muted
           playsInline
           preload={idx === 0 ? 'auto' : 'metadata'}
-          poster={cdnUrl('hero_banner.webp')}
+          poster={poster}
           data-testid={`home-hero-video-${idx}`}
           className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[800ms]"
-          style={{ opacity: idx === activeIdx ? 1 : fading && idx === (activeIdx + 1) % HERO_VIDEOS.length ? 1 : 0 }}
+          style={{ opacity: idx === activeIdx ? 1 : fading && idx === (activeIdx + 1) % heroVideos.length ? 1 : 0 }}
         >
           <source src={src} type="video/mp4" />
         </video>
@@ -90,20 +99,23 @@ const AnimatedCounter = ({ end, suffix = '', prefix = '' }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const started = useRef(false);
+  
+  // Parse end value to number if it's a string
+  const endNum = typeof end === 'string' ? parseInt(end, 10) : end;
 
   useEffect(() => {
-    if (!ref.current) return;
+    if (!ref.current || isNaN(endNum)) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
           const duration = 2000;
-          const step = end / (duration / 16);
+          const step = endNum / (duration / 16);
           let current = 0;
           const timer = setInterval(() => {
             current += step;
-            if (current >= end) {
-              setCount(end);
+            if (current >= endNum) {
+              setCount(endNum);
               clearInterval(timer);
             } else {
               setCount(Math.floor(current));
@@ -136,23 +148,49 @@ const PARTNER_BRANDS = [
   { name: 'Philips', desc: 'LED Components' },
 ];
 
-/* Why Choose data */
-const WHY_CHOOSE = [
-  { icon: Award, title: 'Established Since 2005', desc: 'Nearly two decades of LED display excellence in the UAE market.' },
-  { icon: Factory, title: 'In-House Production', desc: 'Complete manufacturing control for consistent quality and customization.' },
-  { icon: Package, title: 'Local Stock Availability', desc: '2,000+ sqm of LED displays ready for immediate delivery from our Dubai warehouse.' },
-  { icon: Settings, title: 'Complete LED Solutions', desc: 'End-to-end: design, supply, install, configure, and maintain.' },
-  { icon: Truck, title: 'Fast Delivery', desc: 'Same-week delivery across UAE. Express options for urgent projects.' },
-  { icon: GraduationCap, title: 'Training & Technical Support', desc: 'On-site training, 24/7 helpdesk, and remote diagnostics.' },
-  { icon: HeartHandshake, title: 'After-Sales Service', desc: 'Preventive maintenance contracts, spare parts, and rapid response repairs.' },
-  { icon: Wrench, title: 'Low Maintenance Solutions', desc: 'Front-serviceable designs, hot-swappable modules, and self-diagnostic systems.' },
+/* Default Why Choose data */
+const DEFAULT_WHY_CHOOSE = [
+  { icon: 'Award', title: 'Established Since 2005', desc: 'Nearly two decades of LED display excellence in the UAE market.' },
+  { icon: 'Factory', title: 'In-House Production', desc: 'Complete manufacturing control for consistent quality and customization.' },
+  { icon: 'Package', title: 'Local Stock Availability', desc: '2,000+ sqm of LED displays ready for immediate delivery from our Dubai warehouse.' },
+  { icon: 'Settings', title: 'Complete LED Solutions', desc: 'End-to-end: design, supply, install, configure, and maintain.' },
+  { icon: 'Truck', title: 'Fast Delivery', desc: 'Same-week delivery across UAE. Express options for urgent projects.' },
+  { icon: 'GraduationCap', title: 'Training & Technical Support', desc: 'On-site training, 24/7 helpdesk, and remote diagnostics.' },
+  { icon: 'HeartHandshake', title: 'After-Sales Service', desc: 'Preventive maintenance contracts, spare parts, and rapid response repairs.' },
+  { icon: 'Wrench', title: 'Low Maintenance Solutions', desc: 'Front-serviceable designs, hot-swappable modules, and self-diagnostic systems.' },
+];
+
+/* Default stats */
+const DEFAULT_STATS = [
+  { value: '1500', suffix: '+', label: 'Screens Installed' },
+  { value: '500', suffix: '+', label: 'Satisfied Clients' },
+  { value: '800', suffix: '+', label: 'Projects Completed' },
+  { value: '12000', suffix: '', label: 'Sqm LED Installed' },
+];
+
+/* Default entry doors */
+const DEFAULT_ENTRY_DOORS = [
+  { link: '/products', image: 'cob_microled_1.webp', title: 'Products', description: 'MicroLED, outdoor, rental, transparent. Full range.', cta_text: 'Browse' },
+  { link: '/inspirations', image: 'insp_retail.webp', title: 'Inspirations', description: 'See how LED transforms spaces across industries.', cta_text: 'Discover' },
+  { link: '/projects', image: 'proj_indian_pavilion___expo_2020_dubai.webp', title: 'Projects', description: 'Real installations. Proven results across UAE and MENA.', cta_text: 'View' },
 ];
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [featuredProjects, setFeaturedProjects] = useState([]);
+  const [homeContent, setHomeContent] = useState(null);
 
   useEffect(() => {
+    // Fetch homepage content
+    fetch(`${API}/api/homepage-content`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.content) {
+          setHomeContent(data.content);
+        }
+      })
+      .catch(() => {});
+
     getProducts({ limit: 4, featured: true }).then(res => {
       const data = res?.data || res;
       setFeaturedProducts(Array.isArray(data) ? data : data?.products || []);
@@ -162,6 +200,13 @@ const Home = () => {
       setFeaturedProjects(Array.isArray(data) ? data : data?.projects || []);
     }).catch(() => {});
   }, []);
+
+  // Get content with fallbacks
+  const hero = homeContent?.hero || {};
+  const stats = homeContent?.stats?.length > 0 ? homeContent.stats : DEFAULT_STATS;
+  const entryDoors = homeContent?.entry_doors?.length > 0 ? homeContent.entry_doors : DEFAULT_ENTRY_DOORS;
+  const whyChoose = homeContent?.why_brightluxx_items?.length > 0 ? homeContent.why_brightluxx_items : DEFAULT_WHY_CHOOSE;
+  const sectionTitles = homeContent || {};
 
   return (
     <div>
@@ -187,23 +232,25 @@ const Home = () => {
       {/* Hero Section */}
       <section className="relative pt-6 sm:pt-10 pb-6 sm:pb-16" data-testid="hero-section">
         <div className="hero-video-container mx-4 sm:mx-6 lg:mx-auto max-w-[1320px] blx-led-grid-strong">
-          <HeroVideoPlayer />
+          <HeroVideoPlayer videos={hero.video_urls} posterImage={hero.poster_image} />
           <div className="hero-overlay">
             <div className="max-w-2xl">
               <div className="text-[0.6875rem] tracking-[0.28em] text-[var(--blx-gold-3)] mb-5 font-bold">
-                Premium LED Displays — Since 2005
+                {hero.subheadline || 'Premium LED Displays — Since 2005'}
               </div>
               <h1 className="mb-4" data-testid="hero-title">
-                Engineered for
-                <br />
-                <span className="text-gradient">Brilliance</span>
+                {hero.headline ? (
+                  <span dangerouslySetInnerHTML={{ __html: hero.headline.replace(/\n/g, '<br />') }} />
+                ) : (
+                  <>Engineered for<br /><span className="text-gradient">Brilliance</span></>
+                )}
               </h1>
               <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-lg font-light tracking-widest">
                 OEM-grade LED technology. UAE-ready delivery. 1,500+ screens installed.
               </p>
               <div className="flex flex-col sm:flex-row gap-2.5">
-                <Link to="/contact" className="btn-gold px-5 py-2 sm:px-8 sm:py-3 text-[0.7rem] sm:text-sm text-center" data-testid="home-hero-primary-cta">
-                  Get Quote
+                <Link to={hero.cta_link || '/contact'} className="btn-gold px-5 py-2 sm:px-8 sm:py-3 text-[0.7rem] sm:text-sm text-center" data-testid="home-hero-primary-cta">
+                  {hero.cta_text || 'Get Quote'}
                 </Link>
                 <Link to="/products" className="btn-glass px-5 py-2 sm:px-8 sm:py-3 text-[0.7rem] sm:text-sm text-center" data-testid="home-hero-secondary-cta">
                   Explore Products
@@ -218,15 +265,10 @@ const Home = () => {
       <section className="py-12 sm:py-16" data-testid="project-stats-section">
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { value: 1500, suffix: '+', label: 'Screens Installed' },
-              { value: 500, suffix: '+', label: 'Satisfied Clients' },
-              { value: 800, suffix: '+', label: 'Projects Completed' },
-              { value: 12000, suffix: '', label: 'Sqm LED Installed', prefix: '' },
-            ].map((stat) => (
+            {stats.map((stat) => (
               <div key={stat.label} className="glass-panel p-6 text-center" data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
                 <div className="text-3xl sm:text-4xl font-bold text-[var(--blx-gold-3)] mb-2" style={{ fontFamily: 'var(--blx-font)' }}>
-                  <AnimatedCounter end={stat.value} suffix={stat.suffix} prefix={stat.prefix || ''} />
+                  <AnimatedCounter end={stat.value} suffix={stat.suffix || ''} prefix={stat.prefix || ''} />
                 </div>
                 <div className="text-[0.625rem] tracking-[0.2em] text-[var(--blx-text-2)] font-bold">{stat.label}</div>
               </div>
@@ -239,30 +281,29 @@ const Home = () => {
       <section className="py-14 sm:py-20" data-testid="entry-doors-section">
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[{
-              to: '/products', img: cdnUrl('cob_microled_1.webp'),
-              title: 'Products', desc: 'MicroLED, outdoor, rental, transparent. Full range.', cta: 'Browse'
-            }, {
-              to: '/inspirations', img: cdnUrl('insp_retail.webp'),
-              title: 'Inspirations', desc: 'See how LED transforms spaces across industries.', cta: 'Discover'
-            }, {
-              to: '/projects', img: cdnUrl('proj_indian_pavilion___expo_2020_dubai.webp'),
-              title: 'Projects', desc: 'Real installations. Proven results across UAE and MENA.', cta: 'View'
-            }].map((door) => (
-              <GlowCard key={door.to}>
-                <Link to={door.to} className="entry-door group block" data-testid={`home-entry-door-${door.title.toLowerCase()}`}>
-                  <CdnImage src={door.img} alt={door.title} className="entry-door-image" w={600} eager />
-                  <div className="p-6">
-                    <h3 className="text-xl mb-2">{door.title}</h3>
-                    <p className="text-xs text-[var(--blx-text-2)] mb-4 leading-relaxed tracking-wider">{door.desc}</p>
-                    <div className="flex items-center text-[var(--blx-gold-3)] text-xs font-bold group-hover:gap-3 gap-2 transition-[gap] duration-200 tracking-widest">
-                      <span>{door.cta}</span>
-                      <ArrowRight size={14} />
+            {entryDoors.map((door) => {
+              // Handle both CDN relative paths and full URLs
+              const imgSrc = door.image?.startsWith('http') ? door.image : cdnUrl(door.image);
+              return (
+                <GlowCard key={door.link}>
+                  <Link to={door.link} className="entry-door group block" data-testid={`home-entry-door-${door.title.toLowerCase()}`}>
+                    {door.image?.startsWith('http') ? (
+                      <img src={imgSrc} alt={door.title} className="entry-door-image w-full h-48 object-cover" />
+                    ) : (
+                      <CdnImage src={imgSrc} alt={door.title} className="entry-door-image" w={600} eager />
+                    )}
+                    <div className="p-6">
+                      <h3 className="text-xl mb-2">{door.title}</h3>
+                      <p className="text-xs text-[var(--blx-text-2)] mb-4 leading-relaxed tracking-wider">{door.description}</p>
+                      <div className="flex items-center text-[var(--blx-gold-3)] text-xs font-bold group-hover:gap-3 gap-2 transition-[gap] duration-200 tracking-widest">
+                        <span>{door.cta_text}</span>
+                        <ArrowRight size={14} />
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </GlowCard>
-            ))}
+                  </Link>
+                </GlowCard>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -333,24 +374,29 @@ const Home = () => {
         <div className="absolute inset-0 bg-[var(--blx-bg-raised)]" style={{zIndex: -1}} />
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-12">
-            <div className="text-[0.625rem] tracking-[0.3em] text-[var(--blx-gold-3)] mb-3 font-bold">WHY CHOOSE US</div>
-            <h2 className="mb-3">Why Brightluxx</h2>
+            <div className="text-[0.625rem] tracking-[0.3em] text-[var(--blx-gold-3)] mb-3 font-bold">
+              {sectionTitles.why_brightluxx_label || 'WHY CHOOSE US'}
+            </div>
+            <h2 className="mb-3">{sectionTitles.why_brightluxx_title || 'Why Brightluxx'}</h2>
             <p className="text-xs text-[var(--blx-text-2)] max-w-xl mx-auto tracking-wider">
-              Nearly 20 years of trusted LED display solutions. From design to delivery, we are your complete partner.
+              {sectionTitles.why_brightluxx_desc || 'Nearly 20 years of trusted LED display solutions. From design to delivery, we are your complete partner.'}
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {WHY_CHOOSE.map((item) => (
-              <GlowCard key={item.title}>
-                <div className="glass-panel p-6 h-full" data-testid={`why-choose-${item.title.toLowerCase().replace(/\s/g, '-')}`}>
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: 'rgba(229,197,116,0.08)', border: '1px solid rgba(229,197,116,0.15)' }}>
-                    <item.icon size={18} className="text-[var(--blx-gold-3)]" />
+            {whyChoose.map((item) => {
+              const IconComponent = ICON_MAP[item.icon] || Award;
+              return (
+                <GlowCard key={item.title}>
+                  <div className="glass-panel p-6 h-full" data-testid={`why-choose-${item.title.toLowerCase().replace(/\s/g, '-')}`}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: 'rgba(229,197,116,0.08)', border: '1px solid rgba(229,197,116,0.15)' }}>
+                      <IconComponent size={18} className="text-[var(--blx-gold-3)]" />
+                    </div>
+                    <h4 className="text-xs font-bold mb-2 tracking-widest">{item.title}</h4>
+                    <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed tracking-wider">{item.desc}</p>
                   </div>
-                  <h4 className="text-xs font-bold mb-2 tracking-widest">{item.title}</h4>
-                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed tracking-wider">{item.desc}</p>
-                </div>
-              </GlowCard>
-            ))}
+                </GlowCard>
+              );
+            })}
           </div>
         </div>
       </section>

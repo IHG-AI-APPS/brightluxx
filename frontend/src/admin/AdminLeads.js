@@ -83,7 +83,7 @@ export default function AdminLeads() {
       <div className="flex flex-wrap gap-3 mb-6">
         <div className="relative flex-1 min-w-[200px]">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
-          <input type="text" placeholder="Search name, email, company..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} className="input-luxury w-full pl-9 py-2 text-xs" data-testid="admin-leads-search" />
+          <input type="text" placeholder="Search name, email, company..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} className="input-luxury w-full pl-9 py-2.5 text-xs" data-testid="admin-leads-search" />
         </div>
         <div className="flex gap-1">
           {STATUSES.map(s => (

@@ -68,7 +68,7 @@ export default function AdminInspirations() {
         </div>
       </div>
 
-      <div className="mb-6"><div className="relative max-w-md"><Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" /><input type="text" placeholder="Search..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} className="input-luxury w-full pl-9 py-2 text-xs" data-testid="admin-inspirations-search" /></div></div>
+      <div className="mb-6"><div className="relative max-w-md"><Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" /><input type="text" placeholder="Search..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} className="input-luxury w-full pl-9 py-2.5 text-xs" data-testid="admin-inspirations-search" /></div></div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {loading ? Array.from({length: 6}).map((_, i) => <div key={i} className="glass-panel h-48 animate-pulse" />) :

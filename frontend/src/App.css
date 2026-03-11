@@ -325,8 +325,11 @@
   border: 1px solid var(--blx-border);
   color: var(--blx-text);
   border-radius: var(--blx-radius-md);
-  padding: 0.875rem 1.25rem;
-  font-size: 0.9375rem;
+  padding-top: 0.75rem;
+  padding-right: 1.25rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1.25rem;
+  font-size: 0.8125rem;
   font-family: 'Satoshi', sans-serif;
   letter-spacing: 0.03em;
   transition-property: border-color, box-shadow, background-color;
@@ -344,6 +347,23 @@
   border-color: var(--blx-gold-3);
   box-shadow: var(--blx-focus);
   background: rgba(255,255,255,0.06);
+}
+
+/* Select dropdown options — fix for dark themes */
+select.input-luxury option,
+select option {
+  background: #1a1a1a;
+  color: #e5e5e5;
+  padding: 8px 12px;
+}
+select.input-luxury option:checked,
+select option:checked {
+  background: #2563eb;
+  color: #fff;
+}
+select.input-luxury option:hover,
+select option:hover {
+  background: #2a2a2a;
 }
 
 /* Category badge */

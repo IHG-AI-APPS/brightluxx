@@ -1,16 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import { ArrowRight, MapPin, Calendar, Building2, Users, HardHat, Cpu, CheckCircle2, MessageCircle, Phone } from 'lucide-react';
 import SEO from '../components/SEO';
-import { CASE_STUDIES } from '../data/caseStudies';
+
+const API = process.env.REACT_APP_BACKEND_URL || '';
 
 export default function CaseStudyDetail() {
   const { caseId } = useParams();
-  const cs = CASE_STUDIES.find(c => c.id === caseId);
+  const [cs, setCs] = useState(null);
+  const [related, setRelated] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-  if (!cs) return <Navigate to="/case-studies" replace />;
+  useEffect(() => {
+    const fetchCaseStudy = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${API}/api/case-studies/${caseId}`);
+        if (!res.ok) {
+          setNotFound(true);
+          return;
+        }
+        const data = await res.json();
+        setCs(data.case_study);
+        
+        // Fetch all case studies for related
+        const allRes = await fetch(`${API}/api/case-studies`);
+        const allData = await allRes.json();
+        const allCases = allData.case_studies || [];
+        const relatedCases = allCases.filter(c => 
+          c.slug !== caseId && (c.category === data.case_study.category || c.tech_id === data.case_study.tech_id)
+        ).slice(0, 3);
+        setRelated(relatedCases);
+      } catch (err) {
+        console.error('Failed to fetch case study:', err);
+        setNotFound(true);
+      }
+      setLoading(false);
+    };
+    
+    if (caseId) {
+      fetchCaseStudy();
+    }
+  }, [caseId]);
 
-  const related = CASE_STUDIES.filter(c => c.id !== cs.id && (c.category === cs.category || c.techId === cs.techId)).slice(0, 3);
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-[var(--blx-gold-3)] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (notFound || !cs) return <Navigate to="/case-studies" replace />;
 
   return (
     <div className="pb-20" data-testid={`case-study-${cs.id}`}>
@@ -32,7 +74,7 @@ export default function CaseStudyDetail() {
 
       {/* Hero Image */}
       <div className="relative h-[45vh] min-h-[320px]">
-        <img src={cs.heroImage} alt={cs.title} className="w-full h-full object-cover" />
+        <img src={cs.hero_image} alt={cs.title} className="w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(11,11,11,0.3) 0%, rgba(11,11,11,0.95) 100%)' }} />
         <div className="absolute bottom-0 left-0 right-0 max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 pb-10">
           <div className="flex items-center gap-2 text-[0.625rem] text-[var(--blx-muted)] tracking-[0.2em] mb-4">
@@ -49,7 +91,7 @@ export default function CaseStudyDetail() {
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-[0.6875rem] text-[var(--blx-text-2)]">
             <span className="flex items-center gap-1.5"><MapPin size={12} className="text-[var(--blx-gold-3)]" /> {cs.location}</span>
             <span className="flex items-center gap-1.5"><Calendar size={12} className="text-[var(--blx-gold-3)]" /> {cs.year}</span>
-            <span className="flex items-center gap-1.5"><Cpu size={12} className="text-[var(--blx-gold-3)]" /> {cs.technology} {cs.pixelPitch}</span>
+            <span className="flex items-center gap-1.5"><Cpu size={12} className="text-[var(--blx-gold-3)]" /> {cs.technology} {cs.pixel_pitch}</span>
           </div>
         </div>
       </div>
@@ -133,11 +175,11 @@ export default function CaseStudyDetail() {
           {/* Sidebar */}
           <aside className="space-y-6">
             {/* Technology Link */}
-            <Link to={`/technology/${cs.techId}`} className="glass-panel p-5 block group hover:border-[rgba(229,197,116,0.2)] transition-all" data-testid="case-tech-link">
+            <Link to={`/technology/${cs.tech_id}`} className="glass-panel p-5 block group hover:border-[rgba(229,197,116,0.2)] transition-all" data-testid="case-tech-link">
               <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-2">TECHNOLOGY USED</div>
               <div className="text-sm font-bold tracking-wider mb-1 group-hover:text-[var(--blx-gold-3)] transition-colors">{cs.technology}</div>
-              <div className="text-[0.6875rem] text-[var(--blx-muted)]">Pixel Pitch: {cs.pixelPitch}</div>
-              <div className="text-[0.6875rem] text-[var(--blx-muted)] mt-1">Display: {cs.displaySize}</div>
+              <div className="text-[0.6875rem] text-[var(--blx-muted)]">Pixel Pitch: {cs.pixel_pitch}</div>
+              <div className="text-[0.6875rem] text-[var(--blx-muted)] mt-1">Display: {cs.display_size}</div>
               <div className="flex items-center gap-1.5 text-[0.5625rem] font-bold tracking-wider text-[var(--blx-gold-3)] mt-3 group-hover:gap-2.5 transition-all">
                 View Technology Guide <ArrowRight size={10} />
               </div>
@@ -177,12 +219,12 @@ export default function CaseStudyDetail() {
                 <div className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">RELATED PROJECTS</div>
                 <div className="space-y-3">
                   {related.map(r => (
-                    <Link key={r.id} to={`/case-studies/${r.id}`} className="block group" data-testid={`related-case-${r.id}`}>
+                    <Link key={r.id} to={`/case-studies/${r.slug || r.id}`} className="block group" data-testid={`related-case-${r.id}`}>
                       <div className="flex gap-3">
-                        <img src={r.thumbnail} alt={r.title} className="w-16 h-12 object-cover rounded-lg flex-shrink-0" loading="lazy" />
+                        <img src={r.thumbnail || r.hero_image} alt={r.title} className="w-16 h-12 object-cover rounded-lg flex-shrink-0" loading="lazy" />
                         <div>
                           <div className="text-[0.6875rem] font-bold tracking-wider group-hover:text-[var(--blx-gold-3)] transition-colors leading-tight">{r.title.split(' — ')[0]}</div>
-                          <div className="text-[0.5625rem] text-[var(--blx-muted)] mt-0.5">{r.technology} {cs.pixelPitch} &middot; {r.location}</div>
+                          <div className="text-[0.5625rem] text-[var(--blx-muted)] mt-0.5">{r.technology} {r.pixel_pitch} &middot; {r.location}</div>
                         </div>
                       </div>
                     </Link>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAdmin } from './AdminContext';
-import { LayoutDashboard, Package, Sparkles, FolderKanban, Users, LogOut, Download, Upload, ChevronLeft, Settings, BarChart3, Activity, Globe, FileText, Tag, Home, Newspaper } from 'lucide-react';
+import { LayoutDashboard, Package, Sparkles, FolderKanban, Users, LogOut, Download, Upload, ChevronLeft, Settings, BarChart3, Activity, Globe, FileText, Tag, Home, Newspaper, Building2 } from 'lucide-react';
 
 const NAV = [
   { to: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -9,6 +9,7 @@ const NAV = [
   { to: '/admin/products', icon: Package, label: 'Products' },
   { to: '/admin/inspirations', icon: Sparkles, label: 'Inspirations' },
   { to: '/admin/projects', icon: FolderKanban, label: 'Projects' },
+  { to: '/admin/case-studies', icon: Building2, label: 'Case Studies' },
   { to: '/admin/blog', icon: Newspaper, label: 'Blog' },
   { to: '/admin/resources', icon: FileText, label: 'Resources' },
   { to: '/admin/taxonomy', icon: Tag, label: 'Categories' },

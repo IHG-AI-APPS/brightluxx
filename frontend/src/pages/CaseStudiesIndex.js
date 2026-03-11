@@ -1,15 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, Calendar, Cpu } from 'lucide-react';
 import SEO from '../components/SEO';
-import { CASE_STUDIES, CASE_STUDY_CATEGORIES } from '../data/caseStudies';
+
+const API = process.env.REACT_APP_BACKEND_URL || '';
 
 export default function CaseStudiesIndex() {
+  const [caseStudies, setCaseStudies] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('all');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCaseStudies = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${API}/api/case-studies`);
+        const data = await res.json();
+        setCaseStudies(data.case_studies || []);
+        setCategories(data.categories || []);
+      } catch (err) {
+        console.error('Failed to fetch case studies:', err);
+      }
+      setLoading(false);
+    };
+    fetchCaseStudies();
+  }, []);
 
   const filtered = activeCategory === 'all'
-    ? CASE_STUDIES
-    : CASE_STUDIES.filter(cs => cs.category === activeCategory);
+    ? caseStudies
+    : caseStudies.filter(cs => cs.category === activeCategory);
 
   return (
     <div className="pb-20" data-testid="case-studies-index">
@@ -42,7 +62,7 @@ export default function CaseStudiesIndex() {
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Category Filters */}
         <div className="flex flex-wrap gap-2 mb-10" data-testid="case-study-filters">
-          {CASE_STUDY_CATEGORIES.map(cat => (
+          {categories.map(cat => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
@@ -60,22 +80,27 @@ export default function CaseStudiesIndex() {
 
         {/* Results count */}
         <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-6">
-          {filtered.length} PROJECT{filtered.length !== 1 ? 'S' : ''}
+          {loading ? 'LOADING...' : `${filtered.length} PROJECT${filtered.length !== 1 ? 'S' : ''}`}
         </div>
 
         {/* Case Study Grid */}
+        {loading ? (
+          <div className="text-center py-16">
+            <div className="w-8 h-8 border-2 border-[var(--blx-gold-3)] border-t-transparent rounded-full animate-spin mx-auto" />
+          </div>
+        ) : (
         <div className="grid md:grid-cols-2 gap-6">
           {filtered.map(cs => (
             <Link
               key={cs.id}
-              to={`/case-studies/${cs.id}`}
+              to={`/case-studies/${cs.slug || cs.id}`}
               className="glass-panel overflow-hidden group hover:border-[rgba(229,197,116,0.2)] transition-all duration-300"
               data-testid={`case-study-card-${cs.id}`}
             >
               {/* Image */}
               <div className="relative h-52 overflow-hidden">
                 <img
-                  src={cs.thumbnail}
+                  src={cs.thumbnail || cs.hero_image}
                   alt={cs.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
@@ -86,7 +111,7 @@ export default function CaseStudiesIndex() {
                     {cs.category.toUpperCase()}
                   </span>
                   <span className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-text-2)] px-2.5 py-1 rounded-full" style={{ background: 'rgba(11,11,11,0.7)', backdropFilter: 'blur(8px)' }}>
-                    {cs.technology} {cs.pixelPitch}
+                    {cs.technology} {cs.pixel_pitch}
                   </span>
                 </div>
               </div>
@@ -97,7 +122,7 @@ export default function CaseStudiesIndex() {
                 <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[0.625rem] text-[var(--blx-muted)] mb-4">
                   <span className="flex items-center gap-1.5"><MapPin size={10} /> {cs.location}</span>
                   <span className="flex items-center gap-1.5"><Calendar size={10} /> {cs.year}</span>
-                  <span className="flex items-center gap-1.5"><Cpu size={10} /> {cs.displaySize}</span>
+                  <span className="flex items-center gap-1.5"><Cpu size={10} /> {cs.display_size}</span>
                 </div>
                 <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed line-clamp-2 mb-4">
                   {cs.challenge}
@@ -109,6 +134,7 @@ export default function CaseStudiesIndex() {
             </Link>
           ))}
         </div>
+        )}
 
         {/* CTA */}
         <div className="mt-16 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>

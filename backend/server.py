@@ -28,6 +28,7 @@ from routes.resources import router as resources_router
 from routes.taxonomy import router as taxonomy_router
 from routes.homepage import router as homepage_router
 from routes.blog import router as blog_router
+from routes.case_studies import router as case_studies_router
 from storage import init_storage
 
 app = FastAPI()
@@ -95,6 +96,7 @@ app.include_router(resources_router)
 app.include_router(taxonomy_router)
 app.include_router(homepage_router)
 app.include_router(blog_router)
+app.include_router(case_studies_router)
 
 
 @app.on_event("startup")

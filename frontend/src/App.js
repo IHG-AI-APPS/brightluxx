@@ -119,6 +119,7 @@ import AdminResources from './pages/admin/AdminResources';
 import AdminTaxonomy from './pages/admin/AdminTaxonomy';
 import AdminHomepage from './pages/admin/AdminHomepage';
 import AdminBlog from './pages/admin/AdminBlog';
+import AdminCaseStudies from './pages/admin/AdminCaseStudies';
 
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAdmin();
@@ -208,6 +209,7 @@ function AppRoutes() {
         <Route path="taxonomy" element={<AdminTaxonomy />} />
         <Route path="homepage" element={<AdminHomepage />} />
         <Route path="blog" element={<AdminBlog />} />
+        <Route path="case-studies" element={<AdminCaseStudies />} />
       </Route>
     </Routes>
   );

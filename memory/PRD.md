@@ -263,9 +263,33 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Seeded 28 default resources: 12 Spec Packs, 4 Cheat Sheets, 4 BIM/CAD, 8 Knowledge Base guides
 - Added Resources link to admin sidebar navigation
 
+### Dynamic Blog System — Mar 11, 2026
+- **Backend API:** Full CRUD at `/api/blogs` (public) and `/api/admin/blogs` (admin)
+  - GET /api/blogs returns published posts with categories
+  - GET /api/blogs/{slug} returns single post by slug
+  - POST/PUT/DELETE admin endpoints with auth
+  - Image upload endpoint `/api/admin/blogs/upload-image`
+- **Admin UI:** `AdminBlog.js` page at `/admin/blog`
+  - Stats dashboard (total, published, drafts, featured)
+  - Table view with status toggles and actions
+  - Modal form with featured image upload, HTML content editor
+  - Category filter and search
+- **Public Pages:**
+  - Blog list (`/blog`) fetches posts dynamically with images
+  - Category filters and search work client-side
+  - Blog detail (`/blog/:slug`) renders full HTML content
+  - Social sharing (Facebook, Twitter, LinkedIn, Copy Link)
+  - Related CTAs (Contact, More Articles)
+- **Blog schema:** id, title, slug, excerpt, content (HTML), category, author, image_url, read_time, tags, is_published, featured, published_at
+- Seeded 5 sample posts (MicroLED, Pixel Pitch, Dubai Retail, UAE Heat, COB Technology)
+- Testing: 100% pass — 20 backend + all frontend flows — Iteration 48
+
 ---
 
 ## Remaining Tasks
+### Priority 1
+- Connect Homepage to Dynamic Content (Admin editor exists, Home.js still uses static content)
+
 ### Future
 - Tender Monitoring Integration (ProTenders/MEED)
 - Admin Dashboard V2 (unified lead management)

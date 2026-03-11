@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, Pencil, Trash2, FileText, Layers, Box, BookOpen, Check, X, Search, Filter } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Plus, Pencil, Trash2, FileText, Layers, Box, BookOpen, Check, X, Search, Filter, Upload, File, ExternalLink } from 'lucide-react';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -21,6 +21,8 @@ export default function AdminResources() {
   const [showModal, setShowModal] = useState(false);
   const [editingResource, setEditingResource] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   // Form state
   const [form, setForm] = useState({
@@ -32,6 +34,7 @@ export default function AdminResources() {
     doc_id: '',
     bim_id: '',
     link: '',
+    file_url: '',
     is_active: true,
     order: 0,
   });
@@ -68,6 +71,7 @@ export default function AdminResources() {
       doc_id: '',
       bim_id: '',
       link: '',
+      file_url: '',
       is_active: true,
       order: 0,
     });
@@ -85,10 +89,40 @@ export default function AdminResources() {
       doc_id: resource.doc_id || '',
       bim_id: resource.bim_id || '',
       link: resource.link || '',
+      file_url: resource.file_url || '',
       is_active: resource.is_active !== false,
       order: resource.order || 0,
     });
     setShowModal(true);
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch(`${API}/api/admin/resources/upload`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        setForm({ ...form, file_url: data.file_url });
+        alert(`File uploaded successfully: ${file.name}`);
+      } else {
+        alert(data.detail || 'Upload failed');
+      }
+    } catch (err) {
+      console.error('Upload failed:', err);
+      alert('Upload failed. Please try again.');
+    }
+    setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleSave = async (e) => {
@@ -104,6 +138,7 @@ export default function AdminResources() {
       doc_id: form.doc_id || null,
       bim_id: form.bim_id || null,
       link: form.link || null,
+      file_url: form.file_url || null,
       is_active: form.is_active,
       order: parseInt(form.order) || 0,
     };
@@ -325,7 +360,20 @@ export default function AdminResources() {
                           <Icon size={14} className="text-[var(--blx-gold-3)]" />
                         </div>
                         <div>
-                          <div className="text-sm font-medium">{resource.title}</div>
+                          <div className="text-sm font-medium flex items-center gap-2">
+                            {resource.title}
+                            {resource.file_url && (
+                              <a 
+                                href={resource.file_url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-2)]"
+                                title="View uploaded file"
+                              >
+                                <File size={12} />
+                              </a>
+                            )}
+                          </div>
                           <div className="text-xs text-[var(--blx-muted)] truncate max-w-[300px]">{resource.description}</div>
                         </div>
                       </div>
@@ -506,6 +554,72 @@ export default function AdminResources() {
                     placeholder="e.g., /knowledge/pixel-pitch-guide"
                     className="w-full px-3 py-2 rounded-lg text-sm bg-[var(--blx-bg)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none"
                   />
+                </div>
+              )}
+
+              {/* File Upload Section */}
+              {form.category !== 'guide' && (
+                <div className="border border-dashed border-[var(--blx-border)] rounded-lg p-4">
+                  <label className="block text-xs font-medium text-[var(--blx-muted)] mb-2">
+                    Upload Document (PDF, DOC, DOCX, XLS, XLSX, ZIP)
+                  </label>
+                  
+                  {form.file_url ? (
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-[rgba(229,197,116,0.1)] border border-[rgba(229,197,116,0.2)]">
+                      <File size={20} className="text-[var(--blx-gold-3)]" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">File uploaded</p>
+                        <a 
+                          href={form.file_url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-xs text-[var(--blx-gold-3)] hover:underline flex items-center gap-1"
+                        >
+                          View file <ExternalLink size={10} />
+                        </a>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setForm({ ...form, file_url: '' })}
+                        className="p-1 rounded hover:bg-[rgba(255,255,255,0.1)]"
+                        title="Remove file"
+                      >
+                        <X size={14} className="text-[var(--blx-muted)]" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-3">
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileUpload}
+                        accept=".pdf,.doc,.docx,.xls,.xlsx,.zip"
+                        className="hidden"
+                        data-testid="resource-file-input"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={uploading}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-[var(--blx-border)] hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+                        data-testid="resource-upload-btn"
+                      >
+                        {uploading ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-[var(--blx-gold-3)] border-t-transparent rounded-full animate-spin" />
+                            Uploading...
+                          </>
+                        ) : (
+                          <>
+                            <Upload size={14} /> Choose File
+                          </>
+                        )}
+                      </button>
+                      <p className="text-[0.65rem] text-[var(--blx-muted)]">
+                        Or enter document ID above for existing files
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 

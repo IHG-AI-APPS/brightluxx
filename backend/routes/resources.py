@@ -1,19 +1,24 @@
 """
 Resources API routes for managing the Resource Library.
 """
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File, Form
 from datetime import datetime, timezone
 from typing import Optional, List
 from pydantic import BaseModel
 import uuid
+import os
 
 from database import db
 from auth import get_current_admin
 from utils import serialize_doc
+from storage import upload_file, APP_NAME
 
 router = APIRouter()
 
 resources_col = db["resources"]
+
+# External CDN base URL for uploaded files
+EXTERNAL_CDN = "https://files.ihgbrands.com/brightluxx"
 
 
 class ResourceCreate(BaseModel):
@@ -27,6 +32,8 @@ class ResourceCreate(BaseModel):
     bim_id: Optional[str] = None
     # For knowledge base links
     link: Optional[str] = None
+    # Uploaded file URL
+    file_url: Optional[str] = None
     # Status
     is_active: bool = True
     order: int = 0
@@ -41,6 +48,7 @@ class ResourceUpdate(BaseModel):
     doc_id: Optional[str] = None
     bim_id: Optional[str] = None
     link: Optional[str] = None
+    file_url: Optional[str] = None
     is_active: Optional[bool] = None
     order: Optional[int] = None
 
@@ -103,6 +111,7 @@ async def create_resource(data: ResourceCreate, admin=Depends(get_current_admin)
         "doc_id": data.doc_id,
         "bim_id": data.bim_id,
         "link": data.link,
+        "file_url": data.file_url,
         "is_active": data.is_active,
         "order": data.order,
         "created_at": datetime.now(timezone.utc),
@@ -112,6 +121,51 @@ async def create_resource(data: ResourceCreate, admin=Depends(get_current_admin)
     await resources_col.insert_one(resource)
     
     return {"success": True, "resource": {k: v for k, v in resource.items() if k != "_id"}}
+
+
+@router.post("/api/admin/resources/upload")
+async def upload_resource_file(
+    file: UploadFile = File(...),
+    admin=Depends(get_current_admin)
+):
+    """Upload a PDF or document file for a resource."""
+    # Validate file type
+    allowed_types = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.ms-excel",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/zip",
+        "application/x-zip-compressed",
+    ]
+    
+    if file.content_type not in allowed_types:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid file type. Allowed: PDF, DOC, DOCX, XLS, XLSX, ZIP"
+        )
+    
+    # Generate unique filename
+    ext = os.path.splitext(file.filename)[1].lower()
+    unique_name = f"resource_{uuid.uuid4().hex[:8]}{ext}"
+    
+    # Read file content
+    content = await file.read()
+    
+    # Upload to cloud storage
+    try:
+        storage_path = f"{APP_NAME}/resources/{unique_name}"
+        file_url = upload_file(content, storage_path, file.content_type)
+        
+        return {
+            "success": True,
+            "file_url": file_url,
+            "filename": file.filename,
+            "size": len(content),
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
 
 @router.put("/api/admin/resources/{resource_id}")

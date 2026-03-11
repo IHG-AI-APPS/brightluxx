@@ -27,6 +27,17 @@ function DownloadCard({ item }) {
     setLoading(true);
     try {
       let url;
+      
+      // If there's a direct file_url, use it
+      if (item.file_url) {
+        window.open(item.file_url, '_blank');
+        setDone(true);
+        setShowForm(false);
+        setLoading(false);
+        return;
+      }
+      
+      // Otherwise use the legacy download endpoints
       if (item.pack_id) {
         const res = await fetch(`${API}/api/specpacks/${item.pack_id}/download`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },

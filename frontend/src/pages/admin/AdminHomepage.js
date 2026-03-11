@@ -1,10 +1,244 @@
-import React, { useState, useEffect } from 'react';
-import { Save, RotateCcw, Plus, Trash2, GripVertical, Image, Video, Type, BarChart3, Layout, Zap } from 'lucide-react';
-import { ImageUploader } from '../../admin/ImageUploader';
+import React, { useState, useEffect, useRef } from 'react';
+import { Save, RotateCcw, Plus, Trash2, GripVertical, Image, Video, Type, BarChart3, Layout, Zap, Upload, X, Film, Loader2 } from 'lucide-react';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
 const ICON_OPTIONS = ['Factory', 'Package', 'Truck', 'GraduationCap', 'Wrench', 'HeartHandshake', 'Shield', 'Clock', 'Award', 'Zap', 'Settings'];
+
+// File uploader component for images
+const ImageUploadField = ({ value, onChange, label }) => {
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
+  const token = localStorage.getItem('blx_admin_token');
+
+  const handleUpload = async (file) => {
+    if (!file) return;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    try {
+      const res = await fetch(`${API}/api/admin/homepage/upload-image`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        onChange(data.url);
+      } else {
+        alert(data.detail || 'Upload failed');
+      }
+    } catch (err) {
+      console.error('Upload failed:', err);
+      alert('Upload failed');
+    }
+    setUploading(false);
+  };
+
+  return (
+    <div>
+      <label className="block text-xs font-medium text-[var(--blx-muted)] mb-2">{label}</label>
+      <div className="space-y-2">
+        {value && (
+          <div className="relative inline-block">
+            <img src={value} alt="" className="h-24 rounded-lg object-cover" />
+            <button
+              onClick={() => onChange('')}
+              className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 flex items-center justify-center"
+            >
+              <X size={12} className="text-white" />
+            </button>
+          </div>
+        )}
+        <div className="flex gap-2">
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={(e) => handleUpload(e.target.files?.[0])}
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            className="hidden"
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className="px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-2 border border-[var(--blx-border)] hover:bg-[rgba(255,255,255,0.05)]"
+          >
+            {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+            {uploading ? 'Uploading...' : 'Upload Image'}
+          </button>
+          <span className="text-[0.625rem] text-[var(--blx-muted)] self-center">or</span>
+          <input
+            type="text"
+            value={value || ''}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="Paste URL"
+            className="flex-1 px-3 py-2 rounded-lg text-xs bg-[var(--blx-bg)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none font-mono"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Video uploader component  
+const VideoUploadField = ({ videos, onChange, posterImage, onPosterChange }) => {
+  const [uploading, setUploading] = useState(false);
+  const [urlInput, setUrlInput] = useState('');
+  const fileInputRef = useRef(null);
+  const posterInputRef = useRef(null);
+  const token = localStorage.getItem('blx_admin_token');
+
+  const handleVideoUpload = async (file) => {
+    if (!file) return;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    try {
+      const res = await fetch(`${API}/api/admin/homepage/upload-video`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        onChange([...videos, data.url]);
+      } else {
+        alert(data.detail || 'Upload failed');
+      }
+    } catch (err) {
+      console.error('Upload failed:', err);
+      alert('Upload failed');
+    }
+    setUploading(false);
+  };
+
+  const handlePosterUpload = async (file) => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    try {
+      const res = await fetch(`${API}/api/admin/homepage/upload-image`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        onPosterChange(data.url);
+      }
+    } catch (err) {
+      console.error('Upload failed:', err);
+    }
+  };
+
+  const addUrlVideo = () => {
+    if (urlInput.trim()) {
+      onChange([...videos, urlInput.trim()]);
+      setUrlInput('');
+    }
+  };
+
+  const removeVideo = (index) => {
+    onChange(videos.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="block text-xs font-medium text-[var(--blx-muted)] mb-2">Hero Videos</label>
+        
+        {/* Video list */}
+        <div className="space-y-2 mb-3">
+          {videos.map((url, i) => (
+            <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[var(--blx-border)]">
+              <Film size={14} className="text-[var(--blx-gold-3)] flex-shrink-0" />
+              <span className="text-xs font-mono flex-1 truncate">{url}</span>
+              <button onClick={() => removeVideo(i)} className="p-1 text-red-400 hover:bg-red-500/20 rounded">
+                <X size={14} />
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Upload buttons */}
+        <div className="flex flex-wrap gap-2">
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={(e) => handleVideoUpload(e.target.files?.[0])}
+            accept="video/mp4,video/webm,video/quicktime"
+            className="hidden"
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className="px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-2 border border-[var(--blx-border)] hover:bg-[rgba(255,255,255,0.05)]"
+          >
+            {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+            {uploading ? 'Uploading...' : 'Upload Video'}
+          </button>
+          <div className="flex gap-2 flex-1">
+            <input
+              type="text"
+              value={urlInput}
+              onChange={(e) => setUrlInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && addUrlVideo()}
+              placeholder="Or paste video URL..."
+              className="flex-1 min-w-[200px] px-3 py-2 rounded-lg text-xs bg-[var(--blx-bg)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none font-mono"
+            />
+            <button onClick={addUrlVideo} className="px-3 py-2 rounded-lg text-xs font-medium bg-[var(--blx-gold-3)] text-black">
+              Add
+            </button>
+          </div>
+        </div>
+        <p className="text-[0.625rem] text-[var(--blx-muted)] mt-2">Supported: MP4, WebM, MOV (max 100MB)</p>
+      </div>
+
+      {/* Poster Image */}
+      <div>
+        <label className="block text-xs font-medium text-[var(--blx-muted)] mb-2">Poster Image (shown before video loads)</label>
+        <div className="flex items-start gap-3">
+          {posterImage && (
+            <div className="relative">
+              <img src={posterImage} alt="Poster" className="h-20 rounded-lg object-cover" />
+              <button
+                onClick={() => onPosterChange('')}
+                className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 flex items-center justify-center"
+              >
+                <X size={10} className="text-white" />
+              </button>
+            </div>
+          )}
+          <div className="flex-1 flex gap-2">
+            <input
+              type="file"
+              ref={posterInputRef}
+              onChange={(e) => handlePosterUpload(e.target.files?.[0])}
+              accept="image/jpeg,image/png,image/webp"
+              className="hidden"
+            />
+            <button
+              onClick={() => posterInputRef.current?.click()}
+              className="px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-2 border border-[var(--blx-border)] hover:bg-[rgba(255,255,255,0.05)]"
+            >
+              <Upload size={14} /> Upload Poster
+            </button>
+            <input
+              type="text"
+              value={posterImage || ''}
+              onChange={(e) => onPosterChange(e.target.value)}
+              placeholder="Or paste URL..."
+              className="flex-1 px-3 py-2 rounded-lg text-xs bg-[var(--blx-bg)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none font-mono"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function AdminHomepage() {
   const [content, setContent] = useState(null);
@@ -229,24 +463,13 @@ export default function AdminHomepage() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-medium text-[var(--blx-muted)] mb-1">Video URLs (one per line)</label>
-                <textarea
-                  value={(content.hero?.video_urls || []).join('\n')}
-                  onChange={(e) => updateHero('video_urls', e.target.value.split('\n').filter(Boolean))}
-                  rows={3}
-                  placeholder="https://example.com/video1.mp4"
-                  className="w-full px-3 py-2 rounded-lg text-sm bg-[var(--blx-bg)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none resize-none font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-[var(--blx-muted)] mb-1">Poster Image URL</label>
-                <input
-                  value={content.hero?.poster_image || ''}
-                  onChange={(e) => updateHero('poster_image', e.target.value)}
-                  placeholder="https://example.com/poster.webp"
-                  className="w-full px-3 py-2 rounded-lg text-sm bg-[var(--blx-bg)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none font-mono"
+              {/* Video Upload Section */}
+              <div className="p-4 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[var(--blx-border)]">
+                <VideoUploadField
+                  videos={content.hero?.video_urls || []}
+                  onChange={(urls) => updateHero('video_urls', urls)}
+                  posterImage={content.hero?.poster_image || ''}
+                  onPosterChange={(url) => updateHero('poster_image', url)}
                 />
               </div>
             </div>
@@ -336,11 +559,10 @@ export default function AdminHomepage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-xs text-[var(--blx-muted)] mb-1">Image URL</label>
-                        <input
+                        <ImageUploadField
+                          label="Card Image"
                           value={door.image}
-                          onChange={(e) => updateEntryDoor(i, 'image', e.target.value)}
-                          className="w-full px-2 py-1.5 rounded text-sm bg-[var(--blx-bg)] border border-[var(--blx-border)] font-mono text-xs"
+                          onChange={(url) => updateEntryDoor(i, 'image', url)}
                         />
                       </div>
                     </div>

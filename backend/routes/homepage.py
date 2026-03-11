@@ -1,13 +1,16 @@
 """
 Homepage content management - Dynamic sections for the homepage.
 """
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
 from pydantic import BaseModel
+import uuid
+import os
 
 from database import db
 from auth import get_current_admin
+from storage import upload_file, APP_NAME
 
 router = APIRouter()
 
@@ -176,3 +179,70 @@ async def reset_homepage_content(admin=Depends(get_current_admin)):
     """Reset homepage content to defaults."""
     await homepage_col.delete_one({"type": "main"})
     return {"success": True, "message": "Homepage content reset to defaults"}
+
+
+@router.post("/api/admin/homepage/upload-image")
+async def upload_homepage_image(
+    file: UploadFile = File(...),
+    admin=Depends(get_current_admin)
+):
+    """Upload an image for homepage sections."""
+    allowed_types = ["image/jpeg", "image/png", "image/webp", "image/gif"]
+    
+    if file.content_type not in allowed_types:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid file type. Allowed: JPEG, PNG, WebP, GIF"
+        )
+    
+    ext = os.path.splitext(file.filename)[1].lower() or ".jpg"
+    unique_name = f"homepage_{uuid.uuid4().hex[:8]}{ext}"
+    
+    content = await file.read()
+    
+    try:
+        storage_path = f"{APP_NAME}/homepage/{unique_name}"
+        image_url = upload_file(content, storage_path, file.content_type)
+        
+        return {
+            "success": True,
+            "url": image_url,
+            "filename": file.filename,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
+
+
+@router.post("/api/admin/homepage/upload-video")
+async def upload_homepage_video(
+    file: UploadFile = File(...),
+    admin=Depends(get_current_admin)
+):
+    """Upload a video for homepage hero section."""
+    allowed_types = ["video/mp4", "video/webm", "video/quicktime", "video/x-msvideo"]
+    
+    if file.content_type not in allowed_types:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid file type. Allowed: MP4, WebM, MOV, AVI"
+        )
+    
+    # Check file size (max 100MB)
+    content = await file.read()
+    if len(content) > 100 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="File too large. Maximum 100MB.")
+    
+    ext = os.path.splitext(file.filename)[1].lower() or ".mp4"
+    unique_name = f"hero_video_{uuid.uuid4().hex[:8]}{ext}"
+    
+    try:
+        storage_path = f"{APP_NAME}/videos/{unique_name}"
+        video_url = upload_file(content, storage_path, file.content_type)
+        
+        return {
+            "success": True,
+            "url": video_url,
+            "filename": file.filename,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")

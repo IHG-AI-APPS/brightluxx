@@ -180,7 +180,7 @@ const Navbar = () => {
               testId="nav-products-dropdown"
               trigger={<NavBtn label="Products" isOpenState={productsOpen} isActiveState={isActivePrefix('/products')} testId="nav-products" />}
             >
-              <div className="shadow-2xl py-4 px-4" style={{ ...panelStyle, width: '680px' }}>
+              <div className="shadow-2xl py-4 px-4 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '680px' }}>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1">
                   {productCategories.map((group, gi) => (
                     <div key={gi} className="mb-2">
@@ -221,7 +221,7 @@ const Navbar = () => {
               testId="nav-solutions-dropdown"
               trigger={<NavBtn label="Solutions" isOpenState={solutionsOpen} isActiveState={isActivePrefix('/solutions')} testId="nav-solutions" />}
             >
-              <div className="shadow-2xl py-3 px-1" style={{ ...panelStyle, width: '300px' }}>
+              <div className="shadow-2xl py-3 px-1 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '300px' }}>
                 <div className="px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">BY INDUSTRY</div>
                 {solutionItems.map((item) => (
                   <Link
@@ -259,7 +259,7 @@ const Navbar = () => {
               testId="nav-tech-dropdown"
               trigger={<NavBtn label="Technologies" isOpenState={techOpen} isActiveState={isActivePrefix('/technology')} testId="nav-technologies" />}
             >
-              <div className="shadow-2xl py-3 px-1" style={{ ...panelStyle, width: '300px' }}>
+              <div className="shadow-2xl py-3 px-1 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '300px' }}>
                 <div className="px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">LED TECHNOLOGIES</div>
                 {techItems.map((item) => (
                   <Link
@@ -309,7 +309,7 @@ const Navbar = () => {
               testId="nav-tools-dropdown"
               trigger={<NavBtn label="Tools" isOpenState={toolsOpen} isActiveState={isToolsActive} testId="nav-tools" />}
             >
-              <div className="shadow-2xl py-3 px-1" style={{ ...panelStyle, width: '280px' }}>
+              <div className="shadow-2xl py-3 px-1 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '280px' }}>
                 {toolsGroups.map((group, gi) => (
                   <div key={gi}>
                     {gi > 0 && <div className="mx-3 my-2 border-t border-[rgba(255,255,255,0.06)]" />}
@@ -363,7 +363,11 @@ const Navbar = () => {
 
         {/* ─── MOBILE NAVIGATION ─── */}
         {isOpen && (
-          <div className="lg:hidden py-4 space-y-2 border-t border-[var(--blx-hairline)] overflow-x-hidden" data-testid="mobile-menu" style={{ overflowX: 'hidden' }}>
+          <div 
+            className="lg:hidden py-4 space-y-2 border-t border-[var(--blx-hairline)] overflow-x-hidden overflow-y-auto" 
+            data-testid="mobile-menu" 
+            style={{ overflowX: 'hidden', maxHeight: 'calc(100vh - 64px)' }}
+          >
             <Link to="/products" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Products</Link>
             <div className="px-4 pb-2">
               <div className="grid grid-cols-2 gap-1">
@@ -419,7 +423,7 @@ const Navbar = () => {
               ))}
             </div>
 
-            <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
+            <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2 pb-4">
               <Link to="/resources" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Resources</Link>
               <Link to="/contact" onClick={closeAll} className="block px-4 py-3 mt-2 btn-gold text-center text-xs font-bold tracking-widest">Get Quote</Link>
             </div>

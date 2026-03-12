@@ -286,9 +286,21 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ---
 
+### Favicon & Branding — Mar 12, 2026
+- Created proper multi-format favicon set:
+  - `favicon.ico` (16x16, 32x32, 48x48 combined) — primary for browser tabs
+  - `favicon-16x16.png`, `favicon-32x32.png` — PNG fallbacks
+  - `apple-touch-icon.png` (180x180) — iOS devices
+  - `android-chrome-192x192.png`, `android-chrome-512x512.png` — Android PWA
+- Updated `index.html` with proper link tags for all formats
+- Fixed oversized favicon.png (708KB → 1.3KB)
+- Favicon now displays correctly across all browsers
+
+---
+
 ## Remaining Tasks
 ### Priority 1
-- Connect Homepage to Dynamic Content (Admin editor exists, Home.js still uses static content)
+- Refactor `.input-luxury` CSS class — replace with Tailwind utilities to prevent style conflicts
 
 ### Future
 - Tender Monitoring Integration (ProTenders/MEED)

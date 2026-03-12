@@ -443,21 +443,24 @@ const Home = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {featuredProjects.map((project) => (
-                <GlowCard key={project._id}>
-                  <div className="product-card group" data-testid="project-case-study-card">
+                <GlowCard key={project._id || project.id}>
+                  <Link to="/projects" className="product-card group block" data-testid="project-case-study-card">
                     <CdnImage src={project.image_url} alt={project.title} className="w-full h-52" w={600} />
                     <div className="p-5">
                       <div className="text-[0.625rem] tracking-[0.2em] text-[var(--blx-muted)] mb-1 font-bold">
                         {project.sector} &middot; {project.location}
                       </div>
-                      <h3 className="text-sm font-bold mb-2">{project.title}</h3>
+                      <h3 className="text-sm font-bold mb-2 group-hover:text-[var(--blx-gold-3)] transition-colors">{project.title}</h3>
                       <div className="flex gap-3 text-[0.6875rem] text-[var(--blx-text-2)] tracking-wider">
-                        {project.metrics.slice(0, 2).map((m, i) => (
+                        {project.metrics?.slice(0, 2).map((m, i) => (
                           <span key={i}>{m.label}: {m.value}</span>
                         ))}
                       </div>
+                      <div className="mt-3 flex items-center gap-1 text-[0.625rem] font-bold tracking-wider text-[var(--blx-gold-3)] group-hover:gap-2 transition-all">
+                        View Project <ArrowRight size={12} />
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </GlowCard>
               ))}
             </div>

@@ -111,6 +111,8 @@ const Footer = () => {
           <div className="flex items-center gap-4">
             <Link to="/about" className="hover:text-[var(--blx-text)] transition-colors duration-200">About Us</Link>
             <span className="opacity-30">|</span>
+            <Link to="/contact" className="hover:text-[var(--blx-text)] transition-colors duration-200">Contact Us</Link>
+            <span className="opacity-30">|</span>
             <span>A division of IHG Industry L.L.C</span>
           </div>
         </div>

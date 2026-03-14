@@ -425,6 +425,8 @@ const Navbar = () => {
 
             <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2 pb-4">
               <Link to="/resources" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Resources</Link>
+              <Link to="/about" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">About Us</Link>
+              <Link to="/contact" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Contact Us</Link>
               <Link to="/contact" onClick={closeAll} className="block px-4 py-3 mt-2 btn-gold text-center text-xs font-bold tracking-widest">Get Quote</Link>
             </div>
           </div>

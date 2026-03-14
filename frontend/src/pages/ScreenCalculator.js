@@ -40,7 +40,9 @@ function calcResults(params) {
   const area = screenW * screenH;
 
   // Ideal pitch from viewing distance
-  const multiplier = contentType === 'text' ? 1.0 : contentType === 'mixed' ? 1.5 : 2.0;
+  // Text requires finer pixels (smaller pitch) than video
+  // Higher multiplier = smaller pitch = finer resolution
+  const multiplier = contentType === 'text' ? 2.0 : contentType === 'mixed' ? 1.5 : 1.0;
   const idealPitch = viewDist / multiplier;
 
   // Find 3 closest pitches
@@ -140,7 +142,7 @@ function calcResults(params) {
 
 const FAQS = [
   { q: "How does the LED screen calculator work?", a: "Enter your screen dimensions, viewing distance, content type, and environment. The calculator uses industry-standard formulas to recommend pixel pitch, resolution, brightness, technology, estimated cost, and power requirements. Results update instantly as you adjust parameters." },
-  { q: "What pixel pitch should I specify for my project?", a: "The formula is: Minimum Viewing Distance (m) = Pixel Pitch (mm) x 1.5. For text-heavy content, use Pixel Pitch = Viewing Distance / 1.0. For mixed content, use / 1.5. For pure video, use / 2.0. Our calculator does this math automatically." },
+  { q: "What pixel pitch should I specify for my project?", a: "The formula is: Minimum Viewing Distance (m) = Pixel Pitch (mm) x 1.5. Text-heavy content requires finer pixels: Pixel Pitch = Viewing Distance / 2.0. For mixed content, use / 1.5. For pure video (more forgiving), use / 1.0. Our calculator does this math automatically." },
   { q: "Are the cost estimates accurate?", a: "Cost ranges are based on 2026 market averages and include hardware only. Actual pricing depends on brand, quantity, features, and installation complexity. Use these estimates for budgetary planning and request a formal quotation for accurate project costing." },
   { q: "What does 'technology recommendation' mean?", a: "We recommend COB, MiP, or SMD LED technology based on your pixel pitch and application. COB for premium fine-pitch, MiP for mid-range with best value, SMD for larger pitches and outdoor. See our COB vs MiP vs SMD guide for full details." },
 ];

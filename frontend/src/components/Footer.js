@@ -66,6 +66,8 @@ const Footer = () => {
           <div>
             <h3 className="text-[0.625rem] font-bold mb-4 tracking-[0.2em]">Company</h3>
             <ul className="space-y-2 text-xs">
+              <li><Link to="/about" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">About Us</Link></li>
+              <li><Link to="/contact" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Contact Us</Link></li>
               <li><Link to="/factory-tour" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Factory Tour</Link></li>
               <li><Link to="/faq" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">FAQ</Link></li>
               <li><Link to="/distribution" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Distribution</Link></li>

@@ -5,17 +5,17 @@ import SEO from '../components/SEO';
 import { buildFaqJsonLd, SpecPackCTA, SectionDivider } from '../components/KnowledgeBase';
 
 const PITCH_OPTIONS = [
-  { pitch: 0.7, tech: 'COB/MiP', label: 'P0.7', tier: 'ultra' },
-  { pitch: 0.9, tech: 'COB/MiP', label: 'P0.9', tier: 'ultra' },
-  { pitch: 1.2, tech: 'COB/MiP/SMD', label: 'P1.2', tier: 'premium' },
-  { pitch: 1.5, tech: 'MiP/SMD', label: 'P1.5', tier: 'premium' },
-  { pitch: 1.9, tech: 'MiP/SMD', label: 'P1.9', tier: 'standard' },
-  { pitch: 2.5, tech: 'SMD', label: 'P2.5', tier: 'standard' },
-  { pitch: 3.9, tech: 'SMD', label: 'P3.9', tier: 'value' },
-  { pitch: 4.8, tech: 'SMD', label: 'P4.8', tier: 'value' },
-  { pitch: 6.0, tech: 'SMD outdoor', label: 'P6', tier: 'outdoor' },
-  { pitch: 8.0, tech: 'SMD outdoor', label: 'P8', tier: 'outdoor' },
-  { pitch: 10.0, tech: 'SMD outdoor', label: 'P10', tier: 'outdoor' },
+  { pitch: 0.7, tech: 'COB', label: 'P0.7', tier: 'ultra' },
+  { pitch: 0.9, tech: 'COB', label: 'P0.9', tier: 'ultra' },
+  { pitch: 1.2, tech: 'COB/GOB', label: 'P1.2', tier: 'premium' },
+  { pitch: 1.5, tech: 'GOB/MiP', label: 'P1.5', tier: 'premium' },
+  { pitch: 1.9, tech: 'GOB/MiP', label: 'P1.9', tier: 'standard' },
+  { pitch: 2.5, tech: 'GOB/MiP', label: 'P2.5', tier: 'standard' },
+  { pitch: 3.9, tech: 'SMD/DIP', label: 'P3.9', tier: 'outdoor' },
+  { pitch: 4.8, tech: 'SMD/DIP', label: 'P4.8', tier: 'outdoor' },
+  { pitch: 6.0, tech: 'SMD/DIP outdoor', label: 'P6', tier: 'outdoor' },
+  { pitch: 8.0, tech: 'SMD/DIP outdoor', label: 'P8', tier: 'outdoor' },
+  { pitch: 10.0, tech: 'SMD/DIP outdoor', label: 'P10', tier: 'outdoor' },
 ];
 
 const APPLICATIONS = [
@@ -29,9 +29,10 @@ const APPLICATIONS = [
   { id: 'custom', label: 'Custom', distRange: [1, 100], icon: '⚙' },
 ];
 
+// Cost per sqm in AED - MiP/GOB is slightly higher than SMD
 const COST_PER_SQM = {
-  0.7: [30000, 55000], 0.9: [22000, 40000], 1.2: [10000, 22000], 1.5: [6500, 14000],
-  1.9: [4500, 9500], 2.5: [3000, 7000], 3.9: [2000, 5000], 4.8: [1500, 4000],
+  0.7: [32000, 58000], 0.9: [24000, 44000], 1.2: [12000, 25000], 1.5: [8000, 16000],
+  1.9: [5500, 11000], 2.5: [4000, 8500], 3.9: [2000, 5000], 4.8: [1500, 4000],
   6.0: [1200, 3000], 8.0: [900, 2200], 10.0: [650, 1800],
 };
 
@@ -91,21 +92,41 @@ function calcResults(params) {
     brightnessNote = 'Standard indoor with controlled lighting.';
   }
 
-  // Technology recommendation
+  // Technology recommendation - Indoor: GOB/COB preferred, SMD outdated; Outdoor: SMD/DIP
   let techRec, techWhy;
-  if (recommended.pitch <= 0.9) {
-    techRec = 'COB'; techWhy = 'Sub-P1.0 pitch requires COB for best contrast and reliability. MiP is the cost-effective alternative.';
-  } else if (recommended.pitch <= 1.5) {
-    techRec = 'MiP'; techWhy = 'Best balance of quality and serviceability at this pitch. COB for premium; SMD for budget.';
-  } else if (recommended.pitch <= 2.5) {
-    techRec = 'MiP or SMD'; techWhy = 'SMD offers best value. MiP provides better contrast if budget allows.';
+  if (!isIndoor) {
+    // Outdoor applications
+    if (recommended.pitch >= 6.0) {
+      techRec = 'SMD or DIP'; techWhy = 'SMD and DIP are the proven, cost-effective outdoor technologies at this pitch. DIP offers better brightness for direct sunlight.';
+    } else {
+      techRec = 'SMD outdoor'; techWhy = 'SMD outdoor-rated modules are widely used for weather resistance and brightness. Consider DIP for extreme conditions.';
+    }
   } else {
-    techRec = 'SMD'; techWhy = 'SMD is the proven, cost-effective choice at this pitch.';
+    // Indoor applications - GOB/COB recommended, SMD is outdated for indoor
+    if (recommended.pitch <= 0.9) {
+      techRec = 'COB'; techWhy = 'Sub-P1.0 pitch requires COB for best contrast, reliability, and seamless surface. Premium choice for fine-pitch indoor.';
+    } else if (recommended.pitch <= 1.5) {
+      techRec = 'COB or GOB'; techWhy = 'COB offers best quality; GOB (Glue-On-Board) provides excellent protection and viewing experience at a better price point.';
+    } else if (recommended.pitch <= 2.5) {
+      techRec = 'GOB or MiP'; techWhy = 'GOB offers surface protection and better contrast than traditional SMD. MiP provides good value. SMD is becoming outdated for indoor use.';
+    } else {
+      techRec = 'GOB/MiP'; techWhy = 'GOB and MiP are recommended for indoor applications. Traditional SMD is outdated for indoor installations.';
+    }
   }
 
-  // Power
-  const powerPerSqm = isIndoor ? (recommended.pitch <= 1.5 ? 250 : 350) : 800;
+  // Power consumption - realistic values
+  // Indoor: Max ~600 W/m², Average ~280 W/m²
+  // Outdoor: Max 800-900 W/m², Average ~400-450 W/m²
+  let powerPerSqm, powerMax;
+  if (!isIndoor) {
+    powerPerSqm = 425; // Average outdoor
+    powerMax = 850;    // Max outdoor
+  } else {
+    powerPerSqm = 280; // Average indoor
+    powerMax = 600;    // Max indoor
+  }
   const totalPower = Math.round(area * powerPerSqm);
+  const totalPowerMax = Math.round(area * powerMax);
   const heatBtu = Math.round(totalPower * 3.41);
 
   // Cost
@@ -131,7 +152,7 @@ function calcResults(params) {
     area: Math.round(area * 10) / 10,
     brightnessMin, brightnessMax, brightnessNote,
     techRec, techWhy,
-    powerPerSqm, totalPower, heatBtu,
+    powerPerSqm, powerMax, totalPower, totalPowerMax, heatBtu,
     costLow, costHigh, costRange,
     weightPerSqm, totalWeight,
     refreshRate, ipRating,
@@ -143,8 +164,9 @@ function calcResults(params) {
 const FAQS = [
   { q: "How does the LED screen calculator work?", a: "Enter your screen dimensions, viewing distance, content type, and environment. The calculator uses industry-standard formulas to recommend pixel pitch, resolution, brightness, technology, estimated cost, and power requirements. Results update instantly as you adjust parameters." },
   { q: "What pixel pitch should I specify for my project?", a: "The formula is: Minimum Viewing Distance (m) = Pixel Pitch (mm) x 1.5. Text-heavy content requires finer pixels: Pixel Pitch = Viewing Distance / 2.0. For mixed content, use / 1.5. For pure video (more forgiving), use / 1.0. Our calculator does this math automatically." },
-  { q: "Are the cost estimates accurate?", a: "Cost ranges are based on 2026 market averages and include hardware only. Actual pricing depends on brand, quantity, features, and installation complexity. Use these estimates for budgetary planning and request a formal quotation for accurate project costing." },
-  { q: "What does 'technology recommendation' mean?", a: "We recommend COB, MiP, or SMD LED technology based on your pixel pitch and application. COB for premium fine-pitch, MiP for mid-range with best value, SMD for larger pitches and outdoor. See our COB vs MiP vs SMD guide for full details." },
+  { q: "Are the cost estimates accurate?", a: "Cost ranges are based on 2026 market averages and include hardware only. MiP/GOB technologies are slightly higher priced than traditional SMD. Actual pricing depends on brand, quantity, features, and installation complexity. Use these estimates for budgetary planning and request a formal quotation for accurate project costing." },
+  { q: "What does 'technology recommendation' mean?", a: "For indoor applications, we recommend COB for ultra-fine pitch, GOB (Glue-On-Board) or MiP for standard indoor use — traditional SMD is becoming outdated for indoor. For outdoor applications, SMD and DIP technologies are widely used for weather resistance and high brightness. See our technology guides for full details." },
+  { q: "What are the power consumption values based on?", a: "Indoor screens: average ~280 W/m², maximum ~600 W/m². Outdoor screens: average ~400-450 W/m², maximum ~800-900 W/m². We show both average and maximum values to help with electrical planning and HVAC calculations." },
 ];
 
 export default function ScreenCalculator() {
@@ -406,9 +428,9 @@ export default function ScreenCalculator() {
                 </h3>
                 <div className="space-y-3">
                   <div>
-                    <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">POWER CONSUMPTION</div>
-                    <div className="text-base font-bold">{results.totalPower.toLocaleString()} W</div>
-                    <div className="text-[0.5625rem] text-[var(--blx-text-2)]">{results.powerPerSqm} W/sqm x {results.area} sqm</div>
+                    <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">POWER CONSUMPTION (AVG / MAX)</div>
+                    <div className="text-base font-bold">{results.totalPower.toLocaleString()} W <span className="text-[var(--blx-text-2)] font-normal">/ {results.totalPowerMax.toLocaleString()} W</span></div>
+                    <div className="text-[0.5625rem] text-[var(--blx-text-2)]">{results.powerPerSqm} W/sqm avg, {results.powerMax} W/sqm max</div>
                   </div>
                   <div>
                     <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">HEAT OUTPUT</div>
@@ -417,8 +439,8 @@ export default function ScreenCalculator() {
                   </div>
                   <div>
                     <div className="text-[0.5625rem] text-[var(--blx-muted)] tracking-wider">ELECTRICAL REQUIREMENT</div>
-                    <div className="text-base font-bold">{Math.ceil(results.totalPower / 220)} A @ 220V</div>
-                    <div className="text-[0.5625rem] text-[var(--blx-text-2)]">Dedicated circuit recommended</div>
+                    <div className="text-base font-bold">{Math.ceil(results.totalPowerMax / 220)} A @ 220V</div>
+                    <div className="text-[0.5625rem] text-[var(--blx-text-2)]">Dedicated circuit recommended (based on max)</div>
                   </div>
                 </div>
               </div>

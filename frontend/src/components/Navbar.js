@@ -167,7 +167,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center" data-testid="logo-link">
-            <img src={branding?.logo_url || '/assets/brightluxx-logo-dark.png'} alt={branding?.company_name || 'Brightluxx'} className="h-7 sm:h-8 w-auto logo-white" />
+            <img 
+              src="/assets/brightluxx-logo-white-clean.png" 
+              alt={branding?.company_name || 'Brightluxx'} 
+              className="h-7 sm:h-8 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}

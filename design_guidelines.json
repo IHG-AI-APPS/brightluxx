@@ -1,59 +1,162 @@
 {
-  "brand": {
-    "name": "Brightluxx",
-    "theme": "Deep Space Modern",
-    "font": "Satoshi",
-    "colors": {
-      "bg": "#0B0B0B",
-      "bg_raised": "#141414",
-      "text": "#F5F5F5",
-      "text_muted": "#B0B0B0",
-      "gold_primary": "#E5C574",
-      "gold_gradient": "linear-gradient(135deg, #B78E3A 0%, #C59F4A 34%, #E5C574 68%, #F0D78C 100%)",
-      "glass": "rgba(255,255,255,0.04)",
-      "glass_border": "rgba(255,255,255,0.08)"
-    }
-  },
-  "navigation": {
-    "structure": [
-      "Products",
-      "Solutions",
-      "Technologies",
-      "Case Studies",
-      "Tools (Mega Menu)",
-      "Resources"
-    ],
-    "ctas": {
-      "primary": "Get Quote (Gold Gradient)",
-      "floating": ["WhatsApp (Green/Glass)", "AURA Chat (Avatar)"]
+  "design_system": {
+    "typography": {
+      "font_family": "Satoshi, sans-serif",
+      "weights": {
+        "regular": 400,
+        "medium": 500,
+        "bold": 700
+      },
+      "styles": {
+        "h1": "text-4xl md:text-6xl font-bold tracking-tight uppercase",
+        "h2": "text-3xl md:text-4xl font-bold tracking-wide uppercase",
+        "h3": "text-xl md:text-2xl font-semibold tracking-wider uppercase",
+        "nav_link": "text-xs font-bold tracking-[0.15em] uppercase hover:text-cyan-400 transition-colors",
+        "body": "text-sm md:text-base text-gray-400 leading-relaxed",
+        "label": "text-[10px] font-bold tracking-[0.2em] text-cyan-500 uppercase"
+      }
     },
-    "rules": {
-      "mobile": "Hamburger menu with bottom Sticky CTA bar",
-      "desktop": "Horizontal glassmorphism bar with vertical floating controls on right"
+    "colors": {
+      "background": {
+        "default": "#050508",
+        "raised": "#0A0A0E",
+        "card": "rgba(255, 255, 255, 0.03)",
+        "overlay": "rgba(5, 5, 8, 0.85)"
+      },
+      "text": {
+        "primary": "#FFFFFF",
+        "secondary": "#94A3B8",
+        "muted": "#475569",
+        "accent": "#22D3EE"
+      },
+      "accent": {
+        "cyan": "#22D3EE",
+        "cyan_glow": "0 0 20px rgba(34, 211, 238, 0.3)",
+        "cyan_border": "rgba(34, 211, 238, 0.2)"
+      },
+      "border": {
+        "subtle": "rgba(255, 255, 255, 0.08)",
+        "hover": "rgba(255, 255, 255, 0.15)"
+      }
+    },
+    "effects": {
+      "glass": "backdrop-blur-xl bg-black/40 border border-white/10",
+      "led_grid": "bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20",
+      "glow_text": "text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400"
+    },
+    "layout": {
+      "container": "max-w-7xl mx-auto px-6",
+      "section_spacing": "py-24",
+      "grid_gap": "gap-8"
     }
   },
   "components": {
-    "buttons": {
-      "primary": "btn-gold: Uppercase, tracking-widest, bold, gold gradient background, black text",
-      "glass": "btn-glass: Glassmorphism background, white text, subtle border"
+    "navbar": {
+      "path": "/app/frontend/src/components/Navbar.js",
+      "structure": {
+        "wrapper": "fixed top-0 w-full z-50 transition-all duration-300",
+        "container": "flex items-center justify-between h-20 px-6 backdrop-blur-md bg-black/60 border-b border-white/5",
+        "logo": {
+          "src": "/assets/brightluxx-logo-white-clean.png",
+          "alt": "Brightluxx",
+          "style": "h-8 w-auto relative group",
+          "effect": "Add a pseudo-element 'sparkle' (small radial white/cyan burst) positioned absolutely on the 'X' of the logo that animates (opacity/scale) on hover."
+        },
+        "links": [
+          {
+            "label": "Products",
+            "type": "mega_menu",
+            "content": "Grid of categories with icons. Use distinct sections for 'Indoor', 'Outdoor', 'Creative'."
+          },
+          {
+            "label": "Solutions",
+            "type": "mega_menu",
+            "content": "List by Industry (Retail, Corporate, etc.) with icons."
+          },
+          {
+            "label": "Technologies",
+            "type": "dropdown",
+            "content": "List of tech specs (COB, MicroLED)."
+          },
+          {
+            "label": "Tools",
+            "type": "dropdown",
+            "content": "Calculators and estimators."
+          },
+          {
+            "label": "Case Studies",
+            "path": "/case-studies"
+          },
+          {
+            "label": "Resources",
+            "path": "/resources"
+          }
+        ],
+        "cta": {
+          "label": "Get Quote",
+          "style": "bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500 hover:text-black transition-all duration-300 text-xs font-bold tracking-widest px-6 py-2 rounded-full uppercase shadow-[0_0_15px_rgba(34,211,238,0.15)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)]"
+        }
+      }
     },
-    "cards": {
-      "style": "Glassmorphism with 1px border, large radius (20px), hover lift effect"
+    "footer": {
+      "path": "/app/frontend/src/components/Footer.js",
+      "structure": {
+        "wrapper": "relative mt-32 border-t border-white/5 bg-[#050508]",
+        "grid": "grid grid-cols-1 md:grid-cols-12 gap-12 py-20",
+        "columns": [
+          {
+            "span": "col-span-1 md:col-span-4",
+            "content": "Logo, Tagline, Social Icons (use refined circular styling)"
+          },
+          {
+            "span": "col-span-1 md:col-span-2",
+            "title": "Explore",
+            "links": ["Products", "Services", "Solutions", "Applications", "Case Studies", "Blog"]
+          },
+          {
+            "span": "col-span-1 md:col-span-2",
+            "title": "Company",
+            "links": ["About Us", "Contact Us", "Factory Tour", "FAQ", "Distribution", "Careers"]
+          },
+          {
+            "span": "col-span-1 md:col-span-4",
+            "title": "Contact",
+            "content": "Address, Phone, Email (styled with icons)"
+          }
+        ],
+        "bottom_bar": "flex flex-col md:flex-row justify-between items-center py-8 border-t border-white/5 text-xs text-gray-600 uppercase tracking-widest"
+      }
     }
   },
   "assets": {
-    "icons": "Lucide React",
-    "logo": "/assets/brightluxx-logo-dark.png"
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1762417419967-d5ccd2ebe463?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "alt": "Modern LED Facade",
+        "usage": "Mega Menu - Outdoor/Architecture"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1757935516550-6d2e73f9cb57?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "alt": "Concert LED Wall",
+        "usage": "Mega Menu - Rental/Events"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1762417420551-2fec32ed3595?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "alt": "Digital Signage City",
+        "usage": "Mega Menu - Digital Signage"
+      }
+    ]
   },
-  "functionality": {
-    "tools_mega_menu": {
-      "groups": ["Specifier Tools", "Contractor Tools"],
-      "items": [
-        "Screen Calculator", "Budget Estimator", "Compare Products", 
-        "CPD Programme", "Technology Selector", "Value Engineering", 
-        "Spec Substitution", "Design Assist"
-      ]
-    }
-  },
-  "instructions_to_main_agent": "Maintain the 'Deep Space' aesthetic. Use pure black/dark grays. Avoid white backgrounds. Ensure high contrast for text. Use gold sparingly for focus."
+  "universal_guidelines": [
+    "Use 'Satoshi' font for all text.",
+    "Ensure all interactive elements have hover states (text color change, glow, or scale).",
+    "Use 'uppercase' and 'tracking-widest' for all navigation links and headers to maintain the 'Architectural' aesthetic.",
+    "Mega Menus must use AnimatePresence for smooth fade-in/out.",
+    "Do not use solid white backgrounds. Use dark backgrounds with low opacity (glassmorphism).",
+    "Primary Action buttons should use the Cyan accent color (#22D3EE).",
+    "All inputs/forms in footer should be minimalist (transparent bg, bottom border only).",
+    "Mobile menu must be a full-screen overlay with large typography.",
+    "Ensure all interactive and key informational elements have a data-testid attribute."
+  ],
+  "instructions_to_main_agent": "Refactor Navbar.js and Footer.js to match the premium B2B aesthetic. Use the provided image URLs for the mega menu visuals (e.g., a small side column in the 'Products' dropdown showing a featured image). Ensure the 'Sparkle' on the logo is implemented via CSS animation (e.g., a small shining pseudo-element on the 'X')."
 }

@@ -1,13 +1,18 @@
 /* ========================================
    BRIGHTLUXX — Component Styles
-   "Deep Space Modern" Theme
+   "Luminous Precision" Theme
    ======================================== */
+
+/* White Logo Filter */
+.logo-white {
+  filter: brightness(0) invert(1);
+}
 
 /* Sticky Nav — Glassmorphism */
 .sticky-nav {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  background: rgba(11, 11, 11, 0.75);
+  background: rgba(5, 5, 8, 0.85);
   border-bottom: 1px solid var(--blx-glass-border);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 }
@@ -257,12 +262,12 @@
 
 /* ======================================
    BUTTONS
-   Gold gradient ONLY for primary CTAs
+   Cyan gradient ONLY for primary CTAs
    ====================================== */
 .btn-gold {
   position: relative;
-  background: var(--blx-gold-grad);
-  color: #0B0B0B;
+  background: var(--blx-cyan-grad);
+  color: #050508;
   font-weight: 700;
   border-radius: var(--blx-radius-md);
   padding: 0.75rem 1.5rem;
@@ -303,7 +308,7 @@
 
 .btn-gold:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 44px rgba(0,0,0,0.65), 0 0 30px rgba(240,215,140,0.18);
+  box-shadow: 0 20px 44px rgba(0,0,0,0.65), 0 0 30px rgba(34,211,238,0.25);
 }
 
 .btn-gold:active {

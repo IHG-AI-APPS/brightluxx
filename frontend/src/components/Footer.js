@@ -22,29 +22,37 @@ const Footer = () => {
     .filter(s => s.icon);
 
   return (
-    <footer className="relative blx-led-grid border-t border-[var(--blx-border)] mt-20" data-testid="footer">
-      <div className="absolute inset-0 bg-[var(--blx-bg-raised)]" style={{zIndex: -1}} />
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="relative border-t border-[rgba(255,255,255,0.06)] mt-20" data-testid="footer">
+      {/* LED Grid Background Effect */}
+      <div className="absolute inset-0 bg-[#050508]" style={{zIndex: -1}} />
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: 'linear-gradient(rgba(34,211,238,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.5) 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+        zIndex: -1
+      }} />
+      
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 py-14 relative">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+          {/* Logo & Social Column */}
           <div className="col-span-1">
             <img 
-              src="/assets/brightluxx-logo-white-clean.png" 
+              src="/assets/brightluxx-logo-footer.png" 
               alt={branding?.company_name || 'Brightluxx'} 
-              className="h-6 w-auto mb-4"
+              className="h-8 w-auto mb-5"
             />
-            <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-4">
+            <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-5 max-w-[240px]">
               {branding?.tagline || 'Premium LED display solutions for UAE and MENA.'} Established since {branding?.established_year || '2005'}.
             </p>
             {socialLinks.length > 0 && (
-              <div className="flex items-center gap-3" data-testid="footer-social-links">
+              <div className="flex items-center gap-2" data-testid="footer-social-links">
                 {socialLinks.map((s) => (
                   <a
                     key={s.name}
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-[var(--blx-text-2)] hover:text-[var(--blx-gold-3)] transition-all duration-200 hover:scale-110"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-[var(--blx-text-2)] hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:bg-cyan-500/10"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
                     aria-label={s.name}
                     data-testid={`footer-social-${s.name}`}
                   >
@@ -112,14 +120,15 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-[var(--blx-border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.6875rem] text-[var(--blx-muted)] tracking-widest">
-          <p>&copy; {currentYear} {branding?.company_name || 'Brightluxx'}. All rights reserved. Established {branding?.established_year || '2005'}.</p>
+        {/* Bottom Bar */}
+        <div className="mt-14 pt-8 border-t border-[rgba(255,255,255,0.06)] flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.625rem] text-[var(--blx-muted)] tracking-[0.15em]">
+          <p>&copy; {currentYear} {branding?.company_name || 'Brightluxx'}. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <Link to="/about" className="hover:text-[var(--blx-text)] transition-colors duration-200">About Us</Link>
-            <span className="opacity-30">|</span>
-            <Link to="/contact" className="hover:text-[var(--blx-text)] transition-colors duration-200">Contact Us</Link>
-            <span className="opacity-30">|</span>
-            <span>A division of IHG Industry L.L.C</span>
+            <Link to="/about" className="hover:text-cyan-400 transition-colors duration-200">About Us</Link>
+            <span className="opacity-20">•</span>
+            <Link to="/contact" className="hover:text-cyan-400 transition-colors duration-200">Contact Us</Link>
+            <span className="opacity-20">•</span>
+            <span className="opacity-60">A division of IHG Industry L.L.C</span>
           </div>
         </div>
       </div>

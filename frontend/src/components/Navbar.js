@@ -162,15 +162,15 @@ const Navbar = () => {
 
   return (
     <>
-    <nav className="fixed top-0 left-0 right-0 z-50" style={{ backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'rgba(11,11,11,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }} data-testid="site-header-nav">
+    <nav className="fixed top-0 left-0 right-0 z-50" style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', background: 'rgba(5,5,8,0.88)', borderBottom: '1px solid rgba(255,255,255,0.06)' }} data-testid="site-header-nav">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center" data-testid="logo-link">
+          <Link to="/" className="flex items-center group" data-testid="logo-link">
             <img 
-              src="/assets/brightluxx-logo-white-clean.png" 
+              src="/assets/brightluxx-logo-nav.png" 
               alt={branding?.company_name || 'Brightluxx'} 
-              className="h-7 sm:h-8 w-auto"
+              className="h-8 sm:h-9 w-auto transition-opacity duration-200 group-hover:opacity-90"
             />
           </Link>
 
@@ -354,7 +354,7 @@ const Navbar = () => {
               {isActive('/resources') && <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />}
             </Link>
 
-            <Link to="/contact" className="btn-gold px-4 py-1.5 text-xs" data-testid="site-header-request-quote-button">
+            <Link to="/contact" className="relative px-5 py-2 rounded-full text-xs font-bold tracking-[0.12em] bg-gradient-to-r from-cyan-500 to-cyan-400 text-[#050508] shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 hover:scale-105" data-testid="site-header-request-quote-button">
               Get Quote
             </Link>
           </div>

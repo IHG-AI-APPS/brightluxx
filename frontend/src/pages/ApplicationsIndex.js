@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Store, Building2, Briefcase, Stethoscope, Plane, Theater, Trophy, GraduationCap, Sun, Sparkles, X, ZoomIn, Filter } from 'lucide-react';
+import { ArrowRight, Store, Building2, Briefcase, Stethoscope, Plane, Theater, Trophy, GraduationCap, Sun, Sparkles, X, ZoomIn, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../components/SEO';
 import CdnImage from '../components/CdnImage';
@@ -26,9 +26,9 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, delay: delay * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      transition={{ duration: 0.8, delay: delay * 0.1, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
       {children}
@@ -36,153 +36,359 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-const GlassCard = ({ children, className = '', hover = true }) => (
-  <div className={`
-    backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] rounded-xl overflow-hidden
-    ${hover ? 'hover:bg-white/[0.06] hover:border-cyan-500/30 hover:shadow-[0_0_40px_rgba(34,211,238,0.08)]' : ''}
-    transition-all duration-500 ${className}
-  `}>
-    {children}
-  </div>
-);
-
 const APPLICATIONS = [
   {
     id: 'shopfront-signage',
     name: 'Shopfront Signage',
-    description: 'High-impact LED displays for retail storefronts, window displays, and street-level commercial signage that attracts customers and drives foot traffic.',
+    shortName: 'Shopfront',
+    description: 'High-impact LED displays for retail storefronts and street-level commercial signage.',
     icon: Store,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png',
-    products: ['Transparent LED', 'Indoor Fine Pitch', 'Outdoor LED'],
-    solutions: ['retail'],
+    stats: { brightness: '10,000 nits', pitch: 'P2.5-P10' },
     featured: true,
   },
   {
     id: 'hospitality',
     name: 'Hospitality & Hotels',
-    description: 'Elegant LED video walls and digital signage for hotel lobbies, restaurants, conference facilities, and guest amenities that enhance the visitor experience.',
+    shortName: 'Hospitality',
+    description: 'Elegant video walls for hotel lobbies, restaurants, and conference facilities.',
     icon: Building2,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7aee51984ef7428e636c2f56a202a90b74cac515bc9d49b80327e9c74a76d42e.png',
-    products: ['COB MicroLED', 'Fine Pitch Indoor', 'All-in-One dvLED'],
-    solutions: ['hospitality'],
+    stats: { brightness: '1,500 nits', pitch: 'P0.9-P2.5' },
   },
   {
     id: 'retail-malls',
-    name: 'Retail & Shopping Malls',
-    description: 'Large-format LED displays and immersive video walls for mall atriums, retail spaces, and brand activations that create memorable shopping experiences.',
+    name: 'Retail & Malls',
+    shortName: 'Retail',
+    description: 'Large-format displays for mall atriums and immersive brand experiences.',
     icon: Store,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/fe43f22500af65dab2a6a06f5df2fe660523726339ac9581b781476767b0b9b4.png',
-    products: ['Fine Pitch Indoor', 'Creative LED', '3D Anamorphic'],
-    solutions: ['retail'],
+    stats: { brightness: '2,000 nits', pitch: 'P1.5-P4' },
   },
   {
     id: 'corporate',
     name: 'Corporate & Offices',
-    description: 'Professional LED solutions for boardrooms, lobbies, command centers, and meeting spaces that elevate corporate communications and presentations.',
+    shortName: 'Corporate',
+    description: 'Professional displays for boardrooms, lobbies, and command centers.',
     icon: Briefcase,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png',
-    products: ['All-in-One dvLED', 'COB MicroLED', 'Fine Pitch Indoor'],
-    solutions: ['corporate'],
+    stats: { brightness: '800 nits', pitch: 'P0.7-P1.9' },
   },
   {
     id: 'healthcare',
     name: 'Healthcare',
-    description: 'Reliable LED displays for hospitals, clinics, and medical facilities including wayfinding systems, patient information boards, and waiting area displays.',
+    shortName: 'Healthcare',
+    description: 'Reliable displays for hospitals, wayfinding, and patient information.',
     icon: Stethoscope,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/20ff688183452b421340a26c5f7272a9fcb806cb4d30add3d3434cb033be1933.png',
-    products: ['All-in-One dvLED', 'Fine Pitch Indoor'],
-    solutions: ['corporate'],
+    stats: { brightness: '600 nits', pitch: 'P1.2-P2.5' },
   },
   {
     id: 'transportation',
-    name: 'Transportation & Airports',
-    description: 'Mission-critical LED displays for flight information, wayfinding, advertising, and passenger communications in airports, metro stations, and transit hubs.',
+    name: 'Transportation',
+    shortName: 'Transport',
+    description: 'Mission-critical FIDS displays for airports and transit hubs.',
     icon: Plane,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/51def6d71b2956b099c4c00d843cdad1fcde69379e77fa31d6d2c42ddcc07d60.png',
-    products: ['Fine Pitch Indoor', 'Outdoor LED', 'Transparent LED'],
-    solutions: ['transport'],
+    stats: { brightness: '1,500 nits', pitch: 'P1.5-P4' },
   },
   {
     id: 'entertainment',
-    name: 'Entertainment & Cinemas',
-    description: 'Immersive LED experiences for cinemas, museums, theatres, and entertainment venues that captivate audiences with stunning visuals.',
+    name: 'Entertainment',
+    shortName: 'Cinema',
+    description: 'Cinema LED screens and immersive displays for museums and theatres.',
     icon: Theater,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/085c5152d8cf0eebf7a6c56406448f78f7ffeaf9e345eec76fcfe22d45afa880.png',
-    products: ['Cinema LED', 'Creative LED', 'COB MicroLED'],
-    solutions: ['entertainment'],
+    stats: { brightness: '500 nits', pitch: 'P0.9-P2.5' },
   },
   {
     id: 'sports-events',
     name: 'Sports & Events',
-    description: 'High-brightness LED scoreboards, perimeter displays, and video walls for stadiums, arenas, and live events that enhance the spectator experience.',
+    shortName: 'Sports',
+    description: 'Scoreboards, perimeter displays, and video walls for live events.',
     icon: Trophy,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/07761210154255d013573596ebb872b6c03610990a806a27e4ded7164b327fd6.png',
-    products: ['Outdoor LED', 'Stadium Perimeter', 'Fine Pitch Indoor'],
-    solutions: ['sports-entertainment'],
+    stats: { brightness: '10,000 nits', pitch: 'P4-P16' },
   },
   {
     id: 'education',
     name: 'Education',
-    description: 'Modern LED displays for universities, schools, and training facilities including lecture halls, auditoriums, and campus digital signage.',
+    shortName: 'Education',
+    description: 'Interactive displays for classrooms, lecture halls, and campuses.',
     icon: GraduationCap,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ece677e88cab7bac3c4414cd4fb4457d8f4dd1bce07e43712f6e8bcdf764c9dd.png',
-    products: ['All-in-One dvLED', 'Fine Pitch Indoor'],
-    solutions: ['corporate'],
+    stats: { brightness: '800 nits', pitch: 'P1.2-P2.5' },
   },
   {
     id: 'outdoor-billboards',
     name: 'Outdoor & Billboards',
-    description: 'Weather-resistant outdoor LED billboards, building facades, and media walls for high-visibility advertising and architectural integration.',
+    shortName: 'Outdoor',
+    description: 'Weather-resistant billboards and media facades for high-visibility advertising.',
     icon: Sun,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png',
-    products: ['Outdoor LED', 'Media Facade', '3D Anamorphic'],
-    solutions: ['outdoor-advertising'],
+    stats: { brightness: '12,000 nits', pitch: 'P4-P20' },
   },
 ];
 
-// Inspiration Modal Component
-const InspirationModal = ({ item, onClose }) => {
-  if (!item) return null;
+// Dramatic Hero Carousel
+const HeroCarousel = () => {
+  const [current, setCurrent] = useState(0);
+  const featured = APPLICATIONS.slice(0, 4);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent(prev => (prev + 1) % featured.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [featured.length]);
+
+  const app = featured[current];
+  const Icon = app.icon;
+
   return (
-    <AnimatePresence>
-      <motion.div 
-        className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-        onClick={onClose}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        <motion.div 
-          className="bg-[#0A0A0D] border border-white/10 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
-          onClick={e => e.stopPropagation()}
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.95, opacity: 0 }}
+    <div className="relative h-[70vh] min-h-[500px] overflow-hidden">
+      {/* Background Images */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={current}
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2 }}
+          className="absolute inset-0"
         >
-          <div className="relative h-72 sm:h-96 overflow-hidden">
-            <CdnImage src={item.image_url} alt={item.title} className="w-full h-full object-cover" w={900} />
-            <button onClick={onClose} className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-colors">
-              <X size={20} />
-            </button>
-          </div>
-          <div className="p-6">
-            <div className="flex flex-wrap gap-2 mb-3">
-              {item.tags?.map(tag => (
-                <span key={tag} className="text-[9px] font-bold tracking-[0.15em] uppercase px-2 py-1 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">{tag}</span>
-              ))}
-            </div>
-            <h3 className="text-xl font-bold tracking-wide text-white mb-2">{item.title}</h3>
-            <p className="text-sm text-gray-400 leading-relaxed">{item.description}</p>
-          </div>
+          <img 
+            src={app.image} 
+            alt={app.name} 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-[#050508]/30" />
         </motion.div>
+      </AnimatePresence>
+
+      {/* Content */}
+      <div className="absolute inset-0 flex items-center">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 w-full">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 50 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-cyan-500/20 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center">
+                  <Icon size={24} className="text-cyan-400" />
+                </div>
+                <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase">Featured Industry</span>
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white mb-4">
+                {app.name}
+              </h1>
+              
+              <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+                {app.description}
+              </p>
+
+              <div className="flex items-center gap-6 mb-8">
+                <div>
+                  <div className="text-2xl font-bold text-cyan-400">{app.stats.brightness}</div>
+                  <div className="text-[10px] text-gray-500 uppercase tracking-wider">Max Brightness</div>
+                </div>
+                <div className="w-px h-10 bg-white/20" />
+                <div>
+                  <div className="text-2xl font-bold text-white">{app.stats.pitch}</div>
+                  <div className="text-[10px] text-gray-500 uppercase tracking-wider">Pixel Pitch</div>
+                </div>
+              </div>
+
+              <Link 
+                to={`/applications/${app.id}`}
+                className="inline-flex items-center gap-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-8 py-4 transition-all hover:shadow-[0_0_40px_rgba(34,211,238,0.4)] text-sm group"
+              >
+                Explore {app.shortName} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* Navigation Dots */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
+        {featured.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`transition-all duration-300 ${
+              i === current 
+                ? 'w-10 h-2 rounded-full bg-cyan-400' 
+                : 'w-2 h-2 rounded-full bg-white/30 hover:bg-white/50'
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* Side Navigation */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-2">
+        {featured.map((item, i) => {
+          const ItemIcon = item.icon;
+          return (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
+                i === current 
+                  ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-400' 
+                  : 'bg-white/5 border border-white/10 text-white/50 hover:text-white hover:border-white/30'
+              }`}
+            >
+              <ItemIcon size={18} />
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// Dramatic Application Card
+const ApplicationCard = ({ app, index }) => {
+  const Icon = app.icon;
+  const isLarge = index === 0 || index === 5;
+
+  return (
+    <Link 
+      to={`/applications/${app.id}`} 
+      className={`group block relative overflow-hidden rounded-2xl ${isLarge ? 'md:col-span-2 md:row-span-2' : ''}`}
+      data-testid={`application-${app.id}`}
+    >
+      <div className={`relative ${isLarge ? 'h-[400px] md:h-full md:min-h-[500px]' : 'h-[280px]'} overflow-hidden`}>
+        {/* Image */}
+        <img 
+          src={app.image} 
+          alt={app.name}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+        
+        {/* Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-cyan-500/0 group-hover:bg-cyan-500/10 transition-colors duration-500" />
+        
+        {/* Animated Border */}
+        <div className="absolute inset-0 border-2 border-transparent group-hover:border-cyan-500/30 rounded-2xl transition-colors duration-500" />
+        
+        {/* Content */}
+        <div className="absolute inset-0 flex flex-col justify-end p-6">
+          {/* Icon */}
+          <div className="w-12 h-12 rounded-xl bg-black/50 backdrop-blur-sm border border-white/10 flex items-center justify-center mb-4 group-hover:border-cyan-500/30 group-hover:bg-cyan-500/10 transition-all">
+            <Icon size={20} className="text-white group-hover:text-cyan-400 transition-colors" />
+          </div>
+          
+          {/* Title */}
+          <h3 className={`font-bold uppercase tracking-wide text-white mb-2 group-hover:text-cyan-400 transition-colors ${isLarge ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
+            {app.name}
+          </h3>
+          
+          {/* Description - only on large cards */}
+          {isLarge && (
+            <p className="text-sm text-gray-400 mb-4 leading-relaxed max-w-md">
+              {app.description}
+            </p>
+          )}
+          
+          {/* Stats */}
+          <div className="flex items-center gap-4">
+            <div className="px-3 py-1.5 rounded-lg bg-black/50 backdrop-blur-sm border border-white/10">
+              <span className="text-[10px] font-bold text-cyan-400">{app.stats.brightness}</span>
+            </div>
+            <div className="px-3 py-1.5 rounded-lg bg-black/50 backdrop-blur-sm border border-white/10">
+              <span className="text-[10px] font-bold text-white">{app.stats.pitch}</span>
+            </div>
+          </div>
+          
+          {/* Arrow */}
+          <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/0 group-hover:bg-cyan-500 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0">
+            <ArrowRight size={18} className="text-black" />
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+// Inspiration Modal
+const InspirationModal = ({ item, onClose, onNext, onPrev }) => {
+  if (!item) return null;
+  
+  return (
+    <motion.div 
+      className="fixed inset-0 bg-black/95 backdrop-blur-md z-50 flex items-center justify-center"
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {/* Close button */}
+      <button 
+        onClick={onClose}
+        className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all z-10"
+      >
+        <X size={24} />
+      </button>
+
+      {/* Navigation */}
+      <button 
+        onClick={(e) => { e.stopPropagation(); onPrev(); }}
+        className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all"
+      >
+        <ChevronLeft size={24} />
+      </button>
+      <button 
+        onClick={(e) => { e.stopPropagation(); onNext(); }}
+        className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all"
+      >
+        <ChevronRight size={24} />
+      </button>
+
+      {/* Content */}
+      <motion.div 
+        className="max-w-5xl w-full mx-6"
+        onClick={e => e.stopPropagation()}
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+      >
+        <div className="relative rounded-2xl overflow-hidden">
+          <CdnImage 
+            src={item.image_url} 
+            alt={item.title} 
+            className="w-full h-auto max-h-[70vh] object-contain"
+            w={1200}
+          />
+        </div>
+        <div className="mt-6 text-center">
+          <div className="flex flex-wrap gap-2 justify-center mb-3">
+            {item.tags?.map(tag => (
+              <span key={tag} className="text-[10px] font-bold tracking-[0.15em] uppercase px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+                {tag}
+              </span>
+            ))}
+          </div>
+          <h3 className="text-2xl font-bold tracking-wide text-white mb-2">{item.title}</h3>
+          <p className="text-gray-400 max-w-2xl mx-auto">{item.description}</p>
+        </div>
       </motion.div>
-    </AnimatePresence>
+    </motion.div>
   );
 };
 
 export default function Applications() {
   const [inspirations, setInspirations] = useState([]);
-  const [selectedInspiration, setSelectedInspiration] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
   const [inspirationFilter, setInspirationFilter] = useState('all');
 
   useEffect(() => {
@@ -190,7 +396,11 @@ export default function Applications() {
       try {
         const response = await getInspirations();
         const data = response?.data?.inspirations || response?.data || [];
-        setInspirations(Array.isArray(data) ? data : []);
+        // Filter out product images (white backgrounds) - only keep installation/project photos
+        const filtered = (Array.isArray(data) ? data : []).filter(item => 
+          item.image_url && !item.image_url.includes('white') && item.tags?.length > 0
+        );
+        setInspirations(filtered);
       } catch (err) {
         console.error('Failed to fetch inspirations:', err);
         setInspirations([]);
@@ -203,7 +413,15 @@ export default function Applications() {
     ? inspirations 
     : inspirations.filter(i => i.tags?.some(t => t.toLowerCase().includes(inspirationFilter.toLowerCase())));
 
-  const uniqueTags = [...new Set((inspirations || []).flatMap(i => i.tags || []))].slice(0, 8);
+  const uniqueTags = [...new Set((inspirations || []).flatMap(i => i.tags || []))].slice(0, 6);
+
+  const handlePrev = () => {
+    setSelectedIndex(prev => prev === 0 ? filteredInspirations.length - 1 : prev - 1);
+  };
+
+  const handleNext = () => {
+    setSelectedIndex(prev => prev === filteredInspirations.length - 1 ? 0 : prev + 1);
+  };
 
   return (
     <div className="bg-[#050508] min-h-screen" data-testid="applications-page">
@@ -213,238 +431,184 @@ export default function Applications() {
         path="/applications"
       />
 
-      {/* Hero */}
-      <section className="relative pt-32 pb-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
-        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[120px]" />
-        <div className="absolute top-1/3 left-0 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[100px]" />
-        
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-          <FadeInSection>
-            <div className="flex items-center gap-2 mb-4">
-              <Sparkles size={16} className="text-cyan-400" />
-              <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase">Industry Solutions</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight mb-4" data-testid="applications-title">
-              Applications &
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 block mt-1">Inspirations</span>
-            </h1>
-            <p className="text-gray-400 text-base md:text-lg max-w-2xl tracking-wide leading-relaxed">
-              Discover how LED displays transform spaces across industries — from shopfront signage to corporate boardrooms, hospitality venues to outdoor billboards. Real-world applications tailored for the UAE market.
-            </p>
-          </FadeInSection>
-        </div>
-      </section>
+      {/* Dramatic Hero Carousel */}
+      <HeroCarousel />
 
-      {/* Featured Application - Shopfront */}
-      <section className="pb-16">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <FadeInSection delay={1}>
-            <Link to="/applications/shopfront-signage" className="group block" data-testid="featured-application">
-              <GlassCard className="overflow-hidden" hover={false}>
-                <div className="grid lg:grid-cols-2 gap-0">
-                  <div className="relative h-64 lg:h-auto lg:min-h-[400px] overflow-hidden">
-                    <img 
-                      src={APPLICATIONS[0].image} 
-                      alt={APPLICATIONS[0].name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-transparent to-transparent lg:bg-gradient-to-l" />
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-[0.15em] uppercase bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-                        Featured Application
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-8 lg:p-12 flex flex-col justify-center">
-                    <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6 bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 border border-cyan-500/20">
-                      <Store size={28} className="text-cyan-400" />
-                    </div>
-                    <h2 className="text-2xl md:text-3xl font-bold tracking-wide text-white mb-4 group-hover:text-cyan-400 transition-colors">{APPLICATIONS[0].name}</h2>
-                    <p className="text-gray-400 leading-relaxed mb-6">{APPLICATIONS[0].description}</p>
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {APPLICATIONS[0].products.map(p => (
-                        <span key={p} className="text-[10px] font-bold tracking-wider text-gray-500 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">{p}</span>
-                      ))}
-                    </div>
-                    <div className="flex items-center gap-2 text-cyan-400 font-bold tracking-wider text-sm">
-                      View Solutions <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
-                    </div>
-                  </div>
-                </div>
-              </GlassCard>
-            </Link>
-          </FadeInSection>
-        </div>
-      </section>
+      {/* Section Divider */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 py-16">
+        <FadeInSection>
+          <div className="flex items-center gap-4">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
+            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase">All Industries</span>
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
+          </div>
+        </FadeInSection>
+      </div>
 
-      {/* All Applications Grid */}
+      {/* Applications Grid - Dramatic Bento Layout */}
       <section className="pb-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <FadeInSection delay={2}>
-            <h2 className="text-2xl font-bold tracking-wide text-white mb-8">All Industries & Applications</h2>
-          </FadeInSection>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {APPLICATIONS.slice(1).map((app, i) => (
-              <FadeInSection key={app.id} delay={3 + i * 0.3}>
-                <Link to={`/applications/${app.id}`} className="group block h-full" data-testid={`application-${app.id}`}>
-                  <GlassCard className="h-full flex flex-col">
-                    <div className="relative h-48 overflow-hidden">
-                      <img 
-                        src={app.image} 
-                        alt={app.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" />
-                      <div className="absolute bottom-4 left-4">
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-black/50 backdrop-blur-sm border border-white/10">
-                          <app.icon size={18} className="text-cyan-400" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="p-5 flex flex-col flex-1">
-                      <h3 className="text-lg font-bold tracking-wide text-white mb-2 group-hover:text-cyan-400 transition-colors">{app.name}</h3>
-                      <p className="text-xs text-gray-500 leading-relaxed flex-1 mb-4">{app.description}</p>
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {app.products.slice(0, 2).map(p => (
-                          <span key={p} className="text-[9px] font-bold tracking-wider text-gray-500 px-2 py-1 rounded bg-white/[0.03] border border-white/[0.06]">{p}</span>
-                        ))}
-                      </div>
-                      <div className="flex items-center gap-2 text-cyan-400 font-bold tracking-wider text-xs">
-                        Learn More <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </GlassCard>
-                </Link>
+          <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+            {APPLICATIONS.slice(4).map((app, i) => (
+              <FadeInSection key={app.id} delay={i * 0.5}>
+                <ApplicationCard app={app} index={i} />
               </FadeInSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Inspirations Gallery */}
-      <section className="pb-20 border-t border-white/[0.06] pt-16">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <FadeInSection delay={1}>
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-8">
-              <div>
-                <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-2 block">Gallery</span>
-                <h2 className="text-2xl md:text-3xl font-bold tracking-wide text-white">Project Inspirations</h2>
-                <p className="text-gray-500 text-sm mt-2 max-w-lg">Browse our collection of LED display installations and creative applications from around the world.</p>
+      {/* Inspirations Gallery - Dramatic Masonry */}
+      {inspirations.length > 0 && (
+        <section className="py-20 relative overflow-hidden">
+          {/* Background Effect */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-cyan-500/5 rounded-full blur-[150px]" />
+
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+            <FadeInSection>
+              <div className="text-center mb-12">
+                <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Visual Inspiration</span>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-white mb-4">
+                  Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">Gallery</span>
+                </h2>
+                <p className="text-gray-500 max-w-lg mx-auto">
+                  Stunning LED installations from around the world. Click to explore.
+                </p>
               </div>
-              
-              {/* Filter Tags */}
-              <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
+            </FadeInSection>
+
+            {/* Filter Tags */}
+            <FadeInSection delay={1}>
+              <div className="flex flex-wrap justify-center gap-2 mb-10">
                 <button
                   onClick={() => setInspirationFilter('all')}
-                  className={`px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-wider transition-all ${
-                    inspirationFilter === 'all' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-white/[0.03] text-gray-500 border border-white/[0.06] hover:border-white/20'
+                  className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider transition-all ${
+                    inspirationFilter === 'all' 
+                      ? 'bg-cyan-500 text-black shadow-[0_0_20px_rgba(34,211,238,0.4)]' 
+                      : 'bg-white/5 text-gray-400 border border-white/10 hover:border-cyan-500/30 hover:text-white'
                   }`}
                 >
-                  All
+                  All Projects
                 </button>
                 {uniqueTags.map(tag => (
                   <button
                     key={tag}
                     onClick={() => setInspirationFilter(tag)}
-                    className={`px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-wider transition-all ${
-                      inspirationFilter === tag ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-white/[0.03] text-gray-500 border border-white/[0.06] hover:border-white/20'
+                    className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider transition-all ${
+                      inspirationFilter === tag 
+                        ? 'bg-cyan-500 text-black shadow-[0_0_20px_rgba(34,211,238,0.4)]' 
+                        : 'bg-white/5 text-gray-400 border border-white/10 hover:border-cyan-500/30 hover:text-white'
                     }`}
                   >
                     {tag}
                   </button>
                 ))}
               </div>
-            </div>
-          </FadeInSection>
+            </FadeInSection>
 
-          {/* Masonry-style Gallery */}
-          {filteredInspirations.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" data-testid="inspirations-gallery">
-              {filteredInspirations.map((item, i) => (
-                <FadeInSection key={item._id || i} delay={2 + i * 0.1}>
-                  <div 
-                    className={`group cursor-pointer relative rounded-xl overflow-hidden ${i % 5 === 0 ? 'md:col-span-2 md:row-span-2' : ''}`}
-                    onClick={() => setSelectedInspiration(item)}
-                    data-testid={`inspiration-item-${i}`}
+            {/* Gallery Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4" data-testid="inspirations-gallery">
+              {filteredInspirations.slice(0, 12).map((item, i) => {
+                const isHero = i === 0 || i === 5;
+                return (
+                  <FadeInSection 
+                    key={item._id || i} 
+                    delay={2 + i * 0.3}
+                    className={isHero ? 'col-span-2 row-span-2' : ''}
                   >
-                    <div className={`${i % 5 === 0 ? 'h-64 md:h-full md:min-h-[400px]' : 'h-48'}`}>
-                      <CdnImage 
-                        src={item.image_url} 
-                        alt={item.title} 
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        w={i % 5 === 0 ? 800 : 400}
-                      />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="flex flex-wrap gap-1 mb-2">
-                        {item.tags?.slice(0, 2).map(tag => (
-                          <span key={tag} className="text-[8px] font-bold tracking-wider uppercase px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400">{tag}</span>
-                        ))}
+                    <div 
+                      className="group cursor-pointer relative rounded-xl overflow-hidden h-full"
+                      onClick={() => setSelectedIndex(i)}
+                      data-testid={`inspiration-item-${i}`}
+                    >
+                      <div className={`relative ${isHero ? 'h-full min-h-[400px]' : 'h-48 md:h-56'}`}>
+                        <CdnImage 
+                          src={item.image_url} 
+                          alt={item.title} 
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          w={isHero ? 800 : 400}
+                        />
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
+                        
+                        {/* Hover Content */}
+                        <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                          <div className="flex flex-wrap gap-1 mb-2">
+                            {item.tags?.slice(0, 2).map(tag => (
+                              <span key={tag} className="text-[8px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full bg-cyan-500/30 text-cyan-400">{tag}</span>
+                            ))}
+                          </div>
+                          <h3 className="text-sm font-bold text-white">{item.title}</h3>
+                        </div>
+
+                        {/* Zoom Icon */}
+                        <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform scale-75 group-hover:scale-100">
+                          <ZoomIn size={18} className="text-white" />
+                        </div>
+
+                        {/* Border Effect */}
+                        <div className="absolute inset-0 border-2 border-transparent group-hover:border-cyan-500/50 rounded-xl transition-colors" />
                       </div>
-                      <h3 className="text-sm font-bold text-white">{item.title}</h3>
                     </div>
-                    <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                        <ZoomIn size={14} className="text-white" />
-                      </div>
-                    </div>
-                  </div>
-                </FadeInSection>
-              ))}
+                  </FadeInSection>
+                );
+              })}
             </div>
-          ) : (
-            <div className="text-center py-16">
-              <Filter size={40} className="text-gray-600 mx-auto mb-4" />
-              <p className="text-gray-500">No inspirations found for this filter.</p>
-              <button onClick={() => setInspirationFilter('all')} className="mt-4 text-cyan-400 text-sm font-bold">Show all</button>
-            </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       {/* Bottom CTA */}
-      <section className="pb-20">
+      <section className="py-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <FadeInSection delay={1}>
-            <GlassCard className="p-10 lg:p-14" hover={false}>
-              <div className="grid lg:grid-cols-2 gap-8 items-center">
-                <div>
-                  <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Start Your Project</span>
-                  <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wide mb-4">
-                    Ready to Transform
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 ml-2">Your Space?</span>
-                  </h2>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                    Whether you're planning a shopfront display, corporate video wall, or large-scale outdoor installation — our team is ready to help bring your vision to life.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-4 lg:justify-end">
+          <FadeInSection>
+            <div className="relative rounded-3xl overflow-hidden">
+              {/* Background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/10 to-cyan-500/20" />
+              <div className="absolute inset-0 backdrop-blur-3xl" />
+              <div className="absolute inset-0 border border-white/10 rounded-3xl" />
+
+              <div className="relative p-10 lg:p-16 text-center">
+                <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Start Your Project</span>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-white mb-4">
+                  Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">Transform</span> Your Space?
+                </h2>
+                <p className="text-gray-400 max-w-xl mx-auto mb-8">
+                  From concept to installation, our team delivers world-class LED solutions tailored for the UAE market.
+                </p>
+                
+                <div className="flex flex-wrap gap-4 justify-center">
                   <Link 
                     to="/contact" 
-                    className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-8 py-4 transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] inline-flex items-center gap-2 text-sm"
+                    className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-10 py-5 transition-all hover:shadow-[0_0_40px_rgba(34,211,238,0.4)] inline-flex items-center gap-3 text-sm"
                   >
-                    Get Quote <ArrowRight size={16} />
+                    Get Quote <ArrowRight size={18} />
                   </Link>
                   <Link 
                     to="/case-studies" 
-                    className="bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-8 py-4 transition-all inline-flex items-center gap-2 text-sm"
+                    className="bg-white/5 backdrop-blur-xl border border-white/20 hover:border-cyan-500/50 text-white font-bold uppercase tracking-wider px-10 py-5 transition-all inline-flex items-center gap-3 text-sm"
                   >
-                    View Case Studies <ArrowRight size={16} />
+                    View Case Studies <ArrowRight size={18} />
                   </Link>
                 </div>
               </div>
-            </GlassCard>
+            </div>
           </FadeInSection>
         </div>
       </section>
 
       {/* Inspiration Modal */}
-      {selectedInspiration && (
-        <InspirationModal item={selectedInspiration} onClose={() => setSelectedInspiration(null)} />
-      )}
+      <AnimatePresence>
+        {selectedIndex !== null && filteredInspirations[selectedIndex] && (
+          <InspirationModal 
+            item={filteredInspirations[selectedIndex]} 
+            onClose={() => setSelectedIndex(null)}
+            onPrev={handlePrev}
+            onNext={handleNext}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

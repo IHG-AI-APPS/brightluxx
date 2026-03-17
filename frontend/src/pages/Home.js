@@ -6,6 +6,8 @@ import CdnImage from '../components/CdnImage';
 import SEO, { BASE_URL } from '../components/SEO';
 import { EXTERNAL_CDN, cdnUrl } from '../config/cdn';
 import { motion } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext';
+import ThemeToggle from '../components/ThemeToggle';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -45,7 +47,7 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
 };
 
 /* Hero video player with smooth transitions */
-const HeroVideoPlayer = ({ videos, posterImage }) => {
+const HeroVideoPlayer = ({ videos, posterImage, isDark = true }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [fading, setFading] = useState(false);
   const videoRefs = useRef([]);
@@ -95,9 +97,9 @@ const HeroVideoPlayer = ({ videos, posterImage }) => {
           <source src={src} type="video/mp4" />
         </video>
       ))}
-      {/* Cinematic gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/40 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#050508]/60 via-transparent to-transparent" />
+      {/* Cinematic gradient overlay - theme aware */}
+      <div className={`absolute inset-0 bg-gradient-to-t ${isDark ? 'from-[#050508] via-[#050508]/40' : 'from-white via-white/40'} to-transparent`} />
+      <div className={`absolute inset-0 bg-gradient-to-r ${isDark ? 'from-[#050508]/60' : 'from-white/60'} via-transparent to-transparent`} />
     </div>
   );
 };
@@ -214,6 +216,7 @@ const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [featuredProjects, setFeaturedProjects] = useState([]);
   const [homeContent, setHomeContent] = useState(null);
+  const { isDark } = useTheme();
 
   useEffect(() => {
     fetch(`${API}/api/homepage-content`)
@@ -236,8 +239,27 @@ const Home = () => {
   const stats = homeContent?.stats?.length > 0 ? homeContent.stats : DEFAULT_STATS;
   const whyChoose = homeContent?.why_brightluxx_items?.length > 0 ? homeContent.why_brightluxx_items.slice(0, 4) : DEFAULT_WHY_CHOOSE;
 
+  // Theme-based classes
+  const bgMain = isDark ? 'bg-[#050508]' : 'bg-white';
+  const bgSection = isDark ? 'bg-neutral-900/50' : 'bg-neutral-100';
+  const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
+  const textSecondary = isDark ? 'text-neutral-400' : 'text-neutral-600';
+  const textMuted = isDark ? 'text-neutral-500' : 'text-neutral-500';
+  const borderColor = isDark ? 'border-white/10' : 'border-neutral-200';
+  const cardBg = isDark ? 'bg-white/5' : 'bg-white';
+  const cardBorder = isDark ? 'border-white/10' : 'border-neutral-200';
+  const hoverBg = isDark ? 'hover:bg-white/10' : 'hover:bg-neutral-50';
+  const gradientOverlay = isDark 
+    ? 'bg-gradient-to-t from-[#050508] via-[#050508]/40 to-transparent' 
+    : 'bg-gradient-to-t from-white via-white/40 to-transparent';
+
   return (
-    <div className="bg-[#050508]">
+    <div className={`${bgMain} transition-colors duration-500`}>
+      {/* Theme Toggle - Fixed position */}
+      <div className="fixed top-24 right-6 z-50">
+        <ThemeToggle />
+      </div>
+
       <SEO
         title="Brightluxx — Premium LED Displays | Dubai & GCC"
         description="OEM-grade LED display technology. MicroLED, outdoor, rental & transparent screens. UAE-ready delivery. Established since 2005."
@@ -256,7 +278,7 @@ const Home = () => {
           HERO SECTION — Full-screen immersive video
       ═══════════════════════════════════════════════════════════════════════ */}
       <section className="relative h-screen min-h-[600px] flex items-end" data-testid="hero-section">
-        <HeroVideoPlayer videos={hero.video_urls} posterImage={hero.poster_image} />
+        <HeroVideoPlayer videos={hero.video_urls} posterImage={hero.poster_image} isDark={isDark} />
         
         {/* Hero Content - Minimal */}
         <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 pb-20 lg:pb-28">
@@ -266,7 +288,7 @@ const Home = () => {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[0.9] mb-8" data-testid="hero-title">
-              <span className="text-white">ENGINEERING</span>
+              <span className={isDark ? 'text-white' : 'text-neutral-900'}>ENGINEERING</span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500">
                 BRILLIANCE
@@ -276,14 +298,14 @@ const Home = () => {
             <div className="flex items-center gap-6">
               <Link 
                 to={hero.cta_link || '/contact'} 
-                className="bg-white text-black font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs hover:bg-cyan-400 transition-colors duration-300"
+                className={`font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs transition-colors duration-300 ${isDark ? 'bg-white text-black hover:bg-cyan-400' : 'bg-neutral-900 text-white hover:bg-cyan-500'}`}
                 data-testid="home-hero-primary-cta"
               >
                 GET QUOTE
               </Link>
               <Link 
                 to="/products" 
-                className="text-white/80 hover:text-white font-medium tracking-[0.1em] uppercase text-xs transition-colors"
+                className={`font-medium tracking-[0.1em] uppercase text-xs transition-colors ${isDark ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}
                 data-testid="home-hero-secondary-cta"
               >
                 EXPLORE →
@@ -302,7 +324,7 @@ const Home = () => {
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              <ChevronDown size={24} className="text-white/40" />
+              <ChevronDown size={24} className={isDark ? 'text-white/40' : 'text-neutral-400'} />
             </motion.div>
           </motion.div>
         </div>
@@ -317,10 +339,10 @@ const Home = () => {
             <div className="flex flex-wrap justify-center lg:justify-between items-center gap-8 lg:gap-4">
               {stats.map((stat, index) => (
                 <div key={stat.label} className="text-center px-6 lg:px-0">
-                  <div className="text-4xl md:text-5xl lg:text-6xl font-bold mb-1 font-mono text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60" data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
+                  <div className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-1 font-mono text-transparent bg-clip-text ${isDark ? 'bg-gradient-to-b from-white to-white/60' : 'bg-gradient-to-b from-neutral-900 to-neutral-600'}`} data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
                     <AnimatedCounter end={stat.value} suffix={stat.suffix || ''} prefix={stat.prefix || ''} />
                   </div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-neutral-500 font-medium">
+                  <div className={`text-[10px] tracking-[0.25em] uppercase font-medium ${textMuted}`}>
                     {stat.label}
                   </div>
                 </div>
@@ -337,7 +359,7 @@ const Home = () => {
         <div className="max-w-[1600px] mx-auto px-4 md:px-8">
           <FadeIn>
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white uppercase">
+              <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight uppercase ${textPrimary}`}>
                 PRODUCT FAMILIES
               </h2>
             </div>
@@ -351,7 +373,7 @@ const Home = () => {
                 <FadeIn key={family.id} delay={index} className="flex-shrink-0 w-[280px] lg:w-auto snap-center">
                   <Link 
                     to={family.link} 
-                    className={`group block relative overflow-hidden border ${colors.border} ${colors.hover} transition-all duration-500`}
+                    className={`group block relative overflow-hidden border ${colors.border} ${colors.hover} transition-all duration-500 ${isDark ? '' : 'shadow-lg'}`}
                     style={{ aspectRatio: '3/4' }}
                     data-testid={`home-family-${family.id}`}
                   >
@@ -384,8 +406,8 @@ const Home = () => {
           <div className="max-w-[1600px] mx-auto px-4 md:px-8">
             <FadeIn>
               <div className="flex items-end justify-between mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white uppercase">PROJECTS</h2>
-                <Link to="/projects" className="text-white/60 hover:text-white font-medium tracking-[0.1em] uppercase text-xs transition-colors">
+                <h2 className={`text-3xl md:text-4xl font-bold tracking-tight uppercase ${textPrimary}`}>PROJECTS</h2>
+                <Link to="/projects" className={`${textSecondary} hover:${textPrimary} font-medium tracking-[0.1em] uppercase text-xs transition-colors`}>
                   VIEW ALL →
                 </Link>
               </div>
@@ -394,7 +416,7 @@ const Home = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {featuredProjects.map((project, index) => (
                 <FadeIn key={project._id || project.id} delay={index}>
-                  <Link to="/projects" className="group block relative overflow-hidden" style={{ aspectRatio: '4/3' }} data-testid="home-featured-project">
+                  <Link to="/projects" className={`group block relative overflow-hidden ${isDark ? '' : 'shadow-lg rounded-lg'}`} style={{ aspectRatio: '4/3' }} data-testid="home-featured-project">
                     <CdnImage 
                       src={project.image_url || project.thumbnail_url} 
                       alt={project.name || project.title} 
@@ -423,11 +445,11 @@ const Home = () => {
       {/* ═══════════════════════════════════════════════════════════════════════
           WHY BRIGHTLUXX — Minimal icon grid
       ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="py-20 lg:py-28 border-t border-white/5" data-testid="why-brightluxx-section">
+      <section className={`py-20 lg:py-28 border-t ${borderColor}`} data-testid="why-brightluxx-section">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <FadeIn>
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white uppercase">WHY BRIGHTLUXX</h2>
+              <h2 className={`text-3xl md:text-4xl font-bold tracking-tight uppercase ${textPrimary}`}>WHY BRIGHTLUXX</h2>
             </div>
           </FadeIn>
 
@@ -440,8 +462,8 @@ const Home = () => {
                     <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center">
                       <Icon size={28} className="text-cyan-400" strokeWidth={1.5} />
                     </div>
-                    <h3 className="text-sm font-bold text-white uppercase tracking-wide mb-2">{item.title}</h3>
-                    <p className="text-xs text-neutral-500 leading-relaxed">{item.desc}</p>
+                    <h3 className={`text-sm font-bold uppercase tracking-wide mb-2 ${textPrimary}`}>{item.title}</h3>
+                    <p className={`text-xs leading-relaxed ${textMuted}`}>{item.desc}</p>
                   </div>
                 </FadeIn>
               );
@@ -454,12 +476,12 @@ const Home = () => {
           FEATURED PRODUCTS — Clean grid
       ═══════════════════════════════════════════════════════════════════════ */}
       {featuredProducts.length > 0 && (
-        <section className="py-20 lg:py-28 border-t border-white/5" data-testid="featured-products-section">
+        <section className={`py-20 lg:py-28 border-t ${borderColor}`} data-testid="featured-products-section">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <FadeIn>
               <div className="flex items-end justify-between mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white uppercase">PRODUCTS</h2>
-                <Link to="/products" className="text-white/60 hover:text-white font-medium tracking-[0.1em] uppercase text-xs transition-colors">
+                <h2 className={`text-3xl md:text-4xl font-bold tracking-tight uppercase ${textPrimary}`}>PRODUCTS</h2>
+                <Link to="/products" className={`${textSecondary} hover:${textPrimary} font-medium tracking-[0.1em] uppercase text-xs transition-colors`}>
                   VIEW ALL →
                 </Link>
               </div>
@@ -469,7 +491,7 @@ const Home = () => {
               {featuredProducts.slice(0, 4).map((product, index) => (
                 <FadeIn key={product._id || product.id} delay={index}>
                   <Link to={`/products/${product.slug}`} className="group block" data-testid="home-featured-product">
-                    <div className="relative overflow-hidden mb-3" style={{ aspectRatio: '1/1' }}>
+                    <div className={`relative overflow-hidden mb-3 ${isDark ? '' : 'shadow-md rounded-lg'}`} style={{ aspectRatio: '1/1' }}>
                       <CdnImage 
                         src={product.image_url} 
                         alt={product.name} 
@@ -479,7 +501,7 @@ const Home = () => {
                       />
                     </div>
                     <p className="text-[10px] tracking-[0.15em] text-cyan-400 uppercase mb-1">{product.product_code}</p>
-                    <h3 className="text-sm font-bold text-white uppercase tracking-wide group-hover:text-cyan-400 transition-colors">
+                    <h3 className={`text-sm font-bold uppercase tracking-wide group-hover:text-cyan-400 transition-colors ${textPrimary}`}>
                       {product.name}
                     </h3>
                   </Link>
@@ -493,10 +515,10 @@ const Home = () => {
       {/* ═══════════════════════════════════════════════════════════════════════
           CTA SECTION — Clean, minimal
       ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="py-28 lg:py-36 border-t border-white/5" data-testid="cta-section">
+      <section className={`py-28 lg:py-36 border-t ${borderColor}`} data-testid="cta-section">
         <div className="max-w-[800px] mx-auto px-6 text-center">
           <FadeIn>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white uppercase mb-8">
+            <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight uppercase mb-8 ${textPrimary}`}>
               LET'S BUILD<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-300">SOMETHING BRILLIANT</span>
             </h2>
@@ -504,14 +526,14 @@ const Home = () => {
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link 
                 to="/contact" 
-                className="bg-white text-black font-bold tracking-[0.1em] uppercase px-10 py-5 text-xs hover:bg-cyan-400 transition-colors duration-300"
+                className={`font-bold tracking-[0.1em] uppercase px-10 py-5 text-xs transition-colors duration-300 ${isDark ? 'bg-white text-black hover:bg-cyan-400' : 'bg-neutral-900 text-white hover:bg-cyan-500'}`}
                 data-testid="home-cta-contact"
               >
                 START YOUR PROJECT
               </Link>
               <Link 
                 to="/calculator" 
-                className="border border-white/20 text-white font-bold tracking-[0.1em] uppercase px-10 py-5 text-xs hover:border-white/40 transition-colors duration-300"
+                className={`border font-bold tracking-[0.1em] uppercase px-10 py-5 text-xs transition-colors duration-300 ${isDark ? 'border-white/20 text-white hover:border-white/40' : 'border-neutral-300 text-neutral-900 hover:border-neutral-400'}`}
                 data-testid="home-cta-calculator"
               >
                 SCREEN CALCULATOR

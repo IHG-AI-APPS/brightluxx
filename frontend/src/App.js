@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { SiteSettingsProvider } from './contexts/SiteSettingsContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 
 import Navbar from './components/Navbar';
@@ -287,6 +288,7 @@ function ScrollToTop() {
 function App() {
   return (
     <Router>
+      <ThemeProvider>
       <SiteSettingsProvider>
       <AdminProvider>
         <ScrollToTop />
@@ -297,6 +299,7 @@ function App() {
         </div>
       </AdminProvider>
       </SiteSettingsProvider>
+      </ThemeProvider>
     </Router>
   );
 }

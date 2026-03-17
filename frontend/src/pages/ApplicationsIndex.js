@@ -396,9 +396,9 @@ export default function Applications() {
       try {
         const response = await getInspirations();
         const data = response?.data?.inspirations || response?.data || [];
-        // Filter out product images (white backgrounds) - only keep installation/project photos
+        // Filter out product images (white backgrounds) - keep all installation/project photos
         const filtered = (Array.isArray(data) ? data : []).filter(item => 
-          item.image_url && !item.image_url.includes('white') && item.tags?.length > 0
+          item.image_url && !item.image_url.toLowerCase().includes('white')
         );
         setInspirations(filtered);
       } catch (err) {

@@ -1,9 +1,50 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, Thermometer, MessageCircle, Cable, Gauge, Sun, Moon, DollarSign, Lightbulb } from 'lucide-react';
+import { ArrowRight, Zap, Thermometer, MessageCircle, Cable, Sun, Moon, DollarSign, Lightbulb, Gauge } from 'lucide-react';
+import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import { FAQSection, buildFaqJsonLd, SectionDivider, SpecPackCTA } from '../components/KnowledgeBase';
 import QuickInquiry from '../components/QuickInquiry';
+
+const useInView = (ref, threshold = 0.15) => {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref, threshold]);
+  return inView;
+};
+
+const FadeInSection = ({ children, delay = 0, className = '' }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref);
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay: delay * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const GlassCard = ({ children, className = '', accent = false }) => (
+  <div className={`
+    backdrop-blur-xl bg-white/[0.03] border rounded-xl overflow-hidden
+    ${accent ? 'border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.08)]' : 'border-white/[0.08]'}
+    ${className}
+  `}>
+    {children}
+  </div>
+);
 
 const POWER_DATA = [
   { pitch: 0.9, label: 'P0.9', maxW: 620, avgW: 220, tech: 'COB MicroLED' },
@@ -26,12 +67,10 @@ const ELECTRICITY_RATES = [
 ];
 
 const FAQS = [
-  { q: 'How much electricity does an LED display consume?', a: 'Power consumption depends on pixel pitch, brightness, content, and display size. A typical indoor P2.5 LED display consumes 130-360 W/sqm (average to maximum). A 10 sqm display running 12 hours daily at average brightness costs approximately AED 115/month in the UAE.' },
-  { q: 'What is the difference between max and average power?', a: 'Maximum power is drawn when all LEDs display full white at full brightness — this rarely happens in practice. Average power (typically 30-40% of max) represents real-world content with mixed colours and brightness levels. Design your electrical infrastructure for max power, but calculate running costs on average power.' },
-  { q: 'How does brightness affect power consumption?', a: 'Power consumption scales roughly linearly with brightness. Running at 50% brightness reduces power consumption by approximately 40-50%. In indoor environments, displays rarely need more than 50-60% brightness, significantly reducing actual power consumption.' },
-  { q: 'Do I need dedicated air conditioning for an LED display?', a: 'Yes, for most installations. LED displays convert approximately 60-70% of electrical input into heat. A 10 sqm indoor display can generate 4,500-12,000 BTU/h of heat. In GCC climates, additional HVAC capacity must be factored into the MEP design. Our calculator provides BTU estimates.' },
-  { q: 'What circuit breaker size do I need for an LED display?', a: 'Circuit breaker sizing should be based on maximum power draw plus a 25% safety margin. For a 10 sqm P2.5 display on single-phase 220V: (3,600W × 1.25) / 220V = 20.5A, requiring a 25A breaker. Always consult a licensed electrician and follow local DEWA/ADDC regulations.' },
-  { q: 'How does pixel pitch affect power consumption?', a: 'Finer pixel pitches (P0.9, P1.2) consume more power per square meter because they pack more LEDs into the same area. P0.9 can consume up to 620 W/sqm at full white, while P3.9 uses around 300 W/sqm. However, finer pitches are typically used for smaller displays, so total consumption may be similar.' },
+  { q: 'How much electricity does an LED display consume?', a: 'A typical indoor P2.5 LED display consumes 130-360 W/sqm (average to maximum). A 10 sqm display running 12 hours daily costs approximately AED 115/month in the UAE.' },
+  { q: 'What is the difference between max and average power?', a: 'Maximum power is drawn when all LEDs display full white at full brightness. Average power (typically 30-40% of max) represents real-world content.' },
+  { q: 'Do I need dedicated air conditioning for an LED display?', a: 'Yes, LED displays convert approximately 60-70% of electrical input into heat. A 10 sqm indoor display can generate 4,500-12,000 BTU/h of heat.' },
+  { q: 'What circuit breaker size do I need for an LED display?', a: 'Circuit breaker sizing should be based on maximum power draw plus a 25% safety margin. Always consult a licensed electrician.' },
 ];
 
 function calcPower({ width, height, pitchIdx, brightness, hoursPerDay, rateIdx }) {
@@ -44,47 +83,31 @@ function calcPower({ width, height, pitchIdx, brightness, hoursPerDay, rateIdx }
   const avgPowerW = pd.avgW * area * brightnessFactor;
   const maxPowerkW = maxPowerW / 1000;
   const avgPowerkW = avgPowerW / 1000;
-
   const dailykWh = avgPowerkW * hoursPerDay;
   const monthlykWh = dailykWh * 30;
   const annualkWh = dailykWh * 365;
-
   const monthlyCost = monthlykWh * rate.factor;
   const annualCost = annualkWh * rate.factor;
-
   const heatBTU = maxPowerW * 3.412;
   const heatTons = heatBTU / 12000;
-
   const voltage = 220;
   const maxAmps = maxPowerW / voltage;
   const breakerSize = Math.ceil((maxAmps * 1.25) / 5) * 5;
-
   const cableSize = maxAmps <= 20 ? '2.5mm²' : maxAmps <= 32 ? '4mm²' : maxAmps <= 45 ? '6mm²' : maxAmps <= 60 ? '10mm²' : '16mm²+';
-
   const co2Annual = annualkWh * 0.4;
 
-  return {
-    area, pd, rate,
-    maxPowerW, avgPowerW, maxPowerkW, avgPowerkW,
-    dailykWh, monthlykWh, annualkWh,
-    monthlyCost, annualCost,
-    heatBTU, heatTons,
-    maxAmps, breakerSize, voltage, cableSize,
-    co2Annual,
-  };
+  return { area, pd, rate, maxPowerW, avgPowerW, maxPowerkW, avgPowerkW, dailykWh, monthlykWh, annualkWh, monthlyCost, annualCost, heatBTU, heatTons, maxAmps, breakerSize, voltage, cableSize, co2Annual };
 }
 
-function ResultCard({ label, value, unit, accent, sub, testId }) {
-  return (
-    <div className="p-4 rounded-xl" style={{ background: accent ? 'rgba(229,197,116,0.06)' : 'rgba(255,255,255,0.03)', border: `1px solid ${accent ? 'rgba(229,197,116,0.15)' : 'var(--blx-border)'}` }}>
-      <div className={`text-[0.5rem] font-bold tracking-[0.15em] mb-1 ${accent ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-muted)]'}`}>{label}</div>
-      <div className={`text-lg font-bold ${accent ? 'text-[var(--blx-gold-3)]' : ''}`} data-testid={testId}>
-        {value}<span className="text-xs font-normal text-[var(--blx-muted)] ml-1">{unit}</span>
-      </div>
-      {sub && <div className="text-[0.5rem] text-[var(--blx-muted)] mt-0.5">{sub}</div>}
+const ResultCard = ({ label, value, unit, accent, sub, testId }) => (
+  <div className={`p-4 rounded-xl ${accent ? 'bg-cyan-500/10 border border-cyan-500/20' : 'bg-white/[0.03] border border-white/[0.06]'}`}>
+    <div className={`text-[9px] font-bold tracking-[0.15em] uppercase mb-1 ${accent ? 'text-cyan-400' : 'text-gray-500'}`}>{label}</div>
+    <div className={`text-lg font-bold ${accent ? 'text-cyan-400' : 'text-white'}`} data-testid={testId}>
+      {value}<span className="text-xs font-normal text-gray-500 ml-1">{unit}</span>
     </div>
-  );
-}
+    {sub && <div className="text-[10px] text-gray-500 mt-0.5">{sub}</div>}
+  </div>
+);
 
 export default function PowerConsumptionEstimator() {
   const [width, setWidth] = useState(4);
@@ -98,321 +121,322 @@ export default function PowerConsumptionEstimator() {
   const r = useMemo(() => calcPower({ width, height, pitchIdx, brightness, hoursPerDay, rateIdx }), [width, height, pitchIdx, brightness, hoursPerDay, rateIdx]);
 
   return (
-    <div className="pb-20" data-testid="power-consumption-estimator">
+    <div className="bg-[#050508] min-h-screen" data-testid="power-consumption-estimator">
       <SEO
         title="LED Power Consumption Estimator — Electrical Load Calculator | Brightluxx"
-        description="Calculate LED display power consumption, electrical load, HVAC heat output, and running costs. Free tool for MEP engineers, architects, and specifiers in UAE/GCC."
+        description="Calculate LED display power consumption, electrical load, HVAC heat output, and running costs. Free tool for MEP engineers."
         path="/power-estimator"
-        jsonLd={[faqJsonLd, {
-          "@context": "https://schema.org",
-          "@type": "WebApplication",
-          "name": "LED Power Consumption Estimator",
-          "description": "Calculate power consumption, electrical load, and running costs for LED displays",
-          "provider": { "@type": "Organization", "name": "Brightluxx" },
-          "applicationCategory": "BusinessApplication",
-          "operatingSystem": "Web",
-        }]}
+        jsonLd={[faqJsonLd]}
       />
 
       {/* Hero */}
-      <div className="relative pt-24 pb-12">
-        <div className="absolute inset-0 blx-led-grid opacity-50" />
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">SPECIFIER TOOL</div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-3">
-            Power Consumption<br />Estimator
-          </h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed">
-            Calculate electrical load, running costs, heat output, and infrastructure requirements for any LED display. Essential for MEP specification in UAE/GCC projects.
-          </p>
+      <section className="relative pt-32 pb-12 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
+        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-yellow-500/5 rounded-full blur-[120px]" />
+        
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+          <FadeInSection>
+            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Specifier Tool</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight mb-4">
+              Power
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 ml-3">Estimator</span>
+            </h1>
+            <p className="text-gray-400 text-base md:text-lg max-w-2xl tracking-wide leading-relaxed">
+              Calculate electrical load, running costs, heat output, and infrastructure requirements for any LED display.
+            </p>
+          </FadeInSection>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-[1fr_380px] gap-8">
-          {/* Calculator */}
-          <div>
-            <div className="glass-panel p-6 sm:p-8 mb-8" data-testid="power-calc-panel">
-              {/* Display Size */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2 block">WIDTH (METERS)</label>
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="range" min="0.5" max="20" step="0.5" value={width}
-                      onChange={e => setWidth(parseFloat(e.target.value))}
-                      className="flex-1 accent-[var(--blx-gold-3)]"
-                      data-testid="width-slider"
-                    />
-                    <span className="text-xl font-bold text-[var(--blx-gold-3)] w-14 text-center" data-testid="width-value">{width}</span>
+      <section className="pb-20">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          <div className="grid lg:grid-cols-[1fr_380px] gap-8">
+            {/* Calculator */}
+            <div>
+              <FadeInSection delay={1}>
+                <GlassCard className="p-6 md:p-8 mb-8" data-testid="power-calc-panel">
+                  {/* Display Size */}
+                  <div className="grid grid-cols-2 gap-6 mb-6">
+                    <div>
+                      <label className="text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase mb-2 block">Width (meters)</label>
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="range" min="0.5" max="20" step="0.5" value={width}
+                          onChange={e => setWidth(parseFloat(e.target.value))}
+                          className="flex-1 accent-cyan-400"
+                          style={{ background: `linear-gradient(to right, #22d3ee ${((width-0.5)/19.5)*100}%, rgba(255,255,255,0.1) ${((width-0.5)/19.5)*100}%)` }}
+                          data-testid="width-slider"
+                        />
+                        <span className="text-xl font-bold text-cyan-400 w-14 text-center" data-testid="width-value">{width}</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase mb-2 block">Height (meters)</label>
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="range" min="0.5" max="12" step="0.5" value={height}
+                          onChange={e => setHeight(parseFloat(e.target.value))}
+                          className="flex-1 accent-cyan-400"
+                          style={{ background: `linear-gradient(to right, #22d3ee ${((height-0.5)/11.5)*100}%, rgba(255,255,255,0.1) ${((height-0.5)/11.5)*100}%)` }}
+                          data-testid="height-slider"
+                        />
+                        <span className="text-xl font-bold text-cyan-400 w-14 text-center" data-testid="height-value">{height}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2 block">HEIGHT (METERS)</label>
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="range" min="0.5" max="12" step="0.5" value={height}
-                      onChange={e => setHeight(parseFloat(e.target.value))}
-                      className="flex-1 accent-[var(--blx-gold-3)]"
-                      data-testid="height-slider"
-                    />
-                    <span className="text-xl font-bold text-[var(--blx-gold-3)] w-14 text-center" data-testid="height-value">{height}</span>
-                  </div>
-                </div>
-              </div>
 
-              {/* Pixel Pitch */}
-              <div className="mb-6">
-                <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-3 block">PIXEL PITCH</label>
-                <div className="flex flex-wrap gap-1.5">
-                  {POWER_DATA.map((p, i) => (
-                    <button
-                      key={p.pitch}
-                      onClick={() => setPitchIdx(i)}
-                      className={`px-3 py-1.5 rounded-lg text-[0.5625rem] font-bold tracking-wider transition-all ${
-                        pitchIdx === i
-                          ? 'bg-[rgba(229,197,116,0.15)] text-[var(--blx-gold-3)] border border-[rgba(229,197,116,0.2)]'
-                          : 'bg-[rgba(255,255,255,0.04)] text-[var(--blx-muted)] border border-transparent hover:border-[var(--blx-border)]'
-                      }`}
-                      data-testid={`pitch-btn-${p.label.toLowerCase()}`}
-                    >
-                      {p.label}
-                    </button>
+                  {/* Pixel Pitch */}
+                  <div className="mb-6">
+                    <label className="text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase mb-3 block">Pixel Pitch</label>
+                    <div className="flex flex-wrap gap-2">
+                      {POWER_DATA.map((p, i) => (
+                        <button
+                          key={p.pitch}
+                          onClick={() => setPitchIdx(i)}
+                          className={`px-3 py-2 rounded-lg text-[10px] font-bold tracking-wider transition-all ${
+                            pitchIdx === i
+                              ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30'
+                              : 'bg-white/[0.03] text-gray-500 border border-white/[0.06] hover:border-white/20'
+                          }`}
+                          data-testid={`pitch-btn-${p.label.toLowerCase()}`}
+                        >
+                          {p.label}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="text-[10px] text-gray-500 mt-2">{POWER_DATA[pitchIdx].tech} — Max {POWER_DATA[pitchIdx].maxW} W/sqm</div>
+                  </div>
+
+                  {/* Brightness */}
+                  <div className="mb-6">
+                    <label className="text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase mb-2 block">Average Brightness</label>
+                    <div className="flex items-center gap-3">
+                      <Moon size={14} className="text-gray-500" />
+                      <input
+                        type="range" min="10" max="100" step="5" value={brightness}
+                        onChange={e => setBrightness(parseInt(e.target.value))}
+                        className="flex-1 accent-cyan-400"
+                        style={{ background: `linear-gradient(to right, #22d3ee ${((brightness-10)/90)*100}%, rgba(255,255,255,0.1) ${((brightness-10)/90)*100}%)` }}
+                        data-testid="brightness-slider"
+                      />
+                      <Sun size={14} className="text-yellow-400" />
+                      <span className="text-lg font-bold text-cyan-400 w-14 text-center" data-testid="brightness-value">{brightness}%</span>
+                    </div>
+                  </div>
+
+                  {/* Usage & Rate */}
+                  <div className="grid grid-cols-2 gap-6 mb-6">
+                    <div>
+                      <label className="text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase mb-2 block">Hours Per Day</label>
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="range" min="1" max="24" step="1" value={hoursPerDay}
+                          onChange={e => setHoursPerDay(parseInt(e.target.value))}
+                          className="flex-1 accent-cyan-400"
+                          style={{ background: `linear-gradient(to right, #22d3ee ${((hoursPerDay-1)/23)*100}%, rgba(255,255,255,0.1) ${((hoursPerDay-1)/23)*100}%)` }}
+                          data-testid="hours-slider"
+                        />
+                        <span className="text-lg font-bold text-cyan-400 w-12 text-center" data-testid="hours-value">{hoursPerDay}h</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase mb-2 block">Electricity Rate</label>
+                      <div className="flex flex-wrap gap-2">
+                        {ELECTRICITY_RATES.map((er, i) => (
+                          <button
+                            key={er.id}
+                            onClick={() => setRateIdx(i)}
+                            className={`px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-wider transition-all ${
+                              rateIdx === i
+                                ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30'
+                                : 'bg-white/[0.03] text-gray-500 border border-white/[0.06] hover:border-white/20'
+                            }`}
+                            data-testid={`rate-btn-${er.id}`}
+                          >
+                            {er.id.toUpperCase()}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Results */}
+                  <div className="border-t border-white/[0.06] pt-6" data-testid="power-results">
+                    {/* Power */}
+                    <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">
+                      <Zap size={14} /> Power Consumption
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                      <ResultCard label="Display Area" value={r.area.toFixed(1)} unit="m²" sub={`${width}m × ${height}m`} testId="result-area" />
+                      <ResultCard label="Max Power" value={r.maxPowerkW.toFixed(1)} unit="kW" sub={`${r.maxPowerW.toLocaleString()}W full white`} testId="result-max-power" />
+                      <ResultCard label="Avg Power" value={r.avgPowerkW.toFixed(1)} unit="kW" accent sub={`${Math.round(r.avgPowerW).toLocaleString()}W at ${brightness}%`} testId="result-avg-power" />
+                      <ResultCard label="Daily Usage" value={r.dailykWh.toFixed(1)} unit="kWh" sub={`${hoursPerDay} hours/day`} testId="result-daily" />
+                    </div>
+
+                    {/* Running Costs */}
+                    <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">
+                      <DollarSign size={14} /> Running Costs ({r.rate.label})
+                    </div>
+                    <div className="grid grid-cols-3 gap-3 mb-6">
+                      <ResultCard label="Monthly" value={`${r.rate.symbol} ${Math.round(r.monthlyCost).toLocaleString()}`} unit="" accent sub={`${r.monthlykWh.toFixed(0)} kWh/month`} testId="result-monthly-cost" />
+                      <ResultCard label="Annual" value={`${r.rate.symbol} ${Math.round(r.annualCost).toLocaleString()}`} unit="" sub={`${r.annualkWh.toFixed(0)} kWh/year`} testId="result-annual-cost" />
+                      <ResultCard label="CO2 / Year" value={`${(r.co2Annual / 1000).toFixed(1)}`} unit="tons" sub="GCC grid average" testId="result-co2" />
+                    </div>
+
+                    {/* MEP Specifications */}
+                    <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">
+                      <Cable size={14} /> MEP Specifications
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                      <ResultCard label="Max Current" value={r.maxAmps.toFixed(1)} unit="A" sub={`At ${r.voltage}V single phase`} testId="result-amps" />
+                      <ResultCard label="Breaker Size" value={r.breakerSize} unit="A" accent sub="Including 25% safety margin" testId="result-breaker" />
+                      <ResultCard label="Cable Size" value={r.cableSize} unit="" sub="Recommended minimum" testId="result-cable" />
+                      <ResultCard label="Heat Output" value={Math.round(r.heatBTU).toLocaleString()} unit="BTU/h" sub={`${r.heatTons.toFixed(1)} tons cooling`} testId="result-heat" />
+                    </div>
+
+                    {/* GCC Heat Warning */}
+                    <div className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
+                      <div className="flex items-start gap-3">
+                        <Thermometer size={16} className="text-yellow-400 mt-0.5 flex-shrink-0" />
+                        <div className="text-xs text-gray-400 leading-relaxed">
+                          <strong className="text-yellow-400">GCC Climate Note:</strong> LED displays generate {r.heatTons.toFixed(1)} tons of heat load that must be offset by HVAC. For outdoor installations, add 30-40% additional cooling capacity.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </GlassCard>
+              </FadeInSection>
+
+              {/* CTAs */}
+              <FadeInSection delay={2}>
+                <div className="flex flex-wrap gap-4 mb-12">
+                  <Link 
+                    to="/contact" 
+                    className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-6 py-3 transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] inline-flex items-center gap-2 text-sm"
+                    data-testid="power-quote-cta"
+                  >
+                    Get Detailed Quote <ArrowRight size={16} />
+                  </Link>
+                  <a
+                    href={`https://wa.me/971559954274?text=${encodeURIComponent(
+                      `Hi, I used your power consumption estimator. I need a ${width}m × ${height}m ${POWER_DATA[pitchIdx].label} LED display (${r.area.toFixed(1)} sqm). Max power: ${r.maxPowerkW.toFixed(1)}kW, breaker: ${r.breakerSize}A, heat: ${Math.round(r.heatBTU)} BTU/h. Can you provide a quotation?`
+                    )}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-6 py-3 transition-all inline-flex items-center gap-2 text-sm"
+                    data-testid="power-whatsapp-cta"
+                  >
+                    <MessageCircle size={16} /> WhatsApp with Specs
+                  </a>
+                </div>
+              </FadeInSection>
+
+              <SectionDivider />
+
+              {/* Reference Table */}
+              <FadeInSection delay={3}>
+                <h2 className="text-xl font-bold tracking-wide text-white mb-6">Power Consumption by Pixel Pitch</h2>
+                <GlassCard className="overflow-hidden mb-12" data-testid="power-reference-table">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-white/[0.06]" style={{ background: 'rgba(255,255,255,0.02)' }}>
+                          <th className="py-3 px-4 text-left text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase">Pitch</th>
+                          <th className="py-3 px-4 text-left text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase">Max W/sqm</th>
+                          <th className="py-3 px-4 text-left text-[10px] font-bold tracking-[0.15em] text-cyan-400 uppercase">Avg W/sqm</th>
+                          <th className="py-3 px-4 text-left text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase">10sqm Max kW</th>
+                          <th className="py-3 px-4 text-left text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase">10sqm Heat BTU/h</th>
+                          <th className="py-3 px-4 text-left text-[10px] font-bold tracking-[0.15em] text-gray-500 uppercase">Technology</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {POWER_DATA.map(p => (
+                          <tr key={p.pitch} className="border-b border-white/[0.04] hover:bg-white/[0.02]">
+                            <td className="py-2.5 px-4 text-sm font-bold text-cyan-400">{p.label}</td>
+                            <td className="py-2.5 px-4 text-xs text-gray-400">{p.maxW}</td>
+                            <td className="py-2.5 px-4 text-xs font-bold text-white">{p.avgW}</td>
+                            <td className="py-2.5 px-4 text-xs text-gray-400">{(p.maxW * 10 / 1000).toFixed(1)} kW</td>
+                            <td className="py-2.5 px-4 text-xs text-gray-400">{Math.round(p.maxW * 10 * 3.412).toLocaleString()}</td>
+                            <td className="py-2.5 px-4 text-xs text-gray-500">{p.tech}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </GlassCard>
+              </FadeInSection>
+
+              {/* Tips */}
+              <FadeInSection delay={4}>
+                <h2 className="text-xl font-bold tracking-wide text-white mb-6">Power-Saving Tips</h2>
+                <div className="grid sm:grid-cols-2 gap-4 mb-12">
+                  {[
+                    { title: 'Smart Brightness Scheduling', desc: 'Reduce brightness during low-traffic hours. Saves 30-50% on electricity.' },
+                    { title: 'Ambient Light Sensors', desc: 'Auto-dim based on room lighting conditions.' },
+                    { title: 'Content Optimization', desc: 'Dark-themed content consumes significantly less power.' },
+                    { title: 'Scheduled Power-Off', desc: 'Turn off displays during non-business hours.' },
+                  ].map((tip, i) => (
+                    <GlassCard key={i} className="p-5">
+                      <div className="flex items-start gap-3">
+                        <Lightbulb size={14} className="text-yellow-400 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <h3 className="text-sm font-bold tracking-wider text-white mb-1">{tip.title}</h3>
+                          <p className="text-xs text-gray-400 leading-relaxed">{tip.desc}</p>
+                        </div>
+                      </div>
+                    </GlassCard>
                   ))}
                 </div>
-                <div className="text-[0.5rem] text-[var(--blx-muted)] mt-1.5">{POWER_DATA[pitchIdx].tech} — Max {POWER_DATA[pitchIdx].maxW} W/sqm</div>
-              </div>
+              </FadeInSection>
 
-              {/* Brightness */}
-              <div className="mb-6">
-                <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2 block">AVERAGE BRIGHTNESS</label>
-                <div className="flex items-center gap-3">
-                  <Moon size={14} className="text-[var(--blx-muted)]" />
-                  <input
-                    type="range" min="10" max="100" step="5" value={brightness}
-                    onChange={e => setBrightness(parseInt(e.target.value))}
-                    className="flex-1 accent-[var(--blx-gold-3)]"
-                    data-testid="brightness-slider"
-                  />
-                  <Sun size={14} className="text-[var(--blx-gold-3)]" />
-                  <span className="text-lg font-bold text-[var(--blx-gold-3)] w-14 text-center" data-testid="brightness-value">{brightness}%</span>
-                </div>
-              </div>
+              <SectionDivider />
+              <FadeInSection delay={5}>
+                <FAQSection faqs={FAQS} title="Frequently Asked Questions" />
+              </FadeInSection>
+            </div>
 
-              {/* Usage & Rate */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2 block">HOURS PER DAY</label>
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="range" min="1" max="24" step="1" value={hoursPerDay}
-                      onChange={e => setHoursPerDay(parseInt(e.target.value))}
-                      className="flex-1 accent-[var(--blx-gold-3)]"
-                      data-testid="hours-slider"
-                    />
-                    <span className="text-lg font-bold text-[var(--blx-gold-3)] w-14 text-center" data-testid="hours-value">{hoursPerDay}h</span>
-                  </div>
-                </div>
-                <div>
-                  <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2 block">ELECTRICITY RATE</label>
-                  <div className="flex flex-wrap gap-1.5">
-                    {ELECTRICITY_RATES.map((er, i) => (
-                      <button
-                        key={er.id}
-                        onClick={() => setRateIdx(i)}
-                        className={`px-3 py-1.5 rounded-lg text-[0.5625rem] font-bold tracking-wider transition-all ${
-                          rateIdx === i
-                            ? 'bg-[rgba(229,197,116,0.15)] text-[var(--blx-gold-3)] border border-[rgba(229,197,116,0.2)]'
-                            : 'bg-[rgba(255,255,255,0.04)] text-[var(--blx-muted)] border border-transparent hover:border-[var(--blx-border)]'
-                        }`}
-                        data-testid={`rate-btn-${er.id}`}
-                      >
-                        {er.label}
-                      </button>
+            {/* Sidebar */}
+            <aside className="space-y-6">
+              <FadeInSection delay={2}>
+                <SpecPackCTA packId="power-consumption" title="Power & MEP Spec Pack" description="Complete electrical specification reference including cable sizing tables and HVAC load calculations." />
+              </FadeInSection>
+
+              <FadeInSection delay={3}>
+                <GlassCard className="p-5">
+                  <span className="text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Related Tools</span>
+                  <div className="space-y-2">
+                    {[
+                      { to: '/calculator', label: 'Screen Calculator', desc: 'Size, resolution & specs' },
+                      { to: '/viewing-distance', label: 'Viewing Distance', desc: 'Pixel pitch vs. distance' },
+                      { to: '/budget-estimator', label: 'Budget Estimator', desc: 'Project cost estimates' },
+                      { to: '/technology-selector', label: 'Technology Selector', desc: 'Find the right LED tech' },
+                    ].map(link => (
+                      <Link key={link.to} to={link.to} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/[0.04] transition-colors">
+                        <ArrowRight size={12} className="text-cyan-400" />
+                        <div>
+                          <div className="text-xs font-bold tracking-wider text-white">{link.label}</div>
+                          <div className="text-[10px] text-gray-500">{link.desc}</div>
+                        </div>
+                      </Link>
                     ))}
                   </div>
-                </div>
-              </div>
+                </GlassCard>
+              </FadeInSection>
 
-              {/* Results */}
-              <div className="border-t border-[var(--blx-hairline)] pt-6" data-testid="power-results">
-                {/* Power */}
-                <div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3 flex items-center gap-2">
-                  <Zap size={12} /> POWER CONSUMPTION
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                  <ResultCard label="DISPLAY AREA" value={r.area.toFixed(1)} unit="m²" sub={`${width}m × ${height}m`} testId="result-area" />
-                  <ResultCard label="MAX POWER" value={r.maxPowerkW.toFixed(1)} unit="kW" sub={`${r.maxPowerW.toLocaleString()}W at full white`} testId="result-max-power" />
-                  <ResultCard label="AVG POWER" value={r.avgPowerkW.toFixed(1)} unit="kW" accent sub={`${Math.round(r.avgPowerW).toLocaleString()}W at ${brightness}% brightness`} testId="result-avg-power" />
-                  <ResultCard label="DAILY USAGE" value={r.dailykWh.toFixed(1)} unit="kWh" sub={`${hoursPerDay} hours/day`} testId="result-daily" />
-                </div>
-
-                {/* Running Costs */}
-                <div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3 flex items-center gap-2">
-                  <DollarSign size={12} /> RUNNING COSTS ({r.rate.label})
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-                  <ResultCard label="MONTHLY" value={`${r.rate.symbol} ${Math.round(r.monthlyCost).toLocaleString()}`} unit="" accent sub={`${r.monthlykWh.toFixed(0)} kWh/month`} testId="result-monthly-cost" />
-                  <ResultCard label="ANNUAL" value={`${r.rate.symbol} ${Math.round(r.annualCost).toLocaleString()}`} unit="" sub={`${r.annualkWh.toFixed(0)} kWh/year`} testId="result-annual-cost" />
-                  <ResultCard label="CO2 / YEAR" value={`${(r.co2Annual / 1000).toFixed(1)}`} unit="tons" sub="Based on GCC grid average" testId="result-co2" />
-                </div>
-
-                {/* MEP Specifications */}
-                <div className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3 flex items-center gap-2">
-                  <Cable size={12} /> MEP SPECIFICATIONS
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                  <ResultCard label="MAX CURRENT" value={r.maxAmps.toFixed(1)} unit="A" sub={`At ${r.voltage}V single phase`} testId="result-amps" />
-                  <ResultCard label="BREAKER SIZE" value={r.breakerSize} unit="A" accent sub="Including 25% safety margin" testId="result-breaker" />
-                  <ResultCard label="CABLE SIZE" value={r.cableSize} unit="" sub="Recommended minimum" testId="result-cable" />
-                  <ResultCard label="HEAT OUTPUT" value={Math.round(r.heatBTU).toLocaleString()} unit="BTU/h" sub={`${r.heatTons.toFixed(1)} tons cooling`} testId="result-heat" />
-                </div>
-
-                {/* GCC Heat Warning */}
-                <div className="p-4 rounded-xl mb-2" style={{ background: 'rgba(229,197,116,0.04)', border: '1px solid rgba(229,197,116,0.1)' }}>
-                  <div className="flex items-start gap-3">
-                    <Thermometer size={16} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-                    <div className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">
-                      <strong className="text-[var(--blx-gold-3)]">GCC Climate Note:</strong> In UAE/Saudi Arabia, ambient temperatures regularly exceed 45°C. LED displays generate {r.heatTons.toFixed(1)} tons of heat load that must be offset by HVAC. For outdoor installations, add 30-40% additional cooling capacity. Ensure rear-access ventilation space of minimum 600mm.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-3 mb-10">
-              <Link to="/contact" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="power-quote-cta">
-                Get Detailed Quote <ArrowRight size={14} />
-              </Link>
-              <a
-                href={`https://wa.me/971559954274?text=${encodeURIComponent(
-                  `Hi, I used your power consumption estimator. I need a ${width}m × ${height}m ${POWER_DATA[pitchIdx].label} LED display (${r.area.toFixed(1)} sqm). Max power: ${r.maxPowerkW.toFixed(1)}kW, breaker: ${r.breakerSize}A, heat: ${Math.round(r.heatBTU)} BTU/h. Can you provide a quotation with MEP specifications?`
-                )}`}
-                target="_blank" rel="noopener noreferrer"
-                className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2"
-                data-testid="power-whatsapp-cta"
-              >
-                <MessageCircle size={14} /> WhatsApp with Specs
-              </a>
-            </div>
-
-            <SectionDivider />
-
-            {/* Reference Table */}
-            <h2 className="text-lg font-bold tracking-wider mb-6">Power Consumption by Pixel Pitch</h2>
-            <div className="glass-panel overflow-hidden mb-10" data-testid="power-reference-table">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-[var(--blx-hairline)]" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                      <th className="py-3 px-4 text-left text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)]">Pitch</th>
-                      <th className="py-3 px-4 text-left text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)]">Max W/sqm</th>
-                      <th className="py-3 px-4 text-left text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)]">Avg W/sqm</th>
-                      <th className="py-3 px-4 text-left text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)]">10sqm Max kW</th>
-                      <th className="py-3 px-4 text-left text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)]">10sqm Heat BTU/h</th>
-                      <th className="py-3 px-4 text-left text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)]">Technology</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {POWER_DATA.map(p => (
-                      <tr key={p.pitch} className="border-b border-[var(--blx-hairline)] hover:bg-[rgba(255,255,255,0.02)]">
-                        <td className="py-2.5 px-4 text-sm font-bold text-[var(--blx-gold-3)]">{p.label}</td>
-                        <td className="py-2.5 px-4 text-xs">{p.maxW}</td>
-                        <td className="py-2.5 px-4 text-xs font-bold">{p.avgW}</td>
-                        <td className="py-2.5 px-4 text-xs">{(p.maxW * 10 / 1000).toFixed(1)} kW</td>
-                        <td className="py-2.5 px-4 text-xs">{Math.round(p.maxW * 10 * 3.412).toLocaleString()}</td>
-                        <td className="py-2.5 px-4 text-xs text-[var(--blx-text-2)]">{p.tech}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <SectionDivider />
-
-            {/* How to Use */}
-            <h2 className="text-lg font-bold tracking-wider mb-6">What This Tells Your MEP Engineer</h2>
-            <div className="grid sm:grid-cols-3 gap-4 mb-10">
-              {[
-                { icon: Zap, title: 'Electrical Load', desc: 'Size the dedicated circuit, breaker, and cable for the display. Always design for maximum power draw with 25% headroom.' },
-                { icon: Thermometer, title: 'Cooling Requirement', desc: 'LED heat output in BTU/h helps HVAC engineers size additional cooling capacity. Critical in GCC where ambient temps exceed 45°C.' },
-                { icon: DollarSign, title: 'Operating Budget', desc: 'Monthly and annual electricity costs help project managers and building owners plan ongoing operational expenditure.' },
-              ].map((item, i) => (
-                <div key={i} className="glass-panel p-5">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-3" style={{ background: 'rgba(229,197,116,0.08)' }}>
-                    <item.icon size={16} className="text-[var(--blx-gold-3)]" />
-                  </div>
-                  <h3 className="text-xs font-bold tracking-wider mb-2">{item.title}</h3>
-                  <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            <SectionDivider />
-
-            {/* Tips */}
-            <h2 className="text-lg font-bold tracking-wider mb-6">Power-Saving Tips for LED Displays</h2>
-            <div className="grid sm:grid-cols-2 gap-4 mb-10">
-              {[
-                { title: 'Smart Brightness Scheduling', desc: 'Reduce brightness during low-traffic hours (e.g., 40% at night for indoor lobbies). Saves 30-50% on electricity and extends LED lifespan.' },
-                { title: 'Ambient Light Sensors', desc: 'Auto-dim based on room lighting conditions. Most modern controllers support this natively. Prevents over-driving LEDs in dim environments.' },
-                { title: 'Content Optimization', desc: 'Dark-themed content with black backgrounds consumes significantly less power than white/bright content. LED pixels draw zero watts when displaying pure black.' },
-                { title: 'Scheduled Power-Off', desc: 'Completely power down displays during non-business hours rather than leaving on standby. A 10 sqm display saves ~1,000 kWh/year by turning off 8 hours nightly.' },
-              ].map((tip, i) => (
-                <div key={i} className="glass-panel p-5">
-                  <div className="flex items-start gap-3">
-                    <Lightbulb size={14} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="text-xs font-bold tracking-wider mb-1.5">{tip.title}</h3>
-                      <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed">{tip.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <SectionDivider />
-            <FAQSection faqs={FAQS} title="Frequently Asked Questions" />
-          </div>
-
-          {/* Sidebar */}
-          <aside className="space-y-6">
-            <SpecPackCTA packId="power-consumption" title="Power & MEP Spec Pack" description="Complete electrical specification reference including cable sizing tables, breaker selection, and HVAC load calculations." />
-
-            <div className="glass-panel p-5">
-              <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">RELATED TOOLS</h3>
-              <div className="space-y-1">
-                {[
-                  { to: '/calculator', label: 'Screen Calculator', desc: 'Size, resolution & specs' },
-                  { to: '/viewing-distance', label: 'Viewing Distance', desc: 'Pixel pitch vs. distance' },
-                  { to: '/budget-estimator', label: 'Budget Estimator', desc: 'Project cost estimates' },
-                  { to: '/technology-selector', label: 'Technology Selector', desc: 'Find the right LED tech' },
-                ].map(link => (
-                  <Link key={link.to} to={link.to} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-colors">
-                    <ArrowRight size={10} className="text-[var(--blx-gold-3)]" />
-                    <div>
-                      <div className="text-xs font-bold tracking-wider">{link.label}</div>
-                      <div className="text-[0.5rem] text-[var(--blx-muted)]">{link.desc}</div>
-                    </div>
+              <FadeInSection delay={4}>
+                <div className="p-5 rounded-xl bg-gradient-to-br from-cyan-500/10 to-cyan-600/5 border border-cyan-500/20">
+                  <span className="text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase mb-2 block">Need MEP Support?</span>
+                  <p className="text-xs text-gray-400 leading-relaxed mb-4">
+                    Our engineers provide full MEP coordination including electrical schematics and HVAC load calculations.
+                  </p>
+                  <Link to="/design-assist" className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-4 py-2.5 w-full text-center transition-all inline-flex items-center justify-center gap-2 text-xs">
+                    Free Design Assist <ArrowRight size={14} />
                   </Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="p-5 rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.06) 0%, rgba(183,142,58,0.03) 100%)', border: '1px solid rgba(229,197,116,0.12)' }}>
-              <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-2">NEED MEP SUPPORT?</h3>
-              <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed mb-4">
-                Our engineers provide full MEP coordination including electrical schematics, HVAC load calculations, and structural requirements.
-              </p>
-              <Link to="/design-assist" className="btn-gold w-full py-2.5 text-[0.625rem] font-bold tracking-[0.12em] flex items-center justify-center gap-2">
-                Free Design Assist <ArrowRight size={12} />
-              </Link>
-            </div>
-          </aside>
+                </div>
+              </FadeInSection>
+            </aside>
+          </div>
         </div>
-      </div>
+      </section>
       <QuickInquiry context="LED power consumption and MEP specification" />
     </div>
   );

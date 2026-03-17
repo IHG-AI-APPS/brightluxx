@@ -1,9 +1,50 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Grid3X3, Ruler, Monitor, Zap, Weight, Eye, Maximize, Info, RotateCcw } from 'lucide-react';
+import { ArrowRight, Grid3X3, Ruler, Monitor, Zap, Scale, Eye, Maximize, Info, RotateCcw } from 'lucide-react';
+import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import { FAQSection, buildFaqJsonLd, SectionDivider, SpecPackCTA } from '../components/KnowledgeBase';
 import QuickInquiry from '../components/QuickInquiry';
+
+const useInView = (ref, threshold = 0.15) => {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref, threshold]);
+  return inView;
+};
+
+const FadeInSection = ({ children, delay = 0, className = '' }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref);
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay: delay * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const GlassCard = ({ children, className = '', accent = false }) => (
+  <div className={`
+    backdrop-blur-xl bg-white/[0.03] border rounded-xl overflow-hidden
+    ${accent ? 'border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.08)]' : 'border-white/[0.08]'}
+    ${className}
+  `}>
+    {children}
+  </div>
+);
 
 const MODULE_PRESETS = [
   { label: '250 x 250 mm', w: 250, h: 250, type: 'Indoor Standard' },
@@ -34,12 +75,10 @@ const PITCH_OPTIONS = [
 ];
 
 const FAQS = [
-  { q: 'What is an LED module?', a: 'An LED module is the smallest building block of an LED display, consisting of a PCB board populated with LEDs arranged at a specific pixel pitch. Modules are assembled into cabinets (panels), and multiple cabinets form the complete display wall. Common module sizes include 250x250mm and 320x160mm for indoor, and 320x160mm or larger for outdoor.' },
-  { q: 'What is an LED cabinet (panel)?', a: 'An LED cabinet (or panel) is a structural unit containing multiple LED modules, a power supply, and a receiving card. Cabinets are the primary unit used for installation. Common sizes include 500x500mm and 640x640mm. The cabinet size determines the modular grid for your LED wall and affects the achievable screen dimensions.' },
-  { q: 'Why does module size matter?', a: 'Module/cabinet size determines the exact achievable dimensions of your LED wall, since screens must be built in whole-module increments. For example, with 500x500mm cabinets, your screen width can only be 500mm, 1000mm, 1500mm, etc. This calculator helps you find the optimal layout to match your desired size as closely as possible.' },
-  { q: 'How do I calculate resolution?', a: 'Resolution is determined by dividing the total screen dimension (in mm) by the pixel pitch (in mm). For example, a 3000mm wide screen with P2.5 pitch has a horizontal resolution of 3000 ÷ 2.5 = 1,200 pixels. The calculator automatically computes this for both width and height.' },
-  { q: 'What pixel pitch should I choose?', a: 'Pixel pitch depends primarily on viewing distance: the closer viewers stand, the finer the pitch needed. For control rooms (1-2m viewing), use P0.7-P1.2. For boardrooms (2-4m), P1.5-P2.5. For retail and lobbies (3-8m), P2.5-P4. For outdoor (5m+), P4-P10. Use our Viewing Distance Calculator for precise recommendations.' },
-  { q: 'How is power consumption estimated?', a: 'Power consumption depends on pixel pitch, brightness, and content. Finer pitch displays (P0.7-P1.5) typically consume 180-280W per sqm at average brightness. Standard indoor (P2.5-P4) ranges 300-450W/sqm. Outdoor high-brightness displays can reach 500-700W/sqm. This calculator uses average brightness values for estimation. Always verify with manufacturer specs for MEP planning.' },
+  { q: 'What is an LED module?', a: 'An LED module is the smallest building block of an LED display, consisting of a PCB board populated with LEDs arranged at a specific pixel pitch.' },
+  { q: 'What is an LED cabinet (panel)?', a: 'An LED cabinet is a structural unit containing multiple LED modules, a power supply, and a receiving card.' },
+  { q: 'Why does module size matter?', a: 'Module/cabinet size determines the exact achievable dimensions of your LED wall, since screens must be built in whole-module increments.' },
+  { q: 'How do I calculate resolution?', a: 'Resolution is determined by dividing the total screen dimension (in mm) by the pixel pitch (in mm).' },
 ];
 
 const REFERENCE_TABLE = [
@@ -47,12 +86,9 @@ const REFERENCE_TABLE = [
   { pitch: 'P0.9', modSize: '320x160', cabSize: '480x480', resPerCab: '533x533', use: 'Command centres, boardrooms' },
   { pitch: 'P1.2', modSize: '250x250', cabSize: '500x500', resPerCab: '417x417', use: 'Corporate lobbies, showrooms' },
   { pitch: 'P1.5', modSize: '250x250', cabSize: '500x500', resPerCab: '333x333', use: 'Meeting rooms, retail' },
-  { pitch: 'P1.9', modSize: '250x250', cabSize: '500x500', resPerCab: '263x263', use: 'Auditoriums, museums' },
   { pitch: 'P2.5', modSize: '320x160', cabSize: '640x640', resPerCab: '256x256', use: 'Large venues, houses of worship' },
   { pitch: 'P3.9', modSize: '250x250', cabSize: '500x500', resPerCab: '128x128', use: 'Events, rental, stages' },
-  { pitch: 'P4.8', modSize: '250x250', cabSize: '500x1000', resPerCab: '104x208', use: 'Outdoor signage, stadiums' },
   { pitch: 'P6', modSize: '192x192', cabSize: '960x960', resPerCab: '160x160', use: 'Outdoor advertising' },
-  { pitch: 'P8', modSize: '256x128', cabSize: '1024x1024', resPerCab: '128x128', use: 'Highway billboards' },
   { pitch: 'P10', modSize: '320x160', cabSize: '960x960', resPerCab: '96x96', use: 'Building-top, media facades' },
 ];
 
@@ -60,84 +96,61 @@ function calculate(targetW, targetH, modW, modH, pitchMm, powerPerSqm, weightPer
   const modsWide = Math.ceil(targetW / modW);
   const modsHigh = Math.ceil(targetH / modH);
   const totalModules = modsWide * modsHigh;
-
   const actualW = modsWide * modW;
   const actualH = modsHigh * modH;
   const areaSqm = (actualW * actualH) / 1_000_000;
-
   const resW = Math.floor(actualW / pitchMm);
   const resH = Math.floor(actualH / pitchMm);
   const totalPixels = resW * resH;
-
   const isFHD = resW >= 1920 && resH >= 1080;
   const is4K = resW >= 3840 && resH >= 2160;
-
-  const aspectRatio = actualW / actualH;
   const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
   const g = gcd(modsWide, modsHigh);
   const ratioW = modsWide / g;
   const ratioH = modsHigh / g;
-
   const maxPower = powerPerSqm * areaSqm;
   const avgPower = maxPower * 0.6;
   const weight = weightPerSqm * areaSqm;
-
   const minViewing = pitchMm;
   const optimalViewing = pitchMm * 3;
   const maxViewing = pitchMm * 8;
 
-  return {
-    modsWide, modsHigh, totalModules,
-    actualW, actualH, areaSqm,
-    resW, resH, totalPixels, isFHD, is4K,
-    aspectRatio, ratioW, ratioH,
-    maxPower, avgPower, weight,
-    minViewing, optimalViewing, maxViewing,
-  };
+  return { modsWide, modsHigh, totalModules, actualW, actualH, areaSqm, resW, resH, totalPixels, isFHD, is4K, ratioW, ratioH, maxPower, avgPower, weight, minViewing, optimalViewing, maxViewing };
 }
 
-function ResultCard({ label, value, unit, icon: Icon, sub, testId }) {
+function ResultCard({ label, value, unit, icon: Icon, sub, testId, accent = false }) {
   return (
-    <div className="glass-panel p-4" data-testid={testId}>
+    <div className={`p-4 rounded-xl ${accent ? 'bg-cyan-500/10 border border-cyan-500/20' : 'bg-white/[0.03] border border-white/[0.06]'}`} data-testid={testId}>
       <div className="flex items-center gap-2 mb-2">
-        {Icon && <Icon size={14} className="text-[var(--blx-gold-3)]" />}
-        <span className="text-[10px] tracking-[0.15em] text-[var(--blx-text-2)] font-bold">{label}</span>
+        {Icon && <Icon size={14} className={accent ? 'text-cyan-400' : 'text-gray-500'} />}
+        <span className={`text-[9px] tracking-[0.15em] uppercase font-bold ${accent ? 'text-cyan-400' : 'text-gray-500'}`}>{label}</span>
       </div>
-      <div className="text-lg font-bold">{value} <span className="text-xs text-[var(--blx-text-2)] font-normal">{unit}</span></div>
-      {sub && <div className="text-[10px] text-[var(--blx-text-2)] mt-1">{sub}</div>}
+      <div className={`text-lg font-bold ${accent ? 'text-cyan-400' : 'text-white'}`}>{value} <span className="text-xs text-gray-500 font-normal">{unit}</span></div>
+      {sub && <div className="text-[10px] text-gray-500 mt-1">{sub}</div>}
     </div>
   );
 }
 
 function ModuleGrid({ modsWide, modsHigh }) {
-  const maxCols = Math.min(modsWide, 20);
-  const maxRows = Math.min(modsHigh, 12);
   const scaleW = modsWide > 20 ? 20 / modsWide : 1;
   const scaleH = modsHigh > 12 ? 12 / modsHigh : 1;
   const cols = Math.round(modsWide * Math.min(scaleW, scaleH));
   const rows = Math.round(modsHigh * Math.min(scaleW, scaleH));
 
   return (
-    <div className="glass-panel p-5" data-testid="module-grid-visual">
-      <div className="text-[10px] tracking-[0.15em] text-[var(--blx-gold-3)] font-bold mb-3">LAYOUT PREVIEW</div>
+    <GlassCard className="p-5" data-testid="module-grid-visual">
+      <span className="text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Layout Preview</span>
       <div className="flex justify-center">
-        <div
-          className="inline-grid gap-[2px]"
-          style={{ gridTemplateColumns: `repeat(${cols || 1}, minmax(0, 1fr))` }}
-        >
+        <div className="inline-grid gap-[2px]" style={{ gridTemplateColumns: `repeat(${cols || 1}, minmax(0, 1fr))` }}>
           {Array.from({ length: (cols || 1) * (rows || 1) }).map((_, i) => (
-            <div
-              key={i}
-              className="w-5 h-5 sm:w-6 sm:h-6 rounded-[2px] border border-[var(--blx-gold-3)]/20"
-              style={{ background: 'rgba(229,197,116,0.06)' }}
-            />
+            <div key={i} className="w-5 h-5 sm:w-6 sm:h-6 rounded-[2px] border border-cyan-500/20 bg-cyan-500/5" />
           ))}
         </div>
       </div>
-      <div className="text-center mt-3 text-[10px] text-[var(--blx-text-2)]">
+      <div className="text-center mt-3 text-xs text-gray-500">
         {modsWide} wide x {modsHigh} high = {modsWide * modsHigh} modules/cabinets
       </div>
-    </div>
+    </GlassCard>
   );
 }
 
@@ -145,12 +158,11 @@ export default function LedModuleCalculator() {
   const [targetW, setTargetW] = useState(3000);
   const [targetH, setTargetH] = useState(2000);
   const [unit, setUnit] = useState('mm');
-  const [moduleIdx, setModuleIdx] = useState(3); // 500x500 default
-  const [pitchIdx, setPitchIdx] = useState(5);   // P2.5 default
+  const [moduleIdx, setModuleIdx] = useState(3);
+  const [pitchIdx, setPitchIdx] = useState(5);
 
   const mod = MODULE_PRESETS[moduleIdx];
   const pitch = PITCH_OPTIONS[pitchIdx];
-
   const toMm = (v) => unit === 'mm' ? v : unit === 'cm' ? v * 10 : v * 304.8;
 
   const results = useMemo(() => {
@@ -161,338 +173,268 @@ export default function LedModuleCalculator() {
   }, [targetW, targetH, unit, moduleIdx, pitchIdx]);
 
   const faqJsonLd = buildFaqJsonLd(FAQS);
-
-  const handleReset = () => {
-    setTargetW(3000); setTargetH(2000); setUnit('mm');
-    setModuleIdx(3); setPitchIdx(5);
-  };
+  const handleReset = () => { setTargetW(3000); setTargetH(2000); setUnit('mm'); setModuleIdx(3); setPitchIdx(5); };
 
   return (
-    <div className="pb-20" data-testid="led-module-calculator">
+    <div className="bg-[#050508] min-h-screen" data-testid="led-module-calculator">
       <SEO
         title="LED Module & Cabinet Size Calculator"
-        description="Calculate the exact number of LED modules or cabinets needed for your screen. Get resolution, power, weight, and layout visualization instantly. Free tool for specifiers and engineers."
+        description="Calculate the exact number of LED modules or cabinets needed for your screen. Get resolution, power, weight, and layout visualization."
         path="/led-calculator"
         jsonLd={faqJsonLd}
       />
       <QuickInquiry pageName="LED Module Calculator" />
 
       {/* Hero */}
-      <div className="relative py-16 sm:py-20" style={{ background: 'linear-gradient(180deg, rgba(229,197,116,0.03) 0%, transparent 100%)' }}>
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 mb-4">
-            <Grid3X3 size={16} className="text-[var(--blx-gold-3)]" />
-            <span className="text-xs tracking-[0.2em] text-[var(--blx-gold-3)] font-bold">LED SIZING TOOL</span>
-          </div>
-          <h1 data-testid="led-calculator-title">LED Module & Cabinet Calculator</h1>
-          <p className="text-sm text-[var(--blx-text-2)] mt-3 tracking-wider leading-relaxed max-w-2xl">
-            Calculate the exact number of modules or cabinets needed for your desired screen size. Get resolution, power requirements, weight estimates, and a visual layout — all in one tool.
-          </p>
+      <section className="relative pt-32 pb-12 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-transparent" />
+        <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[100px]" />
+        
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+          <FadeInSection>
+            <div className="flex items-center gap-2 mb-4">
+              <Grid3X3 size={16} className="text-cyan-400" />
+              <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase">LED Sizing Tool</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight mb-4" data-testid="led-calculator-title">
+              Module
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 ml-3">Calculator</span>
+            </h1>
+            <p className="text-gray-400 text-base md:text-lg max-w-2xl tracking-wide leading-relaxed">
+              Calculate the exact number of modules or cabinets needed for your desired screen size. Get resolution, power, weight estimates, and a visual layout.
+            </p>
+          </FadeInSection>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Calculator */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Input Panel */}
-            <div className="glass-panel p-6 sm:p-8" data-testid="calculator-input-panel">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-base font-bold tracking-wider">Screen Dimensions</h2>
-                <button onClick={handleReset} className="btn-glass text-[10px] px-3 py-1.5 flex items-center gap-1.5" data-testid="reset-calculator">
-                  <RotateCcw size={12} /> Reset
-                </button>
-              </div>
-
-              {/* Unit selector */}
-              <div className="flex items-center gap-2 mb-5">
-                <span className="text-xs text-[var(--blx-text-2)] tracking-wider">Unit:</span>
-                <div className="flex gap-1">
-                  {['mm', 'cm', 'ft'].map((u) => (
-                    <button
-                      key={u}
-                      onClick={() => setUnit(u)}
-                      className={`px-3 py-1.5 rounded-md text-[10px] font-bold tracking-wider transition-all duration-200 ${
-                        unit === u ? 'bg-[var(--blx-gold-3)] text-[#0B0B0B]' : 'glass-panel hover:border-[var(--blx-gold-2)]'
-                      }`}
-                      data-testid={`unit-${u}`}
-                    >
-                      {u.toUpperCase()}
+      <section className="pb-20">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Main Calculator */}
+            <div className="lg:col-span-2 space-y-6">
+              <FadeInSection delay={1}>
+                <GlassCard className="p-6 md:p-8" data-testid="calculator-input-panel">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-lg font-bold tracking-wider text-white">Screen Dimensions</h2>
+                    <button onClick={handleReset} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-wider text-gray-400 bg-white/[0.03] border border-white/[0.06] hover:border-white/20 transition-all" data-testid="reset-calculator">
+                      <RotateCcw size={12} /> Reset
                     </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
-                <div>
-                  <label className="block text-xs font-bold mb-1.5 tracking-wider">
-                    Target Width ({unit})
-                  </label>
-                  <input
-                    type="number"
-                    value={targetW}
-                    onChange={(e) => setTargetW(Number(e.target.value))}
-                    className="input-luxury w-full"
-                    min="0"
-                    step={unit === 'ft' ? 0.5 : unit === 'cm' ? 10 : 100}
-                    data-testid="input-target-width"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold mb-1.5 tracking-wider">
-                    Target Height ({unit})
-                  </label>
-                  <input
-                    type="number"
-                    value={targetH}
-                    onChange={(e) => setTargetH(Number(e.target.value))}
-                    className="input-luxury w-full"
-                    min="0"
-                    step={unit === 'ft' ? 0.5 : unit === 'cm' ? 10 : 100}
-                    data-testid="input-target-height"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
-                <div>
-                  <label className="block text-xs font-bold mb-1.5 tracking-wider">Module / Cabinet Size</label>
-                  <select
-                    value={moduleIdx}
-                    onChange={(e) => setModuleIdx(Number(e.target.value))}
-                    className="input-luxury w-full"
-                    data-testid="select-module-size"
-                  >
-                    {MODULE_PRESETS.map((m, i) => (
-                      <option key={i} value={i}>{m.label} — {m.type}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold mb-1.5 tracking-wider">Pixel Pitch</label>
-                  <select
-                    value={pitchIdx}
-                    onChange={(e) => setPitchIdx(Number(e.target.value))}
-                    className="input-luxury w-full"
-                    data-testid="select-pixel-pitch"
-                  >
-                    {PITCH_OPTIONS.map((p, i) => (
-                      <option key={i} value={i}>{p.label} ({p.value}mm)</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Dimension hint */}
-              <div className="flex items-start gap-2 p-3 rounded-lg" style={{ background: 'rgba(229,197,116,0.04)', border: '1px solid rgba(229,197,116,0.1)' }}>
-                <Info size={14} className="text-[var(--blx-gold-3)] mt-0.5 flex-shrink-0" />
-                <p className="text-[11px] text-[var(--blx-text-2)] leading-relaxed">
-                  LED screens are built in whole-module increments. The actual size may differ slightly from your target to accommodate complete modules.
-                </p>
-              </div>
-            </div>
-
-            {/* Results */}
-            {results && (
-              <>
-                <div className="glass-panel p-6 sm:p-8" data-testid="calculator-results">
-                  <h2 className="text-base font-bold tracking-wider mb-6">Calculated Results</h2>
-
-                  {/* Module count */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-                    <ResultCard
-                      icon={Grid3X3} label="MODULES WIDE" value={results.modsWide} unit="units"
-                      testId="result-modules-wide"
-                    />
-                    <ResultCard
-                      icon={Grid3X3} label="MODULES HIGH" value={results.modsHigh} unit="units"
-                      testId="result-modules-high"
-                    />
-                    <ResultCard
-                      icon={Grid3X3} label="TOTAL MODULES" value={results.totalModules} unit="units"
-                      sub={`${results.modsWide} x ${results.modsHigh} grid`}
-                      testId="result-total-modules"
-                    />
                   </div>
 
-                  {/* Dimensions */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-                    <ResultCard
-                      icon={Ruler} label="ACTUAL WIDTH" value={(results.actualW / 1000).toFixed(2)} unit="m"
-                      sub={`${results.actualW} mm`}
-                      testId="result-actual-width"
-                    />
-                    <ResultCard
-                      icon={Ruler} label="ACTUAL HEIGHT" value={(results.actualH / 1000).toFixed(2)} unit="m"
-                      sub={`${results.actualH} mm`}
-                      testId="result-actual-height"
-                    />
-                    <ResultCard
-                      icon={Maximize} label="SCREEN AREA" value={results.areaSqm.toFixed(2)} unit="sqm"
-                      sub={`Aspect ~${results.ratioW}:${results.ratioH}`}
-                      testId="result-screen-area"
-                    />
-                  </div>
-
-                  {/* Resolution */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-                    <ResultCard
-                      icon={Monitor} label="RESOLUTION" value={`${results.resW} x ${results.resH}`} unit="px"
-                      sub={results.is4K ? '4K+ Ultra HD' : results.isFHD ? 'Full HD+' : `${(results.totalPixels / 1_000_000).toFixed(2)} MP`}
-                      testId="result-resolution"
-                    />
-                    <ResultCard
-                      icon={Monitor} label="TOTAL PIXELS" value={(results.totalPixels / 1_000_000).toFixed(2)} unit="megapixels"
-                      testId="result-total-pixels"
-                    />
-                    <ResultCard
-                      icon={Monitor} label="PIXEL PITCH" value={pitch.value} unit="mm"
-                      sub={pitch.label}
-                      testId="result-pixel-pitch"
-                    />
-                  </div>
-
-                  {/* Power & Weight */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-                    <ResultCard
-                      icon={Zap} label="MAX POWER" value={results.maxPower.toFixed(0)} unit="W"
-                      sub={`${(results.maxPower / 1000).toFixed(1)} kW`}
-                      testId="result-max-power"
-                    />
-                    <ResultCard
-                      icon={Zap} label="AVG POWER" value={results.avgPower.toFixed(0)} unit="W"
-                      sub={`At ~60% brightness`}
-                      testId="result-avg-power"
-                    />
-                    <ResultCard
-                      icon={Weight} label="ESTIMATED WEIGHT" value={results.weight.toFixed(0)} unit="kg"
-                      sub={`~${(results.weight / results.areaSqm).toFixed(0)} kg/sqm`}
-                      testId="result-weight"
-                    />
-                  </div>
-
-                  {/* Viewing Distance */}
-                  <div className="grid grid-cols-3 gap-3">
-                    <ResultCard
-                      icon={Eye} label="MIN DISTANCE" value={results.minViewing.toFixed(1)} unit="m"
-                      testId="result-min-distance"
-                    />
-                    <ResultCard
-                      icon={Eye} label="OPTIMAL DISTANCE" value={results.optimalViewing.toFixed(1)} unit="m"
-                      testId="result-optimal-distance"
-                    />
-                    <ResultCard
-                      icon={Eye} label="MAX DISTANCE" value={results.maxViewing.toFixed(1)} unit="m"
-                      testId="result-max-distance"
-                    />
-                  </div>
-                </div>
-
-                {/* Visual Grid */}
-                <ModuleGrid modsWide={results.modsWide} modsHigh={results.modsHigh} />
-              </>
-            )}
-
-            <SectionDivider />
-
-            {/* Reference Table */}
-            <div className="glass-panel overflow-hidden" data-testid="reference-table">
-              <div className="px-5 pt-5 pb-2 text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)]">COMMON MODULE & CABINET SIZES</div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs">
-                  <thead>
-                    <tr className="border-b border-[var(--blx-border)]">
-                      <th className="px-4 py-3 text-left text-[10px] tracking-wider font-bold text-[var(--blx-text-2)]">PITCH</th>
-                      <th className="px-4 py-3 text-left text-[10px] tracking-wider font-bold text-[var(--blx-text-2)]">MODULE SIZE</th>
-                      <th className="px-4 py-3 text-left text-[10px] tracking-wider font-bold text-[var(--blx-text-2)]">CABINET SIZE</th>
-                      <th className="px-4 py-3 text-left text-[10px] tracking-wider font-bold text-[var(--blx-text-2)]">RES / CAB</th>
-                      <th className="px-4 py-3 text-left text-[10px] tracking-wider font-bold text-[var(--blx-text-2)]">TYPICAL USE</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {REFERENCE_TABLE.map((row, i) => (
-                      <tr key={i} className="border-b border-[var(--blx-border)]/50 hover:bg-[var(--blx-gold-3)]/3 transition-colors">
-                        <td className="px-4 py-2.5 font-bold text-[var(--blx-gold-3)]">{row.pitch}</td>
-                        <td className="px-4 py-2.5 text-[var(--blx-text-2)]">{row.modSize}</td>
-                        <td className="px-4 py-2.5 text-[var(--blx-text-2)]">{row.cabSize}</td>
-                        <td className="px-4 py-2.5 text-[var(--blx-text-2)]">{row.resPerCab}</td>
-                        <td className="px-4 py-2.5 text-[var(--blx-text-2)]">{row.use}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <SectionDivider />
-
-            {/* How It Works */}
-            <div className="space-y-4" data-testid="how-it-works">
-              <h2 className="text-base font-bold tracking-wider mb-4">How the Calculator Works</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {[
-                  { step: '01', title: 'Enter Dimensions', desc: 'Input your target screen width and height in mm, cm, or ft. Select your preferred module/cabinet size and pixel pitch.' },
-                  { step: '02', title: 'Auto-Calculate', desc: 'The tool calculates the number of modules, actual dimensions (rounded to whole modules), total resolution, power draw, and weight.' },
-                  { step: '03', title: 'Review & Specify', desc: 'Use the results for BOQ preparation, MEP planning, and structural load calculations. Download a spec pack for detailed documentation.' },
-                ].map((s) => (
-                  <div key={s.step} className="glass-panel p-5">
-                    <span className="text-[10px] font-bold tracking-wider text-[var(--blx-gold-3)]">STEP {s.step}</span>
-                    <h3 className="text-xs font-bold mt-2 mb-1.5">{s.title}</h3>
-                    <p className="text-[11px] text-[var(--blx-text-2)] leading-relaxed">{s.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <SectionDivider />
-
-            {/* FAQs */}
-            <FAQSection faqs={FAQS} title="Frequently Asked Questions" />
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            <SpecPackCTA />
-
-            <div className="glass-panel p-5" data-testid="related-tools">
-              <h3 className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-4">RELATED TOOLS</h3>
-              <div className="space-y-2">
-                {[
-                  { name: 'Screen Calculator', path: '/calculator', desc: 'Pixel pitch & resolution' },
-                  { name: 'Viewing Distance', path: '/viewing-distance', desc: 'Pitch vs. distance' },
-                  { name: 'Power Estimator', path: '/power-estimator', desc: 'Electrical load & HVAC' },
-                  { name: 'Budget Estimator', path: '/budget-estimator', desc: 'Project cost estimates' },
-                  { name: 'Installation Guide', path: '/installation-guide', desc: 'Mounting methods' },
-                  { name: 'Project Planner', path: '/project-planner', desc: 'Full spec workflow' },
-                ].map((tool) => (
-                  <Link
-                    key={tool.path}
-                    to={tool.path}
-                    className="flex items-center justify-between p-2.5 rounded-lg hover:bg-[var(--blx-gold-3)]/3 transition-colors group"
-                    data-testid={`related-tool-${tool.path.slice(1)}`}
-                  >
-                    <div>
-                      <div className="text-xs font-bold tracking-wider">{tool.name}</div>
-                      <div className="text-[10px] text-[var(--blx-text-2)]">{tool.desc}</div>
+                  {/* Unit selector */}
+                  <div className="flex items-center gap-3 mb-6">
+                    <span className="text-xs text-gray-500 tracking-wider">Unit:</span>
+                    <div className="flex gap-2">
+                      {['mm', 'cm', 'ft'].map((u) => (
+                        <button
+                          key={u}
+                          onClick={() => setUnit(u)}
+                          className={`px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-wider transition-all ${
+                            unit === u ? 'bg-cyan-500 text-black' : 'bg-white/[0.03] text-gray-400 border border-white/[0.06] hover:border-white/20'
+                          }`}
+                          data-testid={`unit-${u}`}
+                        >
+                          {u.toUpperCase()}
+                        </button>
+                      ))}
                     </div>
-                    <ArrowRight size={14} className="text-[var(--blx-text-2)] group-hover:text-[var(--blx-gold-3)] transition-colors" />
-                  </Link>
-                ))}
-              </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-5 mb-6">
+                    <div>
+                      <label className="block text-xs font-bold mb-2 tracking-wider text-gray-400">Target Width ({unit})</label>
+                      <input
+                        type="number"
+                        value={targetW}
+                        onChange={(e) => setTargetW(Number(e.target.value))}
+                        className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-4 py-3 text-white focus:border-cyan-500/50 focus:outline-none transition-all"
+                        min="0"
+                        data-testid="input-target-width"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2 tracking-wider text-gray-400">Target Height ({unit})</label>
+                      <input
+                        type="number"
+                        value={targetH}
+                        onChange={(e) => setTargetH(Number(e.target.value))}
+                        className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-4 py-3 text-white focus:border-cyan-500/50 focus:outline-none transition-all"
+                        min="0"
+                        data-testid="input-target-height"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-5 mb-6">
+                    <div>
+                      <label className="block text-xs font-bold mb-2 tracking-wider text-gray-400">Module / Cabinet Size</label>
+                      <select
+                        value={moduleIdx}
+                        onChange={(e) => setModuleIdx(Number(e.target.value))}
+                        className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-4 py-3 text-white focus:border-cyan-500/50 focus:outline-none transition-all"
+                        data-testid="select-module-size"
+                      >
+                        {MODULE_PRESETS.map((m, i) => (
+                          <option key={i} value={i} className="bg-[#0a0a0f]">{m.label} — {m.type}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2 tracking-wider text-gray-400">Pixel Pitch</label>
+                      <select
+                        value={pitchIdx}
+                        onChange={(e) => setPitchIdx(Number(e.target.value))}
+                        className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-4 py-3 text-white focus:border-cyan-500/50 focus:outline-none transition-all"
+                        data-testid="select-pixel-pitch"
+                      >
+                        {PITCH_OPTIONS.map((p, i) => (
+                          <option key={i} value={i} className="bg-[#0a0a0f]">{p.label} ({p.value}mm)</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-2 p-3 rounded-lg bg-cyan-500/5 border border-cyan-500/10">
+                    <Info size={14} className="text-cyan-400 mt-0.5 flex-shrink-0" />
+                    <p className="text-xs text-gray-400 leading-relaxed">
+                      LED screens are built in whole-module increments. The actual size may differ slightly from your target.
+                    </p>
+                  </div>
+                </GlassCard>
+              </FadeInSection>
+
+              {/* Results */}
+              {results && (
+                <>
+                  <FadeInSection delay={2}>
+                    <GlassCard className="p-6 md:p-8" data-testid="calculator-results">
+                      <h2 className="text-lg font-bold tracking-wider text-white mb-6">Calculated Results</h2>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                        <ResultCard icon={Grid3X3} label="Modules Wide" value={results.modsWide} unit="units" testId="result-modules-wide" />
+                        <ResultCard icon={Grid3X3} label="Modules High" value={results.modsHigh} unit="units" testId="result-modules-high" />
+                        <ResultCard icon={Grid3X3} label="Total Modules" value={results.totalModules} unit="units" sub={`${results.modsWide} x ${results.modsHigh} grid`} testId="result-total-modules" accent />
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                        <ResultCard icon={Ruler} label="Actual Width" value={(results.actualW / 1000).toFixed(2)} unit="m" sub={`${results.actualW} mm`} testId="result-actual-width" />
+                        <ResultCard icon={Ruler} label="Actual Height" value={(results.actualH / 1000).toFixed(2)} unit="m" sub={`${results.actualH} mm`} testId="result-actual-height" />
+                        <ResultCard icon={Maximize} label="Screen Area" value={results.areaSqm.toFixed(2)} unit="sqm" sub={`Aspect ~${results.ratioW}:${results.ratioH}`} testId="result-screen-area" />
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                        <ResultCard icon={Monitor} label="Resolution" value={`${results.resW} x ${results.resH}`} unit="px" sub={results.is4K ? '4K+ Ultra HD' : results.isFHD ? 'Full HD+' : `${(results.totalPixels / 1_000_000).toFixed(2)} MP`} testId="result-resolution" accent />
+                        <ResultCard icon={Monitor} label="Total Pixels" value={(results.totalPixels / 1_000_000).toFixed(2)} unit="megapixels" testId="result-total-pixels" />
+                        <ResultCard icon={Monitor} label="Pixel Pitch" value={pitch.value} unit="mm" sub={pitch.label} testId="result-pixel-pitch" />
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                        <ResultCard icon={Zap} label="Max Power" value={results.maxPower.toFixed(0)} unit="W" sub={`${(results.maxPower / 1000).toFixed(1)} kW`} testId="result-max-power" />
+                        <ResultCard icon={Zap} label="Avg Power" value={results.avgPower.toFixed(0)} unit="W" sub="At ~60% brightness" testId="result-avg-power" />
+                        <ResultCard icon={Scale} label="Est. Weight" value={results.weight.toFixed(0)} unit="kg" sub={`~${(results.weight / results.areaSqm).toFixed(0)} kg/sqm`} testId="result-weight" />
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-3">
+                        <ResultCard icon={Eye} label="Min Distance" value={results.minViewing.toFixed(1)} unit="m" testId="result-min-distance" />
+                        <ResultCard icon={Eye} label="Optimal" value={results.optimalViewing.toFixed(1)} unit="m" testId="result-optimal-distance" accent />
+                        <ResultCard icon={Eye} label="Max Distance" value={results.maxViewing.toFixed(1)} unit="m" testId="result-max-distance" />
+                      </div>
+                    </GlassCard>
+                  </FadeInSection>
+
+                  <FadeInSection delay={3}>
+                    <ModuleGrid modsWide={results.modsWide} modsHigh={results.modsHigh} />
+                  </FadeInSection>
+                </>
+              )}
+
+              <SectionDivider />
+
+              {/* Reference Table */}
+              <FadeInSection delay={4}>
+                <GlassCard className="overflow-hidden" data-testid="reference-table">
+                  <div className="px-5 pt-5 pb-2 text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase">Common Module & Cabinet Sizes</div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="border-b border-white/[0.06]">
+                          <th className="px-4 py-3 text-left text-[10px] tracking-wider font-bold text-gray-500 uppercase">Pitch</th>
+                          <th className="px-4 py-3 text-left text-[10px] tracking-wider font-bold text-gray-500 uppercase">Module</th>
+                          <th className="px-4 py-3 text-left text-[10px] tracking-wider font-bold text-gray-500 uppercase">Cabinet</th>
+                          <th className="px-4 py-3 text-left text-[10px] tracking-wider font-bold text-gray-500 uppercase">Res/Cab</th>
+                          <th className="px-4 py-3 text-left text-[10px] tracking-wider font-bold text-gray-500 uppercase">Typical Use</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {REFERENCE_TABLE.map((row, i) => (
+                          <tr key={i} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
+                            <td className="px-4 py-2.5 font-bold text-cyan-400">{row.pitch}</td>
+                            <td className="px-4 py-2.5 text-gray-400">{row.modSize}</td>
+                            <td className="px-4 py-2.5 text-gray-400">{row.cabSize}</td>
+                            <td className="px-4 py-2.5 text-gray-400">{row.resPerCab}</td>
+                            <td className="px-4 py-2.5 text-gray-500">{row.use}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </GlassCard>
+              </FadeInSection>
+
+              <SectionDivider />
+              <FadeInSection delay={5}>
+                <FAQSection faqs={FAQS} title="Frequently Asked Questions" />
+              </FadeInSection>
             </div>
 
-            <div className="glass-panel p-5" style={{ borderColor: 'var(--blx-gold-2)', borderWidth: '2px' }} data-testid="design-assist-cta">
-              <h3 className="text-sm font-bold mb-2">Need Help Specifying?</h3>
-              <p className="text-[11px] text-[var(--blx-text-2)] mb-4 leading-relaxed">
-                Our engineers can review your layout and recommend the optimal module configuration for your project.
-              </p>
-              <Link to="/design-assist" className="btn-gold w-full text-center flex items-center justify-center gap-2 text-xs" data-testid="design-assist-link">
-                Free Design Assist <ArrowRight size={14} />
-              </Link>
+            {/* Sidebar */}
+            <div className="space-y-6">
+              <FadeInSection delay={2}>
+                <SpecPackCTA />
+              </FadeInSection>
+
+              <FadeInSection delay={3}>
+                <GlassCard className="p-5" data-testid="related-tools">
+                  <span className="text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Related Tools</span>
+                  <div className="space-y-2">
+                    {[
+                      { name: 'Screen Calculator', path: '/calculator', desc: 'Pixel pitch & resolution' },
+                      { name: 'Viewing Distance', path: '/viewing-distance', desc: 'Pitch vs. distance' },
+                      { name: 'Power Estimator', path: '/power-estimator', desc: 'Electrical load & HVAC' },
+                      { name: 'Budget Estimator', path: '/budget-estimator', desc: 'Project cost estimates' },
+                    ].map((tool) => (
+                      <Link
+                        key={tool.path}
+                        to={tool.path}
+                        className="flex items-center justify-between p-2.5 rounded-lg hover:bg-white/[0.04] transition-colors group"
+                        data-testid={`related-tool-${tool.path.slice(1)}`}
+                      >
+                        <div>
+                          <div className="text-xs font-bold tracking-wider text-white">{tool.name}</div>
+                          <div className="text-[10px] text-gray-500">{tool.desc}</div>
+                        </div>
+                        <ArrowRight size={14} className="text-gray-500 group-hover:text-cyan-400 transition-colors" />
+                      </Link>
+                    ))}
+                  </div>
+                </GlassCard>
+              </FadeInSection>
+
+              <FadeInSection delay={4}>
+                <div className="p-5 rounded-xl bg-gradient-to-br from-cyan-500/10 to-purple-500/5 border border-cyan-500/20" data-testid="design-assist-cta">
+                  <h3 className="text-sm font-bold mb-2 text-white">Need Help Specifying?</h3>
+                  <p className="text-xs text-gray-400 mb-4 leading-relaxed">
+                    Our engineers can review your layout and recommend the optimal module configuration.
+                  </p>
+                  <Link to="/design-assist" className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-4 py-2.5 w-full text-center transition-all inline-flex items-center justify-center gap-2 text-xs" data-testid="design-assist-link">
+                    Free Design Assist <ArrowRight size={14} />
+                  </Link>
+                </div>
+              </FadeInSection>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

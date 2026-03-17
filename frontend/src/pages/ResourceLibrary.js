@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, FileText, Box, Layers, Download, CheckCircle, ArrowRight, BookOpen, X, Eye, Sparkles, File, Grid3X3, Cpu, Monitor, Zap, Building2 } from 'lucide-react';
+import { Search, FileText, Box, Layers, Download, CheckCircle, ArrowRight, BookOpen, X, Eye, Sparkles, Grid3X3, Cpu, Monitor, Zap, Table, BarChart3, Ruler } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 
@@ -56,105 +56,341 @@ const CATEGORIES = [
 
 const CAT_ICONS = { specpack: FileText, cheatsheet: Layers, bim: Box, guide: BookOpen };
 const CAT_COLORS = { 
-  specpack: 'from-cyan-500 to-blue-500',
-  cheatsheet: 'from-emerald-500 to-teal-500',
-  bim: 'from-purple-500 to-pink-500',
-  guide: 'from-amber-500 to-orange-500'
+  specpack: 'from-cyan-500 to-blue-600',
+  cheatsheet: 'from-emerald-500 to-teal-600',
+  bim: 'from-purple-500 to-pink-600',
+  guide: 'from-amber-500 to-orange-600'
 };
 
-// Branded document preview component
+// Brightluxx Logo Component
+const BrightluxxLogo = ({ size = 'md', dark = false }) => {
+  const sizes = {
+    sm: { img: 'h-5', text: 'text-[8px]' },
+    md: { img: 'h-7', text: 'text-[10px]' },
+    lg: { img: 'h-10', text: 'text-xs' },
+  };
+  const s = sizes[size];
+  return (
+    <div className="flex items-center gap-2">
+      <img 
+        src="/assets/brightluxx-logo-nav.png" 
+        alt="Brightluxx" 
+        className={`${s.img} object-contain ${dark ? 'brightness-0' : ''}`}
+      />
+    </div>
+  );
+};
+
+// Full Document Preview Component with actual content visualization
 function DocumentPreview({ item }) {
   const Icon = CAT_ICONS[item.category] || FileText;
-  const gradient = CAT_COLORS[item.category] || 'from-cyan-500 to-blue-500';
-  
-  // Generate visual elements based on category
-  const getPreviewContent = () => {
-    switch(item.category) {
-      case 'specpack':
-        return (
-          <>
-            <div className="absolute top-4 left-4 right-4 space-y-2">
-              <div className="h-2 w-3/4 rounded bg-white/20" />
-              <div className="h-1.5 w-full rounded bg-white/10" />
-              <div className="h-1.5 w-2/3 rounded bg-white/10" />
-            </div>
-            <div className="absolute bottom-4 left-4 right-4">
-              <div className="grid grid-cols-3 gap-1">
-                {[...Array(6)].map((_, i) => (
-                  <div key={i} className="h-6 rounded bg-white/10" />
-                ))}
-              </div>
-            </div>
-            <Cpu className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/20" size={40} />
-          </>
-        );
-      case 'cheatsheet':
-        return (
-          <>
-            <div className="absolute top-4 left-4 right-4 space-y-1.5">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="flex gap-2 items-center">
-                  <div className="w-2 h-2 rounded-full bg-white/30" />
-                  <div className={`h-1.5 rounded bg-white/${10 + (i % 3) * 5}`} style={{ width: `${50 + Math.random() * 40}%` }} />
-                </div>
-              ))}
-            </div>
-            <Zap className="absolute bottom-4 right-4 text-white/20" size={32} />
-          </>
-        );
-      case 'bim':
-        return (
-          <>
-            <div className="absolute inset-4 border-2 border-dashed border-white/20 rounded" />
-            <div className="absolute top-6 left-6 w-16 h-10 border border-white/30 rounded" />
-            <div className="absolute bottom-6 right-6 w-12 h-16 border border-white/30 rounded" />
-            <Monitor className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/20" size={36} />
-          </>
-        );
-      case 'guide':
-        return (
-          <>
-            <div className="absolute top-4 left-4 right-4 space-y-2">
-              <div className="h-3 w-2/3 rounded bg-white/20" />
-              <div className="h-1.5 w-full rounded bg-white/10" />
-              <div className="h-1.5 w-full rounded bg-white/10" />
-              <div className="h-1.5 w-3/4 rounded bg-white/10" />
-            </div>
-            <BookOpen className="absolute bottom-4 right-4 text-white/20" size={28} />
-          </>
-        );
-      default:
-        return <File className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/20" size={40} />;
-    }
-  };
+  const gradient = CAT_COLORS[item.category] || 'from-cyan-500 to-blue-600';
   
   return (
-    <div className={`relative h-36 rounded-t-xl bg-gradient-to-br ${gradient} overflow-hidden`}>
-      {/* Pattern overlay */}
-      <div className="absolute inset-0 opacity-30" style={{
-        backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)`,
-        backgroundSize: '16px 16px'
+    <div className={`relative h-44 rounded-t-xl bg-gradient-to-br ${gradient} overflow-hidden`}>
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-20" style={{
+        backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.2) 1px, transparent 0)`,
+        backgroundSize: '12px 12px'
       }} />
       
-      {/* Document frame */}
-      <div className="absolute inset-3 bg-[#0a0a0f]/80 rounded-lg shadow-2xl">
-        {getPreviewContent()}
+      {/* Document paper */}
+      <div className="absolute inset-3 bg-white rounded-lg shadow-2xl overflow-hidden">
+        {/* Document Header with Brightluxx Logo */}
+        <div className="h-10 bg-[#0a0a0f] flex items-center justify-between px-3">
+          <img 
+            src="/assets/brightluxx-logo-nav.png" 
+            alt="Brightluxx" 
+            className="h-5 object-contain"
+          />
+          <span className="text-[8px] font-bold text-cyan-400 tracking-wider uppercase">{item.category === 'specpack' ? 'SPECIFICATION PACK' : item.category === 'cheatsheet' ? 'CHEAT SHEET' : item.category === 'bim' ? 'BIM REFERENCE' : 'TECHNICAL GUIDE'}</span>
+        </div>
+        
+        {/* Document Content */}
+        <div className="p-3 bg-white">
+          {/* Title */}
+          <div className="text-[9px] font-bold text-gray-800 mb-2 leading-tight">{item.title}</div>
+          
+          {/* Content varies by category */}
+          {item.category === 'specpack' && (
+            <div className="space-y-1.5">
+              <div className="grid grid-cols-3 gap-1">
+                <div className="h-5 rounded bg-gray-100 flex items-center justify-center">
+                  <div className="w-2 h-2 rounded-full bg-cyan-400" />
+                </div>
+                <div className="h-5 rounded bg-gray-100 flex items-center justify-center">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                </div>
+                <div className="h-5 rounded bg-gray-100 flex items-center justify-center">
+                  <div className="w-2 h-2 rounded-full bg-purple-400" />
+                </div>
+              </div>
+              <div className="h-1.5 w-full rounded bg-gray-100" />
+              <div className="h-1.5 w-3/4 rounded bg-gray-100" />
+              <Table size={12} className="text-gray-300 mx-auto mt-1" />
+            </div>
+          )}
+          
+          {item.category === 'cheatsheet' && (
+            <div className="space-y-1">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <div className={`h-1 rounded bg-gray-${100 + i * 50}`} style={{ width: `${70 - i * 10}%` }} />
+                </div>
+              ))}
+              <Zap size={12} className="text-gray-300 mx-auto mt-1" />
+            </div>
+          )}
+          
+          {item.category === 'bim' && (
+            <div className="relative h-16">
+              <div className="absolute inset-1 border border-dashed border-gray-300 rounded" />
+              <div className="absolute top-2 left-2 w-8 h-5 border border-gray-400 rounded-sm bg-gray-50" />
+              <div className="absolute bottom-2 right-2 w-6 h-8 border border-gray-400 rounded-sm bg-gray-50" />
+              <Ruler size={10} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray-300" />
+            </div>
+          )}
+          
+          {item.category === 'guide' && (
+            <div className="space-y-1">
+              <div className="h-1.5 w-full rounded bg-gray-200" />
+              <div className="h-1 w-full rounded bg-gray-100" />
+              <div className="h-1 w-full rounded bg-gray-100" />
+              <div className="h-1 w-2/3 rounded bg-gray-100" />
+              <BarChart3 size={12} className="text-gray-300 mx-auto mt-1" />
+            </div>
+          )}
+        </div>
       </div>
       
-      {/* Brightluxx branding */}
-      <div className="absolute bottom-2 left-3 flex items-center gap-1.5">
-        <div className="w-4 h-4 rounded bg-cyan-400 flex items-center justify-center">
-          <span className="text-[6px] font-black text-black">BL</span>
-        </div>
-        <span className="text-[8px] font-bold text-white/60 tracking-wider">BRIGHTLUXX</span>
-      </div>
-      
-      {/* Category badge */}
-      <div className="absolute top-2 right-2">
-        <div className="px-2 py-1 rounded bg-black/40 backdrop-blur-sm">
-          <Icon size={12} className="text-white/80" />
+      {/* Category icon badge */}
+      <div className="absolute top-1.5 right-1.5">
+        <div className="w-6 h-6 rounded-md bg-black/50 backdrop-blur-sm flex items-center justify-center">
+          <Icon size={12} className="text-white" />
         </div>
       </div>
+    </div>
+  );
+}
+
+// Full Preview Modal with complete document view
+function PreviewModal({ item, onClose, onDownload }) {
+  const Icon = CAT_ICONS[item.category] || FileText;
+  const gradient = CAT_COLORS[item.category] || 'from-cyan-500 to-blue-600';
+  const catLabel = item.category === 'specpack' ? 'SPECIFICATION PACK' : item.category === 'cheatsheet' ? 'CHEAT SHEET' : item.category === 'bim' ? 'BIM / CAD REFERENCE' : 'TECHNICAL GUIDE';
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md" onClick={onClose}>
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="max-w-4xl w-full max-h-[90vh] overflow-hidden bg-[#0a0a0f] rounded-2xl border border-white/10 shadow-2xl" 
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Modal Header */}
+        <div className="p-5 border-b border-white/[0.06] flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br ${gradient}`}>
+              <Icon size={22} className="text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold tracking-wide text-white">{item.title}</h3>
+              <span className="text-[10px] font-bold tracking-[0.15em] text-cyan-400 uppercase">{catLabel}</span>
+            </div>
+          </div>
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-white/[0.05] text-gray-500 hover:text-white transition-all">
+            <X size={22} />
+          </button>
+        </div>
+        
+        {/* Document Preview Area */}
+        <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 200px)' }}>
+          {/* Full Document Preview */}
+          <div className={`rounded-xl bg-gradient-to-br ${gradient} p-1 mb-6`}>
+            <div className="bg-white rounded-lg overflow-hidden shadow-xl">
+              {/* Document Header */}
+              <div className="bg-[#0a0a0f] px-6 py-4 flex items-center justify-between">
+                <img 
+                  src="/assets/brightluxx-logo-nav.png" 
+                  alt="Brightluxx" 
+                  className="h-8 object-contain"
+                />
+                <div className="text-right">
+                  <div className="text-[10px] font-bold text-cyan-400 tracking-wider uppercase">{catLabel}</div>
+                  <div className="text-[9px] text-gray-500">LED Display Specification Document</div>
+                </div>
+              </div>
+              
+              {/* Document Body */}
+              <div className="p-6">
+                {/* Document Title */}
+                <h2 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h2>
+                <p className="text-sm text-gray-600 mb-6">{item.description}</p>
+                
+                {/* Document Content Preview Based on Category */}
+                {item.category === 'specpack' && (
+                  <div className="space-y-4">
+                    {/* Comparison Table Preview */}
+                    <div className="border border-gray-200 rounded-lg overflow-hidden">
+                      <div className="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                        <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">Technology Comparison</span>
+                      </div>
+                      <div className="p-4">
+                        <div className="grid grid-cols-4 gap-3 mb-3">
+                          <div className="text-[10px] font-bold text-gray-500 uppercase">Feature</div>
+                          <div className="text-[10px] font-bold text-cyan-600 uppercase text-center">COB</div>
+                          <div className="text-[10px] font-bold text-emerald-600 uppercase text-center">MiP</div>
+                          <div className="text-[10px] font-bold text-purple-600 uppercase text-center">SMD</div>
+                        </div>
+                        {['Pixel Pitch', 'Contrast Ratio', 'Surface Protection', 'Best For'].map((row, i) => (
+                          <div key={i} className="grid grid-cols-4 gap-3 py-2 border-t border-gray-100">
+                            <div className="text-[10px] text-gray-600">{row}</div>
+                            <div className="h-2 bg-cyan-100 rounded" />
+                            <div className="h-2 bg-emerald-100 rounded" />
+                            <div className="h-2 bg-purple-100 rounded" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Specs Grid */}
+                    <div className="grid grid-cols-3 gap-3">
+                      {['Resolution Guide', 'Power Requirements', 'Cost Analysis'].map((spec, i) => (
+                        <div key={i} className="p-3 bg-gray-50 rounded-lg">
+                          <div className="text-[9px] font-bold text-gray-500 uppercase mb-2">{spec}</div>
+                          <div className="space-y-1">
+                            <div className="h-1.5 bg-gray-200 rounded w-full" />
+                            <div className="h-1.5 bg-gray-200 rounded w-3/4" />
+                            <div className="h-1.5 bg-gray-200 rounded w-1/2" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {item.category === 'cheatsheet' && (
+                  <div className="space-y-4">
+                    {/* Quick Reference Table */}
+                    <div className="border border-gray-200 rounded-lg overflow-hidden">
+                      <div className="bg-emerald-50 px-4 py-2 border-b border-gray-200">
+                        <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Quick Reference</span>
+                      </div>
+                      <div className="p-4 space-y-2">
+                        {['Pixel Pitch → Viewing Distance', 'Resolution by Screen Size', 'Cost per SQM Range', 'Power Consumption', 'Recommended Applications'].map((item, i) => (
+                          <div key={i} className="flex items-center gap-3 py-1.5 border-b border-gray-50 last:border-0">
+                            <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                            <span className="text-xs text-gray-700">{item}</span>
+                            <div className="flex-1 h-1.5 bg-gray-100 rounded ml-auto max-w-[100px]" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Formula Box */}
+                    <div className="bg-gray-900 rounded-lg p-4 text-center">
+                      <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-2">Key Formula</div>
+                      <div className="text-sm font-mono text-emerald-400">Viewing Distance (m) = Pixel Pitch (mm) × 3</div>
+                    </div>
+                  </div>
+                )}
+                
+                {item.category === 'bim' && (
+                  <div className="space-y-4">
+                    {/* Technical Drawing Preview */}
+                    <div className="border border-gray-200 rounded-lg overflow-hidden">
+                      <div className="bg-purple-50 px-4 py-2 border-b border-gray-200">
+                        <span className="text-xs font-bold text-purple-700 uppercase tracking-wider">Technical Specifications</span>
+                      </div>
+                      <div className="p-6 bg-gray-50">
+                        {/* Mock CAD Drawing */}
+                        <div className="relative aspect-video border-2 border-dashed border-gray-300 rounded bg-white">
+                          <div className="absolute top-4 left-4 w-24 h-16 border-2 border-purple-400 rounded flex items-center justify-center">
+                            <Monitor size={20} className="text-purple-400" />
+                          </div>
+                          <div className="absolute bottom-4 right-4 text-[9px] text-gray-500">
+                            <div>W: XXXXmm</div>
+                            <div>H: XXXXmm</div>
+                            <div>D: XXmm</div>
+                          </div>
+                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                            <Ruler size={24} className="text-gray-300 mx-auto mb-1" />
+                            <div className="text-[10px] text-gray-400">Dimensional Drawing</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Spec List */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {['Mounting Details', 'Electrical Requirements', 'Ventilation Specs', 'Weight Distribution'].map((spec, i) => (
+                        <div key={i} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
+                          <Box size={12} className="text-purple-400" />
+                          <span className="text-[10px] text-gray-600">{spec}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {item.category === 'guide' && (
+                  <div className="space-y-4">
+                    {/* Article Preview */}
+                    <div className="prose prose-sm max-w-none">
+                      <div className="space-y-2">
+                        <div className="h-2 bg-gray-200 rounded w-full" />
+                        <div className="h-2 bg-gray-200 rounded w-full" />
+                        <div className="h-2 bg-gray-200 rounded w-3/4" />
+                      </div>
+                      
+                      <div className="my-4 p-3 bg-amber-50 rounded-lg border border-amber-100">
+                        <div className="text-[10px] font-bold text-amber-700 uppercase mb-1">Key Insight</div>
+                        <div className="h-1.5 bg-amber-200 rounded w-full mb-1" />
+                        <div className="h-1.5 bg-amber-200 rounded w-2/3" />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <div className="h-2 bg-gray-200 rounded w-full" />
+                        <div className="h-2 bg-gray-200 rounded w-full" />
+                        <div className="h-2 bg-gray-200 rounded w-1/2" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Footer */}
+                <div className="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between">
+                  <img 
+                    src="/assets/brightluxx-logo-nav.png" 
+                    alt="Brightluxx" 
+                    className="h-5 object-contain opacity-50"
+                  />
+                  <div className="text-[9px] text-gray-400">© 2026 Brightluxx LED Solutions | www.brightluxx.com</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {(item.tags || []).map(t => (
+              <span key={t} className="text-[10px] font-bold tracking-wider text-gray-500 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08]">{t}</span>
+            ))}
+          </div>
+        </div>
+        
+        {/* Modal Footer */}
+        <div className="p-5 border-t border-white/[0.06] bg-white/[0.02]">
+          <button 
+            onClick={onDownload}
+            className="w-full py-4 rounded-xl text-sm font-bold tracking-wider bg-cyan-500 hover:bg-cyan-400 text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] transition-all flex items-center justify-center gap-2"
+          >
+            <Download size={18} /> Download Full PDF Document
+          </button>
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -168,7 +404,7 @@ function DownloadCard({ item }) {
   const [showPreview, setShowPreview] = useState(false);
 
   const handleDownload = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setLoading(true);
     try {
       let url;
@@ -177,6 +413,7 @@ function DownloadCard({ item }) {
         window.open(item.file_url, '_blank');
         setDone(true);
         setShowForm(false);
+        setShowPreview(false);
         setLoading(false);
         return;
       }
@@ -184,21 +421,21 @@ function DownloadCard({ item }) {
       if (item.pack_id) {
         const res = await fetch(`${API}/api/specpacks/${item.pack_id}/download`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name, pack_id: item.pack_id }),
+          body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download', pack_id: item.pack_id }),
         });
         const d = await res.json();
         url = d.download_url;
       } else if (item.doc_id) {
         const res = await fetch(`${API}/api/downloads/cheatsheet/${item.doc_id}/request`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name }),
+          body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download' }),
         });
         const d = await res.json();
         url = d.download_url;
       } else if (item.bim_id) {
         const res = await fetch(`${API}/api/downloads/bim/${item.bim_id}/request`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name }),
+          body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download' }),
         });
         const d = await res.json();
         url = d.download_url;
@@ -207,6 +444,7 @@ function DownloadCard({ item }) {
         window.open(`${API}${url}`, '_blank');
         setDone(true);
         setShowForm(false);
+        setShowPreview(false);
       }
     } catch (err) { console.error(err); }
     setLoading(false);
@@ -242,9 +480,9 @@ function DownloadCard({ item }) {
         {/* Preview Section */}
         <div className="relative cursor-pointer" onClick={() => setShowPreview(true)}>
           <DocumentPreview item={item} />
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
-            <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm flex items-center gap-2 text-white text-xs font-bold tracking-wider">
-              <Eye size={14} /> Preview
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <div className="px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+              <Eye size={14} /> Preview Document
             </div>
           </div>
         </div>
@@ -288,7 +526,7 @@ function DownloadCard({ item }) {
                   className={`flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider flex items-center justify-center gap-2 transition-all ${loading ? 'opacity-50 cursor-not-allowed bg-cyan-500/50' : 'bg-cyan-500 hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)]'} text-black`}
                   data-testid={`resource-submit-${item.id}`}
                 >
-                  {loading ? 'Preparing...' : <><Download size={12} /> Download PDF</>}
+                  {loading ? 'Preparing...' : <><Download size={12} /> Download</>}
                 </button>
                 <button 
                   type="button" onClick={() => setShowForm(false)} 
@@ -320,89 +558,11 @@ function DownloadCard({ item }) {
 
       {/* Preview Modal */}
       {showPreview && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={() => setShowPreview(false)}>
-          <div className="max-w-2xl w-full bg-[#0a0a0f] rounded-2xl border border-white/[0.08] overflow-hidden" onClick={e => e.stopPropagation()}>
-            <div className="p-6 border-b border-white/[0.06]">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br ${CAT_COLORS[item.category]} bg-opacity-20`}>
-                    <Icon size={18} className="text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold tracking-wide text-white">{item.title}</h3>
-                    <span className="text-[10px] font-bold tracking-[0.15em] text-cyan-400 uppercase">{catLabel}</span>
-                  </div>
-                </div>
-                <button onClick={() => setShowPreview(false)} className="p-2 rounded-lg hover:bg-white/[0.05] text-gray-500 hover:text-white transition-all">
-                  <X size={20} />
-                </button>
-              </div>
-            </div>
-            
-            <div className="p-6">
-              <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden mb-6">
-                <div className="absolute inset-0 opacity-30" style={{
-                  backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.1) 1px, transparent 0)`,
-                  backgroundSize: '20px 20px'
-                }} />
-                
-                {/* Mock PDF preview */}
-                <div className="absolute inset-6 bg-white rounded shadow-2xl overflow-hidden">
-                  <div className="h-8 bg-gray-100 border-b flex items-center px-3 gap-2">
-                    <div className="w-3 h-3 rounded-full bg-red-400" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                    <div className="w-3 h-3 rounded-full bg-green-400" />
-                  </div>
-                  <div className="p-4 bg-white">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 rounded bg-cyan-500 flex items-center justify-center">
-                        <span className="text-sm font-black text-white">BL</span>
-                      </div>
-                      <div>
-                        <div className="text-sm font-bold text-gray-800">{item.title}</div>
-                        <div className="text-xs text-gray-500">BRIGHTLUXX Specification Document</div>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="h-3 w-3/4 rounded bg-gray-200" />
-                      <div className="h-2 w-full rounded bg-gray-100" />
-                      <div className="h-2 w-full rounded bg-gray-100" />
-                      <div className="h-2 w-2/3 rounded bg-gray-100" />
-                      <div className="mt-4 grid grid-cols-3 gap-2">
-                        {[...Array(6)].map((_, i) => (
-                          <div key={i} className="h-8 rounded bg-gray-100" />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Brightluxx watermark */}
-                <div className="absolute bottom-3 right-3 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/60 backdrop-blur-sm">
-                  <div className="w-5 h-5 rounded bg-cyan-400 flex items-center justify-center">
-                    <span className="text-[8px] font-black text-black">BL</span>
-                  </div>
-                  <span className="text-[10px] font-bold text-white/80 tracking-wider">BRIGHTLUXX</span>
-                </div>
-              </div>
-              
-              <p className="text-sm text-gray-400 mb-6 leading-relaxed">{item.description}</p>
-              
-              <div className="flex flex-wrap gap-2 mb-6">
-                {(item.tags || []).map(t => (
-                  <span key={t} className="text-[10px] font-bold tracking-wider text-gray-500 px-2.5 py-1 rounded bg-white/[0.03] border border-white/[0.06]">{t}</span>
-                ))}
-              </div>
-              
-              <button 
-                onClick={() => { setShowPreview(false); setShowForm(true); }}
-                className="w-full py-3.5 rounded-lg text-sm font-bold tracking-wider bg-cyan-500 hover:bg-cyan-400 text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] transition-all flex items-center justify-center gap-2"
-              >
-                <Download size={16} /> Download Full PDF
-              </button>
-            </div>
-          </div>
-        </div>
+        <PreviewModal 
+          item={item} 
+          onClose={() => setShowPreview(false)} 
+          onDownload={() => { setShowPreview(false); setShowForm(true); }}
+        />
       )}
     </div>
   );
@@ -535,7 +695,7 @@ export default function ResourceLibrary() {
           ) : filtered.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" data-testid="resource-grid">
               {filtered.map((item, i) => (
-                <FadeInSection key={item.id} delay={3 + i * 0.5}>
+                <FadeInSection key={item.id} delay={3 + i * 0.3}>
                   <DownloadCard item={item} />
                 </FadeInSection>
               ))}
@@ -557,7 +717,7 @@ export default function ResourceLibrary() {
           )}
 
           {/* Bottom CTA */}
-          <FadeInSection delay={filtered.length > 0 ? filtered.length + 4 : 5}>
+          <FadeInSection delay={filtered.length > 0 ? Math.min(filtered.length + 4, 10) : 5}>
             <GlassCard className="mt-16 p-10 lg:p-14" hover={false}>
               <div className="text-center">
                 <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Need Something Specific?</span>

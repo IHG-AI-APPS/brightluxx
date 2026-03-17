@@ -596,6 +596,20 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - **28 Total Resources:** 12 Spec Packs, 4 Cheat Sheets, 4 BIM/CAD, 8 Knowledge Base guides
 - **Testing:** 100% frontend pass rate (iteration_57.json)
 
+### Resource Library Enhancements (v2) — Mar 17, 2026
+- **Full Document Preview Modal:** Now shows complete document structure:
+  - BRIGHTLUXX logo in header (using actual `/assets/brightluxx-logo-nav.png`)
+  - Category badge (SPECIFICATION PACK / CHEAT SHEET / BIM REFERENCE / TECHNICAL GUIDE)
+  - Document title and description
+  - Category-specific content previews:
+    - Spec Packs: Technology Comparison tables, Resolution/Power/Cost grids
+    - Cheat Sheets: Quick Reference bullet lists, Key Formula box
+    - BIM/CAD: Technical drawing previews with dimension annotations
+    - Guides: Article structure with Key Insight callouts
+  - Footer with Brightluxx copyright and website
+- **Card Preview Headers:** Each card shows actual BRIGHTLUXX logo in document header
+- **Downloads Verified:** PDF generation and download working correctly
+
 ---
 
 ## Remaining Tasks

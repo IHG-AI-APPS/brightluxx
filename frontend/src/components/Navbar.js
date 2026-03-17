@@ -211,10 +211,13 @@ const Navbar = () => {
           {/* Logo - proper sizing with max-height */}
           <Link to="/" className="flex items-center group flex-shrink-0" data-testid="logo-link">
             <img 
-              src={isDark ? "/assets/brightluxx-logo-nav.png" : "/assets/brightluxx-logo-dark.png"}
+              src="/assets/brightluxx-logo-nav.png"
               alt={branding?.company_name || 'Brightluxx'} 
-              className="h-8 w-auto max-h-8 object-contain transition-opacity duration-300 group-hover:opacity-80"
-              style={{ maxWidth: '160px' }}
+              className="h-8 w-auto max-h-8 object-contain transition-all duration-300 group-hover:opacity-80"
+              style={{ 
+                maxWidth: '160px',
+                filter: isDark ? 'none' : 'invert(1) hue-rotate(180deg) brightness(0.3) contrast(1.2)'
+              }}
               onError={(e) => { e.target.src = "/assets/brightluxx-logo-nav.png"; }}
             />
           </Link>

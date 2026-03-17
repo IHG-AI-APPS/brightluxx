@@ -1191,7 +1191,16 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   - Home, About, Contact, Blog, FAQ, Product Families, Solutions
   - Navbar and Footer with adaptive logo and colors
 - ✅ **Theme Utility Classes** (`frontend/src/utils/themeClasses.js`) for consistent styling
+- ✅ **Logo Fix (Light Mode):** Used CSS filter to properly invert the white logo for visibility on light backgrounds
 - ✅ **Testing:** 100% frontend pass rate (iteration_79.json) - All 10 theme features verified
+
+### Hero Video & Media Updates — March 2026
+- ✅ **New Cinematic Hero Video** generated with Sora 2 - Premium LED display showcase
+  - Prompt: Cinematic slow-motion reveal of curved LED video wall in futuristic dark corporate lobby
+  - Stored at `/videos/hero-video-new.mp4`
+- ✅ **Homepage Hero:** Updated to use new cinematic video
+- ✅ **About Page Video Section:** Added "See Us In Action" / "Our Work Speaks" section with original hero videos
+- Original hero videos (hero-video-1.mp4, hero-video-2.mp4) repurposed to About page
 
 ### Future
 - Tender Monitoring Integration (ProTenders/MEED)

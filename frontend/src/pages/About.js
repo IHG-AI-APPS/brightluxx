@@ -138,6 +138,39 @@ export default function About() {
         </div>
       </section>
 
+      {/* Company Video Showcase */}
+      <section className={`py-16 ${sectionBg} transition-colors duration-500`} data-testid="about-video-showcase">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          <FadeInSection>
+            <div className="text-center mb-10">
+              <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">See Us In Action</span>
+              <h2 className={`text-2xl md:text-3xl font-bold uppercase tracking-wide ${textPrimary}`}>
+                Our Work Speaks
+              </h2>
+            </div>
+          </FadeInSection>
+          
+          <FadeInSection delay={1}>
+            <GlassCard className="overflow-hidden" hover={false} isDark={isDark}>
+              <div className="relative aspect-video">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                  poster="/assets/hero_banner.webp"
+                >
+                  <source src="/videos/hero-video-1.mp4" type="video/mp4" />
+                </video>
+                {/* Subtle overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-t ${isDark ? 'from-[#050508]/30' : 'from-white/30'} to-transparent pointer-events-none`} />
+              </div>
+            </GlassCard>
+          </FadeInSection>
+        </div>
+      </section>
+
       {/* Who We Are Section */}
       <section className="py-24 relative" data-testid="about-who-we-are">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">

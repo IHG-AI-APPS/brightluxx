@@ -51,7 +51,8 @@ const HeroVideoPlayer = ({ videos, posterImage, isDark = true }) => {
   const [fading, setFading] = useState(false);
   const videoRefs = useRef([]);
 
-  const heroVideos = videos?.length > 0 ? videos : [`${EXTERNAL_CDN}/videos/hero-video-1.mp4`, `${EXTERNAL_CDN}/videos/hero-video-2.mp4`];
+  // Use new cinematic hero video as primary, fallback to original videos
+  const heroVideos = videos?.length > 0 ? videos : ['/videos/hero-video-new.mp4'];
   const poster = posterImage || cdnUrl('hero_banner.webp');
 
   useEffect(() => {

@@ -45,9 +45,12 @@ const Footer = () => {
           {/* Logo & Social Column */}
           <div className="col-span-1">
             <img 
-              src={isDark ? "/assets/brightluxx-logo-footer.png" : "/assets/brightluxx-logo-dark.png"}
+              src="/assets/brightluxx-logo-footer.png"
               alt={branding?.company_name || 'Brightluxx'} 
               className="h-8 w-auto mb-5"
+              style={{ 
+                filter: isDark ? 'none' : 'invert(1) hue-rotate(180deg) brightness(0.3) contrast(1.2)'
+              }}
               onError={(e) => { e.target.src = "/assets/brightluxx-logo-footer.png"; }}
             />
             <p className={`text-xs leading-relaxed tracking-wider mb-5 max-w-[240px] ${textSecondary}`}>

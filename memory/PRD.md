@@ -644,6 +644,25 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   10. Outdoor & Billboards (7,000-12,000 nits, -20 to 60°C)
 - **Testing:** 100% frontend pass rate (iteration_59.json)
 
+### NaturaTex Product Page — Mar 17, 2026
+- **New Product Line Added (`/naturatex`)** rebranded from Unilumin U-Natural
+- **Page Structure:**
+  - Full-screen hero with wood texture panel image
+  - "Turn off the Display, Turn on the Art" tagline
+  - Nano-optical technology section with layer diagram
+  - Quick specs: P0.7-P1.8, 600-800 cd/m², 170°/160°, COB, 4.3kg
+  - 5 application scenarios: Reception, Club, Gallery, Restaurant, Coffee Shop
+  - 4 advantages: Versatile Splicing, Eye-Protective, Superior Protection, Energy-Saving
+  - Customization section with seamless mapping features
+  - Specifications table for all 5 pixel pitch options (P0.7, P0.9, P1.2, P1.5, P1.8)
+  - 4 FAQs with accordion
+  - LumiMorph cross-promotion section
+- **Images:** 7 AI-generated images (Unilumin blocked downloads)
+- **Navigation:**
+  - "NaturaTex" link in navbar (emerald green)
+  - "Back to Brightluxx" link on page
+- **Testing:** 100% frontend pass rate (iteration_64.json)
+
 ### LumiMorph Product Family — Mar 17, 2026
 - **Complete Product Section Created** with elegant minimal design (inspired by supplier cecoceco.com)
 - **Landing Page (`/lumimorph`):**

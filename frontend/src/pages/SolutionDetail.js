@@ -7,6 +7,7 @@ import SEO, { BASE_URL } from '../components/SEO';
 import QuickInquiry from '../components/QuickInquiry';
 import { cdnUrl } from '../config/cdn';
 import { motion } from 'framer-motion';
+import { SOLUTIONS } from '../data/solutions';
 
 /* AI-Generated Solution Images */
 const SOLUTION_IMAGES = {
@@ -75,129 +76,11 @@ const GlassCard = ({ children, className = '' }) => (
   </div>
 );
 
-const SOLUTIONS = [
-  {
-    id: 'retail', icon: 'ShoppingBag', title: 'Retail & Hospitality',
-    tagline: 'Captivate customers and elevate brand experience',
-    description: 'LED displays grab the attention of your customers and enhance your marketing efforts. Deliver real-time promos, showcase branding, and create immersive shopping experiences that encourage customers to stay longer.',
-    longDescription: 'In the competitive retail landscape, visual merchandising has evolved beyond static signage. LED displays transform storefronts into dynamic showcases that attract foot traffic day and night. From transparent window displays that maintain natural light to indoor video walls that create branded environments, LED technology is the backbone of modern retail experiences.\n\nFor hospitality venues, LED displays elevate the guest experience from the moment of arrival. Digital menu boards in restaurants, lobby video walls in hotels, and immersive bar environments create memorable experiences that drive repeat visits and social sharing.',
-    applications: ['Shopfront displays', 'In-store video walls', 'Digital menu boards', 'Window displays', 'Wayfinding signage', 'Hotel lobby art walls', 'Restaurant ambiance screens', 'Retail shelf-edge displays'],
-    benefits: ['Increase foot traffic by up to 40%', 'Dynamic content changes in real-time', 'Energy-efficient LED technology', 'Remote content management via CMS', 'Weatherproof options for outdoor storefronts', 'Custom sizes to fit any space'],
-    recommendedCategories: ['indoor', 'transparent', 'poster-totem', 'shelf-edge'],
-    caseStudyTitle: 'Fine Mart — LED Shopfront Display',
-    caseStudyDesc: 'Vibrant P5 outdoor LED display for Fine Mart, transforming their storefront visibility and customer engagement.',
-  },
-  {
-    id: 'corporate', icon: 'Building2', title: 'Corporate & Conference',
-    tagline: 'Transform meetings and brand communication',
-    description: 'Fine-pitch LED screens deliver ultra-sharp content for boardrooms, lobbies, and internal communications. Replace projectors with seamless video walls that impress clients and empower teams.',
-    longDescription: 'Modern corporate environments demand displays that match the professionalism of the business. Fine-pitch LED technology delivers pixel-perfect presentations in any lighting condition, eliminating the limitations of traditional projectors and LCD video walls.\n\nFrom executive boardrooms requiring 4K clarity to command centers needing 24/7 reliability, LED displays provide seamless, bezel-free viewing experiences. The All-in-One format simplifies deployment with plug-and-play installation that takes less than an hour.',
-    applications: ['Conference rooms', 'Corporate lobbies', 'Command centers', 'Reception areas', 'Training rooms', 'Executive boardrooms', 'Internal communication displays', 'Visitor experience centers'],
-    benefits: ['No more dimmed rooms for presentations', 'Seamless bezel-free image quality', '24/7 operation capability', 'Crestron and Yealink compatible', 'Front-serviceable for easy maintenance', 'Modular design for future expansion'],
-    recommendedCategories: ['cob-microled', 'all-in-one', 'indoor'],
-    caseStudyTitle: 'Kijora Office — I2D Interiors',
-    caseStudyDesc: 'Premium indoor LED display installation for Kijora office, delivering stunning visual impact in the corporate environment.',
-  },
-  {
-    id: 'outdoor', icon: 'MonitorPlay', title: 'Outdoor Advertising & DOOH',
-    tagline: 'Maximum visibility, maximum impact',
-    description: 'High-brightness outdoor LED displays deliver stunning visuals in direct sunlight. From highway billboards to building facades, our solutions ensure your message reaches thousands daily.',
-    longDescription: 'Digital Out-of-Home (DOOH) advertising is the fastest-growing segment in the advertising industry. LED billboards and digital signage deliver measurable ROI through dynamic content scheduling, real-time updates, and audience targeting.\n\nBrightluxx outdoor displays are engineered for the Gulf region\'s extreme conditions — rated to 60 degrees Celsius with IP65 protection. With brightness levels up to 10,000 nits, your content remains vivid even under direct sunlight.',
-    applications: ['Digital billboards', 'Building facades', 'Highway signage', 'Gas station displays', 'Pole-mounted signs', 'Transit advertising', 'Smart city infrastructure', 'Stadium perimeter boards'],
-    benefits: ['Up to 10,000 nits brightness', 'IP65 weatherproof rating', 'Rated for -20 to 60°C operation', 'Remote monitoring and diagnostics', 'Energy-efficient designs available', 'Wind-load tested to 120km/h'],
-    recommendedCategories: ['outdoor', 'naked-eye-3d'],
-    caseStudyTitle: 'N W Z West Zone Mall — Outdoor LED',
-    caseStudyDesc: 'P10 outdoor LED screen installation for N W Z West Zone Mall, ensuring maximum visibility for shoppers and passersby.',
-  },
-  {
-    id: 'events', icon: 'Theater', title: 'Events & Exhibitions',
-    tagline: 'Unforgettable visual experiences',
-    description: 'Rental-grade LED panels designed for quick setup and teardown. From trade shows to concerts, our modular display systems adapt to any stage design or exhibition booth.',
-    longDescription: 'Event and exhibition environments demand displays that can be rapidly deployed, reconfigured, and dismantled. Our modular LED panels feature tool-free quick-lock connections, lightweight die-cast cabinets, and flexible designs that adapt to any stage configuration.\n\nWith 7,680Hz refresh rates and 10,000:1 contrast ratios, our event displays are optimized for camera capture, ensuring your content looks stunning both in-person and on broadcast.',
-    applications: ['Concerts & festivals', 'Trade shows', 'Award ceremonies', 'Product launches', 'Sports events', 'Corporate galas', 'Fashion shows', 'Art installations'],
-    benefits: ['Tool-free quick-lock setup', 'Lightweight die-cast cabinets', 'Camera-ready high refresh rates', 'Curving capability for creative stages', 'IP65 for indoor/outdoor hybrid events', 'Front-serviceable for rapid maintenance'],
-    recommendedCategories: ['outdoor', 'indoor', 'flexible'],
-    caseStudyTitle: 'Dubai World Trade Centre — Exhibition Display',
-    caseStudyDesc: 'Large-scale exhibition LED display installation at Dubai World Trade Centre, creating an immersive exhibit experience.',
-  },
-  {
-    id: 'creative', icon: 'Layers', title: 'Creative & Curved Displays',
-    tagline: 'Bring any shape to life',
-    description: 'Soft flexible LED modules can bend, curve, and wrap around any surface. Create cylindrical columns, wave-shaped walls, spherical displays, and artistic installations that redefine spaces.',
-    longDescription: 'When standard flat displays aren\'t enough, flexible and creative LED solutions open up unlimited possibilities. Soft flex modules bend to create concave, convex, and cylindrical installations that transform architectural features into dynamic digital canvases.\n\nFrom spherical LED globes in museum lobbies to ceiling-mounted sky screens in shopping malls, creative LED installations create signature experiences that define spaces and attract attention.',
-    applications: ['Curved video walls', 'Cylindrical columns', 'Spherical displays', 'Art installations', 'Ceiling displays', 'Wave-shaped walls', 'Immersive rooms', 'Architectural wraps'],
-    benefits: ['Bend radius as tight as 500mm', 'Full 360-degree installations possible', 'Lightweight for overhead mounting', 'Real-time content mapping software', 'COB and SMD flex options', 'Custom shapes and sizes'],
-    recommendedCategories: ['flexible', 'sphere', 'ceiling-led'],
-    caseStudyTitle: 'Spherical LED Display Installation',
-    caseStudyDesc: 'Custom spherical LED globe display for a landmark installation, delivering 360-degree visual storytelling.',
-  },
-  {
-    id: 'traffic', icon: 'TrafficCone', title: 'Road & Traffic Signage',
-    tagline: 'Safety-critical displays built for extremes',
-    description: 'Purpose-built LED displays for highway messaging, overhead traffic signs, and tollbooth information. Auto-dimming brightness, IP68 weatherproofing, and 24/7 continuous operation.',
-    longDescription: 'Traffic and road signage demands the highest reliability standards. Our road signal LED displays are engineered for 24/7 continuous operation in extreme weather conditions, with automatic brightness adjustment to prevent driver distraction while maintaining visibility.\n\nFrom variable message signs on highways to speed indicators in residential zones, our traffic-rated displays meet international safety standards and integrate with smart city traffic management systems.',
-    applications: ['Variable message signs', 'Speed indicators', 'Toll plaza info', 'Parking guidance', 'Intersection alerts', 'Highway overhead signs', 'Construction zone warnings', 'Smart city integration'],
-    benefits: ['24/7 continuous operation rated', 'Auto-dimming for day/night safety', 'IP68 weatherproof certification', 'Extreme temperature operation (-40 to +60°C)', 'Low power consumption', 'Remote monitoring capability'],
-    recommendedCategories: ['road-signal'],
-    caseStudyTitle: 'Al Mutakamela Vehicle Testing — External Display',
-    caseStudyDesc: 'Outdoor LED display for Al Mutakamela Vehicle Testing facility, providing clear visibility for vehicle testing operations.',
-  },
-  {
-    id: 'immersive', icon: 'Tv', title: 'Immersive & Virtual Production',
-    tagline: 'Next-generation visual environments',
-    description: 'Ultra-fine pitch LED walls for virtual production stages, XR studios, and immersive environments. Low latency, high refresh rates, and seamless calibration for camera-ready displays.',
-    longDescription: 'Virtual production has revolutionized film and television production. LED volumes create photorealistic environments in real-time, replacing green screens with immersive backdrops that actors and directors can interact with naturally.\n\nOur VP-grade LED displays feature ultra-low latency genlock synchronization, anti-moire coatings, and DCI-P3 color gamut coverage. Compatible with Unreal Engine, Disguise, and Notch for seamless integration into any production pipeline.',
-    applications: ['Film & TV production', 'XR studios', 'Simulation rooms', 'Immersive exhibitions', 'Training simulators', 'Virtual production stages', 'Broadcast studios', 'Automotive visualization'],
-    benefits: ['Sub-frame latency with genlock sync', 'Anti-moire coating for camera capture', 'DCI-P3 97%+ color gamut', 'Compatible with Unreal Engine', 'Real-time per-pixel calibration', '270-degree curved configurations'],
-    recommendedCategories: ['virtual-production', 'cob-microled'],
-    caseStudyTitle: 'FNAC Fujairah Airport — Conference Room',
-    caseStudyDesc: 'High-resolution indoor LED conference display at FNAC Fujairah Airport, delivering crystal-clear presentations.',
-  },
-  {
-    id: 'transparent', icon: 'Globe', title: 'Transparent & Glass Displays',
-    tagline: 'See-through digital magic',
-    description: 'Transform any glass surface into a digital canvas while maintaining transparency. From retail storefronts to museum exhibits, transparent LED creates stunning visual layers without blocking the view.',
-    longDescription: 'Transparent LED technology is transforming how we think about glass surfaces. From retail storefronts that showcase products during the day and display dynamic content at night, to museum exhibits that overlay digital information on physical artifacts.\n\nWith transparency rates of up to 95%, our clear film LED solutions are virtually invisible when turned off. Self-adhesive installation means any existing glass surface can be upgraded to a digital display without structural modifications.',
-    applications: ['Glass facades', 'Retail windows', 'Museum glass cases', 'Automotive showrooms', 'Airport terminals', 'Office partitions', 'Skybridge displays', 'Architectural glazing'],
-    benefits: ['Up to 95% transparency', 'Self-adhesive installation', 'Maintains natural light and views', 'Silent fanless operation', 'Ultra-thin 2mm profiles available', 'No structural modifications needed'],
-    recommendedCategories: ['transparent'],
-    caseStudyTitle: 'Sulthan Gold & Diamond — Bur Dubai',
-    caseStudyDesc: 'Premium LED display installation for Sulthan Gold & Diamond, maximizing storefront impact in the busy Bur Dubai area.',
-  },
-  {
-    id: 'healthcare', icon: 'Heart', title: 'Healthcare & Medical',
-    tagline: 'Mission-critical displays for patient care',
-    description: 'Reliable LED displays for hospitals, clinics, and medical facilities. From patient information systems to surgical visualization, our medical-grade screens meet the demanding requirements of healthcare environments.',
-    longDescription: 'Healthcare environments demand displays that combine reliability, clarity, and infection control compliance. Our medical-grade LED solutions are designed for 24/7 operation in critical care settings, with anti-glare coatings and color accuracy essential for diagnostic imaging.\n\nFrom hospital lobby wayfinding to surgical visualization systems, LED displays improve patient experience and clinical workflow efficiency. Touch-free interfaces and antimicrobial surfaces address infection control requirements in modern healthcare facilities.',
-    applications: ['Hospital lobbies', 'Patient room displays', 'Nurse station dashboards', 'Surgical visualization', 'Emergency department signage', 'Clinic wayfinding', 'Pharmacy information', 'Medical command centers'],
-    benefits: ['24/7 continuous operation', 'DICOM-calibrated color accuracy', 'Antimicrobial surface options', 'Touch-free gesture control', 'Low heat emission for clinical spaces', 'HIPAA-compliant content management'],
-    recommendedCategories: ['indoor', 'all-in-one', 'digital-signage'],
-    caseStudyTitle: 'NMC Hospital — Patient Information System',
-    caseStudyDesc: 'Comprehensive LED display network for NMC Hospital, improving patient experience and clinical communication.',
-  },
-  {
-    id: 'education', icon: 'GraduationCap', title: 'Education & Training',
-    tagline: 'Engage learners with immersive technology',
-    description: 'Transform classrooms and lecture halls with interactive LED displays. From K-12 schools to universities and corporate training centers, our solutions enhance engagement and learning outcomes.',
-    longDescription: 'Modern education demands technology that captures attention and facilitates active learning. Large-format LED displays replace outdated projectors with vivid, high-brightness screens visible in any lighting condition, while interactive touch capabilities enable collaborative learning.\n\nFrom auditoriums with 500+ seats to intimate seminar rooms, our education solutions scale to any learning environment. Digital signage throughout campus keeps students informed, while library and common area displays create dynamic information hubs.',
-    applications: ['Lecture halls', 'Classrooms', 'Campus digital signage', 'Library information displays', 'Sports facilities', 'Training rooms', 'Auditoriums', 'Student centers'],
-    benefits: ['Visible in any lighting condition', 'Interactive touch capability', 'Multi-source input support', 'Remote content management', 'Long lifespan reduces TCO', 'Energy-efficient operation'],
-    recommendedCategories: ['all-in-one', 'indoor', 'digital-signage'],
-    caseStudyTitle: 'American University Dubai — Campus Display',
-    caseStudyDesc: 'Campus-wide LED display network for American University Dubai, enhancing student engagement and campus communication.',
-  },
-  {
-    id: 'sports', icon: 'Trophy', title: 'Sports & Stadiums',
-    tagline: 'Electrify fans with spectacular visuals',
-    description: 'From perimeter advertising boards to giant jumbotron scoreboards, our sports-grade LED displays are engineered for high-speed action, outdoor durability, and maximum revenue generation.',
-    longDescription: 'Sports venues are high-stakes environments where display technology must perform flawlessly under intense scrutiny. Our stadium LED solutions deliver high refresh rates essential for broadcast-quality video capture, while extreme brightness ensures visibility even under direct sunlight.\n\nPerimeter LED boards generate advertising revenue throughout matches, while center-hung cube displays and ribbon boards keep fans engaged with instant replays, statistics, and sponsor content. Outdoor-rated construction withstands weather extremes and physical impacts.',
-    applications: ['Perimeter advertising boards', 'Scoreboard displays', 'Jumbotron screens', 'Ribbon boards', 'Concourse signage', 'Press room displays', 'VIP lounge screens', 'Fascia displays'],
-    benefits: ['High refresh rate for broadcast', '10,000+ nits outdoor brightness', 'Impact-resistant construction', 'Modular for easy panel replacement', 'Curved and angled configurations', 'Revenue-generating ad capabilities'],
-    recommendedCategories: ['outdoor', 'indoor'],
-    caseStudyTitle: 'Al Ain Stadium — Perimeter Display',
-    caseStudyDesc: 'Full perimeter LED advertising board system for Al Ain Stadium, maximizing sponsor visibility and fan engagement.',
-  },
-];
+/* Helper to get icon component from string name */
+const getIconComponent = (iconName) => {
+  if (typeof iconName === 'function') return iconName;
+  return ICON_MAP[iconName] || ShoppingBag;
+};
 
 export default function SolutionDetail() {
   const { id } = useParams();
@@ -242,7 +125,7 @@ export default function SolutionDetail() {
     );
   }
 
-  const Icon = ICON_MAP[solution.icon] || Building2;
+  const Icon = solution.icon || Building2;
 
   return (
     <div className="min-h-screen bg-[#050508]" data-testid={`solution-detail-${solution.id}`}>

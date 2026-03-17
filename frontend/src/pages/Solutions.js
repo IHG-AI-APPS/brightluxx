@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, ShoppingBag, MonitorPlay, Tv, Layers, TrafficCone, Theater, Globe, Sparkles, Heart, GraduationCap, Trophy } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import SEO from '../components/SEO';
 import { motion } from 'framer-motion';
+import { SOLUTIONS } from '../data/solutions';
 
 /* AI-Generated Solution Images */
 const SOLUTION_IMAGES = {
@@ -50,20 +51,6 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
     </motion.div>
   );
 };
-
-const SOLUTIONS = [
-  { id: 'retail', icon: ShoppingBag, title: 'Retail & Hospitality', desc: 'Transform shopping experiences with dynamic displays', tags: ['Shopfronts', 'Video Walls', 'Menu Boards'] },
-  { id: 'corporate', icon: Building2, title: 'Corporate & Conference', desc: 'Elevate meetings with seamless LED technology', tags: ['Boardrooms', 'Lobbies', 'Command Centres'] },
-  { id: 'outdoor', icon: MonitorPlay, title: 'Outdoor & DOOH', desc: 'Maximum visibility in any weather condition', tags: ['Billboards', 'Facades', 'Signage'] },
-  { id: 'events', icon: Theater, title: 'Events & Exhibitions', desc: 'Create unforgettable visual spectacles', tags: ['Concerts', 'Trade Shows', 'Stages'] },
-  { id: 'creative', icon: Layers, title: 'Creative & Curved', desc: 'Any shape, any surface, any vision', tags: ['Cylinders', 'Waves', 'Art Installations'] },
-  { id: 'traffic', icon: TrafficCone, title: 'Road & Traffic', desc: 'Safety-critical displays built for extremes', tags: ['VMS Signs', 'Highway', 'Toll Plaza'] },
-  { id: 'immersive', icon: Tv, title: 'Immersive & VP', desc: 'Next-generation virtual production stages', tags: ['XR Studios', 'Virtual Production', 'Simulation'] },
-  { id: 'transparent', icon: Globe, title: 'Transparent & Glass', desc: 'See-through digital magic', tags: ['Glass Facades', 'Retail Windows', 'Museums'] },
-  { id: 'healthcare', icon: Heart, title: 'Healthcare & Medical', desc: 'Mission-critical displays for patient care', tags: ['Hospitals', 'Clinics', 'Command Centers'] },
-  { id: 'education', icon: GraduationCap, title: 'Education & Training', desc: 'Engage learners with immersive technology', tags: ['Lecture Halls', 'Libraries', 'Campus Signage'] },
-  { id: 'sports', icon: Trophy, title: 'Sports & Stadiums', desc: 'Electrify fans with spectacular visuals', tags: ['Scoreboards', 'Perimeter Boards', 'Jumbotrons'] },
-];
 
 /* Glassmorphism Solution Card */
 const SolutionCard = ({ solution, index }) => {

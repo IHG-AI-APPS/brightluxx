@@ -105,7 +105,7 @@ import { LumiMorphLanding, LumiMorphElitePage, LumiMorphGrandePage, LumiMorphMin
 import { NaturaTexPage, HoloVeilPage } from './pages/naturatex';
 
 // SignaTouch Product Line
-import { SignaTouchLanding } from './pages/signatouch';
+import { SignaTouchLanding, TouchKioskPage, SmartSignagePage, SelfServicePage } from './pages/signatouch';
 import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
 import TechnicalSupportPage from './pages/TechnicalSupportPage';
 
@@ -181,6 +181,9 @@ function AppRoutes() {
       
       {/* SignaTouch Product Line */}
       <Route path="/signatouch" element={<SignaTouchLanding />} />
+      <Route path="/signatouch/touch-kiosk" element={<TouchKioskPage />} />
+      <Route path="/signatouch/smart-signage" element={<SmartSignagePage />} />
+      <Route path="/signatouch/self-service" element={<SelfServicePage />} />
       
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />

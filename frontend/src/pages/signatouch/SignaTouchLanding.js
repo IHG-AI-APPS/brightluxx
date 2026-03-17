@@ -195,9 +195,14 @@ export default function SignaTouchLanding() {
                         </div>
                       ))}
                     </div>
-                    <Link to="/contact" className="text-white text-sm font-medium inline-flex items-center gap-2 group-hover:text-amber-400 transition-colors">
-                      Get Quote <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                    </Link>
+                    <div className="flex items-center gap-4">
+                      <Link to={product.link} className="text-white text-sm font-medium inline-flex items-center gap-2 hover:text-amber-400 transition-colors">
+                        Learn More <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                      </Link>
+                      <Link to="/contact" className="text-neutral-400 text-sm font-medium hover:text-white transition-colors">
+                        Get Quote
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </FadeIn>

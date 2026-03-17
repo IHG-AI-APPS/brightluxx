@@ -1,9 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, MapPin, Calendar, Cpu } from 'lucide-react';
+import { ArrowRight, MapPin, Calendar, Cpu, Building2, FolderOpen } from 'lucide-react';
+import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
+
+const useInView = (ref, threshold = 0.15) => {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref, threshold]);
+  return inView;
+};
+
+const FadeInSection = ({ children, delay = 0, className = '' }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref);
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      transition={{ duration: 0.7, delay: delay * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const GlassCard = ({ children, className = '', hover = true }) => (
+  <div className={`
+    backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] rounded-lg overflow-hidden
+    ${hover ? 'hover:bg-white/[0.06] hover:border-cyan-500/30 hover:shadow-[0_0_30px_rgba(34,211,238,0.08)]' : ''}
+    transition-all duration-500 ${className}
+  `}>
+    {children}
+  </div>
+);
 
 export default function CaseStudiesIndex() {
   const [caseStudies, setCaseStudies] = useState([]);
@@ -32,126 +73,179 @@ export default function CaseStudiesIndex() {
     : caseStudies.filter(cs => cs.category === activeCategory);
 
   return (
-    <div className="pb-20" data-testid="case-studies-index">
+    <div className="bg-[#050508]" data-testid="case-studies-index">
       <SEO
         title="LED Display Case Studies — Projects in UAE, KSA, GCC | Brightluxx"
-        description="Explore real-world LED display installations across hospitality, retail, corporate, transport, entertainment, and healthcare in the UAE/GCC region. Specification precedents for architects and consultants."
+        description="Explore real-world LED display installations across hospitality, retail, corporate, transport, entertainment, and healthcare in the UAE/GCC region."
         path="/case-studies"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           "name": "LED Display Case Studies",
-          "description": "Real-world LED display installations across UAE/GCC — specification precedents for architects and consultants.",
+          "description": "Real-world LED display installations across UAE/GCC.",
           "publisher": { "@type": "Organization", "name": "Brightluxx" }
         }}
       />
 
-      {/* Hero */}
-      <div className="relative pt-24 pb-16">
-        <div className="absolute inset-0 blx-led-grid opacity-50" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(11,11,11,0.2) 0%, rgba(11,11,11,0.95) 100%)' }} />
-        <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] mb-3">PROJECT PORTFOLIO</div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wider leading-tight mb-4">Case Studies</h1>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-xl leading-relaxed">
-            Real-world LED display installations across the UAE and GCC. Each case study includes project specifications, technology rationale, and measurable outcomes — designed as specification precedents for architects and consultants.
-          </p>
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-16 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
+        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px]" />
+        
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+          <FadeInSection>
+            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Project Portfolio</span>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 leading-[0.95]">
+              Case
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 block">
+                Studies
+              </span>
+            </h1>
+            <p className="text-gray-400 text-base md:text-lg max-w-2xl tracking-wide leading-relaxed">
+              Real-world LED display installations across the UAE and GCC. Each case study includes project specifications, technology rationale, and measurable outcomes.
+            </p>
+          </FadeInSection>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2 mb-10" data-testid="case-study-filters">
-          {categories.map(cat => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-[0.625rem] font-bold tracking-[0.15em] transition-all duration-200 ${
-                activeCategory === cat.id
-                  ? 'bg-[var(--blx-gold-3)] text-[#0B0B0B]'
-                  : 'glass-panel hover:border-[rgba(229,197,116,0.2)]'
-              }`}
-              data-testid={`filter-${cat.id}`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
+      {/* Filters & Content */}
+      <section className="pb-24">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          {/* Category Filters */}
+          <FadeInSection>
+            <div className="flex flex-wrap gap-2 mb-10" data-testid="case-study-filters">
+              {categories.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`px-5 py-2 text-xs font-bold tracking-widest uppercase transition-all ${
+                    activeCategory === cat.id
+                      ? 'bg-cyan-500 text-black'
+                      : 'bg-white/5 border border-white/10 text-gray-400 hover:border-cyan-500/30 hover:text-white'
+                  }`}
+                  data-testid={`filter-${cat.id}`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+          </FadeInSection>
 
-        {/* Results count */}
-        <div className="text-[0.625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-6">
-          {loading ? 'LOADING...' : `${filtered.length} PROJECT${filtered.length !== 1 ? 'S' : ''}`}
-        </div>
-
-        {/* Case Study Grid */}
-        {loading ? (
-          <div className="text-center py-16">
-            <div className="w-8 h-8 border-2 border-[var(--blx-gold-3)] border-t-transparent rounded-full animate-spin mx-auto" />
+          {/* Results count */}
+          <div className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase mb-8">
+            {loading ? 'Loading...' : `${filtered.length} Project${filtered.length !== 1 ? 's' : ''}`}
           </div>
-        ) : (
-        <div className="grid md:grid-cols-2 gap-6">
-          {filtered.map(cs => (
-            <Link
-              key={cs.id}
-              to={`/case-studies/${cs.slug || cs.id}`}
-              className="glass-panel overflow-hidden group hover:border-[rgba(229,197,116,0.2)] transition-all duration-300"
-              data-testid={`case-study-card-${cs.id}`}
-            >
-              {/* Image */}
-              <div className="relative h-52 overflow-hidden">
-                <img
-                  src={cs.thumbnail || cs.hero_image}
-                  alt={cs.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 40%, rgba(11,11,11,0.9) 100%)' }} />
-                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
-                  <span className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-gold-3)] px-2.5 py-1 rounded-full" style={{ background: 'rgba(11,11,11,0.7)', backdropFilter: 'blur(8px)' }}>
-                    {cs.category.toUpperCase()}
-                  </span>
-                  <span className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-text-2)] px-2.5 py-1 rounded-full" style={{ background: 'rgba(11,11,11,0.7)', backdropFilter: 'blur(8px)' }}>
-                    {cs.technology} {cs.pixel_pitch}
-                  </span>
-                </div>
-              </div>
 
-              {/* Content */}
-              <div className="p-5">
-                <h2 className="text-sm font-bold tracking-wider mb-3 group-hover:text-[var(--blx-gold-3)] transition-colors leading-relaxed">{cs.title}</h2>
-                <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[0.625rem] text-[var(--blx-muted)] mb-4">
-                  <span className="flex items-center gap-1.5"><MapPin size={10} /> {cs.location}</span>
-                  <span className="flex items-center gap-1.5"><Calendar size={10} /> {cs.year}</span>
-                  <span className="flex items-center gap-1.5"><Cpu size={10} /> {cs.display_size}</span>
-                </div>
-                <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed line-clamp-2 mb-4">
-                  {cs.challenge}
-                </p>
-                <div className="flex items-center gap-1.5 text-[0.5625rem] font-bold tracking-wider text-[var(--blx-gold-3)] group-hover:gap-2.5 transition-all">
-                  View Case Study <ArrowRight size={12} />
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-        )}
+          {/* Case Study Grid */}
+          {loading ? (
+            <div className="text-center py-20">
+              <div className="w-10 h-10 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto" />
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="text-center py-20">
+              <FolderOpen size={48} className="mx-auto text-gray-600 mb-4" />
+              <p className="text-gray-500 tracking-wide">No case studies found for this category.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-6">
+              {filtered.map((cs, idx) => (
+                <FadeInSection key={cs.id} delay={idx % 4}>
+                  <Link
+                    to={`/case-studies/${cs.slug || cs.id}`}
+                    className="group block"
+                    data-testid={`case-study-card-${cs.id}`}
+                  >
+                    <GlassCard className="h-full">
+                      {/* Image */}
+                      <div className="relative h-56 overflow-hidden">
+                        <img
+                          src={cs.thumbnail || cs.hero_image}
+                          alt={cs.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" />
+                        
+                        {/* Badges */}
+                        <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                          <span className="bg-cyan-500/10 backdrop-blur-sm text-cyan-400 border border-cyan-500/20 px-3 py-1 text-[10px] uppercase tracking-wider font-bold">
+                            {cs.category}
+                          </span>
+                          <span className="bg-black/50 backdrop-blur-sm text-white border border-white/10 px-3 py-1 text-[10px] uppercase tracking-wider font-bold">
+                            {cs.technology} {cs.pixel_pitch}
+                          </span>
+                        </div>
+                      </div>
 
-        {/* CTA */}
-        <div className="mt-16 p-8 rounded-2xl text-center" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08) 0%, rgba(183,142,58,0.04) 100%)', border: '1px solid rgba(229,197,116,0.15)' }}>
-          <h2 className="text-lg font-bold tracking-wider mb-3">Have a Similar Project?</h2>
-          <p className="text-sm text-[var(--blx-text-2)] max-w-md mx-auto mb-6">
-            Our team provides free specification support, budgetary estimates, and technology recommendations for projects across the GCC region.
-          </p>
-          <div className="flex flex-wrap gap-3 justify-center">
-            <Link to="/contact" className="btn-gold px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="case-studies-contact-cta">
-              Discuss Your Project <ArrowRight size={14} />
-            </Link>
-            <Link to="/technology" className="btn-glass px-6 py-3 text-xs font-bold tracking-[0.15em] flex items-center gap-2" data-testid="case-studies-tech-cta">
-              Browse Technologies <ArrowRight size={14} />
-            </Link>
-          </div>
+                      {/* Content */}
+                      <div className="p-6">
+                        <h2 className="text-base font-bold tracking-wide mb-4 group-hover:text-cyan-400 transition-colors leading-snug">
+                          {cs.title}
+                        </h2>
+                        
+                        <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-gray-500 mb-5">
+                          <span className="flex items-center gap-1.5">
+                            <MapPin size={12} className="text-cyan-400" /> {cs.location}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Calendar size={12} className="text-cyan-400" /> {cs.year}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Cpu size={12} className="text-cyan-400" /> {cs.display_size}
+                          </span>
+                        </div>
+                        
+                        <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-5 normal-case">
+                          {cs.challenge}
+                        </p>
+                        
+                        <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase group-hover:gap-3 transition-all">
+                          View Case Study <ArrowRight size={14} />
+                        </div>
+                      </div>
+                    </GlassCard>
+                  </Link>
+                </FadeInSection>
+              ))}
+            </div>
+          )}
+
+          {/* CTA */}
+          <FadeInSection delay={2}>
+            <GlassCard className="mt-20 p-10 lg:p-16 text-center" hover={false}>
+              <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
+                Have a Similar Project?
+              </span>
+              <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wide mb-4">
+                Let's Build
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 ml-3">
+                  Together
+                </span>
+              </h2>
+              <p className="text-gray-400 text-sm mb-10 max-w-lg mx-auto tracking-wide">
+                Our team provides free specification support, budgetary estimates, and technology recommendations for projects across the GCC region.
+              </p>
+              
+              <div className="flex flex-wrap gap-4 justify-center">
+                <Link 
+                  to="/contact" 
+                  className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-8 py-4 transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] inline-flex items-center gap-2"
+                  data-testid="case-studies-contact-cta"
+                >
+                  Discuss Your Project <ArrowRight size={16} />
+                </Link>
+                <Link 
+                  to="/technology" 
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-8 py-4 transition-all inline-flex items-center gap-2"
+                  data-testid="case-studies-tech-cta"
+                >
+                  Browse Technologies <ArrowRight size={16} />
+                </Link>
+              </div>
+            </GlassCard>
+          </FadeInSection>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

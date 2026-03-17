@@ -352,16 +352,16 @@ const Navbar = () => {
               </div>
             </DropdownWrap>
 
-            {/* Resources */}
+            {/* Applications */}
             <Link
-              to="/resources"
+              to="/applications"
               className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                isActive('/resources') ? 'text-[var(--blx-text)]' : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
+                isActive('/applications') || isActive('/inspirations') ? 'text-[var(--blx-text)]' : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
               }`}
-              data-testid="nav-resources"
+              data-testid="nav-applications"
             >
-              Resources
-              {isActive('/resources') && <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />}
+              Applications
+              {(isActive('/applications') || isActive('/inspirations')) && <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />}
             </Link>
 
             <Link to="/contact" className="relative px-5 py-2 rounded-full text-xs font-bold tracking-[0.12em] bg-gradient-to-r from-cyan-500 to-cyan-400 text-[#050508] shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 hover:scale-105" data-testid="site-header-request-quote-button">
@@ -438,7 +438,7 @@ const Navbar = () => {
             </div>
 
             <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2 pb-4">
-              <Link to="/resources" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Resources</Link>
+              <Link to="/applications" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Applications</Link>
               <Link to="/about" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">About Us</Link>
               <Link to="/contact" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Contact Us</Link>
               <Link to="/contact" onClick={closeAll} className="block px-4 py-3 mt-2 btn-gold text-center text-xs font-bold tracking-widest">Get Quote</Link>

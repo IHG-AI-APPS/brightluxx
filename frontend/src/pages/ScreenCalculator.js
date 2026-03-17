@@ -549,6 +549,7 @@ export default function ScreenCalculator() {
                     <span className="text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Related Tools & Guides</span>
                     <div className="space-y-2">
                       {[
+                        { to: '/resources', label: 'All Spec Packs & Resources' },
                         { to: '/compare', label: 'Product Comparison Tool' },
                         { to: '/knowledge/cob-vs-mip-vs-smd', label: 'COB vs MiP vs SMD Guide' },
                         { to: '/viewing-distance', label: 'Viewing Distance Calculator' },

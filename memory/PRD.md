@@ -977,6 +977,45 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   - `frontend/src/pages/ProductFamilies.js`
 - **Testing:** 100% frontend pass rate (iteration_70.json)
 
+### Homepage Redesign (Typography & Layout Revamp) — Mar 17, 2026
+- **Major typography overhaul:**
+  - Removed global `text-transform: uppercase` from CSS
+  - Body text now uses sentence case for better readability
+  - Only eyebrow labels (small tags above headings) use uppercase
+  - Headlines use title case instead of ALL CAPS
+  - Reduced letter-spacing for tighter, modern typography
+- **Hero Section:**
+  - Cleaner design without floating animated icons
+  - Headline: "Engineered for Brilliance" (title case)
+  - Body text in sentence case
+  - Refined scroll indicator animation
+- **Stats Section:**
+  - Minimal design without card borders
+  - Floating numbers with thin vertical dividers
+  - Uppercase labels only for stats labels
+- **New Product Families Section:**
+  - Showcases all 5 product families on homepage
+  - Tall aspect ratio cards with gradient overlays
+  - Each card: icon badge, tagline (uppercase), name (title case), description (sentence case)
+  - "View all product families" link
+- **Product Categories Section:**
+  - Renamed to "By Technology"
+  - 4 categories: COB MicroLED, Transparent LED, Outdoor LED, Creative & Custom
+  - Clean card design with icons
+- **Why Brightluxx Section:**
+  - Clean feature grid
+  - Title case headings, sentence case descriptions
+- **CTA Section:**
+  - "Let's Build Something Brilliant Together"
+  - Sentence case throughout
+- **Navbar:**
+  - Logo sizing increased (h-9/h-10) to prevent clipping
+- **Files Modified:**
+  - `frontend/src/pages/Home.js` - Complete rewrite
+  - `frontend/src/index.css` - Removed global uppercase, updated typography
+  - `frontend/src/components/Navbar.js` - Fixed logo sizing
+- **Testing:** 100% frontend pass rate (iteration_71.json)
+
 ---
 
 ## Remaining Tasks

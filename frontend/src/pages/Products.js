@@ -224,7 +224,7 @@ const Products = () => {
     <div className="min-h-screen bg-[#050508]" data-testid="products-page">
       <SEO
         title="LED Display Products"
-        description="Browse our complete range of LED display solutions — COB MicroLED, transparent, outdoor, rental, flexible, interactive floor, and more. Full specs and instant quotes."
+        description="Browse our complete range of LED display solutions — COB MicroLED, transparent, outdoor, flexible, interactive floor, and more. Full specs and instant quotes."
         path="/products"
         image={cdnUrl('cob_microled_1.webp')}
         jsonLd={{

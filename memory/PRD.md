@@ -513,6 +513,14 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   - Reusable `GlassCard` component for consistent card styling
 - **Testing:** 47/47 frontend tests passed (100%)
 
+### Navbar Rental Cleanup — Mar 17, 2026
+- **Removed "Rental LED" from navigation menu** in Navbar.js
+- **Renamed menu section** from "OUTDOOR & RENTAL" to "OUTDOOR DISPLAYS"
+- **Updated menu items** to show: Outdoor LED, High Brightness, Road Signals
+- **Removed 'rental' category** from CATEGORY_ICONS
+- **Updated Products.js** SEO description to remove "rental" reference
+- **Outdoor category now correctly shows 13 products**
+
 ---
 
 ## Remaining Tasks

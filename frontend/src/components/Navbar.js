@@ -48,10 +48,10 @@ const Navbar = () => {
       ],
     },
     {
-      label: 'OUTDOOR & RENTAL',
+      label: 'OUTDOOR DISPLAYS',
       items: [
         { name: 'Outdoor LED', cat: 'outdoor', desc: 'Weatherproof P4-P10' },
-        { name: 'Rental LED', cat: 'rental', desc: 'Event & touring displays' },
+        { name: 'High Brightness', cat: 'outdoor', desc: 'Up to 10,000 nits' },
         { name: 'Road Signals', cat: 'road-signal', desc: 'Traffic & VMS displays' },
       ],
     },
@@ -84,7 +84,7 @@ const Navbar = () => {
   const CATEGORY_ICONS = {
     'cob-microled': Cpu, 'mip': Cpu, 'indoor': Monitor, 'all-in-one': Tv,
     'cinema-led': MonitorPlay, 'dvled': MonitorPlay, 'outdoor': Monitor,
-    'rental': Package, 'road-signal': Monitor, 'transparent': Eye,
+    'road-signal': Monitor, 'transparent': Eye,
     'flexible': Shapes, 'custom-shapes': Shapes, 'sphere': Shapes,
     'naked-eye-3d': Eye, 'ceiling-led': Layers, 'digital-signage': Monitor,
     'smart-tv': Tv, 'ready-made': ShoppingBag, 'interactive': Zap,

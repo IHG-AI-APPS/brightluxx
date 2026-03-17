@@ -1058,16 +1058,38 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   - 15+ page/component files - Removed `input-luxury` class usage
 - **Testing:** 86% frontend pass rate (iteration_73.json)
 
+### Centralized SOLUTIONS Data Array — Mar 17, 2026
+- **Created single source of truth** at `frontend/src/data/solutions.js`
+- **Complete SOLUTIONS array** with all fields:
+  - `id`, `icon` (component), `title`, `desc`, `tagline`
+  - `description`, `longDescription`
+  - `applications` (array), `benefits` (array)
+  - `recommendedCategories`, `caseStudyTitle`, `caseStudyDesc`
+- **11 solutions defined:** retail, corporate, outdoor, events, creative, traffic, immersive, transparent, healthcare, education, sports
+- **Updated consumers:**
+  - `frontend/src/pages/Solutions.js` - Imports from centralized data
+  - `frontend/src/pages/SolutionDetail.js` - Imports from centralized data
+- **Helper functions exported:** `getSolutionById()`, `getSolutionsForNav()`, `getSolutionIds()`
+- **Files Created:**
+  - `frontend/src/data/solutions.js`
+- **Files Modified:**
+  - `frontend/src/pages/Solutions.js` - Removed duplicate array
+  - `frontend/src/pages/SolutionDetail.js` - Removed duplicate array, fixed icon handling
+- **Testing:** 100% frontend pass rate (iteration_74.json)
+
 ---
 
 ## Remaining Tasks
 ### Priority 1
-- Centralize duplicated `SOLUTIONS` data array into single source of truth
+- None (all P1 tasks completed)
+
+### Priority 2
+- Apply premium design to other pages (Products, Solutions, About)
+- Add remaining PixelVue product detail pages
 
 ### Future
 - Tender Monitoring Integration (ProTenders/MEED)
 - Admin Dashboard V2 (unified lead management)
 - Connect Case Studies to relevant Solution detail pages
-- Apply premium design to other pages (Products, Solutions, About)
 
 ## Admin: `/admin/login` — admin@brightluxx.com / brightluxx2025

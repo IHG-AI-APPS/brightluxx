@@ -146,6 +146,10 @@ import AdminTaxonomy from './pages/admin/AdminTaxonomy';
 import AdminHomepage from './pages/admin/AdminHomepage';
 import AdminBlog from './pages/admin/AdminBlog';
 import AdminCaseStudies from './pages/admin/AdminCaseStudies';
+import AdminPixelVue from './pages/admin/AdminPixelVue';
+import AdminSolutions from './pages/admin/AdminSolutions';
+import AdminCMS from './pages/admin/AdminCMS';
+import AdminProductFamilies from './pages/admin/AdminProductFamilies';
 
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAdmin();
@@ -295,6 +299,10 @@ function AppRoutes() {
         <Route path="homepage" element={<AdminHomepage />} />
         <Route path="blog" element={<AdminBlog />} />
         <Route path="case-studies" element={<AdminCaseStudies />} />
+        <Route path="pixelvue" element={<AdminPixelVue />} />
+        <Route path="solutions-cms" element={<AdminSolutions />} />
+        <Route path="cms" element={<AdminCMS />} />
+        <Route path="product-families" element={<AdminProductFamilies />} />
       </Route>
     </Routes>
   );

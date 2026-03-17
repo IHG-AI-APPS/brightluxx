@@ -9,9 +9,8 @@ from bson import ObjectId
 
 router = APIRouter(prefix="/api/solutions", tags=["solutions"])
 
-def get_db():
-    from server import db
-    return db
+# Import database
+from database import db
 
 # Pydantic Models
 class Feature(BaseModel):
@@ -95,7 +94,7 @@ def serialize_solution(solution: dict) -> dict:
 @router.get("")
 async def get_all_solutions(active_only: bool = True):
     """Get all solutions"""
-    db = get_db()
+    # Using imported db
     query = {"is_active": True} if active_only else {}
     solutions = await db.solutions.find(query).sort("order", 1).to_list(50)
     return [serialize_solution(s) for s in solutions]
@@ -103,7 +102,7 @@ async def get_all_solutions(active_only: bool = True):
 @router.get("/{slug}")
 async def get_solution_by_slug(slug: str):
     """Get a single solution by slug"""
-    db = get_db()
+    # Using imported db
     solution = await db.solutions.find_one({"slug": slug})
     if not solution:
         raise HTTPException(status_code=404, detail="Solution not found")
@@ -114,14 +113,14 @@ async def get_solution_by_slug(slug: str):
 @router.get("/admin/all")
 async def admin_get_all_solutions():
     """Admin: Get all solutions including inactive"""
-    db = get_db()
+    # Using imported db
     solutions = await db.solutions.find({}).sort("order", 1).to_list(50)
     return [serialize_solution(s) for s in solutions]
 
 @router.post("/admin/create")
 async def create_solution(solution: SolutionCreate):
     """Admin: Create a new solution"""
-    db = get_db()
+    # Using imported db
     
     existing = await db.solutions.find_one({"slug": solution.slug})
     if existing:
@@ -139,7 +138,7 @@ async def create_solution(solution: SolutionCreate):
 @router.put("/admin/{solution_id}")
 async def update_solution(solution_id: str, solution: SolutionUpdate):
     """Admin: Update a solution"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(solution_id)
@@ -160,7 +159,7 @@ async def update_solution(solution_id: str, solution: SolutionUpdate):
 @router.delete("/admin/{solution_id}")
 async def delete_solution(solution_id: str):
     """Admin: Delete a solution"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(solution_id)
@@ -176,7 +175,7 @@ async def delete_solution(solution_id: str):
 @router.post("/admin/{solution_id}/toggle-active")
 async def toggle_solution_active(solution_id: str):
     """Admin: Toggle solution active status"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(solution_id)

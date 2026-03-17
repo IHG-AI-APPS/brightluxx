@@ -10,9 +10,8 @@ from bson import ObjectId
 
 router = APIRouter(prefix="/api/product-families", tags=["product-families"])
 
-def get_db():
-    from server import db
-    return db
+# Import database
+from database import db
 
 # Pydantic Models
 class Stat(BaseModel):
@@ -106,7 +105,7 @@ def serialize_family(family: dict) -> dict:
 @router.get("")
 async def get_all_families(active_only: bool = True):
     """Get all product families"""
-    db = get_db()
+    # Using imported db
     query = {"is_active": True} if active_only else {}
     families = await db.product_families.find(query).sort("order", 1).to_list(20)
     return [serialize_family(f) for f in families]
@@ -114,7 +113,7 @@ async def get_all_families(active_only: bool = True):
 @router.get("/{slug}")
 async def get_family_by_slug(slug: str):
     """Get a single product family by slug"""
-    db = get_db()
+    # Using imported db
     family = await db.product_families.find_one({"slug": slug})
     if not family:
         raise HTTPException(status_code=404, detail="Product family not found")
@@ -125,14 +124,14 @@ async def get_family_by_slug(slug: str):
 @router.get("/admin/all")
 async def admin_get_all_families():
     """Admin: Get all product families including inactive"""
-    db = get_db()
+    # Using imported db
     families = await db.product_families.find({}).sort("order", 1).to_list(20)
     return [serialize_family(f) for f in families]
 
 @router.post("/admin/create")
 async def create_family(family: ProductFamilyCreate):
     """Admin: Create a new product family"""
-    db = get_db()
+    # Using imported db
     
     existing = await db.product_families.find_one({"slug": family.slug})
     if existing:
@@ -150,7 +149,7 @@ async def create_family(family: ProductFamilyCreate):
 @router.put("/admin/{family_id}")
 async def update_family(family_id: str, family: ProductFamilyUpdate):
     """Admin: Update a product family"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(family_id)
@@ -171,7 +170,7 @@ async def update_family(family_id: str, family: ProductFamilyUpdate):
 @router.delete("/admin/{family_id}")
 async def delete_family(family_id: str):
     """Admin: Delete a product family"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(family_id)
@@ -187,7 +186,7 @@ async def delete_family(family_id: str):
 @router.post("/admin/{family_id}/toggle-active")
 async def toggle_family_active(family_id: str):
     """Admin: Toggle product family active status"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(family_id)

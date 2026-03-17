@@ -9,9 +9,8 @@ from bson import ObjectId
 
 router = APIRouter(prefix="/api/applications", tags=["applications"])
 
-def get_db():
-    from server import db
-    return db
+# Import database
+from database import db
 
 # Pydantic Models
 class UseCase(BaseModel):
@@ -102,7 +101,7 @@ def serialize_application(app: dict) -> dict:
 @router.get("")
 async def get_all_applications(active_only: bool = True):
     """Get all industry applications"""
-    db = get_db()
+    # Using imported db
     query = {"is_active": True} if active_only else {}
     applications = await db.applications_content.find(query).sort("order", 1).to_list(50)
     return [serialize_application(a) for a in applications]
@@ -110,7 +109,7 @@ async def get_all_applications(active_only: bool = True):
 @router.get("/{slug}")
 async def get_application_by_slug(slug: str):
     """Get a single application by slug"""
-    db = get_db()
+    # Using imported db
     application = await db.applications_content.find_one({"slug": slug})
     if not application:
         raise HTTPException(status_code=404, detail="Application not found")
@@ -121,14 +120,14 @@ async def get_application_by_slug(slug: str):
 @router.get("/admin/all")
 async def admin_get_all_applications():
     """Admin: Get all applications including inactive"""
-    db = get_db()
+    # Using imported db
     applications = await db.applications_content.find({}).sort("order", 1).to_list(50)
     return [serialize_application(a) for a in applications]
 
 @router.post("/admin/create")
 async def create_application(application: ApplicationCreate):
     """Admin: Create a new application"""
-    db = get_db()
+    # Using imported db
     
     existing = await db.applications_content.find_one({"slug": application.slug})
     if existing:
@@ -146,7 +145,7 @@ async def create_application(application: ApplicationCreate):
 @router.put("/admin/{application_id}")
 async def update_application(application_id: str, application: ApplicationUpdate):
     """Admin: Update an application"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(application_id)
@@ -167,7 +166,7 @@ async def update_application(application_id: str, application: ApplicationUpdate
 @router.delete("/admin/{application_id}")
 async def delete_application(application_id: str):
     """Admin: Delete an application"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(application_id)
@@ -183,7 +182,7 @@ async def delete_application(application_id: str):
 @router.post("/admin/{application_id}/toggle-active")
 async def toggle_application_active(application_id: str):
     """Admin: Toggle application active status"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(application_id)

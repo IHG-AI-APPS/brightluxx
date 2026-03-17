@@ -1,67 +1,77 @@
 """
-Seed Script - Populate CMS collections with existing hardcoded data
-Run with: python seed_cms.py
+CMS Data Seeder - Populates the database with static content from the frontend
+Run this script to migrate all hardcoded frontend data to dynamic CMS collections.
 """
 import asyncio
-import os
 from datetime import datetime, timezone
 from motor.motor_asyncio import AsyncIOMotorClient
+import os
+from dotenv import load_dotenv
 
-MONGO_URL = os.environ.get('MONGO_URL')
-DB_NAME = os.environ.get('DB_NAME', 'brightluxx')
+load_dotenv()
+
+MONGO_URL = os.getenv("MONGO_URL")
+DB_NAME = os.getenv("DB_NAME")
 
 client = AsyncIOMotorClient(MONGO_URL)
 db = client[DB_NAME]
 
-# PixelVue Products Data
+# ============ PIXELVUE PRODUCTS DATA ============
 PIXELVUE_PRODUCTS = [
     # LED Poster Series
     {
         "name": "iPoster",
         "slug": "iposter",
         "category": "poster",
-        "tagline": "Slim Profile LED Poster",
-        "description": "The iPoster brings stunning LED visuals to any space with its ultra-slim design. Perfect for retail, hospitality, and corporate environments where visual impact meets elegant form.",
+        "tagline": "Seamless Splicing. Stunning Impact.",
+        "description": "Advanced indoor moveable digital signage with seamless 16:9 splicing capability. Ultra-slim 40mm profile, magnetic assembly, and flexible control options make iPoster the perfect choice for any environment.",
         "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png",
         "quick_specs": [
-            {"label": "THICKNESS", "value": "35mm"},
-            {"label": "PIXEL PITCH", "value": "P2.5"},
-            {"label": "BRIGHTNESS", "value": "1000cd/m²"},
-            {"label": "WEIGHT", "value": "28kg"}
+            {"label": "Thickness", "value": "40mm"},
+            {"label": "Weight", "value": "69kg"},
+            {"label": "Splicing Ratio", "value": "16:9"},
+            {"label": "Refresh Rate", "value": "3840Hz"}
         ],
         "features": [
-            {"icon": "Monitor", "title": "Ultra-Slim Design", "desc": "Only 35mm thin for seamless wall integration"},
-            {"icon": "Wifi", "title": "Smart Connectivity", "desc": "WiFi, USB, and cloud-based content management"},
-            {"icon": "Zap", "title": "Energy Efficient", "desc": "Low power consumption with auto-brightness"},
-            {"icon": "Shield", "title": "Durable Build", "desc": "Aluminum frame with tempered glass front"},
-            {"icon": "Eye", "title": "Wide Viewing Angle", "desc": "160° viewing angle for maximum visibility"},
-            {"icon": "Smartphone", "title": "App Control", "desc": "Full control from smartphone or tablet"}
+            {"icon": "Grid3X3", "title": "Seamless Splicing", "desc": "5-piece iPoster with 16:9 resolution ratio creates flawless, cohesive video walls."},
+            {"icon": "Layers", "title": "Ultra-Slim Design", "desc": "Only 40mm thick and 69kg weight for easy transport and placement."},
+            {"icon": "Monitor", "title": "High Performance", "desc": "High brightness, contrast, and 3840Hz refresh rate for stunning visuals."},
+            {"icon": "Wifi", "title": "Easy Control", "desc": "USB, HDMI, WiFi for local control. Optional 4G for remote access."},
+            {"icon": "Zap", "title": "Magnetic Assembly", "desc": "Precision magnetic frames for quick, tool-free setup and seamless alignment."},
+            {"icon": "Smartphone", "title": "Flexible Packaging", "desc": "Flight case or nylon bag options. 1-in-1, 2-in-1, or 4-in-1 configurations."}
         ],
         "applications": [
-            {"name": "Retail", "desc": "In-store promotions"},
-            {"name": "Hotels", "desc": "Lobby displays"},
-            {"name": "Restaurants", "desc": "Menu boards"},
-            {"name": "Corporate", "desc": "Office signage"},
-            {"name": "Museums", "desc": "Exhibition displays"},
-            {"name": "Airports", "desc": "Wayfinding"}
+            {"name": "Hotels & Lobbies", "desc": ""},
+            {"name": "Shopping Malls", "desc": ""},
+            {"name": "Reception Areas", "desc": ""},
+            {"name": "Retail Stores", "desc": ""},
+            {"name": "Exhibition Halls", "desc": ""},
+            {"name": "Airports", "desc": ""},
+            {"name": "Banks", "desc": ""},
+            {"name": "Restaurants", "desc": ""}
         ],
         "specifications": [
-            {"label": "Pixel Pitch", "value": "P2.5"},
-            {"label": "Cabinet Size", "value": "600×1200mm"},
-            {"label": "Thickness", "value": "35mm"},
-            {"label": "Weight", "value": "28kg"},
-            {"label": "Brightness", "value": "1000cd/m²"},
+            {"label": "Pixel Pitch", "value": "P2.5 / P3"},
+            {"label": "Resolution", "value": "192x768 / 160x640"},
+            {"label": "Brightness", "value": "1000-1500 cd/m²"},
             {"label": "Refresh Rate", "value": "3840Hz"},
-            {"label": "Viewing Angle", "value": "160°/160°"},
-            {"label": "Input", "value": "HDMI/USB/WiFi"},
-            {"label": "Power", "value": "AC 110-240V"},
-            {"label": "Lifespan", "value": "100,000+ hours"}
+            {"label": "Viewing Angle", "value": "160°"},
+            {"label": "Contrast", "value": "5000:1"},
+            {"label": "Dimensions", "value": "480x1920x40mm"},
+            {"label": "Weight", "value": "69kg"},
+            {"label": "Frame Material", "value": "Aluminum alloy"},
+            {"label": "Input", "value": "USB, HDMI, WiFi, 4G"},
+            {"label": "Power", "value": "200W max"},
+            {"label": "Lifespan", "value": "100,000 hours"}
         ],
         "faqs": [
-            {"question": "What sizes are available?", "answer": "iPoster is available in standard sizes from 600×800mm up to 1200×1800mm. Custom sizes can be manufactured for specific requirements."},
-            {"question": "Can it be used outdoors?", "answer": "The standard iPoster is designed for indoor use (IP40). For outdoor applications, please see our OOHPoster with IP65 rating."},
-            {"question": "How is content managed?", "answer": "Content can be uploaded via USB, managed through our cloud platform, or pushed directly from any device via WiFi."}
+            {"question": "How many iPoster units can be spliced together?", "answer": "iPoster supports unlimited splicing thanks to its magnetic frame design. Common configurations include 5-panel video walls (16:9 ratio), but larger installations are easily achievable."},
+            {"question": "What content formats are supported?", "answer": "iPoster supports all major video and image formats. Content can be loaded via USB drive, HDMI input, WiFi transfer, or optional 4G remote transmission."},
+            {"question": "How portable is the iPoster?", "answer": "At 40mm thin and 69kg, iPoster is designed for mobility. It comes with flight case or nylon bag packaging options, making it ideal for events and temporary installations."},
+            {"question": "What is the pixel pitch?", "answer": "iPoster is available in P2.5 and P3 pixel pitch options. P2.5 is recommended for closer viewing distances (2-5m), while P3 works well for larger spaces."}
         ],
+        "seo_title": "iPoster - Indoor LED Standee Display | PixelVue",
+        "seo_description": "Advanced indoor LED poster with seamless splicing, 40mm thin design, and easy WiFi/HDMI control. Perfect for hotels, retail, and exhibitions.",
         "is_active": True,
         "order": 1
     },
@@ -69,426 +79,134 @@ PIXELVUE_PRODUCTS = [
         "name": "iFlip",
         "slug": "iflip",
         "category": "poster",
-        "tagline": "Flip-Style LED Poster",
-        "description": "The iFlip combines the best of static and digital signage. With a 180° motorized flip mechanism, it switches between LED display and printed poster mode for maximum versatility.",
-        "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png",
+        "tagline": "Double-Sided LED. Double the Impact.",
+        "description": "Revolutionary double-sided LED poster display with seamless rotation capability. Show different content on each side or mirror for maximum exposure in high-traffic areas.",
+        "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/iflip-hero.png",
         "quick_specs": [
-            {"label": "THICKNESS", "value": "45mm"},
-            {"label": "FLIP ANGLE", "value": "180°"},
-            {"label": "BRIGHTNESS", "value": "1200cd/m²"},
-            {"label": "WEIGHT", "value": "35kg"}
+            {"label": "Sides", "value": "Double"},
+            {"label": "Profile", "value": "65mm"},
+            {"label": "Brightness", "value": "2500nits"},
+            {"label": "Refresh", "value": "3840Hz"}
         ],
         "features": [
-            {"icon": "RotateCcw", "title": "Flip Mechanism", "desc": "Motorized 180° flip between LED and poster"},
-            {"icon": "Monitor", "title": "Dual Display", "desc": "LED on one side, poster on the other"},
-            {"icon": "Wifi", "title": "Smart Control", "desc": "Scheduled flipping and content sync"},
-            {"icon": "Zap", "title": "Quick Change", "desc": "Flip completes in under 3 seconds"},
-            {"icon": "Smartphone", "title": "App Control", "desc": "Control flip timing from mobile app"},
-            {"icon": "Shield", "title": "Reliable Motor", "desc": "100,000+ cycle rating"}
+            {"icon": "RotateCcw", "title": "Double-Sided Display", "desc": "Two full LED screens back-to-back for 360° visibility in any space."},
+            {"icon": "Layers", "title": "Slim Profile", "desc": "65mm total thickness houses two complete display systems."},
+            {"icon": "Sun", "title": "High Brightness", "desc": "2500 nits ensures visibility even in bright ambient lighting."},
+            {"icon": "Wifi", "title": "Wireless Control", "desc": "WiFi and 4G connectivity for remote content management."}
         ],
-        "applications": [
-            {"name": "Retail", "desc": "Dynamic promotions"},
-            {"name": "Banking", "desc": "Branch signage"},
-            {"name": "Healthcare", "desc": "Waiting room displays"},
-            {"name": "Education", "desc": "Campus notices"},
-            {"name": "Transport", "desc": "Schedule boards"},
-            {"name": "Events", "desc": "Exhibition displays"}
-        ],
-        "specifications": [
-            {"label": "Pixel Pitch", "value": "P2.5 / P3"},
-            {"label": "Cabinet Size", "value": "600×1500mm"},
-            {"label": "Thickness", "value": "45mm"},
-            {"label": "Weight", "value": "35kg"},
-            {"label": "Brightness", "value": "1200cd/m²"},
-            {"label": "Flip Time", "value": "<3 seconds"},
-            {"label": "Motor Cycles", "value": "100,000+"},
-            {"label": "Input", "value": "WiFi/USB/HDMI"},
-            {"label": "Power", "value": "AC 110-240V"},
-            {"label": "Control", "value": "App/Timer/Sensor"}
-        ],
-        "faqs": [
-            {"question": "How reliable is the flip mechanism?", "answer": "The motor is rated for over 100,000 cycles. With typical usage of 10 flips per day, that's over 27 years of operation."},
-            {"question": "Can I schedule automated flips?", "answer": "Yes, you can schedule flip times through the app or cloud platform. You can also trigger flips based on motion sensors or external events."},
-            {"question": "What poster size fits the back?", "answer": "The poster holder accepts standard print sizes matching the LED panel dimensions. We provide templates for optimal alignment."}
-        ],
-        "is_active": True,
-        "order": 2
+        "applications": [{"name": "Shopping Malls", "desc": ""}, {"name": "Airport Terminals", "desc": ""}, {"name": "Train Stations", "desc": ""}, {"name": "Exhibition Centers", "desc": ""}, {"name": "Retail Stores", "desc": ""}],
+        "specifications": [{"label": "Pixel Pitch", "value": "P2.5 / P3"}, {"label": "Brightness", "value": "2500 cd/m²"}, {"label": "Refresh Rate", "value": "3840Hz"}, {"label": "Viewing Angle", "value": "160°"}, {"label": "Thickness", "value": "65mm"}, {"label": "Lifespan", "value": "100,000 hours"}],
+        "faqs": [{"question": "Can I show different content on each side?", "answer": "Yes, iFlip supports independent content on each side, or you can mirror the same content for consistent branding."}, {"question": "Is it suitable for outdoor use?", "answer": "iFlip is primarily designed for indoor high-traffic areas. For outdoor use, consider our OOH Poster series."}],
+        "is_active": True, "order": 2
     },
-    {
-        "name": "Ultra Flip",
-        "slug": "ultra-flip",
-        "category": "poster",
-        "tagline": "Premium Flip Display",
-        "description": "The pinnacle of flip-style LED signage. Ultra-slim 30mm profile with premium build quality and whisper-quiet operation. Designed for luxury environments where every detail matters.",
-        "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png",
-        "quick_specs": [
-            {"label": "THICKNESS", "value": "30mm"},
-            {"label": "FLIP ANGLE", "value": "180°"},
-            {"label": "BRIGHTNESS", "value": "1500cd/m²"},
-            {"label": "WEIGHT", "value": "38kg"}
-        ],
-        "features": [
-            {"icon": "RotateCcw", "title": "Premium Flip Mechanism", "desc": "Smooth 180° motorized flip with whisper-quiet operation"},
-            {"icon": "Layers", "title": "Ultra-Slim Profile", "desc": "Industry-leading 30mm thin design"},
-            {"icon": "Monitor", "title": "High Brightness", "desc": "1500cd/m² for visibility in bright environments"},
-            {"icon": "Wifi", "title": "Smart Connectivity", "desc": "WiFi, 4G, and cloud-based content management"},
-            {"icon": "Zap", "title": "Energy Efficient", "desc": "Low power consumption for reduced operating costs"},
-            {"icon": "Smartphone", "title": "App Control", "desc": "Full control from smartphone or tablet"}
-        ],
-        "applications": [
-            {"name": "Luxury Retail", "desc": "High-end brand experiences"},
-            {"name": "Hotels", "desc": "Lobby and concierge displays"},
-            {"name": "Automotive", "desc": "Showroom presentations"},
-            {"name": "Banking", "desc": "Branch digital signage"},
-            {"name": "Airports", "desc": "Premium lounges"},
-            {"name": "Corporate", "desc": "Executive boardrooms"}
-        ],
-        "specifications": [
-            {"label": "Pixel Pitch", "value": "P2.5 / P3"},
-            {"label": "Cabinet Size", "value": "600×1800mm"},
-            {"label": "Thickness", "value": "30mm"},
-            {"label": "Weight", "value": "38kg"},
-            {"label": "Brightness", "value": "1500cd/m²"},
-            {"label": "Refresh Rate", "value": "3840Hz"},
-            {"label": "Viewing Angle", "value": "160°/160°"},
-            {"label": "Contrast", "value": "5000:1"},
-            {"label": "Control", "value": "WiFi/4G/USB/HDMI"},
-            {"label": "Power", "value": "AC 110-240V"}
-        ],
-        "faqs": [
-            {"question": "What makes Ultra Flip different from iFlip?", "answer": "Ultra Flip is our premium offering with a slimmer 30mm profile, higher brightness (1500cd/m²), quieter flip mechanism, and enhanced build quality for luxury environments."},
-            {"question": "How reliable is the flip mechanism?", "answer": "The motorized flip mechanism is rated for over 100,000 cycles. It uses precision bearings and a belt-driven system for smooth, quiet operation with minimal maintenance."},
-            {"question": "Can I schedule automated content and flip sequences?", "answer": "Yes! The cloud management platform allows you to schedule content changes and flip sequences throughout the day. You can also trigger flips based on sensor input or external triggers."}
-        ],
-        "is_active": True,
-        "order": 3
-    },
-    {
-        "name": "Digi Standee",
-        "slug": "digi-standee",
-        "category": "poster",
-        "tagline": "Versatile Digital Display",
-        "description": "The go-anywhere LED standee for retail, events, and hospitality. Wheeled base for easy repositioning, plug-and-play operation, and cloud-based content management for effortless deployment.",
-        "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png",
-        "quick_specs": [
-            {"label": "THICKNESS", "value": "45mm"},
-            {"label": "BRIGHTNESS", "value": "1200cd/m²"},
-            {"label": "REFRESH", "value": "3840Hz"},
-            {"label": "WEIGHT", "value": "55kg"}
-        ],
-        "features": [
-            {"icon": "Move", "title": "Versatile Placement", "desc": "Freestanding design with lockable casters for easy repositioning"},
-            {"icon": "Layers", "title": "Compact Footprint", "desc": "Space-efficient design fits any retail or event environment"},
-            {"icon": "Monitor", "title": "Vivid Display", "desc": "High brightness and contrast for eye-catching visuals"},
-            {"icon": "Wifi", "title": "Easy Content", "desc": "WiFi, USB, and HDMI for flexible content delivery"},
-            {"icon": "Zap", "title": "Quick Setup", "desc": "Plug-and-play operation with no installation required"},
-            {"icon": "Smartphone", "title": "Remote Management", "desc": "Cloud-based CMS for multi-location control"}
-        ],
-        "applications": [
-            {"name": "Retail", "desc": "In-store promotions and product highlights"},
-            {"name": "Events", "desc": "Trade shows and conferences"},
-            {"name": "Hospitality", "desc": "Hotel lobbies and restaurants"},
-            {"name": "Healthcare", "desc": "Waiting rooms and wayfinding"},
-            {"name": "Real Estate", "desc": "Property showcases"},
-            {"name": "Automotive", "desc": "Showroom displays"}
-        ],
-        "specifications": [
-            {"label": "Pixel Pitch", "value": "P2.5 / P3"},
-            {"label": "Screen Size", "value": "576×1728mm"},
-            {"label": "Thickness", "value": "45mm"},
-            {"label": "Total Weight", "value": "55kg (with base)"},
-            {"label": "Brightness", "value": "1200cd/m²"},
-            {"label": "Refresh Rate", "value": "3840Hz"},
-            {"label": "Viewing Angle", "value": "160°/160°"},
-            {"label": "Base", "value": "Wheeled, lockable"},
-            {"label": "Input", "value": "WiFi/USB/HDMI"},
-            {"label": "Power", "value": "AC 110-240V"}
-        ],
-        "faqs": [
-            {"question": "How portable is the Digi Standee?", "answer": "The Digi Standee features lockable casters for easy repositioning. A single person can move it around your store or venue. For transport, it can be disassembled and packed in the included flight case."},
-            {"question": "What screen sizes are available?", "answer": "The standard Digi Standee is 576×1728mm. Custom sizes can be accommodated for larger projects. Contact us for dimensions and pricing."},
-            {"question": "How long does setup take?", "answer": "The Digi Standee is plug-and-play. Simply wheel it into position, connect power, and start displaying content. Initial setup takes under 5 minutes."}
-        ],
-        "is_active": True,
-        "order": 4
-    },
-    {
-        "name": "OOHPoster",
-        "slug": "ooh-poster",
-        "category": "poster",
-        "tagline": "Outdoor Digital Poster",
-        "description": "Built to withstand the elements. High-brightness outdoor LED poster with IP65 weatherproofing, wide temperature tolerance, and 4G remote management for advertising, transit, and public information.",
-        "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png",
-        "quick_specs": [
-            {"label": "BRIGHTNESS", "value": "5000cd/m²"},
-            {"label": "IP RATING", "value": "IP65"},
-            {"label": "TEMP RANGE", "value": "-30°~50°C"},
-            {"label": "REFRESH", "value": "3840Hz"}
-        ],
-        "features": [
-            {"icon": "Sun", "title": "High Brightness", "desc": "5000cd/m² for perfect visibility in direct sunlight"},
-            {"icon": "Shield", "title": "IP65 Protection", "desc": "Fully weatherproof for any outdoor environment"},
-            {"icon": "Thermometer", "title": "Wide Temp Range", "desc": "Operates from -30°C to +50°C with smart thermal management"},
-            {"icon": "Droplets", "title": "Rain & Dust Proof", "desc": "Sealed cabinet design protects against elements"},
-            {"icon": "Wifi", "title": "4G Connectivity", "desc": "Remote content management via cellular network"},
-            {"icon": "Monitor", "title": "Auto Brightness", "desc": "Light sensor automatically adjusts for ambient conditions"}
-        ],
-        "applications": [
-            {"name": "Street Advertising", "desc": "Roadside digital billboards"},
-            {"name": "Transit", "desc": "Bus stops and stations"},
-            {"name": "Outdoor Retail", "desc": "Storefronts and plazas"},
-            {"name": "Events", "desc": "Outdoor festivals and concerts"},
-            {"name": "Stadiums", "desc": "Arena advertising"},
-            {"name": "Parks", "desc": "Public information displays"}
-        ],
-        "specifications": [
-            {"label": "Pixel Pitch", "value": "P4 / P5 / P6"},
-            {"label": "Brightness", "value": "5000-6000cd/m²"},
-            {"label": "IP Rating", "value": "IP65 (front), IP54 (rear)"},
-            {"label": "Operating Temp", "value": "-30°C ~ +50°C"},
-            {"label": "Refresh Rate", "value": "3840Hz"},
-            {"label": "Viewing Angle", "value": "140°/140°"},
-            {"label": "Cabinet Material", "value": "Aluminum + Steel"},
-            {"label": "Control", "value": "4G/LAN/WiFi"},
-            {"label": "Power", "value": "AC 110-240V"},
-            {"label": "Lifespan", "value": "100,000+ hours"}
-        ],
-        "faqs": [
-            {"question": "How does OOHPoster handle extreme weather?", "answer": "OOHPoster is built with IP65-rated front panels that withstand rain, snow, and dust. The cabinet features active ventilation and heating elements to maintain optimal operating temperature from -30°C to +50°C."},
-            {"question": "What is the visibility in bright sunlight?", "answer": "With 5000-6000cd/m² brightness and anti-glare coating, OOHPoster maintains excellent visibility even in direct midday sun. The auto-brightness feature adjusts output based on ambient light."},
-            {"question": "How is content updated remotely?", "answer": "OOHPoster features built-in 4G connectivity for remote content updates. Our cloud platform allows you to schedule content, monitor display health, and push updates to any location worldwide."}
-        ],
-        "is_active": True,
-        "order": 5
-    },
-    {
-        "name": "Eagle Wing",
-        "slug": "eagle-wing",
-        "category": "poster",
-        "tagline": "Premium Winged Display",
-        "description": "Make a statement from every angle. The Eagle Wing's three-panel design with adjustable wings creates a commanding presence with up to 270° visibility. Perfect for high-traffic locations and premium environments.",
-        "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png",
-        "quick_specs": [
-            {"label": "CONFIGURATION", "value": "3-Panel"},
-            {"label": "ANGLE", "value": "0-120°"},
-            {"label": "BRIGHTNESS", "value": "1500cd/m²"},
-            {"label": "REFRESH", "value": "3840Hz"}
-        ],
-        "features": [
-            {"icon": "Maximize2", "title": "Winged Design", "desc": "Three-panel configuration with adjustable wing angles (0-120°)"},
-            {"icon": "Eye", "title": "270° Visibility", "desc": "Content visible from almost any direction"},
-            {"icon": "Layers", "title": "Premium Build", "desc": "Brushed aluminum frame with seamless panel joints"},
-            {"icon": "Monitor", "title": "High Brightness", "desc": "1500cd/m² for excellent visibility"},
-            {"icon": "Wifi", "title": "Smart Control", "desc": "Independent or synchronized panel content"},
-            {"icon": "Zap", "title": "Quick Setup", "desc": "Modular assembly for fast deployment"}
-        ],
-        "applications": [
-            {"name": "Retail Islands", "desc": "Central store displays"},
-            {"name": "Auto Showrooms", "desc": "Vehicle showcase stands"},
-            {"name": "Luxury Boutiques", "desc": "Premium product highlights"},
-            {"name": "Exhibitions", "desc": "Trade show centerpieces"},
-            {"name": "Hotel Lobbies", "desc": "Welcome and information"},
-            {"name": "Corporate", "desc": "Reception area branding"}
-        ],
-        "specifications": [
-            {"label": "Configuration", "value": "3 Panels (adjustable)"},
-            {"label": "Wing Angle", "value": "0° - 120°"},
-            {"label": "Pixel Pitch", "value": "P2.5 / P3"},
-            {"label": "Panel Size", "value": "500×1500mm per wing"},
-            {"label": "Total Width", "value": "1500mm (closed) - 2600mm (open)"},
-            {"label": "Brightness", "value": "1500cd/m²"},
-            {"label": "Refresh Rate", "value": "3840Hz"},
-            {"label": "Viewing Angle", "value": "160°/160°"},
-            {"label": "Control", "value": "WiFi/USB/HDMI"},
-            {"label": "Power", "value": "AC 110-240V"}
-        ],
-        "faqs": [
-            {"question": "How do the wing panels adjust?", "answer": "Each wing panel can be manually adjusted from 0° (flat) to 120° and locked in position. This allows you to configure the display for different spaces and viewing angles."},
-            {"question": "Can each panel show different content?", "answer": "Yes! Each of the three panels can display independent content, or they can be synchronized for a cohesive wrap-around experience. Our content management system makes it easy to configure either mode."},
-            {"question": "What is the total viewing angle?", "answer": "With wings fully extended at 120°, Eagle Wing provides approximately 270° of visibility, making it perfect for central locations where viewers approach from multiple directions."}
-        ],
-        "is_active": True,
-        "order": 6
-    },
+    {"name": "UltraFlip", "slug": "ultra-flip", "category": "poster", "tagline": "Ultra-Thin Double-Sided Excellence.", "description": "The thinnest double-sided LED display in its class.", "hero_image": "", "quick_specs": [{"label": "Profile", "value": "45mm"}, {"label": "Weight", "value": "35kg"}, {"label": "Brightness", "value": "2000nits"}, {"label": "Pixel Pitch", "value": "P2.0"}], "features": [{"icon": "Layers", "title": "Ultra-Thin", "desc": "Industry-leading 45mm profile."}, {"icon": "Zap", "title": "Lightweight", "desc": "Only 35kg makes it easy to install."}, {"icon": "Monitor", "title": "Fine Pixel Pitch", "desc": "P2.0 for exceptional clarity."}], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 3},
+    {"name": "DigiStandee", "slug": "digi-standee", "category": "poster", "tagline": "Smart Digital Standee. Instant Attention.", "description": "Modern digital standee for quick deployment.", "hero_image": "", "quick_specs": [{"label": "Setup Time", "value": "5 min"}, {"label": "Battery", "value": "8 hours"}, {"label": "Weight", "value": "25kg"}, {"label": "Pixel Pitch", "value": "P2.5"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 4},
+    {"name": "OOH Poster", "slug": "ooh-poster", "category": "poster", "tagline": "Outdoor Excellence. Weather-Proof Impact.", "description": "High-brightness outdoor LED poster for DOOH.", "hero_image": "", "quick_specs": [{"label": "Brightness", "value": "5000nits"}, {"label": "IP Rating", "value": "IP65"}, {"label": "Operating Temp", "value": "-20°C to 50°C"}, {"label": "Pixel Pitch", "value": "P4"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 5},
+    {"name": "Eagle Wing", "slug": "eagle-wing", "category": "poster", "tagline": "Spread Your Message. Unfold Your Brand.", "description": "Innovative foldable LED display.", "hero_image": "", "quick_specs": [{"label": "Expansion", "value": "3x Width"}, {"label": "Mechanism", "value": "Motorized"}, {"label": "Max Size", "value": "6m span"}, {"label": "Pixel Pitch", "value": "P2.5"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 6},
     # Commercial Series
-    {
-        "name": "Unity",
-        "slug": "unity",
-        "category": "commercial",
-        "tagline": "Seamless Video Wall System",
-        "description": "Build without boundaries. Unity's seamless video wall system combines ultra-narrow bezels with easy installation for stunning large-format displays in control rooms, corporate lobbies, and broadcast studios.",
-        "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c89f5ffe1dc9c397592b6acb7d50a61072989db54795a612c598d5acab9bb4ac.png",
-        "quick_specs": [
-            {"label": "BEZEL", "value": "<0.88mm"},
-            {"label": "PIXEL PITCH", "value": "P1.2-P2.5"},
-            {"label": "SEAMLESS", "value": "Yes"},
-            {"label": "MODULAR", "value": "Scalable"}
-        ],
-        "features": [
-            {"icon": "Grid3X3", "title": "Seamless Design", "desc": "Ultra-narrow bezels for virtually seamless visuals"},
-            {"icon": "Maximize2", "title": "Scalable Size", "desc": "Build any size from 2×2 to 10×10 and beyond"},
-            {"icon": "Monitor", "title": "Fine Pitch", "desc": "P1.2 to P2.5 for close viewing distances"},
-            {"icon": "Layers", "title": "Easy Install", "desc": "Magnetic mounting for quick assembly and service"},
-            {"icon": "Zap", "title": "Hot Swappable", "desc": "Replace modules without powering down"},
-            {"icon": "Wifi", "title": "Smart Control", "desc": "Centralized management and monitoring"}
-        ],
-        "applications": [
-            {"name": "Control Rooms", "desc": "Command and operations centers"},
-            {"name": "Corporate Lobbies", "desc": "Brand experience walls"},
-            {"name": "Broadcast Studios", "desc": "News and production backgrounds"},
-            {"name": "Retail Flagships", "desc": "Large-format brand displays"},
-            {"name": "Conference Centers", "desc": "Meeting room video walls"},
-            {"name": "Museums", "desc": "Immersive exhibit displays"}
-        ],
-        "specifications": [
-            {"label": "Pixel Pitch", "value": "P1.2 / P1.5 / P1.8 / P2.5"},
-            {"label": "Module Size", "value": "600×337.5mm"},
-            {"label": "Bezel Width", "value": "<0.88mm"},
-            {"label": "Brightness", "value": "600cd/m²"},
-            {"label": "Refresh Rate", "value": "3840Hz"},
-            {"label": "Contrast", "value": "5000:1"},
-            {"label": "Color Depth", "value": "16bit"},
-            {"label": "Mounting", "value": "Magnetic front service"},
-            {"label": "Input", "value": "HDMI/DP/DVI"},
-            {"label": "Power", "value": "AC 110-240V"}
-        ],
-        "faqs": [
-            {"question": "What is the smallest pixel pitch available?", "answer": "Unity is available in P1.2 for the finest detail, suitable for viewing distances as close as 1.5 meters. For larger installations with greater viewing distances, P1.8 or P2.5 offer excellent value."},
-            {"question": "How easy is maintenance?", "answer": "Unity features magnetic front-service modules that can be removed and replaced without tools. Hot-swap capability means you can replace a module without powering down the entire wall."},
-            {"question": "Can I create non-standard configurations?", "answer": "Yes! While standard 16:9 configurations are most common, Unity can be configured in any rectangular arrangement. L-shaped, curved, and corner installations are also possible with custom mounting."}
-        ],
-        "is_active": True,
-        "order": 10
-    },
-    {
-        "name": "VideoBrick",
-        "slug": "videobrick",
-        "category": "commercial",
-        "tagline": "Modular Building Block Display",
-        "description": "Build displays like building blocks. VideoBrick's modular design allows for creative configurations and easy scalability. Stack, arrange, and create unique display solutions.",
-        "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c89f5ffe1dc9c397592b6acb7d50a61072989db54795a612c598d5acab9bb4ac.png",
-        "quick_specs": [
-            {"label": "MODULE SIZE", "value": "320×160mm"},
-            {"label": "PIXEL PITCH", "value": "P2.5-P4"},
-            {"label": "STACKABLE", "value": "Yes"},
-            {"label": "INDOOR/OUTDOOR", "value": "Both"}
-        ],
-        "features": [
-            {"icon": "Puzzle", "title": "Modular Design", "desc": "Building-block approach for creative configurations"},
-            {"icon": "Layers", "title": "Stackable", "desc": "Stack vertically or arrange horizontally"},
-            {"icon": "Maximize2", "title": "Scalable", "desc": "Start small and expand as needed"},
-            {"icon": "Shield", "title": "Durable", "desc": "Impact-resistant modules"},
-            {"icon": "Zap", "title": "Easy Install", "desc": "Tool-free magnetic assembly"},
-            {"icon": "Wifi", "title": "Smart Control", "desc": "WiFi and LAN connectivity"}
-        ],
-        "applications": [
-            {"name": "Retail", "desc": "Creative store displays"},
-            {"name": "Events", "desc": "Temporary installations"},
-            {"name": "Sports", "desc": "Stadium and arena displays"},
-            {"name": "Education", "desc": "Campus signage"},
-            {"name": "Corporate", "desc": "Office branding"},
-            {"name": "Hospitality", "desc": "Restaurant and bar displays"}
-        ],
-        "specifications": [
-            {"label": "Pixel Pitch", "value": "P2.5 / P3 / P4"},
-            {"label": "Module Size", "value": "320×160mm"},
-            {"label": "Module Weight", "value": "1.2kg"},
-            {"label": "Brightness", "value": "1200cd/m²"},
-            {"label": "Refresh Rate", "value": "3840Hz"},
-            {"label": "IP Rating", "value": "IP65 (outdoor version)"},
-            {"label": "Viewing Angle", "value": "160°/160°"},
-            {"label": "Connection", "value": "Magnetic quick-connect"},
-            {"label": "Control", "value": "WiFi/LAN/USB"},
-            {"label": "Power", "value": "AC 110-240V"}
-        ],
-        "faqs": [
-            {"question": "How many modules can be connected?", "answer": "A single controller can drive up to 20 VideoBrick modules. For larger installations, multiple controllers can be synchronized for unlimited scalability."},
-            {"question": "Can VideoBrick be used outdoors?", "answer": "Yes! The outdoor version (IP65) is fully weatherproof. The indoor version (IP40) is suitable for covered outdoor areas."},
-            {"question": "How quickly can configurations be changed?", "answer": "VideoBrick modules connect magnetically without tools. A 3×3 configuration can be assembled in under 10 minutes by one person."}
-        ],
-        "is_active": True,
-        "order": 11
-    },
-    {
-        "name": "iConference",
-        "slug": "iconference",
-        "category": "commercial",
-        "tagline": "Meeting Room LED Display",
-        "description": "Transform your boardroom with stunning visual clarity. iConference combines fine pixel pitch LED technology with integrated conferencing features for seamless presentations and collaboration.",
-        "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c89f5ffe1dc9c397592b6acb7d50a61072989db54795a612c598d5acab9bb4ac.png",
-        "quick_specs": [
-            {"label": "PIXEL PITCH", "value": "P1.2-P2.5"},
-            {"label": "SIZE RANGE", "value": "110\"-220\""},
-            {"label": "REFRESH", "value": "3840Hz"},
-            {"label": "HDR", "value": "Supported"}
-        ],
-        "features": [
-            {"icon": "Presentation", "title": "All-in-One Solution", "desc": "Integrated display, processor, and control system"},
-            {"icon": "Users", "title": "Collaboration Ready", "desc": "Built-in wireless screen sharing and annotation"},
-            {"icon": "Monitor", "title": "Fine Pixel Pitch", "desc": "P1.2 to P2.5 for crystal-clear presentations"},
-            {"icon": "Video", "title": "Video Conferencing", "desc": "Compatible with Zoom, Teams, WebEx, and more"},
-            {"icon": "Mic", "title": "Audio Integration", "desc": "Built-in speakers and mic array support"},
-            {"icon": "Wifi", "title": "Wireless Connectivity", "desc": "WiFi, Bluetooth, and AirPlay support"}
-        ],
-        "applications": [
-            {"name": "Boardrooms", "desc": "Executive meeting spaces"},
-            {"name": "Training Rooms", "desc": "Corporate learning environments"},
-            {"name": "Huddle Spaces", "desc": "Small team collaboration"},
-            {"name": "Command Centers", "desc": "Operations and monitoring"},
-            {"name": "University Lecture", "desc": "Educational presentations"},
-            {"name": "Broadcast Studios", "desc": "Background displays"}
-        ],
-        "specifications": [
-            {"label": "Pixel Pitch Options", "value": "P1.2 / P1.5 / P1.9 / P2.5"},
-            {"label": "Screen Sizes", "value": "110\" / 138\" / 165\" / 220\""},
-            {"label": "Resolution (165\")", "value": "1920×1080 (P1.9)"},
-            {"label": "Brightness", "value": "400-600cd/m² (adjustable)"},
-            {"label": "Refresh Rate", "value": "3840Hz"},
-            {"label": "Contrast", "value": "5000:1"},
-            {"label": "Color Depth", "value": "16bit"},
-            {"label": "Inputs", "value": "HDMI 2.1 / DP / USB-C / Wireless"},
-            {"label": "Audio", "value": "Built-in 20W speakers"},
-            {"label": "Control", "value": "IR / RS232 / LAN / App"}
-        ],
-        "faqs": [
-            {"question": "How does iConference compare to traditional projectors?", "answer": "iConference offers superior brightness, contrast, and color accuracy without lamp replacements. No darkened rooms required, and the fine pixel pitch ensures text is crisp even at close viewing distances."},
-            {"question": "What video conferencing platforms are supported?", "answer": "iConference works with all major platforms including Zoom, Microsoft Teams, WebEx, Google Meet, and GoToMeeting. The integrated camera and mic options provide a complete solution."},
-            {"question": "Can multiple sources be displayed simultaneously?", "answer": "Yes! The built-in controller supports picture-in-picture and side-by-side display of multiple sources, perfect for comparing documents or showing presenter and content together."}
-        ],
-        "is_active": True,
-        "order": 12
-    }
+    {"name": "Unity", "slug": "unity", "category": "commercial", "tagline": "Modular Excellence. Unified Vision.", "description": "Versatile modular LED for flat, curved, and column installations.", "hero_image": "", "quick_specs": [{"label": "Panel Size", "value": "1000x250mm"}, {"label": "Curve", "value": "90° Column"}, {"label": "Clearance", "value": "15cm rear"}, {"label": "Maintenance", "value": "Front & Rear"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 7},
+    {"name": "VideoBrick", "slug": "videobrick", "category": "commercial", "tagline": "Build Your Vision. Brick by Brick.", "description": "Stackable LED modules that snap together.", "hero_image": "", "quick_specs": [{"label": "Module", "value": "500x500mm"}, {"label": "Assembly", "value": "Magnetic"}, {"label": "Max Size", "value": "Unlimited"}, {"label": "Pixel Pitch", "value": "P1.5-P4"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 8},
+    {"name": "iConference", "slug": "iconference", "category": "commercial", "tagline": "Professional Display. Perfect Meetings.", "description": "All-in-one LED conference display.", "hero_image": "", "quick_specs": [{"label": "Screen Size", "value": "138\" / 163\""}, {"label": "Camera", "value": "4K PTZ"}, {"label": "Audio", "value": "8-Mic Array"}, {"label": "Pixel Pitch", "value": "P1.2 / P1.5"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 9},
+    {"name": "EzeeSign", "slug": "ezeesign", "category": "commercial", "tagline": "Simple Setup. Stunning Results.", "description": "Plug-and-play LED signage.", "hero_image": "", "quick_specs": [{"label": "Setup", "value": "Plug & Play"}, {"label": "Software", "value": "Cloud CMS"}, {"label": "Sizes", "value": "24\" to 75\""}, {"label": "Pixel Pitch", "value": "P2.5"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 10},
+    {"name": "iShelf", "slug": "ishelf", "category": "commercial", "tagline": "Smart Shelf. Smart Retail.", "description": "LED shelf-edge display system.", "hero_image": "", "quick_specs": [{"label": "Height", "value": "50mm"}, {"label": "Length", "value": "Custom"}, {"label": "Viewing", "value": "175°"}, {"label": "Pixel Pitch", "value": "P1.0 / P1.5"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 11},
+    {"name": "TableVision", "slug": "tablevision", "category": "commercial", "tagline": "Interactive Tables. Engaging Experiences.", "description": "LED-embedded tables with multi-touch.", "hero_image": "", "quick_specs": [{"label": "Touch Points", "value": "40"}, {"label": "Surface", "value": "Tempered Glass"}, {"label": "Size", "value": "43\" / 55\" / 65\""}, {"label": "Pixel Pitch", "value": "P1.8"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 12},
+    {"name": "iFlex Pro", "slug": "iflex-pro", "category": "commercial", "tagline": "Flex Your Creativity. Pro Results.", "description": "Professional-grade flexible LED display.", "hero_image": "", "quick_specs": [{"label": "Bend Radius", "value": "500mm min"}, {"label": "Thickness", "value": "12mm"}, {"label": "Weight", "value": "8kg/m²"}, {"label": "Pixel Pitch", "value": "P2.0-P4.0"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 13},
+    {"name": "iTransformers", "slug": "itransformers", "category": "commercial", "tagline": "Transform Your Space. Adapt Instantly.", "description": "Modular transforming LED system.", "hero_image": "", "quick_specs": [{"label": "Configurations", "value": "6+"}, {"label": "Movement", "value": "Motorized"}, {"label": "Transform Time", "value": "30 sec"}, {"label": "Pixel Pitch", "value": "P2.5"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 14},
+    {"name": "Tetris", "slug": "tetris", "category": "commercial", "tagline": "Stack. Create. Display.", "description": "Stackable LED cube modules.", "hero_image": "", "quick_specs": [{"label": "Cube Size", "value": "250mm³"}, {"label": "Sides Active", "value": "4 or 6"}, {"label": "Connection", "value": "Magnetic"}, {"label": "Pixel Pitch", "value": "P2.5"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 15},
+    {"name": "Ellipse Counter", "slug": "ellipse-counter", "category": "commercial", "tagline": "Curved Elegance. Reception Excellence.", "description": "LED-integrated reception counter.", "hero_image": "", "quick_specs": [{"label": "Shape", "value": "Elliptical"}, {"label": "Display Area", "value": "Front Face"}, {"label": "Counter Top", "value": "Solid Surface"}, {"label": "Pixel Pitch", "value": "P2.0"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 16},
+    # Creative Series
+    {"name": "Creative Shapes", "slug": "creative-shapes", "category": "creative", "tagline": "Any Shape. Any Dream. Made Real.", "description": "Custom-shaped LED displays.", "hero_image": "", "quick_specs": [{"label": "Experience", "value": "10+ Years"}, {"label": "Shapes", "value": "Unlimited"}, {"label": "Viewing", "value": "360°"}, {"label": "Custom", "value": "100%"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 17},
+    {"name": "Interactive", "slug": "interactive", "category": "creative", "tagline": "Touch. Play. Engage.", "description": "Interactive LED floor and wall displays.", "hero_image": "", "quick_specs": [{"label": "Response", "value": "<30ms"}, {"label": "Detection", "value": "Multi-Touch"}, {"label": "Load Capacity", "value": "2000kg/m²"}, {"label": "Pixel Pitch", "value": "P3.9 / P4.8"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 18},
+    {"name": "CrystalFlex", "slug": "crystalflex", "category": "creative", "tagline": "Transparent Beauty. Crystal Clarity.", "description": "Flexible transparent LED.", "hero_image": "", "quick_specs": [{"label": "Transparency", "value": "85%"}, {"label": "Flexibility", "value": "Bendable"}, {"label": "Weight", "value": "6kg/m²"}, {"label": "Pixel Pitch", "value": "P10-P15"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 19},
+    {"name": "Rolling Floor", "slug": "rolling-floor", "category": "creative", "tagline": "Walk on Wonder. Dance on Light.", "description": "LED floor panels for walkways and stages.", "hero_image": "", "quick_specs": [{"label": "Load Capacity", "value": "3000kg/m²"}, {"label": "IP Rating", "value": "IP65"}, {"label": "Surface", "value": "Anti-Slip"}, {"label": "Pixel Pitch", "value": "P3.9 / P6.25"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 20},
+    {"name": "MagicStage", "slug": "magicstage", "category": "creative", "tagline": "Stage. Screen. Spectacle.", "description": "Complete stage LED solution.", "hero_image": "", "quick_specs": [{"label": "Coverage", "value": "360°"}, {"label": "Components", "value": "Floor + Wall + Ceiling"}, {"label": "Rental Ready", "value": "Yes"}, {"label": "Pixel Pitch", "value": "P2.6-P4.8"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 21},
+    {"name": "Magic Blanket", "slug": "magic-blanket", "category": "creative", "tagline": "Drape Your Space in Light.", "description": "Flexible LED mesh.", "hero_image": "", "quick_specs": [{"label": "Flexibility", "value": "Full Drape"}, {"label": "Weight", "value": "4kg/m²"}, {"label": "Transparency", "value": "70%"}, {"label": "Pixel Pitch", "value": "P15-P30"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 22},
+    {"name": "MagicSky", "slug": "magicsky", "category": "creative", "tagline": "Bring the Sky Inside.", "description": "LED ceiling system.", "hero_image": "", "quick_specs": [{"label": "Installation", "value": "Ceiling"}, {"label": "Effect", "value": "Sky Simulation"}, {"label": "Control", "value": "DMX + Video"}, {"label": "Pixel Pitch", "value": "P4-P10"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 23},
+    {"name": "Magic Garments", "slug": "magic-garments", "category": "creative", "tagline": "Wear Your Message. Light Up the Room.", "description": "Wearable LED solutions.", "hero_image": "", "quick_specs": [{"label": "Weight", "value": "200g/panel"}, {"label": "Power", "value": "Battery"}, {"label": "Runtime", "value": "4 hours"}, {"label": "Flexibility", "value": "Wearable"}], "features": [], "applications": [], "specifications": [], "faqs": [], "is_active": True, "order": 24}
 ]
 
-# Continue with more products...
-# (The full list would include all 24 products)
+# ============ SOLUTIONS DATA ============
+SOLUTIONS = [
+    {"title": "Retail & Hospitality", "slug": "retail", "tagline": "Transform Shopping Experiences", "description": "Elevate your retail or hospitality space with stunning LED displays.", "icon": "ShoppingBag", "hero_image": "", "features": [{"title": "Dynamic Storefronts", "description": "Attract foot traffic"}, {"title": "In-Store Experience", "description": "Guide customers"}, {"title": "Promotional Flexibility", "description": "Update content instantly"}], "benefits": [{"title": "Increased Foot Traffic", "description": "63% more attention"}, {"title": "Higher Engagement", "description": "30% more time viewing"}, {"title": "Revenue Growth", "description": "29% spending increase"}], "use_cases": ["Window Displays", "In-Store Signage", "Menu Boards", "Hotel Lobbies"], "is_active": True, "order": 1},
+    {"title": "Corporate & Conference", "slug": "corporate", "tagline": "Elevate Professional Spaces", "description": "Create impressive boardrooms with seamless video wall technology.", "icon": "Briefcase", "hero_image": "", "features": [], "benefits": [], "use_cases": ["Boardrooms", "Training Centers", "Command Centers"], "is_active": True, "order": 2},
+    {"title": "Outdoor & DOOH", "slug": "outdoor", "tagline": "Dominate the Skyline", "description": "High-brightness outdoor LED solutions.", "icon": "Sun", "hero_image": "", "features": [], "benefits": [], "use_cases": ["Billboards", "Building Facades", "Stadium Perimeter"], "is_active": True, "order": 3},
+    {"title": "Events & Exhibitions", "slug": "events", "tagline": "Create Unforgettable Moments", "description": "Rental-ready LED solutions for events.", "icon": "Music", "hero_image": "", "features": [], "benefits": [], "use_cases": ["Concert Stages", "Trade Shows", "Award Ceremonies"], "is_active": True, "order": 4},
+    {"title": "Creative & Curved", "slug": "creative", "tagline": "Break the Boundaries", "description": "Custom shapes and artistic LED installations.", "icon": "Sparkles", "hero_image": "", "features": [], "benefits": [], "use_cases": ["Architectural Features", "Art Installations", "Theme Parks"], "is_active": True, "order": 5},
+    {"title": "Traffic & Road Signs", "slug": "traffic", "tagline": "Guide Safely. Inform Instantly.", "description": "Variable message signs for smart cities.", "icon": "Car", "hero_image": "", "features": [], "benefits": [], "use_cases": ["Highway VMS", "Parking Guidance", "Speed Warnings"], "is_active": True, "order": 6},
+    {"title": "Immersive & VP", "slug": "immersive", "tagline": "Step Into Another World", "description": "Virtual production stages and immersive LED rooms.", "icon": "Video", "hero_image": "", "features": [], "benefits": [], "use_cases": ["Film Studios", "Broadcast Sets", "XR Stages"], "is_active": True, "order": 7},
+    {"title": "Transparent & Glass", "slug": "transparent", "tagline": "See Through. Stand Out.", "description": "Transparent LED solutions for glass facades.", "icon": "Eye", "hero_image": "", "features": [], "benefits": [], "use_cases": ["Retail Windows", "Glass Facades", "Showrooms"], "is_active": True, "order": 8},
+    {"title": "Healthcare & Medical", "slug": "healthcare", "tagline": "Inform. Guide. Heal.", "description": "Medical-grade displays for healthcare facilities.", "icon": "Heart", "hero_image": "", "features": [], "benefits": [], "use_cases": ["Hospital Lobbies", "Waiting Areas", "Wayfinding"], "is_active": True, "order": 9},
+    {"title": "Education & Training", "slug": "education", "tagline": "Inspire Learning. Enable Discovery.", "description": "Interactive displays for education.", "icon": "GraduationCap", "hero_image": "", "features": [], "benefits": [], "use_cases": ["Lecture Halls", "Libraries", "Campus Signage"], "is_active": True, "order": 10},
+    {"title": "Sports & Stadiums", "slug": "sports", "tagline": "Amplify the Action.", "description": "Stadium-scale LED solutions.", "icon": "Trophy", "hero_image": "", "features": [], "benefits": [], "use_cases": ["Scoreboards", "Perimeter Ads", "Jumbotrons"], "is_active": True, "order": 11}
+]
 
-async def seed_pixelvue_products():
-    """Seed PixelVue products collection"""
-    print("Seeding PixelVue products...")
-    
-    # Check if already seeded
-    count = await db.pixelvue_products.count_documents({})
-    if count > 0:
-        print(f"  PixelVue products already seeded ({count} documents). Skipping...")
-        return
-    
+# ============ PRODUCT FAMILIES DATA ============
+PRODUCT_FAMILIES = [
+    {"name": "LumiMorph", "slug": "lumimorph", "tagline": "Where Art Meets Technology", "description": "Revolutionary texture-changing LED displays.", "hero_image": "https://files.ihgbrands.com/brightluxx/artmorph-assets/room-setting.jpg", "hero_video": "/artmorph-assets/grande-video.mp4", "brand_color": "cyan", "stats": [{"value": "200+", "label": "Texture Options"}, {"value": "147K", "label": "Pixels/m²"}, {"value": "5 Year", "label": "Warranty"}], "overview": "LumiMorph combines the beauty of natural textures with digital displays.", "key_features": ["Interchangeable texture covers", "Magnetic mounting", "Front-serviceable"], "products": [{"name": "Elite", "slug": "lumimorph/elite", "description": "Premium P2.6", "image": ""}, {"name": "Grande", "slug": "lumimorph/grande", "description": "Large-scale P6.2", "image": ""}, {"name": "Mini", "slug": "lumimorph/mini", "description": "Compact panels", "image": ""}], "use_cases": ["Hotel Lobbies", "Corporate Reception", "Restaurants"], "faqs": [], "is_active": True, "order": 1},
+    {"name": "NaturaTex", "slug": "naturatex", "tagline": "Turn Off the Display, Turn On the Art", "description": "Nano-optical texture screens.", "hero_image": "", "brand_color": "emerald", "stats": [{"value": "5", "label": "Pixel Options"}, {"value": "600-800", "label": "cd/m²"}, {"value": "COB", "label": "Technology"}], "key_features": ["Nano-optical coating", "COB technology"], "products": [{"name": "NaturaTex", "slug": "naturatex", "description": "Texture screen", "image": ""}, {"name": "HoloVeil", "slug": "naturatex/holoveil", "description": "Transparent holographic", "image": ""}], "is_active": True, "order": 2},
+    {"name": "SignaTouch", "slug": "signatouch", "tagline": "Interactive Kiosks. Elevated Experiences.", "description": "Professional-grade touch screen kiosks.", "hero_image": "", "brand_color": "amber", "stats": [{"value": "63%", "label": "More Attention"}, {"value": "47%", "label": "Brand Awareness"}, {"value": "29%", "label": "Spending Boost"}], "key_features": ["40-point IR touch", "4K UHD display"], "products": [{"name": "Touch Kiosk", "slug": "signatouch/touch-kiosk", "description": "Standard kiosk", "image": ""}, {"name": "Smart Signage", "slug": "signatouch/smart-signage", "description": "Transparent OLED", "image": ""}, {"name": "Self-Service", "slug": "signatouch/self-service", "description": "Payment-enabled", "image": ""}], "is_active": True, "order": 3},
+    {"name": "GlassMorph", "slug": "glassmorph", "tagline": "Make Glass Do More", "description": "Smart glass and LED film solutions.", "hero_image": "", "brand_color": "violet", "stats": [{"value": "99%", "label": "UV Protection"}, {"value": "95%", "label": "Transparency"}, {"value": "75%", "label": "Energy Savings"}], "key_features": ["PDLC technology", "Retrofit capability"], "products": [{"name": "Smart Film", "slug": "glassmorph/smart-film", "description": "Switchable privacy", "image": ""}, {"name": "LED Film", "slug": "glassmorph/led-film", "description": "Transparent LED", "image": ""}, {"name": "Media Glass", "slug": "glassmorph/media-glass", "description": "Building-integrated", "image": ""}], "is_active": True, "order": 4},
+    {"name": "PixelVue", "slug": "pixelvue", "tagline": "Illuminate Your Vision", "description": "Professional LED display solutions.", "hero_image": "", "brand_color": "rose", "stats": [{"value": "100K+", "label": "Hours Lifespan"}, {"value": "3840Hz", "label": "Refresh Rate"}, {"value": "160°", "label": "Viewing Angle"}], "key_features": ["24 product options", "3 categories"], "categories": [{"name": "LED Poster Series", "slug": "poster", "count": 6}, {"name": "Commercial Series", "slug": "commercial", "count": 10}, {"name": "Creative Series", "slug": "creative", "count": 8}], "is_active": True, "order": 5}
+]
+
+async def seed_collection(collection_name, data):
+    """Seed a collection with data, clearing existing data first"""
+    collection = db[collection_name]
+    result = await collection.delete_many({})
+    print(f"Cleared {result.deleted_count} existing records from {collection_name}")
     now = datetime.now(timezone.utc).isoformat()
-    for product in PIXELVUE_PRODUCTS:
-        product["created_at"] = now
-        product["updated_at"] = now
-    
-    result = await db.pixelvue_products.insert_many(PIXELVUE_PRODUCTS)
-    print(f"  Inserted {len(result.inserted_ids)} PixelVue products")
+    for item in data:
+        item["created_at"] = now
+        item["updated_at"] = now
+    if data:
+        result = await collection.insert_many(data)
+        print(f"Inserted {len(result.inserted_ids)} records into {collection_name}")
+    else:
+        print(f"No data to insert into {collection_name}")
+
+# ============ TECHNOLOGIES DATA ============
+TECHNOLOGIES = [
+    {"name": "COB (Chip-on-Board)", "slug": "cob", "tagline": "Next-Generation LED Technology", "description": "Chip-on-Board technology offers superior image quality with better contrast, wider viewing angles, and improved durability compared to traditional SMD.", "icon": "Cpu", "features": ["Higher contrast ratio", "Wider viewing angles", "Better color uniformity", "Enhanced durability"], "benefits": ["No dead pixels", "Surface protection", "Easy maintenance"], "is_active": True, "order": 1},
+    {"name": "SMD (Surface Mount)", "slug": "smd", "tagline": "Proven LED Technology", "description": "Surface Mount Device LEDs offer excellent brightness and reliability for most commercial applications.", "icon": "Layers", "features": ["High brightness", "Cost-effective", "Wide availability"], "is_active": True, "order": 2},
+    {"name": "Transparent LED", "slug": "transparent", "tagline": "See-Through Display Technology", "description": "Transparent LED technology maintains up to 95% transparency while displaying vivid content.", "icon": "Eye", "features": ["High transparency", "Natural light preservation", "Architectural integration"], "is_active": True, "order": 3},
+    {"name": "Flexible LED", "slug": "flexible", "tagline": "Bendable Display Solutions", "description": "Flexible LED modules can conform to curved surfaces and creative installations.", "icon": "Wind", "features": ["Curved surfaces", "Creative shapes", "Lightweight design"], "is_active": True, "order": 4},
+    {"name": "MicroLED", "slug": "microled", "tagline": "Ultimate Visual Experience", "description": "MicroLED delivers unmatched brightness, contrast, and energy efficiency for premium installations.", "icon": "Sparkles", "features": ["Self-emissive pixels", "Perfect blacks", "Infinite contrast"], "is_active": True, "order": 5},
+    {"name": "Interactive Touch", "slug": "interactive", "tagline": "Engage Through Touch", "description": "Multi-touch interactive technology enables engaging user experiences on LED displays.", "icon": "Hand", "features": ["40+ touch points", "IR detection", "Gesture recognition"], "is_active": True, "order": 6}
+]
+
+# ============ APPLICATIONS DATA ============
+APPLICATIONS = [
+    {"name": "Retail Signage", "slug": "retail-signage", "description": "Dynamic displays for stores, malls, and shopping centers.", "icon": "ShoppingBag", "use_cases": ["Window displays", "In-store promotion", "Price displays"], "is_active": True, "order": 1},
+    {"name": "Corporate AV", "slug": "corporate-av", "description": "Professional display solutions for boardrooms and offices.", "icon": "Briefcase", "use_cases": ["Video conferencing", "Presentations", "Lobby displays"], "is_active": True, "order": 2},
+    {"name": "Hospitality", "slug": "hospitality", "description": "Guest-facing displays for hotels and restaurants.", "icon": "Coffee", "use_cases": ["Digital menus", "Lobby screens", "Event signage"], "is_active": True, "order": 3},
+    {"name": "Entertainment", "slug": "entertainment", "description": "Large-scale displays for venues and events.", "icon": "Music", "use_cases": ["Concert backdrops", "Stadium screens", "Theater displays"], "is_active": True, "order": 4},
+    {"name": "Transportation", "slug": "transportation", "description": "Information displays for transit hubs.", "icon": "Train", "use_cases": ["Flight information", "Wayfinding", "Advertising"], "is_active": True, "order": 5},
+    {"name": "Education", "slug": "education", "description": "Interactive displays for learning environments.", "icon": "GraduationCap", "use_cases": ["Lecture halls", "Digital whiteboards", "Campus signage"], "is_active": True, "order": 6},
+    {"name": "Healthcare", "slug": "healthcare", "description": "Information displays for medical facilities.", "icon": "Heart", "use_cases": ["Wayfinding", "Patient info", "Emergency alerts"], "is_active": True, "order": 7},
+    {"name": "Broadcasting", "slug": "broadcasting", "description": "Displays for TV studios and production.", "icon": "Video", "use_cases": ["Virtual sets", "News backdrops", "Control rooms"], "is_active": True, "order": 8}
+]
 
 async def main():
-    print("=" * 50)
-    print("CMS Seed Script")
-    print("=" * 50)
-    
-    await seed_pixelvue_products()
-    
-    print("\nSeeding complete!")
+    print("=" * 60)
+    print("CMS Data Seeder - Starting...")
+    print("=" * 60)
+    try:
+        print("\n[1/5] Seeding PixelVue Products...")
+        await seed_collection("pixelvue_products", PIXELVUE_PRODUCTS)
+        print("\n[2/5] Seeding Solutions...")
+        await seed_collection("solutions", SOLUTIONS)
+        print("\n[3/5] Seeding Product Families...")
+        await seed_collection("product_families", PRODUCT_FAMILIES)
+        print("\n[4/5] Seeding Technologies...")
+        await seed_collection("technologies_content", TECHNOLOGIES)
+        print("\n[5/5] Seeding Applications...")
+        await seed_collection("applications_content", APPLICATIONS)
+        print("\n" + "=" * 60)
+        print("CMS Data Seeding Complete!")
+        print("=" * 60)
+    except Exception as e:
+        print(f"Error during seeding: {e}")
+        raise
 
 if __name__ == "__main__":
     asyncio.run(main())

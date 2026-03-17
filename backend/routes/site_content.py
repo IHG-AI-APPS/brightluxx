@@ -9,9 +9,8 @@ from bson import ObjectId
 
 router = APIRouter(prefix="/api/site-content", tags=["site-content"])
 
-def get_db():
-    from server import db
-    return db
+# Import database
+from database import db
 
 # Pydantic Models
 class SiteContentBase(BaseModel):
@@ -52,7 +51,7 @@ def serialize_content(content: dict) -> dict:
 @router.get("/{page_slug}")
 async def get_page_content(page_slug: str):
     """Get content for a specific page by slug"""
-    db = get_db()
+    # Using imported db
     content = await db.site_content.find_one({"page_slug": page_slug, "is_active": True})
     if not content:
         raise HTTPException(status_code=404, detail="Page content not found")
@@ -61,7 +60,7 @@ async def get_page_content(page_slug: str):
 @router.get("")
 async def get_all_page_content(active_only: bool = True):
     """Get all page content"""
-    db = get_db()
+    # Using imported db
     query = {"is_active": True} if active_only else {}
     contents = await db.site_content.find(query).sort("page_slug", 1).to_list(100)
     return [serialize_content(c) for c in contents]
@@ -71,14 +70,14 @@ async def get_all_page_content(active_only: bool = True):
 @router.get("/admin/all")
 async def admin_get_all_content():
     """Admin: Get all page content including inactive"""
-    db = get_db()
+    # Using imported db
     contents = await db.site_content.find({}).sort("page_slug", 1).to_list(100)
     return [serialize_content(c) for c in contents]
 
 @router.post("/admin/create")
 async def create_page_content(content: SiteContentCreate):
     """Admin: Create new page content"""
-    db = get_db()
+    # Using imported db
     
     existing = await db.site_content.find_one({"page_slug": content.page_slug})
     if existing:
@@ -96,7 +95,7 @@ async def create_page_content(content: SiteContentCreate):
 @router.put("/admin/{page_slug}")
 async def update_page_content(page_slug: str, content: SiteContentUpdate):
     """Admin: Update page content by slug"""
-    db = get_db()
+    # Using imported db
     
     existing = await db.site_content.find_one({"page_slug": page_slug})
     if not existing:
@@ -112,7 +111,7 @@ async def update_page_content(page_slug: str, content: SiteContentUpdate):
 @router.delete("/admin/{page_slug}")
 async def delete_page_content(page_slug: str):
     """Admin: Delete page content"""
-    db = get_db()
+    # Using imported db
     
     result = await db.site_content.delete_one({"page_slug": page_slug})
     if result.deleted_count == 0:
@@ -123,7 +122,7 @@ async def delete_page_content(page_slug: str):
 @router.post("/admin/{page_slug}/toggle-active")
 async def toggle_content_active(page_slug: str):
     """Admin: Toggle page content active status"""
-    db = get_db()
+    # Using imported db
     
     content = await db.site_content.find_one({"page_slug": page_slug})
     if not content:
@@ -142,7 +141,7 @@ async def toggle_content_active(page_slug: str):
 @router.post("/admin/upsert")
 async def upsert_page_content(content: SiteContentCreate):
     """Admin: Create or update page content"""
-    db = get_db()
+    # Using imported db
     
     now = datetime.now(timezone.utc).isoformat()
     existing = await db.site_content.find_one({"page_slug": content.page_slug})

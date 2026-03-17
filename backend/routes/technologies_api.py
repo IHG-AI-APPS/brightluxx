@@ -9,9 +9,8 @@ from bson import ObjectId
 
 router = APIRouter(prefix="/api/technologies", tags=["technologies"])
 
-def get_db():
-    from server import db
-    return db
+# Import database
+from database import db
 
 # Pydantic Models
 class TechSpec(BaseModel):
@@ -105,7 +104,7 @@ def serialize_technology(tech: dict) -> dict:
 @router.get("")
 async def get_all_technologies(active_only: bool = True):
     """Get all technologies"""
-    db = get_db()
+    # Using imported db
     query = {"is_active": True} if active_only else {}
     technologies = await db.technologies_content.find(query).sort("order", 1).to_list(50)
     return [serialize_technology(t) for t in technologies]
@@ -113,7 +112,7 @@ async def get_all_technologies(active_only: bool = True):
 @router.get("/{slug}")
 async def get_technology_by_slug(slug: str):
     """Get a single technology by slug"""
-    db = get_db()
+    # Using imported db
     technology = await db.technologies_content.find_one({"slug": slug})
     if not technology:
         raise HTTPException(status_code=404, detail="Technology not found")
@@ -124,14 +123,14 @@ async def get_technology_by_slug(slug: str):
 @router.get("/admin/all")
 async def admin_get_all_technologies():
     """Admin: Get all technologies including inactive"""
-    db = get_db()
+    # Using imported db
     technologies = await db.technologies_content.find({}).sort("order", 1).to_list(50)
     return [serialize_technology(t) for t in technologies]
 
 @router.post("/admin/create")
 async def create_technology(technology: TechnologyCreate):
     """Admin: Create a new technology"""
-    db = get_db()
+    # Using imported db
     
     existing = await db.technologies_content.find_one({"slug": technology.slug})
     if existing:
@@ -149,7 +148,7 @@ async def create_technology(technology: TechnologyCreate):
 @router.put("/admin/{technology_id}")
 async def update_technology(technology_id: str, technology: TechnologyUpdate):
     """Admin: Update a technology"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(technology_id)
@@ -170,7 +169,7 @@ async def update_technology(technology_id: str, technology: TechnologyUpdate):
 @router.delete("/admin/{technology_id}")
 async def delete_technology(technology_id: str):
     """Admin: Delete a technology"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(technology_id)
@@ -186,7 +185,7 @@ async def delete_technology(technology_id: str):
 @router.post("/admin/{technology_id}/toggle-active")
 async def toggle_technology_active(technology_id: str):
     """Admin: Toggle technology active status"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(technology_id)

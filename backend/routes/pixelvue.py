@@ -10,10 +10,8 @@ import os
 
 router = APIRouter(prefix="/api/pixelvue", tags=["pixelvue"])
 
-# Get database from server.py
-def get_db():
-    from server import db
-    return db
+# Import database
+from database import db
 
 # Pydantic Models
 class QuickSpec(BaseModel):
@@ -109,7 +107,7 @@ def serialize_product(product: dict) -> dict:
 @router.get("/products", response_model=List[PixelVueProductResponse])
 async def get_all_products(category: Optional[str] = None, active_only: bool = True):
     """Get all PixelVue products, optionally filtered by category"""
-    db = get_db()
+    # Using imported db
     query = {}
     if active_only:
         query["is_active"] = True
@@ -122,7 +120,7 @@ async def get_all_products(category: Optional[str] = None, active_only: bool = T
 @router.get("/products/{slug}", response_model=PixelVueProductResponse)
 async def get_product_by_slug(slug: str):
     """Get a single product by slug"""
-    db = get_db()
+    # Using imported db
     product = await db.pixelvue_products.find_one({"slug": slug})
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
@@ -131,7 +129,7 @@ async def get_product_by_slug(slug: str):
 @router.get("/categories")
 async def get_categories():
     """Get all product categories with counts"""
-    db = get_db()
+    # Using imported db
     pipeline = [
         {"$match": {"is_active": True}},
         {"$group": {"_id": "$category", "count": {"$sum": 1}}},
@@ -145,7 +143,7 @@ async def get_categories():
 @router.get("/admin/products", response_model=List[PixelVueProductResponse])
 async def admin_get_all_products(category: Optional[str] = None):
     """Admin: Get all products including inactive"""
-    db = get_db()
+    # Using imported db
     query = {}
     if category:
         query["category"] = category
@@ -155,7 +153,7 @@ async def admin_get_all_products(category: Optional[str] = None):
 @router.post("/admin/products", response_model=PixelVueProductResponse)
 async def create_product(product: PixelVueProductCreate):
     """Admin: Create a new product"""
-    db = get_db()
+    # Using imported db
     
     # Check for duplicate slug
     existing = await db.pixelvue_products.find_one({"slug": product.slug})
@@ -174,7 +172,7 @@ async def create_product(product: PixelVueProductCreate):
 @router.put("/admin/products/{product_id}", response_model=PixelVueProductResponse)
 async def update_product(product_id: str, product: PixelVueProductUpdate):
     """Admin: Update a product"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(product_id)
@@ -201,7 +199,7 @@ async def update_product(product_id: str, product: PixelVueProductUpdate):
 @router.delete("/admin/products/{product_id}")
 async def delete_product(product_id: str):
     """Admin: Delete a product"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(product_id)
@@ -217,7 +215,7 @@ async def delete_product(product_id: str):
 @router.post("/admin/products/{product_id}/toggle-active")
 async def toggle_product_active(product_id: str):
     """Admin: Toggle product active status"""
-    db = get_db()
+    # Using imported db
     
     try:
         obj_id = ObjectId(product_id)
@@ -239,7 +237,7 @@ async def toggle_product_active(product_id: str):
 @router.post("/admin/products/reorder")
 async def reorder_products(product_orders: List[dict]):
     """Admin: Reorder products (expects list of {id, order})"""
-    db = get_db()
+    # Using imported db
     
     for item in product_orders:
         try:

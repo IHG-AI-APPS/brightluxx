@@ -247,7 +247,7 @@ function AppRoutes() {
       <Route path="/led-calculator" element={<><Navbar /><LedModuleCalculator /><Footer /><StickyCTA /></>} />
 
       {/* Admin */}
-      <Route path="/admin" element={<AdminLogin />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="products" element={<AdminProducts />} />

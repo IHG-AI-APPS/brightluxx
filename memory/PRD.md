@@ -1041,16 +1041,33 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   - `frontend/src/pages/Home.js` - Premium redesign
 - **Testing:** 100% frontend pass rate (iteration_72.json)
 
+### .input-luxury CSS Refactor — Mar 17, 2026
+- **Complete removal of legacy `.input-luxury` class** from all JavaScript files
+- **Global form input styling** added to App.css:
+  - All text inputs, email, tel, url, number, password, search, textarea, and select elements now styled globally
+  - Dark semi-transparent background: `rgba(255,255,255,0.04)`
+  - Border: `1px solid var(--blx-border)`
+  - Cyan focus state: `border-color: #22d3ee` with `box-shadow`
+  - Proper placeholder styling
+  - Select dropdown options styled for dark theme
+- **Legacy class kept** as empty for backwards compatibility
+- **Fixed admin routing issue:** Changed `/admin` login route to `/admin/login`
+- **Files Modified:**
+  - `frontend/src/App.css` - Global form input styling
+  - `frontend/src/App.js` - Fixed admin route conflict
+  - 15+ page/component files - Removed `input-luxury` class usage
+- **Testing:** 86% frontend pass rate (iteration_73.json)
+
 ---
 
 ## Remaining Tasks
 ### Priority 1
-- Refactor `.input-luxury` CSS class — replace with Tailwind utilities to prevent style conflicts
 - Centralize duplicated `SOLUTIONS` data array into single source of truth
 
 ### Future
 - Tender Monitoring Integration (ProTenders/MEED)
 - Admin Dashboard V2 (unified lead management)
 - Connect Case Studies to relevant Solution detail pages
+- Apply premium design to other pages (Products, Solutions, About)
 
-## Admin: `/admin` — admin@brightluxx.com / brightluxx2025
+## Admin: `/admin/login` — admin@brightluxx.com / brightluxx2025

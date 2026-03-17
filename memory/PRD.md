@@ -610,6 +610,18 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - **Card Preview Headers:** Each card shows actual BRIGHTLUXX logo in document header
 - **Downloads Verified:** PDF generation and download working correctly
 
+### Navigation Restructure & Applications Page — Mar 17, 2026
+- **Removed "Resources" from main navigation** - Now accessible via:
+  - Footer link (preserved)
+  - Contextual CTAs on Calculator, Technology pages (SpecPackCTA + "All Spec Packs & Resources" links)
+- **Added "Applications" menu** replacing Resources in main nav
+- **Created new Applications page** (`/applications`) featuring:
+  - **Featured Application:** Shopfront Signage (primary business) with large hero card
+  - **10 Industry Cards:** Shopfront Signage, Hospitality & Hotels, Retail & Shopping Malls, Corporate & Offices, Healthcare, Transportation & Airports, Entertainment & Cinemas, Sports & Events, Education, Outdoor & Billboards
+  - **AI-Generated Images:** Subtle, sophisticated UAE-setting photos with realistic LED screens for each industry
+  - **Merged Inspirations Gallery:** 22 inspiration items with filter tags, modal preview
+- **Testing:** 100% frontend pass rate (iteration_58.json)
+
 ---
 
 ## Remaining Tasks

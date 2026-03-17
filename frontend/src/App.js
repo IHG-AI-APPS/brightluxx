@@ -110,6 +110,9 @@ import { SignaTouchLanding, TouchKioskPage, SmartSignagePage, SelfServicePage } 
 // GlassMorph Product Line
 import { GlassMorphLanding, SmartFilmPage, LedFilmPage, MediaGlassPage, SwitchableGlassPage, FlyingDisplayPage, HangingLedPage } from './pages/glassmorph';
 
+// PixelVue Product Line
+import { PixelVueLanding, IPosterPage, UnityPage, CreativeShapesPage } from './pages/pixelvue';
+
 import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
 import TechnicalSupportPage from './pages/TechnicalSupportPage';
 
@@ -197,6 +200,12 @@ function AppRoutes() {
       <Route path="/glassmorph/switchable-glass" element={<SwitchableGlassPage />} />
       <Route path="/glassmorph/flying-display" element={<FlyingDisplayPage />} />
       <Route path="/glassmorph/hanging-led" element={<HangingLedPage />} />
+      
+      {/* PixelVue Product Line */}
+      <Route path="/pixelvue" element={<PixelVueLanding />} />
+      <Route path="/pixelvue/iposter" element={<IPosterPage />} />
+      <Route path="/pixelvue/unity" element={<UnityPage />} />
+      <Route path="/pixelvue/creative-shapes" element={<CreativeShapesPage />} />
       
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />

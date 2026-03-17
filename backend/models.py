@@ -101,6 +101,27 @@ class AdminProductCreate(BaseModel):
     status: str = "published"
 
 
+class AdminProductUpdate(BaseModel):
+    product_code: Optional[str] = None
+    name: Optional[str] = None
+    slug: Optional[str] = None
+    category: Optional[str] = None
+    series: Optional[str] = None
+    tagline: Optional[str] = None
+    description: Optional[str] = None
+    pixel_pitch: Optional[str] = None
+    resolution: Optional[str] = None
+    brightness: Optional[str] = None
+    application: Optional[str] = None
+    key_specs: Optional[List[Dict[str, str]]] = None
+    image_url: Optional[str] = None
+    gallery: Optional[List[str]] = None
+    featured: Optional[bool] = None
+    trending: Optional[bool] = None
+    new_arrival: Optional[bool] = None
+    status: Optional[str] = None
+
+
 class AdminInspirationCreate(BaseModel):
     title: str
     slug: Optional[str] = None

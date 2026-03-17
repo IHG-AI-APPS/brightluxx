@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 import uuid
 
 from database import products_col, inspirations_col, projects_col, leads_col
-from models import AdminProductCreate, AdminInspirationCreate, AdminProjectCreate
+from models import AdminProductCreate, AdminProductUpdate, AdminInspirationCreate, AdminProjectCreate
 from utils import serialize_doc, slugify
 from auth import get_current_admin
 
@@ -46,8 +46,8 @@ async def admin_create_product(data: AdminProductCreate, admin=Depends(get_curre
 
 
 @router.put("/api/admin/products/{product_id}")
-async def admin_update_product(product_id: str, data: AdminProductCreate, admin=Depends(get_current_admin)):
-    update_dict = data.dict(exclude_unset=True)
+async def admin_update_product(product_id: str, data: AdminProductUpdate, admin=Depends(get_current_admin)):
+    update_dict = data.dict(exclude_unset=True, exclude_none=True)
     if data.slug:
         update_dict["slug"] = data.slug
     elif data.name:

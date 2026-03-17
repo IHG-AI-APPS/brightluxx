@@ -265,9 +265,9 @@ export default function AuraChat() {
                   Share your details and I can provide more specific recommendations for your project.
                 </p>
                 <form onSubmit={handleLeadSubmit} className="space-y-2">
-                  <input type="text" placeholder="Name *" value={leadForm.name} onChange={e => setLeadForm(p => ({...p, name: e.target.value}))} className="input-luxury w-full text-xs py-2" data-testid="aura-lead-name" />
-                  <input type="email" placeholder="Work email *" value={leadForm.email} onChange={e => setLeadForm(p => ({...p, email: e.target.value}))} className="input-luxury w-full text-xs py-2" data-testid="aura-lead-email" />
-                  <input type="text" placeholder="Company *" value={leadForm.company} onChange={e => setLeadForm(p => ({...p, company: e.target.value}))} className="input-luxury w-full text-xs py-2" data-testid="aura-lead-company" />
+                  <input type="text" placeholder="Name *" value={leadForm.name} onChange={e => setLeadForm(p => ({...p, name: e.target.value}))} className="w-full text-xs py-2" data-testid="aura-lead-name" />
+                  <input type="email" placeholder="Work email *" value={leadForm.email} onChange={e => setLeadForm(p => ({...p, email: e.target.value}))} className="w-full text-xs py-2" data-testid="aura-lead-email" />
+                  <input type="text" placeholder="Company *" value={leadForm.company} onChange={e => setLeadForm(p => ({...p, company: e.target.value}))} className="w-full text-xs py-2" data-testid="aura-lead-company" />
                   {leadError && <p className="text-red-400 text-[0.625rem]">{leadError}</p>}
                   <div className="flex gap-2">
                     <button type="submit" className="btn-gold flex-1 px-3 py-2 text-[0.625rem] font-bold tracking-[0.12em]" data-testid="aura-lead-submit">Save & Continue</button>

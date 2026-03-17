@@ -118,11 +118,11 @@ export default function AdminProjects() {
             </div>
             <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-4">
-                <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Title*</label><input value={form.title} onChange={e => setForm({...form, title: e.target.value})} className="input-luxury w-full py-2 text-xs" data-testid="admin-project-title-input" /></div>
-                <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Client</label><input value={form.client_name} onChange={e => setForm({...form, client_name: e.target.value})} className="input-luxury w-full py-2 text-xs" /></div>
+                <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Title*</label><input value={form.title} onChange={e => setForm({...form, title: e.target.value})} className="w-full py-2 text-xs" data-testid="admin-project-title-input" /></div>
+                <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Client</label><input value={form.client_name} onChange={e => setForm({...form, client_name: e.target.value})} className="w-full py-2 text-xs" /></div>
               </div>
               <div className="grid grid-cols-3 gap-4">
-                <div><label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block">Location</label><input value={form.location} onChange={e => setForm({...form, location: e.target.value})} className="input-luxury w-full py-1.5 text-xs" /></div>
+                <div><label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block">Location</label><input value={form.location} onChange={e => setForm({...form, location: e.target.value})} className="w-full py-1.5 text-xs" /></div>
                 <div>
                   <label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block">Sector</label>
                   <select 
@@ -134,7 +134,7 @@ export default function AdminProjects() {
                         setForm({...form, sector: e.target.value, showNewSector: false});
                       }
                     }} 
-                    className="input-luxury w-full py-1.5 text-xs bg-[var(--blx-bg-raised)]"
+                    className="w-full py-1.5 text-xs bg-[var(--blx-bg-raised)]"
                   >
                     <option value="">Select sector...</option>
                     {sectors.map(sec => (
@@ -147,23 +147,23 @@ export default function AdminProjects() {
                       value={form.sector} 
                       onChange={e => setForm({...form, sector: e.target.value})}
                       placeholder="e.g. retail"
-                      className="input-luxury w-full py-1.5 text-xs mt-1"
+                      className="w-full py-1.5 text-xs mt-1"
                       autoFocus
                     />
                   )}
                 </div>
-                <div><label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block">Screen Size</label><input value={form.screen_size} onChange={e => setForm({...form, screen_size: e.target.value})} className="input-luxury w-full py-1.5 text-xs" /></div>
+                <div><label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block">Screen Size</label><input value={form.screen_size} onChange={e => setForm({...form, screen_size: e.target.value})} className="w-full py-1.5 text-xs" /></div>
               </div>
-              <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="input-luxury w-full py-2 text-xs resize-y" /></div>
+              <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="w-full py-2 text-xs resize-y" /></div>
               <ImageUploader value={form.image_url} onChange={(url) => setForm({...form, image_url: url})} label="Image" />
-              <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Technologies (comma separated)</label><input value={(form.technologies_used || []).join(', ')} onChange={e => setForm({...form, technologies_used: e.target.value.split(',').map(s => s.trim()).filter(Boolean)})} className="input-luxury w-full py-2 text-xs" /></div>
+              <div><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Technologies (comma separated)</label><input value={(form.technologies_used || []).join(', ')} onChange={e => setForm({...form, technologies_used: e.target.value.split(',').map(s => s.trim()).filter(Boolean)})} className="w-full py-2 text-xs" /></div>
               {/* Metrics */}
               <div>
                 <div className="flex items-center justify-between mb-2"><label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">Metrics</label><button onClick={addMetric} className="btn-glass px-3 py-1 text-[0.625rem]"><Plus size={12} className="inline mr-1" /> Add</button></div>
                 {(form.metrics || []).map((m, i) => (
                   <div key={i} className="flex gap-2 items-center mb-2">
-                    <input value={m.label} onChange={e => updateMetric(i, 'label', e.target.value)} placeholder="Label" className="input-luxury flex-1 py-1.5 text-xs" />
-                    <input value={m.value} onChange={e => updateMetric(i, 'value', e.target.value)} placeholder="Value" className="input-luxury flex-1 py-1.5 text-xs" />
+                    <input value={m.label} onChange={e => updateMetric(i, 'label', e.target.value)} placeholder="Label" className="flex-1 py-1.5 text-xs" />
+                    <input value={m.value} onChange={e => updateMetric(i, 'value', e.target.value)} placeholder="Value" className="flex-1 py-1.5 text-xs" />
                     <button onClick={() => removeMetric(i)} className="p-1.5 rounded hover:bg-[rgba(220,38,38,0.1)] transition-colors duration-200"><X size={14} className="text-[var(--blx-muted)]" /></button>
                   </div>
                 ))}

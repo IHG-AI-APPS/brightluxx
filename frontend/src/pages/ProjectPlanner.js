@@ -163,7 +163,7 @@ export default function ProjectPlanner() {
             <div className="space-y-5">
               <div>
                 <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-2 block">PROJECT NAME (OPTIONAL)</label>
-                <input type="text" placeholder="e.g. Dubai Mall Flagship Store" value={p.projectName} onChange={e => upd('projectName', e.target.value)} className="input-luxury w-full text-sm py-3 px-4" data-testid="input-project-name" />
+                <input type="text" placeholder="e.g. Dubai Mall Flagship Store" value={p.projectName} onChange={e => upd('projectName', e.target.value)} className="w-full text-sm py-3 px-4" data-testid="input-project-name" />
               </div>
               <div>
                 <label className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-3 block">APPLICATION TYPE</label>
@@ -394,10 +394,10 @@ export default function ProjectPlanner() {
                 Note: Budgetary estimates are indicative and cover hardware only. Installation costs and structural work are quoted separately after a site survey confirms conditions, material availability, and structural requirements.
               </p>
               <div className="grid sm:grid-cols-2 gap-3 mb-4">
-                <input type="text" placeholder="Name *" value={p.name} onChange={e => upd('name', e.target.value)} className="input-luxury text-xs py-2.5 px-3" data-testid="pdf-name" />
-                <input type="text" placeholder="Company" value={p.company} onChange={e => upd('company', e.target.value)} className="input-luxury text-xs py-2.5 px-3" data-testid="pdf-company" />
-                <input type="email" placeholder="Work Email *" value={p.email} onChange={e => upd('email', e.target.value)} className="input-luxury text-xs py-2.5 px-3" data-testid="pdf-email" />
-                <input type="tel" placeholder="Phone" value={p.phone} onChange={e => upd('phone', e.target.value)} className="input-luxury text-xs py-2.5 px-3" data-testid="pdf-phone" />
+                <input type="text" placeholder="Name *" value={p.name} onChange={e => upd('name', e.target.value)} className="text-xs py-2.5 px-3" data-testid="pdf-name" />
+                <input type="text" placeholder="Company" value={p.company} onChange={e => upd('company', e.target.value)} className="text-xs py-2.5 px-3" data-testid="pdf-company" />
+                <input type="email" placeholder="Work Email *" value={p.email} onChange={e => upd('email', e.target.value)} className="text-xs py-2.5 px-3" data-testid="pdf-email" />
+                <input type="tel" placeholder="Phone" value={p.phone} onChange={e => upd('phone', e.target.value)} className="text-xs py-2.5 px-3" data-testid="pdf-phone" />
               </div>
               <div className="flex flex-wrap gap-3">
                 <button

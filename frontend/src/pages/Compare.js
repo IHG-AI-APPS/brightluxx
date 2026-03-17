@@ -153,7 +153,7 @@ const Compare = () => {
                   setShowDropdown(true);
                 }}
                 onFocus={() => setShowDropdown(true)}
-                className="input-luxury w-full pl-10"
+                className="w-full pl-10"
                 data-testid="compare-search-input"
               />
             </div>

@@ -202,21 +202,21 @@ export default function DesignAssist() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">YOUR NAME *</label>
-                      <input type="text" value={form.name} onChange={e => updateField('name', e.target.value)} className="input-luxury w-full" placeholder="Full name" data-testid="da-field-name" />
+                      <input type="text" value={form.name} onChange={e => updateField('name', e.target.value)} className="w-full" placeholder="Full name" data-testid="da-field-name" />
                     </div>
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">WORK EMAIL *</label>
-                      <input type="email" value={form.email} onChange={e => updateField('email', e.target.value)} className="input-luxury w-full" placeholder="you@firm.com" data-testid="da-field-email" />
+                      <input type="email" value={form.email} onChange={e => updateField('email', e.target.value)} className="w-full" placeholder="you@firm.com" data-testid="da-field-email" />
                     </div>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">FIRM / COMPANY *</label>
-                      <input type="text" value={form.company} onChange={e => updateField('company', e.target.value)} className="input-luxury w-full" placeholder="Your firm" data-testid="da-field-company" />
+                      <input type="text" value={form.company} onChange={e => updateField('company', e.target.value)} className="w-full" placeholder="Your firm" data-testid="da-field-company" />
                     </div>
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">YOUR ROLE *</label>
-                      <select value={form.role} onChange={e => updateField('role', e.target.value)} className="input-luxury w-full" data-testid="da-field-role">
+                      <select value={form.role} onChange={e => updateField('role', e.target.value)} className="w-full" data-testid="da-field-role">
                         <option value="">Select role</option>
                         <option value="Architect">Architect</option>
                         <option value="Interior Designer">Interior Designer</option>
@@ -233,7 +233,7 @@ export default function DesignAssist() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">PROJECT TYPE</label>
-                      <select value={form.project_type} onChange={e => updateField('project_type', e.target.value)} className="input-luxury w-full" data-testid="da-field-project-type">
+                      <select value={form.project_type} onChange={e => updateField('project_type', e.target.value)} className="w-full" data-testid="da-field-project-type">
                         <option value="">Select type</option>
                         <option value="Hospitality">Hospitality / Hotel</option>
                         <option value="Retail">Retail / Mall</option>
@@ -249,7 +249,7 @@ export default function DesignAssist() {
                     </div>
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">PROJECT STAGE</label>
-                      <select value={form.project_stage} onChange={e => updateField('project_stage', e.target.value)} className="input-luxury w-full" data-testid="da-field-project-stage">
+                      <select value={form.project_stage} onChange={e => updateField('project_stage', e.target.value)} className="w-full" data-testid="da-field-project-stage">
                         <option value="">Select stage</option>
                         <option value="Concept">Concept Design</option>
                         <option value="Schematic">Schematic Design</option>
@@ -262,7 +262,7 @@ export default function DesignAssist() {
                   </div>
                   <div>
                     <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">PROJECT BRIEF</label>
-                    <textarea value={form.message} onChange={e => updateField('message', e.target.value)} className="input-luxury w-full h-28 resize-none" placeholder="Tell us about the project — location, scale, where you envision LED displays, and any technical requirements or constraints..." data-testid="da-field-message" />
+                    <textarea value={form.message} onChange={e => updateField('message', e.target.value)} className="w-full h-28 resize-none" placeholder="Tell us about the project — location, scale, where you envision LED displays, and any technical requirements or constraints..." data-testid="da-field-message" />
                   </div>
                   {error && <p className="text-red-400 text-xs" data-testid="da-form-error">{error}</p>}
                   <button type="submit" disabled={submitting} className={`btn-gold px-8 py-3.5 text-xs font-bold tracking-[0.15em] ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="da-submit-button">

@@ -122,16 +122,16 @@ export default function SpecifierToolkitLP() {
                 <div className="text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)] mb-4">GET INSTANT ACCESS</div>
                 <form onSubmit={handleSubmit} className="space-y-3" data-testid="toolkit-form">
                   <div>
-                    <input type="text" value={form.name} onChange={e => updateField('name', e.target.value)} className="input-luxury w-full" placeholder="Full name *" data-testid="toolkit-field-name" />
+                    <input type="text" value={form.name} onChange={e => updateField('name', e.target.value)} className="w-full" placeholder="Full name *" data-testid="toolkit-field-name" />
                   </div>
                   <div>
-                    <input type="email" value={form.email} onChange={e => updateField('email', e.target.value)} className="input-luxury w-full" placeholder="Work email *" data-testid="toolkit-field-email" />
+                    <input type="email" value={form.email} onChange={e => updateField('email', e.target.value)} className="w-full" placeholder="Work email *" data-testid="toolkit-field-email" />
                   </div>
                   <div>
-                    <input type="text" value={form.company} onChange={e => updateField('company', e.target.value)} className="input-luxury w-full" placeholder="Company / Firm *" data-testid="toolkit-field-company" />
+                    <input type="text" value={form.company} onChange={e => updateField('company', e.target.value)} className="w-full" placeholder="Company / Firm *" data-testid="toolkit-field-company" />
                   </div>
                   <div>
-                    <select value={form.role} onChange={e => updateField('role', e.target.value)} className="input-luxury w-full" data-testid="toolkit-field-role">
+                    <select value={form.role} onChange={e => updateField('role', e.target.value)} className="w-full" data-testid="toolkit-field-role">
                       <option value="">Your role *</option>
                       <option value="Architect">Architect</option>
                       <option value="Interior Designer">Interior Designer</option>
@@ -144,7 +144,7 @@ export default function SpecifierToolkitLP() {
                     </select>
                   </div>
                   <div>
-                    <select value={form.project_type} onChange={e => updateField('project_type', e.target.value)} className="input-luxury w-full" data-testid="toolkit-field-project-type">
+                    <select value={form.project_type} onChange={e => updateField('project_type', e.target.value)} className="w-full" data-testid="toolkit-field-project-type">
                       <option value="">Project type (optional)</option>
                       <option value="Hospitality">Hospitality</option>
                       <option value="Retail">Retail</option>

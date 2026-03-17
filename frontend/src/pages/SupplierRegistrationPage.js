@@ -153,23 +153,23 @@ export default function SupplierRegistrationPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                   <div>
                     <label htmlFor="company_name" className="block text-xs font-bold mb-1.5 tracking-wider">Company Name <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="text" id="company_name" name="company_name" value={formData.company_name} onChange={handleChange} required className="input-luxury w-full" data-testid="supplier-input-company" />
+                    <input type="text" id="company_name" name="company_name" value={formData.company_name} onChange={handleChange} required className="w-full" data-testid="supplier-input-company" />
                   </div>
                   <div>
                     <label htmlFor="contact_person" className="block text-xs font-bold mb-1.5 tracking-wider">Contact Person <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="text" id="contact_person" name="contact_person" value={formData.contact_person} onChange={handleChange} required className="input-luxury w-full" data-testid="supplier-input-contact" />
+                    <input type="text" id="contact_person" name="contact_person" value={formData.contact_person} onChange={handleChange} required className="w-full" data-testid="supplier-input-contact" />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-xs font-bold mb-1.5 tracking-wider">Email <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="input-luxury w-full" data-testid="supplier-input-email" />
+                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="w-full" data-testid="supplier-input-email" />
                   </div>
                   <div>
                     <label htmlFor="phone" className="block text-xs font-bold mb-1.5 tracking-wider">Phone <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required className="input-luxury w-full" data-testid="supplier-input-phone" />
+                    <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required className="w-full" data-testid="supplier-input-phone" />
                   </div>
                   <div>
                     <label htmlFor="country" className="block text-xs font-bold mb-1.5 tracking-wider">Country <span className="text-[var(--blx-danger)]">*</span></label>
-                    <select id="country" name="country" value={formData.country} onChange={handleChange} required className="input-luxury w-full" data-testid="supplier-input-country">
+                    <select id="country" name="country" value={formData.country} onChange={handleChange} required className="w-full" data-testid="supplier-input-country">
                       <option value="">Select Country</option>
                       <option value="UAE">UAE</option>
                       <option value="China">China</option>
@@ -184,24 +184,24 @@ export default function SupplierRegistrationPage() {
                   </div>
                   <div>
                     <label htmlFor="product_category" className="block text-xs font-bold mb-1.5 tracking-wider">Product Category <span className="text-[var(--blx-danger)]">*</span></label>
-                    <select id="product_category" name="product_category" value={formData.product_category} onChange={handleChange} required className="input-luxury w-full" data-testid="supplier-input-category">
+                    <select id="product_category" name="product_category" value={formData.product_category} onChange={handleChange} required className="w-full" data-testid="supplier-input-category">
                       <option value="">Select Category</option>
                       {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
                   <div>
                     <label htmlFor="certifications" className="block text-xs font-bold mb-1.5 tracking-wider">Certifications</label>
-                    <input type="text" id="certifications" name="certifications" value={formData.certifications} onChange={handleChange} className="input-luxury w-full" placeholder="e.g., ISO 9001, CE, UL" data-testid="supplier-input-certifications" />
+                    <input type="text" id="certifications" name="certifications" value={formData.certifications} onChange={handleChange} className="w-full" placeholder="e.g., ISO 9001, CE, UL" data-testid="supplier-input-certifications" />
                   </div>
                   <div>
                     <label htmlFor="website" className="block text-xs font-bold mb-1.5 tracking-wider">Website</label>
-                    <input type="url" id="website" name="website" value={formData.website} onChange={handleChange} className="input-luxury w-full" placeholder="https://..." data-testid="supplier-input-website" />
+                    <input type="url" id="website" name="website" value={formData.website} onChange={handleChange} className="w-full" placeholder="https://..." data-testid="supplier-input-website" />
                   </div>
                 </div>
 
                 <div className="mb-5">
                   <label htmlFor="message" className="block text-xs font-bold mb-1.5 tracking-wider">Company Profile & Products</label>
-                  <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="3" className="input-luxury w-full resize-none" placeholder="Describe your company, product range, production capacity, and any relevant experience..." data-testid="supplier-input-message" />
+                  <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="3" className="w-full resize-none" placeholder="Describe your company, product range, production capacity, and any relevant experience..." data-testid="supplier-input-message" />
                 </div>
 
                 <button type="submit" disabled={loading} className={`btn-gold w-full py-3.5 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="supplier-submit-button">

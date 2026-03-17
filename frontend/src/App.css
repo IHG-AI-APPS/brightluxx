@@ -356,57 +356,69 @@
   box-shadow: var(--blx-focus);
 }
 
-/* Input */
-.input-luxury {
+/* ======================================
+   FORM INPUTS — Global styling for all form elements
+   Replaces the legacy .input-luxury class
+   ====================================== */
+
+/* Base input styling */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--blx-border);
   color: var(--blx-text);
   border-radius: var(--blx-radius-md);
-  padding-top: 0.75rem;
-  padding-right: 1.25rem;
-  padding-bottom: 0.75rem;
-  padding-left: 1.25rem;
+  padding: 0.75rem 1.25rem;
   font-size: 0.8125rem;
   font-family: 'Satoshi', sans-serif;
-  letter-spacing: 0.03em;
-  transition-property: border-color, box-shadow, background-color;
-  transition-duration: var(--blx-dur-2);
-  transition-timing-function: var(--blx-ease-out);
-}
-
-.input-luxury::placeholder {
-  color: var(--blx-placeholder);
-  text-transform: none;
-}
-
-/* Global fix: all input/textarea/select text should be normal case */
-input, textarea, select,
-input::placeholder, textarea::placeholder {
+  letter-spacing: 0.02em;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  width: 100%;
   text-transform: none !important;
 }
 
-.input-luxury:focus {
+input::placeholder,
+textarea::placeholder {
+  color: var(--blx-placeholder);
+  text-transform: none !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
-  border-color: var(--blx-gold-3);
-  box-shadow: var(--blx-focus);
+  border-color: var(--blx-cyan, #22d3ee);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
   background: rgba(255,255,255,0.06);
 }
 
 /* Select dropdown options — fix for dark themes */
-select.input-luxury option,
 select option {
   background: #1a1a1a;
   color: #e5e5e5;
   padding: 8px 12px;
 }
-select.input-luxury option:checked,
+
 select option:checked {
-  background: #2563eb;
-  color: #fff;
+  background: #22d3ee;
+  color: #000;
 }
-select.input-luxury option:hover,
+
 select option:hover {
   background: #2a2a2a;
+}
+
+/* Legacy .input-luxury class - kept for backwards compatibility */
+/* Can be safely removed after full migration */
+.input-luxury {
+  /* All styling now inherited from global input rules */
 }
 
 /* Category badge */

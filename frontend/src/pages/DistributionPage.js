@@ -192,23 +192,23 @@ export default function DistributionPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                   <div>
                     <label htmlFor="name" className="block text-xs font-bold mb-1.5 tracking-wider">Full Name <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="input-luxury w-full" data-testid="dist-input-name" />
+                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="w-full" data-testid="dist-input-name" />
                   </div>
                   <div>
                     <label htmlFor="company" className="block text-xs font-bold mb-1.5 tracking-wider">Company Name <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="text" id="company" name="company" value={formData.company} onChange={handleChange} required className="input-luxury w-full" data-testid="dist-input-company" />
+                    <input type="text" id="company" name="company" value={formData.company} onChange={handleChange} required className="w-full" data-testid="dist-input-company" />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-xs font-bold mb-1.5 tracking-wider">Email <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="input-luxury w-full" data-testid="dist-input-email" />
+                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="w-full" data-testid="dist-input-email" />
                   </div>
                   <div>
                     <label htmlFor="phone" className="block text-xs font-bold mb-1.5 tracking-wider">Phone <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required className="input-luxury w-full" data-testid="dist-input-phone" />
+                    <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required className="w-full" data-testid="dist-input-phone" />
                   </div>
                   <div>
                     <label htmlFor="country" className="block text-xs font-bold mb-1.5 tracking-wider">Country <span className="text-[var(--blx-danger)]">*</span></label>
-                    <select id="country" name="country" value={formData.country} onChange={handleChange} required className="input-luxury w-full" data-testid="dist-input-country">
+                    <select id="country" name="country" value={formData.country} onChange={handleChange} required className="w-full" data-testid="dist-input-country">
                       <option value="">Select Country</option>
                       <option value="UAE">UAE</option>
                       <option value="Saudi Arabia">Saudi Arabia</option>
@@ -224,11 +224,11 @@ export default function DistributionPage() {
                   </div>
                   <div>
                     <label htmlFor="city" className="block text-xs font-bold mb-1.5 tracking-wider">City <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="text" id="city" name="city" value={formData.city} onChange={handleChange} required className="input-luxury w-full" data-testid="dist-input-city" />
+                    <input type="text" id="city" name="city" value={formData.city} onChange={handleChange} required className="w-full" data-testid="dist-input-city" />
                   </div>
                   <div>
                     <label htmlFor="business_type" className="block text-xs font-bold mb-1.5 tracking-wider">Business Type</label>
-                    <select id="business_type" name="business_type" value={formData.business_type} onChange={handleChange} className="input-luxury w-full" data-testid="dist-input-business-type">
+                    <select id="business_type" name="business_type" value={formData.business_type} onChange={handleChange} className="w-full" data-testid="dist-input-business-type">
                       <option value="">Select Type</option>
                       <option value="AV Integrator">AV Integrator</option>
                       <option value="IT Solutions Provider">IT Solutions Provider</option>
@@ -240,7 +240,7 @@ export default function DistributionPage() {
                   </div>
                   <div>
                     <label htmlFor="experience" className="block text-xs font-bold mb-1.5 tracking-wider">LED Experience</label>
-                    <select id="experience" name="experience" value={formData.experience} onChange={handleChange} className="input-luxury w-full" data-testid="dist-input-experience">
+                    <select id="experience" name="experience" value={formData.experience} onChange={handleChange} className="w-full" data-testid="dist-input-experience">
                       <option value="">Select Experience</option>
                       <option value="None - New to LED">None — New to LED</option>
                       <option value="1-3 years">1-3 years</option>
@@ -252,7 +252,7 @@ export default function DistributionPage() {
 
                 <div className="mb-5">
                   <label htmlFor="message" className="block text-xs font-bold mb-1.5 tracking-wider">Additional Details</label>
-                  <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="3" className="input-luxury w-full resize-none" placeholder="Tell us about your business, target market, and partnership goals..." data-testid="dist-input-message" />
+                  <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="3" className="w-full resize-none" placeholder="Tell us about your business, target market, and partnership goals..." data-testid="dist-input-message" />
                 </div>
 
                 <button type="submit" disabled={loading} className={`btn-gold w-full py-3.5 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="distribution-submit-button">

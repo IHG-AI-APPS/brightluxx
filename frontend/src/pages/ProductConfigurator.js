@@ -186,7 +186,7 @@ const ProductConfigurator = () => {
                     min="1"
                     max="50"
                     step="0.5"
-                    className="input-luxury w-full"
+                    className="w-full"
                   />
                 </div>
                 <div>
@@ -198,7 +198,7 @@ const ProductConfigurator = () => {
                     min="1"
                     max="30"
                     step="0.5"
-                    className="input-luxury w-full"
+                    className="w-full"
                   />
                 </div>
               </div>
@@ -229,7 +229,7 @@ const ProductConfigurator = () => {
                   <select
                     value={config.pixelPitch}
                     onChange={(e) => handleConfigChange('pixelPitch', e.target.value)}
-                    className="input-luxury w-full"
+                    className="w-full"
                   >
                     {pixelPitchOptions.map(option => (
                       <option key={option.value} value={option.value}>{option.label}</option>
@@ -242,7 +242,7 @@ const ProductConfigurator = () => {
                   <select
                     value={config.brightness}
                     onChange={(e) => handleConfigChange('brightness', e.target.value)}
-                    className="input-luxury w-full"
+                    className="w-full"
                   >
                     {brightnessOptions.map(option => (
                       <option key={option.value} value={option.value}>{option.label}</option>
@@ -373,7 +373,7 @@ const ProductConfigurator = () => {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="input-luxury w-full"
+                  className="w-full"
                 />
                 <input
                   type="email"
@@ -381,7 +381,7 @@ const ProductConfigurator = () => {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="input-luxury w-full"
+                  className="w-full"
                 />
                 <input
                   type="tel"
@@ -389,14 +389,14 @@ const ProductConfigurator = () => {
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  className="input-luxury w-full"
+                  className="w-full"
                 />
                 <input
                   type="text"
                   placeholder="Company"
                   value={formData.company}
                   onChange={(e) => setFormData({...formData, company: e.target.value})}
-                  className="input-luxury w-full"
+                  className="w-full"
                 />
 
                 <div className="flex gap-3">

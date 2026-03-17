@@ -196,27 +196,27 @@ export default function TechnicalSupportPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                   <div>
                     <label htmlFor="name" className="block text-xs font-bold mb-1.5 tracking-wider">Full Name <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="input-luxury w-full" data-testid="support-input-name" />
+                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="w-full" data-testid="support-input-name" />
                   </div>
                   <div>
                     <label htmlFor="company" className="block text-xs font-bold mb-1.5 tracking-wider">Company <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="text" id="company" name="company" value={formData.company} onChange={handleChange} required className="input-luxury w-full" data-testid="support-input-company" />
+                    <input type="text" id="company" name="company" value={formData.company} onChange={handleChange} required className="w-full" data-testid="support-input-company" />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-xs font-bold mb-1.5 tracking-wider">Email <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="input-luxury w-full" data-testid="support-input-email" />
+                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="w-full" data-testid="support-input-email" />
                   </div>
                   <div>
                     <label htmlFor="phone" className="block text-xs font-bold mb-1.5 tracking-wider">Phone <span className="text-[var(--blx-danger)]">*</span></label>
-                    <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required className="input-luxury w-full" data-testid="support-input-phone" />
+                    <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required className="w-full" data-testid="support-input-phone" />
                   </div>
                   <div>
                     <label htmlFor="product" className="block text-xs font-bold mb-1.5 tracking-wider">Product / Model</label>
-                    <input type="text" id="product" name="product" value={formData.product} onChange={handleChange} className="input-luxury w-full" placeholder="e.g., BLX P2.5 Indoor Panel" data-testid="support-input-product" />
+                    <input type="text" id="product" name="product" value={formData.product} onChange={handleChange} className="w-full" placeholder="e.g., BLX P2.5 Indoor Panel" data-testid="support-input-product" />
                   </div>
                   <div>
                     <label htmlFor="issue_type" className="block text-xs font-bold mb-1.5 tracking-wider">Issue Type <span className="text-[var(--blx-danger)]">*</span></label>
-                    <select id="issue_type" name="issue_type" value={formData.issue_type} onChange={handleChange} required className="input-luxury w-full" data-testid="support-input-issue-type">
+                    <select id="issue_type" name="issue_type" value={formData.issue_type} onChange={handleChange} required className="w-full" data-testid="support-input-issue-type">
                       <option value="">Select Issue</option>
                       {ISSUE_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
                     </select>
@@ -251,7 +251,7 @@ export default function TechnicalSupportPage() {
 
                 <div className="mb-5">
                   <label htmlFor="description" className="block text-xs font-bold mb-1.5 tracking-wider">Issue Description <span className="text-[var(--blx-danger)]">*</span></label>
-                  <textarea id="description" name="description" value={formData.description} onChange={handleChange} required rows="4" className="input-luxury w-full resize-none" placeholder="Describe the issue in detail: when it started, what you've tried, any error messages..." data-testid="support-input-description" />
+                  <textarea id="description" name="description" value={formData.description} onChange={handleChange} required rows="4" className="w-full resize-none" placeholder="Describe the issue in detail: when it started, what you've tried, any error messages..." data-testid="support-input-description" />
                 </div>
 
                 <button type="submit" disabled={loading} className={`btn-gold w-full py-3.5 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="support-submit-button">

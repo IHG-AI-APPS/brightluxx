@@ -264,21 +264,21 @@ export default function CpdProgramme() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">NAME *</label>
-                      <input type="text" value={form.name} onChange={e => updateField('name', e.target.value)} className="input-luxury w-full" placeholder="Your full name" data-testid="cpd-field-name" />
+                      <input type="text" value={form.name} onChange={e => updateField('name', e.target.value)} className="w-full" placeholder="Your full name" data-testid="cpd-field-name" />
                     </div>
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">WORK EMAIL *</label>
-                      <input type="email" value={form.email} onChange={e => updateField('email', e.target.value)} className="input-luxury w-full" placeholder="you@company.com" data-testid="cpd-field-email" />
+                      <input type="email" value={form.email} onChange={e => updateField('email', e.target.value)} className="w-full" placeholder="you@company.com" data-testid="cpd-field-email" />
                     </div>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">COMPANY *</label>
-                      <input type="text" value={form.company} onChange={e => updateField('company', e.target.value)} className="input-luxury w-full" placeholder="Your company" data-testid="cpd-field-company" />
+                      <input type="text" value={form.company} onChange={e => updateField('company', e.target.value)} className="w-full" placeholder="Your company" data-testid="cpd-field-company" />
                     </div>
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">ROLE *</label>
-                      <select value={form.role} onChange={e => updateField('role', e.target.value)} className="input-luxury w-full" data-testid="cpd-field-role">
+                      <select value={form.role} onChange={e => updateField('role', e.target.value)} className="w-full" data-testid="cpd-field-role">
                         <option value="">Select role</option>
                         <option value="Architect">Architect</option>
                         <option value="Interior Designer">Interior Designer</option>
@@ -293,7 +293,7 @@ export default function CpdProgramme() {
                   </div>
                   <div>
                     <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">PREFERRED TOPIC *</label>
-                    <select value={form.preferred_topic} onChange={e => updateField('preferred_topic', e.target.value)} className="input-luxury w-full" data-testid="cpd-field-topic">
+                    <select value={form.preferred_topic} onChange={e => updateField('preferred_topic', e.target.value)} className="w-full" data-testid="cpd-field-topic">
                       <option value="">Select a session topic</option>
                       {SESSIONS.map(s => (
                         <option key={s.id} value={s.title}>{s.title}</option>
@@ -304,7 +304,7 @@ export default function CpdProgramme() {
                   <div className="grid sm:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">FORMAT</label>
-                      <select value={form.preferred_format} onChange={e => updateField('preferred_format', e.target.value)} className="input-luxury w-full" data-testid="cpd-field-format">
+                      <select value={form.preferred_format} onChange={e => updateField('preferred_format', e.target.value)} className="w-full" data-testid="cpd-field-format">
                         <option value="in-office">In-Office Lunch & Learn</option>
                         <option value="virtual">Virtual Session</option>
                         <option value="either">Either / Flexible</option>
@@ -312,7 +312,7 @@ export default function CpdProgramme() {
                     </div>
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">GROUP SIZE</label>
-                      <select value={form.group_size} onChange={e => updateField('group_size', e.target.value)} className="input-luxury w-full" data-testid="cpd-field-group-size">
+                      <select value={form.group_size} onChange={e => updateField('group_size', e.target.value)} className="w-full" data-testid="cpd-field-group-size">
                         <option value="">Select</option>
                         <option value="1-5">1 — 5 people</option>
                         <option value="6-15">6 — 15 people</option>
@@ -322,12 +322,12 @@ export default function CpdProgramme() {
                     </div>
                     <div>
                       <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">PREFERRED DATE</label>
-                      <input type="text" value={form.preferred_date} onChange={e => updateField('preferred_date', e.target.value)} className="input-luxury w-full" placeholder="e.g. March 2026" data-testid="cpd-field-date" />
+                      <input type="text" value={form.preferred_date} onChange={e => updateField('preferred_date', e.target.value)} className="w-full" placeholder="e.g. March 2026" data-testid="cpd-field-date" />
                     </div>
                   </div>
                   <div>
                     <label className="block text-[0.5625rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1.5">ADDITIONAL NOTES</label>
-                    <textarea value={form.message} onChange={e => updateField('message', e.target.value)} className="input-luxury w-full h-24 resize-none" placeholder="Any specific topics or project context you'd like us to cover..." data-testid="cpd-field-message" />
+                    <textarea value={form.message} onChange={e => updateField('message', e.target.value)} className="w-full h-24 resize-none" placeholder="Any specific topics or project context you'd like us to cover..." data-testid="cpd-field-message" />
                   </div>
                   {error && <p className="text-red-400 text-xs" data-testid="cpd-form-error">{error}</p>}
                   <button type="submit" disabled={submitting} className={`btn-gold px-8 py-3.5 text-xs font-bold tracking-[0.15em] ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="cpd-submit-button">

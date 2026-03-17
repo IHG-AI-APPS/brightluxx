@@ -110,7 +110,7 @@ export default function QuickInquiry({ context = '', pageUrl = '' }) {
                 placeholder="Name *"
                 value={form.name}
                 onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                className="input-luxury w-full text-xs py-2 px-3"
+                className="w-full text-xs py-2 px-3"
                 required
                 data-testid="quick-inquiry-name"
               />
@@ -119,7 +119,7 @@ export default function QuickInquiry({ context = '', pageUrl = '' }) {
                 placeholder="Email *"
                 value={form.email}
                 onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                className="input-luxury w-full text-xs py-2 px-3"
+                className="w-full text-xs py-2 px-3"
                 required
                 data-testid="quick-inquiry-email"
               />
@@ -128,7 +128,7 @@ export default function QuickInquiry({ context = '', pageUrl = '' }) {
                 placeholder="Phone (optional)"
                 value={form.phone}
                 onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
-                className="input-luxury w-full text-xs py-2 px-3"
+                className="w-full text-xs py-2 px-3"
                 data-testid="quick-inquiry-phone"
               />
               <button

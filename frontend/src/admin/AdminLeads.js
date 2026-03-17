@@ -171,7 +171,7 @@ export default function AdminLeads() {
               {/* Notes */}
               <div>
                 <div className="flex items-center gap-2 text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-2"><MessageSquare size={12} /> Notes</div>
-                <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={4} className="input-luxury w-full py-2 text-xs resize-y" placeholder="Add internal notes..." data-testid="admin-lead-notes" />
+                <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={4} className="w-full py-2 text-xs resize-y" placeholder="Add internal notes..." data-testid="admin-lead-notes" />
                 <button onClick={saveNotes_} disabled={savingNotes} className="btn-gold px-4 py-2 text-xs mt-2 flex items-center gap-2" data-testid="admin-lead-save-notes"><Save size={12} /> {savingNotes ? 'Saving...' : 'Save Notes'}</button>
               </div>
               {/* Status */}

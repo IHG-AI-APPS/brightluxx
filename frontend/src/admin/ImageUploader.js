@@ -194,7 +194,7 @@ export const ImageUploader = ({ value, onChange, label, compact = false }) => {
               onChange={(e) => setUrlInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleUrlSubmit()}
               placeholder="https://example.com/image.jpg"
-              className="input-luxury flex-1 py-2 text-xs"
+              className="flex-1 py-2 text-xs"
               data-testid="image-uploader-url-input"
             />
             <button

@@ -403,7 +403,7 @@ const VirtualShowroom = () => {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
-                className="input-luxury w-full"
+                className="w-full"
               />
               <input
                 type="email"
@@ -411,7 +411,7 @@ const VirtualShowroom = () => {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="input-luxury w-full"
+                className="w-full"
               />
               <input
                 type="tel"
@@ -419,21 +419,21 @@ const VirtualShowroom = () => {
                 required
                 value={formData.phone}
                 onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                className="input-luxury w-full"
+                className="w-full"
               />
               <input
                 type="text"
                 placeholder="Company"
                 value={formData.company}
                 onChange={(e) => setFormData({...formData, company: e.target.value})}
-                className="input-luxury w-full"
+                className="w-full"
               />
               <input
                 type="date"
                 placeholder="Preferred Date"
                 value={formData.preferredDate}
                 onChange={(e) => setFormData({...formData, preferredDate: e.target.value})}
-                className="input-luxury w-full"
+                className="w-full"
               />
 
               <div className="flex gap-3">

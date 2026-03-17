@@ -121,7 +121,7 @@ export default function ExitIntentPopup() {
                   placeholder="Name *"
                   value={form.name}
                   onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                  className="input-luxury w-full text-xs py-2.5 px-3"
+                  className="w-full text-xs py-2.5 px-3"
                   required
                   data-testid="exit-intent-name"
                 />
@@ -130,7 +130,7 @@ export default function ExitIntentPopup() {
                   placeholder="Company"
                   value={form.company}
                   onChange={e => setForm(p => ({ ...p, company: e.target.value }))}
-                  className="input-luxury w-full text-xs py-2.5 px-3"
+                  className="w-full text-xs py-2.5 px-3"
                   data-testid="exit-intent-company"
                 />
               </div>
@@ -139,7 +139,7 @@ export default function ExitIntentPopup() {
                 placeholder="Work Email *"
                 value={form.email}
                 onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                className="input-luxury w-full text-xs py-2.5 px-3"
+                className="w-full text-xs py-2.5 px-3"
                 required
                 data-testid="exit-intent-email"
               />
@@ -148,7 +148,7 @@ export default function ExitIntentPopup() {
                 placeholder="Phone / WhatsApp *"
                 value={form.phone}
                 onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
-                className="input-luxury w-full text-xs py-2.5 px-3"
+                className="w-full text-xs py-2.5 px-3"
                 required
                 data-testid="exit-intent-phone"
               />
@@ -156,7 +156,7 @@ export default function ExitIntentPopup() {
                 placeholder="Brief project description (optional)"
                 value={form.project_brief}
                 onChange={e => setForm(p => ({ ...p, project_brief: e.target.value }))}
-                className="input-luxury w-full text-xs py-2.5 px-3 resize-none"
+                className="w-full text-xs py-2.5 px-3 resize-none"
                 rows={2}
                 data-testid="exit-intent-brief"
               />

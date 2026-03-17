@@ -211,11 +211,11 @@ export default function AdminProducts() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Product Code*</label>
-                  <input value={form.product_code} onChange={e => setForm({...form, product_code: e.target.value})} placeholder="BL-XXX000" className="input-luxury w-full py-2 text-xs" data-testid="admin-product-code-input" />
+                  <input value={form.product_code} onChange={e => setForm({...form, product_code: e.target.value})} placeholder="BL-XXX000" className="w-full py-2 text-xs" data-testid="admin-product-code-input" />
                 </div>
                 <div>
                   <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Name*</label>
-                  <input value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="Product name" className="input-luxury w-full py-2 text-xs" data-testid="admin-product-name-input" />
+                  <input value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="Product name" className="w-full py-2 text-xs" data-testid="admin-product-name-input" />
                 </div>
               </div>
               {/* Row 2 */}
@@ -225,7 +225,7 @@ export default function AdminProducts() {
                   <select 
                     value={form.category} 
                     onChange={e => setForm({...form, category: e.target.value})} 
-                    className="input-luxury w-full py-2 text-xs bg-[var(--blx-bg-raised)]" 
+                    className="w-full py-2 text-xs bg-[var(--blx-bg-raised)]" 
                     data-testid="admin-product-category-input"
                   >
                     <option value="">Select category...</option>
@@ -241,27 +241,27 @@ export default function AdminProducts() {
                       value={form.newCategory || ''} 
                       onChange={e => setForm({...form, newCategory: e.target.value, category: e.target.value ? e.target.value : '__new__'})}
                       placeholder="Enter new category (e.g. cob-microled)"
-                      className="input-luxury w-full py-2 text-xs mt-2"
+                      className="w-full py-2 text-xs mt-2"
                       autoFocus
                     />
                   )}
                 </div>
                 <div>
                   <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Tagline</label>
-                  <input value={form.tagline} onChange={e => setForm({...form, tagline: e.target.value})} placeholder="Short tagline" className="input-luxury w-full py-2 text-xs" />
+                  <input value={form.tagline} onChange={e => setForm({...form, tagline: e.target.value})} placeholder="Short tagline" className="w-full py-2 text-xs" />
                 </div>
               </div>
               {/* Description */}
               <div>
                 <label className="text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block">Description</label>
-                <textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="input-luxury w-full py-2 text-xs resize-y" data-testid="admin-product-description-input" />
+                <textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} className="w-full py-2 text-xs resize-y" data-testid="admin-product-description-input" />
               </div>
               {/* Specs Row */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {['pixel_pitch', 'resolution', 'brightness', 'application'].map(f => (
                   <div key={f}>
                     <label className="text-[0.5rem] font-bold tracking-[0.15em] text-[var(--blx-muted)] mb-1 block capitalize">{f.replace('_', ' ')}</label>
-                    <input value={form[f]} onChange={e => setForm({...form, [f]: e.target.value})} className="input-luxury w-full py-1.5 text-xs" />
+                    <input value={form[f]} onChange={e => setForm({...form, [f]: e.target.value})} className="w-full py-1.5 text-xs" />
                   </div>
                 ))}
               </div>
@@ -287,8 +287,8 @@ export default function AdminProducts() {
                 <div className="space-y-2">
                   {(form.key_specs || []).map((spec, i) => (
                     <div key={i} className="flex gap-2 items-center">
-                      <input value={spec.label} onChange={e => updateSpec(i, 'label', e.target.value)} placeholder="Label" className="input-luxury flex-1 py-1.5 text-xs" />
-                      <input value={spec.value} onChange={e => updateSpec(i, 'value', e.target.value)} placeholder="Value" className="input-luxury flex-1 py-1.5 text-xs" />
+                      <input value={spec.label} onChange={e => updateSpec(i, 'label', e.target.value)} placeholder="Label" className="flex-1 py-1.5 text-xs" />
+                      <input value={spec.value} onChange={e => updateSpec(i, 'value', e.target.value)} placeholder="Value" className="flex-1 py-1.5 text-xs" />
                       <button onClick={() => removeSpec(i)} className="p-1.5 rounded hover:bg-[rgba(220,38,38,0.1)] transition-colors duration-200"><X size={14} className="text-[var(--blx-muted)]" /></button>
                     </div>
                   ))}
@@ -303,7 +303,7 @@ export default function AdminProducts() {
                   </label>
                 ))}
                 <label className="flex items-center gap-2 cursor-pointer text-xs tracking-wider">
-                  <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="input-luxury py-1 px-2 text-xs">
+                  <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="py-1 px-2 text-xs">
                     <option value="published">Published</option>
                     <option value="draft">Draft</option>
                   </select>

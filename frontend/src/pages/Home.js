@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, Shield, Clock, Award, Factory, Package, Truck, GraduationCap, Wrench, Settings, HeartHandshake } from 'lucide-react';
+import { ArrowRight, Zap, Shield, Clock, Award, Factory, Package, Truck, GraduationCap, Wrench, Settings, HeartHandshake, Play, ChevronRight, Monitor, Cpu, Eye, Sparkles } from 'lucide-react';
 import { getProducts, getProjects } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
 import { EXTERNAL_CDN, cdnUrl } from '../config/cdn';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -13,44 +14,60 @@ const ICON_MAP = {
   Factory, Package, Truck, GraduationCap, Wrench, HeartHandshake, Shield, Clock, Award, Zap, Settings
 };
 
-/* Scroll-triggered glow hook */
-const useInView = (ref) => {
+/* Scroll-triggered animation hook */
+const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
   useEffect(() => {
     if (!ref.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold: 0.15 }
+      { threshold }
     );
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [ref]);
+  }, [ref, threshold]);
   return inView;
 };
 
-const GlowCard = ({ children, className = '' }) => {
+/* Apple-style fade in section */
+const FadeInSection = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
   const inView = useInView(ref);
   return (
-    <div ref={ref} className={`blx-scroll-glow ${inView ? 'in-view' : ''} ${className}`}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+      transition={{ duration: 0.8, delay: delay * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
+    >
       {children}
-    </div>
+    </motion.div>
   );
 };
 
-/* Hero video player — crossfade between videos */
+/* Glassmorphism card with hover glow */
+const GlassCard = ({ children, className = '', hover = true }) => (
+  <div className={`
+    backdrop-blur-2xl bg-white/[0.03] border border-white/[0.08] 
+    ${hover ? 'hover:bg-white/[0.06] hover:border-cyan-500/30 hover:shadow-[0_0_40px_rgba(34,211,238,0.1)]' : ''}
+    transition-all duration-500 ${className}
+  `}>
+    {children}
+  </div>
+);
+
+/* Hero video player with smooth transitions */
 const HeroVideoPlayer = ({ videos, posterImage }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [fading, setFading] = useState(false);
   const videoRefs = useRef([]);
 
-  // Use provided videos or fallback
   const heroVideos = videos?.length > 0 ? videos : [`${EXTERNAL_CDN}/videos/hero-video-1.mp4`, `${EXTERNAL_CDN}/videos/hero-video-2.mp4`];
   const poster = posterImage || cdnUrl('hero_banner.webp');
 
   useEffect(() => {
     if (heroVideos.length <= 1) return;
-    
     const activeVideo = videoRefs.current[activeIdx];
     if (!activeVideo) return;
 
@@ -73,7 +90,7 @@ const HeroVideoPlayer = ({ videos, posterImage }) => {
   }, [activeIdx, heroVideos.length]);
 
   return (
-    <div className="relative w-full h-full" data-testid="hero-video-player">
+    <div className="absolute inset-0" data-testid="hero-video-player">
       {heroVideos.map((src, idx) => (
         <video
           key={src}
@@ -81,15 +98,19 @@ const HeroVideoPlayer = ({ videos, posterImage }) => {
           autoPlay={idx === 0}
           muted
           playsInline
+          loop={heroVideos.length === 1}
           preload={idx === 0 ? 'auto' : 'metadata'}
           poster={poster}
           data-testid={`home-hero-video-${idx}`}
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[800ms]"
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms]"
           style={{ opacity: idx === activeIdx ? 1 : fading && idx === (activeIdx + 1) % heroVideos.length ? 1 : 0 }}
         >
           <source src={src} type="video/mp4" />
         </video>
       ))}
+      {/* Gradient overlays for readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#050508]/80 via-transparent to-transparent" />
     </div>
   );
 };
@@ -99,8 +120,6 @@ const AnimatedCounter = ({ end, suffix = '', prefix = '' }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const started = useRef(false);
-  
-  // Parse end value to number if it's a string
   const endNum = typeof end === 'string' ? parseInt(end, 10) : end;
 
   useEffect(() => {
@@ -127,53 +146,43 @@ const AnimatedCounter = ({ end, suffix = '', prefix = '' }) => {
     );
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [end]);
+  }, [endNum]);
 
   return <span ref={ref}>{prefix}{count.toLocaleString()}{suffix}</span>;
 };
 
-/* Client logo carousel */
-/* Default Client logos */
-const DEFAULT_CLIENTS = [
-  { name: 'RTA Dubai' }, { name: 'Dubai Police' }, { name: 'DEWA' }, { name: 'Emirates NBD' }, { name: 'Dubai Islamic Bank' },
-  { name: 'Etihad Airways' }, { name: 'Sharjah Airport' }, { name: 'ADNOC' }, { name: 'Emaar' }, { name: 'Carrefour' },
-  { name: 'Mashreq Bank' }, { name: 'RAKBANK' }, { name: 'Al Naboodah' }, { name: 'Jumeirah Group' }, { name: 'BEEAH' },
-  { name: 'City Centre' }, { name: 'Abu Dhabi Islamic Bank' }, { name: 'Ministry of Finance UAE' },
-];
+/* Floating icon with animation */
+const FloatingIcon = ({ Icon, delay = 0, className = '' }) => (
+  <motion.div
+    initial={{ y: 0 }}
+    animate={{ y: [-5, 5, -5] }}
+    transition={{ duration: 4, repeat: Infinity, delay, ease: "easeInOut" }}
+    className={className}
+  >
+    <Icon className="text-cyan-400/60" size={24} />
+  </motion.div>
+);
 
-/* Partner technology brands */
-const PARTNER_BRANDS = [
-  { name: 'NovaStar', desc: 'Video Processing' },
-  { name: 'Colorlight', desc: 'LED Controllers' },
-  { name: 'Unilumin', desc: 'LED Modules' },
-  { name: 'Philips', desc: 'LED Components' },
-];
-
-/* Default Why Choose data */
-const DEFAULT_WHY_CHOOSE = [
-  { icon: 'Award', title: 'Established Since 2005', desc: 'Nearly two decades of LED display excellence in the UAE market.' },
-  { icon: 'Factory', title: 'In-House Production', desc: 'Complete manufacturing control for consistent quality and customization.' },
-  { icon: 'Package', title: 'Local Stock Availability', desc: '2,000+ sqm of LED displays ready for immediate delivery from our Dubai warehouse.' },
-  { icon: 'Settings', title: 'Complete LED Solutions', desc: 'End-to-end: design, supply, install, configure, and maintain.' },
-  { icon: 'Truck', title: 'Fast Delivery', desc: 'Same-week delivery across UAE. Express options for urgent projects.' },
-  { icon: 'GraduationCap', title: 'Training & Technical Support', desc: 'On-site training, 24/7 helpdesk, and remote diagnostics.' },
-  { icon: 'HeartHandshake', title: 'After-Sales Service', desc: 'Preventive maintenance contracts, spare parts, and rapid response repairs.' },
-  { icon: 'Wrench', title: 'Low Maintenance Solutions', desc: 'Front-serviceable designs, hot-swappable modules, and self-diagnostic systems.' },
-];
-
-/* Default stats */
+/* Default data */
 const DEFAULT_STATS = [
   { value: '1500', suffix: '+', label: 'Screens Installed' },
-  { value: '500', suffix: '+', label: 'Satisfied Clients' },
-  { value: '800', suffix: '+', label: 'Projects Completed' },
-  { value: '12000', suffix: '', label: 'Sqm LED Installed' },
+  { value: '500', suffix: '+', label: 'Clients Served' },
+  { value: '800', suffix: '+', label: 'Projects Delivered' },
+  { value: '12000', suffix: 'm²', label: 'LED Installed' },
 ];
 
-/* Default entry doors */
-const DEFAULT_ENTRY_DOORS = [
-  { link: '/products', image: 'cob_microled_1.webp', title: 'Products', description: 'MicroLED, outdoor, rental, transparent. Full range.', cta_text: 'Browse' },
-  { link: '/inspirations', image: 'insp_retail.webp', title: 'Inspirations', description: 'See how LED transforms spaces across industries.', cta_text: 'Discover' },
-  { link: '/projects', image: 'proj_indian_pavilion___expo_2020_dubai.webp', title: 'Projects', description: 'Real installations. Proven results across UAE and MENA.', cta_text: 'View' },
+const DEFAULT_WHY_CHOOSE = [
+  { icon: 'Award', title: 'Since 2005', desc: 'Two decades of LED excellence in UAE.' },
+  { icon: 'Factory', title: 'In-House Production', desc: 'Complete manufacturing control.' },
+  { icon: 'Package', title: 'Local Stock', desc: '2,000+ sqm ready in Dubai.' },
+  { icon: 'Truck', title: 'Fast Delivery', desc: 'Same-week across UAE.' },
+];
+
+const PRODUCT_CATEGORIES = [
+  { name: 'COB MicroLED', cat: 'cob-microled', icon: Cpu, desc: 'Ultra-fine P0.4-P1.2' },
+  { name: 'Transparent', cat: 'transparent', icon: Eye, desc: 'See-through displays' },
+  { name: 'Outdoor LED', cat: 'outdoor', icon: Monitor, desc: 'Weatherproof P4-P10' },
+  { name: 'Creative', cat: 'flexible', icon: Sparkles, desc: 'Curved & custom' },
 ];
 
 const Home = () => {
@@ -182,36 +191,28 @@ const Home = () => {
   const [homeContent, setHomeContent] = useState(null);
 
   useEffect(() => {
-    // Fetch homepage content
     fetch(`${API}/api/homepage-content`)
       .then(res => res.json())
-      .then(data => {
-        if (data.content) {
-          setHomeContent(data.content);
-        }
-      })
+      .then(data => { if (data.content) setHomeContent(data.content); })
       .catch(() => {});
 
-    getProducts({ limit: 4, featured: true }).then(res => {
+    getProducts({ limit: 6, featured: true }).then(res => {
       const data = res?.data || res;
       setFeaturedProducts(Array.isArray(data) ? data : data?.products || []);
     }).catch(() => {});
+    
     getProjects({ limit: 3, featured: true }).then(res => {
       const data = res?.data || res;
       setFeaturedProjects(Array.isArray(data) ? data : data?.projects || []);
     }).catch(() => {});
   }, []);
 
-  // Get content with fallbacks
   const hero = homeContent?.hero || {};
   const stats = homeContent?.stats?.length > 0 ? homeContent.stats : DEFAULT_STATS;
-  const entryDoors = homeContent?.entry_doors?.length > 0 ? homeContent.entry_doors : DEFAULT_ENTRY_DOORS;
-  const whyChoose = homeContent?.why_brightluxx_items?.length > 0 ? homeContent.why_brightluxx_items : DEFAULT_WHY_CHOOSE;
-  const clients = homeContent?.clients?.length > 0 ? homeContent.clients : DEFAULT_CLIENTS;
-  const sectionTitles = homeContent || {};
+  const whyChoose = homeContent?.why_brightluxx_items?.length > 0 ? homeContent.why_brightluxx_items.slice(0, 4) : DEFAULT_WHY_CHOOSE;
 
   return (
-    <div>
+    <div className="bg-[#050508]">
       <SEO
         title="Brightluxx — Premium LED Displays | Dubai & GCC"
         description="OEM-grade LED display technology. MicroLED, outdoor, rental & transparent screens. UAE-ready delivery. Established since 2005."
@@ -222,296 +223,387 @@ const Home = () => {
           "url": BASE_URL, "logo": cdnUrl('hero_banner.webp'),
           "sameAs": [
             "https://www.instagram.com/brightluxx/",
-            "https://www.linkedin.com/company/brightluxx/",
-            "https://www.facebook.com/brightluxx/",
-            "https://www.youtube.com/@brightluxx"
+            "https://www.linkedin.com/company/brightluxx/"
           ],
           "foundingDate": "2005",
-          "address": { "@type": "PostalAddress", "streetAddress": "Jebel Ali Industrial Area 1", "addressLocality": "Dubai", "addressCountry": "AE" }
+          "address": { "@type": "PostalAddress", "addressLocality": "Dubai", "addressCountry": "AE" }
         }}
       />
 
-      {/* Hero Section */}
-      <section className="relative pt-6 sm:pt-10 pb-6 sm:pb-16" data-testid="hero-section">
-        <div className="hero-video-container mx-4 sm:mx-6 lg:mx-auto max-w-[1320px] blx-led-grid-strong">
-          <HeroVideoPlayer videos={hero.video_urls} posterImage={hero.poster_image} />
-          <div className="hero-overlay">
-            <div className="max-w-2xl">
-              <div className="text-[0.6875rem] tracking-[0.28em] text-[var(--blx-gold-3)] mb-5 font-bold">
-                {hero.subheadline || 'Premium LED Displays — Since 2005'}
-              </div>
-              <h1 className="mb-4" data-testid="hero-title">
-                {hero.headline ? (
-                  <span dangerouslySetInnerHTML={{ __html: hero.headline.replace(/\n/g, '<br />') }} />
-                ) : (
-                  <>Engineered for<br /><span className="text-gradient">Brilliance</span></>
-                )}
-              </h1>
-              <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-lg font-light tracking-widest">
-                OEM-grade LED technology. UAE-ready delivery. 1,500+ screens installed.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-2.5">
-                <Link to={hero.cta_link || '/contact'} className="btn-gold px-5 py-2 sm:px-8 sm:py-3 text-[0.7rem] sm:text-sm text-center" data-testid="home-hero-primary-cta">
-                  {hero.cta_text || 'Get Quote'}
-                </Link>
-                <Link to="/products" className="btn-glass px-5 py-2 sm:px-8 sm:py-3 text-[0.7rem] sm:text-sm text-center" data-testid="home-hero-secondary-cta">
-                  Explore Products
-                </Link>
-              </div>
+      {/* ═══════════════════════════════════════════════════════════════════════
+          HERO SECTION — Full screen, immersive video with minimal text
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="relative h-screen min-h-[700px] flex items-end" data-testid="hero-section">
+        <HeroVideoPlayer videos={hero.video_urls} posterImage={hero.poster_image} />
+        
+        {/* Floating decorative icons */}
+        <div className="absolute top-1/4 right-[15%] hidden lg:block">
+          <FloatingIcon Icon={Cpu} delay={0} />
+        </div>
+        <div className="absolute top-1/3 right-[25%] hidden lg:block">
+          <FloatingIcon Icon={Monitor} delay={1} />
+        </div>
+        <div className="absolute bottom-1/3 right-[10%] hidden lg:block">
+          <FloatingIcon Icon={Sparkles} delay={2} />
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 pb-20 lg:pb-32">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-6 block">
+              {hero.subheadline || 'Premium LED Displays — Since 2005'}
+            </span>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold uppercase tracking-tight mb-6 leading-[0.9]" data-testid="hero-title">
+              {hero.headline ? (
+                <span dangerouslySetInnerHTML={{ __html: hero.headline.replace(/\n/g, '<br />') }} />
+              ) : (
+                <>
+                  <span className="text-white">Engineered</span>
+                  <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500">
+                    For Brilliance
+                  </span>
+                </>
+              )}
+            </h1>
+            <p className="text-gray-400 text-base md:text-lg max-w-md mb-10 tracking-wide leading-relaxed">
+              OEM-grade LED technology. UAE-ready delivery.<br />1,500+ screens installed.
+            </p>
+            
+            <div className="flex flex-wrap items-center gap-4">
+              <Link 
+                to={hero.cta_link || '/contact'} 
+                className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-8 py-4 transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] inline-flex items-center gap-2"
+                data-testid="home-hero-primary-cta"
+              >
+                {hero.cta_text || 'Get Quote'} <ArrowRight size={18} />
+              </Link>
+              <Link 
+                to="/products" 
+                className="group bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-8 py-4 transition-all inline-flex items-center gap-2"
+                data-testid="home-hero-secondary-cta"
+              >
+                Explore Products <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
-          </div>
+          </motion.div>
+
+          {/* Scroll indicator */}
+          <motion.div 
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5 }}
+          >
+            <span className="text-[10px] uppercase tracking-[0.3em] text-gray-500">Scroll</span>
+            <motion.div 
+              className="w-px h-12 bg-gradient-to-b from-cyan-500/50 to-transparent"
+              animate={{ scaleY: [1, 0.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          </motion.div>
         </div>
       </section>
 
-      {/* Project Statistics */}
-      <section className="py-12 sm:py-16" data-testid="project-stats-section">
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat) => (
-              <div key={stat.label} className="glass-panel p-6 text-center" data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
-                <div className="text-3xl sm:text-4xl font-bold text-[var(--blx-gold-3)] mb-2" style={{ fontFamily: 'var(--blx-font)' }}>
-                  <AnimatedCounter end={stat.value} suffix={stat.suffix || ''} prefix={stat.prefix || ''} />
-                </div>
-                <div className="text-[0.625rem] tracking-[0.2em] text-[var(--blx-text-2)] font-bold">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 3 Entry Doors */}
-      <section className="py-14 sm:py-20" data-testid="entry-doors-section">
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {entryDoors.map((door) => {
-              // Handle both CDN relative paths and full URLs
-              const imgSrc = door.image?.startsWith('http') ? door.image : cdnUrl(door.image);
-              return (
-                <GlowCard key={door.link}>
-                  <Link to={door.link} className="entry-door group block" data-testid={`home-entry-door-${door.title.toLowerCase()}`}>
-                    {door.image?.startsWith('http') ? (
-                      <img src={imgSrc} alt={door.title} className="entry-door-image w-full h-48 object-cover" />
-                    ) : (
-                      <CdnImage src={imgSrc} alt={door.title} className="entry-door-image" w={600} eager />
-                    )}
-                    <div className="p-6">
-                      <h3 className="text-xl mb-2">{door.title}</h3>
-                      <p className="text-xs text-[var(--blx-text-2)] mb-4 leading-relaxed tracking-wider">{door.description}</p>
-                      <div className="flex items-center text-[var(--blx-gold-3)] text-xs font-bold group-hover:gap-3 gap-2 transition-[gap] duration-200 tracking-widest">
-                        <span>{door.cta_text}</span>
-                        <ArrowRight size={14} />
-                      </div>
+      {/* ═══════════════════════════════════════════════════════════════════════
+          STATS SECTION — Glassmorphism bento grid
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 lg:py-32" data-testid="project-stats-section">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          <FadeInSection>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+              {stats.map((stat, index) => (
+                <GlassCard key={stat.label} className="p-8 lg:p-10 text-center group">
+                  <motion.div
+                    initial={{ scale: 1 }}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <div className="text-4xl md:text-5xl lg:text-6xl font-bold mb-3 font-mono" data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
+                        <AnimatedCounter end={stat.value} suffix={stat.suffix || ''} prefix={stat.prefix || ''} />
+                      </span>
                     </div>
-                  </Link>
-                </GlowCard>
-              );
-            })}
-          </div>
+                    <div className="text-[10px] md:text-xs tracking-[0.2em] text-gray-500 uppercase font-bold">
+                      {stat.label}
+                    </div>
+                  </motion.div>
+                </GlassCard>
+              ))}
+            </div>
+          </FadeInSection>
         </div>
       </section>
 
-      {/* Trust Strip */}
-      <section className="py-14 sm:py-20 relative blx-led-grid" data-testid="trust-strip">
-        <div className="absolute inset-0 bg-[var(--blx-bg-raised)]" style={{zIndex: -1}} />
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {[{
-              icon: Zap, title: 'Gulf-Grade Engineering', desc: 'Rated to 60C. Built for extreme heat.'
-            }, {
-              icon: Shield, title: 'Local Support', desc: 'UAE-based team. Fast delivery and installation.'
-            }, {
-              icon: Clock, title: 'Quote in 2 Hours', desc: 'Fast response. Expert consultation.'
-            }].map((item) => (
-              <div key={item.title} className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 glass-panel flex items-center justify-center mb-4">
-                  <item.icon className="text-[var(--blx-gold-3)]" size={20} />
-                </div>
-                <h4 className="text-sm font-bold mb-2 tracking-widest">{item.title}</h4>
-                <p className="text-xs text-[var(--blx-text-2)] tracking-wider">{item.desc}</p>
-              </div>
+      {/* ═══════════════════════════════════════════════════════════════════════
+          PRODUCT CATEGORIES — Visual showcase grid
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 lg:py-32 relative overflow-hidden" data-testid="product-categories-section">
+        {/* Background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[120px]" />
+        
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+          <FadeInSection>
+            <div className="text-center mb-16">
+              <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Our Technology</span>
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold uppercase tracking-wide">
+                LED Display
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 ml-4">
+                  Solutions
+                </span>
+              </h2>
+            </div>
+          </FadeInSection>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            {PRODUCT_CATEGORIES.map((cat, index) => (
+              <FadeInSection key={cat.cat} delay={index}>
+                <Link to={`/products?category=${cat.cat}`} className="group block" data-testid={`home-category-${cat.cat}`}>
+                  <GlassCard className="p-6 lg:p-8 h-full relative overflow-hidden">
+                    {/* Icon with glow effect */}
+                    <div className="relative mb-6">
+                      <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                        <cat.icon size={28} className="text-cyan-400 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="absolute -inset-2 bg-cyan-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                    
+                    <h3 className="text-lg font-bold uppercase tracking-wide text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                      {cat.name}
+                    </h3>
+                    <p className="text-xs text-gray-500 tracking-wide mb-4">{cat.desc}</p>
+                    
+                    <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-widest">
+                      Explore <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </GlassCard>
+                </Link>
+              </FadeInSection>
             ))}
           </div>
+
+          {/* View All Products CTA */}
+          <FadeInSection delay={4}>
+            <div className="text-center mt-12">
+              <Link 
+                to="/products" 
+                className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-bold text-sm uppercase tracking-widest transition-colors"
+                data-testid="home-view-all-products"
+              >
+                View All Products <ArrowRight size={16} />
+              </Link>
+            </div>
+          </FadeInSection>
         </div>
       </section>
 
-      {/* Featured Products */}
+      {/* ═══════════════════════════════════════════════════════════════════════
+          FEATURED PRODUCTS — Visual product showcase
+      ═══════════════════════════════════════════════════════════════════════ */}
       {featuredProducts.length > 0 && (
-        <section className="py-14 sm:py-20" data-testid="featured-products">
-          <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
-              <h2>Featured Products</h2>
-              <Link to="/products" className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-4)] font-bold flex items-center gap-2 text-xs tracking-widest transition-colors duration-200">
-                View All <ArrowRight size={14} />
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {featuredProducts.map((product) => (
-                <GlowCard key={product._id}>
-                  <Link to={`/products/${product.slug}`} className="product-card group block" data-testid="products-product-card">
-                    <div className="relative overflow-hidden">
-                      <CdnImage src={product.image_url} alt={product.name} className="w-full h-48" w={400} />
-                      <div className="absolute top-3 left-3">
-                        <span className="category-badge">{product.product_code}</span>
+        <section className="py-24 lg:py-32 bg-[#0A0A0D]" data-testid="featured-products-section">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+            <FadeInSection>
+              <div className="flex items-end justify-between mb-12">
+                <div>
+                  <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Featured</span>
+                  <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-wide">Latest Products</h2>
+                </div>
+                <Link to="/products" className="hidden md:flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-bold text-xs uppercase tracking-widest transition-colors">
+                  View All <ArrowRight size={14} />
+                </Link>
+              </div>
+            </FadeInSection>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredProducts.slice(0, 6).map((product, index) => (
+                <FadeInSection key={product._id || product.id} delay={index}>
+                  <Link to={`/products/${product.slug}`} className="group block" data-testid="home-featured-product">
+                    <div className="relative aspect-[4/3] overflow-hidden mb-4">
+                      <CdnImage 
+                        src={product.image_url} 
+                        alt={product.name} 
+                        className="w-full h-full" 
+                        imgClassName="group-hover:scale-110 transition-transform duration-700" 
+                        w={500} 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0D] via-transparent to-transparent opacity-60" />
+                      
+                      {/* Product code badge */}
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-cyan-500/10 backdrop-blur-sm text-cyan-400 border border-cyan-500/20 px-2.5 py-1 text-[9px] uppercase tracking-wider font-bold">
+                          {product.product_code}
+                        </span>
+                      </div>
+
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-[#050508]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-widest">
+                          View Details <ArrowRight size={14} />
+                        </span>
                       </div>
                     </div>
-                    <div className="p-5">
-                      <h3 className="text-sm font-bold mb-1">{product.name}</h3>
-                      <p className="text-[0.6875rem] text-[var(--blx-muted)] mb-3 tracking-wider">{product.tagline}</p>
-                      <div className="flex gap-3 text-[0.6875rem] text-[var(--blx-text-2)] tracking-wider">
-                        <span>{product.pixel_pitch}</span>
-                        <span className="text-[var(--blx-border-2)]">|</span>
-                        <span>{product.brightness}</span>
-                      </div>
+                    
+                    <h3 className="text-sm font-bold uppercase tracking-wide text-white group-hover:text-cyan-400 transition-colors mb-1">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center gap-3 text-[10px] text-gray-500 font-mono">
+                      {product.pixel_pitch && <span>{product.pixel_pitch}</span>}
+                      {product.brightness && <span>• {product.brightness}</span>}
                     </div>
                   </Link>
-                </GlowCard>
+                </FadeInSection>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* Why Choose Brightluxx */}
-      <section className="py-14 sm:py-20 relative blx-led-grid" data-testid="why-choose-section">
-        <div className="absolute inset-0 bg-[var(--blx-bg-raised)]" style={{zIndex: -1}} />
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-12">
-            <div className="text-[0.625rem] tracking-[0.3em] text-[var(--blx-gold-3)] mb-3 font-bold">
-              {sectionTitles.why_brightluxx_label || 'WHY CHOOSE US'}
+      {/* ═══════════════════════════════════════════════════════════════════════
+          WHY BRIGHTLUXX — Icon grid with animations
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 lg:py-32" data-testid="why-brightluxx-section">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          <FadeInSection>
+            <div className="text-center mb-16">
+              <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Why Us</span>
+              <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-wide">
+                The Brightluxx
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 ml-3">
+                  Advantage
+                </span>
+              </h2>
             </div>
-            <h2 className="mb-3">{sectionTitles.why_brightluxx_title || 'Why Brightluxx'}</h2>
-            <p className="text-xs text-[var(--blx-text-2)] max-w-xl mx-auto tracking-wider">
-              {sectionTitles.why_brightluxx_desc || 'Nearly 20 years of trusted LED display solutions. From design to delivery, we are your complete partner.'}
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {whyChoose.map((item) => {
-              const IconComponent = ICON_MAP[item.icon] || Award;
+          </FadeInSection>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            {whyChoose.map((item, index) => {
+              const Icon = ICON_MAP[item.icon] || Award;
               return (
-                <GlowCard key={item.title}>
-                  <div className="glass-panel p-6 h-full" data-testid={`why-choose-${item.title.toLowerCase().replace(/\s/g, '-')}`}>
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: 'rgba(229,197,116,0.08)', border: '1px solid rgba(229,197,116,0.15)' }}>
-                      <IconComponent size={18} className="text-[var(--blx-gold-3)]" />
-                    </div>
-                    <h4 className="text-xs font-bold mb-2 tracking-widest">{item.title}</h4>
-                    <p className="text-[0.6875rem] text-[var(--blx-text-2)] leading-relaxed tracking-wider">{item.desc}</p>
-                  </div>
-                </GlowCard>
+                <FadeInSection key={item.title} delay={index}>
+                  <GlassCard className="p-6 lg:p-8 h-full text-center group">
+                    <motion.div
+                      whileHover={{ y: -5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      {/* Animated icon */}
+                      <div className="relative mb-5 inline-block">
+                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-transparent flex items-center justify-center mx-auto group-hover:from-cyan-500/30 transition-colors">
+                          <Icon size={26} className="text-cyan-400" />
+                        </div>
+                        <div className="absolute -inset-3 bg-cyan-500/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                      
+                      <h3 className="text-sm font-bold uppercase tracking-wide text-white mb-2">{item.title}</h3>
+                      <p className="text-[11px] text-gray-500 leading-relaxed tracking-wide">{item.desc}</p>
+                    </motion.div>
+                  </GlassCard>
+                </FadeInSection>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Happy Clients Logo Carousel */}
-      <section className="py-14 sm:py-20" data-testid="happy-clients-section">
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <div className="text-[0.625rem] tracking-[0.3em] text-[var(--blx-gold-3)] mb-3 font-bold">TRUSTED BY THE BEST</div>
-            <h2 className="mb-3">Our Valued Clients</h2>
-          </div>
-          <div className="relative overflow-hidden" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
-            <div className="flex gap-8 animate-scroll-x">
-              {[...clients, ...clients].map((client, i) => (
-                <div
-                  key={`${client.name}-${i}`}
-                  className="flex-shrink-0 px-6 py-4 glass-panel flex items-center justify-center min-w-[160px]"
-                  data-testid={i < clients.length ? `client-logo-${i}` : undefined}
-                >
-                  {client.logo_url ? (
-                    <img src={client.logo_url} alt={client.name} className="h-8 max-w-[120px] object-contain" />
-                  ) : (
-                    <span className="text-[0.6875rem] font-bold tracking-wider text-[var(--blx-text-2)] whitespace-nowrap">{client.name}</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Projects */}
+      {/* ═══════════════════════════════════════════════════════════════════════
+          FEATURED PROJECTS — Visual showcase
+      ═══════════════════════════════════════════════════════════════════════ */}
       {featuredProjects.length > 0 && (
-        <section className="py-14 sm:py-20 relative blx-led-grid" data-testid="featured-projects">
-          <div className="absolute inset-0 bg-[var(--blx-bg-raised)]" style={{zIndex: -1}} />
-          <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div className="flex items-center justify-between mb-8">
-              <h2>Recent Projects</h2>
-              <Link to="/projects" className="text-[var(--blx-gold-3)] hover:text-[var(--blx-gold-4)] font-bold flex items-center gap-2 text-xs tracking-widest transition-colors duration-200">
-                View All <ArrowRight size={14} />
-              </Link>
-            </div>
+        <section className="py-24 lg:py-32 bg-[#0A0A0D]" data-testid="featured-projects-section">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+            <FadeInSection>
+              <div className="flex items-end justify-between mb-12">
+                <div>
+                  <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Portfolio</span>
+                  <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-wide">Recent Projects</h2>
+                </div>
+                <Link to="/projects" className="hidden md:flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-bold text-xs uppercase tracking-widest transition-colors">
+                  View All <ArrowRight size={14} />
+                </Link>
+              </div>
+            </FadeInSection>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {featuredProjects.map((project) => (
-                <GlowCard key={project._id || project.id}>
-                  <Link to="/projects" className="product-card group block" data-testid="project-case-study-card">
-                    <CdnImage src={project.image_url} alt={project.title} className="w-full h-52" w={600} />
-                    <div className="p-5">
-                      <div className="text-[0.625rem] tracking-[0.2em] text-[var(--blx-muted)] mb-1 font-bold">
-                        {project.sector} &middot; {project.location}
-                      </div>
-                      <h3 className="text-sm font-bold mb-2 group-hover:text-[var(--blx-gold-3)] transition-colors">{project.title}</h3>
-                      <div className="flex gap-3 text-[0.6875rem] text-[var(--blx-text-2)] tracking-wider">
-                        {project.metrics?.slice(0, 2).map((m, i) => (
-                          <span key={i}>{m.label}: {m.value}</span>
-                        ))}
-                      </div>
-                      <div className="mt-3 flex items-center gap-1 text-[0.625rem] font-bold tracking-wider text-[var(--blx-gold-3)] group-hover:gap-2 transition-all">
-                        View Project <ArrowRight size={12} />
-                      </div>
+              {featuredProjects.map((project, index) => (
+                <FadeInSection key={project._id || project.id} delay={index}>
+                  <Link to="/projects" className="group block" data-testid="home-featured-project">
+                    <div className="relative aspect-[4/3] overflow-hidden mb-4">
+                      <CdnImage 
+                        src={project.image_url || project.thumbnail_url} 
+                        alt={project.name || project.title} 
+                        className="w-full h-full" 
+                        imgClassName="group-hover:scale-110 transition-transform duration-700" 
+                        w={500} 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0D] via-transparent to-transparent" />
+                      
+                      {/* Location badge */}
+                      {project.location && (
+                        <div className="absolute bottom-4 left-4">
+                          <span className="bg-black/50 backdrop-blur-sm text-white border border-white/10 px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold">
+                            {project.location}
+                          </span>
+                        </div>
+                      )}
                     </div>
+                    
+                    <h3 className="text-sm font-bold uppercase tracking-wide text-white group-hover:text-cyan-400 transition-colors">
+                      {project.name || project.title}
+                    </h3>
                   </Link>
-                </GlowCard>
+                </FadeInSection>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* Technology Partners */}
-      <section className="py-14 sm:py-20" data-testid="technology-partners-section">
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <div className="text-[0.625rem] tracking-[0.3em] text-[var(--blx-gold-3)] mb-3 font-bold">TECHNOLOGY PARTNERS</div>
-            <h2 className="mb-3">Powered by Industry Leaders</h2>
-            <p className="text-xs text-[var(--blx-text-2)] max-w-lg mx-auto tracking-wider">
-              We integrate world-class components to deliver uncompromising quality.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {PARTNER_BRANDS.map((brand) => (
-              <div key={brand.name} className="glass-panel p-6 text-center" data-testid={`partner-${brand.name.toLowerCase()}`}>
-                <div className="text-lg font-bold mb-1 tracking-wider">{brand.name}</div>
-                <div className="text-[0.625rem] text-[var(--blx-gold-3)] tracking-[0.15em] font-bold">{brand.desc}</div>
+      {/* ═══════════════════════════════════════════════════════════════════════
+          CTA SECTION — Final conversion
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-32 lg:py-40 relative overflow-hidden" data-testid="cta-section">
+        {/* Background effects */}
+        <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/5 via-transparent to-transparent" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-500/5 rounded-full blur-[150px]" />
+        
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+          <FadeInSection>
+            <div className="text-center max-w-3xl mx-auto">
+              <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-6 block">
+                Ready to Transform Your Space?
+              </span>
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-wide mb-6">
+                Let's Build
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 block">
+                  Something Brilliant
+                </span>
+              </h2>
+              <p className="text-gray-400 text-base md:text-lg mb-10 tracking-wide max-w-xl mx-auto">
+                From concept to installation, our team delivers LED display solutions tailored to your vision.
+              </p>
+              
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <Link 
+                  to="/contact" 
+                  className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-10 py-5 transition-all hover:shadow-[0_0_40px_rgba(34,211,238,0.4)] inline-flex items-center gap-2"
+                  data-testid="home-cta-contact"
+                >
+                  Start Your Project <ArrowRight size={18} />
+                </Link>
+                <Link 
+                  to="/calculator" 
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-10 py-5 transition-all inline-flex items-center gap-2"
+                  data-testid="home-cta-calculator"
+                >
+                  Screen Calculator
+                </Link>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 sm:py-28 relative blx-noise" data-testid="cta-section">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative z-10">
-          <h2 className="mb-4">
-            Ready to Transform Your Space?
-          </h2>
-          <p className="text-sm text-[var(--blx-text-2)] mb-8 max-w-xl mx-auto tracking-wider">
-            Expert consultation. Detailed quotation. Professional installation.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact" className="btn-gold px-10 py-4" data-testid="cta-contact">
-              Get in Touch
-            </Link>
-            <a
-              href={`https://wa.me/971559954274?text=${encodeURIComponent('Hi, I want to learn more about Brightluxx LED displays')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-glass px-10 py-4"
-              data-testid="site-header-whatsapp-link"
-            >
-              WhatsApp Us
-            </a>
-          </div>
+            </div>
+          </FadeInSection>
         </div>
       </section>
     </div>

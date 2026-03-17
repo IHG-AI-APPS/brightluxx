@@ -142,19 +142,26 @@ const Navbar = () => {
   ];
 
   /* ─── SHARED STYLES ─── */
-  const panelStyle = { backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', background: 'rgba(11,11,11,0.97)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px' };
+  const panelStyle = { backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', background: 'rgba(10,10,13,0.98)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: '16px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5), 0 0 30px rgba(34,211,238,0.05)' };
 
-  const NavBtn = ({ label, isOpenState, isActiveState, testId }) => (
-    <button
-      className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 flex items-center gap-1 ${
-        isActiveState ? 'text-[var(--blx-text)]' : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
-      }`}
-      data-testid={testId}
-    >
-      {label}
-      <ChevronDown size={12} className={`transition-transform duration-200 ${isOpenState ? 'rotate-180' : ''}`} />
-      {isActiveState && <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />}
-    </button>
+  /* NavBtn now supports both click navigation AND dropdown trigger */
+  const NavBtn = ({ label, href, isOpenState, isActiveState, testId, hasDropdown = true }) => (
+    <div className="flex items-center">
+      <Link
+        to={href}
+        onClick={closeAll}
+        className={`text-[0.75rem] font-bold tracking-[0.12em] uppercase relative py-2 transition-all duration-300 ${
+          isActiveState ? 'text-cyan-400' : 'text-gray-400 hover:text-white'
+        }`}
+        data-testid={testId}
+      >
+        {label}
+        {isActiveState && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 to-cyan-500" />}
+      </Link>
+      {hasDropdown && (
+        <ChevronDown size={14} className={`ml-1 text-gray-500 transition-transform duration-300 ${isOpenState ? 'rotate-180 text-cyan-400' : ''}`} />
+      )}
+    </div>
   );
 
   /* ─── CLOSE ALL MENUS ─── */
@@ -162,15 +169,15 @@ const Navbar = () => {
 
   return (
     <>
-    <nav className="fixed top-0 left-0 right-0 z-50" style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', background: 'rgba(5,5,8,0.88)', borderBottom: '1px solid rgba(255,255,255,0.06)' }} data-testid="site-header-nav">
-      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center group" data-testid="logo-link">
+    <nav className="fixed top-0 left-0 right-0 z-50" style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', background: 'rgba(5,5,8,0.92)', borderBottom: '1px solid rgba(255,255,255,0.08)' }} data-testid="site-header-nav">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo with proper spacing */}
+          <Link to="/" className="flex items-center group py-3" data-testid="logo-link">
             <img 
               src="/assets/brightluxx-logo-nav.png" 
               alt={branding?.company_name || 'Brightluxx'} 
-              className="h-8 sm:h-9 w-auto transition-opacity duration-200 group-hover:opacity-90"
+              className="h-7 sm:h-8 w-auto transition-all duration-300 group-hover:opacity-90 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]"
             />
           </Link>
 
@@ -182,7 +189,7 @@ const Navbar = () => {
               isOpen={productsOpen}
               setOpen={setProductsOpen}
               testId="nav-products-dropdown"
-              trigger={<NavBtn label="Products" isOpenState={productsOpen} isActiveState={isActivePrefix('/products')} testId="nav-products" />}
+              trigger={<NavBtn label="Products" href="/products" isOpenState={productsOpen} isActiveState={isActivePrefix('/products')} testId="nav-products" />}
             >
               <div className="shadow-2xl py-4 px-4 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '680px' }}>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1">
@@ -211,7 +218,7 @@ const Navbar = () => {
                   ))}
                 </div>
                 <div className="mt-3 pt-3 border-t border-[rgba(255,255,255,0.06)]">
-                  <Link to="/products" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.06)] transition-colors duration-150" data-testid="nav-products-view-all">
+                  <Link to="/products" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-[cyan-400] hover:bg-[rgba(34,211,238,0.06)] transition-colors duration-150" data-testid="nav-products-view-all">
                     View All Products
                   </Link>
                 </div>
@@ -223,7 +230,7 @@ const Navbar = () => {
               isOpen={solutionsOpen}
               setOpen={setSolutionsOpen}
               testId="nav-solutions-dropdown"
-              trigger={<NavBtn label="Solutions" isOpenState={solutionsOpen} isActiveState={isActivePrefix('/solutions')} testId="nav-solutions" />}
+              trigger={<NavBtn label="Solutions" href="/solutions" isOpenState={solutionsOpen} isActiveState={isActivePrefix('/solutions')} testId="nav-solutions" />}
             >
               <div className="shadow-2xl py-3 px-1 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '300px' }}>
                 <div className="px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">BY INDUSTRY</div>
@@ -233,23 +240,23 @@ const Navbar = () => {
                     to={`/solutions/${item.id}`}
                     onClick={closeAll}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150 ${
-                      isActive(`/solutions/${item.id}`) ? 'bg-[rgba(229,197,116,0.08)]' : 'hover:bg-[rgba(255,255,255,0.04)]'
+                      isActive(`/solutions/${item.id}`) ? 'bg-[rgba(34,211,238,0.08)]' : 'hover:bg-[rgba(255,255,255,0.04)]'
                     }`}
                     data-testid={`nav-solution-${item.id}`}
                   >
                     <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${
-                      isActive(`/solutions/${item.id}`) ? 'bg-[rgba(229,197,116,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'
+                      isActive(`/solutions/${item.id}`) ? 'bg-[rgba(34,211,238,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'
                     }`}>
-                      <item.icon size={13} className={isActive(`/solutions/${item.id}`) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text-2)]'} />
+                      <item.icon size={13} className={isActive(`/solutions/${item.id}`) ? 'text-[cyan-400]' : 'text-[var(--blx-text-2)]'} />
                     </div>
                     <div>
-                      <div className={`text-[0.6875rem] font-bold tracking-wider ${isActive(`/solutions/${item.id}`) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text)]'}`}>{item.name}</div>
+                      <div className={`text-[0.6875rem] font-bold tracking-wider ${isActive(`/solutions/${item.id}`) ? 'text-[cyan-400]' : 'text-[var(--blx-text)]'}`}>{item.name}</div>
                       <div className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider">{item.desc}</div>
                     </div>
                   </Link>
                 ))}
                 <div className="mt-2 pt-2 mx-3 border-t border-[rgba(255,255,255,0.06)]">
-                  <Link to="/solutions" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.06)] transition-colors" data-testid="nav-solutions-view-all">
+                  <Link to="/solutions" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-[cyan-400] hover:bg-[rgba(34,211,238,0.06)] transition-colors" data-testid="nav-solutions-view-all">
                     All Solutions
                   </Link>
                 </div>
@@ -261,7 +268,7 @@ const Navbar = () => {
               isOpen={techOpen}
               setOpen={setTechOpen}
               testId="nav-tech-dropdown"
-              trigger={<NavBtn label="Technologies" isOpenState={techOpen} isActiveState={isActivePrefix('/technology')} testId="nav-technologies" />}
+              trigger={<NavBtn label="Technologies" href="/technology" isOpenState={techOpen} isActiveState={isActivePrefix('/technology')} testId="nav-technologies" />}
             >
               <div className="shadow-2xl py-3 px-1 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '300px' }}>
                 <div className="px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">LED TECHNOLOGIES</div>
@@ -271,23 +278,23 @@ const Navbar = () => {
                     to={`/technology/${item.id}`}
                     onClick={closeAll}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150 ${
-                      isActive(`/technology/${item.id}`) ? 'bg-[rgba(229,197,116,0.08)]' : 'hover:bg-[rgba(255,255,255,0.04)]'
+                      isActive(`/technology/${item.id}`) ? 'bg-[rgba(34,211,238,0.08)]' : 'hover:bg-[rgba(255,255,255,0.04)]'
                     }`}
                     data-testid={`nav-tech-${item.id}`}
                   >
                     <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${
-                      isActive(`/technology/${item.id}`) ? 'bg-[rgba(229,197,116,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'
+                      isActive(`/technology/${item.id}`) ? 'bg-[rgba(34,211,238,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'
                     }`}>
-                      <item.icon size={13} className={isActive(`/technology/${item.id}`) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text-2)]'} />
+                      <item.icon size={13} className={isActive(`/technology/${item.id}`) ? 'text-[cyan-400]' : 'text-[var(--blx-text-2)]'} />
                     </div>
                     <div>
-                      <div className={`text-[0.6875rem] font-bold tracking-wider ${isActive(`/technology/${item.id}`) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text)]'}`}>{item.name}</div>
+                      <div className={`text-[0.6875rem] font-bold tracking-wider ${isActive(`/technology/${item.id}`) ? 'text-[cyan-400]' : 'text-[var(--blx-text)]'}`}>{item.name}</div>
                       <div className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider">{item.desc}</div>
                     </div>
                   </Link>
                 ))}
                 <div className="mt-2 pt-2 mx-3 border-t border-[rgba(255,255,255,0.06)]">
-                  <Link to="/technology" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-[var(--blx-gold-3)] hover:bg-[rgba(229,197,116,0.06)] transition-colors" data-testid="nav-tech-view-all">
+                  <Link to="/technology" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-[cyan-400] hover:bg-[rgba(34,211,238,0.06)] transition-colors" data-testid="nav-tech-view-all">
                     Technology Hub
                   </Link>
                 </div>
@@ -311,7 +318,7 @@ const Navbar = () => {
               isOpen={toolsOpen}
               setOpen={setToolsOpen}
               testId="nav-tools-dropdown"
-              trigger={<NavBtn label="Tools" isOpenState={toolsOpen} isActiveState={isToolsActive} testId="nav-tools" />}
+              trigger={<NavBtn label="Tools" href="/calculator" isOpenState={toolsOpen} isActiveState={isToolsActive} testId="nav-tools" />}
             >
               <div className="shadow-2xl py-3 px-1 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '280px' }}>
                 {toolsGroups.map((group, gi) => (
@@ -324,15 +331,15 @@ const Navbar = () => {
                         to={link.path}
                         onClick={closeAll}
                         className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150 ${
-                          isActive(link.path) ? 'bg-[rgba(229,197,116,0.08)]' : 'hover:bg-[rgba(255,255,255,0.04)]'
+                          isActive(link.path) ? 'bg-[rgba(34,211,238,0.08)]' : 'hover:bg-[rgba(255,255,255,0.04)]'
                         }`}
                         data-testid={`nav-tools-${link.path.substring(1)}`}
                       >
-                        <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${isActive(link.path) ? 'bg-[rgba(229,197,116,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'}`}>
-                          <link.icon size={13} className={isActive(link.path) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text-2)]'} />
+                        <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${isActive(link.path) ? 'bg-[rgba(34,211,238,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'}`}>
+                          <link.icon size={13} className={isActive(link.path) ? 'text-[cyan-400]' : 'text-[var(--blx-text-2)]'} />
                         </div>
                         <div>
-                          <div className={`text-[0.6875rem] font-bold tracking-wider ${isActive(link.path) ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-text)]'}`}>{link.name}</div>
+                          <div className={`text-[0.6875rem] font-bold tracking-wider ${isActive(link.path) ? 'text-[cyan-400]' : 'text-[var(--blx-text)]'}`}>{link.name}</div>
                           <div className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider">{link.desc}</div>
                         </div>
                       </Link>
@@ -372,11 +379,11 @@ const Navbar = () => {
             data-testid="mobile-menu" 
             style={{ overflowX: 'hidden', maxHeight: 'calc(100vh - 64px)' }}
           >
-            <Link to="/products" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Products</Link>
+            <Link to="/products" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Products</Link>
             <div className="px-4 pb-2">
               <div className="grid grid-cols-2 gap-1">
                 {productCategories.flatMap(g => g.items).slice(0, 8).map((item) => (
-                  <Link key={item.cat} to={`/products?category=${item.cat}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-[var(--blx-gold-3)] py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
+                  <Link key={item.cat} to={`/products?category=${item.cat}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-[cyan-400] py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
                     {item.name}
                   </Link>
                 ))}
@@ -384,10 +391,10 @@ const Navbar = () => {
             </div>
 
             <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
-              <Link to="/solutions" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Solutions</Link>
+              <Link to="/solutions" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Solutions</Link>
               <div className="px-4 grid grid-cols-2 gap-1">
                 {solutionItems.map((item) => (
-                  <Link key={item.id} to={`/solutions/${item.id}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-[var(--blx-gold-3)] py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
+                  <Link key={item.id} to={`/solutions/${item.id}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-[cyan-400] py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
                     {item.name}
                   </Link>
                 ))}
@@ -395,17 +402,17 @@ const Navbar = () => {
             </div>
 
             <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
-              <Link to="/technology" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Technologies</Link>
+              <Link to="/technology" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Technologies</Link>
               <div className="px-4 grid grid-cols-2 gap-1">
                 {techItems.map((item) => (
-                  <Link key={item.id} to={`/technology/${item.id}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-[var(--blx-gold-3)] py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
+                  <Link key={item.id} to={`/technology/${item.id}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-[cyan-400] py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
                     {item.name}
                   </Link>
                 ))}
               </div>
             </div>
 
-            <Link to="/case-studies" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Case Studies</Link>
+            <Link to="/case-studies" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Case Studies</Link>
 
             <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
               <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">SPECIFIER TOOLS</div>
@@ -428,9 +435,9 @@ const Navbar = () => {
             </div>
 
             <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2 pb-4">
-              <Link to="/resources" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Resources</Link>
-              <Link to="/about" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">About Us</Link>
-              <Link to="/contact" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[var(--blx-gold-3)]">Contact Us</Link>
+              <Link to="/resources" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Resources</Link>
+              <Link to="/about" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">About Us</Link>
+              <Link to="/contact" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Contact Us</Link>
               <Link to="/contact" onClick={closeAll} className="block px-4 py-3 mt-2 btn-gold text-center text-xs font-bold tracking-widest">Get Quote</Link>
             </div>
           </div>

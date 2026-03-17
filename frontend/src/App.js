@@ -102,7 +102,7 @@ import DistributionPage from './pages/DistributionPage';
 import { LumiMorphLanding, LumiMorphElitePage, LumiMorphGrandePage, LumiMorphMiniPage } from './pages/lumimorph';
 
 // NaturaTex Product Line
-import { NaturaTexPage } from './pages/naturatex';
+import { NaturaTexPage, HoloVeilPage } from './pages/naturatex';
 import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
 import TechnicalSupportPage from './pages/TechnicalSupportPage';
 
@@ -174,6 +174,7 @@ function AppRoutes() {
       
       {/* NaturaTex Product Line */}
       <Route path="/naturatex" element={<NaturaTexPage />} />
+      <Route path="/naturatex/holoveil" element={<HoloVeilPage />} />
       
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />

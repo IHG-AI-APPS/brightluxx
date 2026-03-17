@@ -203,6 +203,39 @@ export default function NaturaTexPage() {
         </div>
       </section>
 
+      {/* Product Family */}
+      <section className="py-20 px-6 bg-emerald-500/5 border-y border-emerald-500/10">
+        <div className="max-w-6xl mx-auto">
+          <FadeIn>
+            <div className="text-center mb-12">
+              <p className="text-emerald-400 text-xs tracking-[0.3em] uppercase mb-4">NaturaTex Family</p>
+              <h2 className="text-3xl font-extralight text-white">Explore the Product Line</h2>
+            </div>
+          </FadeIn>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <FadeIn delay={1}>
+              <div className="border border-neutral-800 rounded-sm p-8 bg-neutral-900/30">
+                <p className="text-emerald-400 text-xs tracking-wider uppercase mb-2">Texture Screen</p>
+                <h3 className="text-2xl font-light text-white mb-3">NaturaTex</h3>
+                <p className="text-neutral-400 text-sm mb-4">COB LED with nano-optical textures. P0.7-P1.8 pixel pitch, 600-800 nits.</p>
+                <p className="text-neutral-500 text-xs">You are here</p>
+              </div>
+            </FadeIn>
+            <FadeIn delay={2}>
+              <Link to="/naturatex/holoveil" className="group block border border-neutral-800 rounded-sm p-8 bg-neutral-900/30 hover:border-emerald-500/30 transition-colors">
+                <p className="text-emerald-400 text-xs tracking-wider uppercase mb-2">Transparent Screen</p>
+                <h3 className="text-2xl font-light text-white mb-3 group-hover:text-emerald-400 transition-colors">HoloVeil</h3>
+                <p className="text-neutral-400 text-sm mb-4">92-95% transparency holographic LED. P3.9/P6.25 pixel pitch, up to 5,000 nits.</p>
+                <span className="text-white text-sm inline-flex items-center gap-2 group-hover:text-emerald-400 transition-colors">
+                  Explore <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+            </FadeIn>
+          </div>
+        </div>
+      </section>
+
       {/* Advantages */}
       <section className="py-20 px-6 bg-neutral-900/30">
         <div className="max-w-6xl mx-auto">

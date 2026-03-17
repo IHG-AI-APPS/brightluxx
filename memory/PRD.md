@@ -571,6 +571,17 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   4. Sheikh Zayed Grand Mosque — Digital Prayer Information (Abu Dhabi)
 - **Testing:** 42/42 frontend tests passed (100%)
 
+### Tools/Calculator Pages Redesign — Mar 17, 2026
+- **Redesigned 6 calculator/tools pages** with "Luminous Precision" theme:
+  1. **Screen Calculator** (`/calculator`) — Interactive specification tool with application selector, dimension sliders, technology/cost/power recommendations
+  2. **Viewing Distance Calculator** (`/viewing-distance`) — Dual-mode tool (pitch-to-distance/distance-to-pitch), presets, reference table
+  3. **Power Consumption Estimator** (`/power-estimator`) — Power/HVAC calculator with electricity rate toggles (UAE/KSA/INTL), MEP specifications
+  4. **LED Module Calculator** (`/led-calculator`) — Module/cabinet sizing with visual grid preview, resolution calculation
+  5. **Budget Estimator** (`/budget-estimator`) — Project cost estimator with line-item breakdown (hardware, processing, structure, install)
+  6. **Technology Selector** (`/technology-selector`) — 5-step quiz with rule-based recommendation engine, lead-gated results
+- **Design elements:** Dark background (#050508), cyan accents, glassmorphism cards (backdrop-blur-xl, bg-white/[0.03]), FadeInSection animations
+- **Testing:** 100% frontend pass rate on all 6 pages (iteration_56.json)
+
 ---
 
 ## Remaining Tasks

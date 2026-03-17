@@ -129,77 +129,82 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: var(--blx-bg);
   color: var(--blx-text);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  /* Removed global uppercase - use sentence case for readability */
+  letter-spacing: 0.01em;
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
   width: 100%;
 }
 
-/* Headlines: Satoshi Bold, ALL CAPS, spaced out */
+/* Headlines: Satoshi Bold, Title case (not ALL CAPS) */
 h1, .h1 {
   font-family: 'Satoshi', sans-serif;
   font-weight: 700;
   font-size: clamp(2rem, 5vw, 4rem);
-  letter-spacing: 0.1em;
+  letter-spacing: -0.02em;
   line-height: 1.1;
-  text-transform: uppercase;
+  /* Removed uppercase - use component-level styling where needed */
 }
 
 h2, .h2 {
   font-family: 'Satoshi', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(1.5rem, 3.5vw, 2.5rem);
-  letter-spacing: 0.08em;
+  letter-spacing: -0.01em;
   line-height: 1.15;
-  text-transform: uppercase;
 }
 
 h3, .h3 {
   font-family: 'Satoshi', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(1.125rem, 2vw, 1.5rem);
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   line-height: 1.2;
-  text-transform: uppercase;
 }
 
 h4, h5, h6 {
   font-family: 'Satoshi', sans-serif;
   font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 
 .font-display {
   font-family: 'Satoshi', sans-serif;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: -0.02em;
+}
+
+/* Uppercase label utility - use for eyebrow labels only */
+.uppercase-label {
+  text-transform: uppercase !important;
+  letter-spacing: 0.2em !important;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 p, .body-text {
-  font-size: 1.125rem;
+  font-size: 1rem;
   line-height: 1.7;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.01em;
 }
 
-/* Mobile typography adjustments — uppercase needs wider line-height and smaller sizes */
+/* Mobile typography adjustments */
 @media (max-width: 639px) {
   body {
     font-size: 14px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
   }
   p, .body-text {
     font-size: 0.875rem;
-    line-height: 1.8;
-    letter-spacing: 0.04em;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
   }
   h1, .h1 {
-    letter-spacing: 0.06em;
+    letter-spacing: -0.01em;
   }
   h2, .h2 {
-    letter-spacing: 0.05em;
+    letter-spacing: 0;
   }
   .glass-panel {
     padding: 1rem;
@@ -315,14 +320,11 @@ html {
 }
 
 /* ======================================
-   FORCE UPPERCASE SITE-WIDE
-   Body already sets text-transform: uppercase.
-   This ensures inline overrides are neutralized.
-   Inputs/textareas remain normal case for usability.
+   TYPOGRAPHY OVERRIDES
+   Body uses sentence case for readability.
+   Only specific labels/badges use uppercase.
+   Inputs/textareas remain normal case.
    ====================================== */
-body, body * {
-  text-transform: uppercase;
-}
 input, textarea, select,
 input::placeholder, textarea::placeholder {
   text-transform: none !important;

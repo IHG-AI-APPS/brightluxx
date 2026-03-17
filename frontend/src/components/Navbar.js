@@ -188,12 +188,12 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50" style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', background: 'rgba(5,5,8,0.92)', borderBottom: '1px solid rgba(255,255,255,0.08)' }} data-testid="site-header-nav">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-20">
-          {/* Logo with proper spacing */}
-          <Link to="/" className="flex items-center group py-3" data-testid="logo-link">
+          {/* Logo - fixed sizing to prevent clipping */}
+          <Link to="/" className="flex items-center group py-2" data-testid="logo-link">
             <img 
               src="/assets/brightluxx-logo-nav.png" 
               alt={branding?.company_name || 'Brightluxx'} 
-              className="h-7 sm:h-8 w-auto transition-all duration-300 group-hover:opacity-90 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]"
+              className="h-9 sm:h-10 w-auto transition-all duration-300 group-hover:opacity-90 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]"
             />
           </Link>
 

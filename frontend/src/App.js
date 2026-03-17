@@ -103,6 +103,9 @@ import { LumiMorphLanding, LumiMorphElitePage, LumiMorphGrandePage, LumiMorphMin
 
 // NaturaTex Product Line
 import { NaturaTexPage, HoloVeilPage } from './pages/naturatex';
+
+// SignaTouch Product Line
+import { SignaTouchLanding } from './pages/signatouch';
 import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
 import TechnicalSupportPage from './pages/TechnicalSupportPage';
 
@@ -175,6 +178,9 @@ function AppRoutes() {
       {/* NaturaTex Product Line */}
       <Route path="/naturatex" element={<NaturaTexPage />} />
       <Route path="/naturatex/holoveil" element={<HoloVeilPage />} />
+      
+      {/* SignaTouch Product Line */}
+      <Route path="/signatouch" element={<SignaTouchLanding />} />
       
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />

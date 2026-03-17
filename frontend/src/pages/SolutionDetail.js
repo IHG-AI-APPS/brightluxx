@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, Zap, Building2, ShoppingBag, MonitorPlay, Tv, Layers, TrafficCone, Theater, Globe } from 'lucide-react';
+import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, Zap, Building2, ShoppingBag, MonitorPlay, Tv, Layers, TrafficCone, Theater, Globe, Heart, GraduationCap, Trophy } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { BASE_URL } from '../components/SEO';
@@ -18,6 +18,9 @@ const SOLUTION_IMAGES = {
   traffic: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/eb6a2b60aa28770d377972ee091ae5e18a1a88eeba71cea58b2e2b07c8791e55.png',
   immersive: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6693621e07894f058b6d960fb917b36db40c6318357442d73fe106f4cd276e2f.png',
   transparent: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/513865c504ff9437c4a554cc3b6a86c818e9a8468b5e05dcbcf11e350d3d6b79.png',
+  healthcare: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/5468030b6847618ff8d0962c44c0869ac72b92e3dda4acd1b88d4c21437ea6d9.png',
+  education: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/bcd5ee75376ec9db3ba96c6371c71a4c6db5ce02ff9d79deef4c0f56a73ad26d.png',
+  sports: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0e3eabf34c883a9bfcba897e548960e8a53a87e819c5490c2053f97cb939d564.png',
 };
 
 const SOLUTION_HERO_IMAGES = {
@@ -29,9 +32,12 @@ const SOLUTION_HERO_IMAGES = {
   traffic: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/738fd99c2808488db2705be11de0b4237d2ccd2564d2175c3f587afc5528f116.png',
   immersive: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/811080c892567c46a15b820cafaf94715e2452e5b623a604dbc72b8397718040.png',
   transparent: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c06085e1344cd73c610c96f64040296ae3600ce480bad81ce7df2b88201cad21.png',
+  healthcare: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7c0abf443de9306553a36d6dab047cb2602297e3a624d790a1d2b35ac9e9a12f.png',
+  education: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/cdf329ff59e4cc2c9f37b9cfe18eeb3c5798e5d78249d786a64c83e7e31b84a8.png',
+  sports: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9526e5947bd78aa69ff98d080f2cda56d8ede781a2848cfa1ba7ec2152cf57f4.png',
 };
 
-const ICON_MAP = { ShoppingBag, Building2, MonitorPlay, Theater, Layers, TrafficCone, Tv, Globe };
+const ICON_MAP = { ShoppingBag, Building2, MonitorPlay, Theater, Layers, TrafficCone, Tv, Globe, Heart, GraduationCap, Trophy };
 
 const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
@@ -157,6 +163,39 @@ const SOLUTIONS = [
     recommendedCategories: ['transparent'],
     caseStudyTitle: 'Sulthan Gold & Diamond — Bur Dubai',
     caseStudyDesc: 'Premium LED display installation for Sulthan Gold & Diamond, maximizing storefront impact in the busy Bur Dubai area.',
+  },
+  {
+    id: 'healthcare', icon: 'Heart', title: 'Healthcare & Medical',
+    tagline: 'Mission-critical displays for patient care',
+    description: 'Reliable LED displays for hospitals, clinics, and medical facilities. From patient information systems to surgical visualization, our medical-grade screens meet the demanding requirements of healthcare environments.',
+    longDescription: 'Healthcare environments demand displays that combine reliability, clarity, and infection control compliance. Our medical-grade LED solutions are designed for 24/7 operation in critical care settings, with anti-glare coatings and color accuracy essential for diagnostic imaging.\n\nFrom hospital lobby wayfinding to surgical visualization systems, LED displays improve patient experience and clinical workflow efficiency. Touch-free interfaces and antimicrobial surfaces address infection control requirements in modern healthcare facilities.',
+    applications: ['Hospital lobbies', 'Patient room displays', 'Nurse station dashboards', 'Surgical visualization', 'Emergency department signage', 'Clinic wayfinding', 'Pharmacy information', 'Medical command centers'],
+    benefits: ['24/7 continuous operation', 'DICOM-calibrated color accuracy', 'Antimicrobial surface options', 'Touch-free gesture control', 'Low heat emission for clinical spaces', 'HIPAA-compliant content management'],
+    recommendedCategories: ['indoor', 'all-in-one', 'digital-signage'],
+    caseStudyTitle: 'NMC Hospital — Patient Information System',
+    caseStudyDesc: 'Comprehensive LED display network for NMC Hospital, improving patient experience and clinical communication.',
+  },
+  {
+    id: 'education', icon: 'GraduationCap', title: 'Education & Training',
+    tagline: 'Engage learners with immersive technology',
+    description: 'Transform classrooms and lecture halls with interactive LED displays. From K-12 schools to universities and corporate training centers, our solutions enhance engagement and learning outcomes.',
+    longDescription: 'Modern education demands technology that captures attention and facilitates active learning. Large-format LED displays replace outdated projectors with vivid, high-brightness screens visible in any lighting condition, while interactive touch capabilities enable collaborative learning.\n\nFrom auditoriums with 500+ seats to intimate seminar rooms, our education solutions scale to any learning environment. Digital signage throughout campus keeps students informed, while library and common area displays create dynamic information hubs.',
+    applications: ['Lecture halls', 'Classrooms', 'Campus digital signage', 'Library information displays', 'Sports facilities', 'Training rooms', 'Auditoriums', 'Student centers'],
+    benefits: ['Visible in any lighting condition', 'Interactive touch capability', 'Multi-source input support', 'Remote content management', 'Long lifespan reduces TCO', 'Energy-efficient operation'],
+    recommendedCategories: ['all-in-one', 'indoor', 'digital-signage'],
+    caseStudyTitle: 'American University Dubai — Campus Display',
+    caseStudyDesc: 'Campus-wide LED display network for American University Dubai, enhancing student engagement and campus communication.',
+  },
+  {
+    id: 'sports', icon: 'Trophy', title: 'Sports & Stadiums',
+    tagline: 'Electrify fans with spectacular visuals',
+    description: 'From perimeter advertising boards to giant jumbotron scoreboards, our sports-grade LED displays are engineered for high-speed action, outdoor durability, and maximum revenue generation.',
+    longDescription: 'Sports venues are high-stakes environments where display technology must perform flawlessly under intense scrutiny. Our stadium LED solutions deliver high refresh rates essential for broadcast-quality video capture, while extreme brightness ensures visibility even under direct sunlight.\n\nPerimeter LED boards generate advertising revenue throughout matches, while center-hung cube displays and ribbon boards keep fans engaged with instant replays, statistics, and sponsor content. Outdoor-rated construction withstands weather extremes and physical impacts.',
+    applications: ['Perimeter advertising boards', 'Scoreboard displays', 'Jumbotron screens', 'Ribbon boards', 'Concourse signage', 'Press room displays', 'VIP lounge screens', 'Fascia displays'],
+    benefits: ['High refresh rate for broadcast', '10,000+ nits outdoor brightness', 'Impact-resistant construction', 'Modular for easy panel replacement', 'Curved and angled configurations', 'Revenue-generating ad capabilities'],
+    recommendedCategories: ['outdoor', 'rental', 'indoor'],
+    caseStudyTitle: 'Al Ain Stadium — Perimeter Display',
+    caseStudyDesc: 'Full perimeter LED advertising board system for Al Ain Stadium, maximizing sponsor visibility and fan engagement.',
   },
 ];
 

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, ShoppingBag, MonitorPlay, Tv, Layers, TrafficCone, Theater, Globe, Sparkles } from 'lucide-react';
+import { ArrowRight, Building2, ShoppingBag, MonitorPlay, Tv, Layers, TrafficCone, Theater, Globe, Sparkles, Heart, GraduationCap, Trophy } from 'lucide-react';
 import SEO from '../components/SEO';
 import { motion } from 'framer-motion';
 
@@ -14,6 +14,9 @@ const SOLUTION_IMAGES = {
   traffic: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/eb6a2b60aa28770d377972ee091ae5e18a1a88eeba71cea58b2e2b07c8791e55.png',
   immersive: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6693621e07894f058b6d960fb917b36db40c6318357442d73fe106f4cd276e2f.png',
   transparent: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/513865c504ff9437c4a554cc3b6a86c818e9a8468b5e05dcbcf11e350d3d6b79.png',
+  healthcare: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/5468030b6847618ff8d0962c44c0869ac72b92e3dda4acd1b88d4c21437ea6d9.png',
+  education: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/bcd5ee75376ec9db3ba96c6371c71a4c6db5ce02ff9d79deef4c0f56a73ad26d.png',
+  sports: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0e3eabf34c883a9bfcba897e548960e8a53a87e819c5490c2053f97cb939d564.png',
 };
 
 /* Scroll animation hook */
@@ -57,6 +60,9 @@ const SOLUTIONS = [
   { id: 'traffic', icon: TrafficCone, title: 'Road & Traffic', desc: 'Safety-critical displays built for extremes', tags: ['VMS Signs', 'Highway', 'Toll Plaza'] },
   { id: 'immersive', icon: Tv, title: 'Immersive & VP', desc: 'Next-generation virtual production stages', tags: ['XR Studios', 'Virtual Production', 'Simulation'] },
   { id: 'transparent', icon: Globe, title: 'Transparent & Glass', desc: 'See-through digital magic', tags: ['Glass Facades', 'Retail Windows', 'Museums'] },
+  { id: 'healthcare', icon: Heart, title: 'Healthcare & Medical', desc: 'Mission-critical displays for patient care', tags: ['Hospitals', 'Clinics', 'Command Centers'] },
+  { id: 'education', icon: GraduationCap, title: 'Education & Training', desc: 'Engage learners with immersive technology', tags: ['Lecture Halls', 'Libraries', 'Campus Signage'] },
+  { id: 'sports', icon: Trophy, title: 'Sports & Stadiums', desc: 'Electrify fans with spectacular visuals', tags: ['Scoreboards', 'Perimeter Boards', 'Jumbotrons'] },
 ];
 
 /* Glassmorphism Solution Card */
@@ -184,7 +190,7 @@ export default function Solutions() {
           <FadeInSection>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { value: '8', label: 'Industry Verticals' },
+                { value: '11', label: 'Industry Verticals' },
                 { value: '1500+', label: 'Installations' },
                 { value: '200+', label: 'Unique Configurations' },
                 { value: '100%', label: 'Custom Solutions' },

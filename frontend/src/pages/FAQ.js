@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp, Search, HelpCircle, MessageCircle, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../components/SEO';
+import { useTheme } from '../contexts/ThemeContext';
 
 const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
@@ -34,12 +35,15 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-const GlassCard = ({ children, className = '', hover = true }) => (
-  <div className={`
-    backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] rounded-lg
-    ${hover ? 'hover:bg-white/[0.06] hover:border-cyan-500/30' : ''}
-    transition-all duration-500 ${className}
-  `}>
+const GlassCard = ({ children, className = '', hover = true, isDark = true, ...props }) => (
+  <div 
+    className={`
+      backdrop-blur-xl ${isDark ? 'bg-white/[0.03]' : 'bg-white/80'} border ${isDark ? 'border-white/[0.08]' : 'border-neutral-200'} rounded-lg
+      ${hover ? `hover:${isDark ? 'bg-white/[0.06]' : 'bg-white'} hover:border-cyan-500/30` : ''}
+      transition-all duration-500 ${className}
+    `}
+    {...props}
+  >
     {children}
   </div>
 );
@@ -94,8 +98,19 @@ const FAQ_DATA = [
 ];
 
 export default function FAQ() {
+  const { isDark } = useTheme();
   const [openItems, setOpenItems] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // Theme-aware classes
+  const pageBg = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
+  const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
+  const textSecondary = isDark ? 'text-gray-400' : 'text-gray-600';
+  const textMuted = isDark ? 'text-gray-500' : 'text-gray-500';
+  const inputBg = isDark ? 'bg-white/5' : 'bg-white';
+  const inputBorder = isDark ? 'border-white/10' : 'border-neutral-300';
+  const inputText = isDark ? 'text-white' : 'text-neutral-900';
+  const borderColor = isDark ? 'border-white/[0.06]' : 'border-neutral-200';
 
   const toggle = (key) => {
     setOpenItems(prev => ({ ...prev, [key]: !prev[key] }));
@@ -111,7 +126,7 @@ export default function FAQ() {
   })).filter(cat => cat.items.length > 0);
 
   return (
-    <div className="bg-[#050508]">
+    <div className={`${pageBg} transition-colors duration-500`}>
       <SEO 
         title="FAQ — Frequently Asked Questions | Brightluxx LED Displays" 
         description="Frequently asked questions about LED displays, pricing, installation, warranty, and more. Get answers from UAE's leading LED display provider." 
@@ -121,30 +136,30 @@ export default function FAQ() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 overflow-hidden" data-testid="faq-hero">
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
-        <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[120px]" />
+        <div className={`absolute top-1/4 right-0 w-[400px] h-[400px] ${isDark ? 'bg-cyan-500/5' : 'bg-cyan-500/10'} rounded-full blur-[120px]`} />
         
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
           <FadeInSection>
             <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">FAQ</span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 leading-[0.95]">
+            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 leading-[0.95] ${textPrimary}`}>
               Frequently Asked
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 block">
                 Questions
               </span>
             </h1>
-            <p className="text-gray-400 text-base md:text-lg max-w-xl tracking-wide leading-relaxed mb-10">
+            <p className={`${textSecondary} text-base md:text-lg max-w-xl tracking-wide leading-relaxed mb-10`}>
               Everything you need to know about LED displays, our products, and services.
             </p>
             
             {/* Search */}
             <div className="max-w-md relative">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+              <Search size={18} className={`absolute left-4 top-1/2 -translate-y-1/2 ${textMuted}`} />
               <input
                 type="text"
                 placeholder="Search questions..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full py-4 pr-4 pl-12 text-sm bg-white/5 border border-white/10 focus:border-cyan-500/50 text-white placeholder:text-gray-500 outline-none transition-colors rounded-lg"
+                className={`w-full py-4 pr-4 pl-12 text-sm ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} placeholder:${textMuted} outline-none transition-colors rounded-lg`}
                 data-testid="faq-search"
               />
             </div>
@@ -158,7 +173,7 @@ export default function FAQ() {
           {filteredData.map((cat, catIdx) => (
             <FadeInSection key={cat.category} delay={catIdx} className="mb-12">
               <div data-testid={`faq-category-${cat.category.toLowerCase().replace(/[\s&]/g, '-')}`}>
-                <h2 className="text-lg font-bold uppercase tracking-wide mb-6 pb-3 border-b border-white/10 flex items-center gap-3">
+                <h2 className={`text-lg font-bold uppercase tracking-wide mb-6 pb-3 border-b ${borderColor} flex items-center gap-3`}>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
                     {cat.category}
                   </span>
@@ -172,6 +187,7 @@ export default function FAQ() {
                         key={key} 
                         className="overflow-hidden" 
                         hover={false}
+                        isDark={isDark}
                         data-testid={`faq-item-${key}`}
                       >
                         <button
@@ -179,7 +195,7 @@ export default function FAQ() {
                           className="w-full flex items-start justify-between p-5 text-left group"
                           data-testid={`faq-toggle-${key}`}
                         >
-                          <span className="text-sm font-bold tracking-wide pr-6 flex items-start gap-3 group-hover:text-cyan-400 transition-colors">
+                          <span className={`text-sm font-bold tracking-wide pr-6 flex items-start gap-3 group-hover:text-cyan-400 transition-colors ${textPrimary}`}>
                             <HelpCircle size={18} className="text-cyan-400 flex-shrink-0 mt-0.5" />
                             <span className="normal-case">{item.q}</span>
                           </span>
@@ -187,7 +203,7 @@ export default function FAQ() {
                             {isOpen ? (
                               <ChevronUp size={18} className="text-cyan-400" />
                             ) : (
-                              <ChevronDown size={18} className="text-gray-500" />
+                              <ChevronDown size={18} className={textMuted} />
                             )}
                           </div>
                         </button>
@@ -200,7 +216,7 @@ export default function FAQ() {
                               transition={{ duration: 0.3 }}
                             >
                               <div className="px-5 pb-5 pl-14">
-                                <p className="text-sm text-gray-400 leading-relaxed tracking-wide normal-case">
+                                <p className={`text-sm ${textSecondary} leading-relaxed tracking-wide normal-case`}>
                                   {item.a}
                                 </p>
                               </div>
@@ -217,8 +233,8 @@ export default function FAQ() {
           
           {filteredData.length === 0 && (
             <div className="text-center py-20">
-              <HelpCircle size={48} className="mx-auto text-gray-600 mb-4" />
-              <p className="text-gray-500 tracking-wide">No questions match your search.</p>
+              <HelpCircle size={48} className={`mx-auto ${textMuted} mb-4`} />
+              <p className={`${textMuted} tracking-wide`}>No questions match your search.</p>
             </div>
           )}
         </div>
@@ -227,21 +243,21 @@ export default function FAQ() {
       {/* CTA Section */}
       <section className="py-24 relative overflow-hidden" data-testid="faq-cta">
         <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/5 via-transparent to-transparent" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px]" />
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] ${isDark ? 'bg-cyan-500/5' : 'bg-cyan-500/10'} rounded-full blur-[120px]`} />
         
         <div className="max-w-[900px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
           <FadeInSection>
-            <GlassCard className="p-10 lg:p-16 text-center" hover={false}>
+            <GlassCard className="p-10 lg:p-16 text-center" hover={false} isDark={isDark}>
               <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
                 Still Have Questions?
               </span>
-              <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wide mb-4">
+              <h2 className={`text-2xl md:text-4xl font-bold uppercase tracking-wide mb-4 ${textPrimary}`}>
                 Our Team is Ready
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 block">
                   to Help
                 </span>
               </h2>
-              <p className="text-gray-400 text-sm mb-10 tracking-wide max-w-md mx-auto">
+              <p className={`${textSecondary} text-sm mb-10 tracking-wide max-w-md mx-auto`}>
                 Get personalized answers from our LED display specialists.
               </p>
               
@@ -256,7 +272,7 @@ export default function FAQ() {
                   href="https://wa.me/971559954274" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-8 py-4 transition-all inline-flex items-center justify-center gap-2"
+                  className={`${isDark ? 'bg-white/5' : 'bg-neutral-900/5'} backdrop-blur-xl border ${isDark ? 'border-white/10' : 'border-neutral-300'} hover:border-cyan-500/30 ${textPrimary} font-bold uppercase tracking-wider px-8 py-4 transition-all inline-flex items-center justify-center gap-2`}
                 >
                   <MessageCircle size={16} /> WhatsApp
                 </a>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, ShoppingBag, Briefcase, Sun, Music, Car, Video, Eye, Heart, GraduationCap, Trophy } from 'lucide-react';
 import SEO from '../components/SEO';
 import { motion } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -136,8 +137,17 @@ const SolutionCard = ({ solution, index }) => {
 };
 
 export default function Solutions() {
+  const { isDark } = useTheme();
   const [solutions, setSolutions] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Theme-aware classes
+  const pageBg = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
+  const sectionBg = isDark ? 'bg-[#0A0A0D]' : 'bg-neutral-100';
+  const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
+  const textSecondary = isDark ? 'text-neutral-400' : 'text-neutral-600';
+  const cardBg = isDark ? 'bg-white/[0.02]' : 'bg-white/80';
+  const cardBorder = isDark ? 'border-white/[0.05]' : 'border-neutral-200';
 
   useEffect(() => {
     const fetchSolutions = async () => {
@@ -155,7 +165,7 @@ export default function Solutions() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050508]" data-testid="solutions-page">
+    <div className={`min-h-screen ${pageBg} transition-colors duration-500`} data-testid="solutions-page">
       <SEO
         title="LED Display Solutions"
         description="LED display solutions for every industry — retail, corporate, outdoor advertising, events, creative installations, traffic signage, virtual production, and transparent displays."
@@ -174,13 +184,13 @@ export default function Solutions() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center max-w-3xl mx-auto"
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6" data-testid="solutions-page-title">
+            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 ${textPrimary}`} data-testid="solutions-page-title">
               LED DISPLAY
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
                 SOLUTIONS
               </span>
             </h1>
-            <p className="text-neutral-400 text-base md:text-lg max-w-xl mx-auto">
+            <p className={`${textSecondary} text-base md:text-lg max-w-xl mx-auto`}>
               Premium LED technology tailored for every environment and industry.
             </p>
           </motion.div>
@@ -191,7 +201,7 @@ export default function Solutions() {
       <section className="pb-24 lg:pb-32">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
           {loading ? (
-            <div className="text-center py-12 text-neutral-400">Loading solutions...</div>
+            <div className={`text-center py-12 ${textSecondary}`}>Loading solutions...</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6" data-testid="solutions-grid">
               {solutions.map((sol, index) => (
@@ -203,7 +213,7 @@ export default function Solutions() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 lg:py-24 bg-[#0A0A0D]">
+      <section className={`py-16 lg:py-24 ${sectionBg} transition-colors duration-500`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
           <FadeInSection>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -213,11 +223,11 @@ export default function Solutions() {
                 { value: '200+', label: 'Unique Configurations' },
                 { value: '100%', label: 'Custom Solutions' },
               ].map((stat, i) => (
-                <div key={stat.label} className="text-center p-6 backdrop-blur-xl bg-white/[0.02] border border-white/[0.05]">
+                <div key={stat.label} className={`text-center p-6 backdrop-blur-xl ${cardBg} border ${cardBorder}`}>
                   <div className="text-3xl md:text-4xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 mb-2">
                     {stat.value}
                   </div>
-                  <div className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">
+                  <div className={`text-[10px] ${isDark ? 'text-gray-500' : 'text-gray-500'} uppercase tracking-[0.2em] font-bold`}>
                     {stat.label}
                   </div>
                 </div>
@@ -230,16 +240,16 @@ export default function Solutions() {
       {/* CTA Section */}
       <section className="py-24 lg:py-32 relative overflow-hidden">
         {/* Background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[150px]" />
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] ${isDark ? 'bg-cyan-500/5' : 'bg-cyan-500/10'} rounded-full blur-[150px]`} />
         
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
           <FadeInSection>
             <div className="text-center max-w-2xl mx-auto">
               <Sparkles className="w-12 h-12 text-cyan-400/50 mx-auto mb-6" />
-              <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wide mb-4">
+              <h2 className={`text-2xl md:text-4xl font-bold uppercase tracking-wide mb-4 ${textPrimary}`}>
                 Not Sure Which Solution Fits?
               </h2>
-              <p className="text-gray-400 text-sm tracking-wide mb-10 max-w-md mx-auto">
+              <p className={`${textSecondary} text-sm tracking-wide mb-10 max-w-md mx-auto`}>
                 Our experts will analyze your space and recommend the perfect LED setup for your specific requirements.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
@@ -252,7 +262,7 @@ export default function Solutions() {
                 </Link>
                 <Link 
                   to="/products" 
-                  className="bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-10 py-4 transition-all inline-flex items-center gap-2"
+                  className={`${isDark ? 'bg-white/5' : 'bg-neutral-900/5'} backdrop-blur-xl border ${isDark ? 'border-white/10' : 'border-neutral-300'} hover:border-cyan-500/30 ${textPrimary} font-bold uppercase tracking-wider px-10 py-4 transition-all inline-flex items-center gap-2`}
                   data-testid="solutions-browse-products"
                 >
                   Browse Products <ArrowRight size={16} />

@@ -3,6 +3,7 @@ import { MapPin, Phone, Mail, MessageCircle, CheckCircle, ArrowRight, Clock, Bui
 import { motion } from 'framer-motion';
 import { createLead } from '../api';
 import SEO, { BASE_URL } from '../components/SEO';
+import { useTheme } from '../contexts/ThemeContext';
 
 const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
@@ -34,10 +35,10 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-const GlassCard = ({ children, className = '', hover = true }) => (
+const GlassCard = ({ children, className = '', hover = true, isDark = true }) => (
   <div className={`
-    backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] rounded-lg
-    ${hover ? 'hover:bg-white/[0.06] hover:border-cyan-500/30' : ''}
+    backdrop-blur-xl ${isDark ? 'bg-white/[0.03]' : 'bg-white/80'} border ${isDark ? 'border-white/[0.08]' : 'border-neutral-200'} rounded-lg
+    ${hover ? `hover:${isDark ? 'bg-white/[0.06]' : 'bg-white'} hover:border-cyan-500/30` : ''}
     transition-all duration-500 ${className}
   `}>
     {children}
@@ -45,6 +46,18 @@ const GlassCard = ({ children, className = '', hover = true }) => (
 );
 
 const Contact = () => {
+  const { isDark } = useTheme();
+  
+  // Theme-aware classes
+  const pageBg = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
+  const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
+  const textSecondary = isDark ? 'text-gray-400' : 'text-gray-600';
+  const textMuted = isDark ? 'text-gray-500' : 'text-gray-500';
+  const inputBg = isDark ? 'bg-white/5' : 'bg-white';
+  const inputBorder = isDark ? 'border-white/10' : 'border-neutral-300';
+  const inputText = isDark ? 'text-white' : 'text-neutral-900';
+  const inputPlaceholder = isDark ? 'placeholder:text-gray-600' : 'placeholder:text-gray-400';
+  
   const [formData, setFormData] = useState({
     name: '', company: '', email: '', phone: '',
     city: '', application: '', timeline: '', budget: '', message: '',
@@ -79,7 +92,7 @@ const Contact = () => {
   ];
 
   return (
-    <div className="bg-[#050508]" data-testid="contact-page">
+    <div className={`${pageBg} transition-colors duration-500`} data-testid="contact-page">
       <SEO
         title="Contact Us — Get a Free LED Display Consultation | Brightluxx"
         description="Get a free LED display consultation. Contact Brightluxx — Dubai-based LED screen supplier. Quick quotes, expert advice, and local installation support across UAE."
@@ -108,18 +121,18 @@ const Contact = () => {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden" data-testid="contact-hero">
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
-        <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[120px]" />
+        <div className={`absolute top-1/4 left-0 w-[400px] h-[400px] ${isDark ? 'bg-cyan-500/5' : 'bg-cyan-500/10'} rounded-full blur-[120px]`} />
         
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
           <FadeInSection>
             <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Contact Us</span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 leading-[0.95]" data-testid="contact-page-title">
+            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 leading-[0.95] ${textPrimary}`} data-testid="contact-page-title">
               Get in
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 block">
                 Touch
               </span>
             </h1>
-            <p className="text-gray-400 text-base md:text-lg max-w-xl tracking-wide leading-relaxed">
+            <p className={`${textSecondary} text-base md:text-lg max-w-xl tracking-wide leading-relaxed`}>
               Expert consultation and a detailed quote within 2 hours during business hours.
             </p>
           </FadeInSection>
@@ -133,8 +146,8 @@ const Contact = () => {
             {/* Contact Info Sidebar */}
             <div className="lg:col-span-1 space-y-6">
               <FadeInSection>
-                <GlassCard className="p-6 lg:p-8" hover={false}>
-                  <h3 className="text-lg font-bold uppercase tracking-wide mb-6">Contact Information</h3>
+                <GlassCard className="p-6 lg:p-8" hover={false} isDark={isDark}>
+                  <h3 className={`text-lg font-bold uppercase tracking-wide mb-6 ${textPrimary}`}>Contact Information</h3>
                   <div className="space-y-5">
                     {contactInfo.map((item) => (
                       <div key={item.label} className="flex items-start gap-4">
@@ -142,13 +155,13 @@ const Contact = () => {
                           <item.icon size={18} className="text-cyan-400" />
                         </div>
                         <div>
-                          <div className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase mb-1">{item.label}</div>
+                          <div className={`text-[10px] font-bold tracking-[0.2em] ${textMuted} uppercase mb-1`}>{item.label}</div>
                           {item.href ? (
-                            <a href={item.href} className="text-sm text-gray-300 hover:text-cyan-400 transition-colors">
+                            <a href={item.href} className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} hover:text-cyan-400 transition-colors`}>
                               {item.value}
                             </a>
                           ) : (
-                            <div className="text-sm text-gray-300">{item.value}</div>
+                            <div className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{item.value}</div>
                           )}
                         </div>
                       </div>
@@ -158,14 +171,14 @@ const Contact = () => {
               </FadeInSection>
 
               <FadeInSection delay={1}>
-                <GlassCard className="p-6 lg:p-8 border-cyan-500/20" hover={false}>
+                <GlassCard className="p-6 lg:p-8 border-cyan-500/20" hover={false} isDark={isDark}>
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
                       <MessageCircle size={18} className="text-cyan-400" />
                     </div>
-                    <h3 className="text-base font-bold uppercase tracking-wide">Quick Response</h3>
+                    <h3 className={`text-base font-bold uppercase tracking-wide ${textPrimary}`}>Quick Response</h3>
                   </div>
-                  <p className="text-xs text-gray-400 mb-5 tracking-wide leading-relaxed">
+                  <p className={`text-xs ${textSecondary} mb-5 tracking-wide leading-relaxed`}>
                     Instant answers on WhatsApp. Available 24/7 for urgent inquiries.
                   </p>
                   <a
@@ -181,14 +194,14 @@ const Contact = () => {
               </FadeInSection>
 
               <FadeInSection delay={2}>
-                <GlassCard className="p-6 lg:p-8" hover={false}>
+                <GlassCard className="p-6 lg:p-8" hover={false} isDark={isDark}>
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
                       <Building2 size={18} className="text-cyan-400" />
                     </div>
-                    <h3 className="text-base font-bold uppercase tracking-wide">Visit Showroom</h3>
+                    <h3 className={`text-base font-bold uppercase tracking-wide ${textPrimary}`}>Visit Showroom</h3>
                   </div>
-                  <p className="text-xs text-gray-400 tracking-wide leading-relaxed">
+                  <p className={`text-xs ${textSecondary} tracking-wide leading-relaxed`}>
                     See our LED displays in action. Schedule a visit to our Dubai showroom for a hands-on experience.
                   </p>
                 </GlassCard>
@@ -199,26 +212,26 @@ const Contact = () => {
             <div className="lg:col-span-2">
               <FadeInSection delay={1}>
                 {submitted ? (
-                  <GlassCard className="p-10 lg:p-16 text-center border-cyan-500/20" hover={false} data-testid="success-message">
+                  <GlassCard className="p-10 lg:p-16 text-center border-cyan-500/20" hover={false} isDark={isDark} data-testid="success-message">
                     <div className="w-16 h-16 bg-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
                       <CheckCircle size={32} className="text-black" />
                     </div>
-                    <h3 className="text-2xl font-bold uppercase tracking-wide mb-3">Thank You</h3>
-                    <p className="text-gray-400 mb-8 tracking-wide max-w-md mx-auto">
+                    <h3 className={`text-2xl font-bold uppercase tracking-wide mb-3 ${textPrimary}`}>Thank You</h3>
+                    <p className={`${textSecondary} mb-8 tracking-wide max-w-md mx-auto`}>
                       Our team will contact you within 2 hours during business hours with a detailed quotation.
                     </p>
                     <button 
                       onClick={() => setSubmitted(false)} 
-                      className="bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-8 py-4 transition-all inline-flex items-center gap-2"
+                      className={`${isDark ? 'bg-white/5' : 'bg-neutral-900/5'} backdrop-blur-xl border ${isDark ? 'border-white/10' : 'border-neutral-300'} hover:border-cyan-500/30 ${textPrimary} font-bold uppercase tracking-wider px-8 py-4 transition-all inline-flex items-center gap-2`}
                       data-testid="submit-another-button"
                     >
                       Submit Another Inquiry
                     </button>
                   </GlassCard>
                 ) : (
-                  <GlassCard className="p-6 sm:p-8 lg:p-10" hover={false}>
+                  <GlassCard className="p-6 sm:p-8 lg:p-10" hover={false} isDark={isDark}>
                     <form onSubmit={handleSubmit} data-testid="lead-capture-form">
-                      <h3 className="text-xl font-bold uppercase tracking-wide mb-8">Request a Quote</h3>
+                      <h3 className={`text-xl font-bold uppercase tracking-wide mb-8 ${textPrimary}`}>Request a Quote</h3>
 
                       {error && (
                         <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400" data-testid="contact-form-error">
@@ -228,7 +241,7 @@ const Contact = () => {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
                         <div>
-                          <label htmlFor="name" className="block text-xs font-bold tracking-[0.15em] text-gray-400 uppercase mb-2">
+                          <label htmlFor="name" className={`block text-xs font-bold tracking-[0.15em] ${textSecondary} uppercase mb-2`}>
                             Full Name <span className="text-red-400">*</span>
                           </label>
                           <input 
@@ -238,24 +251,24 @@ const Contact = () => {
                             value={formData.name} 
                             onChange={handleChange} 
                             required 
-                            className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/50 text-white placeholder:text-gray-600 px-4 py-3 text-sm outline-none transition-colors rounded-lg"
+                            className={`w-full ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} ${inputPlaceholder} px-4 py-3 text-sm outline-none transition-colors rounded-lg`}
                             data-testid="input-name" 
                           />
                         </div>
                         <div>
-                          <label htmlFor="company" className="block text-xs font-bold tracking-[0.15em] text-gray-400 uppercase mb-2">Company</label>
+                          <label htmlFor="company" className={`block text-xs font-bold tracking-[0.15em] ${textSecondary} uppercase mb-2`}>Company</label>
                           <input 
                             type="text" 
                             id="company" 
                             name="company" 
                             value={formData.company} 
                             onChange={handleChange} 
-                            className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/50 text-white placeholder:text-gray-600 px-4 py-3 text-sm outline-none transition-colors rounded-lg"
+                            className={`w-full ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} ${inputPlaceholder} px-4 py-3 text-sm outline-none transition-colors rounded-lg`}
                             data-testid="input-company" 
                           />
                         </div>
                         <div>
-                          <label htmlFor="email" className="block text-xs font-bold tracking-[0.15em] text-gray-400 uppercase mb-2">
+                          <label htmlFor="email" className={`block text-xs font-bold tracking-[0.15em] ${textSecondary} uppercase mb-2`}>
                             Email <span className="text-red-400">*</span>
                           </label>
                           <input 
@@ -265,12 +278,12 @@ const Contact = () => {
                             value={formData.email} 
                             onChange={handleChange} 
                             required 
-                            className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/50 text-white placeholder:text-gray-600 px-4 py-3 text-sm outline-none transition-colors rounded-lg"
+                            className={`w-full ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} ${inputPlaceholder} px-4 py-3 text-sm outline-none transition-colors rounded-lg`}
                             data-testid="input-email" 
                           />
                         </div>
                         <div>
-                          <label htmlFor="phone" className="block text-xs font-bold tracking-[0.15em] text-gray-400 uppercase mb-2">
+                          <label htmlFor="phone" className={`block text-xs font-bold tracking-[0.15em] ${textSecondary} uppercase mb-2`}>
                             Phone <span className="text-red-400">*</span>
                           </label>
                           <input 
@@ -280,12 +293,12 @@ const Contact = () => {
                             value={formData.phone} 
                             onChange={handleChange} 
                             required 
-                            className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/50 text-white placeholder:text-gray-600 px-4 py-3 text-sm outline-none transition-colors rounded-lg"
+                            className={`w-full ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} ${inputPlaceholder} px-4 py-3 text-sm outline-none transition-colors rounded-lg`}
                             data-testid="input-phone" 
                           />
                         </div>
                         <div>
-                          <label htmlFor="city" className="block text-xs font-bold tracking-[0.15em] text-gray-400 uppercase mb-2">
+                          <label htmlFor="city" className={`block text-xs font-bold tracking-[0.15em] ${textSecondary} uppercase mb-2`}>
                             City <span className="text-red-400">*</span>
                           </label>
                           <input 
@@ -295,12 +308,12 @@ const Contact = () => {
                             value={formData.city} 
                             onChange={handleChange} 
                             required 
-                            className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/50 text-white placeholder:text-gray-600 px-4 py-3 text-sm outline-none transition-colors rounded-lg"
+                            className={`w-full ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} ${inputPlaceholder} px-4 py-3 text-sm outline-none transition-colors rounded-lg`}
                             data-testid="input-city" 
                           />
                         </div>
                         <div>
-                          <label htmlFor="application" className="block text-xs font-bold tracking-[0.15em] text-gray-400 uppercase mb-2">
+                          <label htmlFor="application" className={`block text-xs font-bold tracking-[0.15em] ${textSecondary} uppercase mb-2`}>
                             Application <span className="text-red-400">*</span>
                           </label>
                           <select 
@@ -309,66 +322,66 @@ const Contact = () => {
                             value={formData.application} 
                             onChange={handleChange} 
                             required 
-                            className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/50 text-white px-4 py-3 text-sm outline-none transition-colors rounded-lg appearance-none"
+                            className={`w-full ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} px-4 py-3 text-sm outline-none transition-colors rounded-lg appearance-none`}
                             data-testid="input-application"
                           >
-                            <option value="" className="bg-[#0A0A0D]">Select Application</option>
-                            <option value="Retail" className="bg-[#0A0A0D]">Retail & Shopping Malls</option>
-                            <option value="Corporate" className="bg-[#0A0A0D]">Corporate & Boardrooms</option>
-                            <option value="Outdoor" className="bg-[#0A0A0D]">Outdoor Advertising</option>
-                            <option value="Events" className="bg-[#0A0A0D]">Events & Staging</option>
-                            <option value="Hospitality" className="bg-[#0A0A0D]">Hospitality</option>
-                            <option value="Government" className="bg-[#0A0A0D]">Government</option>
-                            <option value="Other" className="bg-[#0A0A0D]">Other</option>
+                            <option value="" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Select Application</option>
+                            <option value="Retail" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Retail & Shopping Malls</option>
+                            <option value="Corporate" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Corporate & Boardrooms</option>
+                            <option value="Outdoor" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Outdoor Advertising</option>
+                            <option value="Events" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Events & Staging</option>
+                            <option value="Hospitality" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Hospitality</option>
+                            <option value="Government" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Government</option>
+                            <option value="Other" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Other</option>
                           </select>
                         </div>
                         <div>
-                          <label htmlFor="timeline" className="block text-xs font-bold tracking-[0.15em] text-gray-400 uppercase mb-2">Timeline</label>
+                          <label htmlFor="timeline" className={`block text-xs font-bold tracking-[0.15em] ${textSecondary} uppercase mb-2`}>Timeline</label>
                           <select 
                             id="timeline" 
                             name="timeline" 
                             value={formData.timeline} 
                             onChange={handleChange} 
-                            className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/50 text-white px-4 py-3 text-sm outline-none transition-colors rounded-lg appearance-none"
+                            className={`w-full ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} px-4 py-3 text-sm outline-none transition-colors rounded-lg appearance-none`}
                             data-testid="input-timeline"
                           >
-                            <option value="" className="bg-[#0A0A0D]">Select Timeline</option>
-                            <option value="Urgent (1-2 weeks)" className="bg-[#0A0A0D]">Urgent (1-2 weeks)</option>
-                            <option value="1-3 months" className="bg-[#0A0A0D]">1-3 months</option>
-                            <option value="3-6 months" className="bg-[#0A0A0D]">3-6 months</option>
-                            <option value="6+ months" className="bg-[#0A0A0D]">6+ months</option>
-                            <option value="Just exploring" className="bg-[#0A0A0D]">Just exploring</option>
+                            <option value="" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Select Timeline</option>
+                            <option value="Urgent (1-2 weeks)" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Urgent (1-2 weeks)</option>
+                            <option value="1-3 months" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>1-3 months</option>
+                            <option value="3-6 months" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>3-6 months</option>
+                            <option value="6+ months" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>6+ months</option>
+                            <option value="Just exploring" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Just exploring</option>
                           </select>
                         </div>
                         <div>
-                          <label htmlFor="budget" className="block text-xs font-bold tracking-[0.15em] text-gray-400 uppercase mb-2">Budget Range</label>
+                          <label htmlFor="budget" className={`block text-xs font-bold tracking-[0.15em] ${textSecondary} uppercase mb-2`}>Budget Range</label>
                           <select 
                             id="budget" 
                             name="budget" 
                             value={formData.budget} 
                             onChange={handleChange} 
-                            className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/50 text-white px-4 py-3 text-sm outline-none transition-colors rounded-lg appearance-none"
+                            className={`w-full ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} px-4 py-3 text-sm outline-none transition-colors rounded-lg appearance-none`}
                             data-testid="input-budget"
                           >
-                            <option value="" className="bg-[#0A0A0D]">Select Budget</option>
-                            <option value="Under AED 200k" className="bg-[#0A0A0D]">Under AED 200k</option>
-                            <option value="AED 200k - 400k" className="bg-[#0A0A0D]">AED 200k - 400k</option>
-                            <option value="AED 400k - 1M" className="bg-[#0A0A0D]">AED 400k - 1M</option>
-                            <option value="AED 1M+" className="bg-[#0A0A0D]">AED 1M+</option>
-                            <option value="Not decided" className="bg-[#0A0A0D]">Not decided</option>
+                            <option value="" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Select Budget</option>
+                            <option value="Under AED 200k" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Under AED 200k</option>
+                            <option value="AED 200k - 400k" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>AED 200k - 400k</option>
+                            <option value="AED 400k - 1M" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>AED 400k - 1M</option>
+                            <option value="AED 1M+" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>AED 1M+</option>
+                            <option value="Not decided" className={isDark ? 'bg-[#0A0A0D]' : 'bg-white'}>Not decided</option>
                           </select>
                         </div>
                       </div>
 
                       <div className="mb-6">
-                        <label htmlFor="message" className="block text-xs font-bold tracking-[0.15em] text-gray-400 uppercase mb-2">Project Details</label>
+                        <label htmlFor="message" className={`block text-xs font-bold tracking-[0.15em] ${textSecondary} uppercase mb-2`}>Project Details</label>
                         <textarea 
                           id="message" 
                           name="message" 
                           value={formData.message} 
                           onChange={handleChange} 
                           rows="4" 
-                          className="w-full bg-white/5 border border-white/10 focus:border-cyan-500/50 text-white placeholder:text-gray-600 px-4 py-3 text-sm outline-none transition-colors rounded-lg resize-none"
+                          className={`w-full ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} ${inputPlaceholder} px-4 py-3 text-sm outline-none transition-colors rounded-lg resize-none`}
                           placeholder="Tell us about your project..."
                           data-testid="input-message"
                         ></textarea>
@@ -385,7 +398,7 @@ const Contact = () => {
                         )}
                       </button>
 
-                      <p className="text-[10px] text-gray-500 mt-5 leading-relaxed tracking-wide" data-testid="contact-disclaimer">
+                      <p className={`text-[10px] ${textMuted} mt-5 leading-relaxed tracking-wide`} data-testid="contact-disclaimer">
                         Note: Standard quotations cover hardware, processing, and cabling. Installation costs and structural work are quoted separately after a site survey confirms conditions and requirements.
                       </p>
                     </form>

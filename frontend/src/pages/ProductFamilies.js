@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Layers, Leaf, Monitor, Sparkles, Tv, ChevronRight } from 'lucide-react';
 import SEO from '../components/SEO';
+import { useTheme } from '../contexts/ThemeContext';
 
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
@@ -183,8 +184,19 @@ const ProductFamilyCard = ({ family, index }) => {
 };
 
 export default function ProductFamilies() {
+  const { isDark } = useTheme();
+  
+  // Theme-aware classes
+  const pageBg = isDark ? 'bg-neutral-950' : 'bg-neutral-50';
+  const sectionBg = isDark ? 'bg-neutral-900/30' : 'bg-neutral-100/50';
+  const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
+  const textSecondary = isDark ? 'text-neutral-400' : 'text-neutral-600';
+  const textMuted = isDark ? 'text-neutral-500' : 'text-neutral-500';
+  const borderColor = isDark ? 'border-neutral-800' : 'border-neutral-200';
+  const cardBg = isDark ? 'bg-neutral-900/30' : 'bg-white/80';
+  
   return (
-    <div className="bg-neutral-950 min-h-screen" data-testid="product-families-page">
+    <div className={`${pageBg} min-h-screen transition-colors duration-500`} data-testid="product-families-page">
       <SEO 
         title="Product Families — Premium LED Display Collections | Brightluxx UAE"
         description="Explore Brightluxx's 5 premium LED display product families: LumiMorph textured panels, NaturaTex natural screens, SignaTouch kiosks, GlassMorph smart glass, and PixelVue commercial displays."
@@ -193,23 +205,23 @@ export default function ProductFamilies() {
 
       {/* Hero */}
       <section className="relative py-32 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/50 to-neutral-950" />
+        <div className={`absolute inset-0 bg-gradient-to-b ${isDark ? 'from-neutral-900/50 to-neutral-950' : 'from-neutral-100/50 to-neutral-50'}`} />
         
         {/* Decorative Elements */}
-        <div className="absolute top-20 left-10 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-64 h-64 bg-violet-500/5 rounded-full blur-3xl" />
+        <div className={`absolute top-20 left-10 w-64 h-64 ${isDark ? 'bg-cyan-500/5' : 'bg-cyan-500/10'} rounded-full blur-3xl`} />
+        <div className={`absolute bottom-20 right-10 w-64 h-64 ${isDark ? 'bg-violet-500/5' : 'bg-violet-500/10'} rounded-full blur-3xl`} />
         
         <div className="relative max-w-6xl mx-auto text-center">
           <FadeIn>
-            <p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Brightluxx Collections</p>
+            <p className={`${textMuted} text-xs tracking-[0.3em] uppercase mb-4`}>Brightluxx Collections</p>
           </FadeIn>
           <FadeIn delay={1}>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extralight text-white tracking-tight mb-6">
+            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-extralight ${textPrimary} tracking-tight mb-6`}>
               Product <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-rose-400">Families</span>
             </h1>
           </FadeIn>
           <FadeIn delay={2}>
-            <p className="text-neutral-400 text-lg max-w-2xl mx-auto mb-8">
+            <p className={`${textSecondary} text-lg max-w-2xl mx-auto mb-8`}>
               Five distinct product lines, each crafted for specific applications. 
               From luxury interiors to commercial signage — find your perfect LED solution.
             </p>
@@ -242,12 +254,12 @@ export default function ProductFamilies() {
       </section>
 
       {/* Comparison Table */}
-      <section className="py-20 px-6 bg-neutral-900/30">
+      <section className={`py-20 px-6 ${sectionBg} transition-colors duration-500`}>
         <div className="max-w-6xl mx-auto">
           <FadeIn>
             <div className="text-center mb-12">
-              <p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Quick Comparison</p>
-              <h2 className="text-3xl md:text-4xl font-extralight text-white">Find Your Perfect Match</h2>
+              <p className={`${textMuted} text-xs tracking-[0.3em] uppercase mb-4`}>Quick Comparison</p>
+              <h2 className={`text-3xl md:text-4xl font-extralight ${textPrimary}`}>Find Your Perfect Match</h2>
             </div>
           </FadeIn>
           
@@ -256,9 +268,9 @@ export default function ProductFamilies() {
               <table className="w-full border-collapse">
                 <thead>
                   <tr>
-                    <th className="text-left p-4 text-neutral-500 text-xs tracking-wider uppercase border-b border-neutral-800">Specification</th>
+                    <th className={`text-left p-4 ${textMuted} text-xs tracking-wider uppercase border-b ${borderColor}`}>Specification</th>
                     {PRODUCT_FAMILIES.map((f) => (
-                      <th key={f.id} className={`p-4 text-center border-b border-neutral-800 ${f.textColor} text-sm font-medium`}>
+                      <th key={f.id} className={`p-4 text-center border-b ${borderColor} ${f.textColor} text-sm font-medium`}>
                         {f.name}
                       </th>
                     ))}
@@ -266,17 +278,17 @@ export default function ProductFamilies() {
                 </thead>
                 <tbody>
                   {COMPARISON_SPECS.map((spec) => (
-                    <tr key={spec.key} className="hover:bg-neutral-900/50 transition-colors">
-                      <td className="p-4 text-neutral-400 text-sm border-b border-neutral-800/50">{spec.label}</td>
+                    <tr key={spec.key} className={`hover:${isDark ? 'bg-neutral-900/50' : 'bg-neutral-100/50'} transition-colors`}>
+                      <td className={`p-4 ${textSecondary} text-sm border-b ${isDark ? 'border-neutral-800/50' : 'border-neutral-200/50'}`}>{spec.label}</td>
                       {PRODUCT_FAMILIES.map((f) => (
-                        <td key={f.id} className="p-4 text-center text-white text-sm border-b border-neutral-800/50">
+                        <td key={f.id} className={`p-4 text-center ${textPrimary} text-sm border-b ${isDark ? 'border-neutral-800/50' : 'border-neutral-200/50'}`}>
                           {COMPARISON_DATA[f.id][spec.key]}
                         </td>
                       ))}
                     </tr>
                   ))}
                   <tr>
-                    <td className="p-4 text-neutral-400 text-sm">Explore</td>
+                    <td className={`p-4 ${textSecondary} text-sm`}>Explore</td>
                     {PRODUCT_FAMILIES.map((f) => (
                       <td key={f.id} className="p-4 text-center">
                         <Link 
@@ -300,9 +312,9 @@ export default function ProductFamilies() {
         <div className="max-w-5xl mx-auto">
           <FadeIn>
             <div className="text-center mb-12">
-              <p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Selection Guide</p>
-              <h2 className="text-3xl md:text-4xl font-extralight text-white mb-4">Which Family Is Right For You?</h2>
-              <p className="text-neutral-400 max-w-2xl mx-auto">
+              <p className={`${textMuted} text-xs tracking-[0.3em] uppercase mb-4`}>Selection Guide</p>
+              <h2 className={`text-3xl md:text-4xl font-extralight ${textPrimary} mb-4`}>Which Family Is Right For You?</h2>
+              <p className={`${textSecondary} max-w-2xl mx-auto`}>
                 Each product family is designed for specific environments and use cases. 
                 Here's a quick guide to help you choose.
               </p>
@@ -311,33 +323,33 @@ export default function ProductFamilies() {
           
           <div className="grid md:grid-cols-2 gap-6">
             <FadeIn delay={1}>
-              <div className="p-6 rounded-lg border border-neutral-800 bg-neutral-900/30">
-                <h3 className="text-white font-medium mb-4">For Luxury Interiors</h3>
-                <p className="text-neutral-400 text-sm mb-4">Hotels, corporate lobbies, high-end retail, and premium residences where aesthetics matter as much as functionality.</p>
+              <div className={`p-6 rounded-lg border ${borderColor} ${cardBg}`}>
+                <h3 className={`${textPrimary} font-medium mb-4`}>For Luxury Interiors</h3>
+                <p className={`${textSecondary} text-sm mb-4`}>Hotels, corporate lobbies, high-end retail, and premium residences where aesthetics matter as much as functionality.</p>
                 <div className="flex gap-2">
                   <Link to="/lumimorph" className="text-cyan-400 text-sm hover:underline">LumiMorph</Link>
-                  <span className="text-neutral-600">•</span>
+                  <span className={textMuted}>•</span>
                   <Link to="/naturatex" className="text-emerald-400 text-sm hover:underline">NaturaTex</Link>
                 </div>
               </div>
             </FadeIn>
             
             <FadeIn delay={2}>
-              <div className="p-6 rounded-lg border border-neutral-800 bg-neutral-900/30">
-                <h3 className="text-white font-medium mb-4">For Retail & Customer Service</h3>
-                <p className="text-neutral-400 text-sm mb-4">Self-service terminals, wayfinding, menu boards, and interactive customer engagement in stores, restaurants, and service centers.</p>
+              <div className={`p-6 rounded-lg border ${borderColor} ${cardBg}`}>
+                <h3 className={`${textPrimary} font-medium mb-4`}>For Retail & Customer Service</h3>
+                <p className={`${textSecondary} text-sm mb-4`}>Self-service terminals, wayfinding, menu boards, and interactive customer engagement in stores, restaurants, and service centers.</p>
                 <div className="flex gap-2">
                   <Link to="/signatouch" className="text-amber-400 text-sm hover:underline">SignaTouch</Link>
-                  <span className="text-neutral-600">•</span>
+                  <span className={textMuted}>•</span>
                   <Link to="/pixelvue" className="text-rose-400 text-sm hover:underline">PixelVue</Link>
                 </div>
               </div>
             </FadeIn>
             
             <FadeIn delay={3}>
-              <div className="p-6 rounded-lg border border-neutral-800 bg-neutral-900/30">
-                <h3 className="text-white font-medium mb-4">For Glass & Architecture</h3>
-                <p className="text-neutral-400 text-sm mb-4">Building facades, glass partitions, storefronts, and any application requiring transparency with dynamic content.</p>
+              <div className={`p-6 rounded-lg border ${borderColor} ${cardBg}`}>
+                <h3 className={`${textPrimary} font-medium mb-4`}>For Glass & Architecture</h3>
+                <p className={`${textSecondary} text-sm mb-4`}>Building facades, glass partitions, storefronts, and any application requiring transparency with dynamic content.</p>
                 <div className="flex gap-2">
                   <Link to="/glassmorph" className="text-violet-400 text-sm hover:underline">GlassMorph</Link>
                 </div>
@@ -345,12 +357,12 @@ export default function ProductFamilies() {
             </FadeIn>
             
             <FadeIn delay={4}>
-              <div className="p-6 rounded-lg border border-neutral-800 bg-neutral-900/30">
-                <h3 className="text-white font-medium mb-4">For Creative Installations</h3>
-                <p className="text-neutral-400 text-sm mb-4">Museums, exhibitions, brand activations, and any space requiring unique shapes, curves, or artistic LED installations.</p>
+              <div className={`p-6 rounded-lg border ${borderColor} ${cardBg}`}>
+                <h3 className={`${textPrimary} font-medium mb-4`}>For Creative Installations</h3>
+                <p className={`${textSecondary} text-sm mb-4`}>Museums, exhibitions, brand activations, and any space requiring unique shapes, curves, or artistic LED installations.</p>
                 <div className="flex gap-2">
                   <Link to="/pixelvue/creative-shapes" className="text-rose-400 text-sm hover:underline">PixelVue Creative</Link>
-                  <span className="text-neutral-600">•</span>
+                  <span className={textMuted}>•</span>
                   <Link to="/glassmorph/flying-display" className="text-violet-400 text-sm hover:underline">Flying Display</Link>
                 </div>
               </div>
@@ -360,24 +372,24 @@ export default function ProductFamilies() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6 text-center bg-gradient-to-b from-neutral-900/50 to-neutral-950">
+      <section className={`py-20 px-6 text-center bg-gradient-to-b ${isDark ? 'from-neutral-900/50 to-neutral-950' : 'from-neutral-100/50 to-neutral-50'} transition-colors duration-500`}>
         <FadeIn>
-          <p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Need Help Choosing?</p>
-          <h2 className="text-3xl font-extralight text-white mb-6">Let Our Experts Guide You</h2>
-          <p className="text-neutral-400 max-w-md mx-auto mb-8">
+          <p className={`${textMuted} text-xs tracking-[0.3em] uppercase mb-4`}>Need Help Choosing?</p>
+          <h2 className={`text-3xl font-extralight ${textPrimary} mb-6`}>Let Our Experts Guide You</h2>
+          <p className={`${textSecondary} max-w-md mx-auto mb-8`}>
             Not sure which product family is right for your project? 
             Our specialists can help you find the perfect solution.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link 
               to="/contact" 
-              className="bg-white text-black px-10 py-4 text-sm font-medium tracking-wider hover:bg-neutral-200 transition-colors"
+              className={`${isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-neutral-900 text-white hover:bg-neutral-800'} px-10 py-4 text-sm font-medium tracking-wider transition-colors`}
             >
               Talk to an Expert
             </Link>
             <Link 
               to="/technology-selector" 
-              className="border border-white/30 text-white px-10 py-4 text-sm font-medium tracking-wider hover:bg-white/10 transition-colors"
+              className={`border ${isDark ? 'border-white/30 text-white hover:bg-white/10' : 'border-neutral-900/30 text-neutral-900 hover:bg-neutral-900/10'} px-10 py-4 text-sm font-medium tracking-wider transition-colors`}
             >
               Technology Quiz
             </Link>

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Store, Building2, Briefcase, Stethoscope, Plane, Theater, Trophy, GraduationCap, Sun, Sparkles, X, ZoomIn, Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, Store, Building2, Briefcase, Stethoscope, Plane, Theater, Trophy, GraduationCap, Sun, X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../components/SEO';
-import CdnImage from '../components/CdnImage';
-import { getInspirations } from '../api';
 
 const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
@@ -45,7 +43,6 @@ const APPLICATIONS = [
     icon: Store,
     image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png',
     stats: { brightness: '10,000 nits', pitch: 'P2.5-P10' },
-    featured: true,
   },
   {
     id: 'hospitality',
@@ -130,7 +127,67 @@ const APPLICATIONS = [
   },
 ];
 
-// Dramatic Hero Carousel
+// Curated project gallery images (no white backgrounds, real installations)
+const PROJECT_GALLERY = [
+  {
+    id: 1,
+    title: 'Dubai Mall Atrium Display',
+    category: 'Retail',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/254fe27311306074019389a9674e154e6930cfa5a095b5f26fad6465a581a41d.png',
+    description: 'Stunning LED video wall in luxury mall atrium with dramatic architecture',
+  },
+  {
+    id: 2,
+    title: 'Dubai Marina Billboard',
+    category: 'Outdoor',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6911b0d55c61839f131d3217cc8e5bdd2c73e339919a1c04826c8dfd79eaf7f0.png',
+    description: 'Night-time LED billboard with city skyline reflection',
+  },
+  {
+    id: 3,
+    title: 'Abu Dhabi Hotel Lobby',
+    category: 'Hospitality',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/16840d02833caf602880257ce47f7a291e9f9ad0f04733cc51e57005582d34b5.png',
+    description: 'Elegant LED display in 5-star hotel lobby with Arabic design elements',
+  },
+  {
+    id: 4,
+    title: 'Stadium Scoreboard',
+    category: 'Sports',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/22225955d577ff43bd679bda5b298f35aa4226558ec0750785a5e4f0a09750aa.png',
+    description: 'Massive LED scoreboard in UAE football stadium',
+  },
+  {
+    id: 5,
+    title: 'Corporate Boardroom',
+    category: 'Corporate',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/360269c4ce8437e2a7dd7fa3c5d599bbb66da0fc5194f99377a2705002a857c7.png',
+    description: 'Executive boardroom with LED video wall presentation display',
+  },
+  {
+    id: 6,
+    title: 'Hospital Wayfinding',
+    category: 'Healthcare',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ae5cc82c28141702c52b9a389f559c1c2e64abf5788d43dd5cab81ab40e71394.png',
+    description: 'Digital wayfinding screen in modern UAE hospital',
+  },
+  {
+    id: 7,
+    title: 'Cinema LED Screen',
+    category: 'Entertainment',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f9de65cfc89b9659c1b078e8086075bfcb92c37a325d7251cda608d859dcf755.png',
+    description: 'LED cinema screen in modern movie theater',
+  },
+  {
+    id: 8,
+    title: 'Airport Terminal Display',
+    category: 'Transportation',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/40271a3de773f454b67f00a2b6d21cb496b28c6d96f4c3890d055ef06991f979.png',
+    description: 'Large LED advertising display at Dubai International Airport',
+  },
+];
+
+// Hero Carousel
 const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
   const featured = APPLICATIONS.slice(0, 4);
@@ -147,7 +204,6 @@ const HeroCarousel = () => {
 
   return (
     <div className="relative h-[70vh] min-h-[500px] overflow-hidden">
-      {/* Background Images */}
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -167,7 +223,6 @@ const HeroCarousel = () => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Content */}
       <div className="absolute inset-0 flex items-center">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 w-full">
           <AnimatePresence mode="wait">
@@ -217,7 +272,6 @@ const HeroCarousel = () => {
         </div>
       </div>
 
-      {/* Navigation Dots */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
         {featured.map((_, i) => (
           <button
@@ -232,7 +286,6 @@ const HeroCarousel = () => {
         ))}
       </div>
 
-      {/* Side Navigation */}
       <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-2">
         {featured.map((item, i) => {
           const ItemIcon = item.icon;
@@ -255,73 +308,58 @@ const HeroCarousel = () => {
   );
 };
 
-// Dramatic Application Card
-const ApplicationCard = ({ app, index }) => {
+// Uniform Application Card - same design for all cards
+const ApplicationCard = ({ app }) => {
   const Icon = app.icon;
-  const isLarge = index === 0 || index === 5;
 
   return (
     <Link 
       to={`/applications/${app.id}`} 
-      className={`group block relative overflow-hidden rounded-2xl ${isLarge ? 'md:col-span-2 md:row-span-2' : ''}`}
+      className="group block relative overflow-hidden rounded-2xl h-[320px]"
       data-testid={`application-${app.id}`}
     >
-      <div className={`relative ${isLarge ? 'h-[400px] md:h-full md:min-h-[500px]' : 'h-[280px]'} overflow-hidden`}>
-        {/* Image */}
-        <img 
-          src={app.image} 
-          alt={app.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
+      <img 
+        src={app.image} 
+        alt={app.name}
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+      />
+      
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+      <div className="absolute inset-0 bg-cyan-500/0 group-hover:bg-cyan-500/10 transition-colors duration-500" />
+      <div className="absolute inset-0 border-2 border-transparent group-hover:border-cyan-500/30 rounded-2xl transition-colors duration-500" />
+      
+      <div className="absolute inset-0 flex flex-col justify-end p-6">
+        <div className="w-11 h-11 rounded-xl bg-black/50 backdrop-blur-sm border border-white/10 flex items-center justify-center mb-3 group-hover:border-cyan-500/30 group-hover:bg-cyan-500/10 transition-all">
+          <Icon size={18} className="text-white group-hover:text-cyan-400 transition-colors" />
+        </div>
         
-        {/* Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" />
-        <div className="absolute inset-0 bg-cyan-500/0 group-hover:bg-cyan-500/10 transition-colors duration-500" />
+        <h3 className="text-xl font-bold uppercase tracking-wide text-white mb-2 group-hover:text-cyan-400 transition-colors">
+          {app.name}
+        </h3>
         
-        {/* Animated Border */}
-        <div className="absolute inset-0 border-2 border-transparent group-hover:border-cyan-500/30 rounded-2xl transition-colors duration-500" />
+        <p className="text-xs text-gray-400 mb-3 leading-relaxed line-clamp-2">
+          {app.description}
+        </p>
         
-        {/* Content */}
-        <div className="absolute inset-0 flex flex-col justify-end p-6">
-          {/* Icon */}
-          <div className="w-12 h-12 rounded-xl bg-black/50 backdrop-blur-sm border border-white/10 flex items-center justify-center mb-4 group-hover:border-cyan-500/30 group-hover:bg-cyan-500/10 transition-all">
-            <Icon size={20} className="text-white group-hover:text-cyan-400 transition-colors" />
+        <div className="flex items-center gap-3">
+          <div className="px-3 py-1.5 rounded-lg bg-black/50 backdrop-blur-sm border border-white/10">
+            <span className="text-[10px] font-bold text-cyan-400">{app.stats.brightness}</span>
           </div>
-          
-          {/* Title */}
-          <h3 className={`font-bold uppercase tracking-wide text-white mb-2 group-hover:text-cyan-400 transition-colors ${isLarge ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
-            {app.name}
-          </h3>
-          
-          {/* Description - only on large cards */}
-          {isLarge && (
-            <p className="text-sm text-gray-400 mb-4 leading-relaxed max-w-md">
-              {app.description}
-            </p>
-          )}
-          
-          {/* Stats */}
-          <div className="flex items-center gap-4">
-            <div className="px-3 py-1.5 rounded-lg bg-black/50 backdrop-blur-sm border border-white/10">
-              <span className="text-[10px] font-bold text-cyan-400">{app.stats.brightness}</span>
-            </div>
-            <div className="px-3 py-1.5 rounded-lg bg-black/50 backdrop-blur-sm border border-white/10">
-              <span className="text-[10px] font-bold text-white">{app.stats.pitch}</span>
-            </div>
+          <div className="px-3 py-1.5 rounded-lg bg-black/50 backdrop-blur-sm border border-white/10">
+            <span className="text-[10px] font-bold text-white">{app.stats.pitch}</span>
           </div>
-          
-          {/* Arrow */}
-          <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/0 group-hover:bg-cyan-500 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0">
-            <ArrowRight size={18} className="text-black" />
-          </div>
+        </div>
+        
+        <div className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/0 group-hover:bg-cyan-500 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0">
+          <ArrowRight size={16} className="text-black" />
         </div>
       </div>
     </Link>
   );
 };
 
-// Inspiration Modal
-const InspirationModal = ({ item, onClose, onNext, onPrev }) => {
+// Project Gallery Modal
+const GalleryModal = ({ item, onClose, onNext, onPrev }) => {
   if (!item) return null;
   
   return (
@@ -332,7 +370,6 @@ const InspirationModal = ({ item, onClose, onNext, onPrev }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {/* Close button */}
       <button 
         onClick={onClose}
         className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all z-10"
@@ -340,7 +377,6 @@ const InspirationModal = ({ item, onClose, onNext, onPrev }) => {
         <X size={24} />
       </button>
 
-      {/* Navigation */}
       <button 
         onClick={(e) => { e.stopPropagation(); onPrev(); }}
         className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all"
@@ -354,7 +390,6 @@ const InspirationModal = ({ item, onClose, onNext, onPrev }) => {
         <ChevronRight size={24} />
       </button>
 
-      {/* Content */}
       <motion.div 
         className="max-w-5xl w-full mx-6"
         onClick={e => e.stopPropagation()}
@@ -363,21 +398,16 @@ const InspirationModal = ({ item, onClose, onNext, onPrev }) => {
         exit={{ scale: 0.9, opacity: 0 }}
       >
         <div className="relative rounded-2xl overflow-hidden">
-          <CdnImage 
-            src={item.image_url} 
+          <img 
+            src={item.image} 
             alt={item.title} 
             className="w-full h-auto max-h-[70vh] object-contain"
-            w={1200}
           />
         </div>
         <div className="mt-6 text-center">
-          <div className="flex flex-wrap gap-2 justify-center mb-3">
-            {item.tags?.map(tag => (
-              <span key={tag} className="text-[10px] font-bold tracking-[0.15em] uppercase px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-                {tag}
-              </span>
-            ))}
-          </div>
+          <span className="text-[10px] font-bold tracking-[0.15em] uppercase px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 mb-3 inline-block">
+            {item.category}
+          </span>
           <h3 className="text-2xl font-bold tracking-wide text-white mb-2">{item.title}</h3>
           <p className="text-gray-400 max-w-2xl mx-auto">{item.description}</p>
         </div>
@@ -387,40 +417,21 @@ const InspirationModal = ({ item, onClose, onNext, onPrev }) => {
 };
 
 export default function Applications() {
-  const [inspirations, setInspirations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [inspirationFilter, setInspirationFilter] = useState('all');
+  const [galleryFilter, setGalleryFilter] = useState('all');
 
-  useEffect(() => {
-    const fetchInspirations = async () => {
-      try {
-        const response = await getInspirations();
-        const data = response?.data?.inspirations || response?.data || [];
-        // Filter out product images (white backgrounds) - keep all installation/project photos
-        const filtered = (Array.isArray(data) ? data : []).filter(item => 
-          item.image_url && !item.image_url.toLowerCase().includes('white')
-        );
-        setInspirations(filtered);
-      } catch (err) {
-        console.error('Failed to fetch inspirations:', err);
-        setInspirations([]);
-      }
-    };
-    fetchInspirations();
-  }, []);
-
-  const filteredInspirations = inspirationFilter === 'all' 
-    ? inspirations 
-    : inspirations.filter(i => i.tags?.some(t => t.toLowerCase().includes(inspirationFilter.toLowerCase())));
-
-  const uniqueTags = [...new Set((inspirations || []).flatMap(i => i.tags || []))].slice(0, 6);
+  const categories = ['all', ...new Set(PROJECT_GALLERY.map(p => p.category))];
+  
+  const filteredGallery = galleryFilter === 'all' 
+    ? PROJECT_GALLERY 
+    : PROJECT_GALLERY.filter(p => p.category === galleryFilter);
 
   const handlePrev = () => {
-    setSelectedIndex(prev => prev === 0 ? filteredInspirations.length - 1 : prev - 1);
+    setSelectedIndex(prev => prev === 0 ? filteredGallery.length - 1 : prev - 1);
   };
 
   const handleNext = () => {
-    setSelectedIndex(prev => prev === filteredInspirations.length - 1 ? 0 : prev + 1);
+    setSelectedIndex(prev => prev === filteredGallery.length - 1 ? 0 : prev + 1);
   };
 
   return (
@@ -431,7 +442,6 @@ export default function Applications() {
         path="/applications"
       />
 
-      {/* Dramatic Hero Carousel */}
       <HeroCarousel />
 
       {/* Section Divider */}
@@ -445,126 +455,103 @@ export default function Applications() {
         </FadeInSection>
       </div>
 
-      {/* Applications Grid - Dramatic Bento Layout */}
+      {/* All 10 Industries Grid - Uniform cards */}
       <section className="pb-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <div className="grid md:grid-cols-3 gap-4 md:gap-6">
-            {APPLICATIONS.slice(4).map((app, i) => (
-              <FadeInSection key={app.id} delay={i * 0.5}>
-                <ApplicationCard app={app} index={i} />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {APPLICATIONS.map((app, i) => (
+              <FadeInSection key={app.id} delay={i * 0.3}>
+                <ApplicationCard app={app} />
               </FadeInSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Inspirations Gallery - Dramatic Masonry */}
-      {inspirations.length > 0 && (
-        <section className="py-20 relative overflow-hidden">
-          {/* Background Effect */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-cyan-500/5 rounded-full blur-[150px]" />
+      {/* Project Gallery - Curated real installation images */}
+      <section className="py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-cyan-500/5 rounded-full blur-[150px]" />
 
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-            <FadeInSection>
-              <div className="text-center mb-12">
-                <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Visual Inspiration</span>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-white mb-4">
-                  Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">Gallery</span>
-                </h2>
-                <p className="text-gray-500 max-w-lg mx-auto">
-                  Stunning LED installations from around the world. Click to explore.
-                </p>
-              </div>
-            </FadeInSection>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+          <FadeInSection>
+            <div className="text-center mb-12">
+              <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Visual Inspiration</span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-white mb-4">
+                Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">Gallery</span>
+              </h2>
+              <p className="text-gray-500 max-w-lg mx-auto">
+                Real LED installations from across the UAE and beyond. Click to explore.
+              </p>
+            </div>
+          </FadeInSection>
 
-            {/* Filter Tags */}
-            <FadeInSection delay={1}>
-              <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {/* Category Filters */}
+          <FadeInSection delay={1}>
+            <div className="flex flex-wrap justify-center gap-2 mb-10">
+              {categories.map(cat => (
                 <button
-                  onClick={() => setInspirationFilter('all')}
-                  className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider transition-all ${
-                    inspirationFilter === 'all' 
+                  key={cat}
+                  onClick={() => setGalleryFilter(cat)}
+                  className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider transition-all capitalize ${
+                    galleryFilter === cat 
                       ? 'bg-cyan-500 text-black shadow-[0_0_20px_rgba(34,211,238,0.4)]' 
                       : 'bg-white/5 text-gray-400 border border-white/10 hover:border-cyan-500/30 hover:text-white'
                   }`}
                 >
-                  All Projects
+                  {cat === 'all' ? 'All Projects' : cat}
                 </button>
-                {uniqueTags.map(tag => (
-                  <button
-                    key={tag}
-                    onClick={() => setInspirationFilter(tag)}
-                    className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider transition-all ${
-                      inspirationFilter === tag 
-                        ? 'bg-cyan-500 text-black shadow-[0_0_20px_rgba(34,211,238,0.4)]' 
-                        : 'bg-white/5 text-gray-400 border border-white/10 hover:border-cyan-500/30 hover:text-white'
-                    }`}
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
-            </FadeInSection>
-
-            {/* Gallery Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4" data-testid="inspirations-gallery">
-              {filteredInspirations.slice(0, 12).map((item, i) => {
-                const isHero = i === 0 || i === 5;
-                return (
-                  <FadeInSection 
-                    key={item._id || i} 
-                    delay={2 + i * 0.3}
-                    className={isHero ? 'col-span-2 row-span-2' : ''}
-                  >
-                    <div 
-                      className="group cursor-pointer relative rounded-xl overflow-hidden h-full"
-                      onClick={() => setSelectedIndex(i)}
-                      data-testid={`inspiration-item-${i}`}
-                    >
-                      <div className={`relative ${isHero ? 'h-full min-h-[400px]' : 'h-48 md:h-56'}`}>
-                        <CdnImage 
-                          src={item.image_url} 
-                          alt={item.title} 
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          w={isHero ? 800 : 400}
-                        />
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
-                        
-                        {/* Hover Content */}
-                        <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                          <div className="flex flex-wrap gap-1 mb-2">
-                            {item.tags?.slice(0, 2).map(tag => (
-                              <span key={tag} className="text-[8px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full bg-cyan-500/30 text-cyan-400">{tag}</span>
-                            ))}
-                          </div>
-                          <h3 className="text-sm font-bold text-white">{item.title}</h3>
-                        </div>
-
-                        {/* Zoom Icon */}
-                        <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform scale-75 group-hover:scale-100">
-                          <ZoomIn size={18} className="text-white" />
-                        </div>
-
-                        {/* Border Effect */}
-                        <div className="absolute inset-0 border-2 border-transparent group-hover:border-cyan-500/50 rounded-xl transition-colors" />
-                      </div>
-                    </div>
-                  </FadeInSection>
-                );
-              })}
+              ))}
             </div>
+          </FadeInSection>
+
+          {/* Gallery Grid - Fixed height consistent cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-testid="project-gallery">
+            {filteredGallery.map((item, i) => {
+              const isHero = i === 0 || i === 3;
+              return (
+                <FadeInSection 
+                  key={item.id} 
+                  delay={2 + i * 0.2}
+                  className={isHero ? 'md:col-span-2 md:row-span-2' : ''}
+                >
+                  <div 
+                    className="group cursor-pointer relative rounded-xl overflow-hidden h-full"
+                    onClick={() => setSelectedIndex(i)}
+                    data-testid={`gallery-item-${i}`}
+                  >
+                    <div className={`relative ${isHero ? 'h-full min-h-[350px] md:min-h-[450px]' : 'h-52 md:h-60'}`}>
+                      <img 
+                        src={item.image} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
+                      
+                      <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                        <span className="text-[8px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full bg-cyan-500/30 text-cyan-400 w-fit mb-2">{item.category}</span>
+                        <h3 className="text-sm font-bold text-white">{item.title}</h3>
+                      </div>
+
+                      <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform scale-75 group-hover:scale-100">
+                        <ZoomIn size={18} className="text-white" />
+                      </div>
+
+                      <div className="absolute inset-0 border-2 border-transparent group-hover:border-cyan-500/50 rounded-xl transition-colors" />
+                    </div>
+                  </div>
+                </FadeInSection>
+              );
+            })}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Bottom CTA */}
       <section className="py-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
           <FadeInSection>
             <div className="relative rounded-3xl overflow-hidden">
-              {/* Background */}
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/10 to-cyan-500/20" />
               <div className="absolute inset-0 backdrop-blur-3xl" />
               <div className="absolute inset-0 border border-white/10 rounded-3xl" />
@@ -598,11 +585,11 @@ export default function Applications() {
         </div>
       </section>
 
-      {/* Inspiration Modal */}
+      {/* Gallery Modal */}
       <AnimatePresence>
-        {selectedIndex !== null && filteredInspirations[selectedIndex] && (
-          <InspirationModal 
-            item={filteredInspirations[selectedIndex]} 
+        {selectedIndex !== null && filteredGallery[selectedIndex] && (
+          <GalleryModal 
+            item={filteredGallery[selectedIndex]} 
             onClose={() => setSelectedIndex(null)}
             onPrev={handlePrev}
             onNext={handleNext}

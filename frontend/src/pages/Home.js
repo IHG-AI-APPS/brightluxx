@@ -7,7 +7,6 @@ import SEO, { BASE_URL } from '../components/SEO';
 import { EXTERNAL_CDN, cdnUrl } from '../config/cdn';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import ThemeToggle from '../components/ThemeToggle';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -255,11 +254,6 @@ const Home = () => {
 
   return (
     <div className={`${bgMain} transition-colors duration-500`}>
-      {/* Theme Toggle - Fixed position */}
-      <div className="fixed top-24 right-6 z-50">
-        <ThemeToggle />
-      </div>
-
       <SEO
         title="Brightluxx — Premium LED Displays | Dubai & GCC"
         description="OEM-grade LED display technology. MicroLED, outdoor, rental & transparent screens. UAE-ready delivery. Established since 2005."

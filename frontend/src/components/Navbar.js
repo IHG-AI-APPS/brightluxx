@@ -1,7 +1,9 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid, BookOpen, HelpCircle, Phone, Info, Factory, Users, Newspaper, FolderOpen, Lightbulb, PenTool, Shield } from 'lucide-react';
+import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid, BookOpen, HelpCircle, Phone, Info, Factory, Users, Newspaper, FolderOpen, Lightbulb, PenTool, Shield, Sun, Moon } from 'lucide-react';
 import { useSiteSettings } from '../contexts/SiteSettingsContext';
+import { useTheme } from '../contexts/ThemeContext';
+import { motion } from 'framer-motion';
 
 /* Dropdown wrapper — handles stable hover with a delay so the menu doesn't vanish mid-transition */
 function DropdownWrap({ trigger, children, isOpen, setOpen, testId }) {
@@ -27,6 +29,7 @@ const Navbar = () => {
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const location = useLocation();
   const { branding } = useSiteSettings();
+  const { isDark, toggleTheme } = useTheme();
 
   const isActive = (path) => location.pathname === path;
   const isActivePrefix = (prefix) => location.pathname.startsWith(prefix);
@@ -193,16 +196,26 @@ const Navbar = () => {
 
   return (
     <>
-    <nav className="fixed top-0 left-0 right-0 z-50" style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', background: 'rgba(5,5,8,0.95)', borderBottom: '1px solid rgba(255,255,255,0.06)' }} data-testid="site-header-nav">
+    <nav 
+      className="fixed top-0 left-0 right-0 z-50 transition-colors duration-300" 
+      style={{ 
+        backdropFilter: 'blur(24px)', 
+        WebkitBackdropFilter: 'blur(24px)', 
+        background: isDark ? 'rgba(5,5,8,0.95)' : 'rgba(255,255,255,0.95)', 
+        borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.08)' 
+      }} 
+      data-testid="site-header-nav"
+    >
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-16">
           {/* Logo - proper sizing with max-height */}
           <Link to="/" className="flex items-center group flex-shrink-0" data-testid="logo-link">
             <img 
-              src="/assets/brightluxx-logo-nav.png" 
+              src={isDark ? "/assets/brightluxx-logo-nav.png" : "/assets/brightluxx-logo-dark.png"}
               alt={branding?.company_name || 'Brightluxx'} 
               className="h-8 w-auto max-h-8 object-contain transition-opacity duration-300 group-hover:opacity-80"
               style={{ maxWidth: '160px' }}
+              onError={(e) => { e.target.src = "/assets/brightluxx-logo-nav.png"; }}
             />
           </Link>
 
@@ -351,7 +364,28 @@ const Navbar = () => {
             </Link>
 
             {/* Thin divider */}
-            <div className="w-px h-4 bg-white/10" />
+            <div className={`w-px h-4 ${isDark ? 'bg-white/10' : 'bg-neutral-300'}`} />
+
+            {/* Theme Toggle */}
+            <motion.button
+              onClick={toggleTheme}
+              className={`p-2 rounded-full transition-all duration-300 ${
+                isDark 
+                  ? 'bg-white/10 hover:bg-white/20 text-white' 
+                  : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
+              }`}
+              whileTap={{ scale: 0.95 }}
+              data-testid="theme-toggle"
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              <motion.div
+                initial={false}
+                animate={{ rotate: isDark ? 0 : 180 }}
+                transition={{ duration: 0.3 }}
+              >
+                {isDark ? <Sun size={16} className="text-yellow-400" /> : <Moon size={16} className="text-indigo-600" />}
+              </motion.div>
+            </motion.button>
 
             {/* More Menu (Hamburger) - Contains Technologies, Tools, and secondary links */}
             <DropdownWrap
@@ -401,30 +435,45 @@ const Navbar = () => {
           </div>
 
           {/* Mobile menu button */}
-          <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden p-2 text-white" data-testid="site-header-mobile-menu-button">
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="lg:hidden flex items-center gap-2">
+            {/* Mobile Theme Toggle */}
+            <motion.button
+              onClick={toggleTheme}
+              className={`p-2 rounded-full transition-all duration-300 ${
+                isDark 
+                  ? 'bg-white/10 text-white' 
+                  : 'bg-neutral-100 text-neutral-700'
+              }`}
+              whileTap={{ scale: 0.95 }}
+              data-testid="theme-toggle-mobile"
+            >
+              {isDark ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-indigo-600" />}
+            </motion.button>
+            <button onClick={() => setIsOpen(!isOpen)} className={`p-2 ${isDark ? 'text-white' : 'text-neutral-900'}`} data-testid="site-header-mobile-menu-button">
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* ─── MOBILE NAVIGATION ─── */}
         {isOpen && (
           <div 
-            className="lg:hidden py-4 space-y-2 border-t border-white/[0.06] overflow-x-hidden overflow-y-auto" 
+            className={`lg:hidden py-4 space-y-2 border-t overflow-x-hidden overflow-y-auto ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`}
             data-testid="mobile-menu" 
             style={{ overflowX: 'hidden', maxHeight: 'calc(100vh - 64px)' }}
           >
-            <Link to="/products" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest uppercase hover:text-cyan-400">PRODUCTS</Link>
+            <Link to="/products" onClick={closeAll} className={`block px-4 py-2 text-sm font-bold tracking-widest uppercase hover:text-cyan-400 ${isDark ? 'text-white' : 'text-neutral-900'}`}>PRODUCTS</Link>
             <div className="px-4 pb-2">
               <div className="grid grid-cols-2 gap-1">
                 {productCategories.flatMap(g => g.items).slice(0, 8).map((item) => (
-                  <Link key={item.cat} to={`/products?category=${item.cat}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-neutral-400 hover:text-cyan-400 py-1 px-2 rounded hover:bg-white/[0.04] uppercase">
+                  <Link key={item.cat} to={`/products?category=${item.cat}`} onClick={closeAll} className={`text-[0.6rem] tracking-wider py-1 px-2 rounded hover:bg-white/[0.04] uppercase ${isDark ? 'text-neutral-400 hover:text-cyan-400' : 'text-neutral-600 hover:text-cyan-600'}`}>
                     {item.name}
                   </Link>
                 ))}
               </div>
             </div>
 
-            <Link to="/solutions" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest uppercase hover:text-cyan-400">SOLUTIONS</Link>
+            <Link to="/solutions" onClick={closeAll} className={`block px-4 py-2 text-sm font-bold tracking-widest uppercase hover:text-cyan-400 ${isDark ? 'text-white' : 'text-neutral-900'}`}>SOLUTIONS</Link>
 
             {/* Product Families Section */}
             <div className="border-t border-white/[0.06] pt-2 mt-2">

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { useSiteSettings } from '../contexts/SiteSettingsContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const SOCIAL_ICONS = {
   instagram: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>,
@@ -14,6 +15,7 @@ const SOCIAL_ICONS = {
 
 const Footer = () => {
   const { branding, contact, social } = useSiteSettings();
+  const { isDark } = useTheme();
   const currentYear = new Date().getFullYear();
 
   const socialLinks = Object.entries(social || {})
@@ -21,12 +23,19 @@ const Footer = () => {
     .map(([key, url]) => ({ name: key, href: url, icon: SOCIAL_ICONS[key] }))
     .filter(s => s.icon);
 
+  // Theme classes
+  const bgMain = isDark ? 'bg-[#050508]' : 'bg-neutral-100';
+  const borderColor = isDark ? 'border-[rgba(255,255,255,0.06)]' : 'border-neutral-200';
+  const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
+  const textSecondary = isDark ? 'text-neutral-400' : 'text-neutral-600';
+  const gridColor = isDark ? 'rgba(34,211,238,0.5)' : 'rgba(34,211,238,0.3)';
+
   return (
-    <footer className="relative border-t border-[rgba(255,255,255,0.06)] mt-20" data-testid="footer">
+    <footer className={`relative border-t ${borderColor} mt-20 transition-colors duration-500`} data-testid="footer">
       {/* LED Grid Background Effect */}
-      <div className="absolute inset-0 bg-[#050508]" style={{zIndex: -1}} />
+      <div className={`absolute inset-0 ${bgMain}`} style={{zIndex: -1}} />
       <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: 'linear-gradient(rgba(34,211,238,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.5) 1px, transparent 1px)',
+        backgroundImage: `linear-gradient(${gridColor} 1px, transparent 1px), linear-gradient(90deg, ${gridColor} 1px, transparent 1px)`,
         backgroundSize: '40px 40px',
         zIndex: -1
       }} />
@@ -36,11 +45,12 @@ const Footer = () => {
           {/* Logo & Social Column */}
           <div className="col-span-1">
             <img 
-              src="/assets/brightluxx-logo-footer.png" 
+              src={isDark ? "/assets/brightluxx-logo-footer.png" : "/assets/brightluxx-logo-dark.png"}
               alt={branding?.company_name || 'Brightluxx'} 
               className="h-8 w-auto mb-5"
+              onError={(e) => { e.target.src = "/assets/brightluxx-logo-footer.png"; }}
             />
-            <p className="text-xs text-[var(--blx-text-2)] leading-relaxed tracking-wider mb-5 max-w-[240px]">
+            <p className={`text-xs leading-relaxed tracking-wider mb-5 max-w-[240px] ${textSecondary}`}>
               {branding?.tagline || 'Premium LED display solutions for UAE and MENA.'} Established since {branding?.established_year || '2005'}.
             </p>
             {socialLinks.length > 0 && (
@@ -51,8 +61,8 @@ const Footer = () => {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-[var(--blx-text-2)] hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:bg-cyan-500/10"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                    className={`w-9 h-9 rounded-full flex items-center justify-center hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:bg-cyan-500/10 ${textSecondary}`}
+                    style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)' }}
                     aria-label={s.name}
                     data-testid={`footer-social-${s.name}`}
                   >
@@ -64,38 +74,38 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-[0.625rem] font-bold mb-4 tracking-[0.2em]">Explore</h3>
+            <h3 className={`text-[0.625rem] font-bold mb-4 tracking-[0.2em] ${textPrimary}`}>Explore</h3>
             <ul className="space-y-2 text-xs">
-              <li><Link to="/products" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Products</Link></li>
-              <li><Link to="/services" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Services</Link></li>
-              <li><Link to="/solutions" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Solutions</Link></li>
-              <li><Link to="/applications" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Applications</Link></li>
-              <li><Link to="/case-studies" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Case Studies</Link></li>
-              <li><Link to="/blog" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Blog</Link></li>
+              <li><Link to="/products" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Products</Link></li>
+              <li><Link to="/services" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Services</Link></li>
+              <li><Link to="/solutions" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Solutions</Link></li>
+              <li><Link to="/applications" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Applications</Link></li>
+              <li><Link to="/case-studies" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Case Studies</Link></li>
+              <li><Link to="/blog" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Blog</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-[0.625rem] font-bold mb-4 tracking-[0.2em]">Company</h3>
+            <h3 className={`text-[0.625rem] font-bold mb-4 tracking-[0.2em] ${textPrimary}`}>Company</h3>
             <ul className="space-y-2 text-xs">
-              <li><Link to="/about" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">About Us</Link></li>
-              <li><Link to="/contact" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Contact Us</Link></li>
-              <li><Link to="/factory-tour" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Factory Tour</Link></li>
-              <li><Link to="/faq" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">FAQ</Link></li>
-              <li><Link to="/distribution" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Distribution</Link></li>
-              <li><Link to="/supplier-registration" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Supplier Registration</Link></li>
-              <li><Link to="/technical-support" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Technical Support</Link></li>
-              <li><Link to="/resources" className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">Resources</Link></li>
+              <li><Link to="/about" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>About Us</Link></li>
+              <li><Link to="/contact" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Contact Us</Link></li>
+              <li><Link to="/factory-tour" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Factory Tour</Link></li>
+              <li><Link to="/faq" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>FAQ</Link></li>
+              <li><Link to="/distribution" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Distribution</Link></li>
+              <li><Link to="/supplier-registration" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Supplier Registration</Link></li>
+              <li><Link to="/technical-support" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Technical Support</Link></li>
+              <li><Link to="/resources" className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>Resources</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-[0.625rem] font-bold mb-4 tracking-[0.2em]">Contact</h3>
+            <h3 className={`text-[0.625rem] font-bold mb-4 tracking-[0.2em] ${textPrimary}`}>Contact</h3>
             <ul className="space-y-3 text-xs">
               {contact?.address && (
-                <li className="flex items-start gap-2 text-[var(--blx-text-2)] tracking-wider">
+                <li className={`flex items-start gap-2 tracking-wider ${textSecondary}`}>
                   <MapPin size={14} className="mt-0.5 flex-shrink-0" />
-                  <a href={`https://maps.google.com/?q=${encodeURIComponent(contact.address)}`} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--blx-text)] transition-colors duration-200">
+                  <a href={`https://maps.google.com/?q=${encodeURIComponent(contact.address)}`} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors duration-200">
                     {contact.address}
                   </a>
                 </li>
@@ -103,7 +113,7 @@ const Footer = () => {
               {contact?.phone && (
                 <li className="flex items-center gap-2">
                   <Phone size={14} className="flex-shrink-0" />
-                  <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">
+                  <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>
                     {contact.phone}
                   </a>
                 </li>
@@ -111,7 +121,7 @@ const Footer = () => {
               {contact?.email && (
                 <li className="flex items-center gap-2">
                   <Mail size={14} className="flex-shrink-0" />
-                  <a href={`mailto:${contact.email}`} className="text-[var(--blx-text-2)] hover:text-[var(--blx-text)] transition-colors duration-200 tracking-wider">
+                  <a href={`mailto:${contact.email}`} className={`${textSecondary} hover:text-cyan-400 transition-colors duration-200 tracking-wider`}>
                     {contact.email}
                   </a>
                 </li>
@@ -121,7 +131,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-14 pt-8 border-t border-[rgba(255,255,255,0.06)] flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.625rem] text-[var(--blx-muted)] tracking-[0.15em]">
+        <div className={`mt-14 pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.625rem] tracking-[0.15em] ${borderColor} ${textSecondary}`}>
           <p>&copy; {currentYear} {branding?.company_name || 'Brightluxx'}. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <Link to="/about" className="hover:text-cyan-400 transition-colors duration-200">About Us</Link>

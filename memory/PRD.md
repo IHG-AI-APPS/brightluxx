@@ -775,6 +775,43 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - **Bottom CTA with glassmorphism design**
 - **Testing:** 100% frontend pass rate (iteration_61.json)
 
+### SignaTouch Digital Kiosk Product Line — Mar 17, 2026
+- **New Product Family Page (`/signatouch`):**
+  - Third standalone product sub-site (after LumiMorph and NaturaTex)
+  - Brand identity: Amber/gold accent colors (#F59E0B)
+  - "Interactive Kiosks. Elevated Experiences." tagline
+- **Hero Section:**
+  - Full-screen AI-generated kiosk image (retail setting)
+  - Gradient overlay with left-aligned content
+  - "Request Quote" and "View Products" CTAs
+- **Stats Section:**
+  - 63% consumer attention, 47% brand awareness increase, 29% spending boost
+- **Product Range (3 products):**
+  - Touch Screen Kiosk (30"-77", 40-Point IR touch)
+  - Smart Signage Kiosk (45% transparency, 600 cd/m²)
+  - Self-Service Kiosk (NFC/Card payment, Android/Windows)
+- **Industries Section:**
+  - 6 target verticals: Retail, Hospitality, Healthcare, Corporate, Transportation, F&B
+  - AI-generated industry-specific kiosk images
+- **Technology Section:**
+  - Enterprise-grade specs: 178° viewing angle, 600 brightness, 45% transparency, 150,000:1 contrast
+  - Feature list: warranty, OS options, HDMI support, custom motherboard
+- **Sizes Section:**
+  - Standard options: 30", 48", 55", 77"
+  - Color options: Silver Gray, Gold, Dark Blue
+- **FAQs Section:**
+  - 5 accordion FAQs covering sizes, colors, lifespan, OS, bulk discounts
+- **Cross-linking:**
+  - "Other Product Lines" section with LumiMorph and NaturaTex cards
+  - Back to Brightluxx link in hero
+- **Navigation:**
+  - "SignaTouch" link added to main navbar (highlighted in amber)
+  - Positioned after NaturaTex in nav order
+- **Files Created:**
+  - `frontend/src/pages/signatouch/SignaTouchLanding.js`
+  - `frontend/src/pages/signatouch/index.js`
+- **Testing:** 100% frontend pass rate (iteration_66.json)
+
 ---
 
 ## Remaining Tasks

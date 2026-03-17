@@ -4,6 +4,8 @@ import { ArrowLeft, ArrowRight, ChevronDown, Monitor, Tv, Layers, Sparkles, Buil
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../../components/SEO';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
@@ -16,68 +18,12 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
   return (<motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }} transition={{ duration: 0.8, delay: delay * 0.15, ease: [0.25, 0.1, 0.25, 1] }} className={className}>{children}</motion.div>);
 };
 
-const CATEGORIES = [
-  {
-    id: 'poster',
-    name: 'LED Poster',
-    tagline: 'Stand-Alone Digital Signage',
-    desc: 'Slim, portable LED displays perfect for retail, hospitality, and events. Easy setup with stunning visual impact.',
-    icon: Tv,
-    color: 'rose',
-    products: [
-      { name: 'iPoster', desc: 'Indoor moveable signage with seamless splicing', link: '/pixelvue/iposter' },
-      { name: 'iFlip', desc: 'Digital LED standee with flip mechanism', link: '/pixelvue/iflip' },
-      { name: 'Ultra Flip', desc: 'Premium flip-style poster display', link: '/pixelvue/ultra-flip' },
-      { name: 'Digi Standee', desc: 'Versatile digital standee display', link: '/pixelvue/digi-standee' },
-      { name: 'OOHPoster', desc: 'Outdoor floor-standing poster', link: '/pixelvue/ooh-poster' },
-      { name: 'Eagle Wing', desc: 'Premium winged poster display', link: '/pixelvue/eagle-wing' },
-    ],
-  },
-  {
-    id: 'commercial',
-    name: 'Commercial',
-    tagline: 'Business Display Solutions',
-    desc: 'Professional-grade displays for retail windows, conference rooms, and commercial environments.',
-    icon: Building2,
-    color: 'rose',
-    products: [
-      { name: 'Unity', desc: 'Modular commercial display system', link: '/pixelvue/unity' },
-      { name: 'VideoBrick', desc: 'Fine pitch display for close viewing', link: '/pixelvue/videobrick' },
-      { name: 'iConference', desc: 'Meeting room LED screen', link: '/pixelvue/iconference' },
-      { name: 'EzeeSign', desc: 'Store window LED screen', link: '/pixelvue/ezeesign' },
-      { name: 'iShelf', desc: 'Retail shelf LED display', link: '/pixelvue/ishelf' },
-      { name: 'Tablevision', desc: 'Table/counter display', link: '/pixelvue/tablevision' },
-      { name: 'iFlex Pro', desc: 'Flexible curved LED screen', link: '/pixelvue/iflex-pro' },
-      { name: 'iTransformers', desc: 'Auto-folding conference display', link: '/pixelvue/itransformers' },
-      { name: 'Tetris', desc: 'Modular advertising display', link: '/pixelvue/tetris' },
-      { name: 'EllipseCounter', desc: 'Desktop ellipse screen', link: '/pixelvue/ellipse-counter' },
-    ],
-  },
-  {
-    id: 'creative',
-    name: 'Creative',
-    tagline: 'Artistic LED Installations',
-    desc: 'Custom shapes, interactive floors, and immersive experiences for events, museums, and brand activations.',
-    icon: Sparkles,
-    color: 'rose',
-    products: [
-      { name: 'Creative LED Screen', desc: 'Custom shapes: spheres, letters, cubes', link: '/pixelvue/creative-shapes' },
-      { name: 'Interactive LED Screen', desc: 'Touch-enabled interactive displays', link: '/pixelvue/interactive' },
-      { name: 'CrystalFlex', desc: 'Transparent LED film display', link: '/pixelvue/crystalflex' },
-      { name: 'Rolling Floor Screen', desc: 'Interactive floor display', link: '/pixelvue/rolling-floor' },
-      { name: 'Magicstage', desc: 'Stage LED platform', link: '/pixelvue/magicstage' },
-      { name: 'LED Magic Blanket', desc: 'Flexible mesh display', link: '/pixelvue/magic-blanket' },
-      { name: 'LED Magicsky Carpet', desc: 'Ceiling/sky display', link: '/pixelvue/magicsky' },
-      { name: 'LED Magic Garments', desc: 'Wearable LED technology', link: '/pixelvue/magic-garments' },
-    ],
-  },
-];
-
-const FEATURED_PRODUCTS = [
-  { name: 'iPoster', tagline: 'Seamless Splicing', desc: 'Advanced indoor moveable digital signage with 16:9 seamless splicing capability. 40mm thin, easy control via USB, HDMI, WiFi.', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png', link: '/pixelvue/iposter', specs: { thickness: '40mm', weight: '69kg' } },
-  { name: 'Unity', tagline: 'Flexible Configurations', desc: 'Modular commercial display for flat, curved, or column installations. Front and rear maintenance with 90° column option.', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c89f5ffe1dc9c397592b6acb7d50a61072989db54795a612c598d5acab9bb4ac.png', link: '/pixelvue/unity', specs: { panel: '1000×250mm', install: 'Multi-way' } },
-  { name: 'Creative Shapes', tagline: 'Custom Design', desc: 'Spheres, letters, cubes, rings — any shape you can imagine. Transform spaces with artistic LED installations.', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/8843d7af8116d17ab305e7402dc9c17d8db6ca767924eaab92aaeebc08a20696.png', link: '/pixelvue/creative-shapes', specs: { shapes: 'Unlimited', custom: 'Yes' } },
-];
+// Category metadata (static - icons and colors don't change)
+const CATEGORY_META = {
+  poster: { name: 'LED Poster', tagline: 'Stand-Alone Digital Signage', desc: 'Slim, portable LED displays perfect for retail, hospitality, and events.', icon: Tv },
+  commercial: { name: 'Commercial', tagline: 'Business Display Solutions', desc: 'Professional-grade displays for retail windows, conference rooms, and commercial environments.', icon: Building2 },
+  creative: { name: 'Creative', tagline: 'Artistic LED Installations', desc: 'Custom shapes, interactive floors, and immersive experiences for events, museums, and brand activations.', icon: Sparkles },
+};
 
 const STATS = [
   { value: '100K+', label: 'Hours Lifespan' },
@@ -104,6 +50,41 @@ const FAQS = [
 export default function PixelVueLanding() {
   const [openFaq, setOpenFaq] = useState(null);
   const [activeCategory, setActiveCategory] = useState('poster');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/pixelvue/products`);
+        const data = await res.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  // Group products by category
+  const productsByCategory = {
+    poster: products.filter(p => p.category === 'poster'),
+    commercial: products.filter(p => p.category === 'commercial'),
+    creative: products.filter(p => p.category === 'creative'),
+  };
+
+  // Featured products (first 3 products with hero images)
+  const featuredProducts = products.filter(p => p.hero_image).slice(0, 3);
+
+  // Build categories array with dynamic product data
+  const CATEGORIES = Object.entries(CATEGORY_META).map(([id, meta]) => ({
+    id,
+    ...meta,
+    products: productsByCategory[id] || [],
+  }));
 
   return (
     <div className="bg-neutral-950 min-h-screen" data-testid="pixelvue-landing">
@@ -150,30 +131,36 @@ export default function PixelVueLanding() {
       <section className="py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <FadeIn><div className="text-center mb-16"><p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Featured</p><h2 className="text-4xl md:text-5xl font-extralight text-white">Bestselling Solutions</h2></div></FadeIn>
-          <div className="grid lg:grid-cols-3 gap-8">
-            {FEATURED_PRODUCTS.map((product, i) => (
-              <FadeIn key={i} delay={i + 1}>
-                <Link to={product.link} className="group block">
-                  <div className="relative overflow-hidden rounded-sm border border-neutral-800 hover:border-rose-500/30 transition-all duration-300">
-                    <div className="aspect-[4/3] overflow-hidden">
-                      <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                    </div>
-                    <div className="p-6 border-t border-neutral-800">
-                      <p className="text-rose-400 text-xs tracking-[0.2em] uppercase mb-2">{product.tagline}</p>
-                      <h3 className="text-xl font-light text-white mb-3">{product.name}</h3>
-                      <p className="text-neutral-400 text-sm leading-relaxed mb-4">{product.desc}</p>
-                      <div className="flex gap-4 mb-4">
-                        {Object.entries(product.specs).map(([key, value]) => (
-                          <div key={key}><div className="text-white font-medium text-sm">{value}</div><div className="text-neutral-600 text-[10px] tracking-wider uppercase">{key}</div></div>
-                        ))}
+          {loading ? (
+            <div className="text-center py-12 text-neutral-400">Loading products...</div>
+          ) : (
+            <div className="grid lg:grid-cols-3 gap-8">
+              {featuredProducts.map((product, i) => (
+                <FadeIn key={product.id || i} delay={i + 1}>
+                  <Link to={`/pixelvue/${product.slug}`} className="group block">
+                    <div className="relative overflow-hidden rounded-sm border border-neutral-800 hover:border-rose-500/30 transition-all duration-300">
+                      <div className="aspect-[4/3] overflow-hidden">
+                        <img src={product.hero_image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                       </div>
-                      <div className="flex items-center text-white text-sm font-medium group-hover:text-rose-400 transition-colors">Learn More <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" /></div>
+                      <div className="p-6 border-t border-neutral-800">
+                        <p className="text-rose-400 text-xs tracking-[0.2em] uppercase mb-2">{product.tagline}</p>
+                        <h3 className="text-xl font-light text-white mb-3">{product.name}</h3>
+                        <p className="text-neutral-400 text-sm leading-relaxed mb-4 line-clamp-2">{product.description}</p>
+                        {product.quick_specs && product.quick_specs.length >= 2 && (
+                          <div className="flex gap-4 mb-4">
+                            {product.quick_specs.slice(0, 2).map((spec, idx) => (
+                              <div key={idx}><div className="text-white font-medium text-sm">{spec.value}</div><div className="text-neutral-600 text-[10px] tracking-wider uppercase">{spec.label}</div></div>
+                            ))}
+                          </div>
+                        )}
+                        <div className="flex items-center text-white text-sm font-medium group-hover:text-rose-400 transition-colors">Learn More <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" /></div>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </FadeIn>
-            ))}
-          </div>
+                  </Link>
+                </FadeIn>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -187,7 +174,7 @@ export default function PixelVueLanding() {
             <div className="flex justify-center gap-4 mb-12">
               {CATEGORIES.map((cat) => (
                 <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`px-6 py-3 rounded-sm text-sm font-medium transition-all ${activeCategory === cat.id ? 'bg-rose-500 text-white' : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'}`}>
-                  <cat.icon size={16} className="inline mr-2" />{cat.name}
+                  <cat.icon size={16} className="inline mr-2" />{cat.name} ({cat.products.length})
                 </button>
               ))}
             </div>
@@ -202,16 +189,20 @@ export default function PixelVueLanding() {
                   <p className="text-neutral-400 max-w-xl mx-auto">{cat.desc}</p>
                 </div>
               </FadeIn>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {cat.products.map((product, i) => (
-                  <FadeIn key={i} delay={i * 0.5}>
-                    <Link to={product.link} className="group block p-4 border border-neutral-800 rounded-sm hover:border-rose-500/30 hover:bg-neutral-900/50 transition-all">
-                      <h4 className="text-white font-medium mb-1 group-hover:text-rose-400 transition-colors">{product.name}</h4>
-                      <p className="text-neutral-500 text-sm">{product.desc}</p>
-                    </Link>
-                  </FadeIn>
-                ))}
-              </div>
+              {loading ? (
+                <div className="text-center py-8 text-neutral-400">Loading products...</div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {cat.products.map((product, i) => (
+                    <FadeIn key={product.id || i} delay={i * 0.5}>
+                      <Link to={`/pixelvue/${product.slug}`} className="group block p-4 border border-neutral-800 rounded-sm hover:border-rose-500/30 hover:bg-neutral-900/50 transition-all">
+                        <h4 className="text-white font-medium mb-1 group-hover:text-rose-400 transition-colors">{product.name}</h4>
+                        <p className="text-neutral-500 text-sm">{product.tagline || product.description?.substring(0, 60) + '...'}</p>
+                      </Link>
+                    </FadeIn>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

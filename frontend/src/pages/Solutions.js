@@ -1,11 +1,17 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, ShoppingBag, Briefcase, Sun, Music, Car, Video, Eye, Heart, GraduationCap, Trophy } from 'lucide-react';
 import SEO from '../components/SEO';
 import { motion } from 'framer-motion';
-import { SOLUTIONS } from '../data/solutions';
 
-/* AI-Generated Solution Images */
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+// Icon mapping for solutions
+const ICONS = {
+  ShoppingBag, Briefcase, Sun, Music, Sparkles, Car, Video, Eye, Heart, GraduationCap, Trophy
+};
+
+/* AI-Generated Solution Images - fallback if no hero_image in CMS */
 const SOLUTION_IMAGES = {
   retail: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f1edab22f7c00ed7647328b0726ef9e2724536d87fcb9797fe25887dfe20104e.png',
   corporate: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/560b86307144e6c3e932bdd0b195203f9854ab40f18ea255c935eda9fdbcb23a.png',
@@ -54,19 +60,26 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
 
 /* Glassmorphism Solution Card */
 const SolutionCard = ({ solution, index }) => {
-  const Icon = solution.icon;
+  // Get icon from CMS or use default
+  const iconName = solution.icon || 'Sparkles';
+  const Icon = ICONS[iconName] || Sparkles;
+  
+  // Use slug for routing instead of id
+  const solutionSlug = solution.slug || solution.id;
+  const imageUrl = solution.hero_image || SOLUTION_IMAGES[solutionSlug] || SOLUTION_IMAGES.retail;
+  const useCases = solution.use_cases || solution.tags || [];
   
   return (
     <FadeInSection delay={index}>
       <Link
-        to={`/solutions/${solution.id}`}
+        to={`/solutions/${solutionSlug}`}
         className="group relative block overflow-hidden h-full"
-        data-testid={`solution-card-${solution.id}`}
+        data-testid={`solution-card-${solutionSlug}`}
       >
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src={SOLUTION_IMAGES[solution.id]}
+            src={imageUrl}
             alt={solution.title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
@@ -92,20 +105,22 @@ const SolutionCard = ({ solution, index }) => {
           
           {/* Description */}
           <p className="text-sm text-gray-400 tracking-wide mb-4 line-clamp-2">
-            {solution.desc}
+            {solution.description || solution.desc}
           </p>
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {solution.tags.map((tag) => (
-              <span 
-                key={tag} 
-                className="text-[10px] px-2.5 py-1 backdrop-blur-sm bg-white/5 border border-white/10 text-gray-300 uppercase tracking-wider font-medium"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          {useCases.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-4">
+              {useCases.slice(0, 3).map((tag, idx) => (
+                <span 
+                  key={idx} 
+                  className="text-[10px] px-2.5 py-1 backdrop-blur-sm bg-white/5 border border-white/10 text-gray-300 uppercase tracking-wider font-medium"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
 
           {/* CTA */}
           <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300">
@@ -121,6 +136,24 @@ const SolutionCard = ({ solution, index }) => {
 };
 
 export default function Solutions() {
+  const [solutions, setSolutions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSolutions = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/solutions`);
+        const data = await res.json();
+        setSolutions(data);
+      } catch (error) {
+        console.error('Error fetching solutions:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSolutions();
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#050508]" data-testid="solutions-page">
       <SEO
@@ -157,11 +190,15 @@ export default function Solutions() {
       {/* Solutions Grid */}
       <section className="pb-24 lg:pb-32">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6" data-testid="solutions-grid">
-            {SOLUTIONS.map((sol, index) => (
-              <SolutionCard key={sol.id} solution={sol} index={index} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center py-12 text-neutral-400">Loading solutions...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6" data-testid="solutions-grid">
+              {solutions.map((sol, index) => (
+                <SolutionCard key={sol.id || sol.slug} solution={sol} index={index} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

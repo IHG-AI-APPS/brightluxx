@@ -1,13 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, Zap, Building2, ShoppingBag, MonitorPlay, Tv, Layers, TrafficCone, Theater, Globe, Heart, GraduationCap, Trophy } from 'lucide-react';
+import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, Zap, Building2, ShoppingBag, MonitorPlay, Tv, Layers, TrafficCone, Theater, Globe, Heart, GraduationCap, Trophy, Sparkles, Sun, Music, Car, Video, Eye } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { BASE_URL } from '../components/SEO';
 import QuickInquiry from '../components/QuickInquiry';
 import { cdnUrl } from '../config/cdn';
 import { motion } from 'framer-motion';
-import { SOLUTIONS } from '../data/solutions';
+
+const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 /* AI-Generated Solution Images */
 const SOLUTION_IMAGES = {
@@ -38,7 +39,7 @@ const SOLUTION_HERO_IMAGES = {
   sports: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9526e5947bd78aa69ff98d080f2cda56d8ede781a2848cfa1ba7ec2152cf57f4.png',
 };
 
-const ICON_MAP = { ShoppingBag, Building2, MonitorPlay, Theater, Layers, TrafficCone, Tv, Globe, Heart, GraduationCap, Trophy };
+const ICON_MAP = { ShoppingBag, Building2, MonitorPlay, Theater, Layers, TrafficCone, Tv, Globe, Heart, GraduationCap, Trophy, Sparkles, Sun, Music, Car, Video, Eye, Briefcase: Building2 };
 
 const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
@@ -85,11 +86,36 @@ const getIconComponent = (iconName) => {
 export default function SolutionDetail() {
   const { id } = useParams();
   const [products, setProducts] = useState([]);
+  const [solution, setSolution] = useState(null);
+  const [allSolutions, setAllSolutions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const currentIndex = SOLUTIONS.findIndex(s => s.id === id);
-  const solution = SOLUTIONS[currentIndex];
-  const prevSolution = currentIndex > 0 ? SOLUTIONS[currentIndex - 1] : null;
-  const nextSolution = currentIndex < SOLUTIONS.length - 1 ? SOLUTIONS[currentIndex + 1] : null;
+  // Fetch solution data from API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        // Fetch all solutions to get prev/next navigation
+        const allRes = await fetch(`${API_URL}/api/solutions`);
+        const allData = await allRes.json();
+        setAllSolutions(allData);
+        
+        // Find current solution by slug
+        const currentSolution = allData.find(s => s.slug === id);
+        setSolution(currentSolution);
+      } catch (error) {
+        console.error('Error fetching solution:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  // Get prev/next solutions for navigation
+  const currentIndex = allSolutions.findIndex(s => s.slug === id);
+  const prevSolution = currentIndex > 0 ? allSolutions[currentIndex - 1] : null;
+  const nextSolution = currentIndex < allSolutions.length - 1 ? allSolutions[currentIndex + 1] : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -99,18 +125,26 @@ export default function SolutionDetail() {
     if (!solution) return;
     const fetchProducts = async () => {
       try {
-        const allProducts = [];
-        for (const cat of solution.recommendedCategories) {
-          const res = await getProducts({ category: cat });
-          allProducts.push(...(res.data.products || []));
-        }
-        setProducts(allProducts.slice(0, 6));
+        // Fetch recommended products - for now show all products
+        const res = await getProducts({ limit: 6 });
+        setProducts(res.data.products || []);
       } catch (e) {
         console.error('Error fetching products:', e);
       }
     };
     fetchProducts();
   }, [solution]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#050508] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-neutral-400">Loading solution...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!solution) {
     return (
@@ -125,15 +159,22 @@ export default function SolutionDetail() {
     );
   }
 
-  const Icon = solution.icon || Building2;
+  // Get icon from CMS icon name string
+  const iconName = solution.icon || 'Building2';
+  const Icon = ICON_MAP[iconName] || Building2;
+  const solutionId = solution.slug || solution.id;
+  const heroImage = solution.hero_image || SOLUTION_HERO_IMAGES[solutionId] || SOLUTION_HERO_IMAGES.retail;
+  const useCases = solution.use_cases || solution.tags || [];
+  const features = solution.features || [];
+  const benefits = solution.benefits || [];
 
   return (
-    <div className="min-h-screen bg-[#050508]" data-testid={`solution-detail-${solution.id}`}>
+    <div className="min-h-screen bg-[#050508]" data-testid={`solution-detail-${solutionId}`}>
       <SEO
         title={`${solution.title} — LED Solutions`}
         description={solution.description}
-        image={SOLUTION_HERO_IMAGES[solution.id]}
-        path={`/solutions/${solution.id}`}
+        image={heroImage}
+        path={`/solutions/${solutionId}`}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -150,7 +191,7 @@ export default function SolutionDetail() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img 
-            src={SOLUTION_HERO_IMAGES[solution.id]} 
+            src={heroImage} 
             alt={solution.title} 
             className="w-full h-full object-cover"
           />
@@ -230,15 +271,13 @@ export default function SolutionDetail() {
               <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Overview</span>
               <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wide mb-6">The Solution</h2>
               <div className="space-y-4 text-gray-400 leading-relaxed tracking-wide">
-                {solution.longDescription.split('\n\n').map((para, i) => (
-                  <p key={i}>{para}</p>
-                ))}
+                <p>{solution.description}</p>
               </div>
             </FadeInSection>
             <FadeInSection delay={1}>
               <div className="overflow-hidden">
                 <img 
-                  src={SOLUTION_IMAGES[solution.id]} 
+                  src={SOLUTION_IMAGES[solutionId] || heroImage} 
                   alt={solution.title} 
                   className="w-full h-80 lg:h-full object-cover"
                 />
@@ -250,36 +289,40 @@ export default function SolutionDetail() {
         {/* Applications & Benefits */}
         <section className="py-16 lg:py-24 border-t border-white/5" data-testid="solution-apps-benefits">
           <div className="grid lg:grid-cols-2 gap-8">
-            <FadeInSection>
-              <GlassCard className="p-8 lg:p-10 h-full">
-                <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-2 block">Use Cases</span>
-                <h2 className="text-xl font-bold uppercase tracking-wide mb-8">Applications</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {solution.applications.map((app, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-cyan-500 flex-shrink-0" />
-                      <span className="text-sm text-gray-400 tracking-wide">{app}</span>
-                    </div>
-                  ))}
-                </div>
-              </GlassCard>
-            </FadeInSection>
-            <FadeInSection delay={1}>
-              <GlassCard className="p-8 lg:p-10 h-full">
-                <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-2 block">Advantages</span>
-                <h2 className="text-xl font-bold uppercase tracking-wide mb-8">Key Benefits</h2>
-                <div className="space-y-4">
-                  {solution.benefits.map((benefit, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Zap size={12} className="text-cyan-400" />
+            {useCases.length > 0 && (
+              <FadeInSection>
+                <GlassCard className="p-8 lg:p-10 h-full">
+                  <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-2 block">Use Cases</span>
+                  <h2 className="text-xl font-bold uppercase tracking-wide mb-8">Applications</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {useCases.map((app, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <div className="w-2 h-2 rounded-full bg-cyan-500 flex-shrink-0" />
+                        <span className="text-sm text-gray-400 tracking-wide">{app}</span>
                       </div>
-                      <span className="text-sm text-gray-400 tracking-wide">{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-              </GlassCard>
-            </FadeInSection>
+                    ))}
+                  </div>
+                </GlassCard>
+              </FadeInSection>
+            )}
+            {benefits.length > 0 && (
+              <FadeInSection delay={1}>
+                <GlassCard className="p-8 lg:p-10 h-full">
+                  <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-2 block">Advantages</span>
+                  <h2 className="text-xl font-bold uppercase tracking-wide mb-8">Key Benefits</h2>
+                  <div className="space-y-4">
+                    {benefits.map((benefit, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <Zap size={12} className="text-cyan-400" />
+                        </div>
+                        <span className="text-sm text-gray-400 tracking-wide">{typeof benefit === 'string' ? benefit : benefit.title}</span>
+                      </div>
+                    ))}
+                  </div>
+                </GlassCard>
+              </FadeInSection>
+            )}
           </div>
         </section>
 
@@ -337,7 +380,7 @@ export default function SolutionDetail() {
           <div className="flex items-center justify-between">
             {prevSolution ? (
               <Link
-                to={`/solutions/${prevSolution.id}`}
+                to={`/solutions/${prevSolution.slug}`}
                 className="group flex items-center gap-4 text-gray-400 hover:text-white transition-colors"
                 data-testid="solution-prev"
               >
@@ -350,7 +393,7 @@ export default function SolutionDetail() {
             ) : <div />}
             {nextSolution ? (
               <Link
-                to={`/solutions/${nextSolution.id}`}
+                to={`/solutions/${nextSolution.slug}`}
                 className="group flex items-center gap-4 text-right text-gray-400 hover:text-white transition-colors"
                 data-testid="solution-next"
               >

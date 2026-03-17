@@ -114,12 +114,7 @@ import { GlassMorphLanding, SmartFilmPage, LedFilmPage, MediaGlassPage, Switchab
 // PixelVue Product Line
 import { 
   PixelVueLanding, 
-  // LED Poster Series
-  IPosterPage, IFlipPage, UltraFlipPage, DigiStandeePage, OOHPosterPage, EagleWingPage,
-  // Commercial Series
-  UnityPage, VideoBrickPage, IConferencePage, EzeeSignPage, IShelfPage, TablevisionPage, IFlexProPage, ITransformersPage, TetrisPage, EllipseCounterPage,
-  // Creative Series
-  CreativeShapesPage, InteractivePage, CrystalFlexPage, RollingFloorPage, MagicstagePage, MagicBlanketPage, MagicskyPage, MagicGarmentsPage
+  PixelVueProductPage
 } from './pages/pixelvue';
 
 import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
@@ -217,33 +212,8 @@ function AppRoutes() {
       
       {/* PixelVue Product Line */}
       <Route path="/pixelvue" element={<PixelVueLanding />} />
-      {/* LED Poster Series */}
-      <Route path="/pixelvue/iposter" element={<IPosterPage />} />
-      <Route path="/pixelvue/iflip" element={<IFlipPage />} />
-      <Route path="/pixelvue/ultra-flip" element={<UltraFlipPage />} />
-      <Route path="/pixelvue/digi-standee" element={<DigiStandeePage />} />
-      <Route path="/pixelvue/ooh-poster" element={<OOHPosterPage />} />
-      <Route path="/pixelvue/eagle-wing" element={<EagleWingPage />} />
-      {/* Commercial Series */}
-      <Route path="/pixelvue/unity" element={<UnityPage />} />
-      <Route path="/pixelvue/videobrick" element={<VideoBrickPage />} />
-      <Route path="/pixelvue/iconference" element={<IConferencePage />} />
-      <Route path="/pixelvue/ezeesign" element={<EzeeSignPage />} />
-      <Route path="/pixelvue/ishelf" element={<IShelfPage />} />
-      <Route path="/pixelvue/tablevision" element={<TablevisionPage />} />
-      <Route path="/pixelvue/iflex-pro" element={<IFlexProPage />} />
-      <Route path="/pixelvue/itransformers" element={<ITransformersPage />} />
-      <Route path="/pixelvue/tetris" element={<TetrisPage />} />
-      <Route path="/pixelvue/ellipse-counter" element={<EllipseCounterPage />} />
-      {/* Creative Series */}
-      <Route path="/pixelvue/creative-shapes" element={<CreativeShapesPage />} />
-      <Route path="/pixelvue/interactive" element={<InteractivePage />} />
-      <Route path="/pixelvue/crystalflex" element={<CrystalFlexPage />} />
-      <Route path="/pixelvue/rolling-floor" element={<RollingFloorPage />} />
-      <Route path="/pixelvue/magicstage" element={<MagicstagePage />} />
-      <Route path="/pixelvue/magic-blanket" element={<MagicBlanketPage />} />
-      <Route path="/pixelvue/magicsky" element={<MagicskyPage />} />
-      <Route path="/pixelvue/magic-garments" element={<MagicGarmentsPage />} />
+      {/* Dynamic Product Detail Page - fetches from CMS */}
+      <Route path="/pixelvue/:slug" element={<><Navbar /><PixelVueProductPage /><Footer /><StickyCTA /></>} />
       
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />

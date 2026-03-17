@@ -51,7 +51,10 @@ const Navbar = () => {
       label: 'OUTDOOR DISPLAYS',
       items: [
         { name: 'Outdoor LED', cat: 'outdoor', desc: 'Weatherproof P4-P10' },
-        { name: 'High Brightness', cat: 'outdoor', desc: 'Up to 10,000 nits' },
+        { name: 'High Brightness 10K', cat: 'outdoor', desc: 'Highway billboards' },
+        { name: 'Coastal GOB', cat: 'outdoor', desc: 'Beachfront & humid areas' },
+        { name: 'Fine Pitch Outdoor', cat: 'outdoor', desc: 'Luxury retail facades' },
+        { name: 'Mesh Facade', cat: 'outdoor', desc: 'Transparent building wraps' },
         { name: 'Road Signals', cat: 'road-signal', desc: 'Traffic & VMS displays' },
       ],
     },

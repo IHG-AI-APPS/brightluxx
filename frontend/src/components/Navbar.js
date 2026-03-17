@@ -328,6 +328,18 @@ const Navbar = () => {
               {isActivePrefix('/lumimorph') && <span className="absolute bottom-0 left-0 right-0 h-px bg-cyan-400" />}
             </Link>
 
+            {/* NaturaTex - Featured Product Line */}
+            <Link
+              to="/naturatex"
+              className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
+                isActivePrefix('/naturatex') ? 'text-emerald-400' : 'text-emerald-400/80 hover:text-emerald-400'
+              }`}
+              data-testid="nav-naturatex"
+            >
+              NaturaTex
+              {isActivePrefix('/naturatex') && <span className="absolute bottom-0 left-0 right-0 h-px bg-emerald-400" />}
+            </Link>
+
             {/* Tools */}
             <DropdownWrap
               isOpen={toolsOpen}

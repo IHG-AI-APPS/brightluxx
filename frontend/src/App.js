@@ -100,6 +100,9 @@ import DistributionPage from './pages/DistributionPage';
 
 // LumiMorph Product Family
 import { LumiMorphLanding, LumiMorphElitePage, LumiMorphGrandePage, LumiMorphMiniPage } from './pages/lumimorph';
+
+// NaturaTex Product Line
+import { NaturaTexPage } from './pages/naturatex';
 import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
 import TechnicalSupportPage from './pages/TechnicalSupportPage';
 
@@ -168,6 +171,9 @@ function AppRoutes() {
       <Route path="/lumimorph/mini" element={<LumiMorphMiniPage />} />
       {/* Legacy redirect */}
       <Route path="/lumimorph-elite" element={<Navigate to="/lumimorph/elite" replace />} />
+      
+      {/* NaturaTex Product Line */}
+      <Route path="/naturatex" element={<NaturaTexPage />} />
       
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />

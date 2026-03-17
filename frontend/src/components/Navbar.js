@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid } from 'lucide-react';
+import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid, BookOpen, HelpCircle, Phone, Info, Factory, Users, Newspaper, FolderOpen } from 'lucide-react';
 import { useSiteSettings } from '../contexts/SiteSettingsContext';
 
 /* Dropdown wrapper — handles stable hover with a delay so the menu doesn't vanish mid-transition */
@@ -26,6 +26,7 @@ const Navbar = () => {
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [techOpen, setTechOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const location = useLocation();
   const { branding } = useSiteSettings();
 
@@ -167,8 +168,20 @@ const Navbar = () => {
     </div>
   );
 
+  /* ─── SECONDARY/MORE MENU ITEMS ─── */
+  const moreMenuItems = [
+    { name: 'About Us', path: '/about', icon: Info, desc: 'Our story & mission' },
+    { name: 'Blog', path: '/blog', icon: Newspaper, desc: 'Latest news & insights' },
+    { name: 'Contact Us', path: '/contact', icon: Phone, desc: 'Get in touch' },
+    { name: 'FAQ', path: '/faq', icon: HelpCircle, desc: 'Common questions' },
+    { name: 'Resources', path: '/resources', icon: FolderOpen, desc: 'Downloads & guides' },
+    { name: 'Case Studies', path: '/case-studies', icon: BookOpen, desc: 'Project showcases' },
+    { name: 'Factory Tour', path: '/factory-tour', icon: Factory, desc: 'Virtual facility tour' },
+    { name: 'Distribution', path: '/distribution', icon: Users, desc: 'Partner with us' },
+  ];
+
   /* ─── CLOSE ALL MENUS ─── */
-  const closeAll = () => { setProductsOpen(false); setSolutionsOpen(false); setTechOpen(false); setToolsOpen(false); setIsOpen(false); };
+  const closeAll = () => { setProductsOpen(false); setSolutionsOpen(false); setTechOpen(false); setToolsOpen(false); setMoreMenuOpen(false); setIsOpen(false); };
 
   return (
     <>
@@ -184,10 +197,10 @@ const Navbar = () => {
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-7">
+          {/* Desktop Navigation - Mega Menu */}
+          <div className="hidden lg:flex items-center gap-5">
 
-            {/* Products */}
+            {/* Products Dropdown */}
             <DropdownWrap
               isOpen={productsOpen}
               setOpen={setProductsOpen}
@@ -228,7 +241,7 @@ const Navbar = () => {
               </div>
             </DropdownWrap>
 
-            {/* Solutions */}
+            {/* Solutions Dropdown */}
             <DropdownWrap
               isOpen={solutionsOpen}
               setOpen={setSolutionsOpen}
@@ -266,7 +279,7 @@ const Navbar = () => {
               </div>
             </DropdownWrap>
 
-            {/* Technologies */}
+            {/* Technologies Dropdown */}
             <DropdownWrap
               isOpen={techOpen}
               setOpen={setTechOpen}
@@ -304,23 +317,14 @@ const Navbar = () => {
               </div>
             </DropdownWrap>
 
-            {/* Case Studies */}
-            <Link
-              to="/case-studies"
-              className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                isActivePrefix('/case-studies') ? 'text-[var(--blx-text)]' : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
-              }`}
-              data-testid="nav-case-studies"
-            >
-              Case Studies
-              {isActivePrefix('/case-studies') && <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />}
-            </Link>
+            {/* Divider */}
+            <div className="w-px h-5 bg-neutral-700/50" />
 
-            {/* LumiMorph - Featured Product Line */}
+            {/* PRODUCT FAMILIES - Direct Links */}
             <Link
               to="/lumimorph"
               className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                isActivePrefix('/lumimorph') ? 'text-cyan-400' : 'text-cyan-400/80 hover:text-cyan-400'
+                isActivePrefix('/lumimorph') ? 'text-cyan-400' : 'text-cyan-400/70 hover:text-cyan-400'
               }`}
               data-testid="nav-lumimorph"
             >
@@ -328,11 +332,10 @@ const Navbar = () => {
               {isActivePrefix('/lumimorph') && <span className="absolute bottom-0 left-0 right-0 h-px bg-cyan-400" />}
             </Link>
 
-            {/* NaturaTex - Featured Product Line */}
             <Link
               to="/naturatex"
               className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                isActivePrefix('/naturatex') ? 'text-emerald-400' : 'text-emerald-400/80 hover:text-emerald-400'
+                isActivePrefix('/naturatex') ? 'text-emerald-400' : 'text-emerald-400/70 hover:text-emerald-400'
               }`}
               data-testid="nav-naturatex"
             >
@@ -340,11 +343,10 @@ const Navbar = () => {
               {isActivePrefix('/naturatex') && <span className="absolute bottom-0 left-0 right-0 h-px bg-emerald-400" />}
             </Link>
 
-            {/* SignaTouch - Digital Kiosks */}
             <Link
               to="/signatouch"
               className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                isActivePrefix('/signatouch') ? 'text-amber-400' : 'text-amber-400/80 hover:text-amber-400'
+                isActivePrefix('/signatouch') ? 'text-amber-400' : 'text-amber-400/70 hover:text-amber-400'
               }`}
               data-testid="nav-signatouch"
             >
@@ -352,11 +354,10 @@ const Navbar = () => {
               {isActivePrefix('/signatouch') && <span className="absolute bottom-0 left-0 right-0 h-px bg-amber-400" />}
             </Link>
 
-            {/* GlassMorph - Smart Glass */}
             <Link
               to="/glassmorph"
               className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                isActivePrefix('/glassmorph') ? 'text-violet-400' : 'text-violet-400/80 hover:text-violet-400'
+                isActivePrefix('/glassmorph') ? 'text-violet-400' : 'text-violet-400/70 hover:text-violet-400'
               }`}
               data-testid="nav-glassmorph"
             >
@@ -364,7 +365,21 @@ const Navbar = () => {
               {isActivePrefix('/glassmorph') && <span className="absolute bottom-0 left-0 right-0 h-px bg-violet-400" />}
             </Link>
 
-            {/* Tools */}
+            <Link
+              to="/pixelvue"
+              className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
+                isActivePrefix('/pixelvue') ? 'text-rose-400' : 'text-rose-400/70 hover:text-rose-400'
+              }`}
+              data-testid="nav-pixelvue"
+            >
+              PixelVue
+              {isActivePrefix('/pixelvue') && <span className="absolute bottom-0 left-0 right-0 h-px bg-rose-400" />}
+            </Link>
+
+            {/* Divider */}
+            <div className="w-px h-5 bg-neutral-700/50" />
+
+            {/* Tools Dropdown */}
             <DropdownWrap
               isOpen={toolsOpen}
               setOpen={setToolsOpen}
@@ -400,17 +415,46 @@ const Navbar = () => {
               </div>
             </DropdownWrap>
 
-            {/* Applications */}
-            <Link
-              to="/applications"
-              className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                isActive('/applications') || isActive('/inspirations') ? 'text-[var(--blx-text)]' : 'text-[var(--blx-text-2)] hover:text-[var(--blx-text)]'
-              }`}
-              data-testid="nav-applications"
+            {/* More Menu (Hamburger) - Contains secondary links */}
+            <DropdownWrap
+              isOpen={moreMenuOpen}
+              setOpen={setMoreMenuOpen}
+              testId="nav-more-dropdown"
+              trigger={
+                <button 
+                  className={`flex items-center gap-1 text-[0.75rem] font-bold tracking-[0.12em] uppercase py-2 transition-all duration-300 ${
+                    moreMenuOpen ? 'text-cyan-400' : 'text-gray-400 hover:text-white'
+                  }`}
+                  data-testid="nav-more-btn"
+                >
+                  <Menu size={16} />
+                  <ChevronDown size={14} className={`text-gray-500 transition-transform duration-300 ${moreMenuOpen ? 'rotate-180 text-cyan-400' : ''}`} />
+                </button>
+              }
             >
-              Applications
-              {(isActive('/applications') || isActive('/inspirations')) && <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />}
-            </Link>
+              <div className="shadow-2xl py-3 px-1 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '240px', right: 0, left: 'auto' }}>
+                <div className="px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">MORE</div>
+                {moreMenuItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={closeAll}
+                    className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150 ${
+                      isActive(item.path) ? 'bg-[rgba(34,211,238,0.08)]' : 'hover:bg-[rgba(255,255,255,0.04)]'
+                    }`}
+                    data-testid={`nav-more-${item.path.substring(1)}`}
+                  >
+                    <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${isActive(item.path) ? 'bg-[rgba(34,211,238,0.15)]' : 'bg-[rgba(255,255,255,0.04)]'}`}>
+                      <item.icon size={13} className={isActive(item.path) ? 'text-cyan-400' : 'text-[var(--blx-text-2)]'} />
+                    </div>
+                    <div>
+                      <div className={`text-[0.6875rem] font-bold tracking-wider ${isActive(item.path) ? 'text-cyan-400' : 'text-[var(--blx-text)]'}`}>{item.name}</div>
+                      <div className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider">{item.desc}</div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </DropdownWrap>
 
             <Link to="/contact" className="relative px-5 py-2 rounded-full text-xs font-bold tracking-[0.12em] bg-gradient-to-r from-cyan-500 to-cyan-400 text-[#050508] shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 hover:scale-105" data-testid="site-header-request-quote-button">
               Get Quote
@@ -430,22 +474,47 @@ const Navbar = () => {
             data-testid="mobile-menu" 
             style={{ overflowX: 'hidden', maxHeight: 'calc(100vh - 64px)' }}
           >
-            <Link to="/products" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Products</Link>
+            <Link to="/products" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-cyan-400">Products</Link>
             <div className="px-4 pb-2">
               <div className="grid grid-cols-2 gap-1">
                 {productCategories.flatMap(g => g.items).slice(0, 8).map((item) => (
-                  <Link key={item.cat} to={`/products?category=${item.cat}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-[cyan-400] py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
+                  <Link key={item.cat} to={`/products?category=${item.cat}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-cyan-400 py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
                     {item.name}
                   </Link>
                 ))}
               </div>
             </div>
 
+            {/* Product Families Section */}
             <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
-              <Link to="/solutions" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Solutions</Link>
+              <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">FEATURED PRODUCTS</div>
+              <Link to="/lumimorph" onClick={closeAll} className="flex items-center gap-2 px-4 py-2">
+                <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                <span className="text-sm tracking-wider text-cyan-400 font-medium">LumiMorph</span>
+              </Link>
+              <Link to="/naturatex" onClick={closeAll} className="flex items-center gap-2 px-4 py-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="text-sm tracking-wider text-emerald-400 font-medium">NaturaTex</span>
+              </Link>
+              <Link to="/signatouch" onClick={closeAll} className="flex items-center gap-2 px-4 py-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400" />
+                <span className="text-sm tracking-wider text-amber-400 font-medium">SignaTouch</span>
+              </Link>
+              <Link to="/glassmorph" onClick={closeAll} className="flex items-center gap-2 px-4 py-2">
+                <span className="w-2 h-2 rounded-full bg-violet-400" />
+                <span className="text-sm tracking-wider text-violet-400 font-medium">GlassMorph</span>
+              </Link>
+              <Link to="/pixelvue" onClick={closeAll} className="flex items-center gap-2 px-4 py-2">
+                <span className="w-2 h-2 rounded-full bg-rose-400" />
+                <span className="text-sm tracking-wider text-rose-400 font-medium">PixelVue</span>
+              </Link>
+            </div>
+
+            <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
+              <Link to="/solutions" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-cyan-400">Solutions</Link>
               <div className="px-4 grid grid-cols-2 gap-1">
                 {solutionItems.map((item) => (
-                  <Link key={item.id} to={`/solutions/${item.id}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-[cyan-400] py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
+                  <Link key={item.id} to={`/solutions/${item.id}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-cyan-400 py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
                     {item.name}
                   </Link>
                 ))}
@@ -453,31 +522,19 @@ const Navbar = () => {
             </div>
 
             <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
-              <Link to="/technology" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Technologies</Link>
+              <Link to="/technology" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-cyan-400">Technologies</Link>
               <div className="px-4 grid grid-cols-2 gap-1">
                 {techItems.map((item) => (
-                  <Link key={item.id} to={`/technology/${item.id}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-[cyan-400] py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
+                  <Link key={item.id} to={`/technology/${item.id}`} onClick={closeAll} className="text-[0.6rem] tracking-wider text-[var(--blx-text-2)] hover:text-cyan-400 py-1 px-2 rounded hover:bg-[rgba(255,255,255,0.04)]">
                     {item.name}
                   </Link>
                 ))}
               </div>
             </div>
-
-            <Link to="/case-studies" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Case Studies</Link>
 
             <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
               <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">SPECIFIER TOOLS</div>
-              {toolsGroups[0].links.map((link) => (
-                <Link key={link.path} to={link.path} onClick={closeAll} className="flex items-center gap-2 px-4 py-1.5">
-                  <link.icon size={12} className="text-[var(--blx-text-2)]" />
-                  <span className="text-xs tracking-wider text-[var(--blx-text-2)] hover:text-[var(--blx-text)]">{link.name}</span>
-                </Link>
-              ))}
-            </div>
-
-            <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2">
-              <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">CONTRACTOR TOOLS</div>
-              {toolsGroups[1].links.map((link) => (
+              {toolsGroups[0].links.slice(0, 5).map((link) => (
                 <Link key={link.path} to={link.path} onClick={closeAll} className="flex items-center gap-2 px-4 py-1.5">
                   <link.icon size={12} className="text-[var(--blx-text-2)]" />
                   <span className="text-xs tracking-wider text-[var(--blx-text-2)] hover:text-[var(--blx-text)]">{link.name}</span>
@@ -486,9 +543,13 @@ const Navbar = () => {
             </div>
 
             <div className="border-t border-[var(--blx-hairline)] pt-2 mt-2 pb-4">
-              <Link to="/applications" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Applications</Link>
-              <Link to="/about" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">About Us</Link>
-              <Link to="/contact" onClick={closeAll} className="block px-4 py-2 text-sm font-bold tracking-widest hover:text-[cyan-400]">Contact Us</Link>
+              <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)]">MORE</div>
+              {moreMenuItems.map((item) => (
+                <Link key={item.path} to={item.path} onClick={closeAll} className="flex items-center gap-2 px-4 py-1.5">
+                  <item.icon size={12} className="text-[var(--blx-text-2)]" />
+                  <span className="text-xs tracking-wider text-[var(--blx-text-2)] hover:text-[var(--blx-text)]">{item.name}</span>
+                </Link>
+              ))}
               <Link to="/contact" onClick={closeAll} className="block px-4 py-3 mt-2 btn-gold text-center text-xs font-bold tracking-widest">Get Quote</Link>
             </div>
           </div>

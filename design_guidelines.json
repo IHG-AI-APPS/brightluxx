@@ -1,184 +1,154 @@
 {
-  "design_system": {
-    "identity": {
-      "name": "Brightluxx",
-      "theme": "Luminous Precision",
-      "archetype": "Technological Authority / Architectural Luxury",
-      "emotion": "Awe, Precision, Clarity, Reliability"
-    },
-    "colors": {
-      "background": {
-        "primary": "#050508",
-        "secondary": "#0A0A0D",
-        "tertiary": "#0F0F12",
-        "panel": "#0C0C0F",
-        "overlay": "rgba(5, 5, 8, 0.85)"
+  "identity": {
+    "persona": "E1: The Anti-AI Designer",
+    "mission": "Create a premium, 'Luminous Precision' showcase that breaks the generic SaaS template. Fusion of high-end architecture portfolio and futuristic tech dashboard.",
+    "core_principles": [
+      "Fusion over Imitation: Mix Architectural Minimalism with Cyberpunk nuances.",
+      "Emotion First: The site must feel 'Expensive' and 'Precise'.",
+      "Content is King: The LED products are the heroes; the UI is the theater.",
+      "Negative Space: Luxurious spacing (py-24, py-32) to let the visuals breathe.",
+      "Contrast: Deep Black (#050508) vs Electric Cyan (#22D3EE)."
+    ]
+  },
+  "typography": {
+    "font_family": "Satoshi, sans-serif",
+    "rules": {
+      "global_override": "MUST REMOVE or OVERRIDE 'text-transform: uppercase' from global CSS. Use sentence case for body and standard headings.",
+      "headings": {
+        "style": "font-bold tracking-tight text-white",
+        "sizes": {
+          "h1": "text-5xl md:text-7xl lg:text-8xl leading-[0.9] font-bold",
+          "h2": "text-3xl md:text-5xl lg:text-6xl font-semibold tracking-tight",
+          "h3": "text-2xl md:text-3xl font-medium"
+        },
+        "case": "Sentence Case or Title Case (NOT ALL CAPS)",
+        "flair": "Use 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200' for key words."
       },
-      "text": {
-        "primary": "#F5F5F7",
-        "secondary": "#A8B0BC",
-        "muted": "#6B7280",
-        "inverse": "#050508"
+      "body": {
+        "style": "text-neutral-400 text-base md:text-lg leading-relaxed font-normal",
+        "case": "Sentence Case"
       },
-      "accent": {
-        "cyan_primary": "#22D3EE",
-        "cyan_dark": "#0891B2",
-        "cyan_light": "#67E8F9",
-        "glow": "rgba(34, 211, 238, 0.40)",
-        "glass_border": "rgba(255, 255, 255, 0.08)"
-      },
-      "status": {
-        "success": "#10B981",
-        "warning": "#F59E0B",
-        "error": "#EF4444"
-      },
-      "gradients": {
-        "cyan_glow": "linear-gradient(135deg, #0891B2 0%, #06B6D4 40%, #22D3EE 70%, #67E8F9 100%)",
-        "dark_fade": "linear-gradient(to bottom, rgba(5,5,8,0) 0%, #050508 100%)",
-        "glass_surface": "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)"
+      "labels": {
+        "style": "text-xs font-bold tracking-[0.2em] uppercase text-cyan-500",
+        "usage": "Use ONLY for small eyebrows/tags above headings."
       }
+    }
+  },
+  "colors": {
+    "palette": {
+      "bg_main": "#050508",
+      "bg_secondary": "#0A0A0D",
+      "bg_panel": "rgba(255, 255, 255, 0.03)",
+      "border": "rgba(255, 255, 255, 0.08)",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#9CA3AF",
+      "accent_cyan": "#22D3EE",
+      "accent_glow": "rgba(34, 211, 238, 0.15)"
     },
-    "typography": {
-      "font_family": "Satoshi, sans-serif",
-      "styles": {
-        "h1": {
-          "size": "text-5xl md:text-7xl",
-          "weight": "font-bold",
-          "tracking": "tracking-widest",
-          "transform": "uppercase",
-          "line_height": "leading-none"
-        },
-        "h2": {
-          "size": "text-3xl md:text-5xl",
-          "weight": "font-bold",
-          "tracking": "tracking-wide",
-          "transform": "uppercase"
-        },
-        "h3": {
-          "size": "text-xl md:text-2xl",
-          "weight": "font-semibold",
-          "tracking": "tracking-wide",
-          "transform": "uppercase"
-        },
-        "body": {
-          "size": "text-base md:text-lg",
-          "weight": "font-normal",
-          "tracking": "tracking-normal",
-          "line_height": "leading-relaxed",
-          "color": "text-blx-text-2"
-        },
-        "label": {
-          "size": "text-xs md:text-sm",
-          "weight": "font-bold",
-          "tracking": "tracking-[0.2em]",
-          "transform": "uppercase",
-          "color": "text-cyan-400"
-        },
-        "mono": {
-          "family": "JetBrains Mono, monospace",
-          "usage": "Technical specs, pixel pitch data"
-        }
-      }
-    },
+    "gradients": {
+      "hero_overlay": "linear-gradient(to top, #050508 10%, transparent 100%)",
+      "glass_surface": "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)",
+      "cyan_beam": "linear-gradient(90deg, transparent, rgba(34,211,238,0.5), transparent)"
+    }
+  },
+  "layout_strategy": {
+    "container": "max-w-[1400px] mx-auto px-6 md:px-12",
     "spacing": {
-      "container_padding": "px-6 md:px-12 lg:px-24",
-      "section_spacing": "py-24 md:py-32",
-      "element_spacing": "space-y-8 md:space-y-12",
-      "grid_gap": "gap-6 md:gap-12"
+      "section_padding": "py-24 lg:py-32",
+      "element_gap": "gap-8 lg:gap-12"
     },
-    "effects": {
-      "glassmorphism": {
-        "base": "backdrop-blur-xl bg-white/5 border border-white/10",
-        "hover": "hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300"
-      },
-      "glow": {
-        "text": "drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]",
-        "box": "box-shadow: 0 0 30px -10px rgba(34,211,238,0.3)"
-      },
-      "borders": {
-        "tech": "border-l-2 border-cyan-500/50"
-      }
-    },
-    "layout_strategies": {
-      "products_page": {
-        "structure": "Sidebar Filter (Sticky) + Masonry Grid",
-        "card_style": "Minimalist, Image-First, Hover-Reveal Specs",
-        "filter_style": "Accordion-based, dense, technical aesthetics"
-      },
-      "product_detail_page": {
-        "hero": "Full-screen immersive background image with technical overlay",
-        "specs_grid": "Bento Grid (Asymmetrical boxes for key metrics like Brightness, Refresh Rate)",
-        "tech_table": "Clean lines, zebra-striping (subtle), sticky header",
-        "gallery": "Carousel with thumbnail navigation"
-      }
+    "grid_system": {
+      "bento_grid": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6",
+      "feature_showcase": "grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
     }
   },
   "components": {
-    "Button": {
-      "variants": {
-        "primary": "bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider rounded-none px-8 py-4 transition-all hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]",
-        "outline": "bg-transparent border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-400 uppercase tracking-wider rounded-none px-8 py-4",
-        "ghost": "text-gray-400 hover:text-white uppercase tracking-widest text-sm hover:underline decoration-cyan-500 underline-offset-4"
+    "Navbar": {
+      "path": "/app/frontend/src/components/Navbar.js",
+      "instructions": [
+        "Fix Logo: Increase logo container height. Ensure it is not cut off. Use 'h-10 w-auto' or larger.",
+        "Simplicity: Reduce visual noise in dropdowns. Use cleaner typography.",
+        "Glassmorphism: Keep the blur but ensure contrast is high enough for readability."
+      ]
+    },
+    "HeroSection": {
+      "instructions": [
+        "Impact: Use the video background with a cleaner, darker overlay for text readability.",
+        "Typography: CHANGE headline to Sentence Case (e.g., 'Engineering Brilliance'). Remove floating icons.",
+        "CTA: Use a 'Glass' button for secondary action and a Solid Cyan button for primary.",
+        "Motion: Add a subtle scroll indicator (mouse wheel animation)."
+      ]
+    },
+    "StatsSection": {
+      "design": "Minimalist. Remove the 'card' borders. Just large numbers + labels floating in space or separated by thin vertical dividers.",
+      "typography": "Numbers: font-mono text-cyan-400. Labels: uppercase tracking-widest text-neutral-500."
+    },
+    "ProductShowcase": {
+      "design": "Immersive Cards. Tall aspect ratio. Image fills the card. Text overlay at the bottom with a gradient fade.",
+      "interaction": "Hover: Zoom image slightly, glow effect on borders.",
+      "grid": "Use a masonry or asymmetrical grid if possible to break the monotony."
+    },
+    "ClientLogos": {
+      "design": "Infinite horizontal scroll (Marquee).",
+      "style": "Monochrome (opacity 50%) -> Full Color on Hover (opacity 100%)."
+    }
+  },
+  "image_assets": {
+    "hero_background": {
+      "url": "https://images.unsplash.com/photo-1769968296454-d1667b0f6684?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBuaWdodCUyMGZhY2FkZXxlbnwwfHx8fDE3NzM3Nzc4Mjh8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Geometric modern architecture facade at night",
+      "usage": "Hero section fallback / poster"
+    },
+    "category_luxury_retail": {
+      "url": "https://images.unsplash.com/photo-1758633854740-26967a7d18f9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MTJ8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjByZXRhaWwlMjBzdG9yZSUyMGludGVyaW9yJTIwbGVkJTIwZGlzcGxheXxlbnwwfHx8fDE3NzM3Nzc4Mjl8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Luxury retail store exterior/interior",
+      "usage": "Indoor/Retail Displays Category"
+    },
+    "category_events": {
+      "url": "https://images.unsplash.com/photo-1542981675-f2dddb932b3f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHxjb25jZXJ0JTIwc3RhZ2UlMjBsZWQlMjBzY3JlZW4lMjBhYnN0cmFjdHxlbnwwfHx8fDE3NzM3Nzc4Mjl8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Abstract red concert stage LED",
+      "usage": "Creative/Events Category"
+    },
+    "category_control_room": {
+      "url": "https://images.unsplash.com/photo-1685720543547-cc4873188c75?crop=entropy&cs=srgb\u0026fm=jpg\u0026ixid=M3w4NjA1NTZ8MHwxfHNlYXJjaHwyfHxmdXR1cmlzdGljJTIwY29udHJvbCUyMHJvb20lMjBpbnRlcmZhY2V8ZW58MHx8fHwxNzczNzc3ODMwfDA\u0026ixlib=rb-4.1.0\u0026q=85",
+      "description": "Futuristic control room",
+      "usage": "Corporate/Control Room Category"
+    },
+    "client_logos": [
+      "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+    ]
+  },
+  "animations": {
+    "library": "framer-motion",
+    "effects": {
+      "fade_in_up": {
+        "initial": { "opacity": 0, "y": 40 },
+        "animate": { "opacity": 1, "y": 0 },
+        "transition": { "duration": 0.8, "ease": [0.16, 1, 0.3, 1] }
+      },
+      "stagger_children": {
+        "animate": { "transition": { "staggerChildren": 0.1 } }
+      },
+      "hover_glow": {
+        "whileHover": { "scale": 1.02, "boxShadow": "0 0 30px rgba(34,211,238,0.2)" }
       }
-    },
-    "Card": {
-      "base": "bg-[#0A0A0D] border border-white/5 overflow-hidden group relative",
-      "hover": "hover:border-cyan-500/30 hover:shadow-2xl transition-all duration-500",
-      "image_container": "aspect-[4/3] overflow-hidden relative",
-      "content": "p-6 md:p-8 space-y-4"
-    },
-    "Input": {
-      "style": "bg-white/5 border-b border-white/20 focus:border-cyan-500 text-white placeholder:text-gray-600 rounded-none px-4 py-3 outline-none transition-colors"
-    },
-    "Badge": {
-      "tech": "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-1 text-[10px] uppercase tracking-wider"
     }
   },
-  "motion": {
-    "page_load": {
-      "initial": { "opacity": 0, "y": 20 },
-      "animate": { "opacity": 1, "y": 0 },
-      "transition": { "duration": 0.6, "ease": [0.16, 1, 0.3, 1] }
-    },
-    "stagger": {
-      "container": { "hidden": { "opacity": 0 }, "show": { "opacity": 1, "transition": { "staggerChildren": 0.1 } } },
-      "item": { "hidden": { "opacity": 0, "y": 20 }, "show": { "opacity": 1, "y": 0 } }
-    },
-    "hover_scale": {
-      "whileHover": { "scale": 1.02, "transition": { "duration": 0.3 } }
+  "universal_guidelines": {
+    "css_overrides": [
+      ".font-satoshi { font-family: 'Satoshi', sans-serif; }",
+      "body { text-transform: none !important; }",
+      "h1, h2, h3, h4, h5, h6 { text-transform: none !important; }",
+      ".uppercase-label { text-transform: uppercase !important; letter-spacing: 0.2em; }"
+    ],
+    "accessibility": {
+      "contrast": "Ensure text over images has a 'bg-black/50' or gradient overlay.",
+      "reduced_motion": "Respect 'prefers-reduced-motion'."
     }
-  },
-  "assets": {
-    "images": {
-      "hero_bg": "https://images.unsplash.com/photo-1615932051741-fe742a3baec4",
-      "outdoor_series": "https://images.unsplash.com/photo-1768569771262-1a5558975e4b",
-      "transparent_series": "https://images.unsplash.com/photo-1760537766198-947fd4c98b39",
-      "control_room_series": "https://images.unsplash.com/photo-1714596282575-82d224db8c70",
-      "fine_pitch_series": "https://images.unsplash.com/photo-1571839154183-6bb84a567903"
-    },
-    "icons": {
-      "library": "lucide-react",
-      "style": "stroke-1 md:stroke-[1.5]",
-      "color": "text-cyan-400"
-    }
-  },
-  "universal_guidelines": [
-    "NEVER use gradients for text readability unless it's a specific 'glow' effect.",
-    "ALWAYS use 'uppercase' for headings to maintain the architectural blueprint aesthetic.",
-    "Ensure minimum contrast ratio of 4.5:1 for body text (use #A8B0BC or lighter on #050508).",
-    "Interactive elements MUST have a distinct hover state (color shift or glow).",
-    "Use 'Satoshi' font for all text elements. If not available, fallback to system sans-serif.",
-    "Do NOT use rounded corners larger than 'sm' (approx 4px) or 'md' (6px). Keep it sharp and technical.",
-    "All API calls must handle loading and error states gracefully with skeleton loaders or retry buttons.",
-    "Use 'framer-motion' for all entrance animations. No jarring layout shifts.",
-    "For the 'Product Detail Page', prioritize technical data visibility. Do not hide specs behind tabs if they are critical.",
-    "Maintain the 'Deep Space' aesthetic. Avoid large areas of white or light gray backgrounds."
-  ],
-  "instructions_to_main_agent": {
-    "1_setup": "Review `tailwind.config.js` to ensure colors (cyan, deep black) are correctly extended. Install `framer-motion` if missing.",
-    "2_products_page": "Build `/products` using a sidebar layout. Use a 'Masonry' or 'Grid' layout for product cards. Implement 'Accordion' for filters (Pixel Pitch, Brightness, Application).",
-    "3_product_detail": "Build `/products/:slug`. Create a 'Hero Section' with the product image as a background + overlay. Use a 'Bento Grid' for the 'Key Specs' section. Create a 'Technical Table' for detailed specs.",
-    "4_components": "Customize Shadcn 'Card', 'Button', 'Input', 'Select' to match the 'Luminous Precision' theme (sharp corners, dark backgrounds, cyan borders).",
-    "5_data": "Mock data is acceptable if the API is not ready, but ensure the structure matches the problem statement (name, pixel_pitch, brightness, etc.)."
   }
 }

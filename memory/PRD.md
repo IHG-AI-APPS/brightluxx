@@ -1183,6 +1183,16 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Generated AI hero images for all 22 products that were missing images
 - iFlip image regenerated to fix broken URL
 
+### Site-wide Dark/Light Theme Toggle — March 2026
+- ✅ **Theme Context** (`frontend/src/contexts/ThemeContext.js`) - Global state management
+- ✅ **Theme Toggle Button** in Navbar with Sun/Moon icons
+- ✅ **localStorage Persistence** - Theme saved as 'brightluxx-theme'
+- ✅ **Theme-aware Pages:**
+  - Home, About, Contact, Blog, FAQ, Product Families, Solutions
+  - Navbar and Footer with adaptive logo and colors
+- ✅ **Theme Utility Classes** (`frontend/src/utils/themeClasses.js`) for consistent styling
+- ✅ **Testing:** 100% frontend pass rate (iteration_79.json) - All 10 theme features verified
+
 ### Future
 - Tender Monitoring Integration (ProTenders/MEED)
 - Admin Dashboard V2 (unified lead management)

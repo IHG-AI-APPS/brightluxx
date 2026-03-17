@@ -547,6 +547,30 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   9. Media Facade - Skyscraper with LED mesh
 - **Testing:** 38/38 frontend tests passed (100%)
 
+### Case Studies Redesign — Mar 17, 2026
+- **Completely redesigned CaseStudiesIndex.js** with Luminous Precision theme:
+  - Hero section with "Case Studies" title
+  - Disclaimer banner explaining conceptual vs real projects
+  - 7 category filter buttons (All, Hospitality, Retail, Corporate, Transport, Entertainment, Healthcare)
+  - Featured case studies in 2-column larger card layout
+  - Regular case studies in 3-column grid layout
+  - "CONCEPT" badge with sparkle icon for hypothetical projects
+- **Completely redesigned CaseStudyDetail.js** with Luminous Precision theme:
+  - Full-width hero with AI-generated image
+  - Amber "Conceptual Case Study" disclaimer for hypothetical projects
+  - Client/Consultant/Contractor info section
+  - Challenge, Solution, Results & Impact sections
+  - Technical Specifications table
+  - Share buttons (Facebook, Twitter, LinkedIn)
+  - Sidebar with Technology Used, Tags, Specifier Tools, Related Projects
+- **Generated 12 unique AI images** for all case studies
+- **Added 4 new hypothetical case studies** (marked with is_hypothetical: true):
+  1. Marina Tower — Building-Scale Media Facade (Dubai Marina)
+  2. OliOli Children's Museum — Interactive LED Playground (Al Quoz)
+  3. Emirates Hills Villa — Private MicroLED Cinema (Dubai)
+  4. Sheikh Zayed Grand Mosque — Digital Prayer Information (Abu Dhabi)
+- **Testing:** 42/42 frontend tests passed (100%)
+
 ---
 
 ## Remaining Tasks

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
-import { ArrowRight, MapPin, Calendar, Building2, Users, HardHat, Cpu, CheckCircle2, MessageCircle, Phone, ArrowLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, MapPin, Calendar, Building2, Users, HardHat, Cpu, CheckCircle2, MessageCircle, Phone, ArrowLeft, ChevronRight, Info, Sparkles, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 
@@ -38,7 +38,7 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
 
 const GlassCard = ({ children, className = '', hover = true }) => (
   <div className={`
-    backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] rounded-lg
+    backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] rounded-xl
     ${hover ? 'hover:bg-white/[0.06] hover:border-cyan-500/30' : ''}
     transition-all duration-500 ${className}
   `}>
@@ -85,12 +85,19 @@ export default function CaseStudyDetail() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#050508] flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-12 h-12 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (notFound || !cs) return <Navigate to="/case-studies" replace />;
+
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const shareLinks = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(cs.title)}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
+  };
 
   return (
     <div className="bg-[#050508]" data-testid={`case-study-${cs.id}`}>
@@ -98,6 +105,7 @@ export default function CaseStudyDetail() {
         title={`${cs.title} | LED Case Study — Brightluxx`}
         description={cs.challenge.slice(0, 160)}
         path={`/case-studies/${cs.id}`}
+        image={cs.hero_image}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Article",
@@ -111,9 +119,9 @@ export default function CaseStudyDetail() {
       />
 
       {/* Hero Section */}
-      <section className="relative h-[55vh] min-h-[400px]">
+      <section className="relative h-[55vh] min-h-[450px]" data-testid="case-study-hero">
         <img src={cs.hero_image} alt={cs.title} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/70 to-[#050508]/30" />
         
         <div className="absolute bottom-0 left-0 right-0 max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 pb-12">
           <FadeInSection>
@@ -123,12 +131,23 @@ export default function CaseStudyDetail() {
               <ChevronRight size={12} />
               <Link to="/case-studies" className="hover:text-cyan-400 transition-colors">Case Studies</Link>
               <ChevronRight size={12} />
-              <span className="text-cyan-400">{cs.category.charAt(0).toUpperCase() + cs.category.slice(1)}</span>
+              <span className="text-cyan-400 capitalize">{cs.category}</span>
             </div>
             
-            <span className="inline-block bg-cyan-500/10 backdrop-blur-sm text-cyan-400 border border-cyan-500/20 px-3 py-1 text-[10px] uppercase tracking-wider font-bold mb-4">
-              {cs.category}
-            </span>
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span className="bg-cyan-500/10 backdrop-blur-sm text-cyan-400 border border-cyan-500/20 px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-lg">
+                {cs.category}
+              </span>
+              {cs.is_hypothetical && (
+                <span className="bg-amber-500/10 backdrop-blur-sm text-amber-400 border border-amber-500/20 px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-lg flex items-center gap-1.5">
+                  <Sparkles size={12} /> Conceptual Project
+                </span>
+              )}
+              <span className="bg-white/10 backdrop-blur-sm text-white border border-white/10 px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-lg">
+                {cs.technology} {cs.pixel_pitch}
+              </span>
+            </div>
             
             <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-wide leading-tight mb-6">
               {cs.title}
@@ -137,14 +156,31 @@ export default function CaseStudyDetail() {
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-400">
               <span className="flex items-center gap-2"><MapPin size={14} className="text-cyan-400" /> {cs.location}</span>
               <span className="flex items-center gap-2"><Calendar size={14} className="text-cyan-400" /> {cs.year}</span>
-              <span className="flex items-center gap-2"><Cpu size={14} className="text-cyan-400" /> {cs.technology} {cs.pixel_pitch}</span>
+              <span className="flex items-center gap-2"><Cpu size={14} className="text-cyan-400" /> {cs.display_size}</span>
             </div>
           </FadeInSection>
         </div>
       </section>
 
+      {/* Hypothetical Disclaimer */}
+      {cs.is_hypothetical && (
+        <section className="py-6">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+            <div className="flex items-start gap-3 p-4 bg-amber-500/5 border border-amber-500/20 rounded-xl">
+              <Info size={18} className="text-amber-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-xs text-amber-200 font-bold uppercase tracking-wider mb-1">Conceptual Case Study</p>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  This is a conceptual demonstration created for inspirational purposes to showcase potential LED display applications. While the technical specifications reflect real-world capabilities of our products, the specific project details are hypothetical.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Content */}
-      <section className="py-16">
+      <section className="py-12">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
           <div className="grid lg:grid-cols-[1fr_360px] gap-10">
             {/* Main Content */}
@@ -172,22 +208,22 @@ export default function CaseStudyDetail() {
               {/* Challenge */}
               <FadeInSection delay={1}>
                 <div className="mb-12">
-                  <h2 className="text-xl font-bold uppercase tracking-wide mb-4 flex items-center gap-3">
-                    <span className="w-8 h-px bg-cyan-500" />
+                  <h2 className="text-xl font-bold uppercase tracking-wide mb-5 flex items-center gap-3">
+                    <span className="w-10 h-px bg-gradient-to-r from-cyan-500 to-transparent" />
                     The Challenge
                   </h2>
-                  <p className="text-gray-400 leading-relaxed tracking-wide normal-case">{cs.challenge}</p>
+                  <p className="text-gray-400 leading-relaxed tracking-wide normal-case text-base">{cs.challenge}</p>
                 </div>
               </FadeInSection>
 
               {/* Solution */}
               <FadeInSection delay={2}>
                 <div className="mb-12">
-                  <h2 className="text-xl font-bold uppercase tracking-wide mb-4 flex items-center gap-3">
-                    <span className="w-8 h-px bg-cyan-500" />
+                  <h2 className="text-xl font-bold uppercase tracking-wide mb-5 flex items-center gap-3">
+                    <span className="w-10 h-px bg-gradient-to-r from-cyan-500 to-transparent" />
                     Our Solution
                   </h2>
-                  <p className="text-gray-400 leading-relaxed tracking-wide normal-case">{cs.solution}</p>
+                  <p className="text-gray-400 leading-relaxed tracking-wide normal-case text-base">{cs.solution}</p>
                 </div>
               </FadeInSection>
 
@@ -195,14 +231,14 @@ export default function CaseStudyDetail() {
               <FadeInSection delay={3}>
                 <div className="mb-12">
                   <h2 className="text-xl font-bold uppercase tracking-wide mb-6 flex items-center gap-3">
-                    <span className="w-8 h-px bg-cyan-500" />
+                    <span className="w-10 h-px bg-gradient-to-r from-cyan-500 to-transparent" />
                     Results & Impact
                   </h2>
-                  <div className="space-y-3">
+                  <div className="grid sm:grid-cols-2 gap-4">
                     {cs.results.map((r, i) => (
-                      <GlassCard key={i} className="p-4 flex items-start gap-4" hover={false} data-testid={`case-result-${i}`}>
-                        <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
-                          <CheckCircle2 size={16} className="text-cyan-400" />
+                      <GlassCard key={i} className="p-5 flex items-start gap-4" hover={false} data-testid={`case-result-${i}`}>
+                        <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
+                          <CheckCircle2 size={18} className="text-cyan-400" />
                         </div>
                         <span className="text-sm text-gray-400 leading-relaxed normal-case">{r}</span>
                       </GlassCard>
@@ -215,15 +251,15 @@ export default function CaseStudyDetail() {
               <FadeInSection delay={4}>
                 <div className="mb-12">
                   <h2 className="text-xl font-bold uppercase tracking-wide mb-6 flex items-center gap-3">
-                    <span className="w-8 h-px bg-cyan-500" />
+                    <span className="w-10 h-px bg-gradient-to-r from-cyan-500 to-transparent" />
                     Technical Specifications
                   </h2>
                   <GlassCard className="overflow-hidden" hover={false} data-testid="case-spec-table">
                     <table className="w-full">
                       <tbody>
                         {cs.specs.map(([label, value], i) => (
-                          <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02]">
-                            <td className="py-4 px-6 text-xs font-bold tracking-[0.15em] text-gray-500 uppercase w-[40%]">{label}</td>
+                          <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors">
+                            <td className="py-4 px-6 text-xs font-bold tracking-[0.12em] text-gray-500 uppercase w-[40%]">{label}</td>
                             <td className="py-4 px-6 text-sm text-gray-300">{value}</td>
                           </tr>
                         ))}
@@ -233,8 +269,36 @@ export default function CaseStudyDetail() {
                 </div>
               </FadeInSection>
 
-              {/* Bottom CTA */}
+              {/* Share */}
               <FadeInSection delay={5}>
+                <div className="mb-12 pt-6 border-t border-white/5">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Share2 size={14} className="text-cyan-400" />
+                    <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase">Share This Case Study</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {[
+                      { href: shareLinks.facebook, icon: Facebook, label: 'Facebook' },
+                      { href: shareLinks.twitter, icon: Twitter, label: 'Twitter' },
+                      { href: shareLinks.linkedin, icon: Linkedin, label: 'LinkedIn' },
+                    ].map(({ href, icon: Icon, label }) => (
+                      <a 
+                        key={label}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:border-cyan-500/30 hover:bg-white/10 transition-all"
+                        title={`Share on ${label}`}
+                      >
+                        <Icon size={16} />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </FadeInSection>
+
+              {/* Bottom CTA */}
+              <FadeInSection delay={6}>
                 <GlassCard className="p-10 text-center border-cyan-500/20" hover={false}>
                   <h2 className="text-xl font-bold uppercase tracking-wide mb-4">Planning a Similar Project?</h2>
                   <p className="text-sm text-gray-400 max-w-md mx-auto mb-8 tracking-wide">
@@ -243,7 +307,7 @@ export default function CaseStudyDetail() {
                   <div className="flex flex-wrap gap-4 justify-center">
                     <Link 
                       to="/contact" 
-                      className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-6 py-3 text-xs transition-all hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] inline-flex items-center gap-2"
+                      className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-6 py-3 text-xs transition-all hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] inline-flex items-center gap-2 rounded-lg"
                     >
                       Get a Quote <ArrowRight size={14} />
                     </Link>
@@ -251,13 +315,13 @@ export default function CaseStudyDetail() {
                       href="https://wa.me/971559954274" 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="bg-white/5 border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-6 py-3 text-xs transition-all inline-flex items-center gap-2"
+                      className="bg-white/5 border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-6 py-3 text-xs transition-all inline-flex items-center gap-2 rounded-lg"
                     >
                       <MessageCircle size={14} /> WhatsApp
                     </a>
                     <a 
                       href="tel:+971559954274" 
-                      className="bg-white/5 border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-6 py-3 text-xs transition-all inline-flex items-center gap-2"
+                      className="bg-white/5 border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-6 py-3 text-xs transition-all inline-flex items-center gap-2 rounded-lg"
                     >
                       <Phone size={14} /> Call
                     </a>
@@ -274,8 +338,8 @@ export default function CaseStudyDetail() {
                   <GlassCard className="p-6">
                     <div className="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase mb-3">Technology Used</div>
                     <div className="text-base font-bold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors">{cs.technology}</div>
-                    <div className="text-xs text-gray-500 mb-1">Pixel Pitch: {cs.pixel_pitch}</div>
-                    <div className="text-xs text-gray-500 mb-4">Display: {cs.display_size}</div>
+                    <div className="text-xs text-gray-500 mb-1">Pixel Pitch: <span className="text-gray-300">{cs.pixel_pitch}</span></div>
+                    <div className="text-xs text-gray-500 mb-4">Display: <span className="text-gray-300">{cs.display_size}</span></div>
                     <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase group-hover:gap-3 transition-all">
                       View Technology Guide <ArrowRight size={12} />
                     </div>
@@ -301,7 +365,7 @@ export default function CaseStudyDetail() {
               <FadeInSection delay={2}>
                 <GlassCard className="p-6" hover={false}>
                   <div className="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase mb-4">Specifier Tools</div>
-                  <div className="space-y-2">
+                  <div className="space-y-1">
                     {[
                       { to: '/calculator', label: 'Screen Calculator' },
                       { to: '/budget-estimator', label: 'Budget Estimator' },
@@ -310,7 +374,7 @@ export default function CaseStudyDetail() {
                       <Link 
                         key={to}
                         to={to} 
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-xs text-gray-400 hover:bg-white/5 hover:text-white transition-all"
+                        className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-xs text-gray-400 hover:bg-white/5 hover:text-white transition-all"
                       >
                         <ArrowRight size={12} className="text-cyan-400" /> {label}
                       </Link>
@@ -338,8 +402,9 @@ export default function CaseStudyDetail() {
                               <div className="text-sm font-bold tracking-wide group-hover:text-cyan-400 transition-colors leading-tight mb-1">
                                 {r.title.split(' — ')[0]}
                               </div>
-                              <div className="text-xs text-gray-500">
-                                {r.technology} {r.pixel_pitch} &middot; {r.location}
+                              <div className="text-[10px] text-gray-500 flex items-center gap-1">
+                                {r.is_hypothetical && <Sparkles size={10} className="text-amber-400" />}
+                                {r.technology} {r.pixel_pitch}
                               </div>
                             </div>
                           </div>

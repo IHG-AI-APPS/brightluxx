@@ -29,6 +29,12 @@ from routes.taxonomy import router as taxonomy_router
 from routes.homepage import router as homepage_router
 from routes.blog import router as blog_router
 from routes.case_studies import router as case_studies_router
+from routes.pixelvue import router as pixelvue_router
+from routes.solutions_api import router as solutions_api_router
+from routes.technologies_api import router as technologies_api_router
+from routes.applications_api import router as applications_api_router
+from routes.site_content import router as site_content_router
+from routes.product_families import router as product_families_router
 from storage import init_storage
 
 app = FastAPI()
@@ -97,6 +103,12 @@ app.include_router(taxonomy_router)
 app.include_router(homepage_router)
 app.include_router(blog_router)
 app.include_router(case_studies_router)
+app.include_router(pixelvue_router)
+app.include_router(solutions_api_router)
+app.include_router(technologies_api_router)
+app.include_router(applications_api_router)
+app.include_router(site_content_router)
+app.include_router(product_families_router)
 
 
 @app.on_event("startup")

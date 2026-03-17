@@ -316,16 +316,16 @@ const Navbar = () => {
               {isActivePrefix('/case-studies') && <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--blx-text)]" />}
             </Link>
 
-            {/* LumiMorph - Featured Product */}
+            {/* LumiMorph - Featured Product Line */}
             <Link
-              to="/lumimorph-elite"
+              to="/lumimorph"
               className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
-                isActive('/lumimorph-elite') ? 'text-cyan-400' : 'text-cyan-400/80 hover:text-cyan-400'
+                isActivePrefix('/lumimorph') ? 'text-cyan-400' : 'text-cyan-400/80 hover:text-cyan-400'
               }`}
               data-testid="nav-lumimorph"
             >
               LumiMorph
-              {isActive('/lumimorph-elite') && <span className="absolute bottom-0 left-0 right-0 h-px bg-cyan-400" />}
+              {isActivePrefix('/lumimorph') && <span className="absolute bottom-0 left-0 right-0 h-px bg-cyan-400" />}
             </Link>
 
             {/* Tools */}

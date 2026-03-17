@@ -99,7 +99,7 @@ import FactoryTour from './pages/FactoryTour';
 import DistributionPage from './pages/DistributionPage';
 
 // LumiMorph Product Family
-import LumiMorphElite from './pages/LumiMorphElite';
+import { LumiMorphLanding, LumiMorphElitePage, LumiMorphGrandePage, LumiMorphMiniPage } from './pages/lumimorph';
 import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
 import TechnicalSupportPage from './pages/TechnicalSupportPage';
 
@@ -160,7 +160,15 @@ function AppRoutes() {
       <Route path="/knowledge/cms-multi-site" element={<><Navbar /><CmsMultiSiteGuide /><Footer /><StickyCTA /></>} />
       <Route path="/applications" element={<><Navbar /><ApplicationsIndex /><Footer /><StickyCTA /></>} />
       <Route path="/applications/:slug" element={<><Navbar /><ApplicationDetail /><Footer /><StickyCTA /></>} />
-      <Route path="/lumimorph-elite" element={<><Navbar /><LumiMorphElite /><Footer /><StickyCTA /></>} />
+      
+      {/* LumiMorph Product Family - No Navbar/Footer for elegant design */}
+      <Route path="/lumimorph" element={<LumiMorphLanding />} />
+      <Route path="/lumimorph/elite" element={<LumiMorphElitePage />} />
+      <Route path="/lumimorph/grande" element={<LumiMorphGrandePage />} />
+      <Route path="/lumimorph/mini" element={<LumiMorphMiniPage />} />
+      {/* Legacy redirect */}
+      <Route path="/lumimorph-elite" element={<Navigate to="/lumimorph/elite" replace />} />
+      
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />
       <Route path="/contractors/:pageId" element={<><Navbar /><ContractorPage /><Footer /><StickyCTA /></>} />

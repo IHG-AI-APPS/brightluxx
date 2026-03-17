@@ -12,6 +12,7 @@ import ExitIntentPopup from './components/ExitIntentPopup';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
+import ProductFamilies from './pages/ProductFamilies';
 import Inspirations from './pages/Inspirations';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
@@ -152,6 +153,7 @@ function AppRoutes() {
       <Route path="/" element={<><Navbar /><Home /><Footer /><StickyCTA /></>} />
       <Route path="/products" element={<><Navbar /><Products /><Footer /><StickyCTA /></>} />
       <Route path="/products/:slug" element={<><Navbar /><ProductDetail /><Footer /><StickyCTA /></>} />
+      <Route path="/product-families" element={<><Navbar /><ProductFamilies /><Footer /><StickyCTA /></>} />
       <Route path="/inspirations" element={<><Navbar /><Inspirations /><Footer /><StickyCTA /></>} />
       <Route path="/projects" element={<><Navbar /><Projects /><Footer /><StickyCTA /></>} />
       <Route path="/configurator" element={<><Navbar /><ProductConfigurator /><Footer /><StickyCTA /></>} />

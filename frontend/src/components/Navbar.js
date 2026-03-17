@@ -234,6 +234,9 @@ const Navbar = () => {
                   ))}
                 </div>
                 <div className="mt-3 pt-3 border-t border-[rgba(255,255,255,0.06)]">
+                  <Link to="/product-families" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-rose-400 hover:bg-[rgba(34,211,238,0.06)] transition-colors duration-150 mb-2" data-testid="nav-products-families">
+                    Product Families
+                  </Link>
                   <Link to="/products" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-[cyan-400] hover:bg-[rgba(34,211,238,0.06)] transition-colors duration-150" data-testid="nav-products-view-all">
                     View All Products
                   </Link>

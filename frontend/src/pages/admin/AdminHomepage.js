@@ -333,6 +333,15 @@ export default function AdminHomepage() {
     updateContent({ clients });
   };
 
+  // Showcase Reel management
+  const updateShowcaseReel = (field, value) => {
+    setContent({
+      ...content,
+      showcase_reel: { ...content.showcase_reel, [field]: value }
+    });
+    setHasChanges(true);
+  };
+
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -375,6 +384,7 @@ export default function AdminHomepage() {
     { id: 'hero', label: 'Hero Section', icon: Video },
     { id: 'stats', label: 'Statistics', icon: BarChart3 },
     { id: 'entry_doors', label: 'Entry Doors', icon: Layout },
+    { id: 'showcase', label: 'Showcase Reel', icon: Film },
     { id: 'clients', label: 'Clients', icon: Users },
     { id: 'sections', label: 'Section Titles', icon: Type },
     { id: 'why', label: 'Why Brightluxx', icon: Zap },
@@ -586,6 +596,104 @@ export default function AdminHomepage() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* Showcase Reel */}
+          {activeSection === 'showcase' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-lg font-bold">Video Showcase Reel</h2>
+                <p className="text-xs text-[var(--blx-muted)] mt-1">
+                  Add a showcase video to highlight your LED installations. This section only appears on the homepage when enabled and a video URL is provided.
+                </p>
+              </div>
+
+              {/* Enable/Disable Toggle */}
+              <div className="flex items-center justify-between p-4 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[var(--blx-border)]">
+                <div>
+                  <label className="text-sm font-medium">Enable Showcase Section</label>
+                  <p className="text-xs text-[var(--blx-muted)]">When disabled, this section won't appear on the homepage</p>
+                </div>
+                <button
+                  onClick={() => updateShowcaseReel('enabled', !content.showcase_reel?.enabled)}
+                  className={`relative w-12 h-6 rounded-full transition-colors ${content.showcase_reel?.enabled ? 'bg-cyan-500' : 'bg-gray-600'}`}
+                >
+                  <span className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${content.showcase_reel?.enabled ? 'left-7' : 'left-1'}`} />
+                </button>
+              </div>
+
+              {/* Video URL */}
+              <div>
+                <label className="block text-xs font-medium text-[var(--blx-muted)] mb-2">Video URL</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={content.showcase_reel?.video_url || ''}
+                    onChange={(e) => updateShowcaseReel('video_url', e.target.value)}
+                    placeholder="https://example.com/showcase-video.mp4"
+                    className="flex-1 px-3 py-2 rounded-lg text-sm bg-[var(--blx-bg)] border border-[var(--blx-border)] focus:border-cyan-500 outline-none font-mono"
+                  />
+                </div>
+                <p className="text-[0.625rem] text-[var(--blx-muted)] mt-1">
+                  Paste a direct video URL (MP4 recommended). Video will auto-play, muted, looping.
+                </p>
+              </div>
+
+              {/* Video Preview */}
+              {content.showcase_reel?.video_url && (
+                <div>
+                  <label className="block text-xs font-medium text-[var(--blx-muted)] mb-2">Preview</label>
+                  <div className="aspect-video rounded-lg overflow-hidden bg-black border border-[var(--blx-border)]">
+                    <video
+                      src={content.showcase_reel.video_url}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Section Text */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-[var(--blx-muted)] mb-2">Section Title</label>
+                  <input
+                    type="text"
+                    value={content.showcase_reel?.title || 'See It In Action'}
+                    onChange={(e) => updateShowcaseReel('title', e.target.value)}
+                    placeholder="See It In Action"
+                    className="w-full px-3 py-2 rounded-lg text-sm bg-[var(--blx-bg)] border border-[var(--blx-border)] focus:border-cyan-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-[var(--blx-muted)] mb-2">Section Subtitle</label>
+                  <input
+                    type="text"
+                    value={content.showcase_reel?.subtitle || 'Real installations across UAE and beyond'}
+                    onChange={(e) => updateShowcaseReel('subtitle', e.target.value)}
+                    placeholder="Real installations across UAE and beyond"
+                    className="w-full px-3 py-2 rounded-lg text-sm bg-[var(--blx-bg)] border border-[var(--blx-border)] focus:border-cyan-500 outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Status Indicator */}
+              <div className={`p-4 rounded-lg border ${content.showcase_reel?.enabled && content.showcase_reel?.video_url ? 'bg-green-500/10 border-green-500/20' : 'bg-amber-500/10 border-amber-500/20'}`}>
+                <div className="flex items-center gap-3">
+                  <div className={`w-3 h-3 rounded-full ${content.showcase_reel?.enabled && content.showcase_reel?.video_url ? 'bg-green-500' : 'bg-amber-500'}`} />
+                  <span className="text-sm">
+                    {content.showcase_reel?.enabled && content.showcase_reel?.video_url 
+                      ? 'Showcase section is ACTIVE and will appear on the homepage'
+                      : content.showcase_reel?.enabled 
+                        ? 'Section is enabled but no video URL provided — add a video to activate'
+                        : 'Section is disabled — enable and add a video URL to show it on the homepage'}
+                  </span>
+                </div>
               </div>
             </div>
           )}

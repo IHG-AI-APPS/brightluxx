@@ -411,6 +411,27 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ---
 
+### Video Showcase Reel Feature — Mar 17, 2026
+- Added **conditional video showcase section** to homepage
+- **How it works:**
+  - Section only appears when `enabled: true` AND a `video_url` is provided
+  - When disabled or no video URL, the section is completely hidden (no placeholders)
+- **Admin Panel Controls (Admin → Homepage → Showcase Reel tab):**
+  - Enable/Disable toggle
+  - Video URL input field
+  - Custom title and subtitle fields
+  - Live video preview
+  - Status indicator (green=active, amber=waiting for video)
+- **Design Features:**
+  - Glassmorphism video container with backdrop blur
+  - Ambient cyan glow effects
+  - Quick spec stats below video (4K, HDR, 120Hz, 10M:1 Contrast)
+  - Smooth fade-in animations on scroll
+- **Backend:** Added `ShowcaseReel` model to `homepage.py` (enabled, video_url, title, subtitle)
+- **Current Status:** DISABLED (ready for your team to enable when video is ready)
+
+---
+
 ## Remaining Tasks
 ### Priority 1
 - Refactor `.input-luxury` CSS class — replace with Tailwind utilities to prevent style conflicts

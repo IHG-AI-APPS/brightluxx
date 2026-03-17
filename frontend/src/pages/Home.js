@@ -210,6 +210,7 @@ const Home = () => {
   const hero = homeContent?.hero || {};
   const stats = homeContent?.stats?.length > 0 ? homeContent.stats : DEFAULT_STATS;
   const whyChoose = homeContent?.why_brightluxx_items?.length > 0 ? homeContent.why_brightluxx_items.slice(0, 4) : DEFAULT_WHY_CHOOSE;
+  const showcaseReel = homeContent?.showcase_reel || null;
 
   return (
     <div className="bg-[#050508]">
@@ -459,6 +460,80 @@ const Home = () => {
                 </FadeInSection>
               ))}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          VIDEO SHOWCASE REEL — Conditional: Only shows when video is available
+          Admin can enable this via Homepage settings when video is ready
+      ═══════════════════════════════════════════════════════════════════════ */}
+      {showcaseReel?.enabled && showcaseReel?.video_url && (
+        <section className="py-24 lg:py-32 relative overflow-hidden" data-testid="video-showcase-section">
+          {/* Background ambient glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-cyan-500/5 rounded-full blur-[150px]" />
+          
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+            <FadeInSection>
+              <div className="text-center mb-12">
+                <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
+                  Showcase
+                </span>
+                <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-wide mb-4">
+                  {showcaseReel.title || 'See It In Action'}
+                </h2>
+                <p className="text-gray-400 text-base max-w-xl mx-auto tracking-wide">
+                  {showcaseReel.subtitle || 'Real installations across UAE and beyond'}
+                </p>
+              </div>
+            </FadeInSection>
+
+            <FadeInSection delay={1}>
+              <div className="relative">
+                {/* Video container with glassmorphism frame */}
+                <GlassCard className="p-2 md:p-3 overflow-hidden" hover={false}>
+                  <div className="relative aspect-video overflow-hidden bg-black">
+                    <video
+                      src={showcaseReel.video_url}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-full object-cover"
+                      data-testid="showcase-video"
+                    />
+                    {/* Subtle vignette overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050508]/30 via-transparent to-[#050508]/20 pointer-events-none" />
+                  </div>
+                </GlassCard>
+
+                {/* Floating accent elements */}
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-cyan-500/10 rounded-full blur-2xl" />
+                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-cyan-500/5 rounded-full blur-3xl" />
+              </div>
+            </FadeInSection>
+
+            {/* Optional: Quick stats under video */}
+            <FadeInSection delay={2}>
+              <div className="flex flex-wrap items-center justify-center gap-8 mt-10 pt-10 border-t border-white/5">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-cyan-400 font-mono">4K</div>
+                  <div className="text-[10px] text-gray-500 uppercase tracking-widest">Resolution</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-cyan-400 font-mono">HDR</div>
+                  <div className="text-[10px] text-gray-500 uppercase tracking-widest">Support</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-cyan-400 font-mono">120Hz</div>
+                  <div className="text-[10px] text-gray-500 uppercase tracking-widest">Refresh Rate</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-cyan-400 font-mono">10M:1</div>
+                  <div className="text-[10px] text-gray-500 uppercase tracking-widest">Contrast</div>
+                </div>
+              </div>
+            </FadeInSection>
           </div>
         </section>
       )}

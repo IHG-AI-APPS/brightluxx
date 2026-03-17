@@ -45,11 +45,19 @@ class ClientItem(BaseModel):
     logo_url: Optional[str] = None
 
 
+class ShowcaseReel(BaseModel):
+    enabled: bool = False
+    video_url: str = ""
+    title: str = "See It In Action"
+    subtitle: str = "Real installations across UAE and beyond"
+
+
 class HomepageContent(BaseModel):
     hero: Optional[HeroSection] = None
     stats: Optional[List[StatItem]] = None
     entry_doors: Optional[List[EntryDoor]] = None
     clients: Optional[List[ClientItem]] = None
+    showcase_reel: Optional[ShowcaseReel] = None
     featured_products_title: str = "Featured Products"
     featured_products_subtitle: str = "Premium LED displays engineered for the Gulf region"
     projects_title: str = "Case Studies"

@@ -132,10 +132,7 @@ export default function Solutions() {
 
       {/* Hero Section */}
       <section className="relative py-24 lg:py-32 overflow-hidden">
-        {/* Background effects */}
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-cyan-500/5 rounded-full blur-[100px]" />
 
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
           <motion.div
@@ -144,17 +141,14 @@ export default function Solutions() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
-              Industry Solutions
-            </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-wide mb-6" data-testid="solutions-page-title">
-              LED Display
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6" data-testid="solutions-page-title">
+              LED DISPLAY
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
-                Solutions
+                SOLUTIONS
               </span>
             </h1>
-            <p className="text-gray-400 text-base md:text-lg leading-relaxed tracking-wide max-w-xl mx-auto">
-              Premium LED technology tailored for every environment and industry. From retail to virtual production.
+            <p className="text-neutral-400 text-base md:text-lg max-w-xl mx-auto">
+              Premium LED technology tailored for every environment and industry.
             </p>
           </motion.div>
         </div>

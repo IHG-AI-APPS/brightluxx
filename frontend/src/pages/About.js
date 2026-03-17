@@ -83,23 +83,23 @@ export default function About() {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 overflow-hidden" data-testid="about-hero">
-        {/* Background effects */}
+      <section className="relative py-28 lg:py-36 overflow-hidden" data-testid="about-hero">
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
-        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px]" />
         
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
           <FadeInSection>
-            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">About Us</span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 leading-[0.95]" data-testid="about-page-title">
-              Engineering
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 block">
-                Visual Excellence
-              </span>
-            </h1>
-            <p className="text-gray-400 text-base md:text-lg max-w-2xl tracking-wide leading-relaxed">
-              The digital display division of IHG Industry L.L.C — delivering exceptional LED solutions to the UAE and GCC region since 2005.
-            </p>
+            <div className="text-center max-w-3xl mx-auto">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6" data-testid="about-page-title">
+                ENGINEERING
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 block">
+                  VISUAL EXCELLENCE
+                </span>
+              </h1>
+              <p className="text-neutral-400 text-base md:text-lg max-w-2xl mx-auto">
+                Since 2005, Brightluxx has delivered premium LED display solutions across the UAE and GCC. 
+                Gulf-grade engineering. Local expertise. Global standards.
+              </p>
+            </div>
           </FadeInSection>
         </div>
       </section>

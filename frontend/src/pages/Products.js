@@ -37,7 +37,7 @@ const MotionCard = ({ children, index }) => {
 };
 
 const CATEGORIES = [
-  { value: '', label: 'All Products', count: 88 },
+  { value: '', label: 'All Products', count: 90 },
   { value: 'cob-microled', label: 'COB MicroLED' },
   { value: 'mip', label: 'MiP' },
   { value: 'indoor', label: 'Fine Pitch Indoor' },
@@ -45,7 +45,6 @@ const CATEGORIES = [
   { value: 'cinema-led', label: 'Cinema LED' },
   { value: 'dvled', label: 'DVLED Cinema' },
   { value: 'outdoor', label: 'Outdoor' },
-  { value: 'rental', label: 'Rental' },
   { value: 'transparent', label: 'Transparent' },
   { value: 'flexible', label: 'Flexible / Creative' },
   { value: 'custom-shapes', label: 'Custom Shapes' },

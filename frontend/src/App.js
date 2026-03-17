@@ -36,6 +36,7 @@ import CmsMultiSiteGuide from './pages/knowledge/CmsMultiSiteGuide';
 
 // Applications
 import ApplicationsIndex from './pages/ApplicationsIndex';
+import ApplicationDetail from './pages/ApplicationDetail';
 import ApplicationLanding from './pages/ApplicationLanding';
 import ForArchitects from './pages/ForArchitects';
 
@@ -155,7 +156,7 @@ function AppRoutes() {
       <Route path="/knowledge/processing-calibration" element={<><Navbar /><ProcessingCalibrationGuide /><Footer /><StickyCTA /></>} />
       <Route path="/knowledge/cms-multi-site" element={<><Navbar /><CmsMultiSiteGuide /><Footer /><StickyCTA /></>} />
       <Route path="/applications" element={<><Navbar /><ApplicationsIndex /><Footer /><StickyCTA /></>} />
-      <Route path="/applications/:appId" element={<><Navbar /><ApplicationLanding /><Footer /><StickyCTA /></>} />
+      <Route path="/applications/:slug" element={<><Navbar /><ApplicationDetail /><Footer /><StickyCTA /></>} />
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />
       <Route path="/contractors/:pageId" element={<><Navbar /><ContractorPage /><Footer /><StickyCTA /></>} />

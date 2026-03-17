@@ -240,7 +240,7 @@ export default function Applications() {
       <section className="pb-16">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
           <FadeInSection delay={1}>
-            <Link to={`/solutions/${APPLICATIONS[0].solutions[0]}`} className="group block" data-testid="featured-application">
+            <Link to="/applications/shopfront-signage" className="group block" data-testid="featured-application">
               <GlassCard className="overflow-hidden" hover={false}>
                 <div className="grid lg:grid-cols-2 gap-0">
                   <div className="relative h-64 lg:h-auto lg:min-h-[400px] overflow-hidden">
@@ -288,7 +288,7 @@ export default function Applications() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {APPLICATIONS.slice(1).map((app, i) => (
               <FadeInSection key={app.id} delay={3 + i * 0.3}>
-                <Link to={`/solutions/${app.solutions[0]}`} className="group block h-full" data-testid={`application-${app.id}`}>
+                <Link to={`/applications/${app.id}`} className="group block h-full" data-testid={`application-${app.id}`}>
                   <GlassCard className="h-full flex flex-col">
                     <div className="relative h-48 overflow-hidden">
                       <img 
@@ -312,7 +312,7 @@ export default function Applications() {
                         ))}
                       </div>
                       <div className="flex items-center gap-2 text-cyan-400 font-bold tracking-wider text-xs">
-                        Explore <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                        Learn More <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </GlassCard>

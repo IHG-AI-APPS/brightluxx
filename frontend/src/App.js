@@ -97,6 +97,9 @@ import FactoryTour from './pages/FactoryTour';
 
 // Phase 4: Lead Generation & Partnerships
 import DistributionPage from './pages/DistributionPage';
+
+// LumiMorph Product Family
+import LumiMorphElite from './pages/LumiMorphElite';
 import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
 import TechnicalSupportPage from './pages/TechnicalSupportPage';
 
@@ -157,6 +160,7 @@ function AppRoutes() {
       <Route path="/knowledge/cms-multi-site" element={<><Navbar /><CmsMultiSiteGuide /><Footer /><StickyCTA /></>} />
       <Route path="/applications" element={<><Navbar /><ApplicationsIndex /><Footer /><StickyCTA /></>} />
       <Route path="/applications/:slug" element={<><Navbar /><ApplicationDetail /><Footer /><StickyCTA /></>} />
+      <Route path="/lumimorph-elite" element={<><Navbar /><LumiMorphElite /><Footer /><StickyCTA /></>} />
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />
       <Route path="/contractors/:pageId" element={<><Navbar /><ContractorPage /><Footer /><StickyCTA /></>} />

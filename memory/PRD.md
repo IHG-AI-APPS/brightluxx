@@ -644,6 +644,24 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   10. Outdoor & Billboards (7,000-12,000 nits, -20 to 60°C)
 - **Testing:** 100% frontend pass rate (iteration_59.json)
 
+### NaturaTex Family Enhancement — Mar 17, 2026
+- **Added HoloVeil (`/naturatex/holoveil`)** rebranded from Unilumin UDesign SV
+- **HoloVeil Features:**
+  - Transparent holographic LED screens (92-95% transparency)
+  - Up to 5,000 nits brightness, only 6 kg/m²
+  - Naked-eye AR floating imagery effect
+  - P3.9 and P6.25 pixel pitch variants
+  - 4 applications: Retail Storefronts, Shopping Malls, Exhibition Halls, Transportation Hubs
+  - Full specifications table with SV3.9 and SV6.25 comparison
+  - 4 FAQs with accordion
+  - Cross-promotion to NaturaTex and LumiMorph
+- **NaturaTex Page Updated:**
+  - Added "NaturaTex Family - Explore the Product Line" section
+  - Cards for NaturaTex (Texture Screen) and HoloVeil (Transparent Screen)
+  - Navigation between product variants
+- **Images:** 4 AI-generated (Unilumin blocked direct downloads)
+- **Testing:** 100% frontend pass rate (iteration_65.json)
+
 ### NaturaTex Product Page — Mar 17, 2026
 - **New Product Line Added (`/naturatex`)** rebranded from Unilumin U-Natural
 - **Page Structure:**

@@ -106,6 +106,10 @@ import { NaturaTexPage, HoloVeilPage } from './pages/naturatex';
 
 // SignaTouch Product Line
 import { SignaTouchLanding, TouchKioskPage, SmartSignagePage, SelfServicePage } from './pages/signatouch';
+
+// GlassMorph Product Line
+import { GlassMorphLanding, SmartFilmPage, LedFilmPage, MediaGlassPage, SwitchableGlassPage, FlyingDisplayPage, HangingLedPage } from './pages/glassmorph';
+
 import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
 import TechnicalSupportPage from './pages/TechnicalSupportPage';
 
@@ -184,6 +188,15 @@ function AppRoutes() {
       <Route path="/signatouch/touch-kiosk" element={<TouchKioskPage />} />
       <Route path="/signatouch/smart-signage" element={<SmartSignagePage />} />
       <Route path="/signatouch/self-service" element={<SelfServicePage />} />
+      
+      {/* GlassMorph Product Line */}
+      <Route path="/glassmorph" element={<GlassMorphLanding />} />
+      <Route path="/glassmorph/smart-film" element={<SmartFilmPage />} />
+      <Route path="/glassmorph/led-film" element={<LedFilmPage />} />
+      <Route path="/glassmorph/media-glass" element={<MediaGlassPage />} />
+      <Route path="/glassmorph/switchable-glass" element={<SwitchableGlassPage />} />
+      <Route path="/glassmorph/flying-display" element={<FlyingDisplayPage />} />
+      <Route path="/glassmorph/hanging-led" element={<HangingLedPage />} />
       
       <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
       <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />

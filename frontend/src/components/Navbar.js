@@ -352,6 +352,18 @@ const Navbar = () => {
               {isActivePrefix('/signatouch') && <span className="absolute bottom-0 left-0 right-0 h-px bg-amber-400" />}
             </Link>
 
+            {/* GlassMorph - Smart Glass */}
+            <Link
+              to="/glassmorph"
+              className={`text-[0.6875rem] font-bold tracking-[0.14em] relative pb-0.5 transition-colors duration-200 ${
+                isActivePrefix('/glassmorph') ? 'text-violet-400' : 'text-violet-400/80 hover:text-violet-400'
+              }`}
+              data-testid="nav-glassmorph"
+            >
+              GlassMorph
+              {isActivePrefix('/glassmorph') && <span className="absolute bottom-0 left-0 right-0 h-px bg-violet-400" />}
+            </Link>
+
             {/* Tools */}
             <DropdownWrap
               isOpen={toolsOpen}

@@ -161,20 +161,6 @@ function setCanonical(url) {
   el.setAttribute('href', url);
 }
 
-function setAmpHtml(url) {
-  let el = document.querySelector('link[rel="amphtml"]');
-  if (url) {
-    if (!el) {
-      el = document.createElement('link');
-      el.setAttribute('rel', 'amphtml');
-      document.head.appendChild(el);
-    }
-    el.setAttribute('href', url);
-  } else if (el) {
-    el.remove();
-  }
-}
-
 function setJsonLd(data) {
   // Remove existing JSON-LD scripts managed by SEO component
   document.querySelectorAll('script[data-seo-jsonld]').forEach(el => el.remove());
@@ -332,7 +318,6 @@ export { generateBreadcrumbSchema, generateFAQSchema, generateProductSchema, gen
  *   product: object — Product details for Product schema
  *   service: object — Service details for Service schema
  *   keywords: string — meta keywords (comma separated)
- *   ampUrl: string — URL to AMP version of this page (optional)
  */
 export default function SEO({ 
   title, 
@@ -346,8 +331,7 @@ export default function SEO({
   faqs,
   product,
   service,
-  keywords,
-  ampUrl
+  keywords
 }) {
   const location = useLocation();
   const pageTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Premium LED Display Solutions`;
@@ -359,9 +343,6 @@ export default function SEO({
     document.title = pageTitle;
     setMeta('description', pageDescription);
     setCanonical(canonicalUrl);
-    
-    // AMP HTML link
-    setAmpHtml(ampUrl);
 
     // Keywords meta tag
     if (keywords) {
@@ -436,9 +417,8 @@ export default function SEO({
 
     return () => {
       setJsonLd(null);
-      setAmpHtml(null); // Clean up AMP link
     };
-  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, noIndex, jsonLd, path, breadcrumbs, faqs, product, service, keywords, ampUrl]);
+  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, noIndex, jsonLd, path, breadcrumbs, faqs, product, service, keywords]);
 
   return null;
 }

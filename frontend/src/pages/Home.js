@@ -55,6 +55,32 @@ const HeroVideoPlayer = ({ videos, posterImage, isDark = true }) => {
   const heroVideos = videos?.length > 0 ? videos : ['/videos/hero-video-new.mp4'];
   const poster = posterImage || cdnUrl('hero_banner.webp');
 
+  // Preload poster image for LCP optimization
+  useEffect(() => {
+    if (poster && typeof document !== 'undefined') {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = poster;
+      link.fetchPriority = 'high';
+      document.head.appendChild(link);
+      return () => { if (link.parentNode) link.parentNode.removeChild(link); };
+    }
+  }, [poster]);
+
+  // Preload first video for faster playback
+  useEffect(() => {
+    if (heroVideos[0] && typeof document !== 'undefined') {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'video';
+      link.href = heroVideos[0];
+      document.head.appendChild(link);
+      return () => { if (link.parentNode) link.parentNode.removeChild(link); };
+    }
+  }, [heroVideos]);
+
+  // Handle video transitions
   useEffect(() => {
     if (heroVideos.length <= 1) return;
     const activeVideo = videoRefs.current[activeIdx];

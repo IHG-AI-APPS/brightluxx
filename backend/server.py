@@ -35,7 +35,6 @@ from routes.technologies_api import router as technologies_api_router
 from routes.applications_api import router as applications_api_router
 from routes.site_content import router as site_content_router
 from routes.product_families import router as product_families_router
-from routes.amp import router as amp_router
 from storage import init_storage
 
 app = FastAPI()
@@ -110,7 +109,6 @@ app.include_router(technologies_api_router)
 app.include_router(applications_api_router)
 app.include_router(site_content_router)
 app.include_router(product_families_router)
-app.include_router(amp_router)
 
 
 @app.on_event("startup")

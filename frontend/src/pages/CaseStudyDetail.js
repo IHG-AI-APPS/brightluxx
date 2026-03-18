@@ -127,7 +127,6 @@ export default function CaseStudyDetail() {
             "name": cs.location
           }
         }}
-        ampUrl={`${process.env.REACT_APP_BACKEND_URL}/api/amp-case-study/${cs.slug || cs.id}`}
       />
 
       {/* Hero Section */}

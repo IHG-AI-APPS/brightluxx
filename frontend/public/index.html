@@ -22,11 +22,32 @@
         <meta name="msapplication-TileColor" content="#050508" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
         
-        <!-- Preconnect for performance -->
+        <!-- Preconnect for performance (Critical Third-Party Origins) -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link rel="preconnect" href="https://files.ihgbrands.com" crossorigin />
+        <link rel="preconnect" href="http://82.180.137.7" crossorigin />
+        
+        <!-- DNS Prefetch for non-critical resources -->
         <link rel="dns-prefetch" href="https://files.ihgbrands.com" />
+        <link rel="dns-prefetch" href="http://82.180.137.7" />
+        <link rel="dns-prefetch" href="https://us.i.posthog.com" />
+        
+        <!-- Preload Critical CSS (Inter font for headers) -->
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" as="style" />
+        
+        <!-- Critical CSS for initial render (prevents FOUC) -->
+        <style>
+            /* Critical CSS - Inline for fastest FCP */
+            :root { --bg-dark: #050508; --text-white: #ffffff; --primary: #22d3ee; }
+            html { background-color: var(--bg-dark); }
+            body { margin: 0; padding: 0; background-color: var(--bg-dark); color: var(--text-white); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+            #root { min-height: 100vh; background-color: var(--bg-dark); }
+            /* Loading state */
+            .initial-loader { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--bg-dark); z-index: 9999; }
+            .initial-loader::after { content: ''; width: 40px; height: 40px; border: 3px solid rgba(34,211,238,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+            @keyframes spin { to { transform: rotate(360deg); } }
+        </style>
         
         <!-- Favicons -->
         <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="any" />
@@ -69,7 +90,20 @@
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
+        <!-- Initial loading state for better perceived performance -->
+        <div id="initial-loader" class="initial-loader"></div>
         <div id="root"></div>
+        <script>
+            // Remove loader once React hydrates
+            window.addEventListener('load', function() {
+                var loader = document.getElementById('initial-loader');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    loader.style.transition = 'opacity 0.3s';
+                    setTimeout(function() { loader.remove(); }, 300);
+                }
+            });
+        </script>
         <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

@@ -128,6 +128,19 @@ STATIC_ROUTES = [
     ("/supplier-registration", 0.5, "monthly"),
     ("/technical-support", 0.5, "monthly"),
     ("/compare", 0.5, "monthly"),
+    
+    # SEO Landing Pages (High Priority)
+    ("/led-screen-suppliers-dubai", 0.95, "weekly"),
+    ("/government-solutions", 0.9, "weekly"),
+    ("/abu-dhabi", 0.9, "weekly"),
+    ("/saudi-arabia", 0.9, "weekly"),
+    ("/compare-brands", 0.85, "weekly"),
+    
+    # Tools
+    ("/tools/roi-calculator", 0.75, "monthly"),
+    
+    # Resources
+    ("/resources", 0.8, "weekly"),
     ("/lp/specifier-toolkit", 0.6, "monthly"),
 ]
 

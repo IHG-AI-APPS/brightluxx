@@ -219,6 +219,7 @@ export default function ProductDetail() {
           }
         }}
         jsonLd={productJsonLd}
+        ampUrl={`${process.env.REACT_APP_BACKEND_URL}/api/amp-product/${product.slug}`}
       />
 
       {/* Hero Section - Full Width Image with Overlay */}

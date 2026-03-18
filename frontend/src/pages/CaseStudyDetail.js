@@ -105,7 +105,7 @@ export default function CaseStudyDetail() {
       <SEO
         title={`${cs.title} | LED Project ${cs.location}`}
         description={`${cs.challenge.slice(0, 120)} ${cs.technology} LED display project in ${cs.location}. View full case study.`}
-        path={`/case-studies/${cs.id}`}
+        path={`/case-studies/${cs.slug || cs.id}`}
         image={cs.hero_image}
         keywords={`${cs.title}, LED project ${cs.location}, ${cs.technology} display, ${cs.category} LED, case study Dubai`}
         breadcrumbs={[
@@ -127,6 +127,7 @@ export default function CaseStudyDetail() {
             "name": cs.location
           }
         }}
+        ampUrl={`${process.env.REACT_APP_BACKEND_URL}/api/amp-case-study/${cs.slug || cs.id}`}
       />
 
       {/* Hero Section */}

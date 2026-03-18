@@ -148,6 +148,7 @@ export default function BlogPost() {
           { name: blog.title, path: null }
         ]}
         jsonLd={[articleSchema, breadcrumbSchema]}
+        ampUrl={`${process.env.REACT_APP_BACKEND_URL}/api/amp-blog/${slug}`}
       />
 
       {/* Hero Section */}

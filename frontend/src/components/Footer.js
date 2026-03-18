@@ -35,7 +35,7 @@ const Footer = () => {
       }} />
       
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Logo & Social Column */}
           <div className="col-span-1">
             <img 
@@ -71,11 +71,23 @@ const Footer = () => {
             <h3 className="text-xs font-bold mb-5 tracking-[0.2em] uppercase" style={{ color: offWhite }}>EXPLORE</h3>
             <ul className="space-y-3">
               <li><Link to="/products" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>PRODUCTS</Link></li>
-              <li><Link to="/services" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>SERVICES</Link></li>
               <li><Link to="/solutions" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>SOLUTIONS</Link></li>
-              <li><Link to="/applications" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>APPLICATIONS</Link></li>
+              <li><Link to="/technology" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>TECHNOLOGY</Link></li>
               <li><Link to="/case-studies" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>CASE STUDIES</Link></li>
               <li><Link to="/blog" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>BLOG</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-xs font-bold mb-5 tracking-[0.2em] uppercase" style={{ color: offWhite }}>LOCATIONS</h3>
+            <ul className="space-y-3">
+              <li><Link to="/dubai" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>DUBAI</Link></li>
+              <li><Link to="/abu-dhabi" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>ABU DHABI</Link></li>
+              <li><Link to="/saudi-arabia" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>SAUDI ARABIA</Link></li>
+              <li><Link to="/qatar" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>QATAR</Link></li>
+              <li><Link to="/kuwait" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>KUWAIT</Link></li>
+              <li><Link to="/bahrain" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>BAHRAIN</Link></li>
+              <li><Link to="/oman" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>OMAN</Link></li>
             </ul>
           </div>
 
@@ -86,9 +98,6 @@ const Footer = () => {
               <li><Link to="/contact" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>CONTACT US</Link></li>
               <li><Link to="/factory-tour" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>FACTORY TOUR</Link></li>
               <li><Link to="/faq" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>FAQ</Link></li>
-              <li><Link to="/distribution" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>DISTRIBUTION</Link></li>
-              <li><Link to="/supplier-registration" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>SUPPLIER REGISTRATION</Link></li>
-              <li><Link to="/technical-support" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>TECHNICAL SUPPORT</Link></li>
               <li><Link to="/resources" className="text-sm uppercase tracking-wide hover:text-cyan-400 transition-colors duration-200" style={{ color: offWhiteMuted }}>RESOURCES</Link></li>
             </ul>
           </div>

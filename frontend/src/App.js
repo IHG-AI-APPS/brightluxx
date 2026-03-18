@@ -38,6 +38,8 @@ const SaudiArabiaPage = lazy(() => import('./pages/SaudiArabiaPage'));
 const DubaiPage = lazy(() => import('./pages/DubaiPage'));
 const QatarPage = lazy(() => import('./pages/QatarPage'));
 const KuwaitPage = lazy(() => import('./pages/KuwaitPage'));
+const BahrainPage = lazy(() => import('./pages/BahrainPage'));
+const OmanPage = lazy(() => import('./pages/OmanPage'));
 const ROICalculator = lazy(() => import('./pages/ROICalculator'));
 const CompareCompetitors = lazy(() => import('./pages/CompareCompetitors'));
 
@@ -200,6 +202,8 @@ function AppRoutes() {
       <Route path="/dubai" element={<PublicLayout><DubaiPage /></PublicLayout>} />
       <Route path="/qatar" element={<PublicLayout><QatarPage /></PublicLayout>} />
       <Route path="/kuwait" element={<PublicLayout><KuwaitPage /></PublicLayout>} />
+      <Route path="/bahrain" element={<PublicLayout><BahrainPage /></PublicLayout>} />
+      <Route path="/oman" element={<PublicLayout><OmanPage /></PublicLayout>} />
       <Route path="/tools/roi-calculator" element={<PublicLayout><ROICalculator /></PublicLayout>} />
       <Route path="/compare-brands" element={<PublicLayout><CompareCompetitors /></PublicLayout>} />
       

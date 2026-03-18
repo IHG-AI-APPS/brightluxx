@@ -34,6 +34,9 @@ const About = lazy(() => import('./pages/About'));
 // SEO Landing Pages - Lazy loaded
 const LEDScreenDubai = lazy(() => import('./pages/LEDScreenDubai'));
 const GovernmentSolutions = lazy(() => import('./pages/GovernmentSolutions'));
+const AbuDhabiPage = lazy(() => import('./pages/AbuDhabiPage'));
+const SaudiArabiaPage = lazy(() => import('./pages/SaudiArabiaPage'));
+const ROICalculator = lazy(() => import('./pages/ROICalculator'));
 
 // Knowledge Base - Lazy loaded
 const KnowledgeIndex = lazy(() => import('./pages/knowledge/KnowledgeIndex'));
@@ -189,6 +192,9 @@ function AppRoutes() {
       {/* SEO Landing Pages */}
       <Route path="/led-screen-suppliers-dubai" element={<><Navbar /><LEDScreenDubai /><Footer /><StickyCTA /></>} />
       <Route path="/government-solutions" element={<><Navbar /><GovernmentSolutions /><Footer /><StickyCTA /></>} />
+      <Route path="/abu-dhabi" element={<><Navbar /><AbuDhabiPage /><Footer /><StickyCTA /></>} />
+      <Route path="/saudi-arabia" element={<><Navbar /><SaudiArabiaPage /><Footer /><StickyCTA /></>} />
+      <Route path="/tools/roi-calculator" element={<><Navbar /><ROICalculator /><Footer /><StickyCTA /></>} />
       
       <Route path="/knowledge" element={<><Navbar /><KnowledgeIndex /><Footer /><StickyCTA /></>} />
       <Route path="/knowledge/cob-vs-mip-vs-smd" element={<><Navbar /><CobVsMipVsSmd /><Footer /><StickyCTA /></>} />

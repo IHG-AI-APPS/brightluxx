@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid, BookOpen, HelpCircle, Phone, Info, Factory, Users, Newspaper, FolderOpen, Lightbulb, PenTool, Shield, Sun, Moon } from 'lucide-react';
+import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid, BookOpen, HelpCircle, Phone, Info, Factory, Users, Newspaper, FolderOpen, Lightbulb, PenTool, Shield, Sun, Moon, TrendingUp } from 'lucide-react';
 import { useSiteSettings } from '../contexts/SiteSettingsContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
@@ -121,6 +121,7 @@ const Navbar = () => {
       links: [
         { name: 'Screen Calculator', path: '/calculator', icon: Calculator, desc: 'Size & resolution' },
         { name: 'Budget Estimator', path: '/budget-estimator', icon: DollarSign, desc: 'Project costing' },
+        { name: 'ROI Calculator', path: '/tools/roi-calculator', icon: TrendingUp, desc: 'Investment analysis' },
         { name: 'Viewing Distance', path: '/viewing-distance', icon: Eye, desc: 'Optimal pitch calculator' },
         { name: 'Power Estimator', path: '/power-estimator', icon: Zap, desc: 'Electrical requirements' },
         { name: 'Technology Selector', path: '/technology-selector', icon: Cpu, desc: 'Find the right tech' },
@@ -306,10 +307,17 @@ const Navbar = () => {
                 </div>
                 {/* Special Landing Pages */}
                 <div className="mt-2 pt-2 mx-3 border-t border-white/[0.06]">
-                  <div className="px-0 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">SPECIAL</div>
+                  <div className="px-0 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">BY LOCATION</div>
                   <Link to="/led-screen-suppliers-dubai" onClick={closeAll} className="block px-2 py-1.5 rounded text-[0.6rem] text-white/80 hover:text-cyan-400 hover:bg-white/[0.04] transition-colors" data-testid="nav-led-dubai">
-                    LED Screens Dubai
+                    Dubai
                   </Link>
+                  <Link to="/abu-dhabi" onClick={closeAll} className="block px-2 py-1.5 rounded text-[0.6rem] text-white/80 hover:text-cyan-400 hover:bg-white/[0.04] transition-colors" data-testid="nav-abu-dhabi">
+                    Abu Dhabi
+                  </Link>
+                  <Link to="/saudi-arabia" onClick={closeAll} className="block px-2 py-1.5 rounded text-[0.6rem] text-white/80 hover:text-cyan-400 hover:bg-white/[0.04] transition-colors" data-testid="nav-saudi">
+                    Saudi Arabia
+                  </Link>
+                  <div className="px-0 pt-2 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">SPECIAL</div>
                   <Link to="/government-solutions" onClick={closeAll} className="block px-2 py-1.5 rounded text-[0.6rem] text-white/80 hover:text-cyan-400 hover:bg-white/[0.04] transition-colors" data-testid="nav-gov-solutions">
                     Government Solutions
                   </Link>

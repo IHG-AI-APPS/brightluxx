@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Store, Building2, Briefcase, Stethoscope, Plane, Theater, Trophy, GraduationCap, Sun, X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { generateApplicationAlt } from '../utils/altTagUtils';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -515,10 +517,28 @@ export default function Applications() {
   return (
     <div className="bg-[#050508] min-h-screen" data-testid="applications-page">
       <SEO
-        title="LED Display Applications by Industry — Shopfront, Hospitality, Corporate | Brightluxx"
-        description="Discover LED display solutions for every industry: shopfront signage, hotels, retail malls, corporate offices, healthcare, transportation, entertainment, and more. UAE-focused expertise."
+        title="LED Display Applications by Industry | Retail, Corporate, Hospitality Dubai"
+        description="LED display solutions for 10+ industries: retail, corporate, hospitality, healthcare, transportation, entertainment. Expert installation in UAE & GCC. Get free consultation."
         path="/applications"
+        keywords="LED display applications, retail LED screen, corporate video wall, hotel LED display, healthcare digital signage, Dubai, UAE"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Applications', path: null }
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "LED Display Applications by Industry",
+          "description": "LED display solutions for retail, corporate, hospitality, healthcare, transportation, and entertainment industries in UAE & GCC",
+          "url": "https://brightluxx.com/applications",
+          "provider": { "@type": "Organization", "name": "Brightluxx" }
+        }}
       />
+
+      {/* Breadcrumbs */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 pt-24 pb-4">
+        <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Applications', path: null }]} className="text-gray-500" />
+      </div>
 
       <HeroCarousel />
 

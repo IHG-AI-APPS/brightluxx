@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Cpu, Layers, Box, Monitor, Eye, Sparkles, Building2, Cuboid, MonitorPlay } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { generateTechnologyAlt } from '../utils/altTagUtils';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -237,9 +239,22 @@ export default function TechnologyIndex() {
   return (
     <div className="bg-[#050508]" data-testid="technology-index-page">
       <SEO
-        title="LED Display Technologies — MicroLED, COB, MiP, Transparent, 3D | Brightluxx"
-        description="Explore 9 LED display technologies: MicroLED, COB, MiP, Fine Pitch, All-in-One dvLED, Transparent LED, 3D Anamorphic, Creative LED, and Media Facade."
+        title="LED Display Technologies | MicroLED, COB, Transparent Dubai"
+        description="9 LED technologies explained: MicroLED, COB, MiP, Fine Pitch, Transparent, 3D Anamorphic. Technical specs, comparisons & UAE guidance. Download spec sheets."
         path="/technology"
+        keywords="MicroLED Dubai, COB LED display, transparent LED UAE, fine pitch LED, LED technology comparison, video wall technology"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Technology', path: null }
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "LED Display Technologies Guide",
+          "description": "Comprehensive guide to 9 LED display technologies for specifiers in UAE & GCC",
+          "url": "https://brightluxx.com/technology",
+          "provider": { "@type": "Organization", "name": "Brightluxx" }
+        }}
       />
 
       {/* Hero Section */}
@@ -248,6 +263,9 @@ export default function TechnologyIndex() {
         <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px]" />
         
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+          {/* Breadcrumbs */}
+          <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Technology', path: null }]} className="text-gray-500 mb-8" />
+          
           <FadeInSection>
             <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">LED Display Technologies</span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 leading-[0.95]" data-testid="technology-index-title">

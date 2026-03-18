@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, FileText, Box, Layers, Download, CheckCircle, ArrowRight, BookOpen, X, Eye, Sparkles, Grid3X3, Cpu, Monitor, Zap, Table, BarChart3, Ruler } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -604,9 +605,22 @@ export default function ResourceLibrary() {
   return (
     <div className="bg-[#050508] min-h-screen" data-testid="resource-library-page">
       <SEO
-        title="LED Display Specification Resources — Spec Packs, Cheat Sheets, BIM References"
-        description="Complete resource library for LED display specifiers. Spec packs, cheat sheets, BIM/CAD references, and technical guides. Downloadable PDFs for architects, consultants, and contractors in UAE/GCC."
+        title="LED Display Specification Resources | Spec Sheets, BIM Files Dubai"
+        description="Download LED display spec packs, cheat sheets, BIM/CAD files, and technical guides. Free resources for architects, consultants & contractors in UAE & GCC."
         path="/resources"
+        keywords="LED display spec sheets, video wall specifications, BIM files LED, technical guides, download PDF, Dubai architects"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Resources', path: null }
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "LED Display Specification Resources",
+          "description": "Downloadable spec packs, cheat sheets, BIM references, and technical guides for LED display specifiers",
+          "url": "https://brightluxx.com/resources",
+          "provider": { "@type": "Organization", "name": "Brightluxx" }
+        }}
       />
 
       {/* Hero */}
@@ -616,6 +630,9 @@ export default function ResourceLibrary() {
         <div className="absolute top-1/3 left-0 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[100px]" />
         
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+          {/* Breadcrumbs */}
+          <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Resources', path: null }]} className="text-gray-500 mb-8" />
+          
           <FadeInSection>
             <div className="flex items-center gap-2 mb-4">
               <Sparkles size={16} className="text-cyan-400" />

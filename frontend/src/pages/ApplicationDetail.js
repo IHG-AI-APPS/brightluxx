@@ -3,7 +3,9 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Store, Building2, Briefcase, Stethoscope, Plane, Theater, Trophy, GraduationCap, Sun, CheckCircle, Zap, Eye, Ruler, Shield, X, ChevronLeft, ChevronRight, Lightbulb, Target, Wrench } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 import CdnImage from '../components/CdnImage';
+import { generateSolutionAlt } from '../utils/altTagUtils';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -511,15 +513,34 @@ export default function ApplicationDetail() {
   return (
     <div className="bg-[#050508] min-h-screen" data-testid={`application-detail-${slug}`}>
       <SEO
-        title={`${app.name} LED Displays — ${app.tagline} | Brightluxx UAE`}
-        description={app.description}
+        title={`${app.name} LED Displays | ${app.tagline} Dubai UAE`}
+        description={`${app.description.slice(0, 140)} Expert LED installation for ${app.name.toLowerCase()} in UAE & GCC.`}
         path={`/applications/${slug}`}
+        keywords={`${app.name} LED display, ${app.name.toLowerCase()} video wall, ${app.name.toLowerCase()} digital signage, Dubai, UAE`}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Applications', path: '/applications' },
+          { name: app.name, path: null }
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "serviceType": `LED Display Solutions for ${app.name}`,
+          "name": `${app.name} LED Displays`,
+          "description": app.description,
+          "provider": { "@type": "Organization", "name": "Brightluxx" },
+          "areaServed": ["Dubai", "Abu Dhabi", "UAE", "Saudi Arabia", "GCC"]
+        }}
       />
 
       {/* Dramatic Full-Width Hero */}
       <section className="relative h-[70vh] min-h-[500px] overflow-hidden">
         <div className="absolute inset-0">
-          <img src={app.heroImage} alt={app.name} className="w-full h-full object-cover" />
+          <img 
+            src={app.heroImage} 
+            alt={`LED display solutions for ${app.name} industry Dubai`}
+            className="w-full h-full object-cover" 
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/60 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-[#050508]/20" />
         </div>
@@ -527,9 +548,14 @@ export default function ApplicationDetail() {
         <div className="absolute inset-0 flex items-center">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 w-full">
             <FadeInSection>
-              <Link to="/applications" className="inline-flex items-center gap-2 text-gray-400 hover:text-cyan-400 text-sm font-bold tracking-wider mb-8 transition-colors">
-                <ArrowLeft size={16} /> All Applications
-              </Link>
+              <Breadcrumbs 
+                items={[
+                  { name: 'Home', path: '/' },
+                  { name: 'Applications', path: '/applications' },
+                  { name: app.name, path: null }
+                ]}
+                className="mb-8"
+              />
               
               <div className="flex items-start gap-5 mb-6">
                 <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-cyan-500/20 backdrop-blur-sm border border-cyan-500/30">

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { SiteSettingsProvider } from './contexts/SiteSettingsContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
+import './styles/apple-design.css';
 
 import PublicLayout from './components/PublicLayout';
 import AuraChat from './components/AuraChat';

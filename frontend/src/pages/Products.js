@@ -65,34 +65,48 @@ const CATEGORIES = [
 ];
 
 const ProductCard = ({ product, index, isDark }) => {
-  const bgCard = isDark ? 'bg-[#0A0A0D]' : 'bg-white';
-  const borderCard = isDark ? 'border-white/5' : 'border-neutral-200';
   const textName = isDark ? 'text-white' : 'text-neutral-900';
   const textDesc = isDark ? 'text-gray-500' : 'text-neutral-500';
-  const gradientOverlay = isDark ? 'from-[#0A0A0D]' : 'from-white';
-  const hoverOverlay = isDark ? 'bg-[#050508]/90' : 'bg-white/95';
   const bgPill = isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-100 border-neutral-200';
 
   return (
   <MotionCard index={index}>
     <Link
       to={`/products/${product.slug}`}
-      className={`group block ${bgCard} border ${borderCard} overflow-hidden relative hover:border-cyan-500/30 transition-all duration-500`}
+      className="group block overflow-hidden relative rounded-2xl"
       data-testid="products-product-card"
     >
-      {/* Image Container */}
-      <div className="relative aspect-[4/3] overflow-hidden">
-        {product.image_url ? (
-          <>
-            <CdnImage 
-              src={product.image_url} 
-              alt={product.name} 
-              className="w-full h-full" 
-              imgClassName="group-hover:scale-110 transition-transform duration-700" 
-              w={500} 
-            />
-            {/* Gradient Overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-t ${gradientOverlay} via-transparent to-transparent opacity-60`} />
+      {/* Glass Card Container */}
+      <motion.div
+        className={`relative ${isDark 
+          ? 'bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/[0.08]' 
+          : 'bg-gradient-to-br from-white to-neutral-50 border border-neutral-200'} 
+          backdrop-blur-xl rounded-2xl overflow-hidden`}
+        whileHover={{ 
+          y: -8, 
+          scale: 1.02,
+          boxShadow: isDark 
+            ? '0 20px 40px rgba(0,0,0,0.3), 0 0 60px rgba(34,211,238,0.1)'
+            : '0 20px 40px rgba(0,0,0,0.1)'
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      >
+        {/* Subtle gradient shine */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] via-transparent to-transparent pointer-events-none rounded-2xl" />
+        
+        {/* Image Container */}
+        <div className="relative aspect-[4/3] overflow-hidden">
+          {product.image_url ? (
+            <>
+              <CdnImage 
+                src={product.image_url} 
+                alt={product.name} 
+                className="w-full h-full" 
+                imgClassName="group-hover:scale-110 transition-transform duration-700" 
+                w={500} 
+              />
+              {/* Gradient Overlay */}
+              <div className={`absolute inset-0 bg-gradient-to-t ${isDark ? 'from-[#0A0A0D]' : 'from-white'} via-transparent to-transparent opacity-60`} />
           </>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan-500/5 to-transparent">
@@ -102,13 +116,17 @@ const ProductCard = ({ product, index, isDark }) => {
         
         {/* Product Code Badge */}
         <div className="absolute top-4 left-4 z-10">
-          <span className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2.5 py-1 text-[10px] uppercase tracking-wider font-bold backdrop-blur-sm">
+          <span className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2.5 py-1 text-[10px] uppercase tracking-wider font-bold backdrop-blur-md rounded-lg">
             {product.product_code}
           </span>
         </div>
 
-        {/* Hover Overlay - Quick Specs */}
-        <div className={`absolute inset-0 ${hoverOverlay} opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6`}>
+        {/* Hover Overlay - Quick Specs with glassmorphism */}
+        <motion.div 
+          className={`absolute inset-0 ${isDark ? 'bg-[#050508]/90' : 'bg-white/95'} backdrop-blur-sm flex items-center justify-center p-6`}
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 1 }}
+        >
           <div className="text-center">
             <div className="grid grid-cols-2 gap-3 mb-4">
               {product.pixel_pitch && (
@@ -128,7 +146,7 @@ const ProductCard = ({ product, index, isDark }) => {
               View Details <ArrowRight size={14} />
             </span>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Content */}
@@ -142,15 +160,15 @@ const ProductCard = ({ product, index, isDark }) => {
           </p>
         )}
         
-        {/* Spec Pills */}
+        {/* Spec Pills with glass effect */}
         <div className="flex flex-wrap gap-2 pt-1">
           {product.pixel_pitch && (
-            <span className={`text-[10px] px-2 py-1 ${bgPill} border ${textDesc} font-mono`}>
+            <span className={`text-[10px] px-2.5 py-1.5 rounded-lg ${bgPill} border ${textDesc} font-mono backdrop-blur-sm`}>
               {product.pixel_pitch}
             </span>
           )}
           {product.brightness && (
-            <span className={`text-[10px] px-2 py-1 ${bgPill} border ${textDesc} font-mono`}>
+            <span className={`text-[10px] px-2.5 py-1.5 rounded-lg ${bgPill} border ${textDesc} font-mono backdrop-blur-sm`}>
               {product.brightness}
             </span>
           )}
@@ -158,7 +176,8 @@ const ProductCard = ({ product, index, isDark }) => {
       </div>
 
       {/* Bottom Glow Line */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-b-2xl" />
+      </motion.div>
     </Link>
   </MotionCard>
   );

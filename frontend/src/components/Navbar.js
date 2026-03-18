@@ -1,9 +1,9 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid, BookOpen, HelpCircle, Phone, Info, Factory, Users, Newspaper, FolderOpen, Shield, Sun, Moon, TrendingUp } from 'lucide-react';
 import { useSiteSettings } from '../contexts/SiteSettingsContext';
 import { useTheme } from '../contexts/ThemeContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /* Dropdown wrapper — handles stable hover with a delay so the menu doesn't vanish mid-transition */
 function DropdownWrap({ trigger, children, isOpen, setOpen, testId }) {
@@ -13,11 +13,20 @@ function DropdownWrap({ trigger, children, isOpen, setOpen, testId }) {
   return (
     <div className="relative" onMouseEnter={enter} onMouseLeave={leave}>
       {trigger}
-      {isOpen && (
-        <div className="absolute top-full left-0 pt-2" data-testid={testId}>
-          {children}
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            className="absolute top-full left-0 pt-2" 
+            data-testid={testId}
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -26,9 +35,19 @@ const Navbar = () => {
   const [productsOpen, setProductsOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { branding } = useSiteSettings();
   const { isDark, toggleTheme } = useTheme();
+
+  // Morphing header on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const isActive = (path) => location.pathname === path;
   const isActivePrefix = (prefix) => location.pathname.startsWith(prefix);
@@ -178,7 +197,7 @@ const Navbar = () => {
 
   /* Nav button component - UPPERCASE text with theme awareness */
   const NavBtn = ({ label, href, isOpenState, isActiveState, testId, hasDropdown = true }) => (
-    <div className="flex items-center cursor-pointer">
+    <div className="flex items-center cursor-pointer group">
       <Link
         to={href}
         className={`relative text-[0.6875rem] font-bold tracking-[0.15em] uppercase py-2 transition-all duration-300 ${
@@ -189,23 +208,43 @@ const Navbar = () => {
         data-testid={testId}
       >
         {label}
-        {isActiveState && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 to-cyan-500" />}
+        {isActiveState && (
+          <motion.span 
+            layoutId="navIndicator"
+            className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 to-cyan-500"
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+          />
+        )}
       </Link>
       {hasDropdown && (
-        <ChevronDown size={14} className={`ml-1 transition-transform duration-300 ${isOpenState ? 'rotate-180 text-cyan-400' : (isDark ? 'text-neutral-500' : 'text-neutral-400')}`} />
+        <motion.div
+          animate={{ rotate: isOpenState ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ChevronDown size={14} className={`ml-1 ${isOpenState ? 'text-cyan-400' : (isDark ? 'text-neutral-500' : 'text-neutral-400')}`} />
+        </motion.div>
       )}
     </div>
   );
 
   return (
     <>
-    <nav 
-      className="fixed top-0 left-0 right-0 z-50 transition-colors duration-300" 
+    <motion.nav 
+      className="fixed top-0 left-0 right-0 z-50" 
+      initial={false}
+      animate={{
+        paddingTop: scrolled ? '0.5rem' : '0.75rem',
+        paddingBottom: scrolled ? '0.5rem' : '0.75rem',
+      }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       style={{ 
-        backdropFilter: 'blur(24px)', 
-        WebkitBackdropFilter: 'blur(24px)', 
-        background: isDark ? 'rgba(5,5,8,0.95)' : 'rgba(255,255,255,0.95)', 
-        borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.08)' 
+        backdropFilter: scrolled ? 'blur(40px)' : 'blur(24px)', 
+        WebkitBackdropFilter: scrolled ? 'blur(40px)' : 'blur(24px)', 
+        background: isDark 
+          ? (scrolled ? 'rgba(5,5,8,0.98)' : 'rgba(5,5,8,0.9)') 
+          : (scrolled ? 'rgba(255,255,255,0.98)' : 'rgba(255,255,255,0.9)'), 
+        borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.08)',
+        boxShadow: scrolled ? '0 4px 30px rgba(0,0,0,0.1)' : 'none'
       }} 
       data-testid="site-header-nav"
     >
@@ -475,7 +514,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
     {/* Spacer for fixed nav */}
     <div className="h-16" />
     </>

@@ -5,8 +5,19 @@ import { getProducts, getProjects } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { BASE_URL } from '../components/SEO';
 import { EXTERNAL_CDN, cdnUrl } from '../config/cdn';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import { 
+  ScrollReveal, 
+  StaggerContainer, 
+  StaggerItem, 
+  GlassCard, 
+  MagneticButton,
+  FloatingElement,
+  BlurFade,
+  MorphingShape,
+  SpotlightCard
+} from '../components/AppleAnimations';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -28,16 +39,16 @@ const useInView = (ref, threshold = 0.15) => {
   return inView;
 };
 
-/* Fade in animation wrapper */
+/* Apple-style Fade in animation wrapper */
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
   const inView = useInView(ref);
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 1, delay: delay * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+      animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : { opacity: 0, y: 40, filter: 'blur(10px)' }}
+      transition={{ duration: 0.8, delay: delay * 0.12, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
       {children}
@@ -300,46 +311,84 @@ const Home = () => {
       />
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          HERO SECTION — Full-screen immersive video
+          HERO SECTION — Full-screen immersive video with Apple-style animations
       ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative h-screen min-h-[600px] flex items-end" data-testid="hero-section">
+      <section className="relative h-screen min-h-[600px] flex items-end overflow-hidden" data-testid="hero-section">
         <HeroVideoPlayer videos={hero.video_urls} posterImage={hero.poster_image} />
+        
+        {/* Floating morphing shapes for depth */}
+        <MorphingShape className="w-[600px] h-[600px] -top-20 -right-40 opacity-30" />
+        <MorphingShape className="w-[400px] h-[400px] bottom-40 -left-20 opacity-20" />
         
         {/* Hero Content - Always light text on dark video overlay */}
         <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 pb-20 lg:pb-28">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 50, filter: 'blur(20px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[0.9] mb-8" data-testid="hero-title" style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>
-              <span style={{ color: '#ffffff' }}>ENGINEERING</span>
+            <h1 className="text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight leading-[0.9] mb-8" data-testid="hero-title" style={{ textShadow: '0 4px 40px rgba(0,0,0,0.4)' }}>
+              <motion.span 
+                style={{ color: '#ffffff', display: 'inline-block' }}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                ENGINEERING
+              </motion.span>
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500">
+              <motion.span 
+                className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500 inline-block"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                  backgroundSize: '200% 100%',
+                  animation: 'gradientShift 8s ease infinite'
+                }}
+              >
                 BRILLIANCE
-              </span>
+              </motion.span>
             </h1>
             
-            <div className="flex items-center gap-6">
-              <Link 
-                to={hero.cta_link || '/contact'} 
-                className="font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs transition-colors duration-300 bg-white text-black hover:bg-cyan-400"
+            <motion.div 
+              className="flex items-center gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <MagneticButton
+                className="relative group overflow-hidden font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs bg-white text-black hover:text-white transition-colors duration-500"
+                onClick={() => window.location.href = hero.cta_link || '/contact'}
                 data-testid="home-hero-primary-cta"
               >
-                GET QUOTE
-              </Link>
+                <span className="relative z-10">GET QUOTE</span>
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-cyan-500"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: 0 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                />
+              </MagneticButton>
               <Link 
                 to="/products" 
-                className="font-medium tracking-[0.1em] uppercase text-xs transition-colors text-white/90 hover:text-white"
+                className="group font-medium tracking-[0.1em] uppercase text-xs transition-colors text-white/90 hover:text-white flex items-center gap-2"
                 data-testid="home-hero-secondary-cta"
                 style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}
               >
-                EXPLORE →
+                EXPLORE 
+                <motion.span
+                  className="inline-block"
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  →
+                </motion.span>
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
 
-          {/* Scroll indicator */}
+          {/* Scroll indicator with glow */}
           <motion.div 
             className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center"
             initial={{ opacity: 0 }}
@@ -347,70 +396,91 @@ const Home = () => {
             transition={{ delay: 1.5 }}
           >
             <motion.div 
+              className="relative"
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
               <ChevronDown size={24} className="text-white/50" />
+              <div className="absolute inset-0 blur-md bg-cyan-400/30 rounded-full" />
             </motion.div>
           </motion.div>
         </div>
+        
+        {/* Bottom gradient fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050508] to-transparent pointer-events-none" />
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          STATS SECTION — Minimal, clean numbers
+          STATS SECTION — Glassmorphism cards with animated counters
       ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 lg:py-20" data-testid="project-stats-section">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <FadeIn>
-            <div className="flex flex-wrap justify-center lg:justify-between items-center gap-8 lg:gap-4">
+      <section className="py-16 lg:py-24 relative overflow-hidden" data-testid="project-stats-section">
+        {/* Subtle background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-violet-500/5 pointer-events-none" />
+        
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative">
+          <StaggerContainer staggerDelay={0.1}>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
               {stats.map((stat, index) => (
-                <div key={stat.label} className="text-center px-6 lg:px-0">
-                  <div className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-1 font-mono text-transparent bg-clip-text ${isDark ? 'bg-gradient-to-b from-white to-white/60' : 'bg-gradient-to-b from-neutral-900 to-neutral-600'}`} data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
-                    <AnimatedCounter end={stat.value} suffix={stat.suffix || ''} prefix={stat.prefix || ''} />
-                  </div>
-                  <div className={`text-[10px] tracking-[0.25em] uppercase font-medium ${textMuted}`}>
-                    {stat.label}
-                  </div>
-                </div>
+                <StaggerItem key={stat.label}>
+                  <SpotlightCard className={`glass-card rounded-2xl p-6 lg:p-8 text-center group hover:scale-[1.02] transition-transform duration-300`}>
+                    <div className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-2 font-mono text-transparent bg-clip-text ${isDark ? 'bg-gradient-to-b from-white to-white/60' : 'bg-gradient-to-b from-neutral-900 to-neutral-600'}`} data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
+                      <AnimatedCounter end={stat.value} suffix={stat.suffix || ''} prefix={stat.prefix || ''} />
+                    </div>
+                    <div className={`text-[10px] tracking-[0.25em] uppercase font-medium ${textMuted}`}>
+                      {stat.label}
+                    </div>
+                    {/* Glow effect on hover */}
+                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: '0 0 40px rgba(34, 211, 238, 0.15)' }} />
+                  </SpotlightCard>
+                </StaggerItem>
               ))}
             </div>
-          </FadeIn>
+          </StaggerContainer>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          PRODUCT FAMILIES — Full-width immersive cards
+          PRODUCT FAMILIES — Apple-style immersive cards with hover effects
       ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="py-20 lg:py-28" data-testid="product-families-section">
+      <section className="py-20 lg:py-32 relative" data-testid="product-families-section">
         <div className="max-w-[1600px] mx-auto px-4 md:px-8">
-          <FadeIn>
+          <ScrollReveal>
             <div className="text-center mb-16">
               <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight uppercase ${textPrimary}`}>
-                PRODUCT FAMILIES
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-rose-400" style={{ backgroundSize: '200% 100%', animation: 'gradientShift 8s ease infinite' }}>
+                  PRODUCT FAMILIES
+                </span>
               </h2>
             </div>
-          </FadeIn>
+          </ScrollReveal>
 
           {/* Product Family Cards - Horizontal scroll on mobile, grid on desktop */}
-          <div className="flex lg:grid lg:grid-cols-5 gap-4 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 snap-x snap-mandatory scrollbar-hide">
+          <StaggerContainer staggerDelay={0.1} className="flex lg:grid lg:grid-cols-5 gap-4 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 snap-x snap-mandatory scrollbar-hide">
             {PRODUCT_FAMILIES.map((family, index) => {
               const colors = COLOR_CLASSES[family.color];
               return (
-                <FadeIn key={family.id} delay={index} className="flex-shrink-0 w-[280px] lg:w-auto snap-center">
+                <StaggerItem key={family.id} className="flex-shrink-0 w-[280px] lg:w-auto snap-center">
                   <Link 
                     to={family.link} 
-                    className={`group block relative overflow-hidden border ${colors.border} ${colors.hover} transition-all duration-500 ${isDark ? '' : 'shadow-lg'}`}
+                    className={`group block relative overflow-hidden rounded-2xl border ${colors.border} transition-all duration-500 ${isDark ? '' : 'shadow-lg'}`}
                     style={{ aspectRatio: '3/4' }}
                     data-testid={`home-family-${family.id}`}
                   >
-                    {/* Image */}
-                    <img 
+                    {/* Image with parallax-like scale on hover */}
+                    <motion.img 
                       src={family.image} 
                       alt={family.name}
                       loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full object-cover"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+                    
+                    {/* Shine effect on hover */}
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
+                    />
                     
                     {/* Content */}
                     <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -418,10 +488,10 @@ const Home = () => {
                       <h3 className="text-xl font-bold text-white uppercase tracking-wide">{family.name}</h3>
                     </div>
                   </Link>
-                </FadeIn>
+                </StaggerItem>
               );
             })}
-          </div>
+          </StaggerContainer>
         </div>
       </section>
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ChevronDown, Monitor, Tv, Layers, Sparkles, Building2, Store, Theater, Grid3X3 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../../components/SEO';
+import { generateItemListSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../utils/seoSchemas';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -86,9 +87,28 @@ export default function PixelVueLanding() {
     products: productsByCategory[id] || [],
   }));
 
+  // Generate SEO schemas
+  const itemListSchema = products.length > 0 
+    ? generateItemListSchema(products, 'PixelVue LED Displays', '/pixelvue')
+    : null;
+  
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'PixelVue', path: '/pixelvue' }
+  ]);
+  
+  const faqSchema = generateFAQSchema(FAQS);
+  
+  const allSchemas = [breadcrumbSchema, faqSchema, itemListSchema].filter(Boolean);
+
   return (
     <div className="bg-neutral-950 min-h-screen" data-testid="pixelvue-landing">
-      <SEO title="PixelVue — LED Display Solutions | Brightluxx UAE" description="Professional LED display solutions for retail, corporate, and creative applications. LED posters, commercial screens, and custom shape installations." path="/pixelvue" />
+      <SEO 
+        title="PixelVue — LED Display Solutions | Brightluxx UAE" 
+        description="Professional LED display solutions for retail, corporate, and creative applications. LED posters, commercial screens, and custom shape installations." 
+        path="/pixelvue"
+        jsonLd={allSchemas}
+      />
 
       {/* Hero */}
       <section className="relative min-h-screen overflow-hidden">

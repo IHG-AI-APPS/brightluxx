@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, User, Calendar, Share2, Facebook, Twitter, Linkedin, Copy, Check, Tag, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
+import { generateArticleSchema, generateBreadcrumbSchema } from '../utils/seoSchemas';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -115,6 +116,22 @@ export default function BlogPost() {
 
   if (!blog) return null;
 
+  // Generate SEO schemas
+  const articleSchema = generateArticleSchema({
+    title: blog.title,
+    excerpt: blog.excerpt,
+    image_url: blog.image_url,
+    published_at: blog.published_at,
+    updated_at: blog.updated_at,
+    created_at: blog.created_at
+  }, `/blog/${slug}`);
+  
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: blog.title, path: `/blog/${slug}` }
+  ]);
+
   return (
     <div className="bg-[#050508]" data-testid="blog-post-page">
       <SEO 
@@ -122,6 +139,7 @@ export default function BlogPost() {
         description={blog.excerpt} 
         path={`/blog/${slug}`}
         image={blog.image_url}
+        jsonLd={[articleSchema, breadcrumbSchema]}
       />
 
       {/* Hero Section */}

@@ -4,6 +4,7 @@ import { Search, Clock, ArrowRight, Image, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import { useTheme } from '../contexts/ThemeContext';
+import { generateBreadcrumbSchema, generateItemListSchema } from '../utils/seoSchemas';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -97,12 +98,23 @@ export default function Blog() {
     return matchCat && matchSearch;
   });
 
+  // Generate SEO schemas
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' }
+  ]);
+  
+  const itemListSchema = blogs.length > 0 
+    ? generateItemListSchema(blogs, 'Brightluxx Blog Articles', '/blog')
+    : null;
+
   return (
     <div className={`${pageBg} transition-colors duration-500`}>
       <SEO 
         title="Blog — LED Display Insights & Industry News | Brightluxx" 
         description="LED display industry insights, technology guides, and project case studies from Brightluxx." 
-        path="/blog" 
+        path="/blog"
+        jsonLd={[breadcrumbSchema, itemListSchema].filter(Boolean)}
       />
 
       {/* Hero Section */}

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { createLead } from '../api';
 import SEO, { BASE_URL } from '../components/SEO';
 import { useTheme } from '../contexts/ThemeContext';
+import { generateBreadcrumbSchema } from '../utils/seoSchemas';
 
 const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
@@ -91,31 +92,39 @@ const Contact = () => {
     { icon: Clock, label: 'Hours', value: 'Sun-Thu: 9AM-6PM', href: null },
   ];
 
+  // Generate breadcrumb schema
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Contact', path: '/contact' }
+  ]);
+
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Brightluxx",
+    "description": "Premium digital LED display solutions provider in UAE",
+    "url": BASE_URL,
+    "telephone": "+971-55-991-0711",
+    "email": "info@brightluxx.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jebel Ali Industrial Area 1",
+      "addressLocality": "Dubai",
+      "addressRegion": "Dubai",
+      "addressCountry": "AE"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": "25.1653", "longitude": "55.2359" },
+    "priceRange": "$$",
+    "areaServed": ["UAE", "GCC", "MENA"]
+  };
+
   return (
     <div className={`${pageBg} transition-colors duration-500`} data-testid="contact-page">
       <SEO
         title="Contact Us — Get a Free LED Display Consultation | Brightluxx"
         description="Get a free LED display consultation. Contact Brightluxx — Dubai-based LED screen supplier. Quick quotes, expert advice, and local installation support across UAE."
         path="/contact"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "LocalBusiness",
-          "name": "Brightluxx",
-          "description": "Premium digital LED display solutions provider in UAE",
-          "url": BASE_URL,
-          "telephone": "+971-55-991-0711",
-          "email": "info@brightluxx.com",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Jebel Ali Industrial Area 1",
-            "addressLocality": "Dubai",
-            "addressRegion": "Dubai",
-            "addressCountry": "AE"
-          },
-          "geo": { "@type": "GeoCoordinates", "latitude": "25.1653", "longitude": "55.2359" },
-          "priceRange": "$$",
-          "areaServed": ["UAE", "GCC", "MENA"]
-        }}
+        jsonLd={[breadcrumbSchema, localBusinessSchema]}
       />
 
       {/* Hero Section */}

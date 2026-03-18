@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, Search, HelpCircle, MessageCircle, ArrowRight }
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../components/SEO';
 import { useTheme } from '../contexts/ThemeContext';
+import { generateFAQSchema, generateBreadcrumbSchema } from '../utils/seoSchemas';
 
 const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
@@ -125,12 +126,21 @@ export default function FAQ() {
     ),
   })).filter(cat => cat.items.length > 0);
 
+  // Generate FAQ Schema with all questions
+  const allFaqItems = FAQ_DATA.flatMap(cat => cat.items);
+  const faqSchema = generateFAQSchema(allFaqItems);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'FAQ', path: '/faq' }
+  ]);
+
   return (
     <div className={`${pageBg} transition-colors duration-500`}>
       <SEO 
         title="FAQ — Frequently Asked Questions | Brightluxx LED Displays" 
         description="Frequently asked questions about LED displays, pricing, installation, warranty, and more. Get answers from UAE's leading LED display provider." 
-        path="/faq" 
+        path="/faq"
+        jsonLd={[faqSchema, breadcrumbSchema]}
       />
 
       {/* Hero Section */}

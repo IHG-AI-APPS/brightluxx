@@ -7,6 +7,7 @@ import SEO, { BASE_URL } from '../components/SEO';
 import QuickInquiry from '../components/QuickInquiry';
 import { cdnUrl } from '../config/cdn';
 import { motion } from 'framer-motion';
+import { generateServiceSchema, generateBreadcrumbSchema } from '../utils/seoSchemas';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -168,6 +169,20 @@ export default function SolutionDetail() {
   const features = solution.features || [];
   const benefits = solution.benefits || [];
 
+  // Generate SEO schemas
+  const serviceSchema = generateServiceSchema({
+    title: solution.title,
+    description: solution.description,
+    category: solution.category || 'LED Display Solutions',
+    image: heroImage
+  }, `/solutions/${solutionId}`);
+  
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Solutions', path: '/solutions' },
+    { name: solution.title, path: `/solutions/${solutionId}` }
+  ]);
+
   return (
     <div className="min-h-screen bg-[#050508]" data-testid={`solution-detail-${solutionId}`}>
       <SEO
@@ -175,15 +190,7 @@ export default function SolutionDetail() {
         description={solution.description}
         image={heroImage}
         path={`/solutions/${solutionId}`}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": BASE_URL },
-            { "@type": "ListItem", "position": 2, "name": "Solutions", "item": `${BASE_URL}/solutions` },
-            { "@type": "ListItem", "position": 3, "name": solution.title },
-          ]
-        }}
+        jsonLd={[serviceSchema, breadcrumbSchema]}
       />
 
       {/* Hero Section - Full Width Immersive */}

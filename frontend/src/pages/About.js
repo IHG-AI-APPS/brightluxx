@@ -4,6 +4,7 @@ import { ArrowRight, Target, Eye, Award, MapPin, Calendar, Users, CheckCircle, F
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import { useTheme } from '../contexts/ThemeContext';
+import { generateBreadcrumbSchema } from '../utils/seoSchemas';
 
 const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
@@ -85,12 +86,19 @@ export default function About() {
   const textMuted = isDark ? 'text-gray-500' : 'text-gray-500';
   const borderColor = isDark ? 'border-white/5' : 'border-neutral-200';
   
+  // Generate breadcrumb schema
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' }
+  ]);
+  
   return (
     <div className={`${pageBg} transition-colors duration-500`} data-testid="about-page">
       <SEO
         title="About Brightluxx — Premium LED Display Solutions Since 2005"
         description="Brightluxx is a UAE-based LED display solutions company. Gulf-grade engineering, local support, and a commitment to transforming spaces with cutting-edge LED technology."
         path="/about"
+        jsonLd={breadcrumbSchema}
       />
 
       {/* Hero Section */}

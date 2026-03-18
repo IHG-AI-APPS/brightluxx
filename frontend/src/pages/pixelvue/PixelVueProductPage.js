@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, Check, Monitor, Layers, Zap, Wifi, Smartphone, Grid3X3, RotateCcw, Sun, Thermometer, Droplets, Maximize2, Eye, Shield, Move, Hand, Puzzle, Presentation, Users, Video, Mic, Store, Tag, ShoppingBag, Coffee, Waves, Building2, Ruler, FolderClosed, Circle, Footprints, Gamepad2, Theater, Music, Wind, Feather, Cloud, Sparkles, Shirt, Battery, Box, Cpu, Type } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../../components/SEO';
+import { generateProductSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../utils/seoSchemas';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -99,12 +100,29 @@ export default function PixelVueProductPage() {
   const categoryColor = product.category === 'poster' ? 'rose' : product.category === 'commercial' ? 'emerald' : 'violet';
   const categoryLabel = product.category === 'poster' ? 'LED Poster Series' : product.category === 'commercial' ? 'Commercial Series' : 'Creative Series';
 
+  // Generate SEO schemas
+  const productSchema = generateProductSchema(product, `/pixelvue/${slug}`);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'PixelVue', path: '/pixelvue' },
+    { name: product.name, path: `/pixelvue/${slug}` }
+  ]);
+  
+  // Generate FAQ schema if product has FAQs
+  const faqSchema = product.faqs && product.faqs.length > 0 
+    ? generateFAQSchema(product.faqs.map(f => ({ q: f.question, a: f.answer })))
+    : null;
+
+  // Combine all schemas
+  const jsonLdSchemas = [productSchema, breadcrumbSchema, faqSchema].filter(Boolean);
+
   return (
     <div className="bg-neutral-950 min-h-screen" data-testid={`pixelvue-product-${slug}`}>
       <SEO 
         title={product.seo_title || `${product.name} - PixelVue LED Display | Brightluxx`} 
         description={product.seo_description || product.description} 
-        path={`/pixelvue/${slug}`} 
+        path={`/pixelvue/${slug}`}
+        jsonLd={jsonLdSchemas}
       />
       
       {/* Hero Section */}

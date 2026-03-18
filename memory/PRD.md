@@ -1833,3 +1833,35 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 **Testing:** Verified via screenshot tool - Cards render correctly, effect is interactive
 
+
+---
+
+### P4: .input-luxury CSS Class Refactor — March 18, 2026
+
+**Task:** Remove legacy `.input-luxury` CSS class that was causing style conflicts.
+
+**Status:** COMPLETE
+
+**What was done:**
+1. **Verified no component files use the class** - Grep search found zero usages in JS/JSX files
+2. **Removed the empty class definition** from `App.css` (lines 517-521)
+3. **Cleaned up related comments** - Removed "Replaces the legacy .input-luxury class" notes
+4. **Global input styling already in place** - The refactoring had been partially done previously:
+   - Base styling for all input types (text, email, tel, url, number, password, search)
+   - Textarea and select elements styled consistently
+   - Focus states with cyan border and glow
+   - Proper dark/light theme support
+   - Select dropdown options styled for dark theme
+
+**Files Modified:**
+- `frontend/src/App.css` - Removed `.input-luxury` class and related comments
+
+**Verification:**
+- ✅ Contact form inputs render correctly in dark mode
+- ✅ Contact form inputs render correctly in light mode  
+- ✅ FAQ search bar displays with proper search icon
+- ✅ Select dropdowns properly styled
+- ✅ No CSS class usage errors in console
+
+**Technical Debt Resolved:** This task was listed as P4 priority technical debt since the `.input-luxury` class was a legacy pattern that had been causing style conflicts (e.g., with the FAQ search bar icon). The codebase now uses pure global CSS selectors for form input styling, which is more maintainable.
+

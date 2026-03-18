@@ -457,7 +457,6 @@ html.light footer .text-white {
 
 /* ======================================
    FORM INPUTS — Global styling for all form elements
-   Replaces the legacy .input-luxury class
    ====================================== */
 
 /* Base input styling */
@@ -512,12 +511,6 @@ select option:checked {
 
 select option:hover {
   background: #2a2a2a;
-}
-
-/* Legacy .input-luxury class - kept for backwards compatibility */
-/* Can be safely removed after full migration */
-.input-luxury {
-  /* All styling now inherited from global input rules */
 }
 
 /* Category badge */

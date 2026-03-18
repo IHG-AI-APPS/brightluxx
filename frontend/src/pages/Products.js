@@ -1,7 +1,7 @@
 import { cdnUrl } from '../config/cdn';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, Monitor, ChevronDown, Grid3X3, LayoutList, Zap, ArrowRight } from 'lucide-react';
+import { Search, SlidersHorizontal, Monitor, ChevronDown, Grid3X3, LayoutList, Zap, ArrowRight, X } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
@@ -12,6 +12,19 @@ import { useTheme } from '../contexts/ThemeContext';
 // Hero background image
 const HERO_IMAGE = 'https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjB0ZWNobm9sb2d5fGVufDB8fHx8MTc3Mzc3NzgyOHww&ixlib=rb-4.1.0&q=85';
 
+// Major categories for quick filter header
+const MAJOR_CATEGORIES = [
+  { value: '', label: 'All' },
+  { value: 'cob-microled', label: 'COB MicroLED' },
+  { value: 'indoor', label: 'Indoor' },
+  { value: 'outdoor', label: 'Outdoor' },
+  { value: 'transparent', label: 'Transparent' },
+  { value: 'flexible', label: 'Creative' },
+  { value: 'all-in-one', label: 'All-in-One' },
+  { value: 'digital-signage', label: 'Signage' },
+];
+
+// Full categories list for sidebar
 const CATEGORIES = [
   { value: '', label: 'All Products', count: 90 },
   { value: 'cob-microled', label: 'COB MicroLED' },
@@ -38,7 +51,7 @@ const CATEGORIES = [
   { value: 'accessories', label: 'Accessories' },
 ];
 
-/* Minimal Product Card - Clean, Centered Design */
+/* Minimal Product Card */
 const ProductCard = ({ product, index }) => {
   return (
     <motion.div
@@ -67,9 +80,7 @@ const ProductCard = ({ product, index }) => {
               <Monitor size={48} className="text-cyan-500/30" />
             </div>
           )}
-          {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-          {/* Hover glow */}
           <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </div>
 
@@ -82,7 +93,6 @@ const ProductCard = ({ product, index }) => {
 
         {/* Content - Bottom Centered */}
         <div className="relative z-10 h-full flex flex-col items-center justify-end p-5 text-center">
-          {/* Product Name */}
           <h3 
             className="text-sm font-semibold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2"
             style={{ color: '#ffffff' }}
@@ -90,7 +100,6 @@ const ProductCard = ({ product, index }) => {
             {product.name}
           </h3>
 
-          {/* Spec Pills */}
           <div className="flex flex-wrap justify-center gap-2 mb-3">
             {product.pixel_pitch && (
               <span 
@@ -110,7 +119,6 @@ const ProductCard = ({ product, index }) => {
             )}
           </div>
 
-          {/* View Details - appears on hover */}
           <div 
             className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
             style={{ color: '#22d3ee' }}
@@ -120,7 +128,6 @@ const ProductCard = ({ product, index }) => {
           </div>
         </div>
 
-        {/* Border on hover */}
         <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-cyan-500/30 transition-colors duration-500 pointer-events-none" />
       </Link>
     </motion.div>
@@ -218,39 +225,31 @@ const Products = () => {
       />
 
       {/* Hero Section with Background Image */}
-      <section className="relative h-[50vh] min-h-[350px] max-h-[500px] overflow-hidden">
-        {/* Background Image */}
+      <section className="relative h-[45vh] min-h-[300px] max-h-[450px] overflow-hidden">
         <div className="absolute inset-0">
           <img 
             src={HERO_IMAGE} 
             alt="LED Display Technology" 
             className="w-full h-full object-cover"
           />
-          {/* Overlays */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/70 to-[#050508]/30" />
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 h-full flex flex-col justify-end pb-12 px-6 md:px-12 lg:px-24">
+        <div className="relative z-10 h-full flex flex-col justify-end pb-8 px-6 md:px-12 lg:px-24">
           <div className="max-w-[1400px] mx-auto w-full">
-            {/* Breadcrumbs */}
             <Breadcrumbs 
               items={breadcrumbs} 
-              className="text-white/60 mb-6" 
+              className="text-white/60 mb-4" 
             />
             
-            {/* Title */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="max-w-2xl"
             >
-              <p className="text-cyan-400 text-xs font-semibold tracking-[0.2em] uppercase mb-3">
-                Product Catalog
-              </p>
               <h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-3"
+                className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-2"
                 style={{ color: '#ffffff' }}
                 data-testid="products-page-title"
               >
@@ -259,7 +258,7 @@ const Products = () => {
                   Products
                 </span>
               </h1>
-              <p className="text-white/70 text-base max-w-lg">
+              <p className="text-white/70 text-sm md:text-base max-w-lg">
                 90+ professional LED solutions for every application.
               </p>
             </motion.div>
@@ -267,28 +266,82 @@ const Products = () => {
         </div>
       </section>
 
+      {/* Category Filter Header Bar */}
+      <section className={`sticky top-16 z-40 ${isDark ? 'bg-[#0A0A0D]/95' : 'bg-white/95'} backdrop-blur-lg border-b ${borderColor}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          <div className="flex items-center gap-3 py-4 overflow-x-auto scrollbar-hide">
+            {/* Search Input */}
+            <div className="relative flex-shrink-0">
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-cyan-500" />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={`w-40 md:w-48 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pl-10 pr-4 py-2 outline-none focus:border-cyan-500 transition-colors text-sm`}
+                data-testid="products-search-input"
+              />
+              {searchQuery && (
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+
+            {/* Divider */}
+            <div className={`w-px h-6 ${isDark ? 'bg-white/10' : 'bg-neutral-200'} flex-shrink-0`} />
+
+            {/* Category Pills */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {MAJOR_CATEGORIES.map((cat) => (
+                <button
+                  key={cat.value}
+                  onClick={() => setActiveCategory(cat.value)}
+                  className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full transition-all whitespace-nowrap ${
+                    activeCategory === cat.value
+                      ? 'bg-cyan-500 text-black'
+                      : (isDark 
+                          ? 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10' 
+                          : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 hover:text-neutral-900 border border-neutral-200')
+                  }`}
+                  data-testid={`products-quick-filter-${cat.value || 'all'}`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            {/* View Toggle */}
+            <div className="ml-auto flex-shrink-0 hidden sm:flex items-center gap-1">
+              <button 
+                onClick={() => setViewMode('grid')}
+                className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-cyan-500/20 text-cyan-400' : (isDark ? 'text-gray-500 hover:text-white' : 'text-neutral-500 hover:text-neutral-900')}`}
+              >
+                <Grid3X3 size={18} />
+              </button>
+              <button 
+                onClick={() => setViewMode('list')}
+                className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-cyan-500/20 text-cyan-400' : (isDark ? 'text-gray-500 hover:text-white' : 'text-neutral-500 hover:text-neutral-900')}`}
+              >
+                <LayoutList size={18} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Main Content */}
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 py-12">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 py-8">
         <div className="flex gap-8 lg:gap-12">
           
           {/* Sidebar Filters - Desktop */}
-          <aside className="hidden lg:block w-56 flex-shrink-0">
-            <div className="sticky top-24 space-y-6">
-              {/* Search */}
-              <div className="relative">
-                <Search size={16} className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDark ? 'text-gray-600' : 'text-neutral-400'}`} />
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`w-full ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-600' : 'bg-white border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-lg pl-10 pr-4 py-2.5 outline-none focus:border-cyan-500 transition-colors text-sm`}
-                  data-testid="products-search-input"
-                />
-              </div>
-
-              {/* Category Filter */}
-              <FilterAccordion title="Categories" defaultOpen={true} isDark={isDark}>
+          <aside className="hidden lg:block w-52 flex-shrink-0">
+            <div className="sticky top-36 space-y-6">
+              {/* All Categories */}
+              <FilterAccordion title="All Categories" defaultOpen={true} isDark={isDark}>
                 {CATEGORIES.map((cat) => (
                   <button
                     key={cat.value}
@@ -325,8 +378,8 @@ const Products = () => {
 
           {/* Main Content Area */}
           <div className="flex-1 min-w-0">
-            {/* Toolbar */}
-            <div className={`flex items-center justify-between mb-8 pb-4 border-b ${borderColor}`}>
+            {/* Results Header */}
+            <div className={`flex items-center justify-between mb-6`}>
               <div className="flex items-center gap-3">
                 <h2 className={`text-base font-semibold uppercase tracking-wide ${textPrimary}`}>{activeCategoryLabel}</h2>
                 <span className={`text-xs ${textSecondary}`}>
@@ -334,31 +387,13 @@ const Products = () => {
                 </span>
               </div>
               
-              <div className="flex items-center gap-2">
-                {/* Mobile Filter Toggle */}
-                <button 
-                  onClick={() => setShowFilters(!showFilters)}
-                  className={`lg:hidden flex items-center gap-2 px-3 py-2 ${isDark ? 'bg-white/5 border-white/10 text-gray-400' : 'bg-neutral-100 border-neutral-200 text-neutral-600'} border rounded-lg text-xs uppercase tracking-wider`}
-                >
-                  <SlidersHorizontal size={14} /> Filters
-                </button>
-                
-                {/* View Toggle */}
-                <div className={`hidden sm:flex items-center gap-1 p-1 rounded-lg ${isDark ? 'bg-white/5' : 'bg-neutral-100'}`}>
-                  <button 
-                    onClick={() => setViewMode('grid')}
-                    className={`p-2 rounded transition-colors ${viewMode === 'grid' ? 'bg-cyan-500/20 text-cyan-400' : (isDark ? 'text-gray-500 hover:text-white' : 'text-neutral-500 hover:text-neutral-900')}`}
-                  >
-                    <Grid3X3 size={16} />
-                  </button>
-                  <button 
-                    onClick={() => setViewMode('list')}
-                    className={`p-2 rounded transition-colors ${viewMode === 'list' ? 'bg-cyan-500/20 text-cyan-400' : (isDark ? 'text-gray-500 hover:text-white' : 'text-neutral-500 hover:text-neutral-900')}`}
-                  >
-                    <LayoutList size={16} />
-                  </button>
-                </div>
-              </div>
+              {/* Mobile Filter Toggle */}
+              <button 
+                onClick={() => setShowFilters(!showFilters)}
+                className={`lg:hidden flex items-center gap-2 px-3 py-2 ${isDark ? 'bg-white/5 border-white/10 text-gray-400' : 'bg-neutral-100 border-neutral-200 text-neutral-600'} border rounded-lg text-xs uppercase tracking-wider`}
+              >
+                <SlidersHorizontal size={14} /> More
+              </button>
             </div>
 
             {/* Mobile Filters */}
@@ -370,16 +405,9 @@ const Products = () => {
                   exit={{ height: 0, opacity: 0 }}
                   className="lg:hidden overflow-hidden mb-6"
                 >
-                  <div className={`${isDark ? 'bg-[#0A0A0D] border-white/5' : 'bg-white border-neutral-200'} border rounded-lg p-4 space-y-4`}>
-                    <input
-                      type="text"
-                      placeholder="Search products..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className={`w-full ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-600' : 'bg-neutral-50 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-lg px-4 py-2.5 outline-none text-sm`}
-                    />
+                  <div className={`${isDark ? 'bg-[#0A0A0D] border-white/5' : 'bg-white border-neutral-200'} border rounded-lg p-4`}>
                     <div className="flex flex-wrap gap-2">
-                      {CATEGORIES.slice(0, 10).map((cat) => (
+                      {CATEGORIES.slice(0, 15).map((cat) => (
                         <button
                           key={cat.value}
                           onClick={() => { setActiveCategory(cat.value); setShowFilters(false); }}

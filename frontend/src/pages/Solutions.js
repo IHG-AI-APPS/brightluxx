@@ -60,7 +60,7 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-/* Glassmorphism Solution Card - Theme Aware */
+/* Apple-Style Solution Card - Clean, Elegant, with Light Sweep Effect */
 const SolutionCard = ({ solution, index, isDark }) => {
   // Get icon from CMS or use default
   const iconName = solution.icon || 'Sparkles';
@@ -75,70 +75,117 @@ const SolutionCard = ({ solution, index, isDark }) => {
     <FadeInSection delay={index}>
       <Link
         to={`/solutions/${solutionSlug}`}
-        className="group relative block overflow-hidden h-full rounded-2xl"
+        className="group relative block overflow-hidden h-full rounded-3xl"
         data-testid={`solution-card-${solutionSlug}`}
+        style={{ minHeight: '450px' }}
       >
-        {/* Background Image */}
-        <div className="absolute inset-0">
+        {/* Background Image with Scale Effect */}
+        <div className="absolute inset-0 overflow-hidden rounded-3xl">
           <img
             src={imageUrl}
             alt={solution.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
           />
-          {/* Gradient overlays - Always dark for image readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 p-6 lg:p-8 h-full flex flex-col justify-end min-h-[400px] lg:min-h-[450px]">
-          {/* Icon with glow */}
-          <div className="relative mb-4">
-            <div className="w-12 h-12 rounded-2xl backdrop-blur-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:border-cyan-500/40 transition-all duration-300">
-              <Icon size={22} className="text-cyan-400" />
-            </div>
-            <div className="absolute -inset-2 bg-cyan-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
-
-          {/* Title - Always white on image cards */}
-          <h3 className="text-xl lg:text-2xl font-bold uppercase tracking-wide text-white mb-2 group-hover:text-cyan-400 transition-colors" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
-            {solution.title}
-          </h3>
           
-          {/* Description - Light gray for readability on dark overlay */}
-          <p className="text-sm text-gray-300 tracking-wide mb-4 line-clamp-2" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
-            {solution.description || solution.desc}
-          </p>
+          {/* Base gradient - Elegant bottom fade */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+          
+          {/* Hover Light Effect - Diagonal shine sweep */}
+          <div 
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            style={{
+              background: 'linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%)',
+              transform: 'translateX(-100%)',
+              animation: 'none'
+            }}
+          />
+          
+          {/* Hover glow overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        </div>
+        
+        {/* Light Sweep Animation on Hover */}
+        <div 
+          className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl"
+          style={{ transform: 'translateZ(0)' }}
+        >
+          <div 
+            className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+            style={{
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
+              width: '50%'
+            }}
+          />
+        </div>
 
-          {/* Tags - Dark semi-transparent background with white text for maximum readability */}
-          {useCases.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4">
-              {useCases.slice(0, 3).map((tag, idx) => (
-                <span 
-                  key={idx} 
-                  className="text-[10px] px-3 py-1.5 rounded-lg uppercase tracking-wider font-bold"
-                  style={{ 
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)', 
-                    color: '#ffffff',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    backdropFilter: 'blur(8px)',
-                    WebkitBackdropFilter: 'blur(8px)'
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
+        {/* Content Container */}
+        <div className="relative z-10 h-full flex flex-col justify-between p-6 lg:p-8" style={{ minHeight: '450px' }}>
+          
+          {/* Top: Icon only - Clean minimal design */}
+          <div className="flex items-start justify-between">
+            <div className="relative">
+              <div className="w-14 h-14 rounded-2xl backdrop-blur-md bg-white/10 border border-white/20 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:border-cyan-400/40 group-hover:scale-110 transition-all duration-500">
+                <Icon size={26} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
+              </div>
+              {/* Glow behind icon on hover */}
+              <div className="absolute -inset-3 bg-cyan-400/30 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
-          )}
+          </div>
 
-          {/* CTA */}
-          <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300">
-            Explore Solution <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          {/* Bottom: Title, Description, Tags (on hover) */}
+          <div>
+            {/* Title - Large, Bold, White */}
+            <h3 
+              className="text-2xl lg:text-3xl font-bold uppercase tracking-wide text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300"
+              style={{ 
+                textShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                lineHeight: 1.1
+              }}
+            >
+              {solution.title}
+            </h3>
+            
+            {/* Description - Clean white text */}
+            <p 
+              className="text-sm text-white/80 tracking-wide mb-5 line-clamp-2 group-hover:text-white transition-colors duration-300"
+              style={{ textShadow: '0 2px 8px rgba(0,0,0,0.4)' }}
+            >
+              {solution.description || solution.desc}
+            </p>
+
+            {/* Tags - Appear on hover with stagger animation */}
+            {useCases.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                {useCases.slice(0, 3).map((tag, idx) => (
+                  <span 
+                    key={idx} 
+                    className="text-[9px] px-3 py-1.5 rounded-full uppercase tracking-widest font-semibold backdrop-blur-md"
+                    style={{ 
+                      backgroundColor: 'rgba(255, 255, 255, 0.15)', 
+                      color: '#ffffff',
+                      border: '1px solid rgba(255, 255, 255, 0.25)',
+                      transitionDelay: `${idx * 50}ms`
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* CTA Arrow - Appears on hover */}
+            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 delay-100">
+              <span>Explore</span>
+              <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-300" />
+            </div>
           </div>
         </div>
 
-        {/* Bottom glow line */}
-        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-b-2xl" />
+        {/* Border glow on hover */}
+        <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-cyan-400/30 transition-colors duration-500 pointer-events-none" />
+        
+        {/* Bottom accent line */}
+        <div className="absolute bottom-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </Link>
     </FadeInSection>
   );

@@ -8,6 +8,7 @@ import QuickInquiry from '../components/QuickInquiry';
 import { cdnUrl } from '../config/cdn';
 import { motion } from 'framer-motion';
 import { generateServiceSchema, generateBreadcrumbSchema } from '../utils/seoSchemas';
+import { AIFactsBox, AIQuickAnswer } from '../components/AIOptimizedContent';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -381,6 +382,46 @@ export default function SolutionDetail() {
             </div>
           </section>
         )}
+
+        {/* AI-Optimized Content Section - For AI/LLM Search Visibility */}
+        <section className="py-16 lg:py-24 border-t border-white/5" data-testid="solution-ai-content">
+          <FadeInSection>
+            <div className="mb-12">
+              <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-2 block">Quick Reference</span>
+              <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wide">Solution Overview</h2>
+            </div>
+          </FadeInSection>
+          
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* AI Facts Box - Quick extractable facts about this solution */}
+            <FadeInSection delay={1}>
+              <AIFactsBox
+                title={`${solution.title} Quick Facts`}
+                entityName={solution.title}
+                entityType="Service"
+                isDark={true}
+                facts={[
+                  { label: 'Solution Type', value: solution.title, itemProp: 'serviceType' },
+                  { label: 'Provider', value: 'Brightluxx', itemProp: 'provider' },
+                  { label: 'Service Area', value: 'UAE & GCC Region', itemProp: 'areaServed' },
+                  { label: 'Applications', value: useCases.slice(0, 3).join(', ') || 'Multiple Industries' },
+                  { label: 'Key Benefits', value: benefits.slice(0, 2).map(b => typeof b === 'string' ? b : b.title).join(', ') || 'Custom Solutions' },
+                  { label: 'Availability', value: 'Available Now', itemProp: 'availability' }
+                ]}
+              />
+            </FadeInSection>
+            
+            {/* Quick Answer - Direct answer format for voice search */}
+            <FadeInSection delay={2}>
+              <AIQuickAnswer
+                question={`What is ${solution.title} by Brightluxx?`}
+                answer={`${solution.title} is a professional LED display solution provided by Brightluxx for ${useCases.slice(0, 3).join(', ').toLowerCase() || 'various industries'} in the UAE and GCC region. ${solution.description?.slice(0, 180)}${solution.description?.length > 180 ? '...' : ''}`}
+                source="Brightluxx Official Solutions"
+                isDark={true}
+              />
+            </FadeInSection>
+          </div>
+        </section>
 
         {/* Navigation */}
         <section className="py-16 lg:py-20 border-t border-white/5" data-testid="solution-cross-nav">

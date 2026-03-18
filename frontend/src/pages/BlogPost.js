@@ -4,6 +4,7 @@ import { ArrowLeft, Clock, User, Calendar, Share2, Facebook, Twitter, Linkedin, 
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import { generateArticleSchema, generateBreadcrumbSchema } from '../utils/seoSchemas';
+import { AIQuickAnswer, AICompanyFactSheet } from '../components/AIOptimizedContent';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -234,6 +235,26 @@ export default function BlogPost() {
                   </div>
                 </div>
               )}
+
+              {/* AI-Optimized Content Section - For AI/LLM Search Visibility */}
+              <div className="mt-14 pt-8 border-t border-white/10" data-testid="blog-ai-content">
+                <div className="flex items-center gap-2 mb-6">
+                  <span className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">Article Summary</span>
+                </div>
+                
+                {/* Quick Answer - Direct answer format for voice search */}
+                <AIQuickAnswer
+                  question={`What does this article cover: "${blog.title}"?`}
+                  answer={blog.excerpt || `This article by Brightluxx covers ${blog.title}. Published on ${formatDate(blog.published_at)}, it provides insights into LED display technology and solutions for the ${blog.category || 'industry'}.`}
+                  source={`Brightluxx Blog - ${blog.author}`}
+                  isDark={true}
+                />
+                
+                {/* Company Fact Sheet - helps AI understand the source authority */}
+                <div className="mt-6">
+                  <AICompanyFactSheet isDark={true} />
+                </div>
+              </div>
 
               {/* Share */}
               <div className="mt-10 pt-8 border-t border-white/10">

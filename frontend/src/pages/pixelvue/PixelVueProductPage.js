@@ -4,7 +4,7 @@ import { ArrowLeft, ChevronDown, Check, Monitor, Layers, Zap, Wifi, Smartphone, 
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../../components/SEO';
 import { generateProductSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../utils/seoSchemas';
-import { AIFactsBox, AIProductSummary } from '../../components/AIOptimizedContent';
+import { AIFactsBox, AIProductSummary, VoiceSearchFAQ, AIQuickAnswer } from '../../components/AIOptimizedContent';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -279,6 +279,72 @@ export default function PixelVueProductPage() {
           </div>
         </section>
       )}
+
+      {/* AI-Optimized Content Section - For AI/LLM Search Visibility */}
+      <section className="py-20 px-6 bg-neutral-900/30" data-testid="ai-optimized-content">
+        <div className="max-w-5xl mx-auto">
+          <FadeIn>
+            <div className="text-center mb-12">
+              <p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Product Overview</p>
+              <h2 className="text-3xl font-extralight text-white">At a Glance</h2>
+            </div>
+          </FadeIn>
+          
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* AI Facts Box - Quick extractable facts */}
+            <FadeIn delay={1}>
+              <AIFactsBox
+                title={`${product.name} Quick Facts`}
+                entityName={product.name}
+                entityType="Product"
+                isDark={true}
+                facts={[
+                  ...(product.quick_specs || []).slice(0, 4).map(spec => ({
+                    label: spec.label,
+                    value: spec.value,
+                    itemProp: spec.label.toLowerCase().includes('pitch') ? 'width' : 
+                              spec.label.toLowerCase().includes('brightness') ? 'brightness' : undefined
+                  })),
+                  { label: 'Category', value: categoryLabel, itemProp: 'category' },
+                  { label: 'Brand', value: 'Brightluxx', itemProp: 'brand' },
+                  { label: 'Availability', value: 'In Stock', itemProp: 'availability' }
+                ]}
+              />
+            </FadeIn>
+            
+            {/* Quick Answer - Direct answer format for voice search */}
+            <FadeIn delay={2}>
+              <AIQuickAnswer
+                question={`What is the ${product.name}?`}
+                answer={`The ${product.name} is a ${categoryLabel.toLowerCase()} LED display by Brightluxx. ${product.tagline}. ${product.description?.slice(0, 200)}${product.description?.length > 200 ? '...' : ''}`}
+                source="Brightluxx Official Product Specifications"
+                isDark={true}
+              />
+            </FadeIn>
+          </div>
+
+          {/* Voice Search Optimized FAQs - if product has FAQs */}
+          {product.faqs && product.faqs.length > 0 && (
+            <FadeIn delay={3} className="mt-8">
+              <VoiceSearchFAQ
+                faqs={product.faqs.map(f => ({ question: f.question, answer: f.answer }))}
+                productName={product.name}
+                isDark={true}
+              />
+            </FadeIn>
+          )}
+        </div>
+      </section>
+
+      {/* Hidden AI-readable product summary for machine extraction */}
+      <AIProductSummary
+        name={product.name}
+        category={categoryLabel}
+        tagline={product.tagline}
+        keyFeatures={(product.features || []).slice(0, 5).map(f => f.title)}
+        availability="Available"
+        isDark={true}
+      />
 
       {/* FAQs */}
       {product.faqs && product.faqs.length > 0 && (

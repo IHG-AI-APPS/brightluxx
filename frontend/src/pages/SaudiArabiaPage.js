@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { 
   ArrowRight, Building2, Landmark, MapPin, Phone, MessageCircle,
   Star, Shield, Award, Rocket, Globe, TrendingUp
@@ -60,12 +61,39 @@ export default function SaudiArabiaPage() {
     <div className="min-h-screen bg-[#050508] text-white" data-testid="saudi-arabia-page">
       <SEO 
         title="LED Screens Saudi Arabia | Vision 2030 LED Supplier"
-        description="Premium LED display supplier for Saudi Arabia Vision 2030 projects. NEOM, Riyadh Season, Red Sea. ISO certified, competitive pricing. Contact for KSA projects."
+        description="Premium LED display supplier for Saudi Arabia Vision 2030 mega projects. NEOM, Riyadh Season, Red Sea, Diriyah Gate. SASO compliant, competitive pricing."
         path="/saudi-arabia"
+        keywords="LED screen Saudi Arabia, video wall Riyadh, Vision 2030 LED, NEOM displays, LED supplier KSA, digital signage Jeddah"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Solutions', path: '/solutions' },
+          { name: 'Saudi Arabia', path: null }
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Brightluxx Saudi Arabia",
+          "description": "LED display supplier supporting Saudi Vision 2030 mega projects including NEOM, Riyadh Season, and Red Sea Project",
+          "address": { "@type": "PostalAddress", "addressCountry": "SA" },
+          "telephone": "+971559954274",
+          "areaServed": ["Riyadh", "Jeddah", "Dammam", "NEOM", "Saudi Arabia"]
+        }}
       />
 
+      {/* Breadcrumbs */}
+      <div className="max-w-6xl mx-auto px-6 pt-24">
+        <Breadcrumbs 
+          items={[
+            { name: 'Home', path: '/' },
+            { name: 'Solutions', path: '/solutions' },
+            { name: 'Saudi Arabia', path: null }
+          ]} 
+          className="text-gray-500" 
+        />
+      </div>
+
       {/* Hero */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 via-[#050508] to-[#050508]" />
         
         <div className="relative z-10 max-w-6xl mx-auto px-6 py-20">

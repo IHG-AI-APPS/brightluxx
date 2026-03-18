@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { 
   ArrowRight, Building2, Landmark, MapPin, Phone, MessageCircle,
   CheckCircle2, Clock, Shield, Award, Briefcase, Hotel
@@ -61,12 +62,39 @@ export default function AbuDhabiPage() {
     <div className="min-h-screen bg-[#050508] text-white" data-testid="abu-dhabi-page">
       <SEO 
         title="LED Screens Abu Dhabi | LED Display Supplier"
-        description="Leading LED screen supplier in Abu Dhabi. Government-approved, ISO certified. Video walls, outdoor displays, corporate solutions. Local warehouse & installation team."
+        description="Leading LED screen supplier in Abu Dhabi. ADGPG registered, ISO certified. Video walls for ADNOC, government, hotels. Local warehouse, same-day delivery."
         path="/abu-dhabi"
+        keywords="LED screen Abu Dhabi, video wall Abu Dhabi, LED display ADGM, outdoor LED Abu Dhabi, government LED displays"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Solutions', path: '/solutions' },
+          { name: 'Abu Dhabi', path: null }
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Brightluxx Abu Dhabi",
+          "description": "LED display supplier serving Abu Dhabi corporate headquarters, government, and hospitality sectors",
+          "address": { "@type": "PostalAddress", "addressLocality": "Abu Dhabi", "addressCountry": "AE" },
+          "telephone": "+971559954274",
+          "areaServed": ["Abu Dhabi", "Al Ain", "UAE"]
+        }}
       />
 
+      {/* Breadcrumbs */}
+      <div className="max-w-6xl mx-auto px-6 pt-24">
+        <Breadcrumbs 
+          items={[
+            { name: 'Home', path: '/' },
+            { name: 'Solutions', path: '/solutions' },
+            { name: 'Abu Dhabi', path: null }
+          ]} 
+          className="text-gray-500" 
+        />
+      </div>
+
       {/* Hero */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-[#050508] to-[#050508]" />
         
         <div className="relative z-10 max-w-6xl mx-auto px-6 py-20">

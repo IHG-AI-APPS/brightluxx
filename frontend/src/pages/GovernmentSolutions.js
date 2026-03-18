@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { 
   ArrowRight, CheckCircle2, Shield, Award, FileCheck, Building2,
   Landmark, GraduationCap, Plane, Hospital, Train, Phone, MessageCircle,
@@ -118,12 +119,39 @@ export default function GovernmentSolutions() {
       {/* SEO */}
       <SEO 
         title="Government LED Display Solutions UAE | Certified Supplier"
-        description="ISO certified LED display supplier for UAE government projects. Pre-qualified for tenders. Airports, metro, hospitals, smart cities. Contact for government pricing."
+        description="ISO 9001 certified LED display supplier for UAE government & public sector. Pre-qualified for tenders. Airports, metro, hospitals, smart cities, ministries."
         path="/government-solutions"
+        keywords="government LED display UAE, public sector video wall, airport LED screen Dubai, metro station display, hospital digital signage, tender LED supplier"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Solutions', path: '/solutions' },
+          { name: 'Government Solutions', path: null }
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "serviceType": "Government LED Display Solutions",
+          "name": "Government & Public Sector LED Displays",
+          "description": "ISO certified LED display supplier for UAE government projects including airports, metro, hospitals, and smart cities",
+          "provider": { "@type": "Organization", "name": "Brightluxx" },
+          "areaServed": ["Dubai", "Abu Dhabi", "UAE", "GCC"]
+        }}
       />
 
+      {/* Breadcrumbs */}
+      <div className="max-w-6xl mx-auto px-6 pt-24">
+        <Breadcrumbs 
+          items={[
+            { name: 'Home', path: '/' },
+            { name: 'Solutions', path: '/solutions' },
+            { name: 'Government Solutions', path: null }
+          ]} 
+          className="text-gray-500" 
+        />
+      </div>
+
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[75vh] flex items-center overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-[#050508] to-[#050508]" />
         <div className="absolute top-0 right-0 w-1/2 h-full opacity-20">

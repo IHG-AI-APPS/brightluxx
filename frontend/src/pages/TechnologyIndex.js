@@ -303,12 +303,14 @@ export default function TechnologyIndex() {
                   >
                     <GlassCard className="relative h-[420px]">
                       {/* Image */}
-                      <img
-                        src={tech.image}
-                        alt={tech.title}
-                        loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
+                      {tech.image && (
+                        <img
+                          src={tech.image}
+                          alt={`${tech.title} LED technology Brightluxx`}
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      )}
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/60 to-transparent" />
 
@@ -353,12 +355,14 @@ export default function TechnologyIndex() {
                   >
                     <GlassCard className="relative h-[360px]">
                       {/* Image */}
-                      <img
-                        src={tech.image}
-                        alt={tech.title}
-                        loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
+                      {tech.image && (
+                        <img
+                          src={tech.image}
+                          alt={`${tech.title} LED technology Brightluxx`}
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      )}
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/50 to-transparent" />
 

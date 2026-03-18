@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, ShoppingBag, Briefcase, Sun, Music, Car, Video, Eye, Heart, GraduationCap, Trophy } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Briefcase, Sun, Music, Sparkles, Car, Video, Eye, Heart, GraduationCap, Trophy } from 'lucide-react';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { motion } from 'framer-motion';
@@ -8,12 +8,27 @@ import { useTheme } from '../contexts/ThemeContext';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
-// Icon mapping for solutions
+// Icon mapping
 const ICONS = {
   ShoppingBag, Briefcase, Sun, Music, Sparkles, Car, Video, Eye, Heart, GraduationCap, Trophy
 };
 
-/* AI-Generated Solution Images - fallback if no hero_image in CMS */
+// Shortened titles for symmetry + slug mapping
+const SOLUTION_SHORT_TITLES = {
+  'retail': 'Retail',
+  'corporate': 'Corporate',
+  'outdoor': 'Outdoor',
+  'events': 'Events',
+  'creative': 'Creative',
+  'traffic': 'Traffic',
+  'immersive': 'Immersive',
+  'transparent': 'Transparent',
+  'healthcare': 'Healthcare',
+  'education': 'Education',
+  'sports': 'Sports'
+};
+
+// AI-Generated Solution Images
 const SOLUTION_IMAGES = {
   retail: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f1edab22f7c00ed7647328b0726ef9e2724536d87fcb9797fe25887dfe20104e.png',
   corporate: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/560b86307144e6c3e932bdd0b195203f9854ab40f18ea255c935eda9fdbcb23a.png',
@@ -28,168 +43,77 @@ const SOLUTION_IMAGES = {
   sports: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0e3eabf34c883a9bfcba897e548960e8a53a87e819c5490c2053f97cb939d564.png',
 };
 
-/* Scroll animation hook */
-const useInView = (ref, threshold = 0.15) => {
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref, threshold]);
-  return inView;
-};
+// Hero background image
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1769968296454-d1667b0f6684?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBuaWdodCUyMGZhY2FkZXxlbnwwfHx8fDE3NzM3Nzc4Mjh8MA&ixlib=rb-4.1.0&q=85';
 
-/* Apple-style fade in section */
-const FadeInSection = ({ children, delay = 0, className = '' }) => {
-  const ref = useRef(null);
-  const inView = useInView(ref);
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.7, delay: delay * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-/* Apple-Style Solution Card - Clean, Elegant, with Light Sweep Effect */
-const SolutionCard = ({ solution, index, isDark }) => {
-  // Get icon from CMS or use default
+/* Minimal Solution Card - Centered, Symmetrical Design */
+const SolutionCard = ({ solution, index }) => {
+  const solutionSlug = solution.slug || solution.id;
   const iconName = solution.icon || 'Sparkles';
   const Icon = ICONS[iconName] || Sparkles;
-  
-  // Use slug for routing instead of id
-  const solutionSlug = solution.slug || solution.id;
   const imageUrl = solution.hero_image || SOLUTION_IMAGES[solutionSlug] || SOLUTION_IMAGES.retail;
-  const useCases = solution.use_cases || solution.tags || [];
-  
+  const shortTitle = SOLUTION_SHORT_TITLES[solutionSlug] || solution.title;
+
   return (
-    <FadeInSection delay={index}>
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
+    >
       <Link
         to={`/solutions/${solutionSlug}`}
-        className="group relative block overflow-hidden h-full rounded-3xl"
+        className="group relative block overflow-hidden rounded-2xl aspect-[3/4]"
         data-testid={`solution-card-${solutionSlug}`}
-        style={{ minHeight: '420px' }}
       >
-        {/* Background Image with Scale Effect */}
-        <div className="absolute inset-0 overflow-hidden rounded-3xl">
+        {/* Background Image */}
+        <div className="absolute inset-0">
           <img
             src={imageUrl}
-            alt={solution.title}
-            className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
+            alt={shortTitle}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
-          
-          {/* Base gradient - Elegant bottom fade */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-          
-          {/* Hover glow overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          {/* Hover glow */}
+          <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </div>
-        
-        {/* Light Sweep Animation on Hover */}
-        <div 
-          className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl"
-          style={{ transform: 'translateZ(0)' }}
-        >
+
+        {/* Content - Centered */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-end p-6 text-center">
+          {/* Icon */}
           <div 
-            className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
-            style={{
-              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-              width: '50%'
+            className="w-12 h-12 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm transition-all duration-500 group-hover:scale-110"
+            style={{ 
+              backgroundColor: 'rgba(255,255,255,0.1)', 
+              border: '1px solid rgba(255,255,255,0.2)' 
             }}
-          />
-        </div>
-
-        {/* Content Container */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-5 lg:p-6" style={{ minHeight: '420px' }}>
-          
-          {/* Top: Icon only - Clean minimal design */}
-          <div className="flex items-start justify-between">
-            <div className="relative">
-              <div className="w-12 h-12 rounded-xl backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-all duration-500"
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)'
-                }}
-              >
-                <Icon size={22} style={{ color: '#ffffff' }} className="group-hover:text-cyan-400 transition-colors duration-300" />
-              </div>
-              {/* Glow behind icon on hover */}
-              <div className="absolute -inset-3 bg-cyan-400/30 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </div>
+          >
+            <Icon size={20} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
           </div>
 
-          {/* Bottom: Title, Description, Tags (on hover) */}
-          <div>
-            {/* Title - Large, Bold, WHITE - using inline style to prevent global CSS override */}
-            <h3 
-              className="text-xl lg:text-2xl font-bold uppercase tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300"
-              style={{ 
-                color: '#ffffff',
-                textShadow: '0 4px 20px rgba(0,0,0,0.6)',
-                lineHeight: 1.1
-              }}
-            >
-              {solution.title}
-            </h3>
-            
-            {/* Description - Clean white text - using inline style */}
-            <p 
-              className="text-sm tracking-wide mb-4 line-clamp-2 transition-colors duration-300"
-              style={{ 
-                color: 'rgba(255, 255, 255, 0.85)',
-                textShadow: '0 2px 8px rgba(0,0,0,0.4)' 
-              }}
-            >
-              {solution.description || solution.desc}
-            </p>
+          {/* Title - Short, Single Word */}
+          <h3 
+            className="text-lg font-semibold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300"
+            style={{ color: '#ffffff' }}
+          >
+            {shortTitle}
+          </h3>
 
-            {/* Tags - Appear on hover with stagger animation */}
-            {useCases.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                {useCases.slice(0, 3).map((tag, idx) => (
-                  <span 
-                    key={idx} 
-                    className="text-[9px] px-3 py-1.5 rounded-full uppercase tracking-widest font-semibold backdrop-blur-md"
-                    style={{ 
-                      backgroundColor: 'rgba(255, 255, 255, 0.15)', 
-                      color: '#ffffff',
-                      border: '1px solid rgba(255, 255, 255, 0.25)',
-                      transitionDelay: `${idx * 50}ms`
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* CTA Arrow - Appears on hover */}
-            <div 
-              className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 delay-100"
-              style={{ color: '#22d3ee' }}
-            >
-              <span>Explore</span>
-              <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-300" />
-            </div>
+          {/* Explore CTA - appears on hover */}
+          <div 
+            className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
+            style={{ color: '#22d3ee' }}
+          >
+            <span>Explore</span>
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
           </div>
         </div>
 
-        {/* Border glow on hover */}
-        <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-cyan-400/30 transition-colors duration-500 pointer-events-none" />
-        
-        {/* Bottom accent line */}
-        <div className="absolute bottom-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Border on hover */}
+        <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-cyan-500/30 transition-colors duration-500 pointer-events-none" />
       </Link>
-    </FadeInSection>
+    </motion.div>
   );
 };
 
@@ -197,14 +121,10 @@ export default function Solutions() {
   const { isDark } = useTheme();
   const [solutions, setSolutions] = useState([]);
   const [loading, setLoading] = useState(true);
-  
-  // Theme-aware classes
+
   const pageBg = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
-  const sectionBg = isDark ? 'bg-[#0A0A0D]' : 'bg-neutral-100';
   const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
   const textSecondary = isDark ? 'text-neutral-400' : 'text-neutral-600';
-  const cardBg = isDark ? 'bg-white/[0.02]' : 'bg-white/80';
-  const cardBorder = isDark ? 'border-white/[0.05]' : 'border-neutral-200';
 
   useEffect(() => {
     const fetchSolutions = async () => {
@@ -225,118 +145,135 @@ export default function Solutions() {
     <div className={`min-h-screen ${pageBg} transition-colors duration-500`} data-testid="solutions-page">
       <SEO
         title="LED Display Solutions by Industry | Dubai UAE"
-        description="Professional LED display solutions for retail, corporate, outdoor, events, healthcare, education & more. 11 industry verticals served across UAE & GCC. Get expert consultation."
+        description="Professional LED display solutions for retail, corporate, outdoor, events, healthcare, education & more. 11 industry verticals served across UAE & GCC."
         path="/solutions"
         image={SOLUTION_IMAGES.retail}
-        keywords="LED display solutions, retail LED screen, corporate video wall, outdoor LED Dubai, event LED display, healthcare digital signage, UAE"
-        breadcrumbs={[
-          { name: 'Home', path: '/' },
-          { name: 'Solutions', path: null }
-        ]}
       />
 
-      {/* Breadcrumbs */}
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 pt-24">
-        <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Solutions', path: null }]} className="text-gray-500" />
-      </div>
+      {/* Hero Section with Background Image */}
+      <section className="relative h-[60vh] min-h-[400px] max-h-[600px] overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src={HERO_IMAGE} 
+            alt="Modern architecture facade" 
+            className="w-full h-full object-cover"
+          />
+          {/* Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050508]/40 via-transparent to-[#050508]/40" />
+        </div>
 
-      {/* Hero Section */}
-      <section className="relative py-12 lg:py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
-
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 ${textPrimary}`} data-testid="solutions-page-title">
-              LED DISPLAY
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
-                SOLUTIONS
-              </span>
-            </h1>
-            <p className={`${textSecondary} text-base md:text-lg max-w-xl mx-auto`}>
-              Premium LED technology tailored for every environment and industry.
-            </p>
-          </motion.div>
+        {/* Content */}
+        <div className="relative z-10 h-full flex flex-col justify-end pb-16 px-6 md:px-12 lg:px-24">
+          <div className="max-w-[1400px] mx-auto w-full">
+            {/* Breadcrumbs */}
+            <Breadcrumbs 
+              items={[{ name: 'Home', path: '/' }, { name: 'Solutions', path: null }]} 
+              className="text-white/60 mb-8" 
+            />
+            
+            {/* Title */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="max-w-2xl"
+            >
+              <p className="text-cyan-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
+                Industry Solutions
+              </p>
+              <h1 
+                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4"
+                style={{ color: '#ffffff' }}
+                data-testid="solutions-page-title"
+              >
+                LED Displays for{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
+                  Every Industry
+                </span>
+              </h1>
+              <p className="text-white/70 text-base md:text-lg max-w-lg">
+                Premium LED technology tailored for your environment.
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Solutions Grid */}
-      <section className="pb-24 lg:pb-32">
+      {/* Solutions Grid - 4 columns on desktop, clean symmetrical layout */}
+      <section className="py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
           {loading ? (
             <div className={`text-center py-12 ${textSecondary}`}>Loading solutions...</div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6" data-testid="solutions-grid">
+            <div 
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6" 
+              data-testid="solutions-grid"
+            >
               {solutions.map((sol, index) => (
-                <SolutionCard key={sol.id || sol.slug} solution={sol} index={index} isDark={isDark} />
+                <SolutionCard key={sol.id || sol.slug} solution={sol} index={index} />
               ))}
             </div>
           )}
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className={`py-16 lg:py-24 ${sectionBg} transition-colors duration-500`}>
+      {/* Minimal Stats - Inline, No Cards */}
+      <section className="py-12 border-t border-b border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <FadeInSection>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { value: '11', label: 'Industry Verticals' },
-                { value: '1500+', label: 'Installations' },
-                { value: '200+', label: 'Unique Configurations' },
-                { value: '100%', label: 'Custom Solutions' },
-              ].map((stat, i) => (
-                <div key={stat.label} className={`text-center p-6 backdrop-blur-xl ${cardBg} border ${cardBorder}`}>
-                  <div className="text-3xl md:text-4xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 mb-2">
-                    {stat.value}
-                  </div>
-                  <div className={`text-[10px] ${isDark ? 'text-gray-500' : 'text-gray-500'} uppercase tracking-[0.2em] font-bold`}>
-                    {stat.label}
-                  </div>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+            {[
+              { value: '11', label: 'Industries' },
+              { value: '1500+', label: 'Projects' },
+              { value: '100%', label: 'Custom' },
+            ].map((stat, i) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-2xl md:text-3xl font-bold font-mono text-cyan-400">
+                  {stat.value}
                 </div>
-              ))}
-            </div>
-          </FadeInSection>
+                <div className={`text-[10px] ${textSecondary} uppercase tracking-[0.15em] mt-1`}>
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 lg:py-32 relative overflow-hidden">
-        {/* Background glow */}
-        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] ${isDark ? 'bg-cyan-500/5' : 'bg-cyan-500/10'} rounded-full blur-[150px]`} />
-        
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-          <FadeInSection>
-            <div className="text-center max-w-2xl mx-auto">
-              <Sparkles className="w-12 h-12 text-cyan-400/50 mx-auto mb-6" />
-              <h2 className={`text-2xl md:text-4xl font-bold uppercase tracking-wide mb-4 ${textPrimary}`}>
-                Not Sure Which Solution Fits?
-              </h2>
-              <p className={`${textSecondary} text-sm tracking-wide mb-10 max-w-md mx-auto`}>
-                Our experts will analyze your space and recommend the perfect LED setup for your specific requirements.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <Link 
-                  to="/contact" 
-                  className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-10 py-4 transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] inline-flex items-center gap-2"
-                  data-testid="solutions-cta-contact"
-                >
-                  Talk to an Expert <ArrowRight size={16} />
-                </Link>
-                <Link 
-                  to="/products" 
-                  className={`${isDark ? 'bg-white/5' : 'bg-neutral-900/5'} backdrop-blur-xl border ${isDark ? 'border-white/10' : 'border-neutral-300'} hover:border-cyan-500/30 ${textPrimary} font-bold uppercase tracking-wider px-10 py-4 transition-all inline-flex items-center gap-2`}
-                  data-testid="solutions-browse-products"
-                >
-                  Browse Products <ArrowRight size={16} />
-                </Link>
-              </div>
+      {/* CTA Section - Minimal */}
+      <section className="py-24 lg:py-32">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center max-w-xl mx-auto"
+          >
+            <h2 className={`text-2xl md:text-3xl font-semibold tracking-tight mb-4 ${textPrimary}`}>
+              Not sure which solution fits?
+            </h2>
+            <p className={`${textSecondary} text-sm mb-8`}>
+              Our experts will recommend the perfect setup for your space.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link 
+                to="/contact" 
+                className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-8 py-3 rounded-full transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.3)] inline-flex items-center gap-2"
+                data-testid="solutions-cta-contact"
+              >
+                Talk to an Expert <ArrowRight size={16} />
+              </Link>
+              <Link 
+                to="/products" 
+                className={`${isDark ? 'bg-white/5 hover:bg-white/10' : 'bg-neutral-900/5 hover:bg-neutral-900/10'} ${textPrimary} font-semibold px-8 py-3 rounded-full transition-all inline-flex items-center gap-2 border border-white/10`}
+                data-testid="solutions-browse-products"
+              >
+                Browse Products
+              </Link>
             </div>
-          </FadeInSection>
+          </motion.div>
         </div>
       </section>
     </div>

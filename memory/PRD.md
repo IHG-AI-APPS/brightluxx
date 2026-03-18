@@ -1759,3 +1759,41 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - `frontend/src/components/Footer.js` - Added LOCATIONS column
 
 **Testing:** Verified via screenshot tool - March 18, 2026
+
+---
+
+### Case Studies Page Redesign — March 18, 2026
+
+**Task:** Apply the elegant Solutions page card style to Case Studies for design consistency.
+
+**Design Changes Applied:**
+1. **Hero Section:** Added dramatic 60vh hero with architectural LED display background image, breadcrumbs, and gradient cyan title
+2. **Card Redesign:** 
+   - Changed from rectangular cards to 3:4 aspect ratio full-image cards
+   - Centered content layout: icon → category → title → location
+   - "View Project →" CTA appears on hover
+   - Subtle cyan border glow on hover
+   - Removed clutter (metadata like year, display size, technology moved to detail pages)
+3. **Category Filters:** Redesigned as pill-shaped buttons with icons
+4. **Stats Section:** Minimal inline stats (Projects, Industries, Success Rate)
+5. **CTA Section:** Clean centered layout with pill-shaped CTAs
+
+**Technical Implementation:**
+- Created `CaseStudyCard` component matching `SolutionCard` design
+- Added category icons mapping (Building2, ShoppingBag, Briefcase, etc.)
+- Shortened titles using split logic for symmetry
+- Maintained "Concept" badge for hypothetical projects
+- Theme-aware styling for light/dark modes
+
+**Files Modified:**
+- `frontend/src/pages/CaseStudiesIndex.js` - Complete rewrite
+
+**Testing:** Verified via screenshot tool in both light and dark modes - March 18, 2026
+
+---
+
+## Backlog Update
+
+**Removed from Backlog:**
+- ~~(P1) Implement real-time performance monitoring with Web Vitals~~ — Scrapped per user request
+

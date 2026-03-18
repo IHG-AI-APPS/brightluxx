@@ -1,58 +1,136 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, MapPin, Calendar, Cpu, Building2, FolderOpen, Info, Sparkles } from 'lucide-react';
+import { ArrowRight, MapPin, Sparkles, Building2, ShoppingBag, Briefcase, Plane, Film, Heart, Trophy, Monitor } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { useTheme } from '../contexts/ThemeContext';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
-const useInView = (ref, threshold = 0.15) => {
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref, threshold]);
-  return inView;
+// Hero background image - modern lobby with LED display
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1647867650024-42493b5fe7c4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbCUyMGxvYmJ5JTIwTEVEJTIwZGlzcGxheSUyMHNjcmVlbiUyMG1vZGVybiUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NzM4NTgyMzR8MA&ixlib=rb-4.1.0&q=85';
+
+// Category icons
+const CATEGORY_ICONS = {
+  hospitality: Building2,
+  retail: ShoppingBag,
+  corporate: Briefcase,
+  transport: Plane,
+  entertainment: Film,
+  healthcare: Heart,
+  sports: Trophy,
+  all: Monitor
 };
 
-const FadeInSection = ({ children, delay = 0, className = '' }) => {
-  const ref = useRef(null);
-  const inView = useInView(ref);
+// Short titles for categories
+const CATEGORY_SHORT = {
+  hospitality: 'Hospitality',
+  retail: 'Retail',
+  corporate: 'Corporate',
+  transport: 'Transport',
+  entertainment: 'Entertainment',
+  healthcare: 'Healthcare',
+  sports: 'Sports'
+};
+
+/* Minimal Case Study Card - Matching Solutions design */
+const CaseStudyCard = ({ caseStudy, index }) => {
+  const category = caseStudy.category?.toLowerCase() || 'hospitality';
+  const Icon = CATEGORY_ICONS[category] || Building2;
+  const shortCategory = CATEGORY_SHORT[category] || caseStudy.category;
+  
+  // Extract short title - first part before dash or colon, max 3 words
+  const shortTitle = caseStudy.title
+    .split(/[-—:]/)[ 0]
+    .trim()
+    .split(' ')
+    .slice(0, 3)
+    .join(' ');
+
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.7, delay: delay * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className={className}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
     >
-      {children}
+      <Link
+        to={`/case-studies/${caseStudy.slug || caseStudy.id}`}
+        className="group relative block overflow-hidden rounded-2xl aspect-[3/4]"
+        data-testid={`case-study-card-${caseStudy.id}`}
+      >
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src={caseStudy.thumbnail || caseStudy.hero_image}
+            alt={shortTitle}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            loading="lazy"
+          />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          {/* Hover glow */}
+          <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        </div>
+
+        {/* Concept badge - top right */}
+        {caseStudy.is_hypothetical && (
+          <div className="absolute top-4 right-4 z-20">
+            <span className="bg-amber-500/20 backdrop-blur-sm text-amber-400 border border-amber-500/30 px-2 py-1 text-[9px] uppercase tracking-wider font-bold rounded-lg flex items-center gap-1">
+              <Sparkles size={10} /> Concept
+            </span>
+          </div>
+        )}
+
+        {/* Content - Centered at bottom */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-end p-6 text-center">
+          {/* Icon */}
+          <div 
+            className="w-12 h-12 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm transition-all duration-500 group-hover:scale-110"
+            style={{ 
+              backgroundColor: 'rgba(255,255,255,0.1)', 
+              border: '1px solid rgba(255,255,255,0.2)' 
+            }}
+          >
+            <Icon size={20} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
+          </div>
+
+          {/* Category label */}
+          <span className="text-[10px] text-cyan-400 font-semibold tracking-[0.15em] uppercase mb-2">
+            {shortCategory}
+          </span>
+
+          {/* Title - Short */}
+          <h3 
+            className="text-lg font-semibold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2"
+            style={{ color: '#ffffff' }}
+          >
+            {shortTitle}
+          </h3>
+
+          {/* Location */}
+          <div className="flex items-center gap-1.5 text-[11px] text-white/60 mb-3">
+            <MapPin size={12} />
+            <span>{caseStudy.location}</span>
+          </div>
+
+          {/* View CTA - appears on hover */}
+          <div 
+            className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
+            style={{ color: '#22d3ee' }}
+          >
+            <span>View Project</span>
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+          </div>
+        </div>
+
+        {/* Border on hover */}
+        <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-cyan-500/30 transition-colors duration-500 pointer-events-none" />
+      </Link>
     </motion.div>
   );
 };
-
-const GlassCard = ({ children, className = '', hover = true, isDark = true }) => (
-  <div className={`
-    backdrop-blur-xl rounded-xl overflow-hidden
-    ${isDark 
-      ? 'bg-white/[0.03] border border-white/[0.08]' 
-      : 'bg-white border border-neutral-200 shadow-lg'}
-    ${hover 
-      ? (isDark 
-        ? 'hover:bg-white/[0.06] hover:border-cyan-500/30 hover:shadow-[0_0_40px_rgba(34,211,238,0.1)]' 
-        : 'hover:border-cyan-400 hover:shadow-xl') 
-      : ''}
-    transition-all duration-500 ${className}
-  `}>
-    {children}
-  </div>
-);
 
 export default function CaseStudiesIndex() {
   const { isDark } = useTheme();
@@ -61,11 +139,9 @@ export default function CaseStudiesIndex() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [loading, setLoading] = useState(true);
 
-  // Theme-aware styles
-  const bgMain = isDark ? 'bg-[#050508]' : 'bg-slate-50';
+  const pageBg = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
   const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
   const textSecondary = isDark ? 'text-neutral-400' : 'text-neutral-600';
-  const borderColor = isDark ? 'border-white/10' : 'border-neutral-200';
 
   useEffect(() => {
     const fetchCaseStudies = async () => {
@@ -85,14 +161,10 @@ export default function CaseStudiesIndex() {
 
   const filtered = activeCategory === 'all'
     ? caseStudies
-    : caseStudies.filter(cs => cs.category === activeCategory);
-
-  // Separate featured and regular case studies
-  const featured = filtered.filter(cs => cs.featured);
-  const regular = filtered.filter(cs => !cs.featured);
+    : caseStudies.filter(cs => cs.category?.toLowerCase() === activeCategory);
 
   return (
-    <div className={bgMain} data-testid="case-studies-index">
+    <div className={`min-h-screen ${pageBg} transition-colors duration-500`} data-testid="case-studies-index">
       <SEO
         title="LED Display Case Studies — Projects in UAE, KSA, GCC | Brightluxx"
         description="Explore real-world LED display installations across hospitality, retail, corporate, transport, entertainment, and healthcare in the UAE/GCC region."
@@ -106,262 +178,165 @@ export default function CaseStudiesIndex() {
         }}
       />
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
-        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px]" />
-        
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-          <FadeInSection>
-            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Project Portfolio</span>
-            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 leading-[0.95] ${textPrimary}`} data-testid="case-studies-title">
-              Case
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 block">
-                Studies
-              </span>
-            </h1>
-            <p className={`${textSecondary} text-base md:text-lg max-w-2xl tracking-wide leading-relaxed`}>
-              Real-world and conceptual LED display installations across the UAE and GCC. Each case study includes project specifications, technology rationale, and measurable outcomes.
-            </p>
-          </FadeInSection>
+      {/* Hero Section with Background Image */}
+      <section className="relative h-[60vh] min-h-[400px] max-h-[600px] overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src={HERO_IMAGE} 
+            alt="LED display installation" 
+            className="w-full h-full object-cover"
+          />
+          {/* Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050508]/40 via-transparent to-[#050508]/40" />
         </div>
-      </section>
 
-      {/* Disclaimer */}
-      <section className="pb-8">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <FadeInSection>
-            <div className={`flex items-start gap-3 p-4 ${isDark ? 'bg-cyan-500/5 border-cyan-500/20' : 'bg-cyan-50 border-cyan-200'} border rounded-lg`}>
-              <Info size={18} className="text-cyan-500 flex-shrink-0 mt-0.5" />
-              <p className={`text-xs ${textSecondary} leading-relaxed`}>
-                <span className="text-cyan-500 font-bold">Note:</span> Some case studies are conceptual demonstrations created for inspirational purposes to showcase potential LED display applications. These are marked with a <Sparkles size={12} className="inline text-amber-400" /> icon. All technical specifications reflect real-world capabilities of our products.
+        {/* Content */}
+        <div className="relative z-10 h-full flex flex-col justify-end pb-16 px-6 md:px-12 lg:px-24">
+          <div className="max-w-[1400px] mx-auto w-full">
+            {/* Breadcrumbs */}
+            <Breadcrumbs 
+              items={[{ name: 'Home', path: '/' }, { name: 'Case Studies', path: null }]} 
+              className="text-white/60 mb-8" 
+            />
+            
+            {/* Title */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="max-w-2xl"
+            >
+              <p className="text-cyan-400 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
+                Project Portfolio
               </p>
-            </div>
-          </FadeInSection>
+              <h1 
+                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4"
+                style={{ color: '#ffffff' }}
+                data-testid="case-studies-title"
+              >
+                Real World{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
+                  Installations
+                </span>
+              </h1>
+              <p className="text-white/70 text-base md:text-lg max-w-lg">
+                LED display projects across UAE and GCC.
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Filters & Content */}
-      <section className="pb-24">
+      {/* Category Filter Pills */}
+      <section className="py-8 border-b border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          {/* Category Filters */}
-          <FadeInSection>
-            <div className="flex flex-wrap gap-2 mb-10" data-testid="case-study-filters">
-              {categories.map(cat => (
+          <div className="flex flex-wrap gap-2" data-testid="case-study-filters">
+            {categories.map(cat => {
+              const Icon = CATEGORY_ICONS[cat.id] || Monitor;
+              return (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-5 py-2.5 text-xs font-bold tracking-widest uppercase transition-all rounded-lg ${
+                  className={`px-4 py-2 text-[11px] font-semibold tracking-wider uppercase transition-all rounded-full flex items-center gap-2 ${
                     activeCategory === cat.id
                       ? 'bg-cyan-500 text-black'
                       : isDark 
                         ? 'bg-white/5 border border-white/10 text-gray-400 hover:border-cyan-500/30 hover:text-white'
-                        : 'bg-neutral-100 border border-neutral-200 text-neutral-600 hover:border-cyan-400 hover:text-neutral-900'
+                        : 'bg-neutral-100 border border-neutral-200 text-neutral-600 hover:border-cyan-400'
                   }`}
                   data-testid={`filter-${cat.id}`}
                 >
+                  <Icon size={14} />
                   {cat.label}
                 </button>
-              ))}
-            </div>
-          </FadeInSection>
-
-          {/* Results count */}
-          <div className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase mb-8">
-            {loading ? 'Loading...' : `${filtered.length} Project${filtered.length !== 1 ? 's' : ''}`}
+              );
+            })}
           </div>
+        </div>
+      </section>
 
-          {/* Loading State */}
+      {/* Case Studies Grid */}
+      <section className="py-16 lg:py-24">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
           {loading ? (
-            <div className="text-center py-20">
-              <div className="w-12 h-12 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto" />
+            <div className={`text-center py-12 ${textSecondary}`}>
+              <div className="w-12 h-12 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              Loading projects...
             </div>
           ) : filtered.length === 0 ? (
-            <div className="text-center py-20">
-              <FolderOpen size={48} className="mx-auto text-gray-600 mb-4" />
-              <p className="text-gray-500 tracking-wide">No case studies found for this category.</p>
+            <div className={`text-center py-12 ${textSecondary}`}>
+              No case studies found for this category.
             </div>
           ) : (
-            <>
-              {/* Featured Case Studies (larger cards) */}
-              {featured.length > 0 && (
-                <div className="grid md:grid-cols-2 gap-6 mb-8">
-                  {featured.map((cs, idx) => (
-                    <FadeInSection key={cs.id} delay={idx}>
-                      <Link
-                        to={`/case-studies/${cs.slug || cs.id}`}
-                        className="group block"
-                        data-testid={`case-study-card-${cs.id}`}
-                      >
-                        <GlassCard className="relative h-[420px]" isDark={isDark}>
-                          {/* Image */}
-                          <img
-                            src={cs.thumbnail || cs.hero_image}
-                            alt={cs.title}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            loading="lazy"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-
-                          {/* Badges */}
-                          <div className="absolute top-5 left-5 right-5 flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <span className="bg-cyan-500/10 backdrop-blur-sm text-cyan-400 border border-cyan-500/20 px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-lg">
-                                {cs.category}
-                              </span>
-                              {cs.is_hypothetical && (
-                                <span className="bg-amber-500/10 backdrop-blur-sm text-amber-400 border border-amber-500/20 px-2 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-lg flex items-center gap-1">
-                                  <Sparkles size={10} /> Concept
-                                </span>
-                              )}
-                            </div>
-                            <span className="bg-black/50 backdrop-blur-sm text-white border border-white/10 px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-lg">
-                              {cs.technology} {cs.pixel_pitch}
-                            </span>
-                          </div>
-
-                          {/* Featured Badge */}
-                          <div className="absolute top-5 right-5">
-                          </div>
-
-                          {/* Content - Always white text on image cards */}
-                          <div className="absolute inset-x-0 bottom-0 p-6">
-                            <h2 className="text-xl text-white font-bold tracking-wide mb-4 group-hover:text-cyan-400 transition-colors leading-tight" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
-                              {cs.title}
-                            </h2>
-                            
-                            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-gray-300 mb-4">
-                              <span className="flex items-center gap-1.5">
-                                <MapPin size={12} className="text-cyan-400" /> {cs.location}
-                              </span>
-                              <span className="flex items-center gap-1.5">
-                                <Calendar size={12} className="text-cyan-400" /> {cs.year}
-                              </span>
-                              <span className="flex items-center gap-1.5">
-                                <Cpu size={12} className="text-cyan-400" /> {cs.display_size}
-                              </span>
-                            </div>
-                            
-                            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
-                              View Case Study <ArrowRight size={14} />
-                            </div>
-                          </div>
-                        </GlassCard>
-                      </Link>
-                    </FadeInSection>
-                  ))}
-                </div>
-              )}
-
-              {/* Regular Case Studies (3-column grid) */}
-              {regular.length > 0 && (
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {regular.map((cs, idx) => (
-                    <FadeInSection key={cs.id} delay={idx + featured.length}>
-                      <Link
-                        to={`/case-studies/${cs.slug || cs.id}`}
-                        className="group block"
-                        data-testid={`case-study-card-${cs.id}`}
-                      >
-                        <GlassCard className="h-full" isDark={isDark}>
-                          {/* Image */}
-                          <div className="relative h-52 overflow-hidden">
-                            <img
-                              src={cs.thumbnail || cs.hero_image}
-                              alt={cs.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                              loading="lazy"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-                            
-                            {/* Badges */}
-                            <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <span className="bg-cyan-500/10 backdrop-blur-sm text-cyan-400 border border-cyan-500/20 px-2.5 py-1 text-[9px] uppercase tracking-wider font-bold rounded-lg">
-                                  {cs.category}
-                                </span>
-                                {cs.is_hypothetical && (
-                                  <span className="bg-amber-500/10 backdrop-blur-sm text-amber-400 border border-amber-500/20 p-1 rounded-lg">
-                                    <Sparkles size={10} />
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                            
-                            {/* Tech Badge */}
-                            <div className="absolute bottom-4 right-4">
-                              <span className="bg-black/60 backdrop-blur-sm text-white border border-white/10 px-2 py-1 text-[9px] uppercase tracking-wider font-bold rounded">
-                                {cs.pixel_pitch}
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* Content */}
-                          <div className="p-5">
-                            <h2 className={`text-sm font-bold tracking-wide mb-3 group-hover:text-cyan-400 transition-colors leading-snug ${textPrimary}`}>
-                              {cs.title}
-                            </h2>
-                            
-                            <div className={`flex flex-wrap gap-x-4 gap-y-1.5 text-[10px] ${textSecondary} mb-4`}>
-                              <span className="flex items-center gap-1">
-                                <MapPin size={10} className="text-cyan-500" /> {cs.location}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <Calendar size={10} className="text-cyan-500" /> {cs.year}
-                              </span>
-                            </div>
-                            
-                            <p className={`text-xs ${textSecondary} leading-relaxed line-clamp-2 mb-4 normal-case`}>
-                              {cs.challenge}
-                            </p>
-                            
-                            <div className="flex items-center gap-1.5 text-cyan-500 text-[10px] font-bold tracking-wider uppercase group-hover:gap-2 transition-all">
-                              View Case Study <ArrowRight size={12} />
-                            </div>
-                          </div>
-                        </GlassCard>
-                      </Link>
-                    </FadeInSection>
-                  ))}
-                </div>
-              )}
-            </>
+            <div 
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6" 
+              data-testid="case-studies-grid"
+            >
+              {filtered.map((cs, index) => (
+                <CaseStudyCard key={cs.id} caseStudy={cs} index={index} />
+              ))}
+            </div>
           )}
+        </div>
+      </section>
 
-          {/* CTA */}
-          <FadeInSection delay={2}>
-            <GlassCard className="mt-20 p-10 lg:p-16 text-center" hover={false}>
-              <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
-                Have a Similar Project?
-              </span>
-              <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wide mb-4">
-                Let's Build
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 ml-3">
-                  Together
-                </span>
-              </h2>
-              <p className="text-gray-400 text-sm mb-10 max-w-lg mx-auto tracking-wide">
-                Our team provides free specification support, budgetary estimates, and technology recommendations for projects across the GCC region.
-              </p>
-              
-              <div className="flex flex-wrap gap-4 justify-center">
-                <Link 
-                  to="/contact" 
-                  className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-wider px-8 py-4 transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] inline-flex items-center gap-2 rounded-lg"
-                  data-testid="case-studies-contact-cta"
-                >
-                  Discuss Your Project <ArrowRight size={16} />
-                </Link>
-                <Link 
-                  to="/technology" 
-                  className="bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white font-bold uppercase tracking-wider px-8 py-4 transition-all inline-flex items-center gap-2 rounded-lg"
-                  data-testid="case-studies-tech-cta"
-                >
-                  Browse Technologies <ArrowRight size={16} />
-                </Link>
+      {/* Minimal Stats */}
+      <section className="py-12 border-t border-b border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+            {[
+              { value: `${caseStudies.length}+`, label: 'Projects' },
+              { value: '7', label: 'Industries' },
+              { value: '100%', label: 'Success' },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-2xl md:text-3xl font-bold font-mono text-cyan-400">
+                  {stat.value}
+                </div>
+                <div className={`text-[10px] ${textSecondary} uppercase tracking-[0.15em] mt-1`}>
+                  {stat.label}
+                </div>
               </div>
-            </GlassCard>
-          </FadeInSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 lg:py-32">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center max-w-xl mx-auto"
+          >
+            <h2 className={`text-2xl md:text-3xl font-semibold tracking-tight mb-4 ${textPrimary}`}>
+              Have a similar project?
+            </h2>
+            <p className={`${textSecondary} text-sm mb-8`}>
+              Our team provides free specification support and budgetary estimates.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link 
+                to="/contact" 
+                className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-8 py-3 rounded-full transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.3)] inline-flex items-center gap-2"
+                data-testid="case-studies-contact-cta"
+              >
+                Discuss Your Project <ArrowRight size={16} />
+              </Link>
+              <Link 
+                to="/solutions" 
+                className={`${isDark ? 'bg-white/5 hover:bg-white/10' : 'bg-neutral-900/5 hover:bg-neutral-900/10'} ${textPrimary} font-semibold px-8 py-3 rounded-full transition-all inline-flex items-center gap-2 border border-white/10`}
+                data-testid="case-studies-solutions-cta"
+              >
+                Browse Solutions
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

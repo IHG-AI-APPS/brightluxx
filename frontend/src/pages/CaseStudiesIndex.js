@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { useTheme } from '../contexts/ThemeContext';
+import TiltCard from '../components/TiltCard';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -34,7 +35,7 @@ const CATEGORY_SHORT = {
   sports: 'Sports'
 };
 
-/* Minimal Case Study Card - Matching Solutions design */
+/* Minimal Case Study Card with 3D Tilt Effect */
 const CaseStudyCard = ({ caseStudy, index }) => {
   const category = caseStudy.category?.toLowerCase() || 'hospitality';
   const Icon = CATEGORY_ICONS[category] || Building2;
@@ -55,79 +56,87 @@ const CaseStudyCard = ({ caseStudy, index }) => {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
     >
-      <Link
-        to={`/case-studies/${caseStudy.slug || caseStudy.id}`}
-        className="group relative block overflow-hidden rounded-2xl aspect-[3/4]"
-        data-testid={`case-study-card-${caseStudy.id}`}
+      <TiltCard
+        tiltIntensity={8}
+        scale={1.02}
+        glareEnabled={true}
+        glareMaxOpacity={0.12}
+        className="rounded-2xl"
       >
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img
-            src={caseStudy.thumbnail || caseStudy.hero_image}
-            alt={shortTitle}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-            loading="lazy"
-          />
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-          {/* Hover glow */}
-          <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        </div>
+        <Link
+          to={`/case-studies/${caseStudy.slug || caseStudy.id}`}
+          className="group relative block overflow-hidden rounded-2xl aspect-[3/4]"
+          data-testid={`case-study-card-${caseStudy.id}`}
+        >
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img
+              src={caseStudy.thumbnail || caseStudy.hero_image}
+              alt={shortTitle}
+              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              loading="lazy"
+            />
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            {/* Hover glow */}
+            <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </div>
 
-        {/* Concept badge - top right */}
-        {caseStudy.is_hypothetical && (
-          <div className="absolute top-4 right-4 z-20">
-            <span className="bg-amber-500/20 backdrop-blur-sm text-amber-400 border border-amber-500/30 px-2 py-1 text-[9px] uppercase tracking-wider font-bold rounded-lg flex items-center gap-1">
-              <Sparkles size={10} /> Concept
+          {/* Concept badge - top right */}
+          {caseStudy.is_hypothetical && (
+            <div className="absolute top-4 right-4 z-20">
+              <span className="bg-amber-500/20 backdrop-blur-sm text-amber-400 border border-amber-500/30 px-2 py-1 text-[9px] uppercase tracking-wider font-bold rounded-lg flex items-center gap-1">
+                <Sparkles size={10} /> Concept
+              </span>
+            </div>
+          )}
+
+          {/* Content - Centered at bottom */}
+          <div className="relative z-10 h-full flex flex-col items-center justify-end p-6 text-center">
+            {/* Icon */}
+            <div 
+              className="w-12 h-12 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm transition-all duration-500 group-hover:scale-110"
+              style={{ 
+                backgroundColor: 'rgba(255,255,255,0.1)', 
+                border: '1px solid rgba(255,255,255,0.2)' 
+              }}
+            >
+              <Icon size={20} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
+            </div>
+
+            {/* Category label */}
+            <span className="text-[10px] text-cyan-400 font-semibold tracking-[0.15em] uppercase mb-2">
+              {shortCategory}
             </span>
-          </div>
-        )}
 
-        {/* Content - Centered at bottom */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-end p-6 text-center">
-          {/* Icon */}
-          <div 
-            className="w-12 h-12 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm transition-all duration-500 group-hover:scale-110"
-            style={{ 
-              backgroundColor: 'rgba(255,255,255,0.1)', 
-              border: '1px solid rgba(255,255,255,0.2)' 
-            }}
-          >
-            <Icon size={20} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
-          </div>
+            {/* Title - Short */}
+            <h3 
+              className="text-lg font-semibold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2"
+              style={{ color: '#ffffff' }}
+            >
+              {shortTitle}
+            </h3>
 
-          {/* Category label */}
-          <span className="text-[10px] text-cyan-400 font-semibold tracking-[0.15em] uppercase mb-2">
-            {shortCategory}
-          </span>
+            {/* Location */}
+            <div className="flex items-center gap-1.5 text-[11px] text-white/60 mb-3">
+              <MapPin size={12} />
+              <span>{caseStudy.location}</span>
+            </div>
 
-          {/* Title - Short */}
-          <h3 
-            className="text-lg font-semibold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2"
-            style={{ color: '#ffffff' }}
-          >
-            {shortTitle}
-          </h3>
-
-          {/* Location */}
-          <div className="flex items-center gap-1.5 text-[11px] text-white/60 mb-3">
-            <MapPin size={12} />
-            <span>{caseStudy.location}</span>
+            {/* View CTA - appears on hover */}
+            <div 
+              className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
+              style={{ color: '#22d3ee' }}
+            >
+              <span>View Project</span>
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+            </div>
           </div>
 
-          {/* View CTA - appears on hover */}
-          <div 
-            className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
-            style={{ color: '#22d3ee' }}
-          >
-            <span>View Project</span>
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-          </div>
-        </div>
-
-        {/* Border on hover */}
-        <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-cyan-500/30 transition-colors duration-500 pointer-events-none" />
-      </Link>
+          {/* Border on hover */}
+          <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-cyan-500/30 transition-colors duration-500 pointer-events-none" />
+        </Link>
+      </TiltCard>
     </motion.div>
   );
 };

@@ -5,6 +5,7 @@ import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import TiltCard from '../components/TiltCard';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -46,7 +47,7 @@ const SOLUTION_IMAGES = {
 // Hero background image
 const HERO_IMAGE = 'https://images.unsplash.com/photo-1769968296454-d1667b0f6684?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBuaWdodCUyMGZhY2FkZXxlbnwwfHx8fDE3NzM3Nzc4Mjh8MA&ixlib=rb-4.1.0&q=85';
 
-/* Minimal Solution Card - Centered, Symmetrical Design */
+/* Minimal Solution Card with 3D Tilt Effect */
 const SolutionCard = ({ solution, index }) => {
   const solutionSlug = solution.slug || solution.id;
   const iconName = solution.icon || 'Sparkles';
@@ -61,58 +62,66 @@ const SolutionCard = ({ solution, index }) => {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
     >
-      <Link
-        to={`/solutions/${solutionSlug}`}
-        className="group relative block overflow-hidden rounded-2xl aspect-[3/4]"
-        data-testid={`solution-card-${solutionSlug}`}
+      <TiltCard
+        tiltIntensity={8}
+        scale={1.02}
+        glareEnabled={true}
+        glareMaxOpacity={0.12}
+        className="rounded-2xl"
       >
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img
-            src={imageUrl}
-            alt={shortTitle}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-          />
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-          {/* Hover glow */}
-          <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        </div>
-
-        {/* Content - Centered */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-end p-6 text-center">
-          {/* Icon */}
-          <div 
-            className="w-12 h-12 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm transition-all duration-500 group-hover:scale-110"
-            style={{ 
-              backgroundColor: 'rgba(255,255,255,0.1)', 
-              border: '1px solid rgba(255,255,255,0.2)' 
-            }}
-          >
-            <Icon size={20} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
+        <Link
+          to={`/solutions/${solutionSlug}`}
+          className="group relative block overflow-hidden rounded-2xl aspect-[3/4]"
+          data-testid={`solution-card-${solutionSlug}`}
+        >
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img
+              src={imageUrl}
+              alt={shortTitle}
+              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            {/* Hover glow */}
+            <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </div>
 
-          {/* Title - Short, Single Word */}
-          <h3 
-            className="text-lg font-semibold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300"
-            style={{ color: '#ffffff' }}
-          >
-            {shortTitle}
-          </h3>
+          {/* Content - Centered */}
+          <div className="relative z-10 h-full flex flex-col items-center justify-end p-6 text-center">
+            {/* Icon */}
+            <div 
+              className="w-12 h-12 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm transition-all duration-500 group-hover:scale-110"
+              style={{ 
+                backgroundColor: 'rgba(255,255,255,0.1)', 
+                border: '1px solid rgba(255,255,255,0.2)' 
+              }}
+            >
+              <Icon size={20} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
+            </div>
 
-          {/* Explore CTA - appears on hover */}
-          <div 
-            className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
-            style={{ color: '#22d3ee' }}
-          >
-            <span>Explore</span>
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+            {/* Title - Short, Single Word */}
+            <h3 
+              className="text-lg font-semibold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300"
+              style={{ color: '#ffffff' }}
+            >
+              {shortTitle}
+            </h3>
+
+            {/* Explore CTA - appears on hover */}
+            <div 
+              className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
+              style={{ color: '#22d3ee' }}
+            >
+              <span>Explore</span>
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+            </div>
           </div>
-        </div>
 
-        {/* Border on hover */}
-        <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-cyan-500/30 transition-colors duration-500 pointer-events-none" />
-      </Link>
+          {/* Border on hover */}
+          <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-cyan-500/30 transition-colors duration-500 pointer-events-none" />
+        </Link>
+      </TiltCard>
     </motion.div>
   );
 };

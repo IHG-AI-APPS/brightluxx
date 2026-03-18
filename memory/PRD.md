@@ -1797,3 +1797,39 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 **Removed from Backlog:**
 - ~~(P1) Implement real-time performance monitoring with Web Vitals~~ — Scrapped per user request
 
+
+---
+
+### P2 & P3 Implementation — March 18, 2026
+
+**P2: Admin Panel Image Uploads for Blog Posts**
+- **Status:** ALREADY COMPLETE (discovered existing functionality)
+- The admin blog page (`/admin/blog`) already has full image upload capability:
+  - "Upload Image" button in the Featured Image section
+  - Accepts JPEG, PNG, WebP, GIF formats
+  - Backend endpoint at `/api/admin/blogs/upload-image`
+  - Uploads to cloud storage and returns URL
+  - Preview with remove option in the form
+
+**P3: 3D Tilt Effect on Cards**
+- **Created:** `frontend/src/components/TiltCard.js` - Reusable 3D tilt component
+- **Features:**
+  - Mouse-based 3D perspective tilt (configurable intensity, default 8°)
+  - Subtle scale on hover (configurable, default 1.02x)
+  - Glare effect that follows mouse cursor (configurable opacity)
+  - Smooth spring animations via framer-motion
+  - Reset to flat position on mouse leave
+  - Can be disabled per-card
+- **Applied to:**
+  - `frontend/src/pages/Solutions.js` - All solution cards
+  - `frontend/src/pages/CaseStudiesIndex.js` - All case study cards
+- **Props available:**
+  - `tiltIntensity` - Max tilt angle in degrees (default: 10)
+  - `scale` - Scale factor on hover (default: 1.02)
+  - `glareEnabled` - Enable/disable glare effect (default: true)
+  - `glareMaxOpacity` - Glare intensity (default: 0.15)
+  - `perspective` - 3D perspective distance (default: 1000)
+  - `disabled` - Disable effect entirely
+
+**Testing:** Verified via screenshot tool - Cards render correctly, effect is interactive
+

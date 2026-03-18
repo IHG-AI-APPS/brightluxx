@@ -321,6 +321,7 @@ const ApplicationCard = ({ app }) => {
       <img 
         src={app.image} 
         alt={app.name}
+        loading="lazy"
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
       />
       
@@ -401,6 +402,7 @@ const GalleryModal = ({ item, onClose, onNext, onPrev }) => {
           <img 
             src={item.image} 
             alt={item.title} 
+            loading="lazy"
             className="w-full h-auto max-h-[70vh] object-contain"
           />
         </div>
@@ -524,6 +526,7 @@ export default function Applications() {
                       <img 
                         src={item.image} 
                         alt={item.title} 
+                        loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />

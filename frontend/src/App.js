@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { SiteSettingsProvider } from './contexts/SiteSettingsContext';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -9,146 +9,150 @@ import Footer from './components/Footer';
 import StickyCTA from './components/StickyCTA';
 import AuraChat from './components/AuraChat';
 import ExitIntentPopup from './components/ExitIntentPopup';
+import PageLoader from './components/PageLoader';
 
+// Critical path - loaded immediately (Home, Products, Contact)
 import Home from './pages/Home';
 import Products from './pages/Products';
-import ProductDetail from './pages/ProductDetail';
-import ProductFamilies from './pages/ProductFamilies';
-import Inspirations from './pages/Inspirations';
-import Projects from './pages/Projects';
 import Contact from './pages/Contact';
-import ProductConfigurator from './pages/ProductConfigurator';
-import VirtualShowroom from './pages/VirtualShowroom';
-import ScreenCalculator from './pages/ScreenCalculator';
-import TechGuide from './pages/TechGuide';
-import Compare from './pages/Compare';
-import Solutions from './pages/Solutions';
-import SolutionDetail from './pages/SolutionDetail';
-import About from './pages/About';
-
-// Knowledge Base
-import KnowledgeIndex from './pages/knowledge/KnowledgeIndex';
-import CobVsMipVsSmd from './pages/knowledge/CobVsMipVsSmd';
-import PixelPitchGuide from './pages/knowledge/PixelPitchGuide';
-import BrightnessNitsGuide from './pages/knowledge/BrightnessNitsGuide';
-import IpRatingGuide from './pages/knowledge/IpRatingGuide';
-import RefreshRateGuide from './pages/knowledge/RefreshRateGuide';
-import ProcessingCalibrationGuide from './pages/knowledge/ProcessingCalibrationGuide';
-import CmsMultiSiteGuide from './pages/knowledge/CmsMultiSiteGuide';
-
-// Applications
-import ApplicationsIndex from './pages/ApplicationsIndex';
-import ApplicationDetail from './pages/ApplicationDetail';
-import ApplicationLanding from './pages/ApplicationLanding';
-import ForArchitects from './pages/ForArchitects';
-
-// Contractors
-import ValueEngineering from './pages/ValueEngineering';
-import ContractorPage from './pages/ContractorPage';
-import SpecSubstitution from './pages/SpecSubstitution';
-import BudgetEstimator from './pages/BudgetEstimator';
-import ResourceLibrary from './pages/ResourceLibrary';
-
-// Latest Tech
-import LatestTechIndex from './pages/LatestTechIndex';
-import LatestTechDetail from './pages/LatestTechDetail';
-
-// Technology Pillar Pages
-import TechnologyIndex from './pages/TechnologyIndex';
-import TechnologyPage from './pages/TechnologyPage';
-
-// Case Studies
-import CaseStudiesIndex from './pages/CaseStudiesIndex';
-import CaseStudyDetail from './pages/CaseStudyDetail';
-
-// CPD Programme
-import CpdProgramme from './pages/CpdProgramme';
-
-// SLA Guide
-import SlaGuide from './pages/SlaGuide';
-
-// Design Assist & Digital Experience Architecture
-import DesignAssist from './pages/DesignAssist';
-import DigitalExperienceArchitecture from './pages/DigitalExperienceArchitecture';
-import SpecifierToolkitLP from './pages/SpecifierToolkitLP';
-
-// Technology Selector Quiz
-import TechnologySelector from './pages/TechnologySelector';
-
-// Digital Experience Detail Pages
-import DeaPageDetail from './pages/DeaPageDetail';
-
-// Viewing Distance Calculator
-import ViewingDistanceCalculator from './pages/ViewingDistanceCalculator';
-
-// Power Consumption Estimator
-import PowerConsumptionEstimator from './pages/PowerConsumptionEstimator';
-
-// Installation Guide
-import InstallationGuide from './pages/InstallationGuide';
-
-// Project Planner
-import ProjectPlanner from './pages/ProjectPlanner';
-
-// Phase 3: New Pages
-import Services from './pages/Services';
-import Blog from './pages/Blog';
-import BlogPost from './pages/BlogPost';
-import FAQ from './pages/FAQ';
-import FactoryTour from './pages/FactoryTour';
-
-// Phase 4: Lead Generation & Partnerships
-import DistributionPage from './pages/DistributionPage';
-
-// LumiMorph Product Family
-import { LumiMorphLanding, LumiMorphElitePage, LumiMorphGrandePage, LumiMorphMiniPage } from './pages/lumimorph';
-
-// NaturaTex Product Line
-import { NaturaTexPage, HoloVeilPage } from './pages/naturatex';
-
-// SignaTouch Product Line
-import { SignaTouchLanding, TouchKioskPage, SmartSignagePage, SelfServicePage } from './pages/signatouch';
-
-// GlassMorph Product Line
-import { GlassMorphLanding, SmartFilmPage, LedFilmPage, MediaGlassPage, SwitchableGlassPage, FlyingDisplayPage, HangingLedPage } from './pages/glassmorph';
-
-// PixelVue Product Line
-import { 
-  PixelVueLanding, 
-  PixelVueProductPage
-} from './pages/pixelvue';
-
-import SupplierRegistrationPage from './pages/SupplierRegistrationPage';
-import TechnicalSupportPage from './pages/TechnicalSupportPage';
-
-// Phase 5: Tools
-import LedModuleCalculator from './pages/LedModuleCalculator';
-
-// 404 Page
 import NotFound from './pages/NotFound';
 
-// Admin
+// Code-split pages - lazy loaded for performance
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const ProductFamilies = lazy(() => import('./pages/ProductFamilies'));
+const Inspirations = lazy(() => import('./pages/Inspirations'));
+const Projects = lazy(() => import('./pages/Projects'));
+const ProductConfigurator = lazy(() => import('./pages/ProductConfigurator'));
+const VirtualShowroom = lazy(() => import('./pages/VirtualShowroom'));
+const ScreenCalculator = lazy(() => import('./pages/ScreenCalculator'));
+const TechGuide = lazy(() => import('./pages/TechGuide'));
+const Compare = lazy(() => import('./pages/Compare'));
+const Solutions = lazy(() => import('./pages/Solutions'));
+const SolutionDetail = lazy(() => import('./pages/SolutionDetail'));
+const About = lazy(() => import('./pages/About'));
+
+// Knowledge Base - Lazy loaded
+const KnowledgeIndex = lazy(() => import('./pages/knowledge/KnowledgeIndex'));
+const CobVsMipVsSmd = lazy(() => import('./pages/knowledge/CobVsMipVsSmd'));
+const PixelPitchGuide = lazy(() => import('./pages/knowledge/PixelPitchGuide'));
+const BrightnessNitsGuide = lazy(() => import('./pages/knowledge/BrightnessNitsGuide'));
+const IpRatingGuide = lazy(() => import('./pages/knowledge/IpRatingGuide'));
+const RefreshRateGuide = lazy(() => import('./pages/knowledge/RefreshRateGuide'));
+const ProcessingCalibrationGuide = lazy(() => import('./pages/knowledge/ProcessingCalibrationGuide'));
+const CmsMultiSiteGuide = lazy(() => import('./pages/knowledge/CmsMultiSiteGuide'));
+
+// Applications - Lazy loaded
+const ApplicationsIndex = lazy(() => import('./pages/ApplicationsIndex'));
+const ApplicationDetail = lazy(() => import('./pages/ApplicationDetail'));
+const ApplicationLanding = lazy(() => import('./pages/ApplicationLanding'));
+const ForArchitects = lazy(() => import('./pages/ForArchitects'));
+
+// Contractors - Lazy loaded
+const ValueEngineering = lazy(() => import('./pages/ValueEngineering'));
+const ContractorPage = lazy(() => import('./pages/ContractorPage'));
+const SpecSubstitution = lazy(() => import('./pages/SpecSubstitution'));
+const BudgetEstimator = lazy(() => import('./pages/BudgetEstimator'));
+const ResourceLibrary = lazy(() => import('./pages/ResourceLibrary'));
+
+// Latest Tech - Lazy loaded
+const LatestTechIndex = lazy(() => import('./pages/LatestTechIndex'));
+const LatestTechDetail = lazy(() => import('./pages/LatestTechDetail'));
+
+// Technology Pillar Pages - Lazy loaded
+const TechnologyIndex = lazy(() => import('./pages/TechnologyIndex'));
+const TechnologyPage = lazy(() => import('./pages/TechnologyPage'));
+
+// Case Studies - Lazy loaded
+const CaseStudiesIndex = lazy(() => import('./pages/CaseStudiesIndex'));
+const CaseStudyDetail = lazy(() => import('./pages/CaseStudyDetail'));
+
+// CPD Programme - Lazy loaded
+const CpdProgramme = lazy(() => import('./pages/CpdProgramme'));
+
+// SLA Guide - Lazy loaded
+const SlaGuide = lazy(() => import('./pages/SlaGuide'));
+
+// Design Assist & Digital Experience Architecture - Lazy loaded
+const DesignAssist = lazy(() => import('./pages/DesignAssist'));
+const DigitalExperienceArchitecture = lazy(() => import('./pages/DigitalExperienceArchitecture'));
+const SpecifierToolkitLP = lazy(() => import('./pages/SpecifierToolkitLP'));
+
+// Technology Selector Quiz - Lazy loaded
+const TechnologySelector = lazy(() => import('./pages/TechnologySelector'));
+
+// Digital Experience Detail Pages - Lazy loaded
+const DeaPageDetail = lazy(() => import('./pages/DeaPageDetail'));
+
+// Tools - Lazy loaded
+const ViewingDistanceCalculator = lazy(() => import('./pages/ViewingDistanceCalculator'));
+const PowerConsumptionEstimator = lazy(() => import('./pages/PowerConsumptionEstimator'));
+const InstallationGuide = lazy(() => import('./pages/InstallationGuide'));
+const ProjectPlanner = lazy(() => import('./pages/ProjectPlanner'));
+
+// Phase 3: New Pages - Lazy loaded
+const Services = lazy(() => import('./pages/Services'));
+const Blog = lazy(() => import('./pages/Blog'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const FactoryTour = lazy(() => import('./pages/FactoryTour'));
+
+// Phase 4: Lead Generation & Partnerships - Lazy loaded
+const DistributionPage = lazy(() => import('./pages/DistributionPage'));
+const SupplierRegistrationPage = lazy(() => import('./pages/SupplierRegistrationPage'));
+const TechnicalSupportPage = lazy(() => import('./pages/TechnicalSupportPage'));
+const LedModuleCalculator = lazy(() => import('./pages/LedModuleCalculator'));
+
+// LumiMorph Product Family - Lazy loaded
+const LumiMorphLanding = lazy(() => import('./pages/lumimorph').then(m => ({ default: m.LumiMorphLanding })));
+const LumiMorphElitePage = lazy(() => import('./pages/lumimorph').then(m => ({ default: m.LumiMorphElitePage })));
+const LumiMorphGrandePage = lazy(() => import('./pages/lumimorph').then(m => ({ default: m.LumiMorphGrandePage })));
+const LumiMorphMiniPage = lazy(() => import('./pages/lumimorph').then(m => ({ default: m.LumiMorphMiniPage })));
+
+// NaturaTex Product Line - Lazy loaded
+const NaturaTexPage = lazy(() => import('./pages/naturatex').then(m => ({ default: m.NaturaTexPage })));
+const HoloVeilPage = lazy(() => import('./pages/naturatex').then(m => ({ default: m.HoloVeilPage })));
+
+// SignaTouch Product Line - Lazy loaded
+const SignaTouchLanding = lazy(() => import('./pages/signatouch').then(m => ({ default: m.SignaTouchLanding })));
+const TouchKioskPage = lazy(() => import('./pages/signatouch').then(m => ({ default: m.TouchKioskPage })));
+const SmartSignagePage = lazy(() => import('./pages/signatouch').then(m => ({ default: m.SmartSignagePage })));
+const SelfServicePage = lazy(() => import('./pages/signatouch').then(m => ({ default: m.SelfServicePage })));
+
+// GlassMorph Product Line - Lazy loaded
+const GlassMorphLanding = lazy(() => import('./pages/glassmorph').then(m => ({ default: m.GlassMorphLanding })));
+const SmartFilmPage = lazy(() => import('./pages/glassmorph').then(m => ({ default: m.SmartFilmPage })));
+const LedFilmPage = lazy(() => import('./pages/glassmorph').then(m => ({ default: m.LedFilmPage })));
+const MediaGlassPage = lazy(() => import('./pages/glassmorph').then(m => ({ default: m.MediaGlassPage })));
+const SwitchableGlassPage = lazy(() => import('./pages/glassmorph').then(m => ({ default: m.SwitchableGlassPage })));
+const FlyingDisplayPage = lazy(() => import('./pages/glassmorph').then(m => ({ default: m.FlyingDisplayPage })));
+const HangingLedPage = lazy(() => import('./pages/glassmorph').then(m => ({ default: m.HangingLedPage })));
+
+// PixelVue Product Line - Lazy loaded
+const PixelVueLanding = lazy(() => import('./pages/pixelvue').then(m => ({ default: m.PixelVueLanding })));
+const PixelVueProductPage = lazy(() => import('./pages/pixelvue').then(m => ({ default: m.PixelVueProductPage })));
+
+// Admin Context - Always loaded
 import { AdminProvider, useAdmin } from './admin/AdminContext';
-import AdminLogin from './admin/AdminLogin';
-import AdminLayout from './admin/AdminLayout';
-import AdminDashboard from './admin/AdminDashboard';
-import AdminProducts from './admin/AdminProducts';
-import AdminInspirations from './admin/AdminInspirations';
-import AdminProjects from './admin/AdminProjects';
-import AdminLeads from './admin/AdminLeads';
-import AdminSettings from './admin/AdminSettings';
-import AdminSiteSettings from './admin/AdminSiteSettings';
-import AdminAnalytics from './admin/AdminAnalytics';
-import AdminPerformance from './admin/AdminPerformance';
-import AdminResources from './pages/admin/AdminResources';
-import AdminTaxonomy from './pages/admin/AdminTaxonomy';
-import AdminHomepage from './pages/admin/AdminHomepage';
-import AdminBlog from './pages/admin/AdminBlog';
-import AdminCaseStudies from './pages/admin/AdminCaseStudies';
-import AdminPixelVue from './pages/admin/AdminPixelVue';
-import AdminSolutions from './pages/admin/AdminSolutions';
-import AdminCMS from './pages/admin/AdminCMS';
-import AdminProductFamilies from './pages/admin/AdminProductFamilies';
+const AdminLogin = lazy(() => import('./admin/AdminLogin'));
+const AdminLayout = lazy(() => import('./admin/AdminLayout'));
+const AdminDashboard = lazy(() => import('./admin/AdminDashboard'));
+const AdminProducts = lazy(() => import('./admin/AdminProducts'));
+const AdminInspirations = lazy(() => import('./admin/AdminInspirations'));
+const AdminProjects = lazy(() => import('./admin/AdminProjects'));
+const AdminLeads = lazy(() => import('./admin/AdminLeads'));
+const AdminSettings = lazy(() => import('./admin/AdminSettings'));
+const AdminSiteSettings = lazy(() => import('./admin/AdminSiteSettings'));
+const AdminAnalytics = lazy(() => import('./admin/AdminAnalytics'));
+const AdminPerformance = lazy(() => import('./admin/AdminPerformance'));
+const AdminResources = lazy(() => import('./pages/admin/AdminResources'));
+const AdminTaxonomy = lazy(() => import('./pages/admin/AdminTaxonomy'));
+const AdminHomepage = lazy(() => import('./pages/admin/AdminHomepage'));
+const AdminBlog = lazy(() => import('./pages/admin/AdminBlog'));
+const AdminCaseStudies = lazy(() => import('./pages/admin/AdminCaseStudies'));
+const AdminPixelVue = lazy(() => import('./pages/admin/AdminPixelVue'));
+const AdminSolutions = lazy(() => import('./pages/admin/AdminSolutions'));
+const AdminCMS = lazy(() => import('./pages/admin/AdminCMS'));
+const AdminProductFamilies = lazy(() => import('./pages/admin/AdminProductFamilies'));
 
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAdmin();
@@ -159,6 +163,7 @@ const ProtectedRoute = ({ children }) => {
 
 function AppRoutes() {
   return (
+    <Suspense fallback={<PageLoader />}>
     <Routes>
       {/* Public Site */}
       <Route path="/" element={<><Navbar /><Home /><Footer /><StickyCTA /></>} />
@@ -282,6 +287,7 @@ function AppRoutes() {
       {/* 404 Catch-all - Must be last */}
       <Route path="*" element={<NotFound />} />
     </Routes>
+    </Suspense>
   );
 }
 

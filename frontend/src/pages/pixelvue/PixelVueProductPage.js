@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronDown, Check, Monitor, Layers, Zap, Wifi, Smartphone, 
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../../components/SEO';
 import { generateProductSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../utils/seoSchemas';
+import { AIFactsBox, AIProductSummary } from '../../components/AIOptimizedContent';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 

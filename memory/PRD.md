@@ -1197,10 +1197,12 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 ### Hero Video & Media Updates — March 2026
 - ✅ **New Cinematic Hero Video** generated with Sora 2 - Premium LED display showcase
   - Prompt: Cinematic slow-motion reveal of curved LED video wall in futuristic dark corporate lobby
-  - Stored at `/videos/hero-video-new.mp4`
+  - Generated video converted to web-compatible H.264 format with ffmpeg
+  - Stored at `/videos/hero-video-converted.mp4` (3MB, 8 seconds, 1280x720)
 - ✅ **Homepage Hero:** Updated to use new cinematic video
 - ✅ **About Page Video Section:** Added "See Us In Action" / "Our Work Speaks" section with original hero videos
 - Original hero videos (hero-video-1.mp4, hero-video-2.mp4) repurposed to About page
+- Note: Playwright screenshots may show black background due to autoplay restrictions in headless browsers - videos work correctly in real browsers
 
 ### Future
 - Tender Monitoring Integration (ProTenders/MEED)

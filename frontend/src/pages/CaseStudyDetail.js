@@ -3,6 +3,8 @@ import { Link, useParams, Navigate } from 'react-router-dom';
 import { ArrowRight, MapPin, Calendar, Building2, Users, HardHat, Cpu, CheckCircle2, MessageCircle, Phone, ArrowLeft, ChevronRight, Info, Sparkles, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { generateInstallationAlt } from '../utils/altTagUtils';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -102,10 +104,16 @@ export default function CaseStudyDetail() {
   return (
     <div className="bg-[#050508]" data-testid={`case-study-${cs.id}`}>
       <SEO
-        title={`${cs.title} | LED Case Study — Brightluxx`}
-        description={cs.challenge.slice(0, 160)}
+        title={`${cs.title} | LED Project ${cs.location}`}
+        description={`${cs.challenge.slice(0, 120)} ${cs.technology} LED display project in ${cs.location}. View full case study.`}
         path={`/case-studies/${cs.id}`}
         image={cs.hero_image}
+        keywords={`${cs.title}, LED project ${cs.location}, ${cs.technology} display, ${cs.category} LED, case study Dubai`}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Case Studies', path: '/case-studies' },
+          { name: cs.title, path: null }
+        ]}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Article",
@@ -114,25 +122,34 @@ export default function CaseStudyDetail() {
           "author": { "@type": "Organization", "name": "Brightluxx" },
           "publisher": { "@type": "Organization", "name": "Brightluxx" },
           "datePublished": `${cs.year}-01-01`,
-          "about": { "@type": "Thing", "name": cs.technology }
+          "about": { "@type": "Thing", "name": cs.technology },
+          "locationCreated": {
+            "@type": "Place",
+            "name": cs.location
+          }
         }}
       />
 
       {/* Hero Section */}
       <section className="relative h-[55vh] min-h-[450px]" data-testid="case-study-hero">
-        <img src={cs.hero_image} alt={cs.title} className="w-full h-full object-cover" />
+        <img 
+          src={cs.hero_image} 
+          alt={`${cs.title} LED display project ${cs.location} ${cs.technology}`}
+          className="w-full h-full object-cover" 
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/70 to-[#050508]/30" />
         
         <div className="absolute bottom-0 left-0 right-0 max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 pb-12">
           <FadeInSection>
             {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-xs text-gray-500 tracking-wider mb-6">
-              <Link to="/" className="hover:text-cyan-400 transition-colors">Home</Link>
-              <ChevronRight size={12} />
-              <Link to="/case-studies" className="hover:text-cyan-400 transition-colors">Case Studies</Link>
-              <ChevronRight size={12} />
-              <span className="text-cyan-400 capitalize">{cs.category}</span>
-            </div>
+            <Breadcrumbs 
+              items={[
+                { name: 'Home', path: '/' },
+                { name: 'Case Studies', path: '/case-studies' },
+                { name: cs.title, path: null }
+              ]}
+              className="mb-6"
+            />
             
             {/* Badges */}
             <div className="flex flex-wrap items-center gap-2 mb-4">

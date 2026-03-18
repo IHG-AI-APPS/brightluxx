@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, User, Calendar, Share2, Facebook, Twitter, Linkedin, Copy, Check, Tag, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { generateArticleSchema, generateBreadcrumbSchema } from '../utils/seoSchemas';
 import { AIQuickAnswer, AICompanyFactSheet } from '../components/AIOptimizedContent';
 
@@ -136,10 +137,16 @@ export default function BlogPost() {
   return (
     <div className="bg-[#050508]" data-testid="blog-post-page">
       <SEO 
-        title={`${blog.title} — Brightluxx Blog`} 
+        title={`${blog.title} | LED Industry Insights`} 
         description={blog.excerpt} 
         path={`/blog/${slug}`}
         image={blog.image_url}
+        keywords={`${blog.category}, LED display, industry insights, Dubai`}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Blog', path: '/blog' },
+          { name: blog.title, path: null }
+        ]}
         jsonLd={[articleSchema, breadcrumbSchema]}
       />
 
@@ -147,7 +154,11 @@ export default function BlogPost() {
       <section className="relative">
         {blog.image_url ? (
           <div className="relative h-[50vh] min-h-[400px] overflow-hidden">
-            <img src={blog.image_url} alt={blog.title} className="w-full h-full object-cover" />
+            <img 
+              src={blog.image_url} 
+              alt={`${blog.title} - LED industry article Brightluxx`}
+              className="w-full h-full object-cover" 
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/70 to-transparent" />
           </div>
         ) : (
@@ -156,13 +167,14 @@ export default function BlogPost() {
         
         <div className="max-w-[900px] mx-auto px-6 md:px-12 relative" style={{ marginTop: blog.image_url ? '-160px' : '60px' }}>
           <FadeInSection>
-            <Link 
-              to="/blog" 
-              className="inline-flex items-center gap-2 text-xs font-bold tracking-wider text-cyan-400 hover:text-cyan-300 mb-6 transition-colors"
-              data-testid="back-to-blog"
-            >
-              <ArrowLeft size={14} /> Back to Blog
-            </Link>
+            <Breadcrumbs 
+              items={[
+                { name: 'Home', path: '/' },
+                { name: 'Blog', path: '/blog' },
+                { name: blog.title.length > 30 ? blog.title.slice(0, 30) + '...' : blog.title, path: null }
+              ]}
+              className="mb-6"
+            />
             
             <div className="flex items-center gap-3 mb-5">
               <span className="bg-cyan-500/10 backdrop-blur-sm text-cyan-400 border border-cyan-500/20 px-3 py-1 text-[10px] uppercase tracking-wider font-bold">

@@ -4,9 +4,11 @@ import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Zap, Send, Phone, Che
 import { getProduct, getProducts, createLead } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { trackProductView, trackQuoteRequest } from '../lib/tracker';
 import QuickInquiry from '../components/QuickInquiry';
 import { motion, AnimatePresence } from 'framer-motion';
+import { generateProductAlt } from '../utils/altTagUtils';
 
 const useInView = (ref, threshold = 0.1) => {
   const [inView, setInView] = useState(false);
@@ -193,11 +195,29 @@ export default function ProductDetail() {
   return (
     <div className="min-h-screen bg-[#050508]" data-testid={`product-detail-${product.slug}`}>
       <SEO
-        title={`${product.name} — ${product.product_code}`}
-        description={`${product.tagline}. ${product.pixel_pitch} pixel pitch, ${product.brightness} brightness. ${product.description?.slice(0, 100)}`}
+        title={`${product.name} | LED Display Dubai UAE`}
+        description={`${product.tagline}. ${product.pixel_pitch} pixel pitch, ${product.brightness} brightness. Buy from Dubai's trusted LED supplier with same-day delivery.`}
         image={product.image_url}
         path={`/products/${product.slug}`}
         type="product"
+        keywords={`${product.name}, ${product.pixel_pitch}, LED display Dubai, ${product.category || 'LED screen'}, Brightluxx`}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Products', path: '/products' },
+          { name: product.name, path: null }
+        ]}
+        product={{
+          name: product.name,
+          description: product.tagline || product.description,
+          image: resolveImage(product.image_url),
+          sku: product.product_code,
+          category: product.category,
+          specs: {
+            'Pixel Pitch': product.pixel_pitch,
+            'Brightness': product.brightness,
+            'Refresh Rate': product.refresh_rate
+          }
+        }}
         jsonLd={productJsonLd}
       />
 
@@ -207,7 +227,7 @@ export default function ProductDetail() {
         <div className="absolute inset-0">
           <CdnImage 
             src={gallery[activeImage]} 
-            alt={product.name} 
+            alt={generateProductAlt(product)}
             className="w-full h-full" 
             imgClassName="object-cover" 
             w={1920} 
@@ -322,7 +342,7 @@ export default function ProductDetail() {
                 }`}
                 data-testid={`gallery-thumb-${i}`}
               >
-                <img src={img} alt="" className="w-full h-full object-cover" />
+                <img src={img} alt={`${product?.name || 'LED display'} gallery image ${i + 1} Brightluxx`} className="w-full h-full object-cover" />
               </button>
             ))}
           </div>

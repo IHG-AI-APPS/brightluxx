@@ -1976,3 +1976,32 @@ All individual product page files removed (IPosterPage.js, IFlipPage.js, etc.) -
 - ✅ Each dropdown shows correct sub-products
 - ✅ Brand colors consistent across dropdowns
 
+
+---
+
+### PixelVue Dropdown Expanded — March 18, 2026
+
+**Issue:** The PixelVue dropdown only showed 5 products, but there are 24 PixelVue products available.
+
+**Fix Applied:**
+- Expanded the PixelVue dropdown to show 12 key products (increased from 5):
+  - iPoster, iFlip, UltraFlip, DigiStandee, OOH Poster
+  - Unity, Tetris, VideoBrick, iConference, EzeeSign
+  - iShelf, TableVision
+
+**Note:** All 24 PixelVue products are accessible via the `/pixelvue/:slug` dynamic route, but showing all in a dropdown would be overwhelming. The "Overview" link at the top takes users to the full product catalog.
+
+**Product Family Summary:**
+| Family | Products in Dropdown | Total Available |
+|--------|---------------------|-----------------|
+| LumiMorph | 3 | 3 |
+| NaturaTex | 1 | 1 |
+| SignaTouch | 3 | 3 |
+| GlassMorph | 6 | 6 |
+| PixelVue | 12 | 24 |
+
+**Verification:**
+- ✅ PixelVue dropdown shows 12 products with descriptions
+- ✅ DigiStandee product page loads correctly from dropdown
+- ✅ All product families have complete dropdowns
+

@@ -226,9 +226,16 @@ const Navbar = () => {
       items: [
         { name: 'iPoster', path: '/pixelvue/iposter', desc: 'Digital Poster' },
         { name: 'iFlip', path: '/pixelvue/iflip', desc: 'Double-Sided LED' },
-        { name: 'UltraFlip', path: '/pixelvue/ultraflip', desc: 'Premium Poster' },
-        { name: 'Tetris', path: '/pixelvue/tetris', desc: 'Stackable Cubes' },
+        { name: 'UltraFlip', path: '/pixelvue/ultra-flip', desc: 'Premium Poster' },
+        { name: 'DigiStandee', path: '/pixelvue/digi-standee', desc: 'Digital Standee' },
+        { name: 'OOH Poster', path: '/pixelvue/ooh-poster', desc: 'Outdoor Display' },
         { name: 'Unity', path: '/pixelvue/unity', desc: 'Modular System' },
+        { name: 'Tetris', path: '/pixelvue/tetris', desc: 'Stackable Cubes' },
+        { name: 'VideoBrick', path: '/pixelvue/videobrick', desc: 'Video Wall Bricks' },
+        { name: 'iConference', path: '/pixelvue/iconference', desc: 'Meeting Room Display' },
+        { name: 'EzeeSign', path: '/pixelvue/ezeesign', desc: 'Easy Signage' },
+        { name: 'iShelf', path: '/pixelvue/ishelf', desc: 'Retail Shelf Display' },
+        { name: 'TableVision', path: '/pixelvue/tablevision', desc: 'Table Display' },
       ]
     }
   };

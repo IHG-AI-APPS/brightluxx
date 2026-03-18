@@ -4,6 +4,11 @@ import { ArrowRight, Store, Building2, Briefcase, Stethoscope, Plane, Theater, T
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../components/SEO';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+// Icon mapping for dynamic content
+const ICON_MAP = { Store, Building2, Briefcase, Stethoscope, Plane, Theater, Trophy, GraduationCap, Sun };
+
 const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
   useEffect(() => {
@@ -33,6 +38,31 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
     </motion.div>
   );
 };
+
+// Static fallback data
+const STATIC_APPLICATIONS = [
+  { id: 'shopfront-signage', name: 'Shopfront Signage', shortName: 'Shopfront', description: 'High-impact LED displays for retail storefronts and street-level commercial signage.', icon: 'Store', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png', stats: { brightness: '10,000 nits', pitch: 'P2.5-P10' } },
+  { id: 'hospitality', name: 'Hospitality & Hotels', shortName: 'Hospitality', description: 'Elegant video walls for hotel lobbies, restaurants, and conference facilities.', icon: 'Building2', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7aee51984ef7428e636c2f56a202a90b74cac515bc9d49b80327e9c74a76d42e.png', stats: { brightness: '1,500 nits', pitch: 'P0.9-P2.5' } },
+  { id: 'retail-malls', name: 'Retail & Malls', shortName: 'Retail', description: 'Large-format displays for mall atriums and immersive brand experiences.', icon: 'Store', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/fe43f22500af65dab2a6a06f5df2fe660523726339ac9581b781476767b0b9b4.png', stats: { brightness: '2,000 nits', pitch: 'P1.5-P4' } },
+  { id: 'corporate', name: 'Corporate & Offices', shortName: 'Corporate', description: 'Professional displays for boardrooms, lobbies, and command centers.', icon: 'Briefcase', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png', stats: { brightness: '800 nits', pitch: 'P0.7-P1.9' } },
+  { id: 'healthcare', name: 'Healthcare', shortName: 'Healthcare', description: 'Reliable displays for hospitals, wayfinding, and patient information.', icon: 'Stethoscope', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/20ff688183452b421340a26c5f7272a9fcb806cb4d30add3d3434cb033be1933.png', stats: { brightness: '600 nits', pitch: 'P1.2-P2.5' } },
+  { id: 'transportation', name: 'Transportation', shortName: 'Transport', description: 'Mission-critical FIDS displays for airports and transit hubs.', icon: 'Plane', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/51def6d71b2956b099c4c00d843cdad1fcde69379e77fa31d6d2c42ddcc07d60.png', stats: { brightness: '1,500 nits', pitch: 'P1.5-P4' } },
+  { id: 'entertainment', name: 'Entertainment', shortName: 'Cinema', description: 'Cinema LED screens and immersive displays for museums and theatres.', icon: 'Theater', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/085c5152d8cf0eebf7a6c56406448f78f7ffeaf9e345eec76fcfe22d45afa880.png', stats: { brightness: '500 nits', pitch: 'P0.9-P2.5' } },
+  { id: 'sports-events', name: 'Sports & Events', shortName: 'Sports', description: 'Scoreboards, perimeter displays, and video walls for live events.', icon: 'Trophy', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/07761210154255d013573596ebb872b6c03610990a806a27e4ded7164b327fd6.png', stats: { brightness: '10,000 nits', pitch: 'P4-P16' } },
+  { id: 'education', name: 'Education', shortName: 'Education', description: 'Interactive displays for classrooms, lecture halls, and campuses.', icon: 'GraduationCap', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ece677e88cab7bac3c4414cd4fb4457d8f4dd1bce07e43712f6e8bcdf764c9dd.png', stats: { brightness: '800 nits', pitch: 'P1.2-P2.5' } },
+  { id: 'outdoor-billboards', name: 'Outdoor & Billboards', shortName: 'Outdoor', description: 'Weather-resistant billboards and media facades for high-visibility advertising.', icon: 'Sun', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png', stats: { brightness: '12,000 nits', pitch: 'P4-P20' } },
+];
+
+// Transform API data to component format  
+const transformApplication = (app) => ({
+  id: app.slug || app.id,
+  name: app.name,
+  shortName: app.shortName || app.name.split(' ')[0],
+  description: app.description || app.tagline,
+  icon: ICON_MAP[app.icon] || Store,
+  image: app.hero_image,
+  stats: app.stats || {},
+});
 
 const APPLICATIONS = [
   {
@@ -421,6 +451,52 @@ const GalleryModal = ({ item, onClose, onNext, onPrev }) => {
 export default function Applications() {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [galleryFilter, setGalleryFilter] = useState('all');
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch applications from API
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/applications`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            setApplications(data.map(transformApplication));
+          } else {
+            // Use static fallback
+            setApplications(STATIC_APPLICATIONS.map(a => ({
+              ...a,
+              icon: ICON_MAP[a.icon] || Store,
+              image: a.hero_image
+            })));
+          }
+        } else {
+          setApplications(STATIC_APPLICATIONS.map(a => ({
+            ...a,
+            icon: ICON_MAP[a.icon] || Store,
+            image: a.hero_image
+          })));
+        }
+      } catch (error) {
+        console.error('Error fetching applications:', error);
+        setApplications(STATIC_APPLICATIONS.map(a => ({
+          ...a,
+          icon: ICON_MAP[a.icon] || Store,
+          image: a.hero_image
+        })));
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchApplications();
+  }, []);
+
+  // Use fetched data or static fallback
+  const appList = applications.length > 0 ? applications : APPLICATIONS.map(a => ({
+    ...a,
+    icon: typeof a.icon === 'function' ? a.icon : ICON_MAP[a.icon] || Store,
+  }));
 
   const categories = ['all', ...new Set(PROJECT_GALLERY.map(p => p.category))];
   
@@ -460,13 +536,21 @@ export default function Applications() {
       {/* All 10 Industries Grid - Uniform cards */}
       <section className="pb-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {APPLICATIONS.map((app, i) => (
-              <FadeInSection key={app.id} delay={i * 0.3}>
-                <ApplicationCard app={app} />
-              </FadeInSection>
-            ))}
-          </div>
+          {loading ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {[1,2,3,4,5,6,7,8].map(i => (
+                <div key={i} className="animate-pulse rounded-2xl bg-neutral-800/30 h-[320px]" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {appList.map((app, i) => (
+                <FadeInSection key={app.id} delay={i * 0.3}>
+                  <ApplicationCard app={app} />
+                </FadeInSection>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

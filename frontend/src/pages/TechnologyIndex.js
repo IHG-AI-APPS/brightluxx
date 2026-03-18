@@ -4,6 +4,24 @@ import { ArrowRight, Cpu, Layers, Box, Monitor, Eye, Sparkles, Building2, Cuboid
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+// Icon mapping for dynamic content
+const ICON_MAP = { Cpu, Layers, Box, Monitor, Eye, Sparkles, Building2, Cuboid, MonitorPlay };
+
+// Color mapping
+const COLOR_MAP = {
+  purple: 'from-purple-400 to-purple-600',
+  cyan: 'from-cyan-400 to-cyan-600',
+  emerald: 'from-emerald-400 to-emerald-600',
+  amber: 'from-amber-400 to-amber-600',
+  pink: 'from-pink-400 to-pink-600',
+  teal: 'from-cyan-400 to-teal-500',
+  orange: 'from-orange-400 to-orange-600',
+  violet: 'from-violet-400 to-violet-600',
+  green: 'from-green-400 to-green-600',
+};
+
 const useInView = (ref, threshold = 0.15) => {
   const [inView, setInView] = useState(false);
   useEffect(() => {
@@ -43,6 +61,31 @@ const GlassCard = ({ children, className = '', hover = true }) => (
     {children}
   </div>
 );
+
+// Static fallback data
+const STATIC_TECH_CARDS = [
+  { id: 'microled', title: 'MicroLED', tagline: 'ULTRA-PREMIUM', icon: 'Sparkles', pitch: 'P0.4 — P0.9', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/14266577a06785e2e61816956b557c54624568f67781c286825a4d5742fc1490.png', description: 'Self-emissive pixels, perfect blacks, cinema-grade color', color: 'purple' },
+  { id: 'cob-led', title: 'COB LED', tagline: 'PREMIUM STANDARD', icon: 'Cpu', pitch: 'P0.4 — P1.9', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a48724d68c8ed785b21369e75039e8455f3130ca26f98897d266b3f3102316f3.png', description: 'Highest contrast, fully sealed surface, 24/7 ready', color: 'cyan' },
+  { id: 'mip-led', title: 'MiP LED', tagline: 'SMART SPEC', icon: 'Layers', pitch: 'P0.7 — P2.5', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ba71e99ddcebaaca612753230d9b464fd2a69d845b463a99354a5b80eaa797f8.png', description: '85-90% of COB quality at 30-40% lower cost', color: 'emerald' },
+  { id: 'fine-pitch-led', title: 'Fine Pitch', tagline: 'COMMERCIAL', icon: 'Monitor', pitch: 'P0.9 — P2.5', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/803a560d8b43b496d0a7958dd588ab3f71a9d5a8a9e9bb74bfdff658be5d5f49.png', description: 'The mainstream workhorse for indoor installations', color: 'amber' },
+  { id: 'all-in-one-dvled', title: 'All-in-One dvLED', tagline: 'LCD REPLACEMENT', icon: 'MonitorPlay', pitch: 'P0.9 — P1.8', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/bf902d17f53638bbd7fe1983fa50d0eefa5a621c86c67173c00826f504ca209b.png', description: 'Plug-and-play 4K seamless displays, 110" to 216"', color: 'pink' },
+  { id: 'transparent-led', title: 'Transparent LED', tagline: 'SEE THROUGH', icon: 'Eye', pitch: 'P3.9 — P10', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9099db6081f3b9341a4a55c41f029d40d53834f5394236befe989fad76cd361b.png', description: '85-95% transparency, content floats on glass', color: 'teal' },
+  { id: '3d-anamorphic-led', title: '3D Anamorphic', tagline: 'GLASSES-FREE 3D', icon: 'Cuboid', pitch: 'P2.5 — P6', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b14b05e09ba2807606d82f72f193c586976ed21d4ff695b26ecfc96152e987c8.png', description: 'Viral corner displays that stop traffic', color: 'orange' },
+  { id: 'creative-led', title: 'Creative LED', tagline: 'BEYOND RECTANGLES', icon: 'Box', pitch: 'P1.5 — P4', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/4dd8e0cbcbb71aec02c3a1c31e8ec0a95ab296a33235f2fe7ecfcfb539adefe9.png', description: 'Curved, cylindrical, spherical, ceiling & floor', color: 'violet' },
+  { id: 'media-facade', title: 'Media Facade', tagline: 'BUILDING SCALE', icon: 'Building2', pitch: 'P15 — P50', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b256719e5b706e30693a2aa20f783eee47fb3de97a7e5c455c310224a1bb8d01.png', description: 'Transform buildings into digital canvases', color: 'green' },
+];
+
+// Transform API data to component format
+const transformTech = (tech) => ({
+  id: tech.slug || tech.id,
+  title: tech.name || tech.title,
+  tagline: tech.tagline || 'LED TECHNOLOGY',
+  icon: ICON_MAP[tech.icon] || Monitor,
+  pitch: tech.specs?.find(s => s.label?.toLowerCase().includes('pitch'))?.value || tech.pitch || 'Various',
+  image: tech.hero_image,
+  desc: tech.description,
+  color: COLOR_MAP[tech.color] || 'from-cyan-400 to-cyan-600',
+});
 
 const TECH_CARDS = [
   { 
@@ -138,6 +181,59 @@ const TECH_CARDS = [
 ];
 
 export default function TechnologyIndex() {
+  const [technologies, setTechnologies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Fetch technologies from API
+  useEffect(() => {
+    const fetchTechnologies = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/technologies`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            setTechnologies(data.map(transformTech));
+          } else {
+            // Fallback to static data
+            setTechnologies(STATIC_TECH_CARDS.map(t => ({
+              ...t,
+              icon: ICON_MAP[t.icon] || Monitor,
+              image: t.hero_image,
+              desc: t.description,
+              color: COLOR_MAP[t.color] || 'from-cyan-400 to-cyan-600',
+            })));
+          }
+        } else {
+          setTechnologies(STATIC_TECH_CARDS.map(t => ({
+            ...t,
+            icon: ICON_MAP[t.icon] || Monitor,
+            image: t.hero_image,
+            desc: t.description,
+            color: COLOR_MAP[t.color] || 'from-cyan-400 to-cyan-600',
+          })));
+        }
+      } catch (error) {
+        console.error('Error fetching technologies:', error);
+        setTechnologies(STATIC_TECH_CARDS.map(t => ({
+          ...t,
+          icon: ICON_MAP[t.icon] || Monitor,
+          image: t.hero_image,
+          desc: t.description,
+          color: COLOR_MAP[t.color] || 'from-cyan-400 to-cyan-600',
+        })));
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTechnologies();
+  }, []);
+  
+  // Use fetched data or static fallback
+  const techCards = technologies.length > 0 ? technologies : TECH_CARDS.map(t => ({
+    ...t,
+    icon: ICON_MAP[t.icon?.name || 'Monitor'] || t.icon,
+  }));
+
   return (
     <div className="bg-[#050508]" data-testid="technology-index-page">
       <SEO
@@ -170,9 +266,15 @@ export default function TechnologyIndex() {
       {/* Technology Grid */}
       <section className="pb-16">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+          {loading ? (
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
+              {[1,2].map(i => <div key={i} className="animate-pulse rounded-xl bg-neutral-800/30 h-[420px]" />)}
+            </div>
+          ) : (
+          <>
           {/* Featured Technologies (first 2) */}
           <div className="grid md:grid-cols-2 gap-6 mb-6">
-            {TECH_CARDS.slice(0, 2).map((tech, i) => {
+            {techCards.slice(0, 2).map((tech, i) => {
               const Icon = tech.icon;
               return (
                 <FadeInSection key={tech.id} delay={i}>
@@ -186,6 +288,7 @@ export default function TechnologyIndex() {
                       <img
                         src={tech.image}
                         alt={tech.title}
+                        loading="lazy"
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       {/* Gradient Overlay */}
@@ -221,7 +324,7 @@ export default function TechnologyIndex() {
 
           {/* Rest of Technologies (3-column grid) */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {TECH_CARDS.slice(2).map((tech, i) => {
+            {techCards.slice(2).map((tech, i) => {
               const Icon = tech.icon;
               return (
                 <FadeInSection key={tech.id} delay={i + 2}>
@@ -235,6 +338,7 @@ export default function TechnologyIndex() {
                       <img
                         src={tech.image}
                         alt={tech.title}
+                        loading="lazy"
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       {/* Gradient Overlay */}
@@ -267,6 +371,8 @@ export default function TechnologyIndex() {
               );
             })}
           </div>
+          </>
+          )}
         </div>
       </section>
 

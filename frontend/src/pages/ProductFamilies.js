@@ -5,6 +5,22 @@ import { ArrowRight, Layers, Leaf, Monitor, Sparkles, Tv, ChevronRight } from 'l
 import SEO from '../components/SEO';
 import { useTheme } from '../contexts/ThemeContext';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+// Icon mapping for dynamic content
+const ICON_MAP = {
+  Layers, Leaf, Monitor, Sparkles, Tv
+};
+
+// Color mapping for dynamic content
+const COLOR_CONFIG = {
+  cyan: { colorClass: 'from-cyan-500 to-cyan-400', textColor: 'text-cyan-400', borderColor: 'border-cyan-500/30', bgColor: 'bg-cyan-500/10' },
+  emerald: { colorClass: 'from-emerald-500 to-emerald-400', textColor: 'text-emerald-400', borderColor: 'border-emerald-500/30', bgColor: 'bg-emerald-500/10' },
+  amber: { colorClass: 'from-amber-500 to-amber-400', textColor: 'text-amber-400', borderColor: 'border-amber-500/30', bgColor: 'bg-amber-500/10' },
+  violet: { colorClass: 'from-violet-500 to-violet-400', textColor: 'text-violet-400', borderColor: 'border-violet-500/30', bgColor: 'bg-violet-500/10' },
+  rose: { colorClass: 'from-rose-500 to-rose-400', textColor: 'text-rose-400', borderColor: 'border-rose-500/30', bgColor: 'bg-rose-500/10' },
+};
+
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
@@ -27,88 +43,84 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-const PRODUCT_FAMILIES = [
+// Static fallback data (used if API fails)
+const STATIC_PRODUCT_FAMILIES = [
   {
     id: 'lumimorph',
     name: 'LumiMorph',
+    slug: 'lumimorph',
     tagline: 'Textured LED Panels',
     description: 'Revolutionary LED displays with interchangeable decorative covers. Transform any surface from art piece to dynamic display with magnetic texture panels in wood, stone, textile, and metal finishes.',
-    color: 'cyan',
-    colorClass: 'from-cyan-500 to-cyan-400',
-    textColor: 'text-cyan-400',
-    borderColor: 'border-cyan-500/30',
-    bgColor: 'bg-cyan-500/10',
-    icon: Layers,
-    image: '/artmorph-assets/grande-hero.jpg',
-    link: '/lumimorph',
-    highlights: ['200+ Texture Options', 'Magnetic Covers', 'P2.6 & P6.2 Pitch', '5-Year Warranty'],
-    products: ['Elite', 'Grande', 'Mini'],
+    brand_color: 'cyan',
+    hero_image: '/artmorph-assets/grande-hero.jpg',
+    key_features: ['200+ Texture Options', 'Magnetic Covers', 'P2.6 & P6.2 Pitch', '5-Year Warranty'],
+    products: [{ name: 'Elite' }, { name: 'Grande' }, { name: 'Mini' }],
   },
   {
     id: 'naturatex',
     name: 'NaturaTex',
+    slug: 'naturatex',
     tagline: 'Natural Texture Screens',
     description: 'Nano-optical technology that seamlessly blends LED displays with natural materials. When off, it\'s art. When on, it\'s a stunning display. Perfect for luxury hospitality and corporate spaces.',
-    color: 'emerald',
-    colorClass: 'from-emerald-500 to-emerald-400',
-    textColor: 'text-emerald-400',
-    borderColor: 'border-emerald-500/30',
-    bgColor: 'bg-emerald-500/10',
-    icon: Leaf,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
-    link: '/naturatex',
-    highlights: ['Nano-Optical Tech', 'COB Technology', 'P0.7-P1.8 Pitch', 'Eye-Protective'],
-    products: ['NaturaTex', 'HoloVeil'],
+    brand_color: 'emerald',
+    hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
+    key_features: ['Nano-Optical Tech', 'COB Technology', 'P0.7-P1.8 Pitch', 'Eye-Protective'],
+    products: [{ name: 'NaturaTex' }, { name: 'HoloVeil' }],
   },
   {
     id: 'signatouch',
     name: 'SignaTouch',
+    slug: 'signatouch',
     tagline: 'Interactive Digital Kiosks',
     description: 'Enterprise-grade interactive kiosk solutions for retail, hospitality, and corporate environments. Touch screens, transparent OLED, and self-service terminals with payment integration.',
-    color: 'amber',
-    colorClass: 'from-amber-500 to-amber-400',
-    textColor: 'text-amber-400',
-    borderColor: 'border-amber-500/30',
-    bgColor: 'bg-amber-500/10',
-    icon: Monitor,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
-    link: '/signatouch',
-    highlights: ['40-Point Touch', 'Transparent OLED', 'Payment Ready', 'Android/Windows'],
-    products: ['Touch Kiosk', 'Smart Signage', 'Self-Service'],
+    brand_color: 'amber',
+    hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
+    key_features: ['40-Point Touch', 'Transparent OLED', 'Payment Ready', 'Android/Windows'],
+    products: [{ name: 'Touch Kiosk' }, { name: 'Smart Signage' }, { name: 'Self-Service' }],
   },
   {
     id: 'glassmorph',
     name: 'GlassMorph',
+    slug: 'glassmorph',
     tagline: 'Smart Glass & Film Solutions',
     description: 'Transform any glass surface with intelligent technology. PDLC switchable privacy film, transparent LED displays, and media glass that turns windows into dynamic digital canvases.',
-    color: 'violet',
-    colorClass: 'from-violet-500 to-violet-400',
-    textColor: 'text-violet-400',
-    borderColor: 'border-violet-500/30',
-    bgColor: 'bg-violet-500/10',
-    icon: Sparkles,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
-    link: '/glassmorph',
-    highlights: ['99% UV Block', '95% Transparency', 'Instant Privacy', '5W/m² Power'],
-    products: ['Smart Film', 'LED Film', 'Media Glass', 'Switchable Glass'],
+    brand_color: 'violet',
+    hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
+    key_features: ['99% UV Block', '95% Transparency', 'Instant Privacy', '5W/m² Power'],
+    products: [{ name: 'Smart Film' }, { name: 'LED Film' }, { name: 'Media Glass' }, { name: 'Switchable Glass' }],
   },
   {
     id: 'pixelvue',
     name: 'PixelVue',
+    slug: 'pixelvue',
     tagline: 'Professional LED Displays',
     description: 'Complete range of commercial LED solutions from sleek digital posters to creative custom shapes. Modular systems for retail, corporate, and artistic installations with stunning visual impact.',
-    color: 'rose',
-    colorClass: 'from-rose-500 to-rose-400',
-    textColor: 'text-rose-400',
-    borderColor: 'border-rose-500/30',
-    bgColor: 'bg-rose-500/10',
-    icon: Tv,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
-    link: '/pixelvue',
-    highlights: ['100K+ Hours', '3840Hz Refresh', '160° Viewing', '3-Year Warranty'],
-    products: ['iPoster', 'Unity', 'Creative Shapes'],
+    brand_color: 'rose',
+    hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
+    key_features: ['100K+ Hours', '3840Hz Refresh', '160° Viewing', '3-Year Warranty'],
+    products: [{ name: 'iPoster' }, { name: 'Unity' }, { name: 'Creative Shapes' }],
   },
 ];
+
+// Helper to transform API data to component format
+const transformFamily = (family) => {
+  const colorConfig = COLOR_CONFIG[family.brand_color] || COLOR_CONFIG.cyan;
+  const iconName = family.icon || (family.slug === 'lumimorph' ? 'Layers' : family.slug === 'naturatex' ? 'Leaf' : family.slug === 'signatouch' ? 'Monitor' : family.slug === 'glassmorph' ? 'Sparkles' : 'Tv');
+  
+  return {
+    id: family.slug || family.id,
+    name: family.name,
+    tagline: family.tagline,
+    description: family.description,
+    color: family.brand_color || 'cyan',
+    ...colorConfig,
+    icon: ICON_MAP[iconName] || Tv,
+    image: family.hero_image,
+    link: `/${family.slug}`,
+    highlights: family.key_features || [],
+    products: (family.products || []).map(p => p.name || p),
+  };
+};
 
 const COMPARISON_SPECS = [
   { label: 'Best For', key: 'bestFor' },
@@ -185,6 +197,34 @@ const ProductFamilyCard = ({ family, index }) => {
 
 export default function ProductFamilies() {
   const { isDark } = useTheme();
+  const [families, setFamilies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Fetch product families from API
+  useEffect(() => {
+    const fetchFamilies = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/product-families`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            setFamilies(data.map(transformFamily));
+          } else {
+            // Use static fallback if no data
+            setFamilies(STATIC_PRODUCT_FAMILIES.map(transformFamily));
+          }
+        } else {
+          setFamilies(STATIC_PRODUCT_FAMILIES.map(transformFamily));
+        }
+      } catch (error) {
+        console.error('Error fetching product families:', error);
+        setFamilies(STATIC_PRODUCT_FAMILIES.map(transformFamily));
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFamilies();
+  }, []);
   
   // Theme-aware classes
   const pageBg = isDark ? 'bg-neutral-950' : 'bg-neutral-50';
@@ -228,7 +268,7 @@ export default function ProductFamilies() {
           </FadeIn>
           <FadeIn delay={3}>
             <div className="flex flex-wrap justify-center gap-3">
-              {PRODUCT_FAMILIES.map((f) => (
+              {families.map((f) => (
                 <Link 
                   key={f.id}
                   to={f.link}
@@ -245,11 +285,19 @@ export default function ProductFamilies() {
       {/* Product Family Cards */}
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PRODUCT_FAMILIES.map((family, i) => (
-              <ProductFamilyCard key={family.id} family={family} index={i} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1,2,3,4,5].map((i) => (
+                <div key={i} className="animate-pulse rounded-lg bg-neutral-800/30 aspect-[16/14]" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {families.map((family, i) => (
+                <ProductFamilyCard key={family.id} family={family} index={i} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -269,7 +317,7 @@ export default function ProductFamilies() {
                 <thead>
                   <tr>
                     <th className={`text-left p-4 ${textMuted} text-xs tracking-wider uppercase border-b ${borderColor}`}>Specification</th>
-                    {PRODUCT_FAMILIES.map((f) => (
+                    {families.map((f) => (
                       <th key={f.id} className={`p-4 text-center border-b ${borderColor} ${f.textColor} text-sm font-medium`}>
                         {f.name}
                       </th>
@@ -280,16 +328,16 @@ export default function ProductFamilies() {
                   {COMPARISON_SPECS.map((spec) => (
                     <tr key={spec.key} className={`hover:${isDark ? 'bg-neutral-900/50' : 'bg-neutral-100/50'} transition-colors`}>
                       <td className={`p-4 ${textSecondary} text-sm border-b ${isDark ? 'border-neutral-800/50' : 'border-neutral-200/50'}`}>{spec.label}</td>
-                      {PRODUCT_FAMILIES.map((f) => (
+                      {families.map((f) => (
                         <td key={f.id} className={`p-4 text-center ${textPrimary} text-sm border-b ${isDark ? 'border-neutral-800/50' : 'border-neutral-200/50'}`}>
-                          {COMPARISON_DATA[f.id][spec.key]}
+                          {COMPARISON_DATA[f.id]?.[spec.key] || '-'}
                         </td>
                       ))}
                     </tr>
                   ))}
                   <tr>
                     <td className={`p-4 ${textSecondary} text-sm`}>Explore</td>
-                    {PRODUCT_FAMILIES.map((f) => (
+                    {families.map((f) => (
                       <td key={f.id} className="p-4 text-center">
                         <Link 
                           to={f.link} 

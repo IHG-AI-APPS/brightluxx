@@ -268,17 +268,41 @@ const Products = () => {
 
       {/* Category Filter Header Bar */}
       <section className={`sticky top-16 z-40 ${isDark ? 'bg-[#0A0A0D]/95' : 'bg-white/95'} backdrop-blur-lg border-b ${borderColor}`}>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <div className="flex items-center gap-3 py-4 overflow-x-auto scrollbar-hide">
-            {/* Search Input */}
-            <div className="relative flex-shrink-0">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-12 lg:px-24">
+          {/* Mobile: Search on top row */}
+          <div className="flex md:hidden items-center gap-2 pt-3 pb-2">
+            <div className="relative flex-1">
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-cyan-500" />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={`w-full ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pl-10 pr-10 py-2.5 outline-none focus:border-cyan-500 transition-colors text-sm`}
+                data-testid="products-search-input-mobile"
+              />
+              {searchQuery && (
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-cyan-400"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Category Pills Row - scrollable on all devices */}
+          <div className="flex items-center gap-2 py-3 overflow-x-auto scrollbar-hide">
+            {/* Desktop Search - hidden on mobile */}
+            <div className="relative flex-shrink-0 hidden md:block">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-cyan-500" />
               <input
                 type="text"
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-40 md:w-48 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pl-10 pr-4 py-2 outline-none focus:border-cyan-500 transition-colors text-sm`}
+                className={`w-48 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pl-10 pr-4 py-2 outline-none focus:border-cyan-500 transition-colors text-sm`}
                 data-testid="products-search-input"
               />
               {searchQuery && (
@@ -291,31 +315,29 @@ const Products = () => {
               )}
             </div>
 
-            {/* Divider */}
-            <div className={`w-px h-6 ${isDark ? 'bg-white/10' : 'bg-neutral-200'} flex-shrink-0`} />
+            {/* Divider - desktop only */}
+            <div className={`w-px h-6 ${isDark ? 'bg-white/10' : 'bg-neutral-200'} flex-shrink-0 hidden md:block`} />
 
             {/* Category Pills */}
-            <div className="flex items-center gap-2 flex-shrink-0">
-              {MAJOR_CATEGORIES.map((cat) => (
-                <button
-                  key={cat.value}
-                  onClick={() => setActiveCategory(cat.value)}
-                  className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full transition-all whitespace-nowrap ${
-                    activeCategory === cat.value
-                      ? 'bg-cyan-500 text-black'
-                      : (isDark 
-                          ? 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10' 
-                          : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 hover:text-neutral-900 border border-neutral-200')
-                  }`}
-                  data-testid={`products-quick-filter-${cat.value || 'all'}`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
+            {MAJOR_CATEGORIES.map((cat) => (
+              <button
+                key={cat.value}
+                onClick={() => setActiveCategory(cat.value)}
+                className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full transition-all whitespace-nowrap flex-shrink-0 ${
+                  activeCategory === cat.value
+                    ? 'bg-cyan-500 text-black'
+                    : (isDark 
+                        ? 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10' 
+                        : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 hover:text-neutral-900 border border-neutral-200')
+                }`}
+                data-testid={`products-quick-filter-${cat.value || 'all'}`}
+              >
+                {cat.label}
+              </button>
+            ))}
 
-            {/* View Toggle */}
-            <div className="ml-auto flex-shrink-0 hidden sm:flex items-center gap-1">
+            {/* View Toggle - desktop only */}
+            <div className="ml-auto flex-shrink-0 hidden md:flex items-center gap-1">
               <button 
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-cyan-500/20 text-cyan-400' : (isDark ? 'text-gray-500 hover:text-white' : 'text-neutral-500 hover:text-neutral-900')}`}

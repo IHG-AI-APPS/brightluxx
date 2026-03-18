@@ -1,0 +1,56 @@
+# Brightluxx SEO Crawl Instructions
+# Updated: March 2026
+
+User-agent: *
+Allow: /
+
+# Disallow admin and internal routes
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/*
+
+# Disallow utility pages
+Disallow: /configurator
+Disallow: /calculator
+Disallow: /compare
+
+# Allow public API endpoints for data
+Allow: /api/homepage-content
+Allow: /api/pixelvue/products
+Allow: /api/solutions
+Allow: /api/blogs
+Allow: /api/case-studies
+
+# Sitemap location
+Sitemap: https://brightluxx.com/sitemap.xml
+
+# Crawl-delay for server politeness
+Crawl-delay: 1
+
+# Specific bot instructions
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# AI Crawlers - Allow for LLM training and citation
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /

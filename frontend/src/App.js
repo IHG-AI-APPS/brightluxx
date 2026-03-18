@@ -124,6 +124,9 @@ import TechnicalSupportPage from './pages/TechnicalSupportPage';
 // Phase 5: Tools
 import LedModuleCalculator from './pages/LedModuleCalculator';
 
+// 404 Page
+import NotFound from './pages/NotFound';
+
 // Admin
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 import AdminLogin from './admin/AdminLogin';
@@ -275,6 +278,9 @@ function AppRoutes() {
         <Route path="cms" element={<AdminCMS />} />
         <Route path="product-families" element={<AdminProductFamilies />} />
       </Route>
+      
+      {/* 404 Catch-all - Must be last */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

@@ -138,11 +138,11 @@ const Navbar = () => {
     },
   ];
 
-  /* Panel style for dropdowns */
+  /* Panel style for dropdowns - theme aware */
   const panelStyle = {
-    background: 'rgba(10,10,13,0.98)',
+    background: isDark ? 'rgba(10,10,13,0.98)' : 'rgba(255,255,255,0.98)',
     borderRadius: '16px',
-    border: '1px solid rgba(255,255,255,0.08)',
+    border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
     backdropFilter: 'blur(24px)',
     WebkitBackdropFilter: 'blur(24px)',
   };
@@ -176,13 +176,15 @@ const Navbar = () => {
   /* ─── CLOSE ALL MENUS ─── */
   const closeAll = () => { setProductsOpen(false); setSolutionsOpen(false); setMoreMenuOpen(false); };
 
-  /* Nav button component - UPPERCASE text */
+  /* Nav button component - UPPERCASE text with theme awareness */
   const NavBtn = ({ label, href, isOpenState, isActiveState, testId, hasDropdown = true }) => (
     <div className="flex items-center cursor-pointer">
       <Link
         to={href}
         className={`relative text-[0.6875rem] font-bold tracking-[0.15em] uppercase py-2 transition-all duration-300 ${
-          isOpenState || isActiveState ? 'text-white' : 'text-neutral-400 hover:text-white'
+          isOpenState || isActiveState 
+            ? (isDark ? 'text-white' : 'text-neutral-900') 
+            : (isDark ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-neutral-900')
         }`}
         data-testid={testId}
       >
@@ -190,7 +192,7 @@ const Navbar = () => {
         {isActiveState && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 to-cyan-500" />}
       </Link>
       {hasDropdown && (
-        <ChevronDown size={14} className={`ml-1 text-neutral-500 transition-transform duration-300 ${isOpenState ? 'rotate-180 text-cyan-400' : ''}`} />
+        <ChevronDown size={14} className={`ml-1 transition-transform duration-300 ${isOpenState ? 'rotate-180 text-cyan-400' : (isDark ? 'text-neutral-500' : 'text-neutral-400')}`} />
       )}
     </div>
   );
@@ -237,7 +239,7 @@ const Navbar = () => {
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1">
                   {productCategories.map((group, gi) => (
                     <div key={gi} className="mb-2">
-                      <div className="px-2 pt-1 pb-2 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">{group.label}</div>
+                      <div className={`px-2 pt-1 pb-2 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{group.label}</div>
                       {group.items.map((item) => {
                         const Icon = CATEGORY_ICONS[item.cat] || Monitor;
                         return (
@@ -245,13 +247,13 @@ const Navbar = () => {
                             key={item.cat}
                             to={`/products?category=${item.cat}`}
                             onClick={closeAll}
-                            className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg transition-colors duration-150 hover:bg-white/[0.04]"
+                            className={`flex items-center gap-2.5 px-2 py-1.5 rounded-lg transition-colors duration-150 ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100'}`}
                             data-testid={`nav-product-cat-${item.cat}`}
                           >
-                            <Icon size={12} className="text-neutral-500 flex-shrink-0" />
+                            <Icon size={12} className={isDark ? 'text-neutral-500' : 'text-neutral-400'} />
                             <div>
-                              <div className="text-[0.625rem] font-semibold tracking-wider text-white uppercase">{item.name}</div>
-                              <div className="text-[0.45rem] text-neutral-500 tracking-wider">{item.desc}</div>
+                              <div className={`text-[0.625rem] font-semibold tracking-wider uppercase ${isDark ? 'text-white' : 'text-neutral-900'}`}>{item.name}</div>
+                              <div className={`text-[0.45rem] tracking-wider ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>{item.desc}</div>
                             </div>
                           </Link>
                         );
@@ -259,11 +261,11 @@ const Navbar = () => {
                     </div>
                   ))}
                 </div>
-                <div className="mt-3 pt-3 border-t border-white/[0.06]">
-                  <Link to="/product-families" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-rose-400 hover:bg-white/[0.04] transition-colors duration-150 mb-2 uppercase" data-testid="nav-products-families">
+                <div className={`mt-3 pt-3 border-t ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`}>
+                  <Link to="/product-families" onClick={closeAll} className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-rose-400 transition-colors duration-150 mb-2 uppercase ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100'}`} data-testid="nav-products-families">
                     PRODUCT FAMILIES
                   </Link>
-                  <Link to="/products" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-cyan-400 hover:bg-cyan-400/10 transition-colors duration-150 uppercase" data-testid="nav-products-view-all">
+                  <Link to="/products" onClick={closeAll} className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-cyan-400 transition-colors duration-150 uppercase ${isDark ? 'hover:bg-cyan-400/10' : 'hover:bg-cyan-50'}`} data-testid="nav-products-view-all">
                     VIEW ALL PRODUCTS
                   </Link>
                 </div>
@@ -278,47 +280,47 @@ const Navbar = () => {
               trigger={<NavBtn label="SOLUTIONS" href="/solutions" isOpenState={solutionsOpen} isActiveState={isActivePrefix('/solutions')} testId="nav-solutions" />}
             >
               <div className="shadow-2xl py-3 px-1 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '280px' }}>
-                <div className="px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">BY INDUSTRY</div>
+                <div className={`px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>BY INDUSTRY</div>
                 {solutionItems.map((item) => (
                   <Link
                     key={item.id}
                     to={`/solutions/${item.id}`}
                     onClick={closeAll}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150 ${
-                      isActive(`/solutions/${item.id}`) ? 'bg-cyan-400/10' : 'hover:bg-white/[0.04]'
+                      isActive(`/solutions/${item.id}`) ? 'bg-cyan-400/10' : (isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100')
                     }`}
                     data-testid={`nav-solution-${item.id}`}
                   >
                     <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${
-                      isActive(`/solutions/${item.id}`) ? 'bg-cyan-400/15' : 'bg-white/[0.04]'
+                      isActive(`/solutions/${item.id}`) ? 'bg-cyan-400/15' : (isDark ? 'bg-white/[0.04]' : 'bg-neutral-100')
                     }`}>
-                      <item.icon size={13} className={isActive(`/solutions/${item.id}`) ? 'text-cyan-400' : 'text-neutral-500'} />
+                      <item.icon size={13} className={isActive(`/solutions/${item.id}`) ? 'text-cyan-400' : (isDark ? 'text-neutral-500' : 'text-neutral-400')} />
                     </div>
                     <div>
-                      <div className={`text-[0.625rem] font-semibold tracking-wider uppercase ${isActive(`/solutions/${item.id}`) ? 'text-cyan-400' : 'text-white'}`}>{item.name}</div>
-                      <div className="text-[0.45rem] text-neutral-500 tracking-wider">{item.desc}</div>
+                      <div className={`text-[0.625rem] font-semibold tracking-wider uppercase ${isActive(`/solutions/${item.id}`) ? 'text-cyan-400' : (isDark ? 'text-white' : 'text-neutral-900')}`}>{item.name}</div>
+                      <div className={`text-[0.45rem] tracking-wider ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>{item.desc}</div>
                     </div>
                   </Link>
                 ))}
-                <div className="mt-2 pt-2 mx-3 border-t border-white/[0.06]">
-                  <Link to="/solutions" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-cyan-400 hover:bg-cyan-400/10 transition-colors uppercase" data-testid="nav-solutions-view-all">
+                <div className={`mt-2 pt-2 mx-3 border-t ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`}>
+                  <Link to="/solutions" onClick={closeAll} className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-cyan-400 transition-colors uppercase ${isDark ? 'hover:bg-cyan-400/10' : 'hover:bg-cyan-50'}`} data-testid="nav-solutions-view-all">
                     ALL SOLUTIONS
                   </Link>
                 </div>
                 {/* Special Landing Pages */}
-                <div className="mt-2 pt-2 mx-3 border-t border-white/[0.06]">
-                  <div className="px-0 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">BY LOCATION</div>
-                  <Link to="/led-screen-suppliers-dubai" onClick={closeAll} className="block px-2 py-1.5 rounded text-[0.6rem] text-white/80 hover:text-cyan-400 hover:bg-white/[0.04] transition-colors" data-testid="nav-led-dubai">
+                <div className={`mt-2 pt-2 mx-3 border-t ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`}>
+                  <div className={`px-0 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>BY LOCATION</div>
+                  <Link to="/led-screen-suppliers-dubai" onClick={closeAll} className={`block px-2 py-1.5 rounded text-[0.6rem] hover:text-cyan-400 transition-colors ${isDark ? 'text-white/80 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`} data-testid="nav-led-dubai">
                     Dubai
                   </Link>
-                  <Link to="/abu-dhabi" onClick={closeAll} className="block px-2 py-1.5 rounded text-[0.6rem] text-white/80 hover:text-cyan-400 hover:bg-white/[0.04] transition-colors" data-testid="nav-abu-dhabi">
+                  <Link to="/abu-dhabi" onClick={closeAll} className={`block px-2 py-1.5 rounded text-[0.6rem] hover:text-cyan-400 transition-colors ${isDark ? 'text-white/80 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`} data-testid="nav-abu-dhabi">
                     Abu Dhabi
                   </Link>
-                  <Link to="/saudi-arabia" onClick={closeAll} className="block px-2 py-1.5 rounded text-[0.6rem] text-white/80 hover:text-cyan-400 hover:bg-white/[0.04] transition-colors" data-testid="nav-saudi">
+                  <Link to="/saudi-arabia" onClick={closeAll} className={`block px-2 py-1.5 rounded text-[0.6rem] hover:text-cyan-400 transition-colors ${isDark ? 'text-white/80 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`} data-testid="nav-saudi">
                     Saudi Arabia
                   </Link>
-                  <div className="px-0 pt-2 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">SPECIAL</div>
-                  <Link to="/government-solutions" onClick={closeAll} className="block px-2 py-1.5 rounded text-[0.6rem] text-white/80 hover:text-cyan-400 hover:bg-white/[0.04] transition-colors" data-testid="nav-gov-solutions">
+                  <div className={`px-0 pt-2 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>SPECIAL</div>
+                  <Link to="/government-solutions" onClick={closeAll} className={`block px-2 py-1.5 rounded text-[0.6rem] hover:text-cyan-400 transition-colors ${isDark ? 'text-white/80 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`} data-testid="nav-gov-solutions">
                     Government Solutions
                   </Link>
                 </div>
@@ -326,7 +328,7 @@ const Navbar = () => {
             </DropdownWrap>
 
             {/* Thin divider */}
-            <div className="w-px h-4 bg-white/10" />
+            <div className={`w-px h-4 ${isDark ? 'bg-white/10' : 'bg-neutral-200'}`} />
 
             {/* PRODUCT FAMILIES - Direct Links - UPPERCASE */}
             <Link
@@ -416,36 +418,36 @@ const Navbar = () => {
               trigger={
                 <button 
                   className={`flex items-center gap-1.5 text-[0.6875rem] font-bold tracking-[0.12em] uppercase py-2 transition-all duration-300 ${
-                    moreMenuOpen ? 'text-white' : 'text-neutral-400 hover:text-white'
+                    moreMenuOpen ? (isDark ? 'text-white' : 'text-neutral-900') : (isDark ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-neutral-900')
                   }`}
                   data-testid="nav-more-btn"
                 >
                   <Menu size={16} />
-                  <ChevronDown size={12} className={`text-neutral-500 transition-transform duration-300 ${moreMenuOpen ? 'rotate-180 text-cyan-400' : ''}`} />
+                  <ChevronDown size={12} className={`transition-transform duration-300 ${moreMenuOpen ? 'rotate-180 text-cyan-400' : (isDark ? 'text-neutral-500' : 'text-neutral-400')}`} />
                 </button>
               }
             >
               <div className="shadow-2xl py-3 px-1 max-h-[80vh] overflow-y-auto" style={{ ...panelStyle, width: '280px', right: 0, left: 'auto' }}>
                 {moreMenuSections.map((section, si) => (
                   <div key={si}>
-                    {si > 0 && <div className="mx-3 my-2 border-t border-white/[0.06]" />}
-                    <div className="px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">{section.label}</div>
+                    {si > 0 && <div className={`mx-3 my-2 border-t ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`} />}
+                    <div className={`px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{section.label}</div>
                     {section.items.map((item) => (
                       <Link
                         key={item.path}
                         to={item.path}
                         onClick={closeAll}
                         className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150 ${
-                          isActive(item.path) ? 'bg-cyan-400/10' : 'hover:bg-white/[0.04]'
+                          isActive(item.path) ? 'bg-cyan-400/10' : (isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100')
                         }`}
                         data-testid={`nav-more-${item.path.substring(1).replace('/', '-')}`}
                       >
-                        <div className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 ${isActive(item.path) ? 'bg-cyan-400/15' : 'bg-white/[0.04]'}`}>
-                          <item.icon size={12} className={isActive(item.path) ? 'text-cyan-400' : 'text-neutral-500'} />
+                        <div className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 ${isActive(item.path) ? 'bg-cyan-400/15' : (isDark ? 'bg-white/[0.04]' : 'bg-neutral-100')}`}>
+                          <item.icon size={12} className={isActive(item.path) ? 'text-cyan-400' : (isDark ? 'text-neutral-500' : 'text-neutral-400')} />
                         </div>
                         <div>
-                          <div className={`text-[0.625rem] font-semibold tracking-wider uppercase ${isActive(item.path) ? 'text-cyan-400' : 'text-white'}`}>{item.name}</div>
-                          <div className="text-[0.4rem] text-neutral-500 tracking-wider">{item.desc}</div>
+                          <div className={`text-[0.625rem] font-semibold tracking-wider uppercase ${isActive(item.path) ? 'text-cyan-400' : (isDark ? 'text-white' : 'text-neutral-900')}`}>{item.name}</div>
+                          <div className={`text-[0.4rem] tracking-wider ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>{item.desc}</div>
                         </div>
                       </Link>
                     ))}

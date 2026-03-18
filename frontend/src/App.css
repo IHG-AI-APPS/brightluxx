@@ -3,6 +3,106 @@
    "Luminous Precision" Theme
    ======================================== */
 
+/* ========================================
+   GLOBAL LIGHT THEME STYLES
+   Applies when html has 'light' class
+   ======================================== */
+
+/* Base page background */
+html.light body {
+  background-color: #f8fafc !important;
+  color: #0a0a0d;
+}
+
+html.dark body {
+  background-color: #050508 !important;
+  color: #ffffff;
+}
+
+/* Light theme page containers */
+html.light .bg-\[#050508\] {
+  background-color: #f8fafc !important;
+}
+
+html.light .bg-\[#0a0a0d\] {
+  background-color: #f8fafc !important;
+}
+
+html.light .bg-\[#0B0B0E\] {
+  background-color: #ffffff !important;
+}
+
+/* Light theme text colors */
+html.light .text-white {
+  color: #0a0a0d !important;
+}
+
+html.light .text-neutral-100 {
+  color: #171717 !important;
+}
+
+html.light .text-neutral-200 {
+  color: #262626 !important;
+}
+
+html.light .text-neutral-300 {
+  color: #404040 !important;
+}
+
+html.light .text-neutral-400 {
+  color: #525252 !important;
+}
+
+/* Keep cyan accent readable in light mode */
+html.light .text-cyan-400 {
+  color: #0891b2 !important;
+}
+
+/* Light theme borders */
+html.light .border-white\/\[0\.06\],
+html.light .border-white\/5,
+html.light .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Light theme hover states */
+html.light .hover\:bg-white\/\[0\.04\]:hover,
+html.light .hover\:bg-white\/5:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Light theme cards and containers */
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\],
+html.light .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Light theme inputs */
+html.light input,
+html.light textarea,
+html.light select {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+  color: #0a0a0d !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Footer light theme */
+html.light footer {
+  background-color: #1f2937 !important;
+}
+
+html.light footer .text-white {
+  color: #ffffff !important;
+}
+
 /* White Logo Filter */
 .logo-white {
   filter: brightness(0) invert(1);

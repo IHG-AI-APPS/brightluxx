@@ -7,6 +7,7 @@ import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext';
 
 const useInView = (ref, threshold = 0.1) => {
   const [inView, setInView] = useState(false);
@@ -63,11 +64,20 @@ const CATEGORIES = [
   { value: 'accessories', label: 'Accessories' },
 ];
 
-const ProductCard = ({ product, index }) => (
+const ProductCard = ({ product, index, isDark }) => {
+  const bgCard = isDark ? 'bg-[#0A0A0D]' : 'bg-white';
+  const borderCard = isDark ? 'border-white/5' : 'border-neutral-200';
+  const textName = isDark ? 'text-white' : 'text-neutral-900';
+  const textDesc = isDark ? 'text-gray-500' : 'text-neutral-500';
+  const gradientOverlay = isDark ? 'from-[#0A0A0D]' : 'from-white';
+  const hoverOverlay = isDark ? 'bg-[#050508]/90' : 'bg-white/95';
+  const bgPill = isDark ? 'bg-white/5 border-white/10' : 'bg-neutral-100 border-neutral-200';
+
+  return (
   <MotionCard index={index}>
     <Link
       to={`/products/${product.slug}`}
-      className="group block bg-[#0A0A0D] border border-white/5 overflow-hidden relative hover:border-cyan-500/30 transition-all duration-500"
+      className={`group block ${bgCard} border ${borderCard} overflow-hidden relative hover:border-cyan-500/30 transition-all duration-500`}
       data-testid="products-product-card"
     >
       {/* Image Container */}
@@ -82,7 +92,7 @@ const ProductCard = ({ product, index }) => (
               w={500} 
             />
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0D] via-transparent to-transparent opacity-60" />
+            <div className={`absolute inset-0 bg-gradient-to-t ${gradientOverlay} via-transparent to-transparent opacity-60`} />
           </>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan-500/5 to-transparent">
@@ -98,18 +108,18 @@ const ProductCard = ({ product, index }) => (
         </div>
 
         {/* Hover Overlay - Quick Specs */}
-        <div className="absolute inset-0 bg-[#050508]/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6">
+        <div className={`absolute inset-0 ${hoverOverlay} opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6`}>
           <div className="text-center">
             <div className="grid grid-cols-2 gap-3 mb-4">
               {product.pixel_pitch && (
-                <div className="bg-white/5 border border-white/10 p-3">
-                  <div className="text-[9px] text-gray-500 uppercase tracking-widest mb-1">Pitch</div>
+                <div className={`${bgPill} border p-3`}>
+                  <div className={`text-[9px] ${textDesc} uppercase tracking-widest mb-1`}>Pitch</div>
                   <div className="text-sm font-bold text-cyan-400 font-mono">{product.pixel_pitch}</div>
                 </div>
               )}
               {product.brightness && (
-                <div className="bg-white/5 border border-white/10 p-3">
-                  <div className="text-[9px] text-gray-500 uppercase tracking-widest mb-1">Brightness</div>
+                <div className={`${bgPill} border p-3`}>
+                  <div className={`text-[9px] ${textDesc} uppercase tracking-widest mb-1`}>Brightness</div>
                   <div className="text-sm font-bold text-cyan-400 font-mono">{product.brightness}</div>
                 </div>
               )}
@@ -123,11 +133,11 @@ const ProductCard = ({ product, index }) => (
 
       {/* Content */}
       <div className="p-5 space-y-3">
-        <h3 className="text-sm font-bold uppercase tracking-wide text-white group-hover:text-cyan-400 transition-colors line-clamp-1">
+        <h3 className={`text-sm font-bold uppercase tracking-wide ${textName} group-hover:text-cyan-400 transition-colors line-clamp-1`}>
           {product.name}
         </h3>
         {product.tagline && (
-          <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed tracking-wide">
+          <p className={`text-[11px] ${textDesc} line-clamp-2 leading-relaxed tracking-wide`}>
             {product.tagline}
           </p>
         )}
@@ -135,12 +145,12 @@ const ProductCard = ({ product, index }) => (
         {/* Spec Pills */}
         <div className="flex flex-wrap gap-2 pt-1">
           {product.pixel_pitch && (
-            <span className="text-[10px] px-2 py-1 bg-white/5 border border-white/10 text-gray-400 font-mono">
+            <span className={`text-[10px] px-2 py-1 ${bgPill} border ${textDesc} font-mono`}>
               {product.pixel_pitch}
             </span>
           )}
           {product.brightness && (
-            <span className="text-[10px] px-2 py-1 bg-white/5 border border-white/10 text-gray-400 font-mono">
+            <span className={`text-[10px] px-2 py-1 ${bgPill} border ${textDesc} font-mono`}>
               {product.brightness}
             </span>
           )}
@@ -151,18 +161,19 @@ const ProductCard = ({ product, index }) => (
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
     </Link>
   </MotionCard>
-);
+  );
+};
 
-const FilterAccordion = ({ title, children, defaultOpen = false }) => {
+const FilterAccordion = ({ title, children, defaultOpen = false, isDark }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   return (
-    <div className="border-b border-white/5">
+    <div className={`border-b ${isDark ? 'border-white/5' : 'border-neutral-200'}`}>
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between py-4 text-left"
       >
-        <span className="text-xs font-bold uppercase tracking-widest text-gray-400">{title}</span>
-        <ChevronDown size={14} className={`text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <span className={`text-xs font-bold uppercase tracking-widest ${isDark ? 'text-gray-400' : 'text-neutral-500'}`}>{title}</span>
+        <ChevronDown size={14} className={`${isDark ? 'text-gray-500' : 'text-neutral-400'} transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       <AnimatePresence>
         {isOpen && (
@@ -184,6 +195,7 @@ const FilterAccordion = ({ title, children, defaultOpen = false }) => {
 };
 
 const Products = () => {
+  const { isDark } = useTheme();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -191,6 +203,13 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('grid'); // grid or list
   const [showFilters, setShowFilters] = useState(false);
+
+  // Theme-aware styles
+  const bgMain = isDark ? 'bg-[#050508]' : 'bg-slate-50';
+  const bgCard = isDark ? 'bg-[#0B0B0E]' : 'bg-white';
+  const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
+  const textSecondary = isDark ? 'text-gray-400' : 'text-neutral-600';
+  const borderColor = isDark ? 'border-white/10' : 'border-neutral-200';
 
   const setActiveCategory = (cat) => {
     if (cat) {
@@ -229,7 +248,7 @@ const Products = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#050508]" data-testid="products-page">
+    <div className={`min-h-screen ${bgMain} transition-colors duration-300`} data-testid="products-page">
       <SEO
         title={activeCategory ? `${activeCategoryLabel} LED Displays | Supplier Dubai` : "LED Display Products | Supplier Dubai UAE"}
         description="Browse 90+ LED display solutions from Dubai's trusted supplier. COB MicroLED, transparent, outdoor, indoor displays. Local stock, same-day delivery. Get instant quotes."
@@ -256,7 +275,7 @@ const Products = () => {
 
       {/* Breadcrumbs */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 pt-24">
-        <Breadcrumbs items={breadcrumbs} className="text-gray-500" />
+        <Breadcrumbs items={breadcrumbs} className={textSecondary} />
       </div>
 
       {/* Hero Section */}
@@ -271,13 +290,13 @@ const Products = () => {
             transition={{ duration: 0.6 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6" data-testid="products-page-title">
+            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 ${textPrimary}`} data-testid="products-page-title">
               LED DISPLAY
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
                 PRODUCTS
               </span>
             </h1>
-            <p className="text-neutral-400 text-base md:text-lg max-w-xl mx-auto">
+            <p className={textSecondary + " text-base md:text-lg max-w-xl mx-auto"}>
               Explore our complete range of professional LED display technology.
             </p>
           </motion.div>
@@ -293,19 +312,19 @@ const Products = () => {
             <div className="sticky top-24 space-y-6">
               {/* Search */}
               <div className="relative">
-                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" />
+                <Search size={16} className={`absolute left-4 top-1/2 -translate-y-1/2 ${isDark ? 'text-gray-600' : 'text-neutral-400'}`} />
                 <input
                   type="text"
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-white/5 border-b border-white/20 focus:border-cyan-500 text-white placeholder:text-gray-600 rounded-none pl-11 pr-4 py-3 outline-none transition-colors text-sm tracking-wide"
+                  className={`w-full ${isDark ? 'bg-white/5 border-white/20 text-white placeholder:text-gray-600' : 'bg-white border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border-b focus:border-cyan-500 rounded-none pl-11 pr-4 py-3 outline-none transition-colors text-sm tracking-wide`}
                   data-testid="products-search-input"
                 />
               </div>
 
               {/* Category Filter */}
-              <FilterAccordion title="Categories" defaultOpen={true}>
+              <FilterAccordion title="Categories" defaultOpen={true} isDark={isDark}>
                 {CATEGORIES.map((cat) => (
                   <button
                     key={cat.value}
@@ -313,7 +332,7 @@ const Products = () => {
                     className={`w-full text-left px-3 py-2 text-xs tracking-wide transition-all ${
                       activeCategory === cat.value
                         ? 'bg-cyan-500/10 text-cyan-400 border-l-2 border-cyan-500'
-                        : 'text-gray-500 hover:text-white hover:bg-white/5'
+                        : (isDark ? 'text-gray-500 hover:text-white hover:bg-white/5' : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100')
                     }`}
                     data-testid={`products-filter-${cat.value || 'all'}`}
                   >
@@ -323,16 +342,16 @@ const Products = () => {
               </FilterAccordion>
 
               {/* Quick Links */}
-              <div className="pt-6 border-t border-white/5">
-                <h4 className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">Specifier Tools</h4>
+              <div className={`pt-6 border-t ${borderColor}`}>
+                <h4 className={`text-xs font-bold uppercase tracking-widest ${textSecondary} mb-4`}>Specifier Tools</h4>
                 <div className="space-y-2">
-                  <Link to="/calculator" className="flex items-center gap-3 text-xs text-gray-400 hover:text-cyan-400 transition-colors py-2">
+                  <Link to="/calculator" className={`flex items-center gap-3 text-xs ${textSecondary} hover:text-cyan-400 transition-colors py-2`}>
                     <Zap size={14} /> Screen Calculator
                   </Link>
-                  <Link to="/led-calculator" className="flex items-center gap-3 text-xs text-gray-400 hover:text-cyan-400 transition-colors py-2">
+                  <Link to="/led-calculator" className={`flex items-center gap-3 text-xs ${textSecondary} hover:text-cyan-400 transition-colors py-2`}>
                     <Zap size={14} /> Module Calculator
                   </Link>
-                  <Link to="/estimator" className="flex items-center gap-3 text-xs text-gray-400 hover:text-cyan-400 transition-colors py-2">
+                  <Link to="/estimator" className={`flex items-center gap-3 text-xs ${textSecondary} hover:text-cyan-400 transition-colors py-2`}>
                     <Zap size={14} /> Budget Estimator
                   </Link>
                 </div>
@@ -343,10 +362,10 @@ const Products = () => {
           {/* Main Content Area */}
           <div className="flex-1 min-w-0">
             {/* Toolbar */}
-            <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/5">
+            <div className={`flex items-center justify-between mb-8 pb-6 border-b ${borderColor}`}>
               <div className="flex items-center gap-4">
-                <h2 className="text-lg font-bold uppercase tracking-wide">{activeCategoryLabel}</h2>
-                <span className="text-xs text-gray-500 tracking-wider">
+                <h2 className={`text-lg font-bold uppercase tracking-wide ${textPrimary}`}>{activeCategoryLabel}</h2>
+                <span className={`text-xs tracking-wider ${textSecondary}`}>
                   {products.length} {products.length === 1 ? 'product' : 'products'}
                 </span>
               </div>
@@ -355,22 +374,22 @@ const Products = () => {
                 {/* Mobile Filter Toggle */}
                 <button 
                   onClick={() => setShowFilters(!showFilters)}
-                  className="lg:hidden flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 text-xs uppercase tracking-wider text-gray-400"
+                  className={`lg:hidden flex items-center gap-2 px-4 py-2 ${isDark ? 'bg-white/5 border-white/10 text-gray-400' : 'bg-neutral-100 border-neutral-200 text-neutral-600'} border text-xs uppercase tracking-wider`}
                 >
                   <SlidersHorizontal size={14} /> Filters
                 </button>
                 
                 {/* View Toggle */}
-                <div className="hidden sm:flex items-center gap-1 bg-white/5 p-1">
+                <div className={`hidden sm:flex items-center gap-1 p-1 ${isDark ? 'bg-white/5' : 'bg-neutral-100'}`}>
                   <button 
                     onClick={() => setViewMode('grid')}
-                    className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-cyan-500/20 text-cyan-400' : 'text-gray-500 hover:text-white'}`}
+                    className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-cyan-500/20 text-cyan-400' : (isDark ? 'text-gray-500 hover:text-white' : 'text-neutral-500 hover:text-neutral-900')}`}
                   >
                     <Grid3X3 size={16} />
                   </button>
                   <button 
                     onClick={() => setViewMode('list')}
-                    className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-cyan-500/20 text-cyan-400' : 'text-gray-500 hover:text-white'}`}
+                    className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-cyan-500/20 text-cyan-400' : (isDark ? 'text-gray-500 hover:text-white' : 'text-neutral-500 hover:text-neutral-900')}`}
                   >
                     <LayoutList size={16} />
                   </button>
@@ -387,13 +406,13 @@ const Products = () => {
                   exit={{ height: 0, opacity: 0 }}
                   className="lg:hidden overflow-hidden mb-6"
                 >
-                  <div className="bg-[#0A0A0D] border border-white/5 p-4 space-y-4">
+                  <div className={`${isDark ? 'bg-[#0A0A0D] border-white/5' : 'bg-white border-neutral-200'} border p-4 space-y-4`}>
                     <input
                       type="text"
                       placeholder="Search products..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-600 px-4 py-3 outline-none text-sm"
+                      className={`w-full ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-600' : 'bg-neutral-50 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border px-4 py-3 outline-none text-sm`}
                     />
                     <div className="flex flex-wrap gap-2">
                       {CATEGORIES.map((cat) => (
@@ -403,7 +422,7 @@ const Products = () => {
                           className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
                             activeCategory === cat.value
                               ? 'bg-cyan-500 text-black'
-                              : 'bg-transparent text-gray-500 border border-white/10 hover:border-cyan-500/50'
+                              : (isDark ? 'bg-transparent text-gray-500 border border-white/10 hover:border-cyan-500/50' : 'bg-transparent text-neutral-600 border border-neutral-200 hover:border-cyan-500/50')
                           }`}
                         >
                           {cat.label}
@@ -441,7 +460,7 @@ const Products = () => {
                   : 'grid-cols-1'
               }`}>
                 {products.map((product, index) => (
-                  <ProductCard key={product._id || product.id} product={product} index={index} />
+                  <ProductCard key={product._id || product.id} product={product} index={index} isDark={isDark} />
                 ))}
               </div>
             )}

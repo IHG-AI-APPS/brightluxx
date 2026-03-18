@@ -46,7 +46,7 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
 };
 
 /* Hero video player with smooth transitions */
-const HeroVideoPlayer = ({ videos, posterImage, isDark = true }) => {
+const HeroVideoPlayer = ({ videos, posterImage }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [fading, setFading] = useState(false);
   const videoRefs = useRef([]);
@@ -125,9 +125,9 @@ const HeroVideoPlayer = ({ videos, posterImage, isDark = true }) => {
           <source src={src} type="video/mp4" />
         </video>
       ))}
-      {/* Cinematic gradient overlay - theme aware */}
-      <div className={`absolute inset-0 bg-gradient-to-t ${isDark ? 'from-[#050508] via-[#050508]/40' : 'from-white via-white/40'} to-transparent`} />
-      <div className={`absolute inset-0 bg-gradient-to-r ${isDark ? 'from-[#050508]/60' : 'from-white/60'} via-transparent to-transparent`} />
+      {/* Cinematic gradient overlay - ALWAYS dark for video readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/50 to-[#050508]/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#050508]/70 via-transparent to-transparent" />
     </div>
   );
 };
@@ -303,17 +303,17 @@ const Home = () => {
           HERO SECTION — Full-screen immersive video
       ═══════════════════════════════════════════════════════════════════════ */}
       <section className="relative h-screen min-h-[600px] flex items-end" data-testid="hero-section">
-        <HeroVideoPlayer videos={hero.video_urls} posterImage={hero.poster_image} isDark={isDark} />
+        <HeroVideoPlayer videos={hero.video_urls} posterImage={hero.poster_image} />
         
-        {/* Hero Content - Minimal */}
+        {/* Hero Content - Always light text on dark video overlay */}
         <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 pb-20 lg:pb-28">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[0.9] mb-8" data-testid="hero-title">
-              <span className={isDark ? 'text-white' : 'text-neutral-900'}>ENGINEERING</span>
+            <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[0.9] mb-8" data-testid="hero-title" style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>
+              <span style={{ color: '#ffffff' }}>ENGINEERING</span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500">
                 BRILLIANCE
@@ -323,15 +323,16 @@ const Home = () => {
             <div className="flex items-center gap-6">
               <Link 
                 to={hero.cta_link || '/contact'} 
-                className={`font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs transition-colors duration-300 ${isDark ? 'bg-white text-black hover:bg-cyan-400' : 'bg-neutral-900 text-white hover:bg-cyan-500'}`}
+                className="font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs transition-colors duration-300 bg-white text-black hover:bg-cyan-400"
                 data-testid="home-hero-primary-cta"
               >
                 GET QUOTE
               </Link>
               <Link 
                 to="/products" 
-                className={`font-medium tracking-[0.1em] uppercase text-xs transition-colors ${isDark ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}
+                className="font-medium tracking-[0.1em] uppercase text-xs transition-colors text-white/90 hover:text-white"
                 data-testid="home-hero-secondary-cta"
+                style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}
               >
                 EXPLORE →
               </Link>
@@ -349,7 +350,7 @@ const Home = () => {
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              <ChevronDown size={24} className={isDark ? 'text-white/40' : 'text-neutral-400'} />
+              <ChevronDown size={24} className="text-white/50" />
             </motion.div>
           </motion.div>
         </div>

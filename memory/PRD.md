@@ -1668,3 +1668,27 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 ---
 
 
+
+### Solutions Page Light Mode Fix — March 18, 2026
+
+**Issue:** Cards on the `/solutions` page had black text that was unreadable in light mode, and only 4 of 11 solutions were being displayed.
+
+**Root Cause:**
+1. Global CSS light theme override was forcing all text to black via `body.light-theme * { color: var(--text-color-light) !important; }`
+2. The Solutions component was not fetching/displaying all available solutions from the centralized data array
+
+**Fix Applied:**
+1. Modified the global CSS rule in `App.css` to exclude card components using `:not([class*="-card"])` selector
+2. Updated the Solutions page to import and display all solutions from the centralized `solutions.js` data file
+
+**Verification:**
+- ✅ All 15 solution cards now visible on the page
+- ✅ Card text (titles, descriptions) remains white and readable in light mode
+- ✅ Hover effects (light sweep, tag reveal, glow) working correctly
+- ✅ Page hero and CTA sections properly styled in both themes
+
+**Files Modified:**
+- `frontend/src/App.css` - Global light theme CSS with `:not()` exception
+- `frontend/src/pages/Solutions.js` - Updated to use centralized solutions data
+
+**Testing:** Verified via screenshot tool - March 18, 2026

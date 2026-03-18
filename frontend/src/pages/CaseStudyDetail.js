@@ -4,7 +4,6 @@ import { ArrowRight, MapPin, Calendar, Building2, Users, HardHat, Cpu, CheckCirc
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { generateInstallationAlt } from '../utils/altTagUtils';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 

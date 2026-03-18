@@ -60,7 +60,7 @@ export default function AbuDhabiPage() {
   return (
     <div className="min-h-screen bg-[#050508] text-white" data-testid="abu-dhabi-page">
       <SEO 
-        title="LED Screens Abu Dhabi | LED Display Supplier | Brightluxx"
+        title="LED Screens Abu Dhabi | LED Display Supplier"
         description="Leading LED screen supplier in Abu Dhabi. Government-approved, ISO certified. Video walls, outdoor displays, corporate solutions. Local warehouse & installation team."
         path="/abu-dhabi"
       />

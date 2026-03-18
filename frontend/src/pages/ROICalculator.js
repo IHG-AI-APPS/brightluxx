@@ -93,7 +93,7 @@ export default function ROICalculator() {
   return (
     <div className="min-h-screen bg-[#050508] text-white" data-testid="roi-calculator-page">
       <SEO 
-        title="LED Display ROI Calculator | Investment Analysis | Brightluxx"
+        title="LED Display ROI Calculator | Investment Analysis"
         description="Calculate the return on investment for your LED display project. Estimate costs, payback period, and 5-year ROI for digital signage in UAE."
         path="/tools/roi-calculator"
       />

@@ -59,7 +59,7 @@ export default function SaudiArabiaPage() {
   return (
     <div className="min-h-screen bg-[#050508] text-white" data-testid="saudi-arabia-page">
       <SEO 
-        title="LED Screens Saudi Arabia | Vision 2030 LED Supplier | Brightluxx"
+        title="LED Screens Saudi Arabia | Vision 2030 LED Supplier"
         description="Premium LED display supplier for Saudi Arabia Vision 2030 projects. NEOM, Riyadh Season, Red Sea. ISO certified, competitive pricing. Contact for KSA projects."
         path="/saudi-arabia"
       />

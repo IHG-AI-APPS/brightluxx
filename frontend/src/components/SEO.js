@@ -186,17 +186,153 @@ export function resolveImage(image) {
 export { BASE_URL, SITE_NAME };
 
 /**
+ * Generate BreadcrumbList schema from breadcrumb array
+ * @param {Array} breadcrumbs - Array of {name, path} objects
+ */
+function generateBreadcrumbSchema(breadcrumbs) {
+  if (!breadcrumbs || breadcrumbs.length < 2) return null;
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": crumb.name,
+      ...(index < breadcrumbs.length - 1 && crumb.path ? { "item": `${PRODUCTION_URL}${crumb.path}` } : {})
+    }))
+  };
+}
+
+/**
+ * Generate FAQPage schema from FAQ array
+ * @param {Array} faqs - Array of {question, answer} objects
+ */
+function generateFAQSchema(faqs) {
+  if (!faqs || faqs.length === 0) return null;
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+}
+
+/**
+ * Generate Product schema for LED displays
+ * @param {Object} product - Product details
+ */
+function generateProductSchema(product) {
+  if (!product) return null;
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.name,
+    "description": product.description,
+    "image": product.image,
+    "brand": {
+      "@type": "Brand",
+      "name": "Brightluxx"
+    },
+    "manufacturer": {
+      "@type": "Organization",
+      "name": "Brightluxx"
+    },
+    ...(product.sku && { "sku": product.sku }),
+    ...(product.category && { "category": product.category }),
+    ...(product.specs && {
+      "additionalProperty": Object.entries(product.specs).map(([name, value]) => ({
+        "@type": "PropertyValue",
+        "name": name,
+        "value": value
+      }))
+    }),
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "AED",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "Brightluxx"
+      }
+    }
+  };
+}
+
+/**
+ * Generate Service schema
+ * @param {Object} service - Service details
+ */
+function generateServiceSchema(service) {
+  if (!service) return null;
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": service.type,
+    "name": service.name,
+    "description": service.description,
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Brightluxx",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Dubai",
+        "addressCountry": "AE"
+      }
+    },
+    "areaServed": [
+      { "@type": "Country", "name": "United Arab Emirates" },
+      { "@type": "Country", "name": "Saudi Arabia" },
+      { "@type": "Country", "name": "Qatar" },
+      { "@type": "Country", "name": "Kuwait" },
+      { "@type": "Country", "name": "Bahrain" },
+      { "@type": "Country", "name": "Oman" }
+    ]
+  };
+}
+
+// Export schema generators
+export { generateBreadcrumbSchema, generateFAQSchema, generateProductSchema, generateServiceSchema };
+
+/**
  * SEO — Dynamic meta tags + JSON-LD for every page (React 19 compatible).
  * Props:
  *   title: string — page title (appended with " | Brightluxx")
- *   description: string — meta description
+ *   description: string — meta description (120-155 chars recommended)
  *   image: string — OG image URL (CDN path or absolute)
  *   path: string — page path for canonical URL
  *   type: string — og:type (default "website")
  *   noIndex: boolean — prevent indexing
  *   jsonLd: object|array — JSON-LD structured data to inject
+ *   breadcrumbs: array — [{name, path}] for BreadcrumbList schema
+ *   faqs: array — [{question, answer}] for FAQPage schema
+ *   product: object — Product details for Product schema
+ *   service: object — Service details for Service schema
+ *   keywords: string — meta keywords (comma separated)
  */
-export default function SEO({ title, description, image, path = '', type = 'website', noIndex = false, jsonLd }) {
+export default function SEO({ 
+  title, 
+  description, 
+  image, 
+  path = '', 
+  type = 'website', 
+  noIndex = false, 
+  jsonLd,
+  breadcrumbs,
+  faqs,
+  product,
+  service,
+  keywords
+}) {
   const location = useLocation();
   const pageTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Premium LED Display Solutions`;
   const pageDescription = description || DEFAULT_DESCRIPTION;
@@ -207,6 +343,11 @@ export default function SEO({ title, description, image, path = '', type = 'webs
     document.title = pageTitle;
     setMeta('description', pageDescription);
     setCanonical(canonicalUrl);
+
+    // Keywords meta tag
+    if (keywords) {
+      setMeta('keywords', keywords);
+    }
 
     // Open Graph
     setMeta('og:title', pageTitle, 'property');
@@ -227,6 +368,7 @@ export default function SEO({ title, description, image, path = '', type = 'webs
     setMeta('robots', noIndex ? 'noindex, nofollow' : 'index, follow');
     setMeta('author', 'Brightluxx');
     setMeta('geo.region', 'AE');
+    setMeta('geo.placename', 'Dubai, United Arab Emirates');
 
     // JSON-LD - Always include Organization schema + page-specific schema
     const allSchemas = [ORGANIZATION_SCHEMA, WEBSITE_SCHEMA];
@@ -234,6 +376,30 @@ export default function SEO({ title, description, image, path = '', type = 'webs
     // Add LocalBusiness schema only on homepage and contact page
     if (path === '/' || path === '/contact' || path === '/about') {
       allSchemas.push(LOCAL_BUSINESS_SCHEMA);
+    }
+    
+    // Add breadcrumb schema if provided
+    const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+    if (breadcrumbSchema) {
+      allSchemas.push(breadcrumbSchema);
+    }
+    
+    // Add FAQ schema if provided
+    const faqSchema = generateFAQSchema(faqs);
+    if (faqSchema) {
+      allSchemas.push(faqSchema);
+    }
+    
+    // Add Product schema if provided
+    const productSchema = generateProductSchema(product);
+    if (productSchema) {
+      allSchemas.push(productSchema);
+    }
+    
+    // Add Service schema if provided
+    const serviceSchema = generateServiceSchema(service);
+    if (serviceSchema) {
+      allSchemas.push(serviceSchema);
     }
     
     // Add page-specific JSON-LD if provided
@@ -250,9 +416,9 @@ export default function SEO({ title, description, image, path = '', type = 'webs
     }
 
     return () => setJsonLd(null);
-  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, noIndex, jsonLd, path]);
+  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, noIndex, jsonLd, path, breadcrumbs, faqs, product, service, keywords]);
 
   return null;
 }
 
-export { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA, LOCAL_BUSINESS_SCHEMA };
+export { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA, LOCAL_BUSINESS_SCHEMA, PRODUCTION_URL };

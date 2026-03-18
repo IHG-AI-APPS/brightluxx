@@ -256,13 +256,15 @@ const Home = () => {
   return (
     <div className={`${bgMain} transition-colors duration-500`}>
       <SEO
-        title="Brightluxx — Premium LED Displays | Dubai & GCC"
-        description="OEM-grade LED display technology. MicroLED, outdoor, rental & transparent screens. UAE-ready delivery. Established since 2005."
+        title="LED Screen Supplier Dubai | Video Wall & Display Solutions UAE"
+        description="Dubai's trusted LED screen supplier since 2005. MicroLED, outdoor, indoor, transparent displays. Local stock, same-day delivery, 24/7 support. 500+ installations across UAE & GCC."
         path="/"
-        schemaType="Organization"
-        schemaData={{
-          "@type": "Organization", "name": "Brightluxx",
-          "url": BASE_URL, "logo": cdnUrl('hero_banner.webp'),
+        keywords="LED screen supplier Dubai, LED display UAE, video wall Dubai, outdoor LED screen, indoor LED display, transparent LED, MicroLED Dubai, digital signage UAE"
+        jsonLd={{
+          "@type": "Organization", 
+          "name": "Brightluxx",
+          "url": BASE_URL, 
+          "logo": cdnUrl('hero_banner.webp'),
           "sameAs": ["https://www.instagram.com/brightluxx/", "https://www.linkedin.com/company/brightluxx/"],
           "foundingDate": "2005",
           "address": { "@type": "PostalAddress", "addressLocality": "Dubai", "addressCountry": "AE" }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { 
   ArrowRight, CheckCircle2, MapPin, Phone, MessageCircle, 
   Building2, Star, Shield, Award, Clock, Truck, Wrench,
@@ -112,32 +113,61 @@ export default function LEDScreenDubai() {
         title="LED Screen Suppliers Dubai | #1 LED Display Company UAE"
         description="Leading LED screen suppliers in Dubai. Indoor & outdoor LED displays, video walls, transparent LED. Same-day delivery, professional installation. Call +971 55 995 4274"
         path="/led-screen-suppliers-dubai"
+        keywords="LED screen supplier Dubai, LED display Dubai, video wall Dubai, outdoor LED screen Dubai, indoor LED display, LED screen price Dubai, LED billboard UAE"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Solutions', path: '/solutions' },
+          { name: 'LED Screen Suppliers Dubai', path: null }
+        ]}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "Brightluxx LED Displays Dubai",
           "description": "Leading LED screen suppliers in Dubai offering indoor, outdoor, and transparent LED displays with professional installation.",
+          "image": "https://brightluxx.com/assets/brightluxx-logo-512.png",
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "Business Bay",
+            "streetAddress": "Al Quoz Industrial Area 3",
             "addressLocality": "Dubai",
             "addressRegion": "Dubai",
+            "postalCode": "00000",
             "addressCountry": "AE"
           },
           "geo": {
             "@type": "GeoCoordinates",
-            "latitude": "25.1865",
-            "longitude": "55.2762"
+            "latitude": "25.1173",
+            "longitude": "55.2222"
           },
           "telephone": "+971559954274",
           "priceRange": "$$$$",
-          "openingHours": "Mo-Sa 09:00-18:00",
-          "areaServed": ["Dubai", "Abu Dhabi", "UAE", "GCC"]
+          "openingHours": ["Mo-Fr 09:00-18:00", "Sa 10:00-14:00"],
+          "areaServed": ["Dubai", "Abu Dhabi", "Sharjah", "UAE", "GCC"],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "LED Display Products",
+            "itemListElement": [
+              {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Indoor LED Screens"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Outdoor LED Billboards"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Transparent LED Displays"}}
+            ]
+          }
         }}
       />
 
+      {/* Breadcrumbs */}
+      <div className="max-w-6xl mx-auto px-6 pt-24">
+        <Breadcrumbs 
+          items={[
+            { name: 'Home', path: '/' },
+            { name: 'Solutions', path: '/solutions' },
+            { name: 'LED Screen Suppliers Dubai', path: null }
+          ]} 
+          className="text-gray-500" 
+        />
+      </div>
+
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-900/20 via-[#050508] to-[#050508]" />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjI4MzMiIGZpbGwtb3BhY2l0eT0iMC4yIj48cGF0aCBkPSJNMzYgMzRoLTJ2LTRoMnY0em0wLTZoLTJ2LTRoMnY0em0tNiA2aC0ydi00aDJ2NHptMC02aC0ydi00aDJ2NHoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30" />

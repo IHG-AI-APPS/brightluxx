@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, ShoppingBag, Briefcase, Sun, Music, Car, Video, Eye, Heart, GraduationCap, Trophy } from 'lucide-react';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -167,14 +168,24 @@ export default function Solutions() {
   return (
     <div className={`min-h-screen ${pageBg} transition-colors duration-500`} data-testid="solutions-page">
       <SEO
-        title="LED Display Solutions"
-        description="LED display solutions for every industry — retail, corporate, outdoor advertising, events, creative installations, traffic signage, virtual production, and transparent displays."
+        title="LED Display Solutions by Industry | Dubai UAE"
+        description="Professional LED display solutions for retail, corporate, outdoor, events, healthcare, education & more. 11 industry verticals served across UAE & GCC. Get expert consultation."
         path="/solutions"
         image={SOLUTION_IMAGES.retail}
+        keywords="LED display solutions, retail LED screen, corporate video wall, outdoor LED Dubai, event LED display, healthcare digital signage, UAE"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Solutions', path: null }
+        ]}
       />
 
+      {/* Breadcrumbs */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 pt-24">
+        <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Solutions', path: null }]} className="text-gray-500" />
+      </div>
+
       {/* Hero Section */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
+      <section className="relative py-12 lg:py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
 
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">

@@ -5,6 +5,7 @@ import { Search, SlidersHorizontal, Monitor, ChevronDown, Grid3X3, LayoutList, Z
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const useInView = (ref, threshold = 0.1) => {
@@ -220,18 +221,27 @@ const Products = () => {
 
   const activeCategoryLabel = CATEGORIES.find(c => c.value === activeCategory)?.label || 'All Products';
 
+  // Generate breadcrumbs
+  const breadcrumbs = [
+    { name: 'Home', path: '/' },
+    { name: 'Products', path: '/products' },
+    ...(activeCategory ? [{ name: activeCategoryLabel, path: null }] : [])
+  ];
+
   return (
     <div className="min-h-screen bg-[#050508]" data-testid="products-page">
       <SEO
-        title="LED Display Products"
-        description="Browse our complete range of LED display solutions — COB MicroLED, transparent, outdoor, flexible, interactive floor, and more. Full specs and instant quotes."
+        title={activeCategory ? `${activeCategoryLabel} LED Displays | Supplier Dubai` : "LED Display Products | Supplier Dubai UAE"}
+        description="Browse 90+ LED display solutions from Dubai's trusted supplier. COB MicroLED, transparent, outdoor, indoor displays. Local stock, same-day delivery. Get instant quotes."
         path="/products"
         image={cdnUrl('cob_microled_1.webp')}
+        keywords="LED display Dubai, LED screen supplier UAE, video wall Dubai, indoor LED screen, outdoor LED display, transparent LED, MicroLED, COB LED"
+        breadcrumbs={breadcrumbs}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "ItemList",
           "name": "Brightluxx LED Display Products",
-          "description": "Complete catalog of LED display solutions",
+          "description": "Complete catalog of LED display solutions for UAE and GCC",
           "url": `${BASE_URL}/products`,
           "numberOfItems": products.length,
           "itemListElement": products.slice(0, 20).map((p, i) => ({
@@ -244,8 +254,13 @@ const Products = () => {
         }}
       />
 
+      {/* Breadcrumbs */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 pt-24">
+        <Breadcrumbs items={breadcrumbs} className="text-gray-500" />
+      </div>
+
       {/* Hero Section */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
+      <section className="relative py-12 lg:py-20 overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
         

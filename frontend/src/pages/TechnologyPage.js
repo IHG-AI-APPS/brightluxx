@@ -205,10 +205,17 @@ export default function TechnologyPage() {
   return (
     <div className="bg-[#050508]" data-testid={`tech-page-${tech.id}`}>
       <SEO
-        title={`${tech.title} — Specification Guide | Brightluxx UAE`}
-        description={tech.heroDesc}
+        title={`${tech.title} LED Technology | Specifications & Guide UAE`}
+        description={`${tech.heroDesc} Expert guide from Dubai's trusted LED supplier. Technical specs, applications & benefits.`}
         path={`/technology/${tech.id}`}
         image={techImage}
+        keywords={`${tech.title}, ${tech.shortTitle}, LED technology UAE, LED display Dubai, ${tech.id} display`}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Technology', path: '/technology' },
+          { name: tech.shortTitle, path: null }
+        ]}
+        faqs={tech.faqs?.map(f => ({ question: f.q, answer: f.a }))}
         jsonLd={[faqJsonLd, articleJsonLd]}
       />
 

@@ -1263,6 +1263,19 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   - Dynamic content rendering
   - Loading skeleton and static fallback
 
+**P3 Complete (Case Studies → Solutions Linking) — December 2026:**
+- ✅ **RelatedCaseStudies.js** - New compact, elegant component
+  - Fetches from `/api/case-studies` and matches by category keywords
+  - 3-column grid layout with 132px card height
+  - Each card shows: image thumbnail, category badge, title, client, location
+  - "View All →" link to case studies page
+  - Falls back to featured case studies if no matches
+  - Loading skeleton during fetch
+  - data-testid attributes for testing
+- ✅ **SolutionDetail.js** - Integrated RelatedCaseStudies component
+  - Appears between AI content section and navigation
+  - Category matching: retail→hospitality/retail, events→entertainment, etc.
+
 **Remaining SEO Tasks (Phase 5-6):**
 - Image alt tags audit
 - Multi-language support (Arabic)

@@ -33,8 +33,17 @@ html.light .bg-\[#0B0B0E\] {
 }
 
 /* Light theme text colors */
-html.light .text-white {
+/* IMPORTANT: Don't override text-white on elements with image backgrounds */
+html.light .text-white:not([data-keep-white]):not(.keep-white) {
   color: #0a0a0d !important;
+}
+
+/* Preserve white text on image cards - using data attribute */
+[data-testid^="solution-card-"] .text-white,
+[data-testid^="case-study-card-"] .text-white,
+.image-card-content .text-white,
+.keep-white {
+  color: #ffffff !important;
 }
 
 html.light .text-neutral-100 {

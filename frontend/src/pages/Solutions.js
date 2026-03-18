@@ -77,7 +77,7 @@ const SolutionCard = ({ solution, index, isDark }) => {
         to={`/solutions/${solutionSlug}`}
         className="group relative block overflow-hidden h-full rounded-3xl"
         data-testid={`solution-card-${solutionSlug}`}
-        style={{ minHeight: '450px' }}
+        style={{ minHeight: '420px' }}
       >
         {/* Background Image with Scale Effect */}
         <div className="absolute inset-0 overflow-hidden rounded-3xl">
@@ -89,16 +89,6 @@ const SolutionCard = ({ solution, index, isDark }) => {
           
           {/* Base gradient - Elegant bottom fade */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-          
-          {/* Hover Light Effect - Diagonal shine sweep */}
-          <div 
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            style={{
-              background: 'linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%)',
-              transform: 'translateX(-100%)',
-              animation: 'none'
-            }}
-          />
           
           {/* Hover glow overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -112,20 +102,25 @@ const SolutionCard = ({ solution, index, isDark }) => {
           <div 
             className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
             style={{
-              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
               width: '50%'
             }}
           />
         </div>
 
         {/* Content Container */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-6 lg:p-8" style={{ minHeight: '450px' }}>
+        <div className="relative z-10 h-full flex flex-col justify-between p-5 lg:p-6" style={{ minHeight: '420px' }}>
           
           {/* Top: Icon only - Clean minimal design */}
           <div className="flex items-start justify-between">
             <div className="relative">
-              <div className="w-14 h-14 rounded-2xl backdrop-blur-md bg-white/10 border border-white/20 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:border-cyan-400/40 group-hover:scale-110 transition-all duration-500">
-                <Icon size={26} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
+              <div className="w-12 h-12 rounded-xl backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-all duration-500"
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
+                <Icon size={22} style={{ color: '#ffffff' }} className="group-hover:text-cyan-400 transition-colors duration-300" />
               </div>
               {/* Glow behind icon on hover */}
               <div className="absolute -inset-3 bg-cyan-400/30 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -134,28 +129,32 @@ const SolutionCard = ({ solution, index, isDark }) => {
 
           {/* Bottom: Title, Description, Tags (on hover) */}
           <div>
-            {/* Title - Large, Bold, White */}
+            {/* Title - Large, Bold, WHITE - using inline style to prevent global CSS override */}
             <h3 
-              className="text-2xl lg:text-3xl font-bold uppercase tracking-wide text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300"
+              className="text-xl lg:text-2xl font-bold uppercase tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300"
               style={{ 
-                textShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                color: '#ffffff',
+                textShadow: '0 4px 20px rgba(0,0,0,0.6)',
                 lineHeight: 1.1
               }}
             >
               {solution.title}
             </h3>
             
-            {/* Description - Clean white text */}
+            {/* Description - Clean white text - using inline style */}
             <p 
-              className="text-sm text-white/80 tracking-wide mb-5 line-clamp-2 group-hover:text-white transition-colors duration-300"
-              style={{ textShadow: '0 2px 8px rgba(0,0,0,0.4)' }}
+              className="text-sm tracking-wide mb-4 line-clamp-2 transition-colors duration-300"
+              style={{ 
+                color: 'rgba(255, 255, 255, 0.85)',
+                textShadow: '0 2px 8px rgba(0,0,0,0.4)' 
+              }}
             >
               {solution.description || solution.desc}
             </p>
 
             {/* Tags - Appear on hover with stagger animation */}
             {useCases.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+              <div className="flex flex-wrap gap-2 mb-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                 {useCases.slice(0, 3).map((tag, idx) => (
                   <span 
                     key={idx} 
@@ -174,7 +173,10 @@ const SolutionCard = ({ solution, index, isDark }) => {
             )}
 
             {/* CTA Arrow - Appears on hover */}
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 delay-100">
+            <div 
+              className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 delay-100"
+              style={{ color: '#22d3ee' }}
+            >
               <span>Explore</span>
               <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-300" />
             </div>

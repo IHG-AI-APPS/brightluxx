@@ -60,8 +60,8 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-/* Glassmorphism Solution Card */
-const SolutionCard = ({ solution, index }) => {
+/* Glassmorphism Solution Card - Theme Aware */
+const SolutionCard = ({ solution, index, isDark }) => {
   // Get icon from CMS or use default
   const iconName = solution.icon || 'Sparkles';
   const Icon = ICONS[iconName] || Sparkles;
@@ -75,7 +75,7 @@ const SolutionCard = ({ solution, index }) => {
     <FadeInSection delay={index}>
       <Link
         to={`/solutions/${solutionSlug}`}
-        className="group relative block overflow-hidden h-full"
+        className="group relative block overflow-hidden h-full rounded-2xl"
         data-testid={`solution-card-${solutionSlug}`}
       >
         {/* Background Image */}
@@ -85,9 +85,9 @@ const SolutionCard = ({ solution, index }) => {
             alt={solution.title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
-          {/* Gradient overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/60 to-transparent" />
-          <div className="absolute inset-0 bg-[#050508]/20 group-hover:bg-transparent transition-colors duration-500" />
+          {/* Gradient overlays - Always dark for image readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
         </div>
 
         {/* Content */}
@@ -100,23 +100,30 @@ const SolutionCard = ({ solution, index }) => {
             <div className="absolute -inset-2 bg-cyan-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
 
-          {/* Title */}
-          <h3 className="text-xl lg:text-2xl font-bold uppercase tracking-wide text-white mb-2 group-hover:text-cyan-400 transition-colors">
+          {/* Title - Always white on image cards */}
+          <h3 className="text-xl lg:text-2xl font-bold uppercase tracking-wide text-white mb-2 group-hover:text-cyan-400 transition-colors" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
             {solution.title}
           </h3>
           
-          {/* Description */}
-          <p className="text-sm text-gray-400 tracking-wide mb-4 line-clamp-2">
+          {/* Description - Light gray for readability on dark overlay */}
+          <p className="text-sm text-gray-300 tracking-wide mb-4 line-clamp-2" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
             {solution.description || solution.desc}
           </p>
 
-          {/* Tags */}
+          {/* Tags - Dark semi-transparent background with white text for maximum readability */}
           {useCases.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {useCases.slice(0, 3).map((tag, idx) => (
                 <span 
                   key={idx} 
-                  className="text-[10px] px-2.5 py-1 backdrop-blur-sm bg-white/5 border border-white/10 text-gray-300 uppercase tracking-wider font-medium"
+                  className="text-[10px] px-3 py-1.5 rounded-lg uppercase tracking-wider font-bold"
+                  style={{ 
+                    backgroundColor: 'rgba(0, 0, 0, 0.6)', 
+                    color: '#ffffff',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    backdropFilter: 'blur(8px)',
+                    WebkitBackdropFilter: 'blur(8px)'
+                  }}
                 >
                   {tag}
                 </span>
@@ -131,7 +138,7 @@ const SolutionCard = ({ solution, index }) => {
         </div>
 
         {/* Bottom glow line */}
-        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-b-2xl" />
       </Link>
     </FadeInSection>
   );
@@ -216,7 +223,7 @@ export default function Solutions() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6" data-testid="solutions-grid">
               {solutions.map((sol, index) => (
-                <SolutionCard key={sol.id || sol.slug} solution={sol} index={index} />
+                <SolutionCard key={sol.id || sol.slug} solution={sol} index={index} isDark={isDark} />
               ))}
             </div>
           )}

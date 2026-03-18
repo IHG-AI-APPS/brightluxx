@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, Calendar, Cpu, Building2, FolderOpen, Info, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
+import { useTheme } from '../contexts/ThemeContext';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -36,10 +37,17 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-const GlassCard = ({ children, className = '', hover = true }) => (
+const GlassCard = ({ children, className = '', hover = true, isDark = true }) => (
   <div className={`
-    backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] rounded-xl overflow-hidden
-    ${hover ? 'hover:bg-white/[0.06] hover:border-cyan-500/30 hover:shadow-[0_0_40px_rgba(34,211,238,0.1)]' : ''}
+    backdrop-blur-xl rounded-xl overflow-hidden
+    ${isDark 
+      ? 'bg-white/[0.03] border border-white/[0.08]' 
+      : 'bg-white border border-neutral-200 shadow-lg'}
+    ${hover 
+      ? (isDark 
+        ? 'hover:bg-white/[0.06] hover:border-cyan-500/30 hover:shadow-[0_0_40px_rgba(34,211,238,0.1)]' 
+        : 'hover:border-cyan-400 hover:shadow-xl') 
+      : ''}
     transition-all duration-500 ${className}
   `}>
     {children}
@@ -47,10 +55,17 @@ const GlassCard = ({ children, className = '', hover = true }) => (
 );
 
 export default function CaseStudiesIndex() {
+  const { isDark } = useTheme();
   const [caseStudies, setCaseStudies] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('all');
   const [loading, setLoading] = useState(true);
+
+  // Theme-aware styles
+  const bgMain = isDark ? 'bg-[#050508]' : 'bg-slate-50';
+  const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
+  const textSecondary = isDark ? 'text-neutral-400' : 'text-neutral-600';
+  const borderColor = isDark ? 'border-white/10' : 'border-neutral-200';
 
   useEffect(() => {
     const fetchCaseStudies = async () => {
@@ -77,7 +92,7 @@ export default function CaseStudiesIndex() {
   const regular = filtered.filter(cs => !cs.featured);
 
   return (
-    <div className="bg-[#050508]" data-testid="case-studies-index">
+    <div className={bgMain} data-testid="case-studies-index">
       <SEO
         title="LED Display Case Studies — Projects in UAE, KSA, GCC | Brightluxx"
         description="Explore real-world LED display installations across hospitality, retail, corporate, transport, entertainment, and healthcare in the UAE/GCC region."
@@ -99,13 +114,13 @@ export default function CaseStudiesIndex() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
           <FadeInSection>
             <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Project Portfolio</span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 leading-[0.95]" data-testid="case-studies-title">
+            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6 leading-[0.95] ${textPrimary}`} data-testid="case-studies-title">
               Case
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 block">
                 Studies
               </span>
             </h1>
-            <p className="text-gray-400 text-base md:text-lg max-w-2xl tracking-wide leading-relaxed">
+            <p className={`${textSecondary} text-base md:text-lg max-w-2xl tracking-wide leading-relaxed`}>
               Real-world and conceptual LED display installations across the UAE and GCC. Each case study includes project specifications, technology rationale, and measurable outcomes.
             </p>
           </FadeInSection>
@@ -116,10 +131,10 @@ export default function CaseStudiesIndex() {
       <section className="pb-8">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
           <FadeInSection>
-            <div className="flex items-start gap-3 p-4 bg-cyan-500/5 border border-cyan-500/20 rounded-lg">
-              <Info size={18} className="text-cyan-400 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-gray-400 leading-relaxed">
-                <span className="text-cyan-400 font-bold">Note:</span> Some case studies are conceptual demonstrations created for inspirational purposes to showcase potential LED display applications. These are marked with a <Sparkles size={12} className="inline text-amber-400" /> icon. All technical specifications reflect real-world capabilities of our products.
+            <div className={`flex items-start gap-3 p-4 ${isDark ? 'bg-cyan-500/5 border-cyan-500/20' : 'bg-cyan-50 border-cyan-200'} border rounded-lg`}>
+              <Info size={18} className="text-cyan-500 flex-shrink-0 mt-0.5" />
+              <p className={`text-xs ${textSecondary} leading-relaxed`}>
+                <span className="text-cyan-500 font-bold">Note:</span> Some case studies are conceptual demonstrations created for inspirational purposes to showcase potential LED display applications. These are marked with a <Sparkles size={12} className="inline text-amber-400" /> icon. All technical specifications reflect real-world capabilities of our products.
               </p>
             </div>
           </FadeInSection>
@@ -139,7 +154,9 @@ export default function CaseStudiesIndex() {
                   className={`px-5 py-2.5 text-xs font-bold tracking-widest uppercase transition-all rounded-lg ${
                     activeCategory === cat.id
                       ? 'bg-cyan-500 text-black'
-                      : 'bg-white/5 border border-white/10 text-gray-400 hover:border-cyan-500/30 hover:text-white'
+                      : isDark 
+                        ? 'bg-white/5 border border-white/10 text-gray-400 hover:border-cyan-500/30 hover:text-white'
+                        : 'bg-neutral-100 border border-neutral-200 text-neutral-600 hover:border-cyan-400 hover:text-neutral-900'
                   }`}
                   data-testid={`filter-${cat.id}`}
                 >
@@ -176,7 +193,7 @@ export default function CaseStudiesIndex() {
                         className="group block"
                         data-testid={`case-study-card-${cs.id}`}
                       >
-                        <GlassCard className="relative h-[420px]">
+                        <GlassCard className="relative h-[420px]" isDark={isDark}>
                           {/* Image */}
                           <img
                             src={cs.thumbnail || cs.hero_image}
@@ -184,7 +201,7 @@ export default function CaseStudiesIndex() {
                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                             loading="lazy"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/60 to-transparent" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
 
                           {/* Badges */}
                           <div className="absolute top-5 left-5 right-5 flex items-center justify-between">
@@ -207,13 +224,13 @@ export default function CaseStudiesIndex() {
                           <div className="absolute top-5 right-5">
                           </div>
 
-                          {/* Content */}
+                          {/* Content - Always white text on image cards */}
                           <div className="absolute inset-x-0 bottom-0 p-6">
-                            <h2 className="text-xl font-bold tracking-wide mb-4 group-hover:text-cyan-400 transition-colors leading-tight">
+                            <h2 className="text-xl text-white font-bold tracking-wide mb-4 group-hover:text-cyan-400 transition-colors leading-tight" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
                               {cs.title}
                             </h2>
                             
-                            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-gray-400 mb-4">
+                            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-gray-300 mb-4">
                               <span className="flex items-center gap-1.5">
                                 <MapPin size={12} className="text-cyan-400" /> {cs.location}
                               </span>
@@ -246,7 +263,7 @@ export default function CaseStudiesIndex() {
                         className="group block"
                         data-testid={`case-study-card-${cs.id}`}
                       >
-                        <GlassCard className="h-full">
+                        <GlassCard className="h-full" isDark={isDark}>
                           {/* Image */}
                           <div className="relative h-52 overflow-hidden">
                             <img
@@ -255,7 +272,7 @@ export default function CaseStudiesIndex() {
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                               loading="lazy"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                             
                             {/* Badges */}
                             <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
@@ -281,24 +298,24 @@ export default function CaseStudiesIndex() {
 
                           {/* Content */}
                           <div className="p-5">
-                            <h2 className="text-sm font-bold tracking-wide mb-3 group-hover:text-cyan-400 transition-colors leading-snug">
+                            <h2 className={`text-sm font-bold tracking-wide mb-3 group-hover:text-cyan-400 transition-colors leading-snug ${textPrimary}`}>
                               {cs.title}
                             </h2>
                             
-                            <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[10px] text-gray-500 mb-4">
+                            <div className={`flex flex-wrap gap-x-4 gap-y-1.5 text-[10px] ${textSecondary} mb-4`}>
                               <span className="flex items-center gap-1">
-                                <MapPin size={10} className="text-cyan-400" /> {cs.location}
+                                <MapPin size={10} className="text-cyan-500" /> {cs.location}
                               </span>
                               <span className="flex items-center gap-1">
-                                <Calendar size={10} className="text-cyan-400" /> {cs.year}
+                                <Calendar size={10} className="text-cyan-500" /> {cs.year}
                               </span>
                             </div>
                             
-                            <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-4 normal-case">
+                            <p className={`text-xs ${textSecondary} leading-relaxed line-clamp-2 mb-4 normal-case`}>
                               {cs.challenge}
                             </p>
                             
-                            <div className="flex items-center gap-1.5 text-cyan-400 text-[10px] font-bold tracking-wider uppercase group-hover:gap-2 transition-all">
+                            <div className="flex items-center gap-1.5 text-cyan-500 text-[10px] font-bold tracking-wider uppercase group-hover:gap-2 transition-all">
                               View Case Study <ArrowRight size={12} />
                             </div>
                           </div>

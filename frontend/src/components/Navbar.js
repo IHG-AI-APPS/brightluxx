@@ -304,6 +304,16 @@ const Navbar = () => {
                     ALL SOLUTIONS
                   </Link>
                 </div>
+                {/* Special Landing Pages */}
+                <div className="mt-2 pt-2 mx-3 border-t border-white/[0.06]">
+                  <div className="px-0 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">SPECIAL</div>
+                  <Link to="/led-screen-suppliers-dubai" onClick={closeAll} className="block px-2 py-1.5 rounded text-[0.6rem] text-white/80 hover:text-cyan-400 hover:bg-white/[0.04] transition-colors" data-testid="nav-led-dubai">
+                    LED Screens Dubai
+                  </Link>
+                  <Link to="/government-solutions" onClick={closeAll} className="block px-2 py-1.5 rounded text-[0.6rem] text-white/80 hover:text-cyan-400 hover:bg-white/[0.04] transition-colors" data-testid="nav-gov-solutions">
+                    Government Solutions
+                  </Link>
+                </div>
               </div>
             </DropdownWrap>
 

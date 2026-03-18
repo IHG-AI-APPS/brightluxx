@@ -9,6 +9,7 @@ import { cdnUrl } from '../config/cdn';
 import { motion } from 'framer-motion';
 import { generateServiceSchema, generateBreadcrumbSchema } from '../utils/seoSchemas';
 import { AIFactsBox, AIQuickAnswer } from '../components/AIOptimizedContent';
+import RelatedCaseStudies from '../components/RelatedCaseStudies';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -422,6 +423,13 @@ export default function SolutionDetail() {
             </FadeInSection>
           </div>
         </section>
+
+        {/* Related Case Studies - Compact cards */}
+        <RelatedCaseStudies 
+          solutionSlug={id} 
+          solutionTitle={solution.title}
+          limit={3}
+        />
 
         {/* Navigation */}
         <section className="py-16 lg:py-20 border-t border-white/5" data-testid="solution-cross-nav">

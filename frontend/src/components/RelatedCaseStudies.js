@@ -24,16 +24,32 @@ export default function RelatedCaseStudies({ solutionSlug, solutionTitle, limit 
           const data = await res.json();
           const studies = data.case_studies || data || [];
           
-          // Match case studies by category or keywords in solution title
+          // Match case studies by category, title keywords, technology, or products_used
           const keywords = solutionTitle?.toLowerCase().split(/[\s&]+/) || [];
+          const slugLower = solutionSlug?.toLowerCase() || '';
+          
           const matched = studies.filter(cs => {
             const category = (cs.category || '').toLowerCase();
             const title = (cs.title || '').toLowerCase();
+            const technology = (cs.technology || '').toLowerCase();
+            const techId = (cs.tech_id || '').toLowerCase();
+            const productsUsed = (cs.products_used || cs.tags || []).map(p => p.toLowerCase()).join(' ');
             
-            // Match by category containing solution slug or keywords
+            // Match by:
+            // 1. Category containing solution slug or keywords
+            // 2. Technology matching
+            // 3. Products used containing keywords
             return keywords.some(kw => 
-              kw.length > 3 && (category.includes(kw) || title.includes(kw))
-            ) || category.includes(solutionSlug);
+              kw.length > 3 && (
+                category.includes(kw) || 
+                title.includes(kw) || 
+                technology.includes(kw) ||
+                productsUsed.includes(kw)
+              )
+            ) || 
+            category.includes(slugLower) || 
+            techId.includes(slugLower) ||
+            technology.includes(slugLower);
           });
           
           // If no matches, show random featured ones

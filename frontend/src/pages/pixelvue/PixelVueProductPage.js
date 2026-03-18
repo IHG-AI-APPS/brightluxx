@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../../components/SEO';
 import { generateProductSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../utils/seoSchemas';
 import { AIFactsBox, AIProductSummary, VoiceSearchFAQ, AIQuickAnswer } from '../../components/AIOptimizedContent';
+import RelatedCaseStudies from '../../components/RelatedCaseStudies';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -388,6 +389,17 @@ export default function PixelVueProductPage() {
           </div>
         </section>
       )}
+
+      {/* Related Case Studies */}
+      <section className="px-6 py-8">
+        <div className="max-w-5xl mx-auto">
+          <RelatedCaseStudies 
+            solutionSlug={product.category || 'pixelvue'} 
+            solutionTitle={`${product.name} ${categoryLabel}`}
+            limit={3}
+          />
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className={`py-20 px-6 text-center bg-${categoryColor}-500/5 border-t border-${categoryColor}-500/10`}>

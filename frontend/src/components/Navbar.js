@@ -35,6 +35,11 @@ const Navbar = () => {
   const [productsOpen, setProductsOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const [lumiMorphOpen, setLumiMorphOpen] = useState(false);
+  const [naturaTexOpen, setNaturaTexOpen] = useState(false);
+  const [signaTouchOpen, setSignaTouchOpen] = useState(false);
+  const [glassMorphOpen, setGlassMorphOpen] = useState(false);
+  const [pixelVueOpen, setPixelVueOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { branding } = useSiteSettings();
@@ -166,6 +171,68 @@ const Navbar = () => {
     WebkitBackdropFilter: 'blur(24px)',
   };
 
+  /* Product Family Sub-pages Data */
+  const productFamilies = {
+    lumimorph: {
+      color: 'cyan',
+      colorClass: 'text-cyan-400',
+      bgHover: 'hover:bg-cyan-500/10',
+      borderColor: 'border-cyan-500/20',
+      items: [
+        { name: 'Elite', path: '/lumimorph/elite', desc: 'P2.6 High Resolution' },
+        { name: 'Grande', path: '/lumimorph/grande', desc: 'P6.2 Large Scale' },
+        { name: 'Mini', path: '/lumimorph/mini', desc: 'Compact Modular' },
+      ]
+    },
+    naturatex: {
+      color: 'emerald',
+      colorClass: 'text-emerald-400',
+      bgHover: 'hover:bg-emerald-500/10',
+      borderColor: 'border-emerald-500/20',
+      items: [
+        { name: 'HoloVeil', path: '/naturatex/holoveil', desc: 'Transparent Display' },
+      ]
+    },
+    signatouch: {
+      color: 'amber',
+      colorClass: 'text-amber-400',
+      bgHover: 'hover:bg-amber-500/10',
+      borderColor: 'border-amber-500/20',
+      items: [
+        { name: 'Touch Kiosk', path: '/signatouch/touch-kiosk', desc: '40-Point IR Touch' },
+        { name: 'Smart Signage', path: '/signatouch/smart-signage', desc: 'Digital Displays' },
+        { name: 'Self Service', path: '/signatouch/self-service', desc: 'Interactive Terminals' },
+      ]
+    },
+    glassmorph: {
+      color: 'violet',
+      colorClass: 'text-violet-400',
+      bgHover: 'hover:bg-violet-500/10',
+      borderColor: 'border-violet-500/20',
+      items: [
+        { name: 'Smart Film', path: '/glassmorph/smart-film', desc: 'PDLC Privacy Glass' },
+        { name: 'LED Film', path: '/glassmorph/led-film', desc: 'Transparent LED' },
+        { name: 'Media Glass', path: '/glassmorph/media-glass', desc: 'Display Windows' },
+        { name: 'Switchable Glass', path: '/glassmorph/switchable-glass', desc: 'Electrochromic' },
+        { name: 'Flying Display', path: '/glassmorph/flying-display', desc: 'Suspended LED' },
+        { name: 'Hanging LED', path: '/glassmorph/hanging-led', desc: 'Ceiling Mounted' },
+      ]
+    },
+    pixelvue: {
+      color: 'rose',
+      colorClass: 'text-rose-400',
+      bgHover: 'hover:bg-rose-500/10',
+      borderColor: 'border-rose-500/20',
+      items: [
+        { name: 'iPoster', path: '/pixelvue/iposter', desc: 'Digital Poster' },
+        { name: 'iFlip', path: '/pixelvue/iflip', desc: 'Double-Sided LED' },
+        { name: 'UltraFlip', path: '/pixelvue/ultraflip', desc: 'Premium Poster' },
+        { name: 'Tetris', path: '/pixelvue/tetris', desc: 'Stackable Cubes' },
+        { name: 'Unity', path: '/pixelvue/unity', desc: 'Modular System' },
+      ]
+    }
+  };
+
   /* ─── MORE MENU ITEMS (Technologies, Tools, and secondary links) ─── */
   const moreMenuSections = [
     {
@@ -193,7 +260,16 @@ const Navbar = () => {
   ];
 
   /* ─── CLOSE ALL MENUS ─── */
-  const closeAll = () => { setProductsOpen(false); setSolutionsOpen(false); setMoreMenuOpen(false); };
+  const closeAll = () => { 
+    setProductsOpen(false); 
+    setSolutionsOpen(false); 
+    setMoreMenuOpen(false);
+    setLumiMorphOpen(false);
+    setNaturaTexOpen(false);
+    setSignaTouchOpen(false);
+    setGlassMorphOpen(false);
+    setPixelVueOpen(false);
+  };
 
   /* Nav button component - UPPERCASE text with theme awareness */
   const NavBtn = ({ label, href, isOpenState, isActiveState, testId, hasDropdown = true }) => (
@@ -369,61 +445,166 @@ const Navbar = () => {
             {/* Thin divider */}
             <div className={`w-px h-4 ${isDark ? 'bg-white/10' : 'bg-neutral-200'}`} />
 
-            {/* PRODUCT FAMILIES - Direct Links - UPPERCASE */}
-            <Link
-              to="/lumimorph"
-              className={`text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
-                isActivePrefix('/lumimorph') ? 'text-cyan-400' : 'text-cyan-400/60 hover:text-cyan-400'
-              }`}
-              data-testid="nav-lumimorph"
+            {/* PRODUCT FAMILIES - With Dropdown Menus */}
+            {/* LumiMorph */}
+            <DropdownWrap
+              isOpen={lumiMorphOpen}
+              setOpen={setLumiMorphOpen}
+              testId="nav-lumimorph-dropdown"
+              trigger={
+                <Link
+                  to="/lumimorph"
+                  className={`flex items-center gap-1 text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
+                    isActivePrefix('/lumimorph') ? 'text-cyan-400' : 'text-cyan-400/60 hover:text-cyan-400'
+                  }`}
+                  data-testid="nav-lumimorph"
+                >
+                  LUMIMORPH
+                  <ChevronDown size={10} className={`transition-transform duration-200 ${lumiMorphOpen ? 'rotate-180' : ''}`} />
+                  {isActivePrefix('/lumimorph') && <span className="absolute bottom-0 left-0 right-0 h-px bg-cyan-400" />}
+                </Link>
+              }
             >
-              LUMIMORPH
-              {isActivePrefix('/lumimorph') && <span className="absolute bottom-0 left-0 right-0 h-px bg-cyan-400" />}
-            </Link>
+              <div className="shadow-2xl py-2 px-1 min-w-[160px]" style={{ ...panelStyle, borderColor: 'rgba(34,211,238,0.2)' }}>
+                <Link to="/lumimorph" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-cyan-400 ${isDark ? 'hover:bg-cyan-500/10' : 'hover:bg-cyan-50'} transition-colors`}>
+                  Overview
+                </Link>
+                {productFamilies.lumimorph.items.map((item) => (
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`block px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-cyan-500/10' : 'hover:bg-cyan-50'}`}>
+                    <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                    <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.desc}</span>
+                  </Link>
+                ))}
+              </div>
+            </DropdownWrap>
 
-            <Link
-              to="/naturatex"
-              className={`text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
-                isActivePrefix('/naturatex') ? 'text-emerald-400' : 'text-emerald-400/60 hover:text-emerald-400'
-              }`}
-              data-testid="nav-naturatex"
+            {/* NaturaTex */}
+            <DropdownWrap
+              isOpen={naturaTexOpen}
+              setOpen={setNaturaTexOpen}
+              testId="nav-naturatex-dropdown"
+              trigger={
+                <Link
+                  to="/naturatex"
+                  className={`flex items-center gap-1 text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
+                    isActivePrefix('/naturatex') ? 'text-emerald-400' : 'text-emerald-400/60 hover:text-emerald-400'
+                  }`}
+                  data-testid="nav-naturatex"
+                >
+                  NATURATEX
+                  <ChevronDown size={10} className={`transition-transform duration-200 ${naturaTexOpen ? 'rotate-180' : ''}`} />
+                  {isActivePrefix('/naturatex') && <span className="absolute bottom-0 left-0 right-0 h-px bg-emerald-400" />}
+                </Link>
+              }
             >
-              NATURATEX
-              {isActivePrefix('/naturatex') && <span className="absolute bottom-0 left-0 right-0 h-px bg-emerald-400" />}
-            </Link>
+              <div className="shadow-2xl py-2 px-1 min-w-[160px]" style={{ ...panelStyle, borderColor: 'rgba(52,211,153,0.2)' }}>
+                <Link to="/naturatex" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-emerald-400 ${isDark ? 'hover:bg-emerald-500/10' : 'hover:bg-emerald-50'} transition-colors`}>
+                  Overview
+                </Link>
+                {productFamilies.naturatex.items.map((item) => (
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`block px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-emerald-500/10' : 'hover:bg-emerald-50'}`}>
+                    <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                    <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.desc}</span>
+                  </Link>
+                ))}
+              </div>
+            </DropdownWrap>
 
-            <Link
-              to="/signatouch"
-              className={`text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
-                isActivePrefix('/signatouch') ? 'text-amber-400' : 'text-amber-400/60 hover:text-amber-400'
-              }`}
-              data-testid="nav-signatouch"
+            {/* SignaTouch */}
+            <DropdownWrap
+              isOpen={signaTouchOpen}
+              setOpen={setSignaTouchOpen}
+              testId="nav-signatouch-dropdown"
+              trigger={
+                <Link
+                  to="/signatouch"
+                  className={`flex items-center gap-1 text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
+                    isActivePrefix('/signatouch') ? 'text-amber-400' : 'text-amber-400/60 hover:text-amber-400'
+                  }`}
+                  data-testid="nav-signatouch"
+                >
+                  SIGNATOUCH
+                  <ChevronDown size={10} className={`transition-transform duration-200 ${signaTouchOpen ? 'rotate-180' : ''}`} />
+                  {isActivePrefix('/signatouch') && <span className="absolute bottom-0 left-0 right-0 h-px bg-amber-400" />}
+                </Link>
+              }
             >
-              SIGNATOUCH
-              {isActivePrefix('/signatouch') && <span className="absolute bottom-0 left-0 right-0 h-px bg-amber-400" />}
-            </Link>
+              <div className="shadow-2xl py-2 px-1 min-w-[160px]" style={{ ...panelStyle, borderColor: 'rgba(251,191,36,0.2)' }}>
+                <Link to="/signatouch" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-amber-400 ${isDark ? 'hover:bg-amber-500/10' : 'hover:bg-amber-50'} transition-colors`}>
+                  Overview
+                </Link>
+                {productFamilies.signatouch.items.map((item) => (
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`block px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-amber-500/10' : 'hover:bg-amber-50'}`}>
+                    <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                    <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.desc}</span>
+                  </Link>
+                ))}
+              </div>
+            </DropdownWrap>
 
-            <Link
-              to="/glassmorph"
-              className={`text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
-                isActivePrefix('/glassmorph') ? 'text-violet-400' : 'text-violet-400/60 hover:text-violet-400'
-              }`}
-              data-testid="nav-glassmorph"
+            {/* GlassMorph */}
+            <DropdownWrap
+              isOpen={glassMorphOpen}
+              setOpen={setGlassMorphOpen}
+              testId="nav-glassmorph-dropdown"
+              trigger={
+                <Link
+                  to="/glassmorph"
+                  className={`flex items-center gap-1 text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
+                    isActivePrefix('/glassmorph') ? 'text-violet-400' : 'text-violet-400/60 hover:text-violet-400'
+                  }`}
+                  data-testid="nav-glassmorph"
+                >
+                  GLASSMORPH
+                  <ChevronDown size={10} className={`transition-transform duration-200 ${glassMorphOpen ? 'rotate-180' : ''}`} />
+                  {isActivePrefix('/glassmorph') && <span className="absolute bottom-0 left-0 right-0 h-px bg-violet-400" />}
+                </Link>
+              }
             >
-              GLASSMORPH
-              {isActivePrefix('/glassmorph') && <span className="absolute bottom-0 left-0 right-0 h-px bg-violet-400" />}
-            </Link>
+              <div className="shadow-2xl py-2 px-1 min-w-[160px]" style={{ ...panelStyle, borderColor: 'rgba(167,139,250,0.2)' }}>
+                <Link to="/glassmorph" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-violet-400 ${isDark ? 'hover:bg-violet-500/10' : 'hover:bg-violet-50'} transition-colors`}>
+                  Overview
+                </Link>
+                {productFamilies.glassmorph.items.map((item) => (
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`block px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-violet-500/10' : 'hover:bg-violet-50'}`}>
+                    <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                    <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.desc}</span>
+                  </Link>
+                ))}
+              </div>
+            </DropdownWrap>
 
-            <Link
-              to="/pixelvue"
-              className={`text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
-                isActivePrefix('/pixelvue') ? 'text-rose-400' : 'text-rose-400/60 hover:text-rose-400'
-              }`}
-              data-testid="nav-pixelvue"
+            {/* PixelVue */}
+            <DropdownWrap
+              isOpen={pixelVueOpen}
+              setOpen={setPixelVueOpen}
+              testId="nav-pixelvue-dropdown"
+              trigger={
+                <Link
+                  to="/pixelvue"
+                  className={`flex items-center gap-1 text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
+                    isActivePrefix('/pixelvue') ? 'text-rose-400' : 'text-rose-400/60 hover:text-rose-400'
+                  }`}
+                  data-testid="nav-pixelvue"
+                >
+                  PIXELVUE
+                  <ChevronDown size={10} className={`transition-transform duration-200 ${pixelVueOpen ? 'rotate-180' : ''}`} />
+                  {isActivePrefix('/pixelvue') && <span className="absolute bottom-0 left-0 right-0 h-px bg-rose-400" />}
+                </Link>
+              }
             >
-              PIXELVUE
-              {isActivePrefix('/pixelvue') && <span className="absolute bottom-0 left-0 right-0 h-px bg-rose-400" />}
-            </Link>
+              <div className="shadow-2xl py-2 px-1 min-w-[160px]" style={{ ...panelStyle, borderColor: 'rgba(251,113,133,0.2)' }}>
+                <Link to="/pixelvue" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-rose-400 ${isDark ? 'hover:bg-rose-500/10' : 'hover:bg-rose-50'} transition-colors`}>
+                  Overview
+                </Link>
+                {productFamilies.pixelvue.items.map((item) => (
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`block px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-rose-500/10' : 'hover:bg-rose-50'}`}>
+                    <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                    <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.desc}</span>
+                  </Link>
+                ))}
+              </div>
+            </DropdownWrap>
 
             {/* Thin divider */}
             <div className={`w-px h-4 ${isDark ? 'bg-white/10' : 'bg-neutral-300'}`} />

@@ -1940,3 +1940,39 @@ All individual product page files removed (IPosterPage.js, IFlipPage.js, etc.) -
 - ✅ Navigation works correctly
 - ✅ Footer also now displays on these pages
 
+
+---
+
+### Footer Logo & Product Family Dropdowns — March 18, 2026
+
+**Issues Fixed:**
+
+**1. Footer Logo (Oversized/Compromised)**
+- Replaced large PNG logo with clean text-based "BRIGHTLUXX" logo
+- Simplified tagline to single-line text
+- Logo now matches site aesthetic better
+
+**2. Product Family Dropdown Menus**
+- Converted all 5 product family nav items from simple links to dropdown menus
+- Each dropdown shows:
+  - "Overview" link to main landing page
+  - List of sub-products with names and descriptions
+- Each dropdown styled with brand-matching colors:
+  - **LumiMorph (Cyan)**: Elite, Grande, Mini
+  - **NaturaTex (Emerald)**: HoloVeil
+  - **SignaTouch (Amber)**: Touch Kiosk, Smart Signage, Self Service
+  - **GlassMorph (Violet)**: Smart Film, LED Film, Media Glass, Switchable Glass, Flying Display, Hanging LED
+  - **PixelVue (Rose)**: iPoster, iFlip, UltraFlip, Tetris, Unity
+- Added chevron arrows to indicate dropdowns
+- Subtle brand-colored borders on dropdown panels
+
+**Files Modified:**
+- `frontend/src/components/Footer.js` - Simplified logo section
+- `frontend/src/components/Navbar.js` - Added dropdown states, product family data, and dropdown menus
+
+**Verification:**
+- ✅ Footer displays clean text logo
+- ✅ All 5 product family dropdowns functional
+- ✅ Each dropdown shows correct sub-products
+- ✅ Brand colors consistent across dropdowns
+

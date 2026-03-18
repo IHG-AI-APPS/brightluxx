@@ -38,14 +38,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Logo & Social Column */}
           <div className="col-span-1">
-            <img 
-              src="/assets/brightluxx-logo-footer.png"
-              alt={branding?.company_name || 'Brightluxx'} 
-              className="h-10 w-auto mb-6"
-              onError={(e) => { e.target.src = "/assets/brightluxx-logo-footer.png"; }}
-            />
-            <p className="text-sm leading-relaxed mb-6 max-w-[260px] uppercase tracking-wide" style={{ color: offWhiteMuted }}>
-              {branding?.tagline || 'Premium LED display solutions for UAE and MENA.'} Established since {branding?.established_year || '2005'}.
+            <Link to="/" className="inline-block mb-6">
+              <span className="text-xl font-bold tracking-wider text-white">BRIGHTLUXX</span>
+            </Link>
+            <p className="text-xs leading-relaxed mb-6 max-w-[240px] tracking-wide" style={{ color: offWhiteMuted }}>
+              Premium LED display solutions for UAE and MENA. Established since {branding?.established_year || '2005'}.
             </p>
             {socialLinks.length > 0 && (
               <div className="flex items-center gap-3" data-testid="footer-social-links">

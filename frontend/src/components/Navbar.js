@@ -162,6 +162,7 @@ const Navbar = () => {
       label: 'COMPANY',
       items: [
         { name: 'About Us', path: '/about', icon: Info, desc: 'Our story & mission' },
+        { name: 'Compare Brands', path: '/compare-brands', icon: BarChart3, desc: 'Brightluxx vs competitors' },
         { name: 'Blog', path: '/blog', icon: Newspaper, desc: 'Latest news & insights' },
         { name: 'Contact Us', path: '/contact', icon: Phone, desc: 'Get in touch' },
         { name: 'FAQ', path: '/faq', icon: HelpCircle, desc: 'Common questions' },

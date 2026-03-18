@@ -37,6 +37,7 @@ const GovernmentSolutions = lazy(() => import('./pages/GovernmentSolutions'));
 const AbuDhabiPage = lazy(() => import('./pages/AbuDhabiPage'));
 const SaudiArabiaPage = lazy(() => import('./pages/SaudiArabiaPage'));
 const ROICalculator = lazy(() => import('./pages/ROICalculator'));
+const CompareCompetitors = lazy(() => import('./pages/CompareCompetitors'));
 
 // Knowledge Base - Lazy loaded
 const KnowledgeIndex = lazy(() => import('./pages/knowledge/KnowledgeIndex'));
@@ -195,6 +196,7 @@ function AppRoutes() {
       <Route path="/abu-dhabi" element={<><Navbar /><AbuDhabiPage /><Footer /><StickyCTA /></>} />
       <Route path="/saudi-arabia" element={<><Navbar /><SaudiArabiaPage /><Footer /><StickyCTA /></>} />
       <Route path="/tools/roi-calculator" element={<><Navbar /><ROICalculator /><Footer /><StickyCTA /></>} />
+      <Route path="/compare-brands" element={<><Navbar /><CompareCompetitors /><Footer /><StickyCTA /></>} />
       
       <Route path="/knowledge" element={<><Navbar /><KnowledgeIndex /><Footer /><StickyCTA /></>} />
       <Route path="/knowledge/cob-vs-mip-vs-smd" element={<><Navbar /><CobVsMipVsSmd /><Footer /><StickyCTA /></>} />

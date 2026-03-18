@@ -218,35 +218,35 @@ function AppRoutes() {
       <Route path="/applications" element={<PublicLayout><ApplicationsIndex /></PublicLayout>} />
       <Route path="/applications/:slug" element={<PublicLayout><ApplicationDetail /></PublicLayout>} />
       
-      {/* LumiMorph Product Family - No Navbar/Footer for elegant design */}
-      <Route path="/lumimorph" element={<LumiMorphLanding />} />
-      <Route path="/lumimorph/elite" element={<LumiMorphElitePage />} />
-      <Route path="/lumimorph/grande" element={<LumiMorphGrandePage />} />
-      <Route path="/lumimorph/mini" element={<LumiMorphMiniPage />} />
+      {/* LumiMorph Product Family */}
+      <Route path="/lumimorph" element={<PublicLayout><LumiMorphLanding /></PublicLayout>} />
+      <Route path="/lumimorph/elite" element={<PublicLayout><LumiMorphElitePage /></PublicLayout>} />
+      <Route path="/lumimorph/grande" element={<PublicLayout><LumiMorphGrandePage /></PublicLayout>} />
+      <Route path="/lumimorph/mini" element={<PublicLayout><LumiMorphMiniPage /></PublicLayout>} />
       {/* Legacy redirect */}
       <Route path="/lumimorph-elite" element={<Navigate to="/lumimorph/elite" replace />} />
       
       {/* NaturaTex Product Line */}
-      <Route path="/naturatex" element={<NaturaTexPage />} />
-      <Route path="/naturatex/holoveil" element={<HoloVeilPage />} />
+      <Route path="/naturatex" element={<PublicLayout><NaturaTexPage /></PublicLayout>} />
+      <Route path="/naturatex/holoveil" element={<PublicLayout><HoloVeilPage /></PublicLayout>} />
       
       {/* SignaTouch Product Line */}
-      <Route path="/signatouch" element={<SignaTouchLanding />} />
-      <Route path="/signatouch/touch-kiosk" element={<TouchKioskPage />} />
-      <Route path="/signatouch/smart-signage" element={<SmartSignagePage />} />
-      <Route path="/signatouch/self-service" element={<SelfServicePage />} />
+      <Route path="/signatouch" element={<PublicLayout><SignaTouchLanding /></PublicLayout>} />
+      <Route path="/signatouch/touch-kiosk" element={<PublicLayout><TouchKioskPage /></PublicLayout>} />
+      <Route path="/signatouch/smart-signage" element={<PublicLayout><SmartSignagePage /></PublicLayout>} />
+      <Route path="/signatouch/self-service" element={<PublicLayout><SelfServicePage /></PublicLayout>} />
       
       {/* GlassMorph Product Line */}
-      <Route path="/glassmorph" element={<GlassMorphLanding />} />
-      <Route path="/glassmorph/smart-film" element={<SmartFilmPage />} />
-      <Route path="/glassmorph/led-film" element={<LedFilmPage />} />
-      <Route path="/glassmorph/media-glass" element={<MediaGlassPage />} />
-      <Route path="/glassmorph/switchable-glass" element={<SwitchableGlassPage />} />
-      <Route path="/glassmorph/flying-display" element={<FlyingDisplayPage />} />
-      <Route path="/glassmorph/hanging-led" element={<HangingLedPage />} />
+      <Route path="/glassmorph" element={<PublicLayout><GlassMorphLanding /></PublicLayout>} />
+      <Route path="/glassmorph/smart-film" element={<PublicLayout><SmartFilmPage /></PublicLayout>} />
+      <Route path="/glassmorph/led-film" element={<PublicLayout><LedFilmPage /></PublicLayout>} />
+      <Route path="/glassmorph/media-glass" element={<PublicLayout><MediaGlassPage /></PublicLayout>} />
+      <Route path="/glassmorph/switchable-glass" element={<PublicLayout><SwitchableGlassPage /></PublicLayout>} />
+      <Route path="/glassmorph/flying-display" element={<PublicLayout><FlyingDisplayPage /></PublicLayout>} />
+      <Route path="/glassmorph/hanging-led" element={<PublicLayout><HangingLedPage /></PublicLayout>} />
       
       {/* PixelVue Product Line */}
-      <Route path="/pixelvue" element={<PixelVueLanding />} />
+      <Route path="/pixelvue" element={<PublicLayout><PixelVueLanding /></PublicLayout>} />
       {/* Dynamic Product Detail Page - fetches from CMS */}
       <Route path="/pixelvue/:slug" element={<PublicLayout><PixelVueProductPage /></PublicLayout>} />
       

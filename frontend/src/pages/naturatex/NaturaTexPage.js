@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ChevronDown, Check, Eye, Shield, Zap, Leaf } from 'lucide-react';
+import { ArrowRight, ChevronDown, Check, Eye, Shield, Zap, Leaf } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../../components/SEO';
 
@@ -76,12 +76,6 @@ export default function NaturaTexPage() {
         </div>
 
         <div className="relative flex flex-col min-h-screen">
-          <div className="pt-8 px-6 md:px-12">
-            <Link to="/" className="inline-flex items-center gap-2 text-neutral-400 hover:text-white text-sm transition-colors">
-              <ArrowLeft size={16} /> Back to Brightluxx
-            </Link>
-          </div>
-
           <div className="flex-1 flex items-center justify-center text-center px-6 py-20">
             <div>
               <FadeIn>

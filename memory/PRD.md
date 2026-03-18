@@ -1899,3 +1899,44 @@ All individual product page files removed (IPosterPage.js, IFlipPage.js, etc.) -
 - Cleaner, more maintainable codebase
 - All PixelVue products still fully functional via dynamic API
 
+
+---
+
+### Product Family Landing Pages Header Fix — March 18, 2026
+
+**Issue:** The product family landing pages (LumiMorph, NaturaTex, SignaTouch, GlassMorph, PixelVue) were not displaying the main site header/navbar. They only showed a "← Back to Brightluxx" link.
+
+**Root Cause:** The routes in `App.js` were not wrapped with `<PublicLayout>` (which contains the Navbar). A comment indicated this was intentional for "elegant design", but the user now wants consistency.
+
+**Fix Applied:**
+
+1. **Updated App.js routes** - Wrapped all product family routes with `<PublicLayout>`:
+   - `/lumimorph`, `/lumimorph/*`
+   - `/naturatex`, `/naturatex/*`
+   - `/signatouch`, `/signatouch/*`
+   - `/glassmorph`, `/glassmorph/*`
+   - `/pixelvue`
+
+2. **Removed redundant "Back to Brightluxx" links** from landing pages:
+   - `LumiMorphLanding.js`
+   - `NaturaTexPage.js`
+   - `SignaTouchLanding.js`
+   - `GlassMorphLanding.js`
+   - `PixelVueLanding.js`
+
+3. **Cleaned up unused imports** - Removed `ArrowLeft` from lucide-react imports in all affected files.
+
+**Files Modified:**
+- `frontend/src/App.js` - Added PublicLayout wrapper to routes
+- `frontend/src/pages/lumimorph/LumiMorphLanding.js`
+- `frontend/src/pages/naturatex/NaturaTexPage.js`
+- `frontend/src/pages/signatouch/SignaTouchLanding.js`
+- `frontend/src/pages/glassmorph/GlassMorphLanding.js`
+- `frontend/src/pages/pixelvue/PixelVueLanding.js`
+
+**Verification:**
+- ✅ All 5 landing pages now display the site header
+- ✅ Active page is highlighted in navbar (LUMIMORPH, NATURATEX, etc.)
+- ✅ Navigation works correctly
+- ✅ Footer also now displays on these pages
+

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ChevronDown, Monitor, Tv, Layers, Sparkles, Building2, Store, Theater, Grid3X3 } from 'lucide-react';
+import { ArrowRight, ChevronDown, Monitor, Tv, Layers, Sparkles, Building2, Store, Theater, Grid3X3 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../../components/SEO';
 import { generateItemListSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../utils/seoSchemas';
@@ -117,9 +117,6 @@ export default function PixelVueLanding() {
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/60 via-neutral-950/40 to-neutral-950" />
         </div>
         <div className="relative flex flex-col min-h-screen">
-          <div className="pt-8 px-6 md:px-12">
-            <Link to="/" className="inline-flex items-center gap-2 text-neutral-400 hover:text-white text-sm transition-colors"><ArrowLeft size={16} /> Back to Brightluxx</Link>
-          </div>
           <div className="flex-1 flex items-center justify-center text-center px-6 py-20">
             <div>
               <FadeIn><p className="text-rose-400 text-xs tracking-[0.3em] uppercase mb-4">LED Display Solutions</p></FadeIn>

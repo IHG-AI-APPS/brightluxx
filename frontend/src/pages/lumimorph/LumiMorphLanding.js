@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Play, ChevronDown, ArrowLeft } from 'lucide-react';
+import { ArrowRight, Play, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../../components/SEO';
 
@@ -134,13 +134,6 @@ export default function LumiMorphLanding() {
 
       {/* Hero Section */}
       <section className="relative h-screen min-h-[700px] overflow-hidden">
-        {/* Back to main site */}
-        <div className="absolute top-6 left-6 z-20">
-          <Link to="/" className="inline-flex items-center gap-2 text-neutral-400 hover:text-white text-sm transition-colors">
-            <ArrowLeft size={16} /> Back to Brightluxx
-          </Link>
-        </div>
-        
         <div className="absolute inset-0">
           <video
             ref={videoRef}

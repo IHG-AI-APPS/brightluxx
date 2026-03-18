@@ -56,8 +56,8 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-/* Hero video player with smooth transitions */
-const HeroVideoPlayer = ({ videos, posterImage }) => {
+/* Hero video player with smooth transitions and PARALLAX support */
+const HeroVideoPlayer = ({ videos, posterImage, videoY, overlayOpacity }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [fading, setFading] = useState(false);
   const videoRefs = useRef([]);
@@ -118,26 +118,36 @@ const HeroVideoPlayer = ({ videos, posterImage }) => {
   }, [activeIdx, heroVideos.length]);
 
   return (
-    <div className="absolute inset-0" data-testid="hero-video-player">
-      {heroVideos.map((src, idx) => (
-        <video
-          key={src}
-          ref={el => videoRefs.current[idx] = el}
-          autoPlay={idx === 0}
-          muted
-          playsInline
-          loop={heroVideos.length === 1}
-          preload={idx === 0 ? 'auto' : 'metadata'}
-          poster={poster}
-          data-testid={`home-hero-video-${idx}`}
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms]"
-          style={{ opacity: idx === activeIdx ? 1 : fading && idx === (activeIdx + 1) % heroVideos.length ? 1 : 0 }}
-        >
-          <source src={src} type="video/mp4" />
-        </video>
-      ))}
+    <div className="absolute inset-0 overflow-hidden" data-testid="hero-video-player">
+      {/* Parallax video container - moves slower than scroll */}
+      <motion.div 
+        className="absolute inset-0 scale-110"
+        style={{ y: videoY }}
+      >
+        {heroVideos.map((src, idx) => (
+          <video
+            key={src}
+            ref={el => videoRefs.current[idx] = el}
+            autoPlay={idx === 0}
+            muted
+            playsInline
+            loop={heroVideos.length === 1}
+            preload={idx === 0 ? 'auto' : 'metadata'}
+            poster={poster}
+            data-testid={`home-hero-video-${idx}`}
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms]"
+            style={{ opacity: idx === activeIdx ? 1 : fading && idx === (activeIdx + 1) % heroVideos.length ? 1 : 0 }}
+          >
+            <source src={src} type="video/mp4" />
+          </video>
+        ))}
+      </motion.div>
+      
       {/* Cinematic gradient overlay - ALWAYS dark for video readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/50 to-[#050508]/20" />
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/50 to-[#050508]/20"
+        style={{ opacity: overlayOpacity }}
+      />
       <div className="absolute inset-0 bg-gradient-to-r from-[#050508]/70 via-transparent to-transparent" />
     </div>
   );
@@ -177,6 +187,149 @@ const AnimatedCounter = ({ end, suffix = '', prefix = '' }) => {
   }, [endNum]);
 
   return <span ref={ref}>{prefix}{count.toLocaleString()}{suffix}</span>;
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HERO WITH PARALLAX — Apple-style scroll-linked animations
+═══════════════════════════════════════════════════════════════════════ */
+const HeroWithParallax = ({ hero }) => {
+  const heroRef = useRef(null);
+  
+  // Scroll progress for the hero section
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  
+  // Parallax transforms - video moves slower, creating depth
+  const videoY = useTransform(scrollYProgress, [0, 1], [0, 150]); // Video moves down slowly
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -50]); // Content moves up faster
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]); // Content fades out
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 1.5]); // Overlay darkens
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]); // Subtle scale on scroll
+  
+  // Smooth springs for buttery animations
+  const smoothVideoY = useSpring(videoY, { stiffness: 100, damping: 30 });
+  const smoothContentY = useSpring(contentY, { stiffness: 100, damping: 30 });
+  const smoothScale = useSpring(scale, { stiffness: 100, damping: 30 });
+
+  return (
+    <section 
+      ref={heroRef}
+      className="relative h-screen min-h-[600px] flex items-end overflow-hidden" 
+      data-testid="hero-section"
+    >
+      {/* Parallax video background */}
+      <motion.div className="absolute inset-0" style={{ scale: smoothScale }}>
+        <HeroVideoPlayer 
+          videos={hero.video_urls} 
+          posterImage={hero.poster_image} 
+          videoY={smoothVideoY}
+          overlayOpacity={overlayOpacity}
+        />
+      </motion.div>
+      
+      {/* Floating morphing shapes for depth - parallax at different rates */}
+      <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], [0, 80]) }}>
+        <MorphingShape className="w-[600px] h-[600px] -top-20 -right-40 opacity-30" />
+      </motion.div>
+      <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], [0, 120]) }}>
+        <MorphingShape className="w-[400px] h-[400px] bottom-40 -left-20 opacity-20" />
+      </motion.div>
+      
+      {/* Hero Content - Moves faster (parallax effect) and fades out */}
+      <motion.div 
+        className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 pb-20 lg:pb-28"
+        style={{ y: smoothContentY, opacity: contentOpacity }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 50, filter: 'blur(20px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <h1 className="text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight leading-[0.9] mb-8" data-testid="hero-title" style={{ textShadow: '0 4px 40px rgba(0,0,0,0.4)' }}>
+            <motion.span 
+              style={{ color: '#ffffff', display: 'inline-block' }}
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+              ENGINEERING
+            </motion.span>
+            <br />
+            <motion.span 
+              className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500 inline-block"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                backgroundSize: '200% 100%',
+                animation: 'gradientShift 8s ease infinite'
+              }}
+            >
+              BRILLIANCE
+            </motion.span>
+          </h1>
+          
+          <motion.div 
+            className="flex items-center gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <MagneticButton
+              className="relative group overflow-hidden font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs bg-white text-black hover:text-white transition-colors duration-500"
+              onClick={() => window.location.href = hero.cta_link || '/contact'}
+              data-testid="home-hero-primary-cta"
+            >
+              <span className="relative z-10">GET QUOTE</span>
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-cyan-500"
+                initial={{ x: '-100%' }}
+                whileHover={{ x: 0 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              />
+            </MagneticButton>
+            <Link 
+              to="/products" 
+              className="group font-medium tracking-[0.1em] uppercase text-xs transition-colors text-white/90 hover:text-white flex items-center gap-2"
+              data-testid="home-hero-secondary-cta"
+              style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}
+            >
+              EXPLORE 
+              <motion.span
+                className="inline-block"
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                →
+              </motion.span>
+            </Link>
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll indicator with glow */}
+        <motion.div 
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+        >
+          <motion.div 
+            className="relative"
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown size={24} className="text-white/50" />
+            <div className="absolute inset-0 blur-md bg-cyan-400/30 rounded-full" />
+          </motion.div>
+        </motion.div>
+      </motion.div>
+      
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050508] to-transparent pointer-events-none" />
+    </section>
+  );
 };
 
 /* Default data */
@@ -311,104 +464,9 @@ const Home = () => {
       />
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          HERO SECTION — Full-screen immersive video with Apple-style animations
+          HERO SECTION — Full-screen immersive video with Apple-style PARALLAX
       ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative h-screen min-h-[600px] flex items-end overflow-hidden" data-testid="hero-section">
-        <HeroVideoPlayer videos={hero.video_urls} posterImage={hero.poster_image} />
-        
-        {/* Floating morphing shapes for depth */}
-        <MorphingShape className="w-[600px] h-[600px] -top-20 -right-40 opacity-30" />
-        <MorphingShape className="w-[400px] h-[400px] bottom-40 -left-20 opacity-20" />
-        
-        {/* Hero Content - Always light text on dark video overlay */}
-        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 pb-20 lg:pb-28">
-          <motion.div
-            initial={{ opacity: 0, y: 50, filter: 'blur(20px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h1 className="text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight leading-[0.9] mb-8" data-testid="hero-title" style={{ textShadow: '0 4px 40px rgba(0,0,0,0.4)' }}>
-              <motion.span 
-                style={{ color: '#ffffff', display: 'inline-block' }}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              >
-                ENGINEERING
-              </motion.span>
-              <br />
-              <motion.span 
-                className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500 inline-block"
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                style={{
-                  backgroundSize: '200% 100%',
-                  animation: 'gradientShift 8s ease infinite'
-                }}
-              >
-                BRILLIANCE
-              </motion.span>
-            </h1>
-            
-            <motion.div 
-              className="flex items-center gap-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <MagneticButton
-                className="relative group overflow-hidden font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs bg-white text-black hover:text-white transition-colors duration-500"
-                onClick={() => window.location.href = hero.cta_link || '/contact'}
-                data-testid="home-hero-primary-cta"
-              >
-                <span className="relative z-10">GET QUOTE</span>
-                <motion.div 
-                  className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-cyan-500"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                />
-              </MagneticButton>
-              <Link 
-                to="/products" 
-                className="group font-medium tracking-[0.1em] uppercase text-xs transition-colors text-white/90 hover:text-white flex items-center gap-2"
-                data-testid="home-hero-secondary-cta"
-                style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}
-              >
-                EXPLORE 
-                <motion.span
-                  className="inline-block"
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  →
-                </motion.span>
-              </Link>
-            </motion.div>
-          </motion.div>
-
-          {/* Scroll indicator with glow */}
-          <motion.div 
-            className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-          >
-            <motion.div 
-              className="relative"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <ChevronDown size={24} className="text-white/50" />
-              <div className="absolute inset-0 blur-md bg-cyan-400/30 rounded-full" />
-            </motion.div>
-          </motion.div>
-        </div>
-        
-        {/* Bottom gradient fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050508] to-transparent pointer-events-none" />
-      </section>
+      <HeroWithParallax hero={hero} />
 
       {/* ═══════════════════════════════════════════════════════════════════════
           STATS SECTION — Glassmorphism cards with animated counters

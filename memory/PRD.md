@@ -1562,3 +1562,56 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   - Local test: `curl http://localhost:8001/amp-blog/microled-vs-oled-2025`
   - Validate at: https://validator.ampproject.org/
 
+
+### Core Web Vitals Optimization (Replaced AMP) — December 2026:
+
+**Decision:** Removed AMP implementation in favor of Core Web Vitals optimization. AMP has become obsolete as Google now prioritizes Core Web Vitals (LCP, INP, CLS) over AMP-specific features.
+
+- ✅ **webVitals.js Utility Created:**
+  - LCP Optimization: `preloadCriticalImage()`, `preloadFont()`, `generateSrcSet()`
+  - INP Optimization: `debounce()`, `throttle()`, `yieldToMain()`, `processInChunks()`
+  - CLS Prevention: `getAspectRatioPadding()`, `ASPECT_RATIOS`, `getPlaceholderStyle()`
+  - Performance Monitoring: `reportWebVitals()`, `logPerformance()`
+  - Resource Hints: `dnsPrefetch()`, `preconnect()`, `prefetchPage()`
+  - Image Optimization: `supportsWebP()`, `supportsAVIF()`, `getOptimalImageFormat()`
+  - Lazy Loading: `createLazyObserver()`, `isInViewport()`
+
+- ✅ **OptimizedImage Component Created:**
+  - Lazy loading via IntersectionObserver
+  - Priority preload for LCP images (fetchPriority='high')
+  - Aspect ratio containers for CLS prevention
+  - Responsive srcset generation
+  - WebP support with fallback
+  - Loading placeholder with animation
+  - Error state handling
+
+- ✅ **index.html Enhancements:**
+  - Preconnect: fonts.googleapis.com, fonts.gstatic.com, files.ihgbrands.com, media server
+  - DNS Prefetch: external resources, posthog
+  - Preload: Critical font (Inter)
+  - Critical CSS: Inline theme variables, loading indicator, FOUC prevention
+  - Loading indicator with spinner for perceived performance
+
+- ✅ **Home.js LCP Optimization:**
+  - Poster image preload with fetchPriority='high'
+  - Video preload with 'fetch' type
+  - Hero video player with smooth transitions
+
+- ✅ **Sitemap Updated:**
+  - Added SEO landing pages with high priority:
+    - /led-screen-suppliers-dubai (0.95)
+    - /government-solutions (0.9)
+    - /abu-dhabi (0.9)
+    - /saudi-arabia (0.9)
+    - /compare-brands (0.85)
+    - /tools/roi-calculator (0.75)
+
+- ✅ **AMP Removed:** Deleted amp.py, removed ampUrl from SEO component
+
+- ✅ **Testing:** 100% pass rate (8/8 features) - iteration_92.json
+
+**Core Web Vitals Targets:**
+- LCP: < 2.5 seconds (optimized with preload, fetchPriority)
+- INP: < 200ms (debounce/throttle utilities)
+- CLS: < 0.1 (aspect ratio containers, min-height)
+

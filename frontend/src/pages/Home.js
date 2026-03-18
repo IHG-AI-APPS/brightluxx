@@ -71,10 +71,12 @@ const HeroVideoPlayer = ({ videos, posterImage, isDark = true }) => {
   // Preload first video for faster playback
   useEffect(() => {
     if (heroVideos[0] && typeof document !== 'undefined') {
+      // Use fetch preload for video (as='video' is not supported)
       const link = document.createElement('link');
       link.rel = 'preload';
-      link.as = 'video';
+      link.as = 'fetch';
       link.href = heroVideos[0];
+      link.crossOrigin = 'anonymous';
       document.head.appendChild(link);
       return () => { if (link.parentNode) link.parentNode.removeChild(link); };
     }

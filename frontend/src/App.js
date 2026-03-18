@@ -1,12 +1,10 @@
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { SiteSettingsProvider } from './contexts/SiteSettingsContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import StickyCTA from './components/StickyCTA';
+import PublicLayout from './components/PublicLayout';
 import AuraChat from './components/AuraChat';
 import ExitIntentPopup from './components/ExitIntentPopup';
 import PageLoader from './components/PageLoader';
@@ -174,40 +172,40 @@ function AppRoutes() {
     <Suspense fallback={<PageLoader />}>
     <Routes>
       {/* Public Site */}
-      <Route path="/" element={<><Navbar /><Home /><Footer /><StickyCTA /></>} />
-      <Route path="/products" element={<><Navbar /><Products /><Footer /><StickyCTA /></>} />
-      <Route path="/products/:slug" element={<><Navbar /><ProductDetail /><Footer /><StickyCTA /></>} />
-      <Route path="/product-families" element={<><Navbar /><ProductFamilies /><Footer /><StickyCTA /></>} />
-      <Route path="/inspirations" element={<><Navbar /><Inspirations /><Footer /><StickyCTA /></>} />
-      <Route path="/projects" element={<><Navbar /><Projects /><Footer /><StickyCTA /></>} />
-      <Route path="/configurator" element={<><Navbar /><ProductConfigurator /><Footer /><StickyCTA /></>} />
-      <Route path="/showroom" element={<><Navbar /><VirtualShowroom /><Footer /><StickyCTA /></>} />
-      <Route path="/calculator" element={<><Navbar /><ScreenCalculator /><Footer /><StickyCTA /></>} />
-      <Route path="/compare" element={<><Navbar /><Compare /><Footer /><StickyCTA /></>} />
-      <Route path="/tech-guide" element={<><Navbar /><TechGuide /><Footer /><StickyCTA /></>} />
-      <Route path="/contact" element={<><Navbar /><Contact /><Footer /><StickyCTA /></>} />
-      <Route path="/solutions" element={<><Navbar /><Solutions /><Footer /><StickyCTA /></>} />
-      <Route path="/solutions/:id" element={<><Navbar /><SolutionDetail /><Footer /><StickyCTA /></>} />
-      <Route path="/about" element={<><Navbar /><About /><Footer /><StickyCTA /></>} />
+      <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+      <Route path="/products" element={<PublicLayout><Products /></PublicLayout>} />
+      <Route path="/products/:slug" element={<PublicLayout><ProductDetail /></PublicLayout>} />
+      <Route path="/product-families" element={<PublicLayout><ProductFamilies /></PublicLayout>} />
+      <Route path="/inspirations" element={<PublicLayout><Inspirations /></PublicLayout>} />
+      <Route path="/projects" element={<PublicLayout><Projects /></PublicLayout>} />
+      <Route path="/configurator" element={<PublicLayout><ProductConfigurator /></PublicLayout>} />
+      <Route path="/showroom" element={<PublicLayout><VirtualShowroom /></PublicLayout>} />
+      <Route path="/calculator" element={<PublicLayout><ScreenCalculator /></PublicLayout>} />
+      <Route path="/compare" element={<PublicLayout><Compare /></PublicLayout>} />
+      <Route path="/tech-guide" element={<PublicLayout><TechGuide /></PublicLayout>} />
+      <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+      <Route path="/solutions" element={<PublicLayout><Solutions /></PublicLayout>} />
+      <Route path="/solutions/:id" element={<PublicLayout><SolutionDetail /></PublicLayout>} />
+      <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
       
       {/* SEO Landing Pages */}
-      <Route path="/led-screen-suppliers-dubai" element={<><Navbar /><LEDScreenDubai /><Footer /><StickyCTA /></>} />
-      <Route path="/government-solutions" element={<><Navbar /><GovernmentSolutions /><Footer /><StickyCTA /></>} />
-      <Route path="/abu-dhabi" element={<><Navbar /><AbuDhabiPage /><Footer /><StickyCTA /></>} />
-      <Route path="/saudi-arabia" element={<><Navbar /><SaudiArabiaPage /><Footer /><StickyCTA /></>} />
-      <Route path="/tools/roi-calculator" element={<><Navbar /><ROICalculator /><Footer /><StickyCTA /></>} />
-      <Route path="/compare-brands" element={<><Navbar /><CompareCompetitors /><Footer /><StickyCTA /></>} />
+      <Route path="/led-screen-suppliers-dubai" element={<PublicLayout><LEDScreenDubai /></PublicLayout>} />
+      <Route path="/government-solutions" element={<PublicLayout><GovernmentSolutions /></PublicLayout>} />
+      <Route path="/abu-dhabi" element={<PublicLayout><AbuDhabiPage /></PublicLayout>} />
+      <Route path="/saudi-arabia" element={<PublicLayout><SaudiArabiaPage /></PublicLayout>} />
+      <Route path="/tools/roi-calculator" element={<PublicLayout><ROICalculator /></PublicLayout>} />
+      <Route path="/compare-brands" element={<PublicLayout><CompareCompetitors /></PublicLayout>} />
       
-      <Route path="/knowledge" element={<><Navbar /><KnowledgeIndex /><Footer /><StickyCTA /></>} />
-      <Route path="/knowledge/cob-vs-mip-vs-smd" element={<><Navbar /><CobVsMipVsSmd /><Footer /><StickyCTA /></>} />
-      <Route path="/knowledge/pixel-pitch-guide" element={<><Navbar /><PixelPitchGuide /><Footer /><StickyCTA /></>} />
-      <Route path="/knowledge/brightness-nits-guide" element={<><Navbar /><BrightnessNitsGuide /><Footer /><StickyCTA /></>} />
-      <Route path="/knowledge/ip-rating-guide" element={<><Navbar /><IpRatingGuide /><Footer /><StickyCTA /></>} />
-      <Route path="/knowledge/refresh-rate-guide" element={<><Navbar /><RefreshRateGuide /><Footer /><StickyCTA /></>} />
-      <Route path="/knowledge/processing-calibration" element={<><Navbar /><ProcessingCalibrationGuide /><Footer /><StickyCTA /></>} />
-      <Route path="/knowledge/cms-multi-site" element={<><Navbar /><CmsMultiSiteGuide /><Footer /><StickyCTA /></>} />
-      <Route path="/applications" element={<><Navbar /><ApplicationsIndex /><Footer /><StickyCTA /></>} />
-      <Route path="/applications/:slug" element={<><Navbar /><ApplicationDetail /><Footer /><StickyCTA /></>} />
+      <Route path="/knowledge" element={<PublicLayout><KnowledgeIndex /></PublicLayout>} />
+      <Route path="/knowledge/cob-vs-mip-vs-smd" element={<PublicLayout><CobVsMipVsSmd /></PublicLayout>} />
+      <Route path="/knowledge/pixel-pitch-guide" element={<PublicLayout><PixelPitchGuide /></PublicLayout>} />
+      <Route path="/knowledge/brightness-nits-guide" element={<PublicLayout><BrightnessNitsGuide /></PublicLayout>} />
+      <Route path="/knowledge/ip-rating-guide" element={<PublicLayout><IpRatingGuide /></PublicLayout>} />
+      <Route path="/knowledge/refresh-rate-guide" element={<PublicLayout><RefreshRateGuide /></PublicLayout>} />
+      <Route path="/knowledge/processing-calibration" element={<PublicLayout><ProcessingCalibrationGuide /></PublicLayout>} />
+      <Route path="/knowledge/cms-multi-site" element={<PublicLayout><CmsMultiSiteGuide /></PublicLayout>} />
+      <Route path="/applications" element={<PublicLayout><ApplicationsIndex /></PublicLayout>} />
+      <Route path="/applications/:slug" element={<PublicLayout><ApplicationDetail /></PublicLayout>} />
       
       {/* LumiMorph Product Family - No Navbar/Footer for elegant design */}
       <Route path="/lumimorph" element={<LumiMorphLanding />} />
@@ -239,44 +237,44 @@ function AppRoutes() {
       {/* PixelVue Product Line */}
       <Route path="/pixelvue" element={<PixelVueLanding />} />
       {/* Dynamic Product Detail Page - fetches from CMS */}
-      <Route path="/pixelvue/:slug" element={<><Navbar /><PixelVueProductPage /><Footer /><StickyCTA /></>} />
+      <Route path="/pixelvue/:slug" element={<PublicLayout><PixelVueProductPage /></PublicLayout>} />
       
-      <Route path="/for-architects" element={<><Navbar /><ForArchitects /><Footer /><StickyCTA /></>} />
-      <Route path="/value-engineering" element={<><Navbar /><ValueEngineering /><Footer /><StickyCTA /></>} />
-      <Route path="/contractors/:pageId" element={<><Navbar /><ContractorPage /><Footer /><StickyCTA /></>} />
-      <Route path="/spec-substitution" element={<><Navbar /><SpecSubstitution /><Footer /><StickyCTA /></>} />
-      <Route path="/budget-estimator" element={<><Navbar /><BudgetEstimator /><Footer /><StickyCTA /></>} />
-      <Route path="/resources" element={<><Navbar /><ResourceLibrary /><Footer /><StickyCTA /></>} />
-      <Route path="/latest-tech" element={<><Navbar /><LatestTechIndex /><Footer /><StickyCTA /></>} />
-      <Route path="/latest-tech/:techId" element={<><Navbar /><LatestTechDetail /><Footer /><StickyCTA /></>} />
-      <Route path="/technology" element={<><Navbar /><TechnologyIndex /><Footer /><StickyCTA /></>} />
-      <Route path="/technology/:techId" element={<><Navbar /><TechnologyPage /><Footer /><StickyCTA /></>} />
-      <Route path="/case-studies" element={<><Navbar /><CaseStudiesIndex /><Footer /><StickyCTA /></>} />
-      <Route path="/case-studies/:caseId" element={<><Navbar /><CaseStudyDetail /><Footer /><StickyCTA /></>} />
-      <Route path="/cpd-programme" element={<><Navbar /><CpdProgramme /><Footer /><StickyCTA /></>} />
-      <Route path="/sla-guide" element={<><Navbar /><SlaGuide /><Footer /><StickyCTA /></>} />
-      <Route path="/design-assist" element={<><Navbar /><DesignAssist /><Footer /><StickyCTA /></>} />
-      <Route path="/digital-experience-architecture" element={<><Navbar /><DigitalExperienceArchitecture /><Footer /><StickyCTA /></>} />
+      <Route path="/for-architects" element={<PublicLayout><ForArchitects /></PublicLayout>} />
+      <Route path="/value-engineering" element={<PublicLayout><ValueEngineering /></PublicLayout>} />
+      <Route path="/contractors/:pageId" element={<PublicLayout><ContractorPage /></PublicLayout>} />
+      <Route path="/spec-substitution" element={<PublicLayout><SpecSubstitution /></PublicLayout>} />
+      <Route path="/budget-estimator" element={<PublicLayout><BudgetEstimator /></PublicLayout>} />
+      <Route path="/resources" element={<PublicLayout><ResourceLibrary /></PublicLayout>} />
+      <Route path="/latest-tech" element={<PublicLayout><LatestTechIndex /></PublicLayout>} />
+      <Route path="/latest-tech/:techId" element={<PublicLayout><LatestTechDetail /></PublicLayout>} />
+      <Route path="/technology" element={<PublicLayout><TechnologyIndex /></PublicLayout>} />
+      <Route path="/technology/:techId" element={<PublicLayout><TechnologyPage /></PublicLayout>} />
+      <Route path="/case-studies" element={<PublicLayout><CaseStudiesIndex /></PublicLayout>} />
+      <Route path="/case-studies/:caseId" element={<PublicLayout><CaseStudyDetail /></PublicLayout>} />
+      <Route path="/cpd-programme" element={<PublicLayout><CpdProgramme /></PublicLayout>} />
+      <Route path="/sla-guide" element={<PublicLayout><SlaGuide /></PublicLayout>} />
+      <Route path="/design-assist" element={<PublicLayout><DesignAssist /></PublicLayout>} />
+      <Route path="/digital-experience-architecture" element={<PublicLayout><DigitalExperienceArchitecture /></PublicLayout>} />
       <Route path="/lp/specifier-toolkit" element={<SpecifierToolkitLP />} />
-      <Route path="/technology-selector" element={<><Navbar /><TechnologySelector /><Footer /><StickyCTA /></>} />
-      <Route path="/viewing-distance" element={<><Navbar /><ViewingDistanceCalculator /><Footer /><StickyCTA /></>} />
-      <Route path="/power-estimator" element={<><Navbar /><PowerConsumptionEstimator /><Footer /><StickyCTA /></>} />
-      <Route path="/installation-guide" element={<><Navbar /><InstallationGuide /><Footer /><StickyCTA /></>} />
-      <Route path="/project-planner" element={<><Navbar /><ProjectPlanner /><Footer /><StickyCTA /></>} />
-      <Route path="/digital-experience/:pageId" element={<><Navbar /><DeaPageDetail /><Footer /><StickyCTA /></>} />
+      <Route path="/technology-selector" element={<PublicLayout><TechnologySelector /></PublicLayout>} />
+      <Route path="/viewing-distance" element={<PublicLayout><ViewingDistanceCalculator /></PublicLayout>} />
+      <Route path="/power-estimator" element={<PublicLayout><PowerConsumptionEstimator /></PublicLayout>} />
+      <Route path="/installation-guide" element={<PublicLayout><InstallationGuide /></PublicLayout>} />
+      <Route path="/project-planner" element={<PublicLayout><ProjectPlanner /></PublicLayout>} />
+      <Route path="/digital-experience/:pageId" element={<PublicLayout><DeaPageDetail /></PublicLayout>} />
 
       {/* Phase 3: New Pages */}
-      <Route path="/services" element={<><Navbar /><Services /><Footer /><StickyCTA /></>} />
-      <Route path="/blog" element={<><Navbar /><Blog /><Footer /><StickyCTA /></>} />
-      <Route path="/blog/:slug" element={<><Navbar /><BlogPost /><Footer /><StickyCTA /></>} />
-      <Route path="/faq" element={<><Navbar /><FAQ /><Footer /><StickyCTA /></>} />
-      <Route path="/factory-tour" element={<><Navbar /><FactoryTour /><Footer /><StickyCTA /></>} />
+      <Route path="/services" element={<PublicLayout><Services /></PublicLayout>} />
+      <Route path="/blog" element={<PublicLayout><Blog /></PublicLayout>} />
+      <Route path="/blog/:slug" element={<PublicLayout><BlogPost /></PublicLayout>} />
+      <Route path="/faq" element={<PublicLayout><FAQ /></PublicLayout>} />
+      <Route path="/factory-tour" element={<PublicLayout><FactoryTour /></PublicLayout>} />
 
       {/* Phase 4: Lead Generation & Partnerships */}
-      <Route path="/distribution" element={<><Navbar /><DistributionPage /><Footer /><StickyCTA /></>} />
-      <Route path="/supplier-registration" element={<><Navbar /><SupplierRegistrationPage /><Footer /><StickyCTA /></>} />
-      <Route path="/technical-support" element={<><Navbar /><TechnicalSupportPage /><Footer /><StickyCTA /></>} />
-      <Route path="/led-calculator" element={<><Navbar /><LedModuleCalculator /><Footer /><StickyCTA /></>} />
+      <Route path="/distribution" element={<PublicLayout><DistributionPage /></PublicLayout>} />
+      <Route path="/supplier-registration" element={<PublicLayout><SupplierRegistrationPage /></PublicLayout>} />
+      <Route path="/technical-support" element={<PublicLayout><TechnicalSupportPage /></PublicLayout>} />
+      <Route path="/led-calculator" element={<PublicLayout><LedModuleCalculator /></PublicLayout>} />
 
       {/* Admin */}
       <Route path="/admin/login" element={<AdminLogin />} />

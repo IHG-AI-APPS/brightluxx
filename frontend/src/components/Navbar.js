@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, Upload, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid, BookOpen, HelpCircle, Phone, Info, Factory, Users, Newspaper, FolderOpen, Lightbulb, PenTool, Shield, Sun, Moon, TrendingUp } from 'lucide-react';
+import { Menu, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid, BookOpen, HelpCircle, Phone, Info, Factory, Users, Newspaper, FolderOpen, Shield, Sun, Moon, TrendingUp } from 'lucide-react';
 import { useSiteSettings } from '../contexts/SiteSettingsContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
@@ -23,7 +23,6 @@ function DropdownWrap({ trigger, children, isOpen, setOpen, testId }) {
 }
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
@@ -175,7 +174,7 @@ const Navbar = () => {
   ];
 
   /* ─── CLOSE ALL MENUS ─── */
-  const closeAll = () => { setProductsOpen(false); setSolutionsOpen(false); setMoreMenuOpen(false); setIsOpen(false); };
+  const closeAll = () => { setProductsOpen(false); setSolutionsOpen(false); setMoreMenuOpen(false); };
 
   /* Nav button component - UPPERCASE text */
   const NavBtn = ({ label, href, isOpenState, isActiveState, testId, hasDropdown = true }) => (
@@ -456,7 +455,7 @@ const Navbar = () => {
             </DropdownWrap>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button - Now only theme toggle (menu handled by MobileBottomNav) */}
           <div className="lg:hidden flex items-center gap-2">
             {/* Mobile Theme Toggle */}
             <motion.button
@@ -471,86 +470,8 @@ const Navbar = () => {
             >
               {isDark ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-indigo-600" />}
             </motion.button>
-            <button onClick={() => setIsOpen(!isOpen)} className={`p-2 ${isDark ? 'text-white' : 'text-neutral-900'}`} data-testid="site-header-mobile-menu-button">
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
         </div>
-
-        {/* ─── MOBILE NAVIGATION ─── */}
-        {isOpen && (
-          <div 
-            className={`lg:hidden py-4 space-y-2 border-t overflow-x-hidden overflow-y-auto ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`}
-            data-testid="mobile-menu" 
-            style={{ overflowX: 'hidden', maxHeight: 'calc(100vh - 64px)' }}
-          >
-            <Link to="/products" onClick={closeAll} className={`block px-4 py-2 text-sm font-bold tracking-widest uppercase hover:text-cyan-400 ${isDark ? 'text-white' : 'text-neutral-900'}`}>PRODUCTS</Link>
-            <div className="px-4 pb-2">
-              <div className="grid grid-cols-2 gap-1">
-                {productCategories.flatMap(g => g.items).slice(0, 8).map((item) => (
-                  <Link key={item.cat} to={`/products?category=${item.cat}`} onClick={closeAll} className={`text-[0.6rem] tracking-wider py-1 px-2 rounded hover:bg-white/[0.04] uppercase ${isDark ? 'text-neutral-400 hover:text-cyan-400' : 'text-neutral-600 hover:text-cyan-600'}`}>
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <Link to="/solutions" onClick={closeAll} className={`block px-4 py-2 text-sm font-bold tracking-widest uppercase hover:text-cyan-400 ${isDark ? 'text-white' : 'text-neutral-900'}`}>SOLUTIONS</Link>
-
-            {/* Product Families Section */}
-            <div className="border-t border-white/[0.06] pt-2 mt-2">
-              <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">PRODUCT FAMILIES</div>
-              <Link to="/lumimorph" onClick={closeAll} className="flex items-center gap-2 px-4 py-2">
-                <span className="w-2 h-2 rounded-full bg-cyan-400" />
-                <span className="text-sm tracking-wider text-cyan-400 font-medium uppercase">LUMIMORPH</span>
-              </Link>
-              <Link to="/naturatex" onClick={closeAll} className="flex items-center gap-2 px-4 py-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                <span className="text-sm tracking-wider text-emerald-400 font-medium uppercase">NATURATEX</span>
-              </Link>
-              <Link to="/signatouch" onClick={closeAll} className="flex items-center gap-2 px-4 py-2">
-                <span className="w-2 h-2 rounded-full bg-amber-400" />
-                <span className="text-sm tracking-wider text-amber-400 font-medium uppercase">SIGNATOUCH</span>
-              </Link>
-              <Link to="/glassmorph" onClick={closeAll} className="flex items-center gap-2 px-4 py-2">
-                <span className="w-2 h-2 rounded-full bg-violet-400" />
-                <span className="text-sm tracking-wider text-violet-400 font-medium uppercase">GLASSMORPH</span>
-              </Link>
-              <Link to="/pixelvue" onClick={closeAll} className="flex items-center gap-2 px-4 py-2">
-                <span className="w-2 h-2 rounded-full bg-rose-400" />
-                <span className="text-sm tracking-wider text-rose-400 font-medium uppercase">PIXELVUE</span>
-              </Link>
-            </div>
-
-            <div className="border-t border-white/[0.06] pt-2 mt-2">
-              <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">TECHNOLOGIES</div>
-              {techItems.slice(0, 4).map((item) => (
-                <Link key={item.id} to={`/technology/${item.id}`} onClick={closeAll} className="flex items-center gap-2 px-4 py-1.5">
-                  <item.icon size={12} className="text-neutral-500" />
-                  <span className="text-xs tracking-wider text-neutral-400 hover:text-white uppercase">{item.name}</span>
-                </Link>
-              ))}
-            </div>
-
-            <div className="border-t border-white/[0.06] pt-2 mt-2">
-              <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">TOOLS</div>
-              {toolsGroups[0].links.slice(0, 4).map((link) => (
-                <Link key={link.path} to={link.path} onClick={closeAll} className="flex items-center gap-2 px-4 py-1.5">
-                  <link.icon size={12} className="text-neutral-500" />
-                  <span className="text-xs tracking-wider text-neutral-400 hover:text-white uppercase">{link.name}</span>
-                </Link>
-              ))}
-            </div>
-
-            <div className="border-t border-white/[0.06] pt-2 mt-2 pb-4">
-              <div className="px-4 py-1 text-[0.5rem] font-bold tracking-[0.2em] text-neutral-500">COMPANY</div>
-              <Link to="/about" onClick={closeAll} className="block px-4 py-1.5 text-xs tracking-wider text-neutral-400 hover:text-white uppercase">ABOUT US</Link>
-              <Link to="/contact" onClick={closeAll} className="block px-4 py-1.5 text-xs tracking-wider text-neutral-400 hover:text-white uppercase">CONTACT</Link>
-              <Link to="/blog" onClick={closeAll} className="block px-4 py-1.5 text-xs tracking-wider text-neutral-400 hover:text-white uppercase">BLOG</Link>
-              <Link to="/resources" onClick={closeAll} className="block px-4 py-1.5 text-xs tracking-wider text-neutral-400 hover:text-white uppercase">RESOURCES</Link>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
     {/* Spacer for fixed nav */}

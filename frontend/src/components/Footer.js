@@ -23,12 +23,12 @@ const Footer = () => {
     .map(([key, url]) => ({ name: key, href: url, icon: SOCIAL_ICONS[key] }))
     .filter(s => s.icon);
 
-  // Theme classes
-  const bgMain = isDark ? 'bg-[#050508]' : 'bg-neutral-100';
-  const borderColor = isDark ? 'border-[rgba(255,255,255,0.06)]' : 'border-neutral-200';
-  const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
-  const textSecondary = isDark ? 'text-neutral-400' : 'text-neutral-600';
-  const gridColor = isDark ? 'rgba(34,211,238,0.5)' : 'rgba(34,211,238,0.3)';
+  // Footer always stays dark for brand consistency and readability
+  const bgMain = 'bg-[#0A0A0D]';
+  const borderColor = 'border-[rgba(255,255,255,0.08)]';
+  const textPrimary = 'text-white';
+  const textSecondary = 'text-neutral-400';
+  const gridColor = 'rgba(34,211,238,0.4)';
 
   return (
     <footer className={`relative border-t ${borderColor} mt-20 transition-colors duration-500`} data-testid="footer">
@@ -48,9 +48,6 @@ const Footer = () => {
               src="/assets/brightluxx-logo-footer.png"
               alt={branding?.company_name || 'Brightluxx'} 
               className="h-8 w-auto mb-5"
-              style={{ 
-                filter: isDark ? 'none' : 'invert(1) hue-rotate(180deg) brightness(0.3) contrast(1.2)'
-              }}
               onError={(e) => { e.target.src = "/assets/brightluxx-logo-footer.png"; }}
             />
             <p className={`text-xs leading-relaxed tracking-wider mb-5 max-w-[240px] ${textSecondary}`}>
@@ -65,7 +62,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`w-9 h-9 rounded-full flex items-center justify-center hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:bg-cyan-500/10 ${textSecondary}`}
-                    style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)' }}
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
                     aria-label={s.name}
                     data-testid={`footer-social-${s.name}`}
                   >

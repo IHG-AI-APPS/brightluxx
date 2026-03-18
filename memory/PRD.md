@@ -1865,3 +1865,37 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 **Technical Debt Resolved:** This task was listed as P4 priority technical debt since the `.input-luxury` class was a legacy pattern that had been causing style conflicts (e.g., with the FAQ search bar icon). The codebase now uses pure global CSS selectors for form input styling, which is more maintainable.
 
+
+---
+
+### P7: Code Cleanup — March 18, 2026
+
+**Task:** Delete obsolete files to reduce codebase size and improve maintainability.
+
+**Files Removed:**
+
+**1. Unused Component Files (4 files):**
+- `StickyCTA.js` - WhatsApp/Quote CTA functionality built into other components
+- `ThemeToggle.js` - Theme toggle embedded directly in Navbar.js
+- `LazyImage.js` - Unused lazy loading wrapper
+- `OptimizedImage.js` - Unused image optimization component
+
+**2. Legacy PixelVue Static Pages (24 files):**
+All individual product page files removed (IPosterPage.js, IFlipPage.js, etc.) - products now served dynamically via `PixelVueProductPage.js` which fetches from `/api/pixelvue/products/:slug`.
+
+**Files Kept in /pixelvue:**
+- `PixelVueLanding.js` - Landing page for PixelVue product family
+- `PixelVueProductPage.js` - Dynamic product detail page
+- `index.js` - Clean exports (removed all legacy static page exports)
+
+**Verification:**
+- ✅ PixelVue landing page loads correctly
+- ✅ Individual product pages load dynamically from API (verified: iposter, iflip, tetris)
+- ✅ No broken imports or build errors
+- ✅ Site functionality fully preserved
+
+**Impact:**
+- 28 files removed
+- Cleaner, more maintainable codebase
+- All PixelVue products still fully functional via dynamic API
+

@@ -1,13 +1,14 @@
 import { cdnUrl } from '../config/cdn';
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, Monitor, ChevronDown, Grid3X3, LayoutList, Zap, ArrowRight, X } from 'lucide-react';
+import { Search, SlidersHorizontal, Monitor, ChevronDown, Grid3X3, LayoutList, Zap, ArrowRight, X, Cpu } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import TiltCard from '../components/TiltCard';
 
 // Hero background image
 const HERO_IMAGE = 'https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjB0ZWNobm9sb2d5fGVufDB8fHx8MTc3Mzc3NzgyOHww&ixlib=rb-4.1.0&q=85';
@@ -51,7 +52,7 @@ const CATEGORIES = [
   { value: 'accessories', label: 'Accessories' },
 ];
 
-/* Minimal Product Card */
+/* Elegant Product Card with 3D Tilt Effect - Matches Solutions Page Style */
 const ProductCard = ({ product, index }) => {
   // Extract pitch value for prominent display
   const pitchValue = product.pixel_pitch?.match(/P?\d+\.?\d*/i)?.[0] || product.pixel_pitch;
@@ -61,85 +62,97 @@ const ProductCard = ({ product, index }) => {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.03, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.6, delay: index * 0.03, ease: [0.16, 1, 0.3, 1] }}
     >
-      <Link
-        to={`/products/${product.slug}`}
-        className="group relative block overflow-hidden rounded-2xl aspect-[4/5]"
-        data-testid="products-product-card"
+      <TiltCard
+        tiltIntensity={8}
+        scale={1.02}
+        glareEnabled={true}
+        glareMaxOpacity={0.12}
+        className="rounded-2xl"
       >
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          {product.image_url ? (
-            <CdnImage 
-              src={product.image_url} 
-              alt={product.name} 
-              className="w-full h-full" 
-              imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-              w={500} 
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan-500/10 to-transparent">
-              <Monitor size={48} className="text-cyan-500/30" />
+        <Link
+          to={`/products/${product.slug}`}
+          className="group relative block overflow-hidden rounded-2xl aspect-[3/4]"
+          data-testid="products-product-card"
+        >
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            {product.image_url ? (
+              <CdnImage 
+                src={product.image_url} 
+                alt={product.name} 
+                className="w-full h-full" 
+                imgClassName="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
+                w={500} 
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan-500/10 to-transparent">
+                <Monitor size={48} className="text-cyan-500/30" />
+              </div>
+            )}
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            {/* Hover glow */}
+            <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </div>
+
+          {/* Pixel Pitch Badge - Top Right (Floating) */}
+          {product.pixel_pitch && (
+            <div className="absolute top-3 right-3 z-10">
+              <span className="bg-cyan-500 text-black px-2.5 py-1 text-xs font-bold rounded-full shadow-lg shadow-cyan-500/30">
+                {pitchValue}
+              </span>
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
-          <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        </div>
 
-        {/* Product Code Badge - Top Left */}
-        <div className="absolute top-3 left-3 z-10">
-          <span className="bg-black/60 text-white/80 border border-white/10 px-2 py-0.5 text-[9px] uppercase tracking-wider font-medium backdrop-blur-md rounded">
-            {product.product_code}
-          </span>
-        </div>
+          {/* Content - Centered at Bottom */}
+          <div className="relative z-10 h-full flex flex-col items-center justify-end p-5 text-center">
+            {/* Icon Badge */}
+            <div 
+              className="w-10 h-10 rounded-full flex items-center justify-center mb-3 backdrop-blur-sm transition-all duration-500 group-hover:scale-110"
+              style={{ 
+                backgroundColor: 'rgba(255,255,255,0.1)', 
+                border: '1px solid rgba(255,255,255,0.2)' 
+              }}
+            >
+              {product.category?.toLowerCase().includes('cob') || product.category?.toLowerCase().includes('micro') ? (
+                <Cpu size={16} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
+              ) : (
+                <Monitor size={16} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
+              )}
+            </div>
 
-        {/* Pixel Pitch Badge - Top Right (PROMINENT) */}
-        {product.pixel_pitch && (
-          <div className="absolute top-3 right-3 z-10">
-            <span className="bg-cyan-500 text-black px-3 py-1.5 text-sm font-bold rounded-lg shadow-lg shadow-cyan-500/30">
-              {pitchValue}
-            </span>
-          </div>
-        )}
+            {/* Product Name */}
+            <h3 
+              className="text-sm font-semibold tracking-wide mb-1 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2"
+              style={{ color: '#ffffff' }}
+            >
+              {product.name}
+            </h3>
 
-        {/* Content - Bottom */}
-        <div className="relative z-10 h-full flex flex-col justify-end p-4">
-          {/* Product Name */}
-          <h3 
-            className="text-sm font-semibold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2"
-            style={{ color: '#ffffff' }}
-          >
-            {product.name}
-          </h3>
-
-          {/* Specs Row - More Readable */}
-          <div className="flex flex-wrap items-center gap-2 mb-3">
+            {/* Brightness Spec */}
             {product.brightness && (
-              <span className="text-[11px] text-amber-400 font-semibold flex items-center gap-1">
+              <span className="text-[10px] text-amber-400/80 font-medium flex items-center gap-1 mb-3">
                 <Zap size={10} />
                 {product.brightness}
               </span>
             )}
-            {product.category && (
-              <span className="text-[10px] text-white/50 uppercase tracking-wider">
-                {product.category}
-              </span>
-            )}
+
+            {/* View Details CTA - appears on hover */}
+            <div 
+              className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
+              style={{ color: '#22d3ee' }}
+            >
+              <span>View Details</span>
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+            </div>
           </div>
 
-          {/* View Details CTA */}
-          <div 
-            className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
-            style={{ color: '#22d3ee' }}
-          >
-            <span>View Details</span>
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-          </div>
-        </div>
-
-        <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-cyan-500/30 transition-colors duration-500 pointer-events-none" />
-      </Link>
+          {/* Border on hover */}
+          <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-cyan-500/30 transition-colors duration-500 pointer-events-none" />
+        </Link>
+      </TiltCard>
     </motion.div>
   );
 };
@@ -478,9 +491,9 @@ const Products = () => {
                 </button>
               </div>
             ) : (
-              <div className={`grid gap-4 ${
+              <div className={`grid gap-4 lg:gap-6 ${
                 viewMode === 'grid' 
-                  ? 'grid-cols-2 md:grid-cols-3 xl:grid-cols-4' 
+                  ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4' 
                   : 'grid-cols-1 md:grid-cols-2'
               }`}>
                 {products.map((product, index) => (

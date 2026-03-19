@@ -87,26 +87,21 @@ const ArtImmersiveLanding = () => {
     <div className={`min-h-screen ${isDark ? 'bg-[#050508]' : 'bg-white'}`}>
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* Animated Background */}
+        {/* Video Background */}
         <div className="absolute inset-0">
-          <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-b from-violet-900/20 via-transparent to-[#050508]' : 'bg-gradient-to-b from-violet-100/50 via-transparent to-white'}`} />
-          <div className={`absolute inset-0 ${isDark ? 'bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.15),transparent_70%)]' : 'bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.1),transparent_70%)]'}`} />
-          <motion.div 
-            className={`absolute top-1/4 left-1/4 w-96 h-96 ${isDark ? 'bg-violet-500/20' : 'bg-violet-300/30'} rounded-full blur-[128px]`}
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{ duration: 8, repeat: Infinity }}
-          />
-          <motion.div 
-            className={`absolute bottom-1/4 right-1/4 w-96 h-96 ${isDark ? 'bg-cyan-500/20' : 'bg-cyan-300/30'} rounded-full blur-[128px]`}
-            animate={{ 
-              scale: [1.2, 1, 1.2],
-              opacity: [0.5, 0.3, 0.5],
-            }}
-            transition={{ duration: 8, repeat: Infinity }}
-          />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/videos/art-immersive-hero.mp4" type="video/mp4" />
+          </video>
+          {/* Dark overlay for readability */}
+          <div className={`absolute inset-0 ${isDark ? 'bg-black/50' : 'bg-white/60'}`} />
+          {/* Gradient overlay */}
+          <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#050508] via-transparent to-violet-900/20' : 'bg-gradient-to-t from-white via-transparent to-violet-100/30'}`} />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-6 py-20">

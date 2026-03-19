@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Palette, Sparkles, Film, Box, Globe, Layers, 
-  ArrowRight, Play, Monitor, Zap, Eye, Theater,
-  Building2, Users, Award, CheckCircle2
+  ArrowRight, Play, Monitor, Zap, Theater,
+  Building2, Award, CheckCircle2
 } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -13,6 +14,7 @@ const ArtImmersiveLanding = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('all');
+  const { isDark } = useTheme();
 
   useEffect(() => {
     fetchProducts();
@@ -23,7 +25,6 @@ const ArtImmersiveLanding = () => {
       const res = await fetch(`${API_URL}/api/products?category=art-immersive`);
       if (res.ok) {
         const data = await res.json();
-        // API returns {products: [...]} so extract the array
         setProducts(data.products || data || []);
       }
     } catch (err) {
@@ -83,15 +84,15 @@ const ArtImmersiveLanding = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#050508]">
+    <div className={`min-h-screen ${isDark ? 'bg-[#050508]' : 'bg-white'}`}>
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-violet-900/20 via-transparent to-[#050508]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.15),transparent_70%)]" />
+          <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-b from-violet-900/20 via-transparent to-[#050508]' : 'bg-gradient-to-b from-violet-100/50 via-transparent to-white'}`} />
+          <div className={`absolute inset-0 ${isDark ? 'bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.15),transparent_70%)]' : 'bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.1),transparent_70%)]'}`} />
           <motion.div 
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-[128px]"
+            className={`absolute top-1/4 left-1/4 w-96 h-96 ${isDark ? 'bg-violet-500/20' : 'bg-violet-300/30'} rounded-full blur-[128px]`}
             animate={{ 
               scale: [1, 1.2, 1],
               opacity: [0.3, 0.5, 0.3],
@@ -99,7 +100,7 @@ const ArtImmersiveLanding = () => {
             transition={{ duration: 8, repeat: Infinity }}
           />
           <motion.div 
-            className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[128px]"
+            className={`absolute bottom-1/4 right-1/4 w-96 h-96 ${isDark ? 'bg-cyan-500/20' : 'bg-cyan-300/30'} rounded-full blur-[128px]`}
             animate={{ 
               scale: [1.2, 1, 1.2],
               opacity: [0.5, 0.3, 0.5],
@@ -115,20 +116,20 @@ const ArtImmersiveLanding = () => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-8">
-              <Sparkles className="w-4 h-4 text-violet-400" />
-              <span className="text-sm font-medium text-violet-300">Art & Immersive Technology</span>
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-violet-500/10 border-violet-500/20' : 'bg-violet-100 border-violet-200'} border mb-8`}>
+              <Sparkles className="w-4 h-4 text-violet-500" />
+              <span className={`text-sm font-medium ${isDark ? 'text-violet-300' : 'text-violet-700'}`}>Art & Immersive Technology</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="text-white">Where Technology</span>
+              <span className={isDark ? 'text-white' : 'text-neutral-900'}>Where Technology</span>
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-400 to-cyan-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-pink-500 to-cyan-500">
                 Meets Art
               </span>
             </h1>
 
-            <p className="text-xl text-neutral-400 max-w-3xl mx-auto mb-12">
+            <p className={`text-xl max-w-3xl mx-auto mb-12 ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
               Premium LED solutions for NFT galleries, immersive museums, virtual production studios, 
               and public art installations. Transform spaces into unforgettable digital experiences.
             </p>
@@ -141,7 +142,7 @@ const ArtImmersiveLanding = () => {
                 Start Your Project
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <button className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-colors">
+              <button className={`inline-flex items-center gap-2 px-8 py-4 ${isDark ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-neutral-100 border-neutral-200 text-neutral-900 hover:bg-neutral-200'} border font-semibold rounded-full transition-colors`}>
                 <Play className="w-5 h-5" />
                 Watch Showreel
               </button>
@@ -151,7 +152,7 @@ const ArtImmersiveLanding = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 border-y border-white/5">
+      <section className={`py-16 border-y ${isDark ? 'border-white/5' : 'border-neutral-200'}`}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -162,9 +163,9 @@ const ArtImmersiveLanding = () => {
                 transition={{ delay: index * 0.1 }}
                 className="text-center"
               >
-                <stat.icon className="w-8 h-8 mx-auto mb-3 text-violet-400" />
-                <div className="text-4xl font-bold text-white mb-1">{stat.value}</div>
-                <div className="text-sm text-neutral-400">{stat.label}</div>
+                <stat.icon className="w-8 h-8 mx-auto mb-3 text-violet-500" />
+                <div className={`text-4xl font-bold mb-1 ${isDark ? 'text-white' : 'text-neutral-900'}`}>{stat.value}</div>
+                <div className={`text-sm ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -179,8 +180,8 @@ const ArtImmersiveLanding = () => {
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-white mb-4">Transforming Spaces Worldwide</h2>
-            <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
+            <h2 className={`text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>Transforming Spaces Worldwide</h2>
+            <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
               From intimate NFT galleries to massive public installations, our technology powers the world's most innovative digital experiences.
             </p>
           </motion.div>
@@ -192,7 +193,7 @@ const ArtImmersiveLanding = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative overflow-hidden rounded-2xl bg-white/[0.02] border border-white/5 hover:border-violet-500/30 transition-all duration-500"
+                className={`group relative overflow-hidden rounded-2xl ${isDark ? 'bg-white/[0.02] border-white/5 hover:border-violet-500/30' : 'bg-neutral-50 border-neutral-200 hover:border-violet-300'} border transition-all duration-500`}
               >
                 <div className="aspect-video overflow-hidden">
                   <img 
@@ -200,14 +201,14 @@ const ArtImmersiveLanding = () => {
                     alt={useCase.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" />
+                  <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#050508] via-transparent to-transparent' : 'bg-gradient-to-t from-white via-transparent to-transparent'}`} />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2">{useCase.title}</h3>
-                  <p className="text-neutral-400 mb-4">{useCase.description}</p>
+                  <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-neutral-900'}`}>{useCase.title}</h3>
+                  <p className={`mb-4 ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>{useCase.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {useCase.features.map((feature) => (
-                      <span key={feature} className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-violet-500/10 text-violet-300 text-xs">
+                      <span key={feature} className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs ${isDark ? 'bg-violet-500/10 text-violet-300' : 'bg-violet-100 text-violet-700'}`}>
                         <CheckCircle2 className="w-3 h-3" />
                         {feature}
                       </span>
@@ -221,15 +222,15 @@ const ArtImmersiveLanding = () => {
       </section>
 
       {/* Products Section */}
-      <section className="py-24 bg-gradient-to-b from-transparent via-violet-950/10 to-transparent">
+      <section className={`py-24 ${isDark ? 'bg-gradient-to-b from-transparent via-violet-950/10 to-transparent' : 'bg-gradient-to-b from-transparent via-violet-50/50 to-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold text-white mb-4">Our Art & Immersive Products</h2>
-            <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
+            <h2 className={`text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>Our Art & Immersive Products</h2>
+            <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
               Specialized LED solutions designed for the unique demands of digital art and immersive experiences.
             </p>
           </motion.div>
@@ -243,7 +244,9 @@ const ArtImmersiveLanding = () => {
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   activeTab === cat.id
                     ? 'bg-violet-600 text-white'
-                    : 'bg-white/5 text-neutral-400 hover:text-white hover:bg-white/10'
+                    : isDark 
+                      ? 'bg-white/5 text-neutral-400 hover:text-white hover:bg-white/10'
+                      : 'bg-neutral-100 text-neutral-600 hover:text-neutral-900 hover:bg-neutral-200'
                 }`}
               >
                 <cat.icon className="w-4 h-4" />
@@ -268,9 +271,9 @@ const ArtImmersiveLanding = () => {
                 >
                   <Link
                     to={`/products/${product.slug}`}
-                    className="group block bg-white/[0.02] rounded-2xl border border-white/5 hover:border-violet-500/30 overflow-hidden transition-all duration-300"
+                    className={`group block rounded-2xl border overflow-hidden transition-all duration-300 ${isDark ? 'bg-white/[0.02] border-white/5 hover:border-violet-500/30' : 'bg-white border-neutral-200 hover:border-violet-300 shadow-sm hover:shadow-md'}`}
                   >
-                    <div className="aspect-[4/3] relative overflow-hidden bg-neutral-900">
+                    <div className={`aspect-[4/3] relative overflow-hidden ${isDark ? 'bg-neutral-900' : 'bg-neutral-100'}`}>
                       {product.image_url ? (
                         <img
                           src={product.image_url}
@@ -279,7 +282,7 @@ const ArtImmersiveLanding = () => {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <Monitor className="w-16 h-16 text-neutral-700" />
+                          <Monitor className={`w-16 h-16 ${isDark ? 'text-neutral-700' : 'text-neutral-300'}`} />
                         </div>
                       )}
                       <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-violet-600/80 text-white text-xs font-medium">
@@ -287,15 +290,15 @@ const ArtImmersiveLanding = () => {
                       </div>
                     </div>
                     <div className="p-5">
-                      <h3 className="text-lg font-semibold text-white mb-1 group-hover:text-violet-400 transition-colors">
+                      <h3 className={`text-lg font-semibold mb-1 group-hover:text-violet-500 transition-colors ${isDark ? 'text-white' : 'text-neutral-900'}`}>
                         {product.name}
                       </h3>
-                      <p className="text-sm text-neutral-400 line-clamp-2 mb-3">
+                      <p className={`text-sm line-clamp-2 mb-3 ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
                         {product.description}
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {product.features?.slice(0, 3).map((feature) => (
-                          <span key={feature} className="px-2 py-1 rounded-md bg-white/5 text-neutral-400 text-xs">
+                          <span key={feature} className={`px-2 py-1 rounded-md text-xs ${isDark ? 'bg-white/5 text-neutral-400' : 'bg-neutral-100 text-neutral-600'}`}>
                             {feature}
                           </span>
                         ))}
@@ -309,7 +312,7 @@ const ArtImmersiveLanding = () => {
 
           {filteredProducts.length === 0 && !loading && (
             <div className="text-center py-12">
-              <p className="text-neutral-400">No products found in this category.</p>
+              <p className={isDark ? 'text-neutral-400' : 'text-neutral-600'}>No products found in this category.</p>
             </div>
           )}
 
@@ -331,27 +334,27 @@ const ArtImmersiveLanding = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-900/50 to-pink-900/50 border border-violet-500/20 p-12 text-center"
+            className={`relative overflow-hidden rounded-3xl border p-12 text-center ${isDark ? 'bg-gradient-to-br from-violet-900/50 to-pink-900/50 border-violet-500/20' : 'bg-gradient-to-br from-violet-100 to-pink-100 border-violet-200'}`}
           >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.3),transparent_70%)]" />
+            <div className={`absolute inset-0 ${isDark ? 'bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.3),transparent_70%)]' : 'bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.15),transparent_70%)]'}`} />
             <div className="relative">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
                 Ready to Create Something Extraordinary?
               </h2>
-              <p className="text-lg text-neutral-300 mb-8 max-w-2xl mx-auto">
+              <p className={`text-lg mb-8 max-w-2xl mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
                 Our team of specialists in art and immersive technology is ready to bring your vision to life.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-violet-900 font-semibold rounded-full hover:bg-neutral-100 transition-colors"
+                  className={`inline-flex items-center gap-2 px-8 py-4 font-semibold rounded-full transition-colors ${isDark ? 'bg-white text-violet-900 hover:bg-neutral-100' : 'bg-violet-600 text-white hover:bg-violet-700'}`}
                 >
                   Schedule Consultation
                   <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link
                   to="/case-studies"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-semibold rounded-full hover:bg-white/20 transition-colors"
+                  className={`inline-flex items-center gap-2 px-8 py-4 font-semibold rounded-full transition-colors ${isDark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-white text-violet-700 hover:bg-neutral-50 border border-violet-200'}`}
                 >
                   View Case Studies
                 </Link>

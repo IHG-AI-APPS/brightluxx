@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Tv, Home, Palmtree, Ship, Sparkles, ArrowRight, 
-  Play, CheckCircle2, Star, Shield, Wifi, Volume2,
-  Sun, Moon, Waves, TreePine
+  Play, Star, Shield, Wifi, Volume2, Cpu, Layers
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -36,8 +35,10 @@ const LuxuryHomeCinemaLanding = () => {
 
   const subcategories = [
     { id: 'all', name: 'All Products', icon: Tv },
+    { id: 'microled-premium', name: 'MicroLED Premium', icon: Cpu },
     { id: 'indoor-cinema', name: 'Indoor Cinema', icon: Home },
     { id: 'outdoor-cinema', name: 'Outdoor Cinema', icon: Palmtree },
+    { id: 'deployable', name: 'Deployable', icon: Layers },
     { id: 'marine-cinema', name: 'Yacht & Marine', icon: Ship },
     { id: 'lifestyle-display', name: 'Lifestyle', icon: Sparkles },
   ];
@@ -46,138 +47,115 @@ const LuxuryHomeCinemaLanding = () => {
     ? products 
     : products.filter(p => p.subcategory === activeTab);
 
-  const features = [
-    { icon: Star, title: 'Dolby Vision & HDR10+', desc: 'Cinema-grade picture quality' },
-    { icon: Shield, title: 'ISF Certified', desc: 'Professional color calibration' },
-    { icon: Wifi, title: 'Smart Home Ready', desc: 'Control4, Crestron, Savant' },
-    { icon: Volume2, title: 'Dolby Atmos Ready', desc: 'Immersive audio integration' },
+  const techHighlights = [
+    { value: '2000', unit: 'nits', label: 'Peak HDR Brightness' },
+    { value: '48', unit: 'bit', label: 'Color Depth' },
+    { value: '8K+', unit: '', label: 'Resolution Ready' },
+    { value: '100K', unit: 'hrs', label: 'Lifespan' },
   ];
 
-  const lifestyleImages = [
-    {
-      title: 'Indoor Home Theater',
-      desc: 'Dedicated cinema rooms with reference-grade displays',
-      image: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?w=800&fit=crop',
-      icon: Home,
-    },
-    {
-      title: 'Poolside Entertainment',
-      desc: 'Weather-resistant outdoor screens for resort-style living',
-      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&fit=crop',
-      icon: Waves,
-    },
-    {
-      title: 'Garden Cinema',
-      desc: 'Transform your garden into an open-air theater',
-      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&fit=crop',
-      icon: TreePine,
-    },
-    {
-      title: 'Yacht Entertainment',
-      desc: 'Marine-certified displays for luxury vessels',
-      image: 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=800&fit=crop',
-      icon: Ship,
-    },
+  const features = [
+    { icon: Star, title: 'Dolby Vision IQ', desc: 'True HDR cinema' },
+    { icon: Shield, title: 'ISF Certified', desc: 'Reference calibration' },
+    { icon: Wifi, title: 'Smart Home', desc: 'Control4, Crestron' },
+    { icon: Volume2, title: 'Atmos Ready', desc: 'Immersive audio' },
   ];
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#0a0a0f]' : 'bg-neutral-50'}`}>
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* Background */}
+      {/* Hero Section - Full Width Video */}
+      <section className="relative min-h-[100vh] flex items-center overflow-hidden">
+        {/* Video Background */}
         <div className="absolute inset-0">
-          <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-br from-amber-950/30 via-[#0a0a0f] to-[#0a0a0f]' : 'bg-gradient-to-br from-amber-100/50 via-white to-white'}`} />
-          <div className={`absolute top-0 right-0 w-1/2 h-full ${isDark ? 'bg-gradient-to-l from-amber-900/10 to-transparent' : 'bg-gradient-to-l from-amber-100/30 to-transparent'}`} />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/videos/home-cinema-hero.mp4" type="video/mp4" />
+          </video>
+          {/* Overlay */}
+          <div className={`absolute inset-0 ${isDark ? 'bg-black/50' : 'bg-white/60'}`} />
+          <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-r from-[#0a0a0f] via-transparent to-transparent' : 'bg-gradient-to-r from-white via-transparent to-transparent'}`} />
+          <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent' : 'bg-gradient-to-t from-neutral-50 via-transparent to-transparent'}`} />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative max-w-7xl mx-auto px-6 py-32">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="max-w-2xl"
           >
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-amber-500/10 border-amber-500/20' : 'bg-amber-100 border-amber-200'} border mb-6`}>
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-amber-500/20 border-amber-500/30' : 'bg-amber-100 border-amber-200'} border mb-6`}>
               <Sparkles className="w-4 h-4 text-amber-500" />
-              <span className={`text-sm font-medium ${isDark ? 'text-amber-300' : 'text-amber-700'}`}>Luxury Home Cinema</span>
+              <span className={`text-sm font-medium ${isDark ? 'text-amber-300' : 'text-amber-700'}`}>MicroLED Technology</span>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              <span className={isDark ? 'text-white' : 'text-neutral-900'}>Cinema Experience,</span>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+              <span className={isDark ? 'text-white' : 'text-neutral-900'}>The Ultimate</span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-500 to-red-500">
-                At Home
+                Private Cinema
               </span>
             </h1>
 
-            <p className={`text-xl mb-8 max-w-xl ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
-              Transform your residence into an entertainment masterpiece with our premium LED cinema solutions. 
-              From intimate screening rooms to grand outdoor theaters.
+            <p className={`text-xl mb-10 max-w-xl ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
+              Experience cinema like never before. Self-emitting MicroLED delivers infinite contrast, 
+              2000 nits HDR, and true blacks that projectors cannot match.
             </p>
+
+            {/* Tech Stats */}
+            <div className="grid grid-cols-4 gap-4 mb-10">
+              {techHighlights.map((stat) => (
+                <div key={stat.label} className={`text-center p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white/80'}`}>
+                  <div className={`text-2xl md:text-3xl font-bold ${isDark ? 'text-amber-400' : 'text-amber-600'}`}>
+                    {stat.value}<span className="text-base">{stat.unit}</span>
+                  </div>
+                  <div className={`text-xs ${isDark ? 'text-neutral-500' : 'text-neutral-600'}`}>{stat.label}</div>
+                </div>
+              ))}
+            </div>
 
             <div className="flex flex-wrap gap-4">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-full hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-full hover:opacity-90 transition-opacity shadow-lg shadow-amber-500/25"
               >
-                Request Consultation
+                Schedule Consultation
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <button className={`inline-flex items-center gap-2 px-8 py-4 ${isDark ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-white border-neutral-200 text-neutral-900 hover:bg-neutral-100'} border font-semibold rounded-full transition-colors`}>
+              <button className={`inline-flex items-center gap-2 px-8 py-4 ${isDark ? 'bg-white/10 backdrop-blur border-white/20 text-white hover:bg-white/20' : 'bg-white/80 backdrop-blur border-neutral-200 text-neutral-900 hover:bg-white'} border font-semibold rounded-full transition-colors`}>
                 <Play className="w-5 h-5" />
-                View Showreel
+                Watch Showreel
               </button>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            <div className={`aspect-video rounded-2xl overflow-hidden ${isDark ? 'bg-neutral-900' : 'bg-neutral-200'} shadow-2xl`}>
-              <img 
-                src="https://images.unsplash.com/photo-1593784991095-a205069470b6?w=1200&fit=crop" 
-                alt="Luxury Home Cinema"
-                className="w-full h-full object-cover"
-              />
-              <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-black/60 via-transparent to-transparent' : 'bg-gradient-to-t from-white/40 via-transparent to-transparent'}`} />
-            </div>
-            {/* Floating badge */}
-            <div className={`absolute -bottom-4 -left-4 px-6 py-3 rounded-xl ${isDark ? 'bg-amber-500/20 border-amber-500/30 backdrop-blur-sm' : 'bg-amber-100 border-amber-200'} border`}>
-              <div className={`text-2xl font-bold ${isDark ? 'text-amber-400' : 'text-amber-600'}`}>8K</div>
-              <div className={`text-xs ${isDark ? 'text-amber-300/70' : 'text-amber-700'}`}>Resolution Ready</div>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Features Bar */}
-      <section className={`py-12 border-y ${isDark ? 'border-white/5 bg-white/[0.01]' : 'border-neutral-200 bg-white'}`}>
+      <section className={`py-8 border-y ${isDark ? 'border-white/5 bg-white/[0.02]' : 'border-neutral-200 bg-white'}`}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="flex items-center gap-4"
-              >
-                <div className={`p-3 rounded-xl ${isDark ? 'bg-amber-500/10' : 'bg-amber-100'}`}>
-                  <feature.icon className="w-6 h-6 text-amber-500" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {features.map((feature) => (
+              <div key={feature.title} className="flex items-center gap-3">
+                <div className={`p-2.5 rounded-lg ${isDark ? 'bg-amber-500/10' : 'bg-amber-100'}`}>
+                  <feature.icon className="w-5 h-5 text-amber-500" />
                 </div>
                 <div>
-                  <div className={`font-semibold ${isDark ? 'text-white' : 'text-neutral-900'}`}>{feature.title}</div>
-                  <div className={`text-sm ${isDark ? 'text-neutral-500' : 'text-neutral-600'}`}>{feature.desc}</div>
+                  <div className={`font-semibold text-sm ${isDark ? 'text-white' : 'text-neutral-900'}`}>{feature.title}</div>
+                  <div className={`text-xs ${isDark ? 'text-neutral-500' : 'text-neutral-600'}`}>{feature.desc}</div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Lifestyle Section */}
+      {/* Experience Showcase - Better Layout */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -185,40 +163,134 @@ const LuxuryHomeCinemaLanding = () => {
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <h2 className={`text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
-              Every Space, A Cinema
+            <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+              Designed For Every Space
             </h2>
             <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
-              From dedicated screening rooms to poolside entertainment, our solutions adapt to your lifestyle.
+              From dedicated screening rooms to poolside entertainment, our solutions transform any environment
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {lifestyleImages.map((item, index) => (
+          {/* New Layout: 2 Featured + 2 Below */}
+          <div className="space-y-6">
+            {/* Top Row - 2 Large Cards */}
+            <div className="grid md:grid-cols-2 gap-6">
               <motion.div
-                key={item.title}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className={`group relative overflow-hidden rounded-2xl ${isDark ? 'bg-white/[0.02]' : 'bg-white'} border ${isDark ? 'border-white/5 hover:border-amber-500/30' : 'border-neutral-200 hover:border-amber-300'} transition-all duration-500`}
+                className={`group relative overflow-hidden rounded-3xl ${isDark ? 'bg-gradient-to-br from-amber-950/30 to-neutral-900' : 'bg-gradient-to-br from-amber-50 to-white'} border ${isDark ? 'border-amber-500/20' : 'border-amber-200'}`}
               >
-                <div className="aspect-[3/4] overflow-hidden">
+                <div className="aspect-[16/10] relative overflow-hidden">
                   <img 
-                    src={item.image} 
-                    alt={item.title}
+                    src="https://images.unsplash.com/photo-1593784991095-a205069470b6?w=1200&fit=crop"
+                    alt="MicroLED Home Theater"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/50 to-transparent' : 'bg-gradient-to-t from-white via-white/50 to-transparent'}`} />
+                  <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent' : 'bg-gradient-to-t from-white via-white/60 to-transparent'}`} />
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <div className={`inline-flex p-2 rounded-lg ${isDark ? 'bg-amber-500/20' : 'bg-amber-100'} mb-3`}>
-                    <item.icon className="w-5 h-5 text-amber-500" />
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <div className={`inline-flex px-3 py-1 rounded-full text-xs font-medium mb-3 ${isDark ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-100 text-amber-700'}`}>
+                    FLAGSHIP
                   </div>
-                  <h3 className={`text-lg font-bold mb-1 ${isDark ? 'text-white' : 'text-neutral-900'}`}>{item.title}</h3>
-                  <p className={`text-sm ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>{item.desc}</p>
+                  <h3 className={`text-2xl md:text-3xl font-bold mb-2 ${isDark ? 'text-white' : 'text-neutral-900'}`}>MicroLED Home Theater</h3>
+                  <p className={`mb-4 ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
+                    146" to 219"+ screens with infinite contrast, self-emitting pixels, and true cinema blacks
+                  </p>
+                  <Link to="/products?category=luxury-home-cinema&sub=microled-premium" className={`inline-flex items-center gap-2 font-semibold ${isDark ? 'text-amber-400' : 'text-amber-600'} group-hover:gap-3 transition-all`}>
+                    Explore MicroLED <ArrowRight className="w-4 h-4" />
+                  </Link>
                 </div>
               </motion.div>
-            ))}
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className={`group relative overflow-hidden rounded-3xl ${isDark ? 'bg-gradient-to-br from-cyan-950/30 to-neutral-900' : 'bg-gradient-to-br from-cyan-50 to-white'} border ${isDark ? 'border-cyan-500/20' : 'border-cyan-200'}`}
+              >
+                <div className="aspect-[16/10] relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&fit=crop"
+                    alt="Outdoor Pool Cinema"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent' : 'bg-gradient-to-t from-white via-white/60 to-transparent'}`} />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <div className={`inline-flex px-3 py-1 rounded-full text-xs font-medium mb-3 ${isDark ? 'bg-cyan-500/20 text-cyan-400' : 'bg-cyan-100 text-cyan-700'}`}>
+                    8000 NITS
+                  </div>
+                  <h3 className={`text-2xl md:text-3xl font-bold mb-2 ${isDark ? 'text-white' : 'text-neutral-900'}`}>Outdoor & Poolside</h3>
+                  <p className={`mb-4 ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
+                    IP67 weatherproof displays with 8000 nits brightness for perfect daylight viewing
+                  </p>
+                  <Link to="/products?category=luxury-home-cinema&sub=outdoor-cinema" className={`inline-flex items-center gap-2 font-semibold ${isDark ? 'text-cyan-400' : 'text-cyan-600'} group-hover:gap-3 transition-all`}>
+                    Explore Outdoor <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Bottom Row - 2 Medium Cards */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className={`group relative overflow-hidden rounded-2xl ${isDark ? 'bg-white/[0.02]' : 'bg-white'} border ${isDark ? 'border-white/5 hover:border-violet-500/30' : 'border-neutral-200 hover:border-violet-300'} transition-all`}
+              >
+                <div className="flex items-stretch">
+                  <div className="w-2/5 aspect-square overflow-hidden">
+                    <img 
+                      src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&fit=crop"
+                      alt="Yacht Cinema"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="w-3/5 p-6 flex flex-col justify-center">
+                    <div className={`inline-flex w-fit px-2 py-1 rounded-full text-xs font-medium mb-2 ${isDark ? 'bg-violet-500/20 text-violet-400' : 'bg-violet-100 text-violet-700'}`}>
+                      MARINE GRADE
+                    </div>
+                    <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-neutral-900'}`}>Superyacht Entertainment</h3>
+                    <p className={`text-sm mb-3 ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                      Deployable MicroLED systems for 40m+ vessels with marine certifications
+                    </p>
+                    <Link to="/products?category=luxury-home-cinema&sub=marine-cinema" className={`inline-flex items-center gap-2 text-sm font-semibold ${isDark ? 'text-violet-400' : 'text-violet-600'}`}>
+                      Learn More <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className={`group relative overflow-hidden rounded-2xl ${isDark ? 'bg-white/[0.02]' : 'bg-white'} border ${isDark ? 'border-white/5 hover:border-emerald-500/30' : 'border-neutral-200 hover:border-emerald-300'} transition-all`}
+              >
+                <div className="flex items-stretch">
+                  <div className="w-2/5 aspect-square overflow-hidden">
+                    <img 
+                      src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&fit=crop"
+                      alt="Deployable Screen"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="w-3/5 p-6 flex flex-col justify-center">
+                    <div className={`inline-flex w-fit px-2 py-1 rounded-full text-xs font-medium mb-2 ${isDark ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-100 text-emerald-700'}`}>
+                      DEPLOYABLE
+                    </div>
+                    <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-neutral-900'}`}>RiseScreen Technology</h3>
+                    <p className={`text-sm mb-3 ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                      201" screens that rise from underground in 30 seconds with 180° rotation
+                    </p>
+                    <Link to="/products?category=luxury-home-cinema&sub=deployable" className={`inline-flex items-center gap-2 text-sm font-semibold ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>
+                      Learn More <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -231,9 +303,9 @@ const LuxuryHomeCinemaLanding = () => {
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
-            <h2 className={`text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>Our Home Cinema Collection</h2>
+            <h2 className={`text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>Complete Collection</h2>
             <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
-              Curated selection of premium LED displays for discerning homeowners.
+              From entry-level to bespoke installations worth $1M+
             </p>
           </motion.div>
 
@@ -287,12 +359,12 @@ const LuxuryHomeCinemaLanding = () => {
                           <Tv className={`w-16 h-16 ${isDark ? 'text-neutral-700' : 'text-neutral-300'}`} />
                         </div>
                       )}
-                      <div className="absolute top-3 left-3 flex gap-2">
-                        <span className="px-2 py-1 rounded-full bg-amber-500/80 text-white text-xs font-medium">
+                      <div className="absolute top-3 left-3 flex flex-wrap gap-2">
+                        <span className="px-2 py-1 rounded-full bg-amber-500/90 text-white text-xs font-medium">
                           {product.pixel_pitch}
                         </span>
                         {product.screen_sizes && (
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${isDark ? 'bg-black/50 text-white' : 'bg-white/80 text-neutral-700'}`}>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${isDark ? 'bg-black/50 text-white' : 'bg-white/90 text-neutral-700'}`}>
                             {product.screen_sizes}
                           </span>
                         )}
@@ -324,7 +396,7 @@ const LuxuryHomeCinemaLanding = () => {
               to="/products?category=luxury-home-cinema"
               className="inline-flex items-center gap-2 px-6 py-3 bg-amber-500 text-white font-semibold rounded-full hover:bg-amber-600 transition-colors"
             >
-              View All Home Cinema Products
+              View All Products
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -341,11 +413,10 @@ const LuxuryHomeCinemaLanding = () => {
           >
             <div className="relative">
               <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
-                White Glove Installation Service
+                White Glove Service
               </h2>
               <p className={`text-lg mb-8 max-w-2xl mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
-                Our expert team handles everything from consultation and design to installation and calibration. 
-                Experience true luxury service.
+                From consultation to ISF calibration, our team delivers a complete luxury experience
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Link
@@ -354,12 +425,6 @@ const LuxuryHomeCinemaLanding = () => {
                 >
                   Schedule Home Visit
                   <ArrowRight className="w-5 h-5" />
-                </Link>
-                <Link
-                  to="/case-studies"
-                  className={`inline-flex items-center gap-2 px-8 py-4 font-semibold rounded-full transition-colors ${isDark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-white text-amber-700 hover:bg-neutral-50 border border-amber-200'}`}
-                >
-                  View Installations
                 </Link>
               </div>
             </div>

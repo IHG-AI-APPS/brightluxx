@@ -59,25 +59,25 @@ const ArtImmersiveLanding = () => {
     {
       title: 'teamLab-Style Museums',
       description: 'Floor-to-ceiling immersive experiences with motion sensors and real-time content generation',
-      image: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=800',
+      image: 'https://images.unsplash.com/photo-1768655317930-23e7cd2d336e?w=800&fit=crop',
       features: ['Multi-sensory integration', 'Visitor tracking', 'Dynamic content'],
     },
     {
       title: 'NFT Galleries',
       description: 'Museum-grade displays for showcasing high-value digital art with authentication',
-      image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800',
+      image: 'https://images.unsplash.com/photo-1768141721979-25c398ebefd5?w=800&fit=crop',
       features: ['16-bit color depth', 'Anti-glare coating', 'NFT authentication'],
     },
     {
       title: 'Virtual Production Studios',
       description: 'Cinema-grade XR stages for film, TV, and commercial production',
-      image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800',
+      image: 'https://images.unsplash.com/photo-1594122107730-a03f3ccaf301?w=800&fit=crop',
       features: ['7680Hz refresh', 'Unreal Engine ready', 'Camera genlock'],
     },
     {
       title: 'Public Art Landmarks',
       description: 'Iconic outdoor installations that transform urban spaces into digital canvases',
-      image: 'https://images.unsplash.com/photo-1514539079130-25950c84af65?w=800',
+      image: 'https://images.unsplash.com/photo-1644610152866-4411bbc7bae2?w=800&fit=crop',
       features: ['IP65 weatherproof', '6000 nits brightness', 'Remote management'],
     },
   ];

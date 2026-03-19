@@ -26,23 +26,101 @@ DB_NAME = os.environ.get("DB_NAME", "brightluxx")
 client = AsyncIOMotorClient(MONGO_URL)
 db = client[DB_NAME]
 
-# UAE-themed prompts - Ultra realistic, photographic style
-CATEGORY_PROMPTS = {
-    "indoor": "Ultra realistic photograph of a modern LED video wall installed in a luxury Dubai corporate lobby, showing colorful abstract digital art on screen, marble floors, indoor palm trees, Burj Khalifa visible through large windows, professional architectural photography, 8K resolution, natural lighting",
-    "outdoor": "Ultra realistic photograph of a large LED billboard on Sheikh Zayed Road Dubai at sunset, displaying vibrant abstract colors, Burj Al Arab visible in background, palm trees, cars on highway, professional outdoor advertising photography, 8K resolution",
-    "cob-microled": "Ultra realistic photograph of a premium MicroLED video wall in a Dubai executive boardroom, showing data visualization graphics, leather chairs, Dubai Marina waterfront visible through floor-to-ceiling windows, professional interior photography, 8K resolution",
-    "transparent": "Ultra realistic photograph of a transparent LED display in a Dubai Mall luxury store window, showing fashion imagery, shoppers visible through glass, premium retail environment, professional commercial photography, 8K resolution",
-    "flexible": "Ultra realistic photograph of a curved LED screen wrapped around a column in Abu Dhabi hotel lobby, displaying abstract art, Arabic architecture details, crystal chandelier, professional hospitality photography, 8K resolution",
-    "all-in-one": "Ultra realistic photograph of an all-in-one LED display in a modern Dubai office meeting room, showing presentation graphics, professionals in meeting, city skyline through windows, professional corporate photography, 8K resolution",
-    "cinema-led": "Ultra realistic photograph of a cinema LED screen in a Dubai movie theater, showing dramatic film scene, luxury recliner seats, dark theater ambiance, professional entertainment photography, 8K resolution",
-    "sphere": "Ultra realistic photograph of an LED sphere installation in a Dubai mall atrium, displaying colorful patterns, shoppers below, modern architecture with glass ceiling, professional commercial photography, 8K resolution",
-    "poster-totem": "Ultra realistic photograph of a digital LED totem in Dubai Airport terminal, showing wayfinding graphics, travelers with luggage, modern airport interior, professional travel photography, 8K resolution",
-    "rental": "Ultra realistic photograph of a portable LED screen at an outdoor Dubai event, showing stage visuals, crowd watching, Palm Jumeirah in background, night scene, professional event photography, 8K resolution",
-    "interactive": "Ultra realistic photograph of an interactive LED floor in a Dubai museum, children playing on colorful reactive display, modern educational space, professional lifestyle photography, 8K resolution",
-    "virtual-production": "Ultra realistic photograph of a virtual production LED wall in a Dubai film studio, showing virtual backdrop, film crew and cameras, professional behind-the-scenes photography, 8K resolution",
-    "digital-signage": "Ultra realistic photograph of digital signage LED displays in Dubai Metro station, showing wayfinding information, commuters walking, modern transit architecture, professional urban photography, 8K resolution",
-    "default": "Ultra realistic photograph of a professional LED display in a modern Dubai commercial space, showing abstract digital art, contemporary Arabic interior design, professional commercial photography, 8K resolution"
+# UNIQUE scenes for each product - deterministic based on slug hash
+# This ensures each product ALWAYS gets a different scene
+UNIQUE_SCENES = {
+    "indoor": [
+        "LED video wall in luxury hotel reception showing abstract art, marble desk, chandelier lighting",
+        "LED display in shopping mall atrium showing lifestyle fashion imagery, shoppers walking, high ceiling",
+        "LED screen in modern fitness center showing workout graphics, gym equipment, people exercising",
+        "LED wall in corporate boardroom showing data charts, executive chairs, city view through windows",
+        "LED display in hospital lobby showing health visuals, reception area, clean modern design",
+        "LED screen in university lecture hall showing educational content, students in seats",
+        "LED wall in restaurant showing food imagery, dining tables, ambient evening lighting",
+        "LED display in bank branch showing financial graphics, customer service area, modern interior",
+        "LED screen in museum gallery showing digital art exhibition, visitors viewing, white walls",
+        "LED wall in airport departure lounge showing travel imagery, passengers waiting, terminal view",
+    ],
+    "outdoor": [
+        "Outdoor LED on shopping mall exterior showing fashion advertising, evening lighting, pedestrians",
+        "LED screen at modern petrol station showing brand imagery, vehicles, canopy lighting",
+        "Outdoor LED at sports stadium entrance showing event graphics, fans gathering",
+        "LED display on restaurant exterior showing food imagery, outdoor seating, evening atmosphere",
+        "Outdoor LED at beach resort showing vacation imagery, pool area, sunset sky",
+        "LED screen on hotel facade showing lifestyle imagery, valet area, palm trees",
+        "Outdoor LED at theme park entrance showing entertainment graphics, families visiting",
+        "LED billboard at urban plaza showing brand campaign, people walking, modern architecture",
+        "Outdoor LED at transit station showing information graphics, commuters, modern station",
+        "LED display at construction site showing property renders, cranes, urban development",
+    ],
+    "cob-microled": [
+        "MicroLED wall in private home cinema showing movie scene, leather recliners, dark room",
+        "COB display in luxury watch boutique showing product imagery, glass cases, elegant interior",
+        "MicroLED in art gallery showing digital artwork, visitors, minimalist white space",
+        "COB screen in VIP lounge showing travel imagery, premium seating, window view",
+        "MicroLED in executive office showing data visualization, designer furniture, city panorama",
+        "COB display in jewelry store showing sparkling product shots, luxury retail environment",
+    ],
+    "transparent": [
+        "Transparent LED in jewelry store window, products visible through, luxury environment",
+        "Transparent LED on office building facade, city reflections, modern architecture",
+        "Transparent LED partition in restaurant, diners visible through, elegant interior",
+        "Transparent LED in car showroom window, vehicles visible behind, premium showroom",
+        "Transparent LED in retail storefront, mannequins visible through, shopping mall",
+        "Transparent LED in museum display, artifacts visible behind, exhibition space",
+    ],
+    "flexible": [
+        "Curved LED around hotel lobby column showing flowing art, chandelier, luxury interior",
+        "Wave-shaped LED in exhibition hall showing brand graphics, trade show visitors",
+        "Cylindrical LED in retail store showing product imagery, modern design, shoppers",
+        "Curved LED ceiling installation in mall showing sky imagery, atrium space",
+        "Flexible LED wrapped around pillar in nightclub, colorful visuals, party atmosphere",
+    ],
+    "all-in-one": [
+        "All-in-one LED in classroom showing diagrams, students at desks, teacher presenting",
+        "Conference display in meeting room showing presentation, professionals collaborating",
+        "All-in-one LED in medical consultation showing health data, doctor with patient",
+        "Training room display showing course content, corporate learning environment",
+        "All-in-one LED in coworking space showing analytics, entrepreneurs working",
+    ],
+    "rental": [
+        "Rental LED at outdoor wedding showing couple photos, decorated venue, string lights",
+        "Portable LED at corporate gala showing brand presentation, formal dinner setup",
+        "Rental LED at music festival showing stage visuals, crowd dancing, night scene",
+        "Event LED at product launch showing brand reveal, audience seated, spotlights",
+        "Rental LED at sports event showing live match, spectators cheering, arena setting",
+    ],
+    "poster-totem": [
+        "LED totem in hotel lobby showing event info, guests in lobby, elegant design",
+        "Digital poster in metro station showing transit info, commuters walking",
+        "LED kiosk in hospital showing wayfinding, medical staff, clean interior",
+        "Digital totem in retail store showing promotions, shoppers browsing",
+        "LED poster in office building showing directory, business professionals",
+    ],
+    "digital-signage": [
+        "Digital menu in restaurant showing food items, customers ordering, modern interior",
+        "Information display in service center showing queue info, people waiting",
+        "Wayfinding screen in hospital showing directions, visitors, clean design",
+        "Digital signage in retail showing product info, shoppers, store interior",
+        "Menu board in cafe showing beverages, barista counter, cozy atmosphere",
+    ],
 }
+
+import hashlib
+
+def get_unique_prompt(category: str, product_name: str, pixel_pitch: str) -> str:
+    """Get a UNIQUE prompt for each product based on its slug - ensures variety"""
+    scenes = UNIQUE_SCENES.get(category, UNIQUE_SCENES.get("indoor"))
+    
+    # Use product name hash to deterministically select a scene
+    # This ensures same product always gets same scene, but different products get different scenes
+    hash_val = int(hashlib.md5(product_name.encode()).hexdigest(), 16)
+    scene_index = hash_val % len(scenes)
+    scene = scenes[scene_index]
+    
+    base_prompt = f"Ultra realistic photograph of {scene}, professional photography, 8K resolution, natural lighting"
+    
+    return f"{base_prompt}, featuring premium {pixel_pitch} LED technology with crystal clear image quality"
 
 class ImageGenerationRequest(BaseModel):
     product_slug: str
@@ -95,18 +173,16 @@ async def regenerate_product_image(product_slug: str, custom_prompt: Optional[st
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     
-    # Get category-specific prompt
+    # Get product details
     category = product.get("category", "default")
-    base_prompt = CATEGORY_PROMPTS.get(category, CATEGORY_PROMPTS["default"])
-    
-    # Customize prompt with product details
     product_name = product.get("name", "LED display")
     pixel_pitch = product.get("pixel_pitch", "")
     
     if custom_prompt:
         prompt = custom_prompt
     else:
-        prompt = f"{base_prompt}, showing {product_name} {pixel_pitch} LED technology"
+        # Use the new unique prompt function
+        prompt = get_unique_prompt(category, product_name, pixel_pitch)
     
     try:
         # Generate image

@@ -2087,3 +2087,41 @@ All individual product page files removed (IPosterPage.js, IFlipPage.js, etc.) -
 - ✅ Indoor P0.9 detail page - Control room image, proper specs
 - ✅ Outdoor P6.67 detail page - Highway billboard image, 8,500 nits displayed
 
+
+---
+
+### Products Listing Page - Pitch Readability Fix — March 19, 2026
+
+**Issue:** Pixel pitch information on product cards was hard to read - small, low-contrast badges blended with background.
+
+**Fix Applied:**
+Enhanced `ProductCard` component in `Products.js`:
+
+1. **Pixel Pitch Badge - Now Prominent**
+   - Moved to top-right corner (previously bottom center)
+   - Cyan background with black text (#22d3ee → black)
+   - Larger font size (text-sm vs text-[10px])
+   - Bold weight + shadow for visibility
+   - Extract numeric pitch value for cleaner display
+
+2. **Product Code Badge - Refined**
+   - Moved to top-left corner
+   - Subtle black/white styling (less prominent than pitch)
+   - Smaller size to reduce visual clutter
+
+3. **Brightness - Now in Amber**
+   - Amber color (#fbbf24) with lightning icon
+   - Clear visual hierarchy separate from pitch
+
+4. **Category - Added**
+   - Subtle white/muted text
+   - Helps users identify product type quickly
+
+**Files Modified:**
+- `frontend/src/pages/Products.js` - ProductCard component redesign
+
+**Verification:**
+- ✅ P3, P15, P2.5, P5, P4, 0.6, 0.9 badges clearly visible on cards
+- ✅ Brightness shown in amber with icon
+- ✅ Consistent across all product cards
+

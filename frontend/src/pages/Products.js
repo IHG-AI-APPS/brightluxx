@@ -53,6 +53,9 @@ const CATEGORIES = [
 
 /* Minimal Product Card */
 const ProductCard = ({ product, index }) => {
+  // Extract pitch value for prominent display
+  const pitchValue = product.pixel_pitch?.match(/P?\d+\.?\d*/i)?.[0] || product.pixel_pitch;
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -80,19 +83,29 @@ const ProductCard = ({ product, index }) => {
               <Monitor size={48} className="text-cyan-500/30" />
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
           <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </div>
 
-        {/* Product Code Badge */}
-        <div className="absolute top-4 left-4 z-10">
-          <span className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-2.5 py-1 text-[10px] uppercase tracking-wider font-bold backdrop-blur-md rounded-lg">
+        {/* Product Code Badge - Top Left */}
+        <div className="absolute top-3 left-3 z-10">
+          <span className="bg-black/60 text-white/80 border border-white/10 px-2 py-0.5 text-[9px] uppercase tracking-wider font-medium backdrop-blur-md rounded">
             {product.product_code}
           </span>
         </div>
 
-        {/* Content - Bottom Centered */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-end p-5 text-center">
+        {/* Pixel Pitch Badge - Top Right (PROMINENT) */}
+        {product.pixel_pitch && (
+          <div className="absolute top-3 right-3 z-10">
+            <span className="bg-cyan-500 text-black px-3 py-1.5 text-sm font-bold rounded-lg shadow-lg shadow-cyan-500/30">
+              {pitchValue}
+            </span>
+          </div>
+        )}
+
+        {/* Content - Bottom */}
+        <div className="relative z-10 h-full flex flex-col justify-end p-4">
+          {/* Product Name */}
           <h3 
             className="text-sm font-semibold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2"
             style={{ color: '#ffffff' }}
@@ -100,25 +113,22 @@ const ProductCard = ({ product, index }) => {
             {product.name}
           </h3>
 
-          <div className="flex flex-wrap justify-center gap-2 mb-3">
-            {product.pixel_pitch && (
-              <span 
-                className="text-[10px] px-2.5 py-1 rounded-full font-mono backdrop-blur-sm"
-                style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.2)' }}
-              >
-                {product.pixel_pitch}
+          {/* Specs Row - More Readable */}
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            {product.brightness && (
+              <span className="text-[11px] text-amber-400 font-semibold flex items-center gap-1">
+                <Zap size={10} />
+                {product.brightness}
               </span>
             )}
-            {product.brightness && (
-              <span 
-                className="text-[10px] px-2.5 py-1 rounded-full font-mono backdrop-blur-sm"
-                style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.2)' }}
-              >
-                {product.brightness}
+            {product.category && (
+              <span className="text-[10px] text-white/50 uppercase tracking-wider">
+                {product.category}
               </span>
             )}
           </div>
 
+          {/* View Details CTA */}
           <div 
             className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
             style={{ color: '#22d3ee' }}

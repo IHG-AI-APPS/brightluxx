@@ -43,6 +43,11 @@ const OmanPage = lazy(() => import('./pages/OmanPage'));
 const ROICalculator = lazy(() => import('./pages/ROICalculator'));
 const CompareCompetitors = lazy(() => import('./pages/CompareCompetitors'));
 
+// Indoor & Outdoor LED Series - Lazy loaded
+const IndoorLEDPage = lazy(() => import('./pages/IndoorLEDPage'));
+const OutdoorLEDPage = lazy(() => import('./pages/OutdoorLEDPage'));
+const LEDProductDetailPage = lazy(() => import('./pages/LEDProductDetailPage'));
+
 // Knowledge Base - Lazy loaded
 const KnowledgeIndex = lazy(() => import('./pages/knowledge/KnowledgeIndex'));
 const CobVsMipVsSmd = lazy(() => import('./pages/knowledge/CobVsMipVsSmd'));
@@ -206,6 +211,12 @@ function AppRoutes() {
       <Route path="/oman" element={<PublicLayout><OmanPage /></PublicLayout>} />
       <Route path="/tools/roi-calculator" element={<PublicLayout><ROICalculator /></PublicLayout>} />
       <Route path="/compare-brands" element={<PublicLayout><CompareCompetitors /></PublicLayout>} />
+      
+      {/* Indoor & Outdoor LED Series */}
+      <Route path="/indoor-led" element={<PublicLayout><IndoorLEDPage /></PublicLayout>} />
+      <Route path="/indoor-led/:pitch" element={<PublicLayout><LEDProductDetailPage /></PublicLayout>} />
+      <Route path="/outdoor-led" element={<PublicLayout><OutdoorLEDPage /></PublicLayout>} />
+      <Route path="/outdoor-led/:pitch" element={<PublicLayout><LEDProductDetailPage /></PublicLayout>} />
       
       <Route path="/knowledge" element={<PublicLayout><KnowledgeIndex /></PublicLayout>} />
       <Route path="/knowledge/cob-vs-mip-vs-smd" element={<PublicLayout><CobVsMipVsSmd /></PublicLayout>} />

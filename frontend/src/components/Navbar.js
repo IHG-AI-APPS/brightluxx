@@ -384,6 +384,16 @@ const Navbar = () => {
                   ))}
                 </div>
                 <div className={`mt-3 pt-3 border-t ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`}>
+                  {/* LED Series - Indoor & Outdoor */}
+                  <div className={`px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-amber-400/80' : 'text-amber-600'}`}>LED SERIES</div>
+                  <div className="flex gap-2 px-3 mb-3">
+                    <Link to="/indoor-led" onClick={closeAll} className={`flex-1 px-3 py-2 rounded-lg text-center text-[0.6rem] font-semibold transition-colors ${isDark ? 'bg-purple-500/10 text-purple-400 hover:bg-purple-500/20' : 'bg-purple-50 text-purple-600 hover:bg-purple-100'}`} data-testid="nav-indoor-led">
+                      Indoor P0.5-P4
+                    </Link>
+                    <Link to="/outdoor-led" onClick={closeAll} className={`flex-1 px-3 py-2 rounded-lg text-center text-[0.6rem] font-semibold transition-colors ${isDark ? 'bg-orange-500/10 text-orange-400 hover:bg-orange-500/20' : 'bg-orange-50 text-orange-600 hover:bg-orange-100'}`} data-testid="nav-outdoor-led">
+                      Outdoor P2.5-P8
+                    </Link>
+                  </div>
                   <Link to="/product-families" onClick={closeAll} className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-rose-400 transition-colors duration-150 mb-2 uppercase ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100'}`} data-testid="nav-products-families">
                     PRODUCT FAMILIES
                   </Link>

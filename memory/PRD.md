@@ -2005,3 +2005,55 @@ All individual product page files removed (IPosterPage.js, IFlipPage.js, etc.) -
 - ✅ DigiStandee product page loads correctly from dropdown
 - ✅ All product families have complete dropdowns
 
+
+---
+
+### Indoor & Outdoor LED Series Implementation — March 19, 2026
+
+**Task:** Create comprehensive, logically organized Indoor and Outdoor LED display series pages organized by pixel pitch for fixed installations.
+
+**Structure Implemented:**
+
+**INDOOR LED SERIES** (`/indoor-led`) - P0.5 to P4
+| Series | Pixel Pitches | Technology | Applications |
+|--------|---------------|------------|--------------|
+| UltraFine | P0.5, P0.7, P0.9 | MicroLED/COB | Control Rooms, Broadcast, 8K |
+| ProFine | P1.2, P1.5, P1.8 | COB/MiP | Corporate, Boardrooms, Museums |
+| Commercial | P2.0, P2.5, P3.0 | SMD/MiP | Retail, Malls, Lobbies |
+| Standard | P3.9, P4.0 | SMD | Auditoriums, Large Venues |
+
+**OUTDOOR LED SERIES** (`/outdoor-led`) - P2.5 to P8
+| Series | Pixel Pitches | Brightness | Applications |
+|--------|---------------|------------|--------------|
+| OutdoorHD | P2.5, P3.0 | 6,000-6,500 nits | Storefronts, Close-viewing |
+| OutdoorPro | P4.0, P5.0 | 7,000-7,500 nits | Advertising, Sports |
+| Billboard | P6.0, P6.67, P8.0 | 8,000-10,000 nits | Highway, Large-scale |
+
+**Features:**
+- Landing pages with hero, quick stats, viewing distance guide
+- Collapsible series cards with pixel pitch options
+- Individual product detail pages with:
+  - Full technical specifications
+  - Key features
+  - Recommended applications
+  - Request Quote & Datasheet CTAs
+- Added to Products dropdown in navbar
+- Cross-links between Indoor and Outdoor
+
+**Files Created:**
+- `frontend/src/pages/IndoorLEDPage.js`
+- `frontend/src/pages/OutdoorLEDPage.js`
+- `frontend/src/pages/LEDProductDetailPage.js`
+
+**Routes Added:**
+- `/indoor-led` - Indoor LED landing
+- `/indoor-led/:pitch` - Indoor product detail (e.g., /indoor-led/p1-5)
+- `/outdoor-led` - Outdoor LED landing
+- `/outdoor-led/:pitch` - Outdoor product detail (e.g., /outdoor-led/p6-67)
+
+**Navbar Integration:**
+- Added "LED SERIES" section to Products dropdown
+- Two buttons: "Indoor P0.5-P4" (purple) and "Outdoor P2.5-P8" (orange)
+
+**Testing:** Screenshot verified - all pages load correctly with proper navigation
+

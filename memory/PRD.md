@@ -2227,3 +2227,43 @@ Enhanced `ProductCard` component in `Products.js`:
 
 **Testing:** Visual verification via screenshots - Desktop and mobile views both render correctly
 
+
+---
+
+### P2: Product Thumbnail Images in Navbar Dropdowns — Dec 2025
+
+**Task:** Add small product thumbnail images to the navbar dropdown menus to make them more visually engaging and help users preview products before clicking.
+
+**Changes Implemented:**
+
+1. **Updated Product Families Data Structure:**
+   - Added `image` property to all items in `productFamilies` object
+   - LumiMorph: 3 items with Unsplash images (Elite, Grande, Mini)
+   - NaturaTex: 1 item with Unsplash image (HoloVeil)
+   - SignaTouch: 3 items with Unsplash images (Touch Kiosk, Smart Signage, Self Service)
+   - GlassMorph: 6 items with Unsplash images (Smart Film, LED Film, Media Glass, Switchable Glass, Flying Display, Hanging LED)
+   - PixelVue: 12 items with mix of AI-generated and Unsplash images
+
+2. **Enhanced Dropdown UI:**
+   - Increased dropdown width from `min-w-[160px]` to `min-w-[220px]`
+   - Changed item layout from block text to flex with image
+   - Added thumbnail container: `w-10 h-10 rounded-lg overflow-hidden border border-{color}-500/20`
+   - Images use `object-cover` for consistent sizing
+   - Added `loading="lazy"` for performance
+   - Added `truncate` to description for long text
+
+3. **Scrollable Dropdowns:**
+   - GlassMorph (6 items) and PixelVue (12 items) have `max-h-[70vh] overflow-y-auto`
+   - Prevents dropdown from exceeding viewport height
+
+**Files Modified:**
+- `frontend/src/components/Navbar.js` - Updated productFamilies data and dropdown rendering
+
+**Visual Result:**
+- All 5 product family dropdowns (LumiMorph, NaturaTex, SignaTouch, GlassMorph, PixelVue) now show thumbnail images
+- Each dropdown maintains its brand color border (cyan, emerald, amber, violet, rose)
+- Images are 40x40px with rounded corners and subtle colored border
+- Consistent layout across all dropdowns
+
+**Testing:** Visual verification via screenshots - All dropdowns render correctly with images
+

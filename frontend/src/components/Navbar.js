@@ -171,7 +171,7 @@ const Navbar = () => {
     WebkitBackdropFilter: 'blur(24px)',
   };
 
-  /* Product Family Sub-pages Data */
+  /* Product Family Sub-pages Data with Thumbnail Images */
   const productFamilies = {
     lumimorph: {
       color: 'cyan',
@@ -179,9 +179,9 @@ const Navbar = () => {
       bgHover: 'hover:bg-cyan-500/10',
       borderColor: 'border-cyan-500/20',
       items: [
-        { name: 'Elite', path: '/lumimorph/elite', desc: 'P2.6 High Resolution' },
-        { name: 'Grande', path: '/lumimorph/grande', desc: 'P6.2 Large Scale' },
-        { name: 'Mini', path: '/lumimorph/mini', desc: 'Compact Modular' },
+        { name: 'Elite', path: '/lumimorph/elite', desc: 'P2.6 High Resolution', image: 'https://images.unsplash.com/photo-1517292987719-0369a794ec0f?w=100&h=100&fit=crop' },
+        { name: 'Grande', path: '/lumimorph/grande', desc: 'P6.2 Large Scale', image: 'https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?w=100&h=100&fit=crop' },
+        { name: 'Mini', path: '/lumimorph/mini', desc: 'Compact Modular', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop' },
       ]
     },
     naturatex: {
@@ -190,7 +190,7 @@ const Navbar = () => {
       bgHover: 'hover:bg-emerald-500/10',
       borderColor: 'border-emerald-500/20',
       items: [
-        { name: 'HoloVeil', path: '/naturatex/holoveil', desc: 'Transparent Display' },
+        { name: 'HoloVeil', path: '/naturatex/holoveil', desc: 'Transparent Display', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=100&h=100&fit=crop' },
       ]
     },
     signatouch: {
@@ -199,9 +199,9 @@ const Navbar = () => {
       bgHover: 'hover:bg-amber-500/10',
       borderColor: 'border-amber-500/20',
       items: [
-        { name: 'Touch Kiosk', path: '/signatouch/touch-kiosk', desc: '40-Point IR Touch' },
-        { name: 'Smart Signage', path: '/signatouch/smart-signage', desc: 'Digital Displays' },
-        { name: 'Self Service', path: '/signatouch/self-service', desc: 'Interactive Terminals' },
+        { name: 'Touch Kiosk', path: '/signatouch/touch-kiosk', desc: '40-Point IR Touch', image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=100&h=100&fit=crop' },
+        { name: 'Smart Signage', path: '/signatouch/smart-signage', desc: 'Digital Displays', image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=100&h=100&fit=crop' },
+        { name: 'Self Service', path: '/signatouch/self-service', desc: 'Interactive Terminals', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop' },
       ]
     },
     glassmorph: {
@@ -210,12 +210,12 @@ const Navbar = () => {
       bgHover: 'hover:bg-violet-500/10',
       borderColor: 'border-violet-500/20',
       items: [
-        { name: 'Smart Film', path: '/glassmorph/smart-film', desc: 'PDLC Privacy Glass' },
-        { name: 'LED Film', path: '/glassmorph/led-film', desc: 'Transparent LED' },
-        { name: 'Media Glass', path: '/glassmorph/media-glass', desc: 'Display Windows' },
-        { name: 'Switchable Glass', path: '/glassmorph/switchable-glass', desc: 'Electrochromic' },
-        { name: 'Flying Display', path: '/glassmorph/flying-display', desc: 'Suspended LED' },
-        { name: 'Hanging LED', path: '/glassmorph/hanging-led', desc: 'Ceiling Mounted' },
+        { name: 'Smart Film', path: '/glassmorph/smart-film', desc: 'PDLC Privacy Glass', image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=100&h=100&fit=crop' },
+        { name: 'LED Film', path: '/glassmorph/led-film', desc: 'Transparent LED', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=100&h=100&fit=crop' },
+        { name: 'Media Glass', path: '/glassmorph/media-glass', desc: 'Display Windows', image: 'https://images.unsplash.com/photo-1497215842964-222b430dc094?w=100&h=100&fit=crop' },
+        { name: 'Switchable Glass', path: '/glassmorph/switchable-glass', desc: 'Electrochromic', image: 'https://images.unsplash.com/photo-1545127398-14699f92334b?w=100&h=100&fit=crop' },
+        { name: 'Flying Display', path: '/glassmorph/flying-display', desc: 'Suspended LED', image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=100&h=100&fit=crop' },
+        { name: 'Hanging LED', path: '/glassmorph/hanging-led', desc: 'Ceiling Mounted', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=100&h=100&fit=crop' },
       ]
     },
     pixelvue: {
@@ -224,18 +224,18 @@ const Navbar = () => {
       bgHover: 'hover:bg-rose-500/10',
       borderColor: 'border-rose-500/20',
       items: [
-        { name: 'iPoster', path: '/pixelvue/iposter', desc: 'Digital Poster' },
-        { name: 'iFlip', path: '/pixelvue/iflip', desc: 'Double-Sided LED' },
-        { name: 'UltraFlip', path: '/pixelvue/ultra-flip', desc: 'Premium Poster' },
-        { name: 'DigiStandee', path: '/pixelvue/digi-standee', desc: 'Digital Standee' },
-        { name: 'OOH Poster', path: '/pixelvue/ooh-poster', desc: 'Outdoor Display' },
-        { name: 'Unity', path: '/pixelvue/unity', desc: 'Modular System' },
-        { name: 'Tetris', path: '/pixelvue/tetris', desc: 'Stackable Cubes' },
-        { name: 'VideoBrick', path: '/pixelvue/videobrick', desc: 'Video Wall Bricks' },
-        { name: 'iConference', path: '/pixelvue/iconference', desc: 'Meeting Room Display' },
-        { name: 'EzeeSign', path: '/pixelvue/ezeesign', desc: 'Easy Signage' },
-        { name: 'iShelf', path: '/pixelvue/ishelf', desc: 'Retail Shelf Display' },
-        { name: 'TableVision', path: '/pixelvue/tablevision', desc: 'Table Display' },
+        { name: 'iPoster', path: '/pixelvue/iposter', desc: 'Digital Poster', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a3c59fd5d91fb3a4de1daee19fc66f420f400e3b55acf5ad1dc5ef13f68ac9bb.png' },
+        { name: 'iFlip', path: '/pixelvue/iflip', desc: 'Double-Sided LED', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/13c9ae8c0adc2af58bb3b0e8bc4b4f7f7b11daf61ff94f6aba87bb24f20ff2cf.png' },
+        { name: 'UltraFlip', path: '/pixelvue/ultra-flip', desc: 'Premium Poster', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/4f6dc34e3f4b34a1c894cb4f6a5c73e4c7b2f5b2a9c8d7e6f1a2b3c4d5e6f7a8.png' },
+        { name: 'DigiStandee', path: '/pixelvue/digi-standee', desc: 'Digital Standee', image: 'https://images.unsplash.com/photo-1573804013925-23708c8b7415?w=100&h=100&fit=crop' },
+        { name: 'OOH Poster', path: '/pixelvue/ooh-poster', desc: 'Outdoor Display', image: 'https://images.unsplash.com/photo-1598099947375-5e89a4d8c8e8?w=100&h=100&fit=crop' },
+        { name: 'Unity', path: '/pixelvue/unity', desc: 'Modular System', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/4a79d2684c36eb6c2d4eb4ad94d4234c4a44fb9f09d93e69cdb0c9e04b8fc81e.png' },
+        { name: 'Tetris', path: '/pixelvue/tetris', desc: 'Stackable Cubes', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop' },
+        { name: 'VideoBrick', path: '/pixelvue/videobrick', desc: 'Video Wall Bricks', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a6c8b9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8.png' },
+        { name: 'iConference', path: '/pixelvue/iconference', desc: 'Meeting Room Display', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=100&h=100&fit=crop' },
+        { name: 'EzeeSign', path: '/pixelvue/ezeesign', desc: 'Easy Signage', image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=100&h=100&fit=crop' },
+        { name: 'iShelf', path: '/pixelvue/ishelf', desc: 'Retail Shelf Display', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop' },
+        { name: 'TableVision', path: '/pixelvue/tablevision', desc: 'Table Display', image: 'https://images.unsplash.com/photo-1573804013925-23708c8b7415?w=100&h=100&fit=crop' },
       ]
     }
   };
@@ -482,14 +482,19 @@ const Navbar = () => {
                 </Link>
               }
             >
-              <div className="shadow-2xl py-2 px-1 min-w-[160px]" style={{ ...panelStyle, borderColor: 'rgba(34,211,238,0.2)' }}>
+              <div className="shadow-2xl py-2 px-1 min-w-[220px]" style={{ ...panelStyle, borderColor: 'rgba(34,211,238,0.2)' }}>
                 <Link to="/lumimorph" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-cyan-400 ${isDark ? 'hover:bg-cyan-500/10' : 'hover:bg-cyan-50'} transition-colors`}>
                   Overview
                 </Link>
                 {productFamilies.lumimorph.items.map((item) => (
-                  <Link key={item.path} to={item.path} onClick={closeAll} className={`block px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-cyan-500/10' : 'hover:bg-cyan-50'}`}>
-                    <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
-                    <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.desc}</span>
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-cyan-500/10' : 'hover:bg-cyan-50'}`}>
+                    <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-cyan-500/20">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                      <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'} truncate`}>{item.desc}</span>
+                    </div>
                   </Link>
                 ))}
               </div>
@@ -514,14 +519,19 @@ const Navbar = () => {
                 </Link>
               }
             >
-              <div className="shadow-2xl py-2 px-1 min-w-[160px]" style={{ ...panelStyle, borderColor: 'rgba(52,211,153,0.2)' }}>
+              <div className="shadow-2xl py-2 px-1 min-w-[220px]" style={{ ...panelStyle, borderColor: 'rgba(52,211,153,0.2)' }}>
                 <Link to="/naturatex" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-emerald-400 ${isDark ? 'hover:bg-emerald-500/10' : 'hover:bg-emerald-50'} transition-colors`}>
                   Overview
                 </Link>
                 {productFamilies.naturatex.items.map((item) => (
-                  <Link key={item.path} to={item.path} onClick={closeAll} className={`block px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-emerald-500/10' : 'hover:bg-emerald-50'}`}>
-                    <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
-                    <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.desc}</span>
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-emerald-500/10' : 'hover:bg-emerald-50'}`}>
+                    <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-emerald-500/20">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                      <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'} truncate`}>{item.desc}</span>
+                    </div>
                   </Link>
                 ))}
               </div>
@@ -546,14 +556,19 @@ const Navbar = () => {
                 </Link>
               }
             >
-              <div className="shadow-2xl py-2 px-1 min-w-[160px]" style={{ ...panelStyle, borderColor: 'rgba(251,191,36,0.2)' }}>
+              <div className="shadow-2xl py-2 px-1 min-w-[220px]" style={{ ...panelStyle, borderColor: 'rgba(251,191,36,0.2)' }}>
                 <Link to="/signatouch" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-amber-400 ${isDark ? 'hover:bg-amber-500/10' : 'hover:bg-amber-50'} transition-colors`}>
                   Overview
                 </Link>
                 {productFamilies.signatouch.items.map((item) => (
-                  <Link key={item.path} to={item.path} onClick={closeAll} className={`block px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-amber-500/10' : 'hover:bg-amber-50'}`}>
-                    <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
-                    <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.desc}</span>
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-amber-500/10' : 'hover:bg-amber-50'}`}>
+                    <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-amber-500/20">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                      <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'} truncate`}>{item.desc}</span>
+                    </div>
                   </Link>
                 ))}
               </div>
@@ -578,14 +593,19 @@ const Navbar = () => {
                 </Link>
               }
             >
-              <div className="shadow-2xl py-2 px-1 min-w-[160px]" style={{ ...panelStyle, borderColor: 'rgba(167,139,250,0.2)' }}>
+              <div className="shadow-2xl py-2 px-1 min-w-[220px] max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, borderColor: 'rgba(167,139,250,0.2)' }}>
                 <Link to="/glassmorph" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-violet-400 ${isDark ? 'hover:bg-violet-500/10' : 'hover:bg-violet-50'} transition-colors`}>
                   Overview
                 </Link>
                 {productFamilies.glassmorph.items.map((item) => (
-                  <Link key={item.path} to={item.path} onClick={closeAll} className={`block px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-violet-500/10' : 'hover:bg-violet-50'}`}>
-                    <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
-                    <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.desc}</span>
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-violet-500/10' : 'hover:bg-violet-50'}`}>
+                    <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-violet-500/20">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                      <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'} truncate`}>{item.desc}</span>
+                    </div>
                   </Link>
                 ))}
               </div>
@@ -610,14 +630,19 @@ const Navbar = () => {
                 </Link>
               }
             >
-              <div className="shadow-2xl py-2 px-1 min-w-[160px]" style={{ ...panelStyle, borderColor: 'rgba(251,113,133,0.2)' }}>
+              <div className="shadow-2xl py-2 px-1 min-w-[220px] max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, borderColor: 'rgba(251,113,133,0.2)' }}>
                 <Link to="/pixelvue" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-rose-400 ${isDark ? 'hover:bg-rose-500/10' : 'hover:bg-rose-50'} transition-colors`}>
                   Overview
                 </Link>
                 {productFamilies.pixelvue.items.map((item) => (
-                  <Link key={item.path} to={item.path} onClick={closeAll} className={`block px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-rose-500/10' : 'hover:bg-rose-50'}`}>
-                    <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
-                    <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{item.desc}</span>
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-rose-500/10' : 'hover:bg-rose-50'}`}>
+                    <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-rose-500/20">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                      <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'} truncate`}>{item.desc}</span>
+                    </div>
                   </Link>
                 ))}
               </div>

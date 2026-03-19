@@ -96,12 +96,12 @@ const ArtImmersiveLanding = () => {
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
           >
-            <source src="/videos/art-immersive-hero.mp4" type="video/mp4" />
+            <source src="/videos/art-hero-abstract.mp4" type="video/mp4" />
           </video>
           {/* Dark overlay for readability */}
-          <div className={`absolute inset-0 ${isDark ? 'bg-black/50' : 'bg-white/60'}`} />
+          <div className={`absolute inset-0 ${isDark ? 'bg-black/40' : 'bg-white/50'}`} />
           {/* Gradient overlay */}
-          <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#050508] via-transparent to-violet-900/20' : 'bg-gradient-to-t from-white via-transparent to-violet-100/30'}`} />
+          <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#050508] via-transparent to-violet-900/10' : 'bg-gradient-to-t from-white via-transparent to-violet-100/20'}`} />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-6 py-20">
@@ -164,6 +164,36 @@ const ArtImmersiveLanding = () => {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Immersive Video Showcase */}
+      <section className="py-16">
+        <div className="max-w-6xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="relative rounded-3xl overflow-hidden"
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full aspect-video object-cover"
+            >
+              <source src="/videos/art-immersive-hero.mp4" type="video/mp4" />
+            </video>
+            <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#050508]/80 via-transparent to-transparent' : 'bg-gradient-to-t from-white/80 via-transparent to-transparent'}`} />
+            <div className="absolute bottom-0 left-0 right-0 p-8">
+              <h3 className={`text-2xl md:text-3xl font-bold mb-2 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+                Experience Immersive Art
+              </h3>
+              <p className={`text-lg max-w-2xl ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                Step into a world where LED technology transforms spaces into breathtaking digital art experiences
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 

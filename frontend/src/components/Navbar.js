@@ -40,6 +40,7 @@ const Navbar = () => {
   const [signaTouchOpen, setSignaTouchOpen] = useState(false);
   const [glassMorphOpen, setGlassMorphOpen] = useState(false);
   const [pixelVueOpen, setPixelVueOpen] = useState(false);
+  const [artImmersiveOpen, setArtImmersiveOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { branding } = useSiteSettings();
@@ -237,6 +238,20 @@ const Navbar = () => {
         { name: 'iShelf', path: '/pixelvue/ishelf', desc: 'Retail Shelf Display', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop' },
         { name: 'TableVision', path: '/pixelvue/tablevision', desc: 'Table Display', image: 'https://images.unsplash.com/photo-1573804013925-23708c8b7415?w=100&h=100&fit=crop' },
       ]
+    },
+    artimmersive: {
+      color: 'violet',
+      colorClass: 'text-violet-400',
+      bgHover: 'hover:bg-violet-500/10',
+      borderColor: 'border-violet-500/20',
+      items: [
+        { name: 'NFT Gallery Displays', path: '/products?category=art-immersive&sub=nft-gallery', desc: 'Digital Art Museums', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop' },
+        { name: 'Immersive Walls', path: '/products?category=art-immersive&sub=immersive-experience', desc: 'teamLab-style', image: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=100&h=100&fit=crop' },
+        { name: 'XR/Virtual Production', path: '/products?category=art-immersive&sub=virtual-production', desc: 'Film & TV Stages', image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=100&h=100&fit=crop' },
+        { name: 'Metaverse LED', path: '/products?category=art-immersive&sub=metaverse', desc: 'Interactive Experiences', image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=100&h=100&fit=crop' },
+        { name: 'Sculptural LED', path: '/products?category=art-immersive&sub=sculptural', desc: 'Cylinders, Cubes, Waves', image: 'https://images.unsplash.com/photo-1514539079130-25950c84af65?w=100&h=100&fit=crop' },
+        { name: 'Public Art', path: '/products?category=art-immersive&sub=public-art', desc: 'Urban Landmarks', image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=100&h=100&fit=crop' },
+      ]
     }
   };
 
@@ -276,6 +291,7 @@ const Navbar = () => {
     setSignaTouchOpen(false);
     setGlassMorphOpen(false);
     setPixelVueOpen(false);
+    setArtImmersiveOpen(false);
   };
 
   /* Nav button component - UPPERCASE text with theme awareness */
@@ -637,6 +653,43 @@ const Navbar = () => {
                 {productFamilies.pixelvue.items.map((item) => (
                   <Link key={item.path} to={item.path} onClick={closeAll} className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-rose-500/10' : 'hover:bg-rose-50'}`}>
                     <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-rose-500/20">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className={`block text-[0.65rem] font-medium ${isDark ? 'text-white' : 'text-neutral-800'}`}>{item.name}</span>
+                      <span className={`block text-[0.55rem] ${isDark ? 'text-neutral-500' : 'text-neutral-400'} truncate`}>{item.desc}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </DropdownWrap>
+
+            {/* Art & Immersive - NEW */}
+            <DropdownWrap
+              isOpen={artImmersiveOpen}
+              setOpen={setArtImmersiveOpen}
+              testId="nav-artimmersive-dropdown"
+              trigger={
+                <Link
+                  to="/art-immersive"
+                  className={`flex items-center gap-1 text-[0.6875rem] font-bold tracking-[0.12em] uppercase relative pb-0.5 transition-colors duration-200 ${
+                    isActivePrefix('/art-immersive') ? 'text-violet-400' : 'text-violet-400/60 hover:text-violet-400'
+                  }`}
+                  data-testid="nav-artimmersive"
+                >
+                  ART & XR
+                  <ChevronDown size={10} className={`transition-transform duration-200 ${artImmersiveOpen ? 'rotate-180' : ''}`} />
+                  {isActivePrefix('/art-immersive') && <span className="absolute bottom-0 left-0 right-0 h-px bg-violet-400" />}
+                </Link>
+              }
+            >
+              <div className="shadow-2xl py-2 px-1 min-w-[220px] max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, borderColor: 'rgba(139,92,246,0.2)' }}>
+                <Link to="/art-immersive" onClick={closeAll} className={`block px-3 py-2 rounded-lg text-[0.65rem] font-semibold text-violet-400 ${isDark ? 'hover:bg-violet-500/10' : 'hover:bg-violet-50'} transition-colors`}>
+                  Overview
+                </Link>
+                {productFamilies.artimmersive.items.map((item) => (
+                  <Link key={item.path} to={item.path} onClick={closeAll} className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-violet-500/10' : 'hover:bg-violet-50'}`}>
+                    <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-violet-500/20">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div className="flex-1 min-w-0">

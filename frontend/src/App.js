@@ -148,6 +148,9 @@ const HangingLedPage = lazy(() => import('./pages/glassmorph').then(m => ({ defa
 const PixelVueLanding = lazy(() => import('./pages/pixelvue').then(m => ({ default: m.PixelVueLanding })));
 const PixelVueProductPage = lazy(() => import('./pages/pixelvue').then(m => ({ default: m.PixelVueProductPage })));
 
+// Art & Immersive Product Line - Lazy loaded
+const ArtImmersiveLanding = lazy(() => import('./pages/artimmersive').then(m => ({ default: m.ArtImmersiveLanding })));
+
 // Admin Context - Always loaded
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 const AdminLogin = lazy(() => import('./admin/AdminLogin'));
@@ -260,6 +263,9 @@ function AppRoutes() {
       <Route path="/pixelvue" element={<PublicLayout><PixelVueLanding /></PublicLayout>} />
       {/* Dynamic Product Detail Page - fetches from CMS */}
       <Route path="/pixelvue/:slug" element={<PublicLayout><PixelVueProductPage /></PublicLayout>} />
+      
+      {/* Art & Immersive Product Line */}
+      <Route path="/art-immersive" element={<PublicLayout><ArtImmersiveLanding /></PublicLayout>} />
       
       <Route path="/for-architects" element={<PublicLayout><ForArchitects /></PublicLayout>} />
       <Route path="/value-engineering" element={<PublicLayout><ValueEngineering /></PublicLayout>} />

@@ -668,6 +668,82 @@ const Home = () => {
       )}
 
       {/* ═══════════════════════════════════════════════════════════════════════
+          LIFESTYLE SHOWCASE — Home Cinema & Art Installations
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section className={`py-20 lg:py-28 border-t ${borderColor}`} data-testid="lifestyle-section">
+        <div className="max-w-7xl mx-auto px-6">
+          <FadeIn>
+            <div className="text-center mb-12">
+              <p className={`text-xs tracking-[0.2em] uppercase ${textSecondary} mb-4`}>LIFESTYLE SOLUTIONS</p>
+              <h2 className={`text-3xl md:text-4xl font-bold tracking-tight ${textPrimary}`}>
+                Beyond Commercial
+              </h2>
+            </div>
+          </FadeIn>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Home Cinema Card */}
+            <FadeIn delay={0.1}>
+              <Link 
+                to="/luxury-home-cinema"
+                className={`group relative overflow-hidden rounded-2xl ${isDark ? 'bg-white/[0.02] border-white/5 hover:border-amber-500/30' : 'bg-white border-neutral-200 hover:border-amber-300'} border transition-all duration-500`}
+                data-testid="home-cinema-widget"
+              >
+                <div className="aspect-video overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1593784991095-a205069470b6?w=800&fit=crop"
+                    alt="Luxury Home Cinema"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-neutral-900 via-neutral-900/50 to-transparent' : 'bg-gradient-to-t from-white via-white/50 to-transparent'}`} />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${isDark ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-100 text-amber-700'} text-xs font-medium mb-3`}>
+                    <Tv className="w-3 h-3" />
+                    HOME CINEMA
+                  </div>
+                  <h3 className={`text-2xl font-bold mb-2 ${textPrimary}`}>Luxury Home Cinema</h3>
+                  <p className={`text-sm ${textSecondary} mb-4`}>Indoor theaters, outdoor poolside screens, yacht entertainment systems</p>
+                  <span className={`inline-flex items-center gap-2 text-sm font-semibold ${isDark ? 'text-amber-400' : 'text-amber-600'} group-hover:gap-3 transition-all`}>
+                    Explore Collection <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </Link>
+            </FadeIn>
+
+            {/* Art & Immersive Card */}
+            <FadeIn delay={0.2}>
+              <Link 
+                to="/art-immersive"
+                className={`group relative overflow-hidden rounded-2xl ${isDark ? 'bg-white/[0.02] border-white/5 hover:border-violet-500/30' : 'bg-white border-neutral-200 hover:border-violet-300'} border transition-all duration-500`}
+                data-testid="art-immersive-widget"
+              >
+                <div className="aspect-video overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1768655317930-23e7cd2d336e?w=800&fit=crop"
+                    alt="Art & Immersive"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-neutral-900 via-neutral-900/50 to-transparent' : 'bg-gradient-to-t from-white via-white/50 to-transparent'}`} />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${isDark ? 'bg-violet-500/20 text-violet-400' : 'bg-violet-100 text-violet-700'} text-xs font-medium mb-3`}>
+                    <Sparkles className="w-3 h-3" />
+                    ART & XR
+                  </div>
+                  <h3 className={`text-2xl font-bold mb-2 ${textPrimary}`}>Art & Immersive</h3>
+                  <p className={`text-sm ${textSecondary} mb-4`}>NFT galleries, virtual production stages, immersive museums</p>
+                  <span className={`inline-flex items-center gap-2 text-sm font-semibold ${isDark ? 'text-violet-400' : 'text-violet-600'} group-hover:gap-3 transition-all`}>
+                    Explore Collection <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </Link>
+            </FadeIn>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════
           CTA SECTION — Clean, minimal
       ═══════════════════════════════════════════════════════════════════════ */}
       <section className={`py-28 lg:py-36 border-t ${borderColor}`} data-testid="cta-section">

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid, BookOpen, HelpCircle, Phone, Info, Factory, Users, Newspaper, FolderOpen, Shield, Sun, Moon, TrendingUp } from 'lucide-react';
+import { Menu, ChevronDown, Calculator, BarChart3, MonitorPlay, DollarSign, Wrench, GraduationCap, Cpu, Eye, Zap, Layers, FileText, Monitor, Tv, ShoppingBag, Shapes, Settings, Package, Grid3X3, Building2, Theater, Globe, TrafficCone, Sparkles, Box, Cuboid, BookOpen, HelpCircle, Phone, Info, Factory, Users, Newspaper, FolderOpen, Shield, Sun, Moon, TrendingUp, Palette } from 'lucide-react';
 import { useSiteSettings } from '../contexts/SiteSettingsContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -257,6 +257,13 @@ const Navbar = () => {
 
   /* ─── MORE MENU ITEMS (Technologies, Tools, and secondary links) ─── */
   const moreMenuSections = [
+    {
+      label: 'LIFESTYLE',
+      items: [
+        { name: 'Luxury Home Cinema', path: '/luxury-home-cinema', icon: Tv, desc: 'Indoor & outdoor cinema' },
+        { name: 'Art & Immersive', path: '/art-immersive', icon: Palette, desc: 'NFT, XR & digital art' },
+      ],
+    },
     {
       label: 'TECHNOLOGIES',
       items: techItems.map(item => ({ name: item.name, path: `/technology/${item.id}`, icon: item.icon, desc: item.desc })),

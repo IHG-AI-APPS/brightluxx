@@ -151,6 +151,9 @@ const PixelVueProductPage = lazy(() => import('./pages/pixelvue').then(m => ({ d
 // Art & Immersive Product Line - Lazy loaded
 const ArtImmersiveLanding = lazy(() => import('./pages/artimmersive').then(m => ({ default: m.ArtImmersiveLanding })));
 
+// Luxury Home Cinema - Lazy loaded
+const LuxuryHomeCinemaLanding = lazy(() => import('./pages/homecinema').then(m => ({ default: m.LuxuryHomeCinemaLanding })));
+
 // Admin Context - Always loaded
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 const AdminLogin = lazy(() => import('./admin/AdminLogin'));
@@ -266,6 +269,9 @@ function AppRoutes() {
       
       {/* Art & Immersive Product Line */}
       <Route path="/art-immersive" element={<PublicLayout><ArtImmersiveLanding /></PublicLayout>} />
+      
+      {/* Luxury Home Cinema */}
+      <Route path="/luxury-home-cinema" element={<PublicLayout><LuxuryHomeCinemaLanding /></PublicLayout>} />
       
       <Route path="/for-architects" element={<PublicLayout><ForArchitects /></PublicLayout>} />
       <Route path="/value-engineering" element={<PublicLayout><ValueEngineering /></PublicLayout>} />

@@ -2125,3 +2125,59 @@ Enhanced `ProductCard` component in `Products.js`:
 - ✅ Brightness shown in amber with icon
 - ✅ Consistent across all product cards
 
+
+---
+
+### LED Product Detail Page Complete Redesign — Dec 2025
+
+**User Request:** User was highly dissatisfied with the LED product detail pages, describing them as "messy" with non-unique/stretched images, poor design, and incomplete product hierarchy. User explicitly requested `design_agent` be called to fix this properly, with an "Apple-style" layout appealing to architects and designers.
+
+**Solution Implemented:**
+
+1. **Called `design_agent_full_stack`** to get professional design guidelines
+   - "Luminous Precision" theme: Deep black (#050508), Cyan accents (#22D3EE)
+   - Apple-style visual-first approach
+   - Immersive hero → Bento specs grid → Feature cards → Full specs → Applications → Related products → CTA
+
+2. **Generated 18 Unique AI Hero Images** using Gemini Imagen 4.0:
+   - Indoor (11 images): Control room, boardroom, luxury retail, corporate lobby, conference center, training facility, mall atrium, retail store, sports bar, auditorium, convention center
+   - Outdoor (7 images): Premium storefront, shopping center facade, stadium, concert, highway billboard, rooftop billboard, building facade
+   - Each pixel pitch has its own unique, realistic environment image
+
+3. **Complete Page Layout Redesign:**
+   - **Hero Section:** Full-width immersive background (70-80vh), gradient overlays, series badge, technology label, tagline with series color gradient, description, dual CTAs
+   - **Key Specs Bento Grid:** 6 specification cards with icons (Pixel Pitch, Resolution, Brightness, Refresh Rate, Contrast, Viewing Angle)
+   - **Viewing Distance Visual:** Progress bar indicator with min/optimal/max values
+   - **Key Features:** 4 feature cards with glassmorphism, icons, hover effects
+   - **Technical Specifications:** Expandable table (Show All/Show Less toggle)
+   - **Applications:** Tag pills with cyan checkmarks
+   - **Related Products:** Cards linking to other products in same series
+   - **CTA Section:** Glassmorphism card with ambient glow, Quote + Calculator links
+
+4. **Product Hierarchy Implemented:**
+   - **Indoor LED (11 products in 4 series):**
+     - UltraFine: P0.5, P0.7, P0.9 (Violet gradient)
+     - ProFine: P1.2, P1.5, P1.8 (Cyan gradient)
+     - Commercial: P2.0, P2.5, P3.0 (Emerald gradient)
+     - Standard: P3.9, P4.0 (Amber gradient)
+   - **Outdoor LED (7 products in 3 series):**
+     - OutdoorHD: P2.5, P3.0 (Cyan gradient)
+     - OutdoorPro: P4.0, P5.0 (Emerald gradient)
+     - Billboard: P6.0, P6.67, P8.0 (Orange gradient)
+
+5. **Technical Details per Product:**
+   - Full specifications: pixel pitch, resolution, brightness, refresh rate, contrast, viewing angle, grayscale, color temp, lifespan, power, weight, cabinet size, IP rating, operating temp
+   - Applications list (6 per product)
+   - 4 key features with icons and descriptions
+   - Viewing distance range (min, optimal, max)
+   - Price range indicator ($-$$$$$)
+
+**Files Modified:**
+- `frontend/src/pages/LEDProductDetailPage.js` - Complete rewrite with 18 unique product entries
+
+**Testing:** 100% frontend pass rate (iteration_96.json) - All 18 products verified with unique images, correct layouts, working navigation
+
+**Routes:**
+- `/indoor-led/:pitch` (e.g., `/indoor-led/p0-5`, `/indoor-led/p1-2`)
+- `/outdoor-led/:pitch` (e.g., `/outdoor-led/p6-0`, `/outdoor-led/p8-0`)
+

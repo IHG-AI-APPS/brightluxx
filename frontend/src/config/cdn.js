@@ -17,6 +17,11 @@ export function cdnUrl(path) {
     return path;
   }
   
+  // Handle local generated images - return as-is for relative paths served by frontend
+  if (path.startsWith('/generated-images/')) {
+    return path;
+  }
+  
   // Remove leading slash if present
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   

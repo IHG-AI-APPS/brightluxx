@@ -26,6 +26,7 @@ from routes.partners import router as partners_router
 from routes.site_settings import router as site_settings_router
 from routes.resources import router as resources_router
 from routes.taxonomy import router as taxonomy_router
+from routes.image_management import router as image_management_router
 from routes.homepage import router as homepage_router
 from routes.blog import router as blog_router
 from routes.case_studies import router as case_studies_router
@@ -109,6 +110,7 @@ app.include_router(technologies_api_router)
 app.include_router(applications_api_router)
 app.include_router(site_content_router)
 app.include_router(product_families_router)
+app.include_router(image_management_router)
 
 
 @app.on_event("startup")

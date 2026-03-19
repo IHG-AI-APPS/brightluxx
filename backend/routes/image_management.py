@@ -1,24 +1,24 @@
 """
 Image regeneration endpoint for updating product images with UAE-themed realistic images
-Uses OpenAI DALL-E API directly with user's API key
+Uses OpenAI GPT Image 1 (latest) via Emergent Integrations
 """
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 import os
 import uuid
-import httpx
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import datetime
 from motor.motor_asyncio import AsyncIOMotorClient
+from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
 
 load_dotenv()
 
 router = APIRouter(prefix="/api/admin/images", tags=["Image Management"])
 
-# User's OpenAI API key
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+# Emergent LLM Key for GPT Image 1
+EMERGENT_LLM_KEY = os.environ.get("EMERGENT_LLM_KEY")
 
 # MongoDB connection
 MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
@@ -26,22 +26,22 @@ DB_NAME = os.environ.get("DB_NAME", "brightluxx")
 client = AsyncIOMotorClient(MONGO_URL)
 db = client[DB_NAME]
 
-# UAE-themed prompts by category - Product concept focused, NO TEXT
+# UAE-themed prompts - Ultra realistic, photographic style
 CATEGORY_PROMPTS = {
-    "indoor": "Professional indoor LED video wall in a luxury Dubai corporate lobby displaying abstract colorful data visualization graphics, Burj Khalifa visible through floor-to-ceiling windows, modern Arabic-inspired marble interior, palm plants, warm lighting, no text on screens, photorealistic commercial photography",
-    "outdoor": "Large outdoor LED billboard on Sheikh Zayed Road Dubai displaying vibrant colorful abstract advertisement, golden hour sunset, Burj Al Arab and Dubai skyline in background, palm trees, modern UAE architecture, no text visible, photorealistic advertising photography",
-    "cob-microled": "Ultra-fine pitch MicroLED video wall in premium Dubai executive boardroom displaying abstract data graphics, leather executive chairs, Dubai Marina waterfront view through windows, minimalist luxury interior design, no text on screen, photorealistic corporate photography",
-    "transparent": "Transparent see-through LED glass display in Dubai Mall luxury boutique storefront showing fashion visuals, shoppers visible through the glass, premium retail environment, no text visible, photorealistic retail photography",
-    "flexible": "Curved flexible LED screen wrapping around architectural column in Abu Dhabi luxury hotel lobby showing abstract art, Arabic geometric patterns, gold accents, crystal chandelier, no text on display, photorealistic hospitality photography",
-    "all-in-one": "All-in-one LED display in modern Dubai meeting room showing presentation charts, business professionals in meeting, floor-to-ceiling windows with city view, contemporary office design, no text on screen, photorealistic corporate photography",
-    "cinema-led": "Premium cinema LED screen in Dubai multiplex showing dramatic movie scene, luxury recliner seats, dark theater ambiance, modern cinema architecture, no visible text, photorealistic entertainment photography",
-    "sphere": "LED sphere display installation in Dubai Festival City mall atrium showing colorful abstract patterns, shoppers looking up, modern mall architecture with glass ceiling, no text on display, photorealistic commercial photography",
-    "poster-totem": "Digital LED poster totem display in Dubai International Airport terminal showing colorful abstract graphics, modern airport architecture, travelers with luggage, no text visible, photorealistic travel photography",
-    "rental": "Portable rental LED screen at outdoor Dubai concert event showing concert stage visuals, enthusiastic crowd, Palm Jumeirah in background, night scene with professional lighting, no text on screen, photorealistic event photography",
-    "interactive": "Interactive LED floor display in Dubai children's museum with kids playing on colorful reactive graphics, modern educational environment, families enjoying, no text visible, photorealistic lifestyle photography",
-    "virtual-production": "Virtual production LED wall in Dubai film studio showing virtual environment backdrop, film crew working, professional camera equipment, modern studio setup, no text on screens, photorealistic behind-the-scenes photography",
-    "digital-signage": "Digital signage LED display in Dubai Metro station showing wayfinding graphics and abstract art, commuters walking past, modern transit architecture, minimal text, photorealistic urban photography",
-    "default": "Professional LED display in modern Dubai commercial space showing abstract colorful art, contemporary Arabic-inspired interior design, premium environment, no text on screen, photorealistic commercial photography"
+    "indoor": "Ultra realistic photograph of a modern LED video wall installed in a luxury Dubai corporate lobby, showing colorful abstract digital art on screen, marble floors, indoor palm trees, Burj Khalifa visible through large windows, professional architectural photography, 8K resolution, natural lighting",
+    "outdoor": "Ultra realistic photograph of a large LED billboard on Sheikh Zayed Road Dubai at sunset, displaying vibrant abstract colors, Burj Al Arab visible in background, palm trees, cars on highway, professional outdoor advertising photography, 8K resolution",
+    "cob-microled": "Ultra realistic photograph of a premium MicroLED video wall in a Dubai executive boardroom, showing data visualization graphics, leather chairs, Dubai Marina waterfront visible through floor-to-ceiling windows, professional interior photography, 8K resolution",
+    "transparent": "Ultra realistic photograph of a transparent LED display in a Dubai Mall luxury store window, showing fashion imagery, shoppers visible through glass, premium retail environment, professional commercial photography, 8K resolution",
+    "flexible": "Ultra realistic photograph of a curved LED screen wrapped around a column in Abu Dhabi hotel lobby, displaying abstract art, Arabic architecture details, crystal chandelier, professional hospitality photography, 8K resolution",
+    "all-in-one": "Ultra realistic photograph of an all-in-one LED display in a modern Dubai office meeting room, showing presentation graphics, professionals in meeting, city skyline through windows, professional corporate photography, 8K resolution",
+    "cinema-led": "Ultra realistic photograph of a cinema LED screen in a Dubai movie theater, showing dramatic film scene, luxury recliner seats, dark theater ambiance, professional entertainment photography, 8K resolution",
+    "sphere": "Ultra realistic photograph of an LED sphere installation in a Dubai mall atrium, displaying colorful patterns, shoppers below, modern architecture with glass ceiling, professional commercial photography, 8K resolution",
+    "poster-totem": "Ultra realistic photograph of a digital LED totem in Dubai Airport terminal, showing wayfinding graphics, travelers with luggage, modern airport interior, professional travel photography, 8K resolution",
+    "rental": "Ultra realistic photograph of a portable LED screen at an outdoor Dubai event, showing stage visuals, crowd watching, Palm Jumeirah in background, night scene, professional event photography, 8K resolution",
+    "interactive": "Ultra realistic photograph of an interactive LED floor in a Dubai museum, children playing on colorful reactive display, modern educational space, professional lifestyle photography, 8K resolution",
+    "virtual-production": "Ultra realistic photograph of a virtual production LED wall in a Dubai film studio, showing virtual backdrop, film crew and cameras, professional behind-the-scenes photography, 8K resolution",
+    "digital-signage": "Ultra realistic photograph of digital signage LED displays in Dubai Metro station, showing wayfinding information, commuters walking, modern transit architecture, professional urban photography, 8K resolution",
+    "default": "Ultra realistic photograph of a professional LED display in a modern Dubai commercial space, showing abstract digital art, contemporary Arabic interior design, professional commercial photography, 8K resolution"
 }
 
 class ImageGenerationRequest(BaseModel):
@@ -52,41 +52,25 @@ class BulkImageRequest(BaseModel):
     category: Optional[str] = None
     limit: Optional[int] = 10
 
-async def generate_image_openai(prompt: str) -> str:
-    """Generate image using OpenAI DALL-E 3 API and return URL"""
-    if not OPENAI_API_KEY:
-        raise HTTPException(status_code=500, detail="OpenAI API key not configured")
+async def generate_image_openai(prompt: str) -> bytes:
+    """Generate image using OpenAI GPT Image 1 (latest, most realistic)"""
+    if not EMERGENT_LLM_KEY:
+        raise HTTPException(status_code=500, detail="Emergent LLM key not configured")
     
-    async with httpx.AsyncClient(timeout=120.0) as http_client:
-        response = await http_client.post(
-            "https://api.openai.com/v1/images/generations",
-            headers={
-                "Authorization": f"Bearer {OPENAI_API_KEY}",
-                "Content-Type": "application/json"
-            },
-            json={
-                "model": "dall-e-3",
-                "prompt": prompt,
-                "n": 1,
-                "size": "1792x1024",
-                "quality": "hd",
-                "style": "natural"
-            }
+    try:
+        image_gen = OpenAIImageGeneration(api_key=EMERGENT_LLM_KEY)
+        images = await image_gen.generate_images(
+            prompt=prompt,
+            model="gpt-image-1",
+            number_of_images=1
         )
         
-        if response.status_code != 200:
-            error_detail = response.json().get("error", {}).get("message", "Unknown error")
-            raise HTTPException(status_code=response.status_code, detail=f"OpenAI API error: {error_detail}")
-        
-        data = response.json()
-        image_url = data["data"][0]["url"]
-        
-        # Download the image
-        img_response = await http_client.get(image_url)
-        if img_response.status_code != 200:
-            raise HTTPException(status_code=500, detail="Failed to download generated image")
-        
-        return img_response.content
+        if images and len(images) > 0:
+            return images[0]
+        else:
+            raise HTTPException(status_code=500, detail="No image was generated")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Image generation error: {str(e)}")
 
 async def upload_to_cdn(image_bytes: bytes, filename: str) -> str:
     """Upload image to local storage and return URL"""

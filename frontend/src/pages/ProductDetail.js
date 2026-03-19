@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ChevronDown, Check, Monitor, Cpu, Layers, Sun, Shield, Zap, Ruler, Eye, Download, Send, MessageCircle, Grid3X3, RefreshCw, Gauge } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Send, MessageCircle, Download, Grid3X3, Sun, Monitor, RefreshCw, Zap, Eye, Shield, Layers } from 'lucide-react';
 import { getProduct, getProducts, createLead } from '../api';
 import CdnImage from '../components/CdnImage';
-import SEO, { resolveImage, BASE_URL } from '../components/SEO';
+import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { trackProductView, trackQuoteRequest } from '../lib/tracker';
 import QuickInquiry from '../components/QuickInquiry';
@@ -22,156 +22,81 @@ const CATEGORY_LABELS = {
   'digital-signage': 'Digital Signage', 'smart-tv': 'Smart TVs', 'ready-made': 'Ready-Made',
 };
 
-// Category to color gradient mapping
 const CATEGORY_COLORS = {
-  'cob-microled': { gradient: 'from-violet-500 to-purple-600', glow: 'bg-violet-500/20' },
-  'mip': { gradient: 'from-violet-500 to-purple-600', glow: 'bg-violet-500/20' },
-  'indoor': { gradient: 'from-cyan-500 to-blue-600', glow: 'bg-cyan-500/20' },
-  'outdoor': { gradient: 'from-orange-500 to-amber-600', glow: 'bg-orange-500/20' },
-  'transparent': { gradient: 'from-emerald-500 to-teal-600', glow: 'bg-emerald-500/20' },
-  'flexible': { gradient: 'from-rose-500 to-pink-600', glow: 'bg-rose-500/20' },
-  'cinema-led': { gradient: 'from-amber-500 to-orange-600', glow: 'bg-amber-500/20' },
-  'dvled': { gradient: 'from-amber-500 to-orange-600', glow: 'bg-amber-500/20' },
-  'all-in-one': { gradient: 'from-cyan-500 to-blue-600', glow: 'bg-cyan-500/20' },
-  'default': { gradient: 'from-cyan-500 to-blue-600', glow: 'bg-cyan-500/20' },
+  'cob-microled': 'text-violet-400 bg-violet-500/10 border-violet-500/20',
+  'mip': 'text-violet-400 bg-violet-500/10 border-violet-500/20',
+  'indoor': 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
+  'outdoor': 'text-orange-400 bg-orange-500/10 border-orange-500/20',
+  'transparent': 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+  'flexible': 'text-rose-400 bg-rose-500/10 border-rose-500/20',
+  'all-in-one': 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
+  'default': 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
 };
 
-/* ============================================
-   COMPONENT: Specification Card
-   ============================================ */
-const SpecCard = ({ icon: Icon, label, value, isDark }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    className={`p-5 rounded-2xl ${isDark ? 'bg-white/[0.03] border border-white/[0.06]' : 'bg-white border border-neutral-200'}`}
-  >
-    <div className="flex items-start gap-3">
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDark ? 'bg-cyan-500/10' : 'bg-cyan-50'}`}>
-        <Icon className="w-5 h-5 text-cyan-400" />
-      </div>
-      <div>
-        <p className={`text-xs uppercase tracking-wider ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{label}</p>
-        <p className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-neutral-900'}`}>{value}</p>
-      </div>
-    </div>
-  </motion.div>
-);
-
-/* ============================================
-   COMPONENT: Related Product Card
-   ============================================ */
-const RelatedProductCard = ({ product, isDark }) => {
-  const colors = CATEGORY_COLORS[product.category] || CATEGORY_COLORS.default;
-  return (
-    <Link
-      to={`/products/${product.slug}`}
-      className={`block p-4 rounded-xl ${isDark ? 'bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06]' : 'bg-neutral-50 hover:bg-neutral-100'} transition-all group`}
-    >
-      <div className="flex items-center gap-4">
-        <div className="w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
-          <CdnImage src={product.image_url} alt={product.name} className="w-full h-full" imgClassName="w-full h-full object-cover" w={100} />
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className={`text-sm font-bold bg-gradient-to-r ${colors.gradient} bg-clip-text text-transparent`}>
-              {product.pixel_pitch || product.product_code}
-            </span>
-          </div>
-          <p className={`text-sm ${isDark ? 'text-white' : 'text-neutral-900'} truncate`}>
-            {product.name}
-          </p>
-        </div>
-        <ArrowRight className={`w-4 h-4 flex-shrink-0 ${isDark ? 'text-neutral-600' : 'text-neutral-400'} group-hover:translate-x-1 transition-transform`} />
-      </div>
-    </Link>
-  );
-};
-
-/* ============================================
-   MAIN COMPONENT: Product Detail Page
-   ============================================ */
 export default function ProductDetail() {
   const { slug } = useParams();
   const { isDark } = useTheme();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [related, setRelated] = useState([]);
-  const [specsExpanded, setSpecsExpanded] = useState(false);
-  const [formState, setFormState] = useState({ name: '', email: '', phone: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // Theme classes
-  const bgColor = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
-  const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
-  const textSecondary = isDark ? 'text-neutral-400' : 'text-neutral-600';
+  const bg = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
+  const text1 = isDark ? 'text-white' : 'text-neutral-900';
+  const text2 = isDark ? 'text-neutral-400' : 'text-neutral-600';
+  const card = isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-neutral-200';
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setSubmitted(false);
-    const fetchProduct = async () => {
+    const load = async () => {
       setLoading(true);
       try {
         const res = await getProduct(slug);
         setProduct(res.data);
         trackProductView(slug, res.data.category);
-        const relRes = await getProducts({ category: res.data.category });
-        setRelated(
-          (relRes.data.products || [])
-            .filter(p => p.slug !== slug)
-            .slice(0, 3)
-        );
+        const rel = await getProducts({ category: res.data.category });
+        setRelated((rel.data.products || []).filter(p => p.slug !== slug).slice(0, 4));
       } catch (e) {
-        console.error('Error fetching product:', e);
         setProduct(null);
       } finally {
         setLoading(false);
       }
     };
-    fetchProduct();
+    load();
   }, [slug]);
 
-  const handleQuote = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     try {
       await createLead({
-        name: formState.name,
-        email: formState.email,
-        phone: formState.phone,
-        message: formState.message || `Interested in ${product.product_code} - ${product.name}`,
-        product_interest: product.product_code,
-        application: product.category,
-        source: 'product_detail'
+        name: formData.name, email: formData.email, phone: formData.phone,
+        message: formData.message || `Quote request for ${product.product_code}`,
+        product_interest: product.product_code, application: product.category, source: 'product_detail'
       });
       trackQuoteRequest(product.slug);
       setSubmitted(true);
-    } catch (e) {
-      console.error('Error submitting quote:', e);
-    } finally {
-      setSubmitting(false);
-    }
+    } catch (e) { console.error(e); }
+    finally { setSubmitting(false); }
   };
 
   if (loading) {
     return (
-      <div className={`min-h-screen ${bgColor} flex items-center justify-center`} data-testid="product-detail-loading">
-        <div className="w-10 h-10 border-2 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin" />
+      <div className={`min-h-screen ${bg} flex items-center justify-center`}>
+        <div className="w-8 h-8 border-2 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin" />
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className={`min-h-screen ${bgColor} flex items-center justify-center`} data-testid="product-not-found">
-        <div className="text-center px-6">
-          <h1 className={`text-2xl font-bold ${textPrimary} mb-4`}>Product Not Found</h1>
-          <p className={`${textSecondary} mb-6`}>The requested product could not be found.</p>
-          <Link 
-            to="/products" 
-            className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors"
-          >
+      <div className={`min-h-screen ${bg} flex items-center justify-center`}>
+        <div className="text-center">
+          <h1 className={`text-xl font-bold ${text1} mb-4`}>Product Not Found</h1>
+          <Link to="/products" className="text-cyan-400 hover:underline flex items-center justify-center gap-2">
             <ArrowLeft size={16} /> Back to Products
           </Link>
         </div>
@@ -179,307 +104,184 @@ export default function ProductDetail() {
     );
   }
 
-  const colors = CATEGORY_COLORS[product.category] || CATEGORY_COLORS.default;
-  const applications = product.application ? product.application.split(',').map(a => a.trim()) : [];
-
-  // Build key specs array
-  const keySpecs = [
-    product.pixel_pitch && { icon: Grid3X3, label: 'Pixel Pitch', value: product.pixel_pitch },
-    product.resolution && { icon: Monitor, label: 'Resolution', value: product.resolution },
-    product.brightness && { icon: Sun, label: 'Brightness', value: product.brightness },
-    product.refresh_rate && { icon: RefreshCw, label: 'Refresh Rate', value: product.refresh_rate },
-  ].filter(Boolean);
-
-  // Add key_specs from product if available
-  if (product.key_specs?.length) {
-    product.key_specs.slice(0, 2).forEach(spec => {
-      keySpecs.push({ icon: Gauge, label: spec.label, value: spec.value });
-    });
-  }
-
-  // Full specs for the table - deduplicated
-  const fullSpecsRaw = [
-    product.pixel_pitch && { label: 'Pixel Pitch', value: product.pixel_pitch },
-    product.resolution && { label: 'Resolution', value: product.resolution },
-    product.brightness && { label: 'Brightness', value: product.brightness },
-    product.refresh_rate && { label: 'Refresh Rate', value: product.refresh_rate },
-    ...(product.key_specs || []).map(spec => ({ label: spec.label, value: spec.value })),
-  ].filter(Boolean);
+  const colorClass = CATEGORY_COLORS[product.category] || CATEGORY_COLORS.default;
+  const apps = product.application ? product.application.split(',').map(a => a.trim()) : [];
   
-  // Deduplicate by label to prevent React key warning
-  const seenLabels = new Set();
-  const fullSpecs = fullSpecsRaw.filter(spec => {
-    if (seenLabels.has(spec.label)) return false;
-    seenLabels.add(spec.label);
-    return true;
-  });
+  // Build specs array
+  const specs = [
+    product.pixel_pitch && { icon: Grid3X3, label: 'Pixel Pitch', value: product.pixel_pitch },
+    product.brightness && { icon: Sun, label: 'Brightness', value: product.brightness },
+    product.resolution && { icon: Monitor, label: 'Resolution', value: product.resolution },
+    product.refresh_rate && { icon: RefreshCw, label: 'Refresh Rate', value: product.refresh_rate },
+    ...(product.key_specs || []).slice(0, 4).map(s => ({ icon: Layers, label: s.label, value: s.value }))
+  ].filter(Boolean).slice(0, 6);
 
   return (
-    <div className={`min-h-screen ${bgColor}`} data-testid={`product-detail-${product.slug}`}>
+    <div className={`min-h-screen ${bg}`} data-testid={`product-detail-${product.slug}`}>
       <SEO
-        title={`${product.name} | LED Display Dubai UAE`}
-        description={`${product.tagline || product.name}. ${product.pixel_pitch || ''} pixel pitch, ${product.brightness || ''} brightness. Buy from Dubai's trusted LED supplier.`}
+        title={`${product.name} | Brightluxx LED Dubai`}
+        description={product.tagline || product.description?.slice(0, 160)}
         image={product.image_url}
         path={`/products/${product.slug}`}
         type="product"
       />
 
-      {/* ============================================
-          SECTION 1: IMMERSIVE HERO
-          ============================================ */}
-      <section className="relative min-h-[70vh] lg:min-h-[80vh] flex items-end overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <CdnImage 
-            src={product.image_url} 
-            alt={product.name} 
-            className="w-full h-full" 
-            imgClassName="w-full h-full object-cover"
-            w={1920}
-            eager
-          />
-          {/* Gradient Overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/70 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#050508]/80 to-transparent" />
-          {/* Ambient Glow */}
-          <div className={`absolute bottom-0 left-1/4 w-96 h-96 ${colors.glow} blur-[150px] opacity-50`} />
-        </div>
+      {/* ===== HEADER SECTION ===== */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-8">
+        <Breadcrumbs 
+          items={[
+            { name: 'Products', path: '/products' },
+            { name: CATEGORY_LABELS[product.category] || product.category, path: `/products?category=${product.category}` },
+            { name: product.name, path: null }
+          ]} 
+        />
+      </div>
 
-        {/* Hero Content */}
-        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 pb-16 lg:pb-24">
-          <Breadcrumbs 
-            items={[
-              { name: 'Home', path: '/' }, 
-              { name: 'Products', path: '/products' },
-              { name: CATEGORY_LABELS[product.category] || product.category, path: `/products?category=${product.category}` },
-              { name: product.name, path: null }
-            ]} 
-            className="mb-6" 
-          />
-
-          <Link 
-            to="/products" 
-            className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-cyan-400 transition-colors mb-6"
-          >
-            <ArrowLeft size={16} /> Back to Products
-          </Link>
-
+      {/* ===== MAIN PRODUCT SECTION (Split Layout) ===== */}
+      <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-12">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          
+          {/* LEFT: Product Image */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-2xl"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            {/* Badges */}
-            <div className="flex items-center gap-3 mb-4 flex-wrap">
+            <div className={`relative rounded-2xl overflow-hidden border ${card} aspect-[4/3]`}>
+              <CdnImage 
+                src={product.image_url} 
+                alt={product.name} 
+                className="w-full h-full" 
+                imgClassName="w-full h-full object-cover"
+                w={800}
+                eager
+              />
+              {/* Category Badge */}
+              <div className="absolute top-4 left-4">
+                <span className={`px-3 py-1.5 rounded-full text-xs font-bold border backdrop-blur-sm ${colorClass}`}>
+                  {CATEGORY_LABELS[product.category] || product.category}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* RIGHT: Product Info */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="space-y-6"
+          >
+            {/* Product Code & Pitch */}
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className={`text-xs font-mono ${text2}`}>{product.product_code}</span>
               {product.pixel_pitch && (
-                <span className={`px-3 py-1.5 rounded-full text-xs font-bold tracking-wider bg-gradient-to-r ${colors.gradient} text-white`}>
+                <span className="px-2.5 py-1 rounded-lg text-sm font-bold bg-cyan-500 text-black">
                   {product.pixel_pitch}
                 </span>
               )}
-              <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white/70 border border-white/10">
-                {product.product_code}
-              </span>
-              <span className="text-xs font-medium text-neutral-400 uppercase tracking-wider">
-                {CATEGORY_LABELS[product.category] || product.category}
-              </span>
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-3">
+            <h1 className={`text-3xl md:text-4xl font-bold ${text1} tracking-tight`}>
               {product.name}
             </h1>
 
             {/* Tagline */}
             {product.tagline && (
-              <p className={`text-xl md:text-2xl font-medium bg-gradient-to-r ${colors.gradient} bg-clip-text text-transparent mb-6`}>
-                {product.tagline}
-              </p>
+              <p className="text-lg text-cyan-400 font-medium">{product.tagline}</p>
             )}
 
             {/* Description */}
             {product.description && (
-              <p className="text-neutral-300 text-base md:text-lg leading-relaxed mb-8 max-w-xl line-clamp-3">
-                {product.description}
-              </p>
+              <p className={`${text2} leading-relaxed`}>{product.description}</p>
+            )}
+
+            {/* Quick Specs Grid */}
+            {specs.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {specs.map((spec, i) => (
+                  <div key={i} className={`p-3 rounded-xl border ${card}`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <spec.icon size={14} className="text-cyan-400" />
+                      <span className={`text-[10px] uppercase tracking-wider ${text2}`}>{spec.label}</span>
+                    </div>
+                    <p className={`text-sm font-semibold ${text1}`}>{spec.value}</p>
+                  </div>
+                ))}
+              </div>
             )}
 
             {/* CTAs */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3 pt-2">
               <a
-                href="#quote-form"
-                className={`bg-gradient-to-r ${colors.gradient} text-white font-semibold px-8 py-3.5 rounded-full inline-flex items-center gap-2 hover:opacity-90 transition-all shadow-lg`}
+                href="#quote"
+                className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-6 py-3 rounded-full inline-flex items-center gap-2 transition-colors"
                 data-testid="request-quote-btn"
               >
-                <Send size={16} /> Request Quote
+                <Send size={16} /> Get Quote
               </a>
               <a
-                href={`https://wa.me/971559954274?text=${encodeURIComponent(`Hi, I'm interested in ${product.product_code} - ${product.name}. Can you share pricing?`)}`}
+                href={`https://wa.me/971559954274?text=${encodeURIComponent(`Hi, I need pricing for ${product.product_code} - ${product.name}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold px-8 py-3.5 rounded-full inline-flex items-center gap-2 hover:bg-white/20 transition-all"
-                data-testid="whatsapp-btn"
+                className={`border ${isDark ? 'border-white/20 text-white hover:bg-white/10' : 'border-neutral-300 text-neutral-700 hover:bg-neutral-100'} font-semibold px-6 py-3 rounded-full inline-flex items-center gap-2 transition-colors`}
               >
                 <MessageCircle size={16} /> WhatsApp
               </a>
-              <Link 
-                to={`/resources?product=${product.product_code}`}
-                className="text-neutral-400 hover:text-cyan-400 transition-colors inline-flex items-center gap-2 font-medium"
-              >
-                <Download size={16} /> Spec Sheet
-              </Link>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ============================================
-          SECTION 2: KEY SPECIFICATIONS (BENTO GRID)
-          ============================================ */}
-      {keySpecs.length > 0 && (
-        <section className={`py-16 lg:py-24 ${isDark ? 'bg-[#050508]' : 'bg-neutral-50'}`}>
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mb-10"
-            >
-              <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-2">Technical Overview</p>
-              <h2 className={`text-2xl md:text-3xl font-bold ${textPrimary}`}>Key Specifications</h2>
-            </motion.div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              {keySpecs.slice(0, 6).map((spec, index) => (
-                <SpecCard key={spec.label} icon={spec.icon} label={spec.label} value={spec.value} isDark={isDark} />
+      {/* ===== APPLICATIONS ===== */}
+      {apps.length > 0 && (
+        <section className={`py-16 ${isDark ? 'bg-white/[0.01]' : 'bg-white'}`}>
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-3">Applications</p>
+            <h2 className={`text-2xl font-bold ${text1} mb-6`}>Ideal For</h2>
+            <div className="flex flex-wrap gap-2">
+              {apps.map((app, i) => (
+                <span key={i} className={`px-4 py-2 rounded-full text-sm border ${card} ${text2} inline-flex items-center gap-2`}>
+                  <Check size={14} className="text-cyan-400" /> {app}
+                </span>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* ============================================
-          SECTION 3: APPLICATIONS
-          ============================================ */}
-      {applications.length > 0 && (
-        <section className={`py-16 lg:py-24 ${isDark ? 'bg-white/[0.01]' : 'bg-white'}`}>
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mb-10"
-            >
-              <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-2">Ideal Use Cases</p>
-              <h2 className={`text-2xl md:text-3xl font-bold ${textPrimary}`}>Recommended Applications</h2>
-            </motion.div>
-
-            <div className="flex flex-wrap gap-3">
-              {applications.map((app, index) => (
-                <motion.span 
-                  key={app}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  className={`px-5 py-2.5 rounded-full text-sm font-medium ${isDark ? 'bg-white/[0.05] text-white/80 border border-white/[0.08]' : 'bg-neutral-100 text-neutral-700'} inline-flex items-center gap-2`}
-                >
-                  <Check size={14} className="text-cyan-400" />
-                  {app}
-                </motion.span>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ============================================
-          SECTION 4: FULL SPECIFICATIONS
-          ============================================ */}
-      {fullSpecs.length > 0 && (
-        <section className={`py-16 lg:py-24 ${isDark ? 'bg-[#050508]' : 'bg-neutral-50'}`}>
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mb-10 flex items-center justify-between"
-            >
-              <div>
-                <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-2">Complete Details</p>
-                <h2 className={`text-2xl md:text-3xl font-bold ${textPrimary}`}>Technical Specifications</h2>
-              </div>
-              {fullSpecs.length > 6 && (
-                <button
-                  onClick={() => setSpecsExpanded(!specsExpanded)}
-                  className={`flex items-center gap-2 text-sm ${textSecondary} hover:text-cyan-400 transition-colors`}
-                >
-                  {specsExpanded ? 'Show Less' : 'Show All'}
-                  <ChevronDown className={`w-4 h-4 transition-transform ${specsExpanded ? 'rotate-180' : ''}`} />
-                </button>
-              )}
-            </motion.div>
-
-            <div className={`rounded-2xl overflow-hidden ${isDark ? 'bg-white/[0.02] border border-white/[0.06]' : 'bg-white shadow-lg'}`}>
-              <div className="grid md:grid-cols-2">
-                {fullSpecs
-                  .slice(0, specsExpanded ? undefined : 6)
-                  .map((spec, index) => (
-                  <div 
-                    key={spec.label} 
-                    className={`flex justify-between items-center px-6 py-4 ${index % 2 === 0 ? '' : isDark ? 'bg-white/[0.01]' : 'bg-neutral-50'} ${isDark ? 'border-b border-white/[0.04]' : 'border-b border-neutral-100'}`}
-                  >
-                    <span className={textSecondary}>{spec.label}</span>
-                    <span className={`font-medium ${textPrimary}`}>{spec.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ============================================
-          SECTION 5: QUOTE FORM
-          ============================================ */}
-      <section id="quote-form" className={`py-16 lg:py-24 ${isDark ? 'bg-white/[0.01]' : 'bg-white'}`}>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={`p-8 md:p-12 rounded-3xl ${isDark ? 'bg-white/[0.02] border border-white/[0.06]' : 'bg-neutral-50'}`}
-          >
+      {/* ===== QUOTE FORM ===== */}
+      <section id="quote" className={`py-16 ${bg}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <div className={`rounded-2xl border ${card} p-8 md:p-12`}>
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Left - Info */}
               <div>
-                <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-2">Get Pricing</p>
-                <h2 className={`text-2xl md:text-3xl font-bold ${textPrimary} mb-4`}>Request a Quote</h2>
-                <p className={`${textSecondary} mb-8`}>
-                  Get pricing, lead times, and custom configuration options for the {product.name}. Our team typically responds within 2 hours.
+                <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-3">Get Pricing</p>
+                <h2 className={`text-2xl md:text-3xl font-bold ${text1} mb-4`}>Request a Quote</h2>
+                <p className={`${text2} mb-6`}>
+                  Get competitive pricing, delivery times, and custom configurations. We respond within 2 hours.
                 </p>
                 
+                {/* Benefits */}
                 <div className="space-y-3">
-                  {['Free project consultation', 'Custom size & configuration', 'Competitive volume pricing', '2-year manufacturer warranty', 'Local stock in Dubai'].map((item, i) => (
+                  {['Free consultation', 'Custom sizes available', 'Volume discounts', '2-year warranty', 'Dubai stock'].map((item, i) => (
                     <div key={i} className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-full bg-cyan-500/10 flex items-center justify-center">
-                        <Check size={12} className="text-cyan-400" />
-                      </div>
-                      <span className={`text-sm ${textSecondary}`}>{item}</span>
+                      <Check size={16} className="text-cyan-400" />
+                      <span className={`text-sm ${text2}`}>{item}</span>
                     </div>
                   ))}
                 </div>
 
                 {/* Product Preview */}
-                <div className={`mt-8 p-4 rounded-xl ${isDark ? 'bg-white/[0.03] border border-white/[0.06]' : 'bg-white border border-neutral-200'}`}>
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-lg overflow-hidden">
-                      <CdnImage src={product.image_url} alt={product.name} className="w-full h-full" imgClassName="w-full h-full object-cover" w={100} />
-                    </div>
-                    <div>
-                      <span className="text-xs text-cyan-400 font-bold uppercase tracking-wider">{product.product_code}</span>
-                      <h4 className={`text-sm font-bold ${textPrimary}`}>{product.name}</h4>
-                    </div>
+                <div className={`mt-8 p-4 rounded-xl border ${card} flex items-center gap-4`}>
+                  <div className="w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                    <CdnImage src={product.image_url} alt={product.name} className="w-full h-full" imgClassName="w-full h-full object-cover" w={100} />
+                  </div>
+                  <div>
+                    <span className="text-xs text-cyan-400 font-bold">{product.product_code}</span>
+                    <h4 className={`text-sm font-semibold ${text1}`}>{product.name}</h4>
                   </div>
                 </div>
               </div>
@@ -487,158 +289,103 @@ export default function ProductDetail() {
               {/* Right - Form */}
               <div>
                 {submitted ? (
-                  <div className="flex flex-col items-center justify-center h-full py-12">
-                    <div className="w-20 h-20 rounded-full bg-cyan-500/10 flex items-center justify-center mb-6">
-                      <Check size={36} className="text-cyan-400" />
+                  <div className="flex flex-col items-center justify-center h-full py-8">
+                    <div className="w-16 h-16 rounded-full bg-cyan-500/10 flex items-center justify-center mb-4">
+                      <Check size={32} className="text-cyan-400" />
                     </div>
-                    <h3 className={`text-xl font-bold ${textPrimary} mb-2`}>Quote Request Sent</h3>
-                    <p className={`text-sm ${textSecondary} text-center`}>
-                      We'll contact you within 2 hours with pricing for {product.product_code}.
-                    </p>
+                    <h3 className={`text-lg font-bold ${text1} mb-2`}>Request Sent</h3>
+                    <p className={`text-sm ${text2} text-center`}>We'll contact you within 2 hours.</p>
                   </div>
                 ) : (
-                  <form onSubmit={handleQuote} className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                      <label className={`text-xs uppercase tracking-widest ${textSecondary} mb-2 block`}>Your Name *</label>
+                      <label className={`text-xs uppercase tracking-widest ${text2} mb-2 block`}>Name *</label>
                       <input
                         type="text"
-                        placeholder="John Smith"
                         required
-                        value={formState.name}
-                        onChange={e => setFormState(s => ({ ...s, name: e.target.value }))}
-                        className={`w-full ${isDark ? 'bg-white/[0.03] border-white/10 text-white placeholder:text-neutral-600' : 'bg-white border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-xl px-4 py-3 outline-none focus:border-cyan-500 transition-colors`}
-                        data-testid="quote-name-input"
+                        value={formData.name}
+                        onChange={e => setFormData(s => ({ ...s, name: e.target.value }))}
+                        className={`w-full ${isDark ? 'bg-white/[0.03] border-white/10 text-white' : 'bg-white border-neutral-200 text-neutral-900'} border rounded-xl px-4 py-3 outline-none focus:border-cyan-500`}
+                        placeholder="Your name"
                       />
                     </div>
                     <div>
-                      <label className={`text-xs uppercase tracking-widest ${textSecondary} mb-2 block`}>Email Address *</label>
+                      <label className={`text-xs uppercase tracking-widest ${text2} mb-2 block`}>Email *</label>
                       <input
                         type="email"
-                        placeholder="john@company.com"
                         required
-                        value={formState.email}
-                        onChange={e => setFormState(s => ({ ...s, email: e.target.value }))}
-                        className={`w-full ${isDark ? 'bg-white/[0.03] border-white/10 text-white placeholder:text-neutral-600' : 'bg-white border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-xl px-4 py-3 outline-none focus:border-cyan-500 transition-colors`}
-                        data-testid="quote-email-input"
+                        value={formData.email}
+                        onChange={e => setFormData(s => ({ ...s, email: e.target.value }))}
+                        className={`w-full ${isDark ? 'bg-white/[0.03] border-white/10 text-white' : 'bg-white border-neutral-200 text-neutral-900'} border rounded-xl px-4 py-3 outline-none focus:border-cyan-500`}
+                        placeholder="your@email.com"
                       />
                     </div>
                     <div>
-                      <label className={`text-xs uppercase tracking-widest ${textSecondary} mb-2 block`}>Phone Number</label>
+                      <label className={`text-xs uppercase tracking-widest ${text2} mb-2 block`}>Phone</label>
                       <input
                         type="tel"
+                        value={formData.phone}
+                        onChange={e => setFormData(s => ({ ...s, phone: e.target.value }))}
+                        className={`w-full ${isDark ? 'bg-white/[0.03] border-white/10 text-white' : 'bg-white border-neutral-200 text-neutral-900'} border rounded-xl px-4 py-3 outline-none focus:border-cyan-500`}
                         placeholder="+971 50 123 4567"
-                        value={formState.phone}
-                        onChange={e => setFormState(s => ({ ...s, phone: e.target.value }))}
-                        className={`w-full ${isDark ? 'bg-white/[0.03] border-white/10 text-white placeholder:text-neutral-600' : 'bg-white border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-xl px-4 py-3 outline-none focus:border-cyan-500 transition-colors`}
-                        data-testid="quote-phone-input"
                       />
                     </div>
                     <div>
-                      <label className={`text-xs uppercase tracking-widest ${textSecondary} mb-2 block`}>Project Details</label>
+                      <label className={`text-xs uppercase tracking-widest ${text2} mb-2 block`}>Message</label>
                       <textarea
-                        placeholder="Tell us about your project..."
-                        rows={4}
-                        value={formState.message}
-                        onChange={e => setFormState(s => ({ ...s, message: e.target.value }))}
-                        className={`w-full ${isDark ? 'bg-white/[0.03] border-white/10 text-white placeholder:text-neutral-600' : 'bg-white border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-xl px-4 py-3 outline-none focus:border-cyan-500 transition-colors resize-none`}
-                        data-testid="quote-message-input"
+                        rows={3}
+                        value={formData.message}
+                        onChange={e => setFormData(s => ({ ...s, message: e.target.value }))}
+                        className={`w-full ${isDark ? 'bg-white/[0.03] border-white/10 text-white' : 'bg-white border-neutral-200 text-neutral-900'} border rounded-xl px-4 py-3 outline-none focus:border-cyan-500 resize-none`}
+                        placeholder="Project details..."
                       />
                     </div>
                     <button 
                       type="submit" 
-                      disabled={submitting} 
-                      className={`w-full bg-gradient-to-r ${colors.gradient} text-white font-semibold py-4 rounded-full transition-all flex items-center justify-center gap-2 hover:opacity-90`}
-                      data-testid="quote-submit-btn"
+                      disabled={submitting}
+                      className="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-semibold py-4 rounded-full transition-colors flex items-center justify-center gap-2"
                     >
-                      {submitting ? (
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      ) : (
-                        <>
-                          <Send size={16} /> Send Quote Request
-                        </>
-                      )}
+                      {submitting ? <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : <><Send size={16} /> Send Request</>}
                     </button>
                   </form>
                 )}
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* ============================================
-          SECTION 6: RELATED PRODUCTS
-          ============================================ */}
+      {/* ===== RELATED PRODUCTS ===== */}
       {related.length > 0 && (
-        <section className={`py-16 lg:py-24 ${isDark ? 'bg-[#050508]' : 'bg-neutral-50'}`}>
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mb-10 flex items-center justify-between"
-            >
+        <section className={`py-16 ${isDark ? 'bg-white/[0.01]' : 'bg-white'}`}>
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <div className="flex items-center justify-between mb-8">
               <div>
-                <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-2">More Options</p>
-                <h2 className={`text-2xl md:text-3xl font-bold ${textPrimary}`}>Related Products</h2>
+                <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-2">Similar Products</p>
+                <h2 className={`text-2xl font-bold ${text1}`}>You May Also Like</h2>
               </div>
-              <Link 
-                to={`/products?category=${product.category}`} 
-                className="hidden md:flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold text-sm transition-colors"
-              >
+              <Link to={`/products?category=${product.category}`} className="text-cyan-400 hover:text-cyan-300 text-sm font-medium flex items-center gap-1">
                 View All <ArrowRight size={14} />
               </Link>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-4">
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {related.map((p) => (
-                <RelatedProductCard key={p._id || p.id} product={p} isDark={isDark} />
+                <Link key={p._id || p.id} to={`/products/${p.slug}`} className={`group rounded-xl border ${card} overflow-hidden`}>
+                  <div className="aspect-[4/3] overflow-hidden">
+                    <CdnImage src={p.image_url} alt={p.name} className="w-full h-full" imgClassName="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" w={300} />
+                  </div>
+                  <div className="p-4">
+                    <span className="text-xs text-cyan-400 font-bold">{p.pixel_pitch || p.product_code}</span>
+                    <h3 className={`text-sm font-semibold ${text1} line-clamp-1 mt-1`}>{p.name}</h3>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* ============================================
-          SECTION 7: BOTTOM CTA
-          ============================================ */}
-      <section className={`py-16 lg:py-24 ${isDark ? 'bg-white/[0.01]' : 'bg-white'}`}>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={`p-8 md:p-12 rounded-3xl text-center ${isDark ? 'bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.06]' : 'bg-neutral-50'}`}
-          >
-            <div className={`absolute inset-0 ${colors.glow} opacity-20 blur-3xl rounded-3xl`} />
-            
-            <div className="relative z-10">
-              <h2 className={`text-2xl md:text-3xl font-bold ${textPrimary} mb-4`}>
-                Not sure which product is right?
-              </h2>
-              <p className={`${textSecondary} mb-8 max-w-xl mx-auto`}>
-                Use our specifier tools or talk to our experts for personalized recommendations.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <Link
-                  to="/calculator"
-                  className={`bg-gradient-to-r ${colors.gradient} text-white font-semibold px-8 py-3.5 rounded-full inline-flex items-center gap-2 hover:opacity-90 transition-all shadow-lg`}
-                >
-                  Screen Calculator
-                </Link>
-                <Link
-                  to="/contact"
-                  className={`${isDark ? 'bg-white/10 hover:bg-white/20 border border-white/20' : 'bg-neutral-100 hover:bg-neutral-200'} ${textPrimary} font-semibold px-8 py-3.5 rounded-full inline-flex items-center gap-2 transition-all`}
-                >
-                  Talk to Expert
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {product && <QuickInquiry context={product.name || 'this LED display'} />}
+      {product && <QuickInquiry context={product.name} />}
     </div>
   );
 }

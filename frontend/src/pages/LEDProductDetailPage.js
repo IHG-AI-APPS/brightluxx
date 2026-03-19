@@ -16,7 +16,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Ultimate 8K Resolution',
     technology: 'MicroLED',
     description: 'The pinnacle of LED display technology. P0.5 MicroLED delivers unprecedented pixel density for mission-critical applications where every detail matters.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0485635cb2b8a22f4c3a3ba83ff1290c402d261b4cbf57b761024b0e43c68bbc.png',
     specs: {
       pixelPitch: '0.5mm',
       resolution: '4,000,000 pixels/m²',
@@ -52,7 +52,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Premium 4K/8K Display',
     technology: 'MicroLED / COB',
     description: 'Exceptional resolution for control rooms and broadcast environments. P0.7 balances ultra-fine pitch with proven reliability.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0485635cb2b8a22f4c3a3ba83ff1290c402d261b4cbf57b761024b0e43c68bbc.png',
     specs: {
       pixelPitch: '0.7mm',
       resolution: '2,040,816 pixels/m²',
@@ -88,7 +88,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'High-End Commercial',
     technology: 'COB',
     description: 'The sweet spot for premium installations. P0.9 COB delivers outstanding image quality for boardrooms, lobbies, and high-end retail.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0485635cb2b8a22f4c3a3ba83ff1290c402d261b4cbf57b761024b0e43c68bbc.png',
     specs: {
       pixelPitch: '0.9mm',
       resolution: '1,234,568 pixels/m²',
@@ -124,7 +124,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Premium Corporate Grade',
     technology: 'COB / MiP',
     description: 'Ideal for boardrooms and corporate environments where image quality meets practical budgets. P1.2 delivers excellent resolution without premium pricing.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/e3c03b78fc23beb93eaa2ecfdc0d49736f744050dff29baa56623bc0efdda297.png',
     specs: {
       pixelPitch: '1.2mm',
       resolution: '694,444 pixels/m²',
@@ -160,7 +160,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Mainstream Premium',
     technology: 'COB / MiP',
     description: 'The most popular fine-pitch option. P1.5 balances resolution, reliability, and cost for a wide range of professional applications.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/e3c03b78fc23beb93eaa2ecfdc0d49736f744050dff29baa56623bc0efdda297.png',
     specs: {
       pixelPitch: '1.5mm',
       resolution: '444,444 pixels/m²',
@@ -196,7 +196,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Corporate Workhorse',
     technology: 'MiP / SMD',
     description: 'Excellent choice for larger meeting rooms and mid-sized venues. P1.8 offers outstanding value for most corporate applications.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/e3c03b78fc23beb93eaa2ecfdc0d49736f744050dff29baa56623bc0efdda297.png',
     specs: {
       pixelPitch: '1.8mm',
       resolution: '308,642 pixels/m²',
@@ -232,7 +232,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Retail & Public Spaces',
     technology: 'SMD / MiP',
     description: 'Optimized for retail environments and public spaces. P2.0 delivers vibrant visuals at distances where fine pitch is overkill.',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/221ec354d620d27dd0b9b4eabe84b1d268e4726747a8737d4b2561fd5fbca837.png',
     specs: {
       pixelPitch: '2.0mm',
       resolution: '250,000 pixels/m²',
@@ -268,7 +268,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Versatile Commercial',
     technology: 'SMD',
     description: 'The industry workhorse for indoor commercial applications. P2.5 is the go-to choice for most retail and public space installations.',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/221ec354d620d27dd0b9b4eabe84b1d268e4726747a8737d4b2561fd5fbca837.png',
     specs: {
       pixelPitch: '2.5mm',
       resolution: '160,000 pixels/m²',
@@ -304,7 +304,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Value Champion',
     technology: 'SMD',
     description: 'Maximum value for larger indoor spaces. P3.0 delivers excellent visual impact at the lowest cost per square meter.',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/221ec354d620d27dd0b9b4eabe84b1d268e4726747a8737d4b2561fd5fbca837.png',
     specs: {
       pixelPitch: '3.0mm',
       resolution: '111,111 pixels/m²',
@@ -340,7 +340,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Large Venue Standard',
     technology: 'SMD',
     description: 'Designed for auditoriums and large event spaces where viewing distances exceed 4 meters.',
-    image: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/2bcf5cac055abe24047334068182a79b1d43d66b87625e54b77377e2e5a60622.png',
     specs: {
       pixelPitch: '3.91mm',
       resolution: '65,746 pixels/m²',
@@ -376,7 +376,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Budget Large Format',
     technology: 'SMD',
     description: 'Maximum coverage at minimum cost. P4.0 is ideal for very large indoor displays viewed from significant distances.',
-    image: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/2bcf5cac055abe24047334068182a79b1d43d66b87625e54b77377e2e5a60622.png',
     specs: {
       pixelPitch: '4.0mm',
       resolution: '62,500 pixels/m²',
@@ -416,7 +416,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Fine Pitch Outdoor',
     technology: 'SMD (GOB)',
     description: 'The finest pitch for outdoor use. P2.5 Outdoor brings indoor-quality resolution to weatherproof applications.',
-    image: 'https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/002fb00f8a21cafb92b122f33609d5492eae1a7fc81332a48bf4c34d9fcdf5a1.png',
     specs: {
       pixelPitch: '2.5mm',
       resolution: '160,000 pixels/m²',
@@ -452,7 +452,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Premium Outdoor',
     technology: 'SMD (GOB)',
     description: 'High resolution outdoor display for close-viewing applications. Perfect balance of quality and durability.',
-    image: 'https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/002fb00f8a21cafb92b122f33609d5492eae1a7fc81332a48bf4c34d9fcdf5a1.png',
     specs: {
       pixelPitch: '3.0mm',
       resolution: '111,111 pixels/m²',
@@ -488,7 +488,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Professional Grade',
     technology: 'SMD',
     description: 'The workhorse of outdoor advertising. P4.0 delivers excellent visual quality for most outdoor applications.',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/47fcca49bc4f67b0283afe988242f41fe383d2dabdd894374019eccda504a241.png',
     specs: {
       pixelPitch: '4.0mm',
       resolution: '62,500 pixels/m²',
@@ -524,7 +524,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Value Leader',
     technology: 'SMD',
     description: 'Excellent value for mid-distance outdoor viewing. P5.0 covers more area for less investment.',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/47fcca49bc4f67b0283afe988242f41fe383d2dabdd894374019eccda504a241.png',
     specs: {
       pixelPitch: '5.0mm',
       resolution: '40,000 pixels/m²',
@@ -560,7 +560,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Billboard Standard',
     technology: 'SMD',
     description: 'Industry standard for digital billboards. P6.0 delivers excellent visibility at typical billboard viewing distances.',
-    image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6bfa3b57c0bd801f4fd7eb15dd300886a85b59782e79c76c0c761585ba411a99.png',
     specs: {
       pixelPitch: '6.0mm',
       resolution: '27,778 pixels/m²',
@@ -596,7 +596,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Popular Billboard',
     technology: 'SMD',
     description: 'Most popular billboard pitch worldwide. P6.67 offers the ideal balance of resolution and cost for advertising.',
-    image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6bfa3b57c0bd801f4fd7eb15dd300886a85b59782e79c76c0c761585ba411a99.png',
     specs: {
       pixelPitch: '6.67mm',
       resolution: '22,500 pixels/m²',
@@ -632,7 +632,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Large Scale Billboard',
     technology: 'SMD',
     description: 'Maximum coverage for large-scale outdoor installations. P8.0 delivers impressive impact at long viewing distances.',
-    image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800',
+    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/8bd25e2d06721631ddbffb67d9203a7314ed91bed93a933c58f406211f23194b.png',
     specs: {
       pixelPitch: '8.0mm',
       resolution: '15,625 pixels/m²',
@@ -723,12 +723,17 @@ export default function LEDProductDetailPage() {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="relative aspect-video rounded-2xl overflow-hidden"
+              className="relative aspect-[3/2] rounded-2xl overflow-hidden"
             >
-              <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
-              <div className={`absolute inset-0 bg-gradient-to-t ${product.color} opacity-20`} />
+              <img 
+                src={product.image} 
+                alt={product.name} 
+                className="w-full h-full object-cover"
+                style={{ objectPosition: 'center' }}
+              />
+              <div className={`absolute inset-0 bg-gradient-to-t ${product.color} opacity-10`} />
               <div className="absolute top-4 left-4">
-                <span className={`px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r ${product.color} text-white`}>
+                <span className={`px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r ${product.color} text-white shadow-lg`}>
                   {product.pitch}
                 </span>
               </div>

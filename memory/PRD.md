@@ -2057,3 +2057,33 @@ All individual product page files removed (IPosterPage.js, IFlipPage.js, etc.) -
 
 **Testing:** Screenshot verified - all pages load correctly with proper navigation
 
+
+---
+
+### Indoor/Outdoor LED Series Enhancement — March 19, 2026
+
+**Issues Fixed:**
+1. **Stretched images** - Fixed aspect ratio to 3:2 for proper display
+2. **Low quality stock images** - Generated 8 AI realistic images using Gemini Imagen:
+   - Indoor: Control room, boardroom, retail mall, auditorium
+   - Outdoor: Storefront, facade, highway billboard, stadium
+3. **All pixel pitches properly mapped** per user specification:
+
+**Indoor LED (11 pitches):**
+- UltraFine: P0.5, P0.7, P0.9 (MicroLED/COB)
+- ProFine: P1.2, P1.5, P1.8 (COB/MiP)
+- Commercial: P2.0, P2.5, P3.0 (SMD/MiP)
+- Standard: P3.9, P4.0 (SMD)
+
+**Outdoor LED (7 pitches):**
+- OutdoorHD: P2.5, P3.0 (6,000-6,500 nits)
+- OutdoorPro: P4.0, P5.0 (7,000-7,500 nits)
+- Billboard: P6.0, P6.67, P8.0 (8,000-10,000 nits)
+
+**Files Updated:**
+- `frontend/src/pages/LEDProductDetailPage.js` - New AI images, fixed aspect ratios, all pitch data
+
+**Verification:**
+- ✅ Indoor P0.9 detail page - Control room image, proper specs
+- ✅ Outdoor P6.67 detail page - Highway billboard image, 8,500 nits displayed
+

@@ -197,14 +197,22 @@ export default function ProductDetail() {
     });
   }
 
-  // Full specs for the table
-  const fullSpecs = [
+  // Full specs for the table - deduplicated
+  const fullSpecsRaw = [
     product.pixel_pitch && { label: 'Pixel Pitch', value: product.pixel_pitch },
     product.resolution && { label: 'Resolution', value: product.resolution },
     product.brightness && { label: 'Brightness', value: product.brightness },
     product.refresh_rate && { label: 'Refresh Rate', value: product.refresh_rate },
     ...(product.key_specs || []).map(spec => ({ label: spec.label, value: spec.value })),
   ].filter(Boolean);
+  
+  // Deduplicate by label to prevent React key warning
+  const seenLabels = new Set();
+  const fullSpecs = fullSpecsRaw.filter(spec => {
+    if (seenLabels.has(spec.label)) return false;
+    seenLabels.add(spec.label);
+    return true;
+  });
 
   return (
     <div className={`min-h-screen ${bgColor}`} data-testid={`product-detail-${product.slug}`}>

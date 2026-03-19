@@ -2267,3 +2267,73 @@ Enhanced `ProductCard` component in `Products.js`:
 
 **Testing:** Visual verification via screenshots - All dropdowns render correctly with images
 
+
+---
+
+### Complete ProductDetail.js Redesign — Dec 2025
+
+**Issue Identified:** User reported that `/products/:slug` routes (API-based products from database) were still using the OLD messy layout, while only `/indoor-led/:pitch` and `/outdoor-led/:pitch` routes had the new Apple-style design.
+
+**Root Cause:** Two separate product detail components existed:
+1. `LEDProductDetailPage.js` - New design (for Indoor/Outdoor LED static products)
+2. `ProductDetail.js` - OLD design (for API-based products from database)
+
+**Solution Implemented:**
+
+Completely rewrote `ProductDetail.js` to match the Apple-style layout:
+
+1. **Immersive Hero Section:**
+   - Full-width background image with gradient overlays
+   - Category-specific ambient glow colors
+   - Breadcrumbs navigation
+   - Pixel pitch badge with category gradient
+   - Product code badge
+   - Category label
+   - Product title and tagline
+   - Request Quote, WhatsApp, and Spec Sheet CTAs
+
+2. **Key Specifications Bento Grid:**
+   - 6 spec cards with icons
+   - Pixel Pitch, Resolution, Brightness, Refresh Rate, etc.
+
+3. **Recommended Applications:**
+   - Pill-style tags with cyan checkmarks
+   - Populated from product.application field
+
+4. **Technical Specifications Table:**
+   - Expandable with "Show All" toggle
+   - Deduplicated to prevent React key warnings
+
+5. **Quote Request Form:**
+   - Product preview card
+   - Form fields: Name, Email, Phone, Project Details
+   - Success state with confirmation message
+
+6. **Related Products:**
+   - 3 products from same category
+   - Card layout with thumbnails
+
+7. **Bottom CTA:**
+   - Screen Calculator and Talk to Expert links
+
+**Category Color Gradients:**
+- `cob-microled`: Violet (`from-violet-500 to-purple-600`)
+- `indoor`: Cyan (`from-cyan-500 to-blue-600`)
+- `outdoor`: Orange (`from-orange-500 to-amber-600`)
+- `flexible`: Rose (`from-rose-500 to-pink-600`)
+- `transparent`: Emerald (`from-emerald-500 to-teal-600`)
+- `default`: Cyan
+
+**Files Modified:**
+- `frontend/src/pages/ProductDetail.js` - Complete rewrite (705 → 460 lines)
+
+**Testing:** 100% pass rate (iteration_98.json) - 11 features verified:
+- Products listing page with TiltCard
+- 4 different /products/:slug pages tested
+- 3 /indoor-led/:pitch and /outdoor-led/:pitch pages tested
+- Quote form submission working
+- Consistent Apple-style layout across both systems
+- Category-specific gradient colors verified
+
+**Result:** ALL product detail pages now have consistent premium Apple-style design, regardless of whether accessed via /products/:slug (database) or /indoor-led/:pitch (static) routes.
+

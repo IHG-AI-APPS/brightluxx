@@ -30,6 +30,16 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Added to More menu under "Lifestyle" section
 - Theme-aware styling (light/dark mode support)
 
+### Custom Signage Quote Form — Mar 20, 2026
+- Added comprehensive "Request Custom Signage Quote" form to `/signage-solutions#quote` page
+- Smart conditional fields:
+  - Channel Letters: Letter Height, Illumination Type, Material selection
+  - Menu Boards/Wayfinding: Display Size selection
+- Form fields: Contact Info, Signage Type, Quantity, Location, Timeline, Budget Range, Installation Address, Project Brief
+- Backend API: `POST /api/signage-inquiry` saves to MongoDB leads collection with email notification
+- Success state with "Quote Request Received!" confirmation
+- Budget options in AED currency for GCC market
+
 ### Core Site
 - Product catalog (57 products), CMS, admin panel, JWT auth, analytics, contact form
 

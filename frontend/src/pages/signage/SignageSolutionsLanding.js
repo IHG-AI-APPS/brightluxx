@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { 
   Type, Monitor, Layers, Box, Building2, ArrowRight, 
   Sparkles, Eye, Tv, MapPin, Menu, ShoppingBag,
-  CheckCircle2, Zap, Globe, Star
+  CheckCircle2, Zap, Globe, Star, Send, Loader2
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -15,6 +15,28 @@ const SignageSolutionsLanding = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('all');
   const { isDark } = useTheme();
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    signage_type: '',
+    quantity: '',
+    letter_height: '',
+    illumination: '',
+    material: '',
+    display_size: '',
+    location: '',
+    installation_address: '',
+    timeline: '',
+    budget_range: '',
+    project_brief: ''
+  });
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formError, setFormError] = useState('');
 
   useEffect(() => {
     fetchProducts();
@@ -31,6 +53,42 @@ const SignageSolutionsLanding = () => {
       console.error('Error fetching products:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setFormSubmitting(true);
+    setFormError('');
+    
+    try {
+      const res = await fetch(`${API_URL}/api/signage-inquiry`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      if (res.ok) {
+        setFormSubmitted(true);
+        setFormData({
+          name: '', company: '', email: '', phone: '',
+          signage_type: '', quantity: '', letter_height: '',
+          illumination: '', material: '', display_size: '',
+          location: '', installation_address: '', timeline: '',
+          budget_range: '', project_brief: ''
+        });
+      } else {
+        setFormError('Failed to submit. Please try again.');
+      }
+    } catch (err) {
+      setFormError('Network error. Please try again.');
+    } finally {
+      setFormSubmitting(false);
     }
   };
 
@@ -358,32 +416,369 @@ const SignageSolutionsLanding = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24">
-        <div className="max-w-4xl mx-auto px-6">
+      {/* Custom Signage Inquiry Form */}
+      <section id="quote" className={`py-24 ${isDark ? 'bg-neutral-900/50' : 'bg-neutral-50'}`}>
+        <div className="max-w-5xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className={`relative overflow-hidden rounded-3xl border p-12 text-center ${isDark ? 'bg-gradient-to-br from-rose-950/50 to-orange-950/50 border-rose-500/20' : 'bg-gradient-to-br from-rose-100 to-orange-100 border-rose-200'}`}
+            className="text-center mb-12"
           >
-            <div className="relative">
-              <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
-                Ready to Transform Your Storefront?
-              </h2>
-              <p className={`text-lg mb-8 max-w-2xl mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
-                From design consultation to installation, our team delivers complete signage solutions
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link
-                  to="/contact"
-                  className={`inline-flex items-center gap-2 px-8 py-4 font-semibold rounded-full transition-colors ${isDark ? 'bg-white text-rose-900 hover:bg-neutral-100' : 'bg-rose-600 text-white hover:bg-rose-700'}`}
-                >
-                  Get Free Quote
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-              </div>
-            </div>
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+              Request Custom Signage Quote
+            </h2>
+            <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
+              Tell us about your project and we'll provide a detailed quote within 24 hours
+            </p>
           </motion.div>
+
+          {formSubmitted ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className={`rounded-2xl p-12 text-center ${isDark ? 'bg-emerald-950/30 border border-emerald-500/20' : 'bg-emerald-50 border border-emerald-200'}`}
+            >
+              <CheckCircle2 className={`w-16 h-16 mx-auto mb-4 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
+              <h3 className={`text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+                Quote Request Received!
+              </h3>
+              <p className={`mb-6 ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
+                Our signage specialists will review your requirements and contact you within 24 hours.
+              </p>
+              <button
+                onClick={() => setFormSubmitted(false)}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${isDark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-neutral-200 text-neutral-800 hover:bg-neutral-300'}`}
+              >
+                Submit Another Request
+              </button>
+            </motion.div>
+          ) : (
+            <motion.form
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              onSubmit={handleFormSubmit}
+              className={`rounded-2xl p-8 md:p-10 ${isDark ? 'bg-white/[0.02] border border-white/10' : 'bg-white border border-neutral-200 shadow-lg'}`}
+            >
+              {/* Contact Information */}
+              <div className="mb-8">
+                <h3 className={`text-lg font-semibold mb-4 pb-2 border-b ${isDark ? 'text-white border-white/10' : 'text-neutral-900 border-neutral-200'}`}>
+                  Contact Information
+                </h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                      Your Name *
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleFormChange}
+                      required
+                      className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-neutral-500 focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                      placeholder="John Smith"
+                    />
+                  </div>
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                      Company
+                    </label>
+                    <input
+                      type="text"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleFormChange}
+                      className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-neutral-500 focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                      placeholder="Your company name"
+                    />
+                  </div>
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleFormChange}
+                      required
+                      className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-neutral-500 focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                      placeholder="john@company.com"
+                    />
+                  </div>
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                      Phone / WhatsApp
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleFormChange}
+                      className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-neutral-500 focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                      placeholder="+971 50 123 4567"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Signage Details */}
+              <div className="mb-8">
+                <h3 className={`text-lg font-semibold mb-4 pb-2 border-b ${isDark ? 'text-white border-white/10' : 'text-neutral-900 border-neutral-200'}`}>
+                  Signage Details
+                </h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                      Signage Type *
+                    </label>
+                    <select
+                      name="signage_type"
+                      value={formData.signage_type}
+                      onChange={handleFormChange}
+                      required
+                      className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                    >
+                      <option value="">Select type...</option>
+                      <option value="channel-letters">Channel Letters (Storefront)</option>
+                      <option value="menu-boards">Digital Menu Boards</option>
+                      <option value="wayfinding">Wayfinding / Directory</option>
+                      <option value="transparent">Transparent Window LED</option>
+                      <option value="pylon">Pylon / Monument Sign</option>
+                      <option value="fuel-price">Gas Station Price Sign</option>
+                      <option value="custom">Custom / Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                      Quantity
+                    </label>
+                    <input
+                      type="text"
+                      name="quantity"
+                      value={formData.quantity}
+                      onChange={handleFormChange}
+                      className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-neutral-500 focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                      placeholder="e.g., 1 set, 10 letters, 3 displays"
+                    />
+                  </div>
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                      Location Type
+                    </label>
+                    <select
+                      name="location"
+                      value={formData.location}
+                      onChange={handleFormChange}
+                      className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                    >
+                      <option value="">Select location...</option>
+                      <option value="indoor">Indoor Only</option>
+                      <option value="outdoor">Outdoor Only</option>
+                      <option value="both">Both Indoor & Outdoor</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                      Timeline
+                    </label>
+                    <select
+                      name="timeline"
+                      value={formData.timeline}
+                      onChange={handleFormChange}
+                      className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                    >
+                      <option value="">Select timeline...</option>
+                      <option value="urgent">Urgent (ASAP)</option>
+                      <option value="1-2-weeks">1-2 Weeks</option>
+                      <option value="1-month">Within 1 Month</option>
+                      <option value="2-3-months">2-3 Months</option>
+                      <option value="flexible">Flexible / Planning Stage</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Channel Letters Specific (Conditional) */}
+              {(formData.signage_type === 'channel-letters' || formData.signage_type === 'pylon') && (
+                <div className="mb-8">
+                  <h3 className={`text-lg font-semibold mb-4 pb-2 border-b ${isDark ? 'text-amber-400 border-white/10' : 'text-amber-600 border-neutral-200'}`}>
+                    Letter Specifications
+                  </h3>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div>
+                      <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                        Letter Height
+                      </label>
+                      <select
+                        name="letter_height"
+                        value={formData.letter_height}
+                        onChange={handleFormChange}
+                        className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                      >
+                        <option value="">Select height...</option>
+                        <option value="10-24">10" - 24" (Small)</option>
+                        <option value="24-48">24" - 48" (Medium)</option>
+                        <option value="48-72">48" - 72" (Large)</option>
+                        <option value="72+">72"+ (Extra Large)</option>
+                        <option value="custom">Custom Size</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                        Illumination
+                      </label>
+                      <select
+                        name="illumination"
+                        value={formData.illumination}
+                        onChange={handleFormChange}
+                        className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                      >
+                        <option value="">Select illumination...</option>
+                        <option value="front-lit">Front-Lit (Face Glow)</option>
+                        <option value="halo-lit">Halo/Back-Lit (Silhouette)</option>
+                        <option value="dual-lit">Dual-Lit (Front + Halo)</option>
+                        <option value="neon-style">Neon-Style LED</option>
+                        <option value="non-illuminated">Non-Illuminated</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                        Material
+                      </label>
+                      <select
+                        name="material"
+                        value={formData.material}
+                        onChange={handleFormChange}
+                        className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                      >
+                        <option value="">Select material...</option>
+                        <option value="aluminum-acrylic">Aluminum + Acrylic</option>
+                        <option value="stainless-steel">Stainless Steel</option>
+                        <option value="bronze">Bronze / Brass</option>
+                        <option value="painted-metal">Painted Metal</option>
+                        <option value="flexible-neon">Flexible LED Neon</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Menu/Digital Signage Specific (Conditional) */}
+              {(formData.signage_type === 'menu-boards' || formData.signage_type === 'wayfinding') && (
+                <div className="mb-8">
+                  <h3 className={`text-lg font-semibold mb-4 pb-2 border-b ${isDark ? 'text-cyan-400 border-white/10' : 'text-cyan-600 border-neutral-200'}`}>
+                    Display Specifications
+                  </h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                        Display Size
+                      </label>
+                      <select
+                        name="display_size"
+                        value={formData.display_size}
+                        onChange={handleFormChange}
+                        className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                      >
+                        <option value="">Select size...</option>
+                        <option value="32">32" Display</option>
+                        <option value="43">43" Display</option>
+                        <option value="55">55" Display</option>
+                        <option value="65">65" Display</option>
+                        <option value="75">75" Display</option>
+                        <option value="86+">86"+ Large Format</option>
+                        <option value="video-wall">Video Wall Configuration</option>
+                        <option value="custom-led">Custom LED Size</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Project Details */}
+              <div className="mb-8">
+                <h3 className={`text-lg font-semibold mb-4 pb-2 border-b ${isDark ? 'text-white border-white/10' : 'text-neutral-900 border-neutral-200'}`}>
+                  Project Details
+                </h3>
+                <div className="grid md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                      Installation Address / City
+                    </label>
+                    <input
+                      type="text"
+                      name="installation_address"
+                      value={formData.installation_address}
+                      onChange={handleFormChange}
+                      className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-neutral-500 focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                      placeholder="e.g., Dubai Mall, Sheikh Zayed Road"
+                    />
+                  </div>
+                  <div>
+                    <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                      Budget Range
+                    </label>
+                    <select
+                      name="budget_range"
+                      value={formData.budget_range}
+                      onChange={handleFormChange}
+                      className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${isDark ? 'bg-white/5 border-white/10 text-white focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                    >
+                      <option value="">Select budget...</option>
+                      <option value="under-5k">Under AED 20,000</option>
+                      <option value="20k-50k">AED 20,000 - 50,000</option>
+                      <option value="50k-100k">AED 50,000 - 100,000</option>
+                      <option value="100k-250k">AED 100,000 - 250,000</option>
+                      <option value="250k+">AED 250,000+</option>
+                      <option value="not-sure">Not Sure / Need Guidance</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label className={`block text-sm font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                    Project Brief / Additional Details
+                  </label>
+                  <textarea
+                    name="project_brief"
+                    value={formData.project_brief}
+                    onChange={handleFormChange}
+                    rows={4}
+                    className={`w-full px-4 py-2.5 rounded-lg border transition-colors resize-none ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-neutral-500 focus:border-cyan-500' : 'bg-white border-neutral-300 text-neutral-900 focus:border-cyan-500'} focus:outline-none focus:ring-1 focus:ring-cyan-500`}
+                    placeholder="Tell us more about your project - brand colors, specific text/logo, mounting requirements, any reference images..."
+                  />
+                </div>
+              </div>
+
+              {formError && (
+                <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                  {formError}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={formSubmitting}
+                className={`w-full flex items-center justify-center gap-2 px-8 py-4 font-semibold rounded-xl transition-all ${formSubmitting ? 'opacity-50 cursor-not-allowed' : ''} ${isDark ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:from-cyan-400 hover:to-blue-400' : 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-500'}`}
+              >
+                {formSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    Request Custom Quote
+                  </>
+                )}
+              </button>
+
+              <p className={`mt-4 text-center text-sm ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
+                Our team typically responds within 24 hours. For urgent inquiries, call +971 55 995 4274
+              </p>
+            </motion.form>
+          )}
         </div>
       </section>
     </div>

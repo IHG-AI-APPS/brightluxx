@@ -37,74 +37,76 @@ const SignageSolutionsLanding = () => {
   const subcategories = [
     { id: 'all', name: 'All Products', icon: Layers },
     { id: 'channel-letters', name: 'Channel Letters', icon: Type },
-    { id: 'led-posters', name: 'LED Posters & Totems', icon: Monitor },
-    { id: 'transparent-signage', name: 'Transparent', icon: Eye },
-    { id: '3d-led-signage', name: '3D Billboards', icon: Box },
-    { id: 'media-facade', name: 'Media Facade', icon: Building2 },
-    { id: 'flexible-signage', name: 'Curved & Flexible', icon: Sparkles },
-    { id: 'outdoor-billboards', name: 'Outdoor Billboards', icon: Globe },
     { id: 'menu-boards', name: 'Menu Boards', icon: Menu },
     { id: 'wayfinding', name: 'Wayfinding', icon: MapPin },
+    { id: 'transparent-signage', name: 'Transparent', icon: Eye },
+    { id: 'specialty-signage', name: 'Specialty', icon: Star },
   ];
 
   const filteredProducts = activeTab === 'all' 
     ? products 
-    : products.filter(p => p.subcategory === activeTab);
+    : products.filter(p => p.sub_category === activeTab);
 
   const signageCategories = [
     {
       title: 'LED Channel Letters',
       subtitle: 'Illuminated Storefront Identity',
       desc: 'Front-lit, back-lit (halo), and RGB dynamic letters. 70% energy savings vs neon with 50,000+ hour lifespan.',
-      image: 'https://images.unsplash.com/photo-1567449303078-57ad995bd329?w=800&fit=crop',
+      image: '/generated-images/4c07870a12b546f8a1cd9241a89b0fde_frontlit-channel-letters-rgb.png',
       color: 'amber',
       features: ['Custom Sizes 10"-60"', '16M+ RGB Colors', 'UL Certified'],
-      link: '/products?category=signage-solutions&sub=channel-letters',
+      link: '/signage-solutions#products',
+      filter: 'channel-letters',
+    },
+    {
+      title: 'Digital Menu Boards',
+      subtitle: 'Smart Restaurant Displays',
+      desc: 'High-brightness menu displays for QSR, drive-thrus, and food courts. Cloud-managed content with real-time updates.',
+      image: '/generated-images/412036bc9a394ec0980254f89cf956fa_qsr-digital-menu-board-55.png',
+      color: 'cyan',
+      features: ['2,500+ nits', 'Cloud CMS', '24/7 Operation'],
+      link: '/signage-solutions#products',
+      filter: 'menu-boards',
+    },
+    {
+      title: 'Wayfinding & Directory',
+      subtitle: 'Interactive Navigation',
+      desc: 'Touchscreen kiosks and FIDS displays for malls, airports, and hospitals. Multi-language support with 3D maps.',
+      image: '/generated-images/078a54af00b74db4b8a8ca93a6c67d1f_interactive-directory-kiosk.png',
+      color: 'violet',
+      features: ['Touch Interactive', 'Multi-language', 'BMS Integration'],
+      link: '/signage-solutions#products',
+      filter: 'wayfinding',
     },
     {
       title: 'Transparent Window LED',
-      subtitle: 'See-Through Digital Displays',
-      desc: 'Self-adhesive films and high-resolution panels with up to 90% transparency. Turn any window into a dynamic billboard.',
-      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&fit=crop',
-      color: 'cyan',
-      features: ['90% Transparency', '4500+ nits', 'No Window Obstruction'],
-      link: '/products?category=signage-solutions&sub=transparent-signage',
-    },
-    {
-      title: '3D Naked-Eye Billboards',
-      subtitle: 'Viral-Worthy 3D Effects',
-      desc: 'L-shaped and corner installations creating glasses-free 3D illusions. The ultimate attention-grabbing technology.',
-      image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&fit=crop',
-      color: 'violet',
-      features: ['Glasses-Free 3D', '8000 nits', 'Social Media Impact'],
-      link: '/products?category=signage-solutions&sub=3d-led-signage',
-    },
-    {
-      title: 'LED Posters & Totems',
-      subtitle: 'Freestanding Digital Signage',
-      desc: 'Slim plug-and-play displays from P1.5 to P3. Single and double-sided options for retail, hospitality, and public spaces.',
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&fit=crop',
+      subtitle: 'See-Through Advertising',
+      desc: 'Ultra-thin LED film that turns any window into a dynamic display. 85% transparency maintains natural light.',
+      image: '/generated-images/c0a2475cd9d3482491cb404be008acc9_window-led-signage-film.png',
       color: 'emerald',
-      features: ['45mm Ultra-Slim', 'WiFi Control', 'Double-Sided Options'],
-      link: '/products?category=signage-solutions&sub=led-posters',
+      features: ['85% Transparent', '4500+ nits', 'Self-Adhesive'],
+      link: '/signage-solutions#products',
+      filter: 'transparent-signage',
     },
     {
-      title: 'Media Facade & Mesh',
-      subtitle: 'Building-Scale Displays',
-      desc: 'Transform entire buildings into dynamic canvases. Lightweight mesh with 60-70% transparency for architectural integration.',
-      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&fit=crop',
+      title: 'Specialty Signage',
+      subtitle: 'Industry-Specific Solutions',
+      desc: 'Fuel price signs, parking guidance, and custom applications. Remote management for multi-site deployments.',
+      image: '/generated-images/8729ab93c262490699e127833612a415_gas-station-price-led-sign.png',
       color: 'rose',
-      features: ['70% Transparent', 'IP67 Weather', '100,000hr Lifespan'],
-      link: '/products?category=signage-solutions&sub=media-facade',
+      features: ['Remote Update', 'Fleet Management', 'Weather-Sealed'],
+      link: '/signage-solutions#products',
+      filter: 'specialty-signage',
     },
     {
-      title: 'Curved & Flexible LED',
-      subtitle: 'Architectural Freedom',
-      desc: 'Bend to 50mm radius for columns, corners, and organic shapes. 360° cylindrical displays for maximum visibility.',
-      image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&fit=crop',
+      title: 'Pylon & Monument Signs',
+      subtitle: 'Landmark Presence',
+      desc: 'Tall outdoor wayfinding pylons combining static branding with dynamic LED content. Engineered for 120mph wind loads.',
+      image: '/generated-images/5d6d96a16b804a168f50ba1f17d8f8c6_pylon-led-wayfinding-sign.png',
       color: 'orange',
-      features: ['50mm Bend Radius', '360° Cylinders', 'Lightweight'],
-      link: '/products?category=signage-solutions&sub=flexible-signage',
+      features: ['10-30ft Heights', '7000 nits', 'Engineered Structure'],
+      link: '/signage-solutions#products',
+      filter: 'wayfinding',
     },
   ];
 
@@ -122,7 +124,7 @@ const SignageSolutionsLanding = () => {
         {/* Background */}
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1567449303078-57ad995bd329?w=1920&fit=crop"
+            src="/generated-images/4c07870a12b546f8a1cd9241a89b0fde_frontlit-channel-letters-rgb.png"
             alt="LED Signage"
             className="w-full h-full object-cover"
           />
@@ -219,9 +221,12 @@ const SignageSolutionsLanding = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Link
-                    to={cat.link}
-                    className={`group block h-full rounded-2xl border ${colors.border} ${isDark ? 'bg-white/[0.02]' : 'bg-white'} overflow-hidden transition-all duration-300 hover:shadow-xl`}
+                  <button
+                    onClick={() => {
+                      setActiveTab(cat.filter);
+                      document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className={`group block h-full w-full text-left rounded-2xl border ${colors.border} ${isDark ? 'bg-white/[0.02]' : 'bg-white'} overflow-hidden transition-all duration-300 hover:shadow-xl`}
                   >
                     <div className="aspect-[16/10] relative overflow-hidden">
                       <img 
@@ -246,7 +251,7 @@ const SignageSolutionsLanding = () => {
                         ))}
                       </div>
                     </div>
-                  </Link>
+                  </button>
                 </motion.div>
               );
             })}

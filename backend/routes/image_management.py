@@ -104,6 +104,22 @@ UNIQUE_SCENES = {
         "Digital signage in retail showing product info, shoppers, store interior",
         "Menu board in cafe showing beverages, barista counter, cozy atmosphere",
     ],
+    "signage-solutions": [
+        "Illuminated LED channel letters on upscale restaurant storefront at night, warm lighting, outdoor dining area, city street",
+        "Halo-lit 3D channel letters on luxury hotel entrance, valet parking area, evening atmosphere, palm trees",
+        "RGB LED channel letters on retail store facade, shopping mall exterior, colorful glow, pedestrians walking",
+        "Neon-style LED letters on trendy bar entrance, nightlife scene, urban setting, people gathering",
+        "Digital menu board inside fast food restaurant, customers ordering at counter, bright modern interior",
+        "Drive-thru LED menu display at night, car waiting, outdoor lighting, fast food restaurant",
+        "Interactive wayfinding kiosk in shopping mall, families browsing, bright atrium, stores in background",
+        "Airport flight information display showing departures, travelers with luggage, terminal interior",
+        "Outdoor LED pylon sign at business park entrance, cars passing, landscaping, modern architecture",
+        "Transparent LED window display in high-end jewelry store, products visible through, luxury retail",
+        "Gas station LED price sign at dusk, cars fueling, canopy lights, convenience store",
+        "Large 3D fabricated letters on corporate building rooftop, city skyline, blue hour lighting",
+        "Video wall menu system in food court, multiple restaurants, diners choosing, shopping mall",
+        "Digital directory kiosk in hospital lobby, visitors checking directions, clean modern interior",
+    ],
 }
 
 import hashlib

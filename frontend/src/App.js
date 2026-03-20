@@ -154,6 +154,9 @@ const ArtImmersiveLanding = lazy(() => import('./pages/artimmersive').then(m => 
 // Luxury Home Cinema - Lazy loaded
 const LuxuryHomeCinemaLanding = lazy(() => import('./pages/homecinema').then(m => ({ default: m.LuxuryHomeCinemaLanding })));
 
+// Signage Solutions - Lazy loaded
+const SignageSolutionsLanding = lazy(() => import('./pages/signage/SignageSolutionsLanding'));
+
 // Admin Context - Always loaded
 import { AdminProvider, useAdmin } from './admin/AdminContext';
 const AdminLogin = lazy(() => import('./admin/AdminLogin'));
@@ -272,6 +275,9 @@ function AppRoutes() {
       
       {/* Luxury Home Cinema */}
       <Route path="/luxury-home-cinema" element={<PublicLayout><LuxuryHomeCinemaLanding /></PublicLayout>} />
+      
+      {/* Signage Solutions */}
+      <Route path="/signage-solutions" element={<PublicLayout><SignageSolutionsLanding /></PublicLayout>} />
       
       <Route path="/for-architects" element={<PublicLayout><ForArchitects /></PublicLayout>} />
       <Route path="/value-engineering" element={<PublicLayout><ValueEngineering /></PublicLayout>} />

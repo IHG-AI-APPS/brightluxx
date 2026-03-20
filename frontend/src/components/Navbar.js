@@ -96,6 +96,7 @@ const Navbar = () => {
     {
       label: 'SPECIALITY & READY-MADE',
       items: [
+        { name: 'Signage Solutions', cat: 'signage-solutions', desc: 'Channel letters, menus, wayfinding', isLanding: '/signage-solutions' },
         { name: 'Digital Signage', cat: 'digital-signage', desc: 'Commercial displays & kiosks' },
         { name: 'Smart TVs', cat: 'smart-tv', desc: 'Commercial & outdoor TVs' },
         { name: 'Ready-Made', cat: 'ready-made', desc: 'Plug & play packages' },
@@ -118,6 +119,7 @@ const Navbar = () => {
     'smart-tv': Tv, 'ready-made': ShoppingBag, 'interactive': Zap,
     'virtual-production': MonitorPlay, 'poster-totem': Monitor,
     'shelf-edge': Monitor, 'accessories': Settings,
+    'signage-solutions': ShoppingBag,
   };
 
   const solutionItems = [
@@ -262,6 +264,7 @@ const Navbar = () => {
       items: [
         { name: 'Luxury Home Cinema', path: '/luxury-home-cinema', icon: Tv, desc: 'Indoor & outdoor cinema' },
         { name: 'Art & Immersive', path: '/art-immersive', icon: Palette, desc: 'NFT, XR & digital art' },
+        { name: 'Signage Solutions', path: '/signage-solutions', icon: ShoppingBag, desc: 'Channel letters, menus & more' },
       ],
     },
     {
@@ -387,10 +390,11 @@ const Navbar = () => {
                       <div className={`px-2 pt-1 pb-2 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{group.label}</div>
                       {group.items.map((item) => {
                         const Icon = CATEGORY_ICONS[item.cat] || Monitor;
+                        const linkTo = item.isLanding || `/products?category=${item.cat}`;
                         return (
                           <Link
                             key={item.cat}
-                            to={`/products?category=${item.cat}`}
+                            to={linkTo}
                             onClick={closeAll}
                             className={`flex items-center gap-2.5 px-2 py-1.5 rounded-lg transition-colors duration-150 ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100'}`}
                             data-testid={`nav-product-cat-${item.cat}`}

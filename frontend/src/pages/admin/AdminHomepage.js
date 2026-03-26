@@ -85,6 +85,8 @@ const ImageUploadField = ({ value, onChange, label }) => {
 const VideoUploadField = ({ videos, onChange, posterImage, onPosterChange }) => {
   const [uploading, setUploading] = useState(false);
   const [urlInput, setUrlInput] = useState('');
+  const [previewIndex, setPreviewIndex] = useState(0);
+  const [videoPlaying, setVideoPlaying] = useState(false);
   const fileInputRef = useRef(null);
   const posterInputRef = useRef(null);
   const token = localStorage.getItem('blx_admin_token');
@@ -143,6 +145,10 @@ const VideoUploadField = ({ videos, onChange, posterImage, onPosterChange }) => 
 
   const removeVideo = (index) => {
     onChange(videos.filter((_, i) => i !== index));
+    // Adjust preview index if necessary
+    if (previewIndex >= videos.length - 1 && previewIndex > 0) {
+      setPreviewIndex(previewIndex - 1);
+    }
   };
 
   return (
@@ -150,13 +156,69 @@ const VideoUploadField = ({ videos, onChange, posterImage, onPosterChange }) => 
       <div>
         <label className="block text-xs font-medium text-[var(--blx-muted)] mb-2">Hero Videos</label>
         
+        {/* Video Preview */}
+        {videos.length > 0 && (
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-[var(--blx-muted)]">Preview ({previewIndex + 1} of {videos.length})</span>
+              {videos.length > 1 && (
+                <div className="flex gap-1">
+                  <button
+                    onClick={() => { setVideoPlaying(false); setPreviewIndex(prev => (prev - 1 + videos.length) % videos.length); }}
+                    className="p-1 rounded hover:bg-[rgba(255,255,255,0.1)] text-[var(--blx-muted)]"
+                  >
+                    ←
+                  </button>
+                  <button
+                    onClick={() => { setVideoPlaying(false); setPreviewIndex(prev => (prev + 1) % videos.length); }}
+                    className="p-1 rounded hover:bg-[rgba(255,255,255,0.1)] text-[var(--blx-muted)]"
+                  >
+                    →
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="aspect-video rounded-lg overflow-hidden bg-black border border-[var(--blx-border)] relative">
+              <video
+                key={videos[previewIndex]}
+                src={videos[previewIndex]}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover"
+                onLoadedData={(e) => { e.target.play().catch(() => {}); }}
+                onPlaying={() => setVideoPlaying(true)}
+                onWaiting={() => setVideoPlaying(false)}
+                onError={() => setVideoPlaying(false)}
+              />
+              {!videoPlaying && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none bg-black/50">
+                  <span className="text-xs text-white/70 px-2 py-1 rounded">Video Loading...</span>
+                </div>
+              )}
+            </div>
+            <p className="text-[0.625rem] text-[var(--blx-muted)] mt-1">
+              Current: {videos[previewIndex]}
+            </p>
+          </div>
+        )}
+        
         {/* Video list */}
         <div className="space-y-2 mb-3">
           {videos.map((url, i) => (
-            <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[var(--blx-border)]">
-              <Film size={14} className="text-[var(--blx-gold-3)] flex-shrink-0" />
+            <div 
+              key={i} 
+              className={`flex items-center gap-2 p-2 rounded-lg border cursor-pointer transition-colors ${
+                previewIndex === i 
+                  ? 'bg-[var(--blx-gold-3)]/10 border-[var(--blx-gold-3)]' 
+                  : 'bg-[rgba(255,255,255,0.02)] border-[var(--blx-border)] hover:border-[var(--blx-gold-3)]/50'
+              }`}
+              onClick={() => setPreviewIndex(i)}
+            >
+              <Film size={14} className={previewIndex === i ? 'text-[var(--blx-gold-3)]' : 'text-[var(--blx-muted)]'} />
               <span className="text-xs font-mono flex-1 truncate">{url}</span>
-              <button onClick={() => removeVideo(i)} className="p-1 text-red-400 hover:bg-red-500/20 rounded">
+              <button onClick={(e) => { e.stopPropagation(); removeVideo(i); }} className="p-1 text-red-400 hover:bg-red-500/20 rounded">
                 <X size={14} />
               </button>
             </div>

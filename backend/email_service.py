@@ -48,11 +48,21 @@ async def send_email(to_email: str, subject: str, html_body: str):
 
 
 async def notify_new_lead(lead_data: dict):
-    """Send notification email for a new lead to the sales team."""
+    """Send notification email for a new lead to the sales team using enhanced templates."""
     if not NOTIFICATION_EMAIL:
         return
 
+    from email_templates import contact_form_email
+    
     source = lead_data.get("source", "website")
+    
+    # Use enhanced template for contact form
+    if source in ["contact_form", "website"]:
+        subject, html = contact_form_email(lead_data)
+        await send_email(NOTIFICATION_EMAIL, subject, html)
+        return
+    
+    # Fallback for other sources - use basic template
     name = lead_data.get("name", "Unknown")
     email = lead_data.get("email", "Not provided")
     company = lead_data.get("company", "Not provided")
@@ -63,11 +73,8 @@ async def notify_new_lead(lead_data: dict):
     spec_pack = lead_data.get("spec_pack_title", "")
 
     if source == "spec_pack_download":
-        subject = f"New Spec Pack Download: {spec_pack} — {name}"
+        subject = f"Spec Pack Download: {spec_pack} — {name}"
         source_label = "Spec Pack Download"
-    elif source == "contact_form":
-        subject = f"New Enquiry from {name} — {application or 'General'}"
-        source_label = "Contact Form"
     else:
         subject = f"New Lead: {name}"
         source_label = source.replace("_", " ").title()
@@ -89,8 +96,9 @@ async def notify_new_lead(lead_data: dict):
     html = f"""
     <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0B0B0B;border:1px solid #333;border-radius:12px;overflow:hidden;">
       <div style="padding:20px 24px;background:linear-gradient(135deg,#1a1a1a,#111);border-bottom:1px solid #333;">
-        <div style="font-size:11px;letter-spacing:2px;color:#E5C574;margin-bottom:4px;">BRIGHTLUXX LEAD NOTIFICATION</div>
-        <div style="font-size:18px;font-weight:bold;color:#fff;">{source_label}</div>
+        <div style="font-size:22px;font-weight:900;color:#E5C574;letter-spacing:3px;margin-bottom:12px;">BRIGHTLUXX</div>
+        <div style="font-size:11px;letter-spacing:2px;color:#E5C574;margin-bottom:4px;">{source_label.upper()}</div>
+        <div style="font-size:18px;font-weight:bold;color:#fff;">{name}</div>
       </div>
       <div style="padding:4px 12px;">
         <table style="width:100%;border-collapse:collapse;">

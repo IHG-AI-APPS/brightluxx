@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from typing import Optional, List
 from datetime import datetime, timezone
 from database import leads_col
-from email_service import notify_new_lead
+from email_service import send_email, NOTIFICATION_EMAIL
+from email_templates import signage_inquiry_email
 
 router = APIRouter(prefix="/api")
 
@@ -37,38 +37,11 @@ class SignageInquiryRequest(BaseModel):
 
 @router.post("/signage-inquiry")
 async def signage_inquiry(req: SignageInquiryRequest):
-    # Build detailed message for email
-    details = []
-    details.append(f"Signage Type: {req.signage_type}")
-    if req.quantity:
-        details.append(f"Quantity: {req.quantity}")
-    if req.letter_height:
-        details.append(f"Letter Height: {req.letter_height}")
-    if req.illumination:
-        details.append(f"Illumination: {req.illumination}")
-    if req.material:
-        details.append(f"Material: {req.material}")
-    if req.display_size:
-        details.append(f"Display Size: {req.display_size}")
-    if req.location:
-        details.append(f"Location: {req.location}")
-    if req.installation_address:
-        details.append(f"Installation Address: {req.installation_address}")
-    if req.timeline:
-        details.append(f"Timeline: {req.timeline}")
-    if req.budget_range:
-        details.append(f"Budget Range: {req.budget_range}")
-    if req.project_brief:
-        details.append(f"Project Brief: {req.project_brief}")
-    
-    message = "\n".join(details)
-    
     lead = {
         "name": req.name,
         "company": req.company,
         "email": req.email,
         "phone": req.phone,
-        "message": message,
         "source": "signage_inquiry",
         "signage_type": req.signage_type,
         "quantity": req.quantity,
@@ -87,15 +60,9 @@ async def signage_inquiry(req: SignageInquiryRequest):
     await leads_col.insert_one(lead)
     lead.pop("_id", None)
     
-    await notify_new_lead({
-        "name": req.name,
-        "email": req.email,
-        "phone": req.phone,
-        "company": req.company,
-        "message": message,
-        "application": f"Custom Signage Inquiry - {req.signage_type}",
-        "page_context": "Signage Solutions",
-        "source": "signage_inquiry",
-    })
+    # Send enhanced email
+    if NOTIFICATION_EMAIL:
+        subject, html = signage_inquiry_email(lead)
+        await send_email(NOTIFICATION_EMAIL, subject, html)
     
     return {"status": "ok", "message": "Inquiry submitted successfully"}

@@ -6,7 +6,8 @@ import os
 import uuid
 
 from database import leads_col
-from email_service import notify_new_lead
+from email_service import send_email, NOTIFICATION_EMAIL
+from email_templates import spec_substitution_email
 
 router = APIRouter()
 
@@ -57,15 +58,22 @@ async def submit_spec_substitution(
     }
     await leads_col.insert_one(lead_data)
 
-    # Send email notification
-    file_list = ", ".join([f["name"] for f in saved_files]) if saved_files else "No files attached"
-    try:
-        await notify_new_lead({
-            **lead_data,
-            "message": f"Project: {projectName}\n\nDescription: {description}\n\nFiles: {file_list}",
-            "spec_pack_title": "",
-        })
-    except Exception:
-        pass
+    # Send enhanced email notification
+    if NOTIFICATION_EMAIL:
+        file_list = ", ".join([f["name"] for f in saved_files]) if saved_files else "No files attached"
+        try:
+            email_data = {
+                "name": name,
+                "email": email,
+                "company": company,
+                "phone": phone,
+                "current_spec": f"Files: {file_list}" if saved_files else "No files",
+                "project_name": projectName,
+                "reason": description,
+            }
+            subject, html = spec_substitution_email(email_data)
+            await send_email(NOTIFICATION_EMAIL, subject, html)
+        except Exception:
+            pass
 
     return {"success": True, "submission_id": submission_id}

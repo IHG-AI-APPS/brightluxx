@@ -420,3 +420,26 @@ def download_request_email(data: dict) -> tuple:
     
     html = build_email("Document Download", doc_title, rows, accent_color="#64748b")
     return subject, html
+
+
+
+def specpack_download_email(data: dict) -> tuple:
+    """Generate email for spec pack download request."""
+    name = data.get("name", "Unknown")
+    email = data.get("email", "")
+    company = data.get("company", "")
+    role = data.get("role", "")
+    pack_title = data.get("spec_pack_title", "")
+    
+    subject = f"Spec Pack Download: {pack_title} — {name}"
+    
+    rows = [
+        get_info_row("Name", name),
+        get_info_row("Email", email, is_email=True),
+        get_info_row("Company", company),
+        get_info_row("Role", role),
+        get_info_row("Spec Pack", pack_title),
+    ]
+    
+    html = build_email("Spec Pack Download", pack_title, rows, accent_color="#3b82f6")
+    return subject, html

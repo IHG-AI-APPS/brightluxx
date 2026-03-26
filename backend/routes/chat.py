@@ -317,6 +317,7 @@ async def chat_message(data: ChatMessage):
 @router.post("/api/chat/lead")
 async def chat_lead_capture(data: LeadCapture):
     from database import leads_col
+    from email_templates import chat_lead_email
 
     lead_dict = {
         "id": str(uuid.uuid4()),
@@ -337,29 +338,18 @@ async def chat_lead_capture(data: LeadCapture):
         {"$set": {"lead_captured": True, "lead_email": data.email}},
     )
 
-    # Email notification
+    # Send enhanced email notification
     if NOTIFICATION_EMAIL:
         try:
-            html = f"""
-            <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0B0B0B;border:1px solid #333;border-radius:12px;overflow:hidden;">
-              <div style="padding:20px 24px;background:linear-gradient(135deg,#1a1a1a,#111);border-bottom:1px solid #333;">
-                <div style="font-size:11px;letter-spacing:2px;color:#E5C574;margin-bottom:4px;">AURA CHAT ASSISTANT</div>
-                <div style="font-size:18px;font-weight:bold;color:#fff;">New Chat Lead Captured</div>
-              </div>
-              <div style="padding:4px 12px;">
-                <table style="width:100%;border-collapse:collapse;">
-                  <tr><td style="padding:8px 12px;color:#999;font-size:13px;border-bottom:1px solid #222;">Name</td><td style="padding:8px 12px;color:#fff;font-size:13px;font-weight:bold;border-bottom:1px solid #222;">{data.name}</td></tr>
-                  <tr><td style="padding:8px 12px;color:#999;font-size:13px;border-bottom:1px solid #222;">Email</td><td style="padding:8px 12px;border-bottom:1px solid #222;"><a href="mailto:{data.email}" style="color:#E5C574;text-decoration:none;">{data.email}</a></td></tr>
-                  <tr><td style="padding:8px 12px;color:#999;font-size:13px;border-bottom:1px solid #222;">Company</td><td style="padding:8px 12px;color:#fff;font-size:13px;border-bottom:1px solid #222;">{data.company}</td></tr>
-                  <tr><td style="padding:8px 12px;color:#999;font-size:13px;border-bottom:1px solid #222;">Role</td><td style="padding:8px 12px;color:#fff;font-size:13px;border-bottom:1px solid #222;">{data.role}</td></tr>
-                </table>
-              </div>
-              <div style="padding:16px 24px;text-align:center;border-top:1px solid #222;">
-                <div style="font-size:11px;color:#666;">Lead captured via AURA Chat — Brightluxx Website</div>
-              </div>
-            </div>
-            """
-            await send_email(NOTIFICATION_EMAIL, f"AURA Chat Lead: {data.name} ({data.company})", html)
+            email_data = {
+                "name": data.name,
+                "email": data.email,
+                "phone": "",
+                "interest": data.role or "General",
+                "conversation_summary": f"Chat session ID: {data.session_id}\nCompany: {data.company}",
+            }
+            subject, html = chat_lead_email(email_data)
+            await send_email(NOTIFICATION_EMAIL, subject, html)
         except Exception:
             pass
 

@@ -6,7 +6,8 @@ from datetime import datetime, timezone
 import os
 
 from database import leads_col
-from email_service import notify_new_lead
+from email_service import send_email, NOTIFICATION_EMAIL
+from email_templates import download_request_email
 
 router = APIRouter()
 
@@ -63,10 +64,21 @@ async def request_download(doc_type: str, doc_id: str, data: DownloadRequest, re
     }
     await leads_col.insert_one(lead_data)
 
-    try:
-        await notify_new_lead({**lead_data, "spec_pack_title": catalog[doc_id]})
-    except Exception:
-        pass
+    # Send enhanced email notification
+    if NOTIFICATION_EMAIL:
+        try:
+            email_data = {
+                "name": data.name or "Unknown",
+                "email": data.email,
+                "company": data.company,
+                "role": data.role,
+                "document_title": catalog[doc_id],
+                "document_type": doc_type.replace("_", " ").title(),
+            }
+            subject, html = download_request_email(email_data)
+            await send_email(NOTIFICATION_EMAIL, subject, html)
+        except Exception:
+            pass
 
     return {"download_url": f"/api/downloads/{doc_type}/{doc_id}/file"}
 

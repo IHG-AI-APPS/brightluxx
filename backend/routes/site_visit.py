@@ -2,7 +2,8 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from datetime import datetime, timezone
 from database import leads_col
-from email_service import notify_new_lead
+from email_service import send_email, NOTIFICATION_EMAIL
+from email_templates import site_visit_email
 
 router = APIRouter(prefix="/api")
 
@@ -30,9 +31,22 @@ async def site_visit_request(req: SiteVisitRequest):
     }
     await leads_col.insert_one(lead)
     lead.pop("_id", None)
-    await notify_new_lead({
-        **lead,
-        "application": "Free Site Visit & Quote Request",
-        "role": "Exit-Intent Lead",
-    })
+    
+    # Send enhanced email notification
+    if NOTIFICATION_EMAIL:
+        try:
+            email_data = {
+                "name": req.name,
+                "email": req.email,
+                "company": req.company,
+                "phone": req.phone,
+                "project_type": "Site Visit",
+                "location": req.page_url,
+                "notes": req.project_brief,
+            }
+            subject, html = site_visit_email(email_data)
+            await send_email(NOTIFICATION_EMAIL, subject, html)
+        except Exception:
+            pass
+    
     return {"status": "ok"}

@@ -27,6 +27,38 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - All 70 products, 22 inspirations, 8 projects, 15 blogs now use local images
 - 7 local videos for hero sections
 
+### Enhanced Email Templates — Mar 26, 2026
+- Implemented Brightluxx-branded HTML email templates in `email_templates.py`
+- All 11 lead generation endpoints now use enhanced templates:
+  1. `/api/site-visit-request` - Site Visit Request template
+  2. `/api/spec-substitution` - Spec Substitution Request template
+  3. `/api/cpd/request` - CPD/Lunch & Learn Booking template
+  4. `/api/design-assist/request` - Design Assist Request template
+  5. `/api/downloads/{doc_type}/{doc_id}/request` - Document Download template
+  6. `/api/specpacks/{pack_id}/download` - Spec Pack Download template
+  7. `/api/chat/lead` - AURA Chat Lead Capture template
+  8. `/api/franchise-request` - Franchise/Distribution Request template
+  9. `/api/supplier-registration` - Supplier Registration template
+  10. `/api/technical-support` - Technical Support Request template
+  11. `/api/leads` - Contact Form template
+- Email styling: Dark theme (#0B0B0B), gold accent (#E5C574), consistent header/footer
+- All emails routed to sales@ihgind.com via Gmail SMTP
+- Color-coded accent colors per form type (purple for CPD, orange for Design Assist, etc.)
+
+### Responsive Navigation — Mar 26, 2026
+- Added condensed navigation for screens 1024px-1279px
+- Full desktop nav only shows at 1280px+ (xl breakpoint)
+- Condensed nav shows: Products, Solutions, Families link, Theme toggle, More menu
+- More menu contains all product families for easy access
+- Mobile-only theme toggle below 1024px (lg breakpoint)
+
+### Homepage Editor Video Preview — Mar 26, 2026
+- Added video preview player to Hero Section in Admin Homepage Editor
+- Navigation buttons (← →) for switching between multiple videos
+- "Current: [video URL]" display showing active video
+- Loading state indicator with "Video Loading..." text
+- Clickable video list to preview different videos
+
 ### Signage Solutions Category — Mar 20, 2026
 - Created dedicated landing page at `/signage-solutions` with:
   - 14 new products across 5 subcategories: Channel Letters (6), Menu Boards (3), Wayfinding (3), Specialty Signage (1), Transparent Signage (1)

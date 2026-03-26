@@ -373,8 +373,8 @@ const Navbar = () => {
             />
           </Link>
 
-          {/* Desktop Navigation - Clean, minimal */}
-          <div className="hidden lg:flex items-center gap-6">
+          {/* Desktop Navigation - Clean, minimal - Only show on xl+ screens (1280px+) */}
+          <div className="hidden xl:flex items-center gap-3 xl:gap-4 2xl:gap-6 flex-shrink-0">
 
             {/* Products Dropdown */}
             <DropdownWrap
@@ -783,7 +783,108 @@ const Navbar = () => {
             </DropdownWrap>
           </div>
 
-          {/* Mobile menu button - Now only theme toggle (menu handled by MobileBottomNav) */}
+          {/* Condensed Navigation for lg screens (1024-1279px) - Only essential items */}
+          <div className="hidden lg:flex xl:hidden items-center gap-3 flex-shrink-0">
+            {/* Products */}
+            <DropdownWrap
+              isOpen={productsOpen}
+              setOpen={setProductsOpen}
+              trigger={<NavBtn label="PRODUCTS" href="/products" isOpenState={productsOpen} isActiveState={isActivePrefix('/products')} testId="nav-products-lg" />}
+            >
+              <div className="shadow-2xl py-4 px-4 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '580px' }}>
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                  {productCategories.map((group, gi) => (
+                    <div key={gi} className="mb-2">
+                      <div className={`px-2 pt-1 pb-2 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{group.label}</div>
+                      {group.items.slice(0, 3).map((item) => {
+                        const Icon = CATEGORY_ICONS[item.cat] || Monitor;
+                        const linkTo = item.isLanding || `/products?category=${item.cat}`;
+                        return (
+                          <Link key={item.cat} to={linkTo} onClick={closeAll} className={`flex items-center gap-2 px-2 py-1 rounded-lg transition-colors ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100'}`}>
+                            <Icon size={11} className={isDark ? 'text-neutral-500' : 'text-neutral-400'} />
+                            <span className={`text-[0.6rem] font-semibold tracking-wider uppercase ${isDark ? 'text-white' : 'text-neutral-900'}`}>{item.name}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+                <Link to="/products" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 mt-2 rounded-lg text-[0.6rem] font-bold tracking-[0.15em] text-cyan-400 hover:bg-cyan-400/10 uppercase">
+                  VIEW ALL PRODUCTS
+                </Link>
+              </div>
+            </DropdownWrap>
+
+            {/* Solutions */}
+            <DropdownWrap
+              isOpen={solutionsOpen}
+              setOpen={setSolutionsOpen}
+              trigger={<NavBtn label="SOLUTIONS" href="/solutions" isOpenState={solutionsOpen} isActiveState={isActivePrefix('/solutions')} testId="nav-solutions-lg" />}
+            >
+              <div className="shadow-2xl py-3 px-1 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '240px' }}>
+                {solutionItems.slice(0, 5).map((item) => (
+                  <Link key={item.id} to={`/solutions/${item.id}`} onClick={closeAll} className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100'}`}>
+                    <item.icon size={12} className={isDark ? 'text-neutral-500' : 'text-neutral-400'} />
+                    <span className={`text-[0.6rem] font-semibold uppercase ${isDark ? 'text-white' : 'text-neutral-900'}`}>{item.name}</span>
+                  </Link>
+                ))}
+                <Link to="/solutions" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 mt-2 rounded-lg text-[0.6rem] font-bold tracking-[0.15em] text-cyan-400 hover:bg-cyan-400/10 uppercase">
+                  ALL SOLUTIONS
+                </Link>
+              </div>
+            </DropdownWrap>
+
+            {/* Product Families Link */}
+            <Link to="/product-families" className={`text-[0.65rem] font-bold tracking-[0.1em] uppercase transition-colors ${isDark ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-neutral-900'}`}>
+              FAMILIES
+            </Link>
+
+            {/* Theme Toggle */}
+            <motion.button
+              onClick={toggleTheme}
+              className={`p-2 rounded-full transition-all ${isDark ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'}`}
+              whileTap={{ scale: 0.95 }}
+            >
+              {isDark ? <Sun size={16} className="text-yellow-400" /> : <Moon size={16} className="text-indigo-600" />}
+            </motion.button>
+
+            {/* More Menu */}
+            <DropdownWrap
+              isOpen={moreMenuOpen}
+              setOpen={setMoreMenuOpen}
+              trigger={
+                <button className={`flex items-center gap-1 text-[0.65rem] font-bold tracking-[0.1em] uppercase py-2 transition-colors ${moreMenuOpen ? (isDark ? 'text-white' : 'text-neutral-900') : (isDark ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-neutral-900')}`}>
+                  <Menu size={16} />
+                </button>
+              }
+            >
+              <div className="shadow-2xl py-3 px-1 max-h-[80vh] overflow-y-auto" style={{ ...panelStyle, width: '260px', right: 0, left: 'auto' }}>
+                {/* Product Families in More Menu */}
+                <div className={`px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>PRODUCT FAMILIES</div>
+                <Link to="/lumimorph" onClick={closeAll} className={`block px-3 py-1.5 rounded-lg text-[0.6rem] font-semibold text-cyan-400 ${isDark ? 'hover:bg-cyan-500/10' : 'hover:bg-cyan-50'}`}>LUMIMORPH</Link>
+                <Link to="/naturatex" onClick={closeAll} className={`block px-3 py-1.5 rounded-lg text-[0.6rem] font-semibold text-emerald-400 ${isDark ? 'hover:bg-emerald-500/10' : 'hover:bg-emerald-50'}`}>NATURATEX</Link>
+                <Link to="/signatouch" onClick={closeAll} className={`block px-3 py-1.5 rounded-lg text-[0.6rem] font-semibold text-amber-400 ${isDark ? 'hover:bg-amber-500/10' : 'hover:bg-amber-50'}`}>SIGNATOUCH</Link>
+                <Link to="/glassmorph" onClick={closeAll} className={`block px-3 py-1.5 rounded-lg text-[0.6rem] font-semibold text-violet-400 ${isDark ? 'hover:bg-violet-500/10' : 'hover:bg-violet-50'}`}>GLASSMORPH</Link>
+                <Link to="/pixelvue" onClick={closeAll} className={`block px-3 py-1.5 rounded-lg text-[0.6rem] font-semibold text-rose-400 ${isDark ? 'hover:bg-rose-500/10' : 'hover:bg-rose-50'}`}>PIXELVUE</Link>
+                <Link to="/art-immersive" onClick={closeAll} className={`block px-3 py-1.5 rounded-lg text-[0.6rem] font-semibold text-violet-400 ${isDark ? 'hover:bg-violet-500/10' : 'hover:bg-violet-50'}`}>ART & XR</Link>
+                
+                {moreMenuSections.slice(1).map((section, si) => (
+                  <div key={si}>
+                    <div className={`mx-3 my-2 border-t ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`} />
+                    <div className={`px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{section.label}</div>
+                    {section.items.slice(0, 4).map((item) => (
+                      <Link key={item.path} to={item.path} onClick={closeAll} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100'}`}>
+                        <item.icon size={11} className={isDark ? 'text-neutral-500' : 'text-neutral-400'} />
+                        <span className={`text-[0.6rem] font-semibold uppercase ${isDark ? 'text-white' : 'text-neutral-900'}`}>{item.name}</span>
+                      </Link>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </DropdownWrap>
+          </div>
+
+          {/* Mobile menu button - Only show below lg (1024px) */}
           <div className="lg:hidden flex items-center gap-2">
             {/* Mobile Theme Toggle */}
             <motion.button

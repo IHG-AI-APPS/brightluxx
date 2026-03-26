@@ -34,7 +34,7 @@ const KEY_PROJECTS = [
 ];
 
 // Hero image
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?crop=entropy&cs=srgb&fm=jpg&w=1600';
+const HERO_IMAGE = '/downloaded-images/ext_77ab205a4c61.jpgs=srgb&fm=jpg&w=1600';
 
 export default function DubaiPage() {
   const { isDark } = useTheme();

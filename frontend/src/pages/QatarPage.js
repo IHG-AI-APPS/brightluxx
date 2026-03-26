@@ -23,7 +23,7 @@ const QATAR_SECTORS = [
 ];
 
 // Hero image - Doha skyline
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1559564484-e48b3e040ff4?crop=entropy&cs=srgb&fm=jpg&w=1600';
+const HERO_IMAGE = '/downloaded-images/ext_7ee656cc2089.jpgs=srgb&fm=jpg&w=1600';
 
 export default function QatarPage() {
   const { isDark } = useTheme();

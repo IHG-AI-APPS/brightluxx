@@ -182,7 +182,7 @@ const LuxuryHomeCinemaLanding = () => {
               >
                 <div className="aspect-[16/10] relative overflow-hidden">
                   <img 
-                    src="https://images.unsplash.com/photo-1593784991095-a205069470b6?w=1200&fit=crop"
+                    src="/downloaded-images/ext_561c5bef4c25.jpg"
                     alt="MicroLED Home Theater"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -210,7 +210,7 @@ const LuxuryHomeCinemaLanding = () => {
               >
                 <div className="aspect-[16/10] relative overflow-hidden">
                   <img 
-                    src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&fit=crop"
+                    src="/downloaded-images/ext_abcbb01ad8da.jpg"
                     alt="Outdoor Pool Cinema"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -242,7 +242,7 @@ const LuxuryHomeCinemaLanding = () => {
                 <div className="flex items-stretch">
                   <div className="w-2/5 aspect-square overflow-hidden">
                     <img 
-                      src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&fit=crop"
+                      src="/downloaded-images/ext_c66d286d5af0.jpg"
                       alt="Yacht Cinema"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -271,7 +271,7 @@ const LuxuryHomeCinemaLanding = () => {
                 <div className="flex items-stretch">
                   <div className="w-2/5 aspect-square overflow-hidden">
                     <img 
-                      src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&fit=crop"
+                      src="/downloaded-images/ext_064dc9d6ca09.jpg"
                       alt="Deployable Screen"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />

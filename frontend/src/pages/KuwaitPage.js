@@ -23,7 +23,7 @@ const KUWAIT_SECTORS = [
 ];
 
 // Hero image - Kuwait City
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1578895101408-1a36b834405b?crop=entropy&cs=srgb&fm=jpg&w=1600';
+const HERO_IMAGE = '/downloaded-images/ext_b1b8e1c26279.jpgs=srgb&fm=jpg&w=1600';
 
 export default function KuwaitPage() {
   const { isDark } = useTheme();

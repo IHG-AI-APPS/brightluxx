@@ -23,7 +23,7 @@ const OMAN_SECTORS = [
 ];
 
 // Hero image - Muscat
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?crop=entropy&cs=srgb&fm=jpg&w=1600';
+const HERO_IMAGE = '/downloaded-images/ext_d755e94ad86d.jpgs=srgb&fm=jpg&w=1600';
 
 export default function OmanPage() {
   const { isDark } = useTheme();

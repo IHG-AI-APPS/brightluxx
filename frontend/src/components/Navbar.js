@@ -182,9 +182,9 @@ const Navbar = () => {
       bgHover: 'hover:bg-cyan-500/10',
       borderColor: 'border-cyan-500/20',
       items: [
-        { name: 'Elite', path: '/lumimorph/elite', desc: 'P2.6 High Resolution', image: 'https://images.unsplash.com/photo-1517292987719-0369a794ec0f?w=100&h=100&fit=crop' },
-        { name: 'Grande', path: '/lumimorph/grande', desc: 'P6.2 Large Scale', image: 'https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?w=100&h=100&fit=crop' },
-        { name: 'Mini', path: '/lumimorph/mini', desc: 'Compact Modular', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop' },
+        { name: 'Elite', path: '/lumimorph/elite', desc: 'P2.6 High Resolution', image: '/downloaded-images/ext_a31242107128.jpg' },
+        { name: 'Grande', path: '/lumimorph/grande', desc: 'P6.2 Large Scale', image: '/downloaded-images/ext_3b344ec59874.jpg' },
+        { name: 'Mini', path: '/lumimorph/mini', desc: 'Compact Modular', image: '/downloaded-images/ext_0625418d5c6f.jpg' },
       ]
     },
     naturatex: {
@@ -193,7 +193,7 @@ const Navbar = () => {
       bgHover: 'hover:bg-emerald-500/10',
       borderColor: 'border-emerald-500/20',
       items: [
-        { name: 'HoloVeil', path: '/naturatex/holoveil', desc: 'Transparent Display', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=100&h=100&fit=crop' },
+        { name: 'HoloVeil', path: '/naturatex/holoveil', desc: 'Transparent Display', image: '/downloaded-images/ext_61e3269d0548.jpg' },
       ]
     },
     signatouch: {
@@ -202,9 +202,9 @@ const Navbar = () => {
       bgHover: 'hover:bg-amber-500/10',
       borderColor: 'border-amber-500/20',
       items: [
-        { name: 'Touch Kiosk', path: '/signatouch/touch-kiosk', desc: '40-Point IR Touch', image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=100&h=100&fit=crop' },
-        { name: 'Smart Signage', path: '/signatouch/smart-signage', desc: 'Digital Displays', image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=100&h=100&fit=crop' },
-        { name: 'Self Service', path: '/signatouch/self-service', desc: 'Interactive Terminals', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop' },
+        { name: 'Touch Kiosk', path: '/signatouch/touch-kiosk', desc: '40-Point IR Touch', image: '/downloaded-images/ext_fbac154254eb.jpg' },
+        { name: 'Smart Signage', path: '/signatouch/smart-signage', desc: 'Digital Displays', image: '/downloaded-images/ext_986865f74d23.jpg' },
+        { name: 'Self Service', path: '/signatouch/self-service', desc: 'Interactive Terminals', image: '/downloaded-images/ext_b7c53a5842b6.jpg' },
       ]
     },
     glassmorph: {
@@ -213,12 +213,12 @@ const Navbar = () => {
       bgHover: 'hover:bg-violet-500/10',
       borderColor: 'border-violet-500/20',
       items: [
-        { name: 'Smart Film', path: '/glassmorph/smart-film', desc: 'PDLC Privacy Glass', image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=100&h=100&fit=crop' },
-        { name: 'LED Film', path: '/glassmorph/led-film', desc: 'Transparent LED', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=100&h=100&fit=crop' },
-        { name: 'Media Glass', path: '/glassmorph/media-glass', desc: 'Display Windows', image: 'https://images.unsplash.com/photo-1497215842964-222b430dc094?w=100&h=100&fit=crop' },
-        { name: 'Switchable Glass', path: '/glassmorph/switchable-glass', desc: 'Electrochromic', image: 'https://images.unsplash.com/photo-1545127398-14699f92334b?w=100&h=100&fit=crop' },
-        { name: 'Flying Display', path: '/glassmorph/flying-display', desc: 'Suspended LED', image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=100&h=100&fit=crop' },
-        { name: 'Hanging LED', path: '/glassmorph/hanging-led', desc: 'Ceiling Mounted', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=100&h=100&fit=crop' },
+        { name: 'Smart Film', path: '/glassmorph/smart-film', desc: 'PDLC Privacy Glass', image: '/downloaded-images/ext_d093b5d5e43a.jpg' },
+        { name: 'LED Film', path: '/glassmorph/led-film', desc: 'Transparent LED', image: '/downloaded-images/ext_b376ee066910.jpg' },
+        { name: 'Media Glass', path: '/glassmorph/media-glass', desc: 'Display Windows', image: '/downloaded-images/ext_cfb3068bee77.jpg' },
+        { name: 'Switchable Glass', path: '/glassmorph/switchable-glass', desc: 'Electrochromic', image: '/downloaded-images/ext_d84f066640ea.jpg' },
+        { name: 'Flying Display', path: '/glassmorph/flying-display', desc: 'Suspended LED', image: '/downloaded-images/ext_5141d2207f1b.jpg' },
+        { name: 'Hanging LED', path: '/glassmorph/hanging-led', desc: 'Ceiling Mounted', image: '/downloaded-images/ext_b8c329743d26.jpg' },
       ]
     },
     pixelvue: {
@@ -230,15 +230,15 @@ const Navbar = () => {
         { name: 'iPoster', path: '/pixelvue/iposter', desc: 'Digital Poster', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a3c59fd5d91fb3a4de1daee19fc66f420f400e3b55acf5ad1dc5ef13f68ac9bb.png' },
         { name: 'iFlip', path: '/pixelvue/iflip', desc: 'Double-Sided LED', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/13c9ae8c0adc2af58bb3b0e8bc4b4f7f7b11daf61ff94f6aba87bb24f20ff2cf.png' },
         { name: 'UltraFlip', path: '/pixelvue/ultra-flip', desc: 'Premium Poster', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/4f6dc34e3f4b34a1c894cb4f6a5c73e4c7b2f5b2a9c8d7e6f1a2b3c4d5e6f7a8.png' },
-        { name: 'DigiStandee', path: '/pixelvue/digi-standee', desc: 'Digital Standee', image: 'https://images.unsplash.com/photo-1573804013925-23708c8b7415?w=100&h=100&fit=crop' },
-        { name: 'OOH Poster', path: '/pixelvue/ooh-poster', desc: 'Outdoor Display', image: 'https://images.unsplash.com/photo-1598099947375-5e89a4d8c8e8?w=100&h=100&fit=crop' },
+        { name: 'DigiStandee', path: '/pixelvue/digi-standee', desc: 'Digital Standee', image: '/downloaded-images/d59aa7fb_digital-signage-pro-55.webp' },
+        { name: 'OOH Poster', path: '/pixelvue/ooh-poster', desc: 'Outdoor Display', image: '/downloaded-images/0193f21d_digital-signage-outdoor-75.webp' },
         { name: 'Unity', path: '/pixelvue/unity', desc: 'Modular System', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/4a79d2684c36eb6c2d4eb4ad94d4234c4a44fb9f09d93e69cdb0c9e04b8fc81e.png' },
-        { name: 'Tetris', path: '/pixelvue/tetris', desc: 'Stackable Cubes', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop' },
+        { name: 'Tetris', path: '/pixelvue/tetris', desc: 'Stackable Cubes', image: '/downloaded-images/ext_0625418d5c6f.jpg' },
         { name: 'VideoBrick', path: '/pixelvue/videobrick', desc: 'Video Wall Bricks', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a6c8b9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8.png' },
-        { name: 'iConference', path: '/pixelvue/iconference', desc: 'Meeting Room Display', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=100&h=100&fit=crop' },
-        { name: 'EzeeSign', path: '/pixelvue/ezeesign', desc: 'Easy Signage', image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=100&h=100&fit=crop' },
-        { name: 'iShelf', path: '/pixelvue/ishelf', desc: 'Retail Shelf Display', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop' },
-        { name: 'TableVision', path: '/pixelvue/tablevision', desc: 'Table Display', image: 'https://images.unsplash.com/photo-1573804013925-23708c8b7415?w=100&h=100&fit=crop' },
+        { name: 'iConference', path: '/pixelvue/iconference', desc: 'Meeting Room Display', image: '/downloaded-images/ext_61e3269d0548.jpg' },
+        { name: 'EzeeSign', path: '/pixelvue/ezeesign', desc: 'Easy Signage', image: '/downloaded-images/ext_fbac154254eb.jpg' },
+        { name: 'iShelf', path: '/pixelvue/ishelf', desc: 'Retail Shelf Display', image: '/downloaded-images/ext_b7c53a5842b6.jpg' },
+        { name: 'TableVision', path: '/pixelvue/tablevision', desc: 'Table Display', image: '/downloaded-images/d6ceb71c_plug-play-videowall-2x2.webp' },
       ]
     },
     artimmersive: {
@@ -247,12 +247,12 @@ const Navbar = () => {
       bgHover: 'hover:bg-violet-500/10',
       borderColor: 'border-violet-500/20',
       items: [
-        { name: 'NFT Gallery Displays', path: '/products?category=art-immersive&sub=nft-gallery', desc: 'Digital Art Museums', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop' },
-        { name: 'Immersive Walls', path: '/products?category=art-immersive&sub=immersive-experience', desc: 'teamLab-style', image: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=100&h=100&fit=crop' },
-        { name: 'XR/Virtual Production', path: '/products?category=art-immersive&sub=virtual-production', desc: 'Film & TV Stages', image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=100&h=100&fit=crop' },
-        { name: 'Metaverse LED', path: '/products?category=art-immersive&sub=metaverse', desc: 'Interactive Experiences', image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=100&h=100&fit=crop' },
-        { name: 'Sculptural LED', path: '/products?category=art-immersive&sub=sculptural', desc: 'Cylinders, Cubes, Waves', image: 'https://images.unsplash.com/photo-1514539079130-25950c84af65?w=100&h=100&fit=crop' },
-        { name: 'Public Art', path: '/products?category=art-immersive&sub=public-art', desc: 'Urban Landmarks', image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=100&h=100&fit=crop' },
+        { name: 'NFT Gallery Displays', path: '/products?category=art-immersive&sub=nft-gallery', desc: 'Digital Art Museums', image: '/downloaded-images/ext_5607981affc7.jpg' },
+        { name: 'Immersive Walls', path: '/products?category=art-immersive&sub=immersive-experience', desc: 'teamLab-style', image: '/downloaded-images/ext_a88d2305f712.jpg' },
+        { name: 'XR/Virtual Production', path: '/products?category=art-immersive&sub=virtual-production', desc: 'Film & TV Stages', image: '/downloaded-images/1aa1b696_bl-vpx150.webp' },
+        { name: 'Metaverse LED', path: '/products?category=art-immersive&sub=metaverse', desc: 'Interactive Experiences', image: '/downloaded-images/ext_df8d37160688.jpg' },
+        { name: 'Sculptural LED', path: '/products?category=art-immersive&sub=sculptural', desc: 'Cylinders, Cubes, Waves', image: '/downloaded-images/ext_7f0dfb104596.jpg' },
+        { name: 'Public Art', path: '/products?category=art-immersive&sub=public-art', desc: 'Urban Landmarks', image: '/downloaded-images/ext_d3c8d248b59f.jpg' },
       ]
     }
   };

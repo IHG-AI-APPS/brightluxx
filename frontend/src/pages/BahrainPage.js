@@ -23,7 +23,7 @@ const BAHRAIN_SECTORS = [
 ];
 
 // Hero image - Bahrain skyline
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1548017974-0b1e2b2c7b0c?crop=entropy&cs=srgb&fm=jpg&w=1600';
+const HERO_IMAGE = '/downloaded-images/hero_bahrain_0d9d2582.png';
 
 export default function BahrainPage() {
   const { isDark } = useTheme();

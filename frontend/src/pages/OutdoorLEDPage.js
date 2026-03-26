@@ -64,10 +64,10 @@ const WEATHER_FEATURES = [
 ];
 
 const APPLICATIONS = [
-  { name: 'Billboards', icon: Building2, desc: 'Highway & urban advertising', image: 'https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?w=400' },
-  { name: 'Sports Venues', icon: Trophy, desc: 'Stadium & arena displays', image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400' },
-  { name: 'Retail', icon: Store, desc: 'Storefront & mall signage', image: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400' },
-  { name: 'Transportation', icon: Car, desc: 'Roadside & transit', image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400' },
+  { name: 'Billboards', icon: Building2, desc: 'Highway & urban advertising', image: '/downloaded-images/ext_74b87f9d42bb.jpg' },
+  { name: 'Sports Venues', icon: Trophy, desc: 'Stadium & arena displays', image: '/downloaded-images/ext_bdaacc608e9c.jpg' },
+  { name: 'Retail', icon: Store, desc: 'Storefront & mall signage', image: '/downloaded-images/ext_be925cac011c.jpg' },
+  { name: 'Transportation', icon: Car, desc: 'Roadside & transit', image: '/downloaded-images/ext_a75f39fb46f2.jpg' },
 ];
 
 /* Series Card Component */

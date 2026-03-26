@@ -18,7 +18,7 @@ export function cdnUrl(path) {
   }
   
   // Handle local generated images - return as-is for relative paths served by frontend
-  if (path.startsWith('/generated-images/')) {
+  if (path.startsWith('/generated-images/') || path.startsWith('/downloaded-images/')) {
     return path;
   }
   

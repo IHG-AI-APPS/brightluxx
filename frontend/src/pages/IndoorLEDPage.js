@@ -80,10 +80,10 @@ const SPECS_COMMON = {
 };
 
 const APPLICATIONS = [
-  { name: 'Control Rooms', icon: Monitor, desc: 'Mission-critical 24/7 operations', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400' },
-  { name: 'Corporate', icon: Building2, desc: 'Boardrooms & lobbies', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400' },
-  { name: 'Retail', icon: Store, desc: 'Engaging customer displays', image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400' },
-  { name: 'Broadcast', icon: Radio, desc: 'Studio-grade visuals', image: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400' },
+  { name: 'Control Rooms', icon: Monitor, desc: 'Mission-critical 24/7 operations', image: '/downloaded-images/ext_48e2d933cdb4.jpg' },
+  { name: 'Corporate', icon: Building2, desc: 'Boardrooms & lobbies', image: '/downloaded-images/ext_ad35b4b4bbcd.jpg' },
+  { name: 'Retail', icon: Store, desc: 'Engaging customer displays', image: '/downloaded-images/ext_2ee0b83d54d6.jpg' },
+  { name: 'Broadcast', icon: Radio, desc: 'Studio-grade visuals', image: '/downloaded-images/ext_4a88312621e4.jpg' },
 ];
 
 /* Series Card Component */

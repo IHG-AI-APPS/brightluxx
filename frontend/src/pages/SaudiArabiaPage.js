@@ -23,7 +23,7 @@ const SAUDI_SECTORS = [
 ];
 
 // Hero image - Riyadh skyline
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1773594795061-e32bd97e93f7?crop=entropy&cs=srgb&fm=jpg&w=1600';
+const HERO_IMAGE = '/downloaded-images/ext_b75c64d94299.jpgs=srgb&fm=jpg&w=1600';
 
 export default function SaudiArabiaPage() {
   const { isDark } = useTheme();

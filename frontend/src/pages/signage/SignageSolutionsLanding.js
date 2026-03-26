@@ -110,7 +110,7 @@ const SignageSolutionsLanding = () => {
       title: 'LED Channel Letters',
       subtitle: 'Illuminated Storefront Identity',
       desc: 'Front-lit, back-lit (halo), and RGB dynamic letters. 70% energy savings vs neon with 50,000+ hour lifespan.',
-      image: 'https://images.unsplash.com/photo-1771688630298-4277bb7d23a8?w=800&fit=crop&q=80',
+      image: '/downloaded-images/ext_242cba1e45fb.jpg',
       color: 'amber',
       features: ['Custom Sizes 10"-60"', '16M+ RGB Colors', 'UL Certified'],
       link: '/signage-solutions#products',
@@ -120,7 +120,7 @@ const SignageSolutionsLanding = () => {
       title: 'Digital Menu Boards',
       subtitle: 'Smart Restaurant Displays',
       desc: 'High-brightness menu displays for QSR, drive-thrus, and food courts. Cloud-managed content with real-time updates.',
-      image: 'https://images.pexels.com/photos/2524172/pexels-photo-2524172.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/downloaded-images/pexels_50456b1568ac.jpg',
       color: 'cyan',
       features: ['2,500+ nits', 'Cloud CMS', '24/7 Operation'],
       link: '/signage-solutions#products',
@@ -130,7 +130,7 @@ const SignageSolutionsLanding = () => {
       title: 'Wayfinding & Directory',
       subtitle: 'Interactive Navigation',
       desc: 'Touchscreen kiosks and FIDS displays for malls, airports, and hospitals. Multi-language support with 3D maps.',
-      image: 'https://images.pexels.com/photos/4922074/pexels-photo-4922074.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/downloaded-images/pexels_3658bf9b0243.jpg',
       color: 'violet',
       features: ['Touch Interactive', 'Multi-language', 'BMS Integration'],
       link: '/signage-solutions#products',
@@ -140,7 +140,7 @@ const SignageSolutionsLanding = () => {
       title: 'Transparent Window LED',
       subtitle: 'See-Through Advertising',
       desc: 'Ultra-thin LED film that turns any window into a dynamic display. 85% transparency maintains natural light.',
-      image: 'https://images.pexels.com/photos/3508089/pexels-photo-3508089.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/downloaded-images/pexels_7823ce388eed.jpg',
       color: 'emerald',
       features: ['85% Transparent', '4500+ nits', 'Self-Adhesive'],
       link: '/signage-solutions#products',
@@ -150,7 +150,7 @@ const SignageSolutionsLanding = () => {
       title: 'Specialty Signage',
       subtitle: 'Industry-Specific Solutions',
       desc: 'Fuel price signs, parking guidance, and custom applications. Remote management for multi-site deployments.',
-      image: 'https://images.unsplash.com/photo-1764390555453-9e4035c7e283?w=800&fit=crop&q=80',
+      image: '/downloaded-images/ext_98d515dcfb2a.jpg',
       color: 'rose',
       features: ['Remote Update', 'Fleet Management', 'Weather-Sealed'],
       link: '/signage-solutions#products',
@@ -160,7 +160,7 @@ const SignageSolutionsLanding = () => {
       title: 'Pylon & Monument Signs',
       subtitle: 'Landmark Presence',
       desc: 'Tall outdoor wayfinding pylons combining static branding with dynamic LED content. Engineered for 120mph wind loads.',
-      image: 'https://images.unsplash.com/photo-1732360487817-f29cc82d8eab?w=800&fit=crop&q=80',
+      image: '/downloaded-images/ext_bafcbcea17c0.jpg',
       color: 'orange',
       features: ['10-30ft Heights', '7000 nits', 'Engineered Structure'],
       link: '/signage-solutions#products',
@@ -182,7 +182,7 @@ const SignageSolutionsLanding = () => {
         {/* Background */}
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1735320863541-148f9cef233e?w=1920&fit=crop&q=80"
+            src="/downloaded-images/ext_d0b67b9dced9.jpg"
             alt="EMAAR Dubai Mall Signage"
             className="w-full h-full object-cover"
           />

@@ -691,7 +691,7 @@ const Home = () => {
               >
                 <div className="aspect-video overflow-hidden">
                   <img 
-                    src="https://images.unsplash.com/photo-1593784991095-a205069470b6?w=800&fit=crop"
+                    src="/downloaded-images/ext_6f178933d1b4.jpg"
                     alt="Luxury Home Cinema"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -720,7 +720,7 @@ const Home = () => {
               >
                 <div className="aspect-video overflow-hidden">
                   <img 
-                    src="https://images.unsplash.com/photo-1768655317930-23e7cd2d336e?w=800&fit=crop"
+                    src="/downloaded-images/ext_bc8c12ee1348.jpg"
                     alt="Art & Immersive"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />

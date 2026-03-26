@@ -17,6 +17,19 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ## Completed Features
 
+### Image CDN Migration — Mar 26, 2026
+- Fixed 7 broken CDN paths (`/generated/*.png`) that were pointing to inaccessible external server
+- Generated 7 new UAE-themed AI images using GPT Image 1:
+  - `3d_holographic_mall.png` - Dubai Mall with curved LED video wall
+  - `control_room_led.png` - Abu Dhabi corporate command center
+  - `corporate_boardroom.png` - Dubai skyscraper executive boardroom
+  - `event_stage_led.png` - Dubai hotel ballroom gala event
+  - `microled_display.png` - Premium MicroLED display panel
+  - `outdoor_dooh_dubai.png` - Sheikh Zayed Road LED billboard with Burj Khalifa
+  - `transparent_led_retail.png` - Dubai Mall jewelry store transparent LED
+- Updated 18 products, inspirations, and projects to use new local paths
+- All 70 products now have working images (0 broken paths)
+
 ### Signage Solutions Category — Mar 20, 2026
 - Created dedicated landing page at `/signage-solutions` with:
   - 14 new products across 5 subcategories: Channel Letters (6), Menu Boards (3), Wayfinding (3), Specialty Signage (1), Transparent Signage (1)

@@ -52,6 +52,19 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - More menu contains all product families for easy access
 - Mobile-only theme toggle below 1024px (lg breakpoint)
 
+### Filter by Pixel Pitch Range — Mar 26, 2026
+- Added "Pixel Pitch" filter to product pages sidebar
+- Filter options based on viewing distance:
+  - Ultra-Fine (< 1.0mm): Control rooms, boardrooms — < 2m viewing
+  - Fine (1.0 - 2.0mm): Lobbies, retail displays — 2-4m viewing
+  - Standard (2.0 - 4.0mm): Showrooms, events — 4-8m viewing
+  - Outdoor (> 4.0mm): Billboards, stadiums — > 8m viewing
+- Backend API supports `pitch_range` query parameter
+- Filter badge shown in results header with product count
+- "Clear filters" button to reset all filters
+- Mobile filters updated with pitch range options
+- Sidebar made scrollable to accommodate new filter section
+
 ### Homepage Editor Video Preview — Mar 26, 2026
 - Added video preview player to Hero Section in Admin Homepage Editor
 - Navigation buttons (← →) for switching between multiple videos

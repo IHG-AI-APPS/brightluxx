@@ -11,7 +11,14 @@ router = APIRouter()
 
 
 @router.get("/api/products")
-async def get_products(category: Optional[str] = None, featured: Optional[bool] = None, trending: Optional[bool] = None, new_arrival: Optional[bool] = None, search: Optional[str] = None):
+async def get_products(
+    category: Optional[str] = None, 
+    featured: Optional[bool] = None, 
+    trending: Optional[bool] = None, 
+    new_arrival: Optional[bool] = None, 
+    search: Optional[str] = None,
+    pitch_range: Optional[str] = None
+):
     query = {}
     if category:
         query["category"] = category
@@ -28,8 +35,43 @@ async def get_products(category: Optional[str] = None, featured: Optional[bool] 
             {"description": {"$regex": search, "$options": "i"}},
             {"application": {"$regex": search, "$options": "i"}},
         ]
+    
     cursor = products_col.find(query).sort("created_at", -1)
     products = [serialize_doc(doc) for doc in await cursor.to_list(length=200)]
+    
+    # Filter by pitch range if specified (done in Python for flexibility with various formats)
+    if pitch_range:
+        def extract_pitch_mm(pitch_str):
+            """Extract numeric pitch value in mm from various formats like '1.5mm', 'P1.5', '0.9'"""
+            if not pitch_str or pitch_str.startswith('N/A'):
+                return None
+            import re
+            match = re.search(r'(\d+\.?\d*)', pitch_str)
+            if match:
+                return float(match.group(1))
+            return None
+        
+        pitch_ranges = {
+            'ultra-fine': (0, 1.0),      # < 1.0mm - Control rooms, boardrooms
+            'fine': (1.0, 2.0),          # 1.0-2.0mm - Lobbies, retail
+            'standard': (2.0, 4.0),      # 2.0-4.0mm - Showrooms, events
+            'outdoor': (4.0, 100),       # > 4.0mm - Outdoor, billboards
+        }
+        
+        if pitch_range in pitch_ranges:
+            min_pitch, max_pitch = pitch_ranges[pitch_range]
+            filtered = []
+            for p in products:
+                pitch_val = extract_pitch_mm(p.get('pixel_pitch', ''))
+                if pitch_val is not None:
+                    if pitch_range == 'ultra-fine' and pitch_val < max_pitch:
+                        filtered.append(p)
+                    elif pitch_range == 'outdoor' and pitch_val >= min_pitch:
+                        filtered.append(p)
+                    elif min_pitch <= pitch_val < max_pitch:
+                        filtered.append(p)
+            products = filtered
+    
     return {"products": products}
 
 

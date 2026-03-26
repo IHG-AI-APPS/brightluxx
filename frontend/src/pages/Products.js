@@ -1,7 +1,7 @@
 import { cdnUrl } from '../config/cdn';
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, Monitor, ChevronDown, Grid3X3, LayoutList, Zap, ArrowRight, X, Cpu } from 'lucide-react';
+import { Search, SlidersHorizontal, Monitor, ChevronDown, Grid3X3, LayoutList, Zap, ArrowRight, X, Cpu, Eye } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
@@ -12,6 +12,15 @@ import TiltCard from '../components/TiltCard';
 
 // Hero background image
 const HERO_IMAGE = '/downloaded-images/ext_d5d048e33667.jpgs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjB0ZWNobm9sb2d5fGVufDB8fHx8MTc3Mzc3NzgyOHww&ixlib=rb-4.1.0&q=85';
+
+// Pixel Pitch Ranges - for viewing distance filtering
+const PITCH_RANGES = [
+  { value: '', label: 'All Pitches', description: 'Show all products' },
+  { value: 'ultra-fine', label: '< 1.0mm', description: 'Control rooms, boardrooms', color: 'text-violet-400', viewing: '< 2m' },
+  { value: 'fine', label: '1.0 - 2.0mm', description: 'Lobbies, retail displays', color: 'text-cyan-400', viewing: '2-4m' },
+  { value: 'standard', label: '2.0 - 4.0mm', description: 'Showrooms, events', color: 'text-emerald-400', viewing: '4-8m' },
+  { value: 'outdoor', label: '> 4.0mm', description: 'Outdoor, billboards', color: 'text-amber-400', viewing: '> 8m' },
+];
 
 // Major categories for quick filter header
 const MAJOR_CATEGORIES = [
@@ -193,6 +202,7 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get('category') || '';
+  const activePitchRange = searchParams.get('pitch') || '';
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('grid');
   const [showFilters, setShowFilters] = useState(false);
@@ -203,11 +213,28 @@ const Products = () => {
   const borderColor = isDark ? 'border-white/10' : 'border-neutral-200';
 
   const setActiveCategory = (cat) => {
+    const params = new URLSearchParams(searchParams);
     if (cat) {
-      setSearchParams({ category: cat });
+      params.set('category', cat);
     } else {
-      setSearchParams({});
+      params.delete('category');
     }
+    setSearchParams(params);
+  };
+
+  const setActivePitchRange = (pitch) => {
+    const params = new URLSearchParams(searchParams);
+    if (pitch) {
+      params.set('pitch', pitch);
+    } else {
+      params.delete('pitch');
+    }
+    setSearchParams(params);
+  };
+
+  const clearAllFilters = () => {
+    setSearchParams({});
+    setSearchQuery('');
   };
 
   useEffect(() => {
@@ -217,6 +244,7 @@ const Products = () => {
         const params = {};
         if (activeCategory) params.category = activeCategory;
         if (searchQuery) params.search = searchQuery;
+        if (activePitchRange) params.pitch_range = activePitchRange;
         const res = await getProducts(params);
         const data = res?.data || res;
         setProducts(Array.isArray(data) ? data : data?.products || []);
@@ -227,7 +255,7 @@ const Products = () => {
       }
     };
     fetchProducts();
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, activePitchRange]);
 
   const activeCategoryLabel = CATEGORIES.find(c => c.value === activeCategory)?.label || 'All Products';
 
@@ -384,7 +412,8 @@ const Products = () => {
           
           {/* Sidebar Filters - Desktop */}
           <aside className="hidden lg:block w-52 flex-shrink-0">
-            <div className="sticky top-36 space-y-6">
+            <div className="sticky top-36 space-y-6 max-h-[calc(100vh-200px)] overflow-y-auto pr-2 scrollbar-thin"
+                 style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
               {/* All Categories */}
               <FilterAccordion title="All Categories" defaultOpen={true} isDark={isDark}>
                 {CATEGORIES.map((cat) => (
@@ -401,6 +430,41 @@ const Products = () => {
                     {cat.label}
                   </button>
                 ))}
+              </FilterAccordion>
+
+              {/* Pixel Pitch Range Filter */}
+              <FilterAccordion title="Pixel Pitch" defaultOpen={true} isDark={isDark}>
+                <div className="space-y-1">
+                  {PITCH_RANGES.map((range) => (
+                    <button
+                      key={range.value}
+                      onClick={() => setActivePitchRange(range.value)}
+                      className={`w-full text-left px-3 py-2.5 text-xs tracking-wide transition-all rounded group ${
+                        activePitchRange === range.value
+                          ? 'bg-cyan-500/10 border-l-2 border-cyan-500'
+                          : (isDark ? 'hover:bg-white/5' : 'hover:bg-neutral-100')
+                      }`}
+                      data-testid={`products-pitch-filter-${range.value || 'all'}`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className={activePitchRange === range.value ? 'text-cyan-400' : (range.color || (isDark ? 'text-gray-400' : 'text-neutral-600'))}>
+                          {range.label}
+                        </span>
+                        {range.viewing && (
+                          <span className={`text-[10px] ${isDark ? 'text-gray-600' : 'text-neutral-400'} flex items-center gap-1`}>
+                            <Eye size={10} />
+                            {range.viewing}
+                          </span>
+                        )}
+                      </div>
+                      {range.description && (
+                        <p className={`text-[10px] mt-0.5 ${isDark ? 'text-gray-600' : 'text-neutral-400'}`}>
+                          {range.description}
+                        </p>
+                      )}
+                    </button>
+                  ))}
+                </div>
               </FilterAccordion>
 
               {/* Quick Links */}
@@ -424,12 +488,25 @@ const Products = () => {
           {/* Main Content Area */}
           <div className="flex-1 min-w-0">
             {/* Results Header */}
-            <div className={`flex items-center justify-between mb-6`}>
-              <div className="flex items-center gap-3">
+            <div className={`flex flex-wrap items-center justify-between gap-3 mb-6`}>
+              <div className="flex flex-wrap items-center gap-2">
                 <h2 className={`text-base font-semibold uppercase tracking-wide ${textPrimary}`}>{activeCategoryLabel}</h2>
+                {activePitchRange && (
+                  <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full ${isDark ? 'bg-cyan-500/20 text-cyan-400' : 'bg-cyan-100 text-cyan-600'}`}>
+                    {PITCH_RANGES.find(r => r.value === activePitchRange)?.label}
+                  </span>
+                )}
                 <span className={`text-xs ${textSecondary}`}>
                   {products.length} products
                 </span>
+                {(activeCategory || activePitchRange || searchQuery) && (
+                  <button 
+                    onClick={clearAllFilters}
+                    className={`text-xs ${isDark ? 'text-gray-500 hover:text-cyan-400' : 'text-neutral-500 hover:text-cyan-600'} flex items-center gap-1 transition-colors`}
+                  >
+                    <X size={12} /> Clear filters
+                  </button>
+                )}
               </div>
               
               {/* Mobile Filter Toggle */}
@@ -437,7 +514,7 @@ const Products = () => {
                 onClick={() => setShowFilters(!showFilters)}
                 className={`lg:hidden flex items-center gap-2 px-3 py-2 ${isDark ? 'bg-white/5 border-white/10 text-gray-400' : 'bg-neutral-100 border-neutral-200 text-neutral-600'} border rounded-lg text-xs uppercase tracking-wider`}
               >
-                <SlidersHorizontal size={14} /> More
+                <SlidersHorizontal size={14} /> Filters
               </button>
             </div>
 
@@ -450,21 +527,45 @@ const Products = () => {
                   exit={{ height: 0, opacity: 0 }}
                   className="lg:hidden overflow-hidden mb-6"
                 >
-                  <div className={`${isDark ? 'bg-[#0A0A0D] border-white/5' : 'bg-white border-neutral-200'} border rounded-lg p-4`}>
-                    <div className="flex flex-wrap gap-2">
-                      {CATEGORIES.slice(0, 15).map((cat) => (
-                        <button
-                          key={cat.value}
-                          onClick={() => { setActiveCategory(cat.value); setShowFilters(false); }}
-                          className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-full transition-colors ${
-                            activeCategory === cat.value
-                              ? 'bg-cyan-500 text-black'
-                              : (isDark ? 'bg-transparent text-gray-500 border border-white/10 hover:border-cyan-500/50' : 'bg-transparent text-neutral-600 border border-neutral-200 hover:border-cyan-500/50')
-                          }`}
-                        >
-                          {cat.label}
-                        </button>
-                      ))}
+                  <div className={`${isDark ? 'bg-[#0A0A0D] border-white/5' : 'bg-white border-neutral-200'} border rounded-lg p-4 space-y-4`}>
+                    {/* Pixel Pitch Filter */}
+                    <div>
+                      <h4 className={`text-xs font-bold uppercase tracking-widest ${textSecondary} mb-2`}>Pixel Pitch</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {PITCH_RANGES.map((range) => (
+                          <button
+                            key={range.value}
+                            onClick={() => { setActivePitchRange(range.value); }}
+                            className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-full transition-colors ${
+                              activePitchRange === range.value
+                                ? 'bg-cyan-500 text-black'
+                                : (isDark ? 'bg-transparent text-gray-500 border border-white/10 hover:border-cyan-500/50' : 'bg-transparent text-neutral-600 border border-neutral-200 hover:border-cyan-500/50')
+                            }`}
+                          >
+                            {range.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Categories */}
+                    <div>
+                      <h4 className={`text-xs font-bold uppercase tracking-widest ${textSecondary} mb-2`}>Categories</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {CATEGORIES.slice(0, 15).map((cat) => (
+                          <button
+                            key={cat.value}
+                            onClick={() => { setActiveCategory(cat.value); }}
+                            className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-full transition-colors ${
+                              activeCategory === cat.value
+                                ? 'bg-cyan-500 text-black'
+                                : (isDark ? 'bg-transparent text-gray-500 border border-white/10 hover:border-cyan-500/50' : 'bg-transparent text-neutral-600 border border-neutral-200 hover:border-cyan-500/50')
+                            }`}
+                          >
+                            {cat.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -484,7 +585,7 @@ const Products = () => {
                 <h3 className={`text-base font-semibold uppercase tracking-wide mb-2 ${textPrimary}`}>No Products Found</h3>
                 <p className={`text-sm ${textSecondary} mb-6`}>Try adjusting your filters or search terms.</p>
                 <button 
-                  onClick={() => { setActiveCategory(''); setSearchQuery(''); }}
+                  onClick={clearAllFilters}
                   className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-6 py-2.5 rounded-full transition-all"
                 >
                   Clear Filters

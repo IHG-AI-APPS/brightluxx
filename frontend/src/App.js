@@ -183,7 +183,7 @@ const AdminProductFamilies = lazy(() => import('./pages/admin/AdminProductFamili
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAdmin();
   if (loading) return <div className="min-h-screen bg-[#0B0B0B] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[var(--blx-gold-3)] border-t-transparent rounded-full animate-spin" /></div>;
-  if (!admin) return <Navigate to="/admin" replace />;
+  if (!admin) return <Navigate to="/admin/login" replace />;
   return children;
 };
 
@@ -319,6 +319,7 @@ function AppRoutes() {
       {/* Admin */}
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+        <Route index element={<Navigate to="/admin/dashboard" replace />} />
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="products" element={<AdminProducts />} />
         <Route path="inspirations" element={<AdminInspirations />} />

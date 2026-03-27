@@ -333,6 +333,16 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - All images now load directly from `https://files.ihgbrands.com/brightluxx/uploads/` without redirect
 - Testing: Verified all images load from external server — Iteration 47
 
+### Mobile Menu + Light Mode Button/Footer Fixes — Mar 27, 2026
+- **Mobile hamburger menu**: Added full navigation drawer for screens below 1024px with all product families, solutions, tools & resources
+- **CTA button visibility**: Fixed "START YOUR PROJECT" and similar dark buttons — white text preserved on dark backgrounds in light mode
+- **Hero button fix**: "GET QUOTE" and "EXPLORE" links now properly visible in light mode hero sections
+- **Footer background**: Changed from blue (#0f172a) to true black (#0A0A0D) matching dark mode
+- **App.css cleanup**: Removed conflicting light mode rules from testing agent that caused CSS specificity wars
+- Testing: All 8 test cases passed (iteration_101.json)
+
+
+
 ### Light Mode Global Fix — Mar 27, 2026
 - Fixed text visibility issues across ALL 70+ pages in light mode
 - Approach: Global CSS overrides in `index.css` under `html.light` selector

@@ -362,7 +362,7 @@ const Navbar = () => {
           {/* Logo - proper sizing with max-height */}
           <Link to="/" className="flex items-center group flex-shrink-0" data-testid="logo-link">
             <img 
-              src="/assets/brightluxx-logo-nav.png"
+              src="https://files.ihgbrands.com/brightluxx/assets/brightluxx-logo-nav.png"
               alt={branding?.company_name || 'Brightluxx'} 
               className="h-8 w-auto max-h-8 object-contain transition-all duration-300 group-hover:opacity-80"
               style={{ 

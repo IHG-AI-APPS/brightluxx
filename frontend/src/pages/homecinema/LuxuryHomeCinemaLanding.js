@@ -74,7 +74,7 @@ const LuxuryHomeCinemaLanding = () => {
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
           >
-            <source src="/videos/home-cinema-hero.mp4" type="video/mp4" />
+            <source src="https://files.ihgbrands.com/brightluxx/videos/home-cinema-hero.mp4" type="video/mp4" />
           </video>
           {/* Overlay */}
           <div className={`absolute inset-0 ${isDark ? 'bg-black/50' : 'bg-white/60'}`} />
@@ -182,7 +182,7 @@ const LuxuryHomeCinemaLanding = () => {
               >
                 <div className="aspect-[16/10] relative overflow-hidden">
                   <img 
-                    src="/downloaded-images/ext_561c5bef4c25.jpg"
+                    src="https://files.ihgbrands.com/brightluxx/downloaded-images/ext_561c5bef4c25.jpg"
                     alt="MicroLED Home Theater"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -210,7 +210,7 @@ const LuxuryHomeCinemaLanding = () => {
               >
                 <div className="aspect-[16/10] relative overflow-hidden">
                   <img 
-                    src="/downloaded-images/ext_abcbb01ad8da.jpg"
+                    src="https://files.ihgbrands.com/brightluxx/downloaded-images/ext_abcbb01ad8da.jpg"
                     alt="Outdoor Pool Cinema"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -242,7 +242,7 @@ const LuxuryHomeCinemaLanding = () => {
                 <div className="flex items-stretch">
                   <div className="w-2/5 aspect-square overflow-hidden">
                     <img 
-                      src="/downloaded-images/ext_c66d286d5af0.jpg"
+                      src="https://files.ihgbrands.com/brightluxx/downloaded-images/ext_c66d286d5af0.jpg"
                       alt="Yacht Cinema"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -271,7 +271,7 @@ const LuxuryHomeCinemaLanding = () => {
                 <div className="flex items-stretch">
                   <div className="w-2/5 aspect-square overflow-hidden">
                     <img 
-                      src="/downloaded-images/ext_064dc9d6ca09.jpg"
+                      src="https://files.ihgbrands.com/brightluxx/downloaded-images/ext_064dc9d6ca09.jpg"
                       alt="Deployable Screen"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />

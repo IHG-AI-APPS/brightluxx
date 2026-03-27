@@ -182,7 +182,7 @@ const SignageSolutionsLanding = () => {
         {/* Background */}
         <div className="absolute inset-0">
           <img 
-            src="/downloaded-images/ext_d0b67b9dced9.jpg"
+            src="https://files.ihgbrands.com/brightluxx/downloaded-images/ext_d0b67b9dced9.jpg"
             alt="EMAAR Dubai Mall Signage"
             className="w-full h-full object-cover"
           />

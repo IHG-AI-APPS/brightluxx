@@ -74,7 +74,7 @@ const BrightluxxLogo = ({ size = 'md', dark = false }) => {
   return (
     <div className="flex items-center gap-2">
       <img 
-        src="/assets/brightluxx-logo-nav.png" 
+        src="https://files.ihgbrands.com/brightluxx/assets/brightluxx-logo-nav.png" 
         alt="Brightluxx" 
         className={`${s.img} object-contain ${dark ? 'brightness-0' : ''}`}
       />
@@ -100,7 +100,7 @@ function DocumentPreview({ item }) {
         {/* Document Header with Brightluxx Logo */}
         <div className="h-10 bg-[#0a0a0f] flex items-center justify-between px-3">
           <img 
-            src="/assets/brightluxx-logo-nav.png" 
+            src="https://files.ihgbrands.com/brightluxx/assets/brightluxx-logo-nav.png" 
             alt="Brightluxx" 
             className="h-5 object-contain"
           />
@@ -214,7 +214,7 @@ function PreviewModal({ item, onClose, onDownload }) {
               {/* Document Header */}
               <div className="bg-[#0a0a0f] px-6 py-4 flex items-center justify-between">
                 <img 
-                  src="/assets/brightluxx-logo-nav.png" 
+                  src="https://files.ihgbrands.com/brightluxx/assets/brightluxx-logo-nav.png" 
                   alt="Brightluxx" 
                   className="h-8 object-contain"
                 />
@@ -364,7 +364,7 @@ function PreviewModal({ item, onClose, onDownload }) {
                 {/* Footer */}
                 <div className="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between">
                   <img 
-                    src="/assets/brightluxx-logo-nav.png" 
+                    src="https://files.ihgbrands.com/brightluxx/assets/brightluxx-logo-nav.png" 
                     alt="Brightluxx" 
                     className="h-5 object-contain opacity-50"
                   />

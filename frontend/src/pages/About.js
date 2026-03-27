@@ -169,7 +169,7 @@ export default function About() {
                   className="w-full h-full object-cover"
                   poster="/assets/hero_banner.webp"
                 >
-                  <source src="/videos/hero-video-1.mp4" type="video/mp4" />
+                  <source src="https://files.ihgbrands.com/brightluxx/videos/hero-video-1.mp4" type="video/mp4" />
                 </video>
                 {/* Subtle overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-t ${isDark ? 'from-[#050508]/30' : 'from-white/30'} to-transparent pointer-events-none`} />

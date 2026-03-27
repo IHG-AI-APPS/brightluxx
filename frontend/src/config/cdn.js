@@ -12,18 +12,33 @@ export const EXTERNAL_CDN = 'https://files.ihgbrands.com/brightluxx';
 export function cdnUrl(path) {
   if (!path) return '';
   
-  // Already a full URL
-  if (path.startsWith('http://') || path.startsWith('https://')) {
+  // Already a full URL pointing to our CDN
+  if (path.startsWith('https://files.ihgbrands.com')) {
     return path;
   }
   
-  // Handle local generated images - return as-is for relative paths served by frontend
-  if (path.startsWith('/generated-images/') || path.startsWith('/downloaded-images/')) {
+  // Already a full external URL (other domains) - return as-is
+  if (path.startsWith('http://') || path.startsWith('https://')) {
     return path;
   }
   
   // Remove leading slash if present
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  
+  // Handle local generated images - redirect to CDN
+  if (cleanPath.startsWith('generated-images/')) {
+    return `${EXTERNAL_CDN}/${cleanPath}`;
+  }
+  
+  // Handle local downloaded images - redirect to CDN
+  if (cleanPath.startsWith('downloaded-images/')) {
+    return `${EXTERNAL_CDN}/${cleanPath}`;
+  }
+  
+  // Handle assets folder (logos, etc.)
+  if (cleanPath.startsWith('assets/')) {
+    return `${EXTERNAL_CDN}/${cleanPath}`;
+  }
   
   // Handle old /api/cdn/ paths
   if (cleanPath.startsWith('api/cdn/')) {
@@ -47,10 +62,29 @@ export function cdnUrl(path) {
  */
 export function cdnVideoUrl(filename) {
   if (!filename) return '';
+  if (filename.startsWith('https://files.ihgbrands.com')) return filename;
   if (filename.startsWith('http')) return filename;
+  
   const cleanName = filename.startsWith('/') ? filename.slice(1) : filename;
   if (cleanName.startsWith('videos/')) {
     return `${EXTERNAL_CDN}/${cleanName}`;
   }
   return `${EXTERNAL_CDN}/videos/${cleanName}`;
+}
+
+/**
+ * Helper function for asset files (logos, favicons, etc.)
+ * @param {string} filename - Asset filename
+ * @returns {string} - Full CDN URL for asset
+ */
+export function cdnAssetUrl(filename) {
+  if (!filename) return '';
+  if (filename.startsWith('https://files.ihgbrands.com')) return filename;
+  if (filename.startsWith('http')) return filename;
+  
+  const cleanName = filename.startsWith('/') ? filename.slice(1) : filename;
+  if (cleanName.startsWith('assets/')) {
+    return `${EXTERNAL_CDN}/${cleanName}`;
+  }
+  return `${EXTERNAL_CDN}/assets/${cleanName}`;
 }

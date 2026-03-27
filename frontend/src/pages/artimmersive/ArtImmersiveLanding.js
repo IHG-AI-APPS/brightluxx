@@ -96,7 +96,7 @@ const ArtImmersiveLanding = () => {
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
           >
-            <source src="/videos/art-hero-abstract.mp4" type="video/mp4" />
+            <source src="https://files.ihgbrands.com/brightluxx/videos/art-hero-abstract.mp4" type="video/mp4" />
           </video>
           {/* Dark overlay for readability */}
           <div className={`absolute inset-0 ${isDark ? 'bg-black/40' : 'bg-white/50'}`} />
@@ -182,7 +182,7 @@ const ArtImmersiveLanding = () => {
               playsInline
               className="w-full aspect-video object-cover"
             >
-              <source src="/videos/art-immersive-hero.mp4" type="video/mp4" />
+              <source src="https://files.ihgbrands.com/brightluxx/videos/art-immersive-hero.mp4" type="video/mp4" />
             </video>
             <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#050508]/80 via-transparent to-transparent' : 'bg-gradient-to-t from-white/80 via-transparent to-transparent'}`} />
             <div className="absolute bottom-0 left-0 right-0 p-8">

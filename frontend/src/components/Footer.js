@@ -40,7 +40,7 @@ const Footer = () => {
           <div className="col-span-1">
             <Link to="/" className="inline-block mb-6">
               <img 
-                src="/assets/brightluxx-logo-nav.png" 
+                src="https://files.ihgbrands.com/brightluxx/assets/brightluxx-logo-nav.png" 
                 alt="Brightluxx" 
                 className="h-5 sm:h-6 w-auto"
               />

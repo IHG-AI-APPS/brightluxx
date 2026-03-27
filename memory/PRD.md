@@ -333,6 +333,15 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - All images now load directly from `https://files.ihgbrands.com/brightluxx/uploads/` without redirect
 - Testing: Verified all images load from external server — Iteration 47
 
+### PixelVue Broken Images Fix — Mar 27, 2026
+- Fixed 5 broken product images in PixelVue navbar dropdown
+- Products fixed: iPoster, iFlip, UltraFlip, Unity, VideoBrick
+- Root cause: Expired Emergent image generation URLs (HTTP 403)
+- Generated 5 new AI images (Gemini Imagen 4.0), uploaded to CDN via SFTP
+- All images now served from `https://files.ihgbrands.com/brightluxx/uploads/`
+
+
+
 ### Admin Upload CDN Migration Complete — Mar 27, 2026
 - **Migrated all 6 admin upload endpoints** from deprecated Emergent Object Storage to external SFTP CDN:
   1. `POST /api/admin/upload` — General image uploads → `uploads/` folder

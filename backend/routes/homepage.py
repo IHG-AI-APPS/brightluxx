@@ -232,6 +232,8 @@ async def upload_homepage_image(
     admin=Depends(get_current_admin)
 ):
     """Upload an image for homepage sections."""
+    from cdn_upload import upload_image_to_cdn
+    
     allowed_types = ["image/jpeg", "image/png", "image/webp", "image/gif"]
     
     if file.content_type not in allowed_types:
@@ -246,8 +248,7 @@ async def upload_homepage_image(
     content = await file.read()
     
     try:
-        storage_path = f"{APP_NAME}/homepage/{unique_name}"
-        image_url = upload_file(content, storage_path, file.content_type)
+        image_url = upload_image_to_cdn(unique_name, content, "homepage")
         
         return {
             "success": True,
@@ -264,6 +265,8 @@ async def upload_homepage_video(
     admin=Depends(get_current_admin)
 ):
     """Upload a video for homepage hero section."""
+    from cdn_upload import upload_video_to_cdn
+    
     allowed_types = ["video/mp4", "video/webm", "video/quicktime", "video/x-msvideo"]
     
     if file.content_type not in allowed_types:
@@ -281,8 +284,7 @@ async def upload_homepage_video(
     unique_name = f"hero_video_{uuid.uuid4().hex[:8]}{ext}"
     
     try:
-        storage_path = f"{APP_NAME}/videos/{unique_name}"
-        video_url = upload_file(content, storage_path, file.content_type)
+        video_url = upload_video_to_cdn(unique_name, content)
         
         return {
             "success": True,

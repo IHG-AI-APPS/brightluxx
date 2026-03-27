@@ -75,5 +75,5 @@
   "seed_data_creation": "",
   "retest_needed": false,
   "should_main_agent_self_test": false,
-  "context_for_next_testing_agent": "Iteration 36 focused on AURA chat enhancements. All features working: dynamic product knowledge from MongoDB (57 products), page-aware context (28 page mappings in PAGE_CONTEXT_MAP), 4 quick action chips, clickable internal links (gold #E5C574), lead capture after 3 messages. AURA is desktop-only by design. The chat uses GPT-5.2 via emergentintegrations library with ~5-12 second response time. Key files: /app/frontend/src/components/AuraChat.js, /app/backend/routes/chat.py. Preview URL: https://architect-hub-v2.preview.emergentagent.com"
+  "context_for_next_testing_agent": "Iteration 36 focused on AURA chat enhancements. All features working: dynamic product knowledge from MongoDB (57 products), page-aware context (28 page mappings in PAGE_CONTEXT_MAP), 4 quick action chips, clickable internal links (gold #E5C574), lead capture after 3 messages. AURA is desktop-only by design. The chat uses GPT-5.2 via emergentintegrations library with ~5-12 second response time. Key files: /app/frontend/src/components/AuraChat.js, /app/backend/routes/chat.py. Preview URL: https://brightluxx-showcase.preview.emergentagent.com"
 }

@@ -146,6 +146,8 @@ async def upload_blog_image(
     admin=Depends(get_current_admin)
 ):
     """Upload an image for a blog post."""
+    from cdn_upload import upload_image_to_cdn
+    
     # Validate file type
     allowed_types = ["image/jpeg", "image/png", "image/webp", "image/gif"]
     
@@ -162,10 +164,9 @@ async def upload_blog_image(
     # Read file content
     content = await file.read()
     
-    # Upload to cloud storage
+    # Upload to CDN
     try:
-        storage_path = f"{APP_NAME}/blog/{unique_name}"
-        image_url = upload_file(content, storage_path, file.content_type)
+        image_url = upload_image_to_cdn(unique_name, content, "blog")
         
         return {
             "success": True,

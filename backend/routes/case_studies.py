@@ -191,6 +191,8 @@ async def upload_case_study_image(
     admin=Depends(get_current_admin)
 ):
     """Upload an image for a case study."""
+    from cdn_upload import upload_image_to_cdn
+    
     allowed_types = ["image/jpeg", "image/png", "image/webp", "image/gif"]
     
     if file.content_type not in allowed_types:
@@ -205,8 +207,7 @@ async def upload_case_study_image(
     content = await file.read()
     
     try:
-        storage_path = f"{APP_NAME}/case-studies/{unique_name}"
-        image_url = upload_file(content, storage_path, file.content_type)
+        image_url = upload_image_to_cdn(unique_name, content, "case-studies")
         
         return {
             "success": True,

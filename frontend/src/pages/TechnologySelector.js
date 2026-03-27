@@ -252,7 +252,7 @@ export default function TechnologySelector() {
       />
 
       {/* Hero */}
-      <section className="relative pt-32 pb-8 overflow-hidden">
+      <section className="relative pt-24 pb-8 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-transparent" />
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-[120px]" />
         

@@ -144,7 +144,7 @@ export default function FAQ() {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 overflow-hidden" data-testid="faq-hero">
+      <section className="relative pt-24 pb-16 overflow-hidden" data-testid="faq-hero">
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
         <div className={`absolute top-1/4 right-0 w-[400px] h-[400px] ${isDark ? 'bg-cyan-500/5' : 'bg-cyan-500/10'} rounded-full blur-[120px]`} />
         

@@ -6,7 +6,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /* Dropdown wrapper — handles stable hover with a delay so the menu doesn't vanish mid-transition */
-function DropdownWrap({ trigger, children, isOpen, setOpen, testId }) {
+function DropdownWrap({ trigger, children, isOpen, setOpen, testId, alignRight = false }) {
   const timeout = useRef(null);
   const enter = useCallback(() => { clearTimeout(timeout.current); setOpen(true); }, [setOpen]);
   const leave = useCallback(() => { timeout.current = setTimeout(() => setOpen(false), 120); }, [setOpen]);
@@ -16,7 +16,7 @@ function DropdownWrap({ trigger, children, isOpen, setOpen, testId }) {
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            className="absolute top-full left-0 pt-2" 
+            className={`absolute top-full pt-2 ${alignRight ? 'right-0' : 'left-0'}`}
             data-testid={testId}
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -741,6 +741,7 @@ const Navbar = () => {
               isOpen={moreMenuOpen}
               setOpen={setMoreMenuOpen}
               testId="nav-more-dropdown"
+              alignRight={true}
               trigger={
                 <button 
                   className={`flex items-center gap-1.5 text-[0.6875rem] font-bold tracking-[0.12em] uppercase py-2 transition-all duration-300 ${
@@ -852,6 +853,7 @@ const Navbar = () => {
             <DropdownWrap
               isOpen={moreMenuOpen}
               setOpen={setMoreMenuOpen}
+              alignRight={true}
               trigger={
                 <button className={`flex items-center gap-1 text-[0.65rem] font-bold tracking-[0.1em] uppercase py-2 transition-colors ${moreMenuOpen ? (isDark ? 'text-white' : 'text-neutral-900') : (isDark ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-neutral-900')}`}>
                   <Menu size={16} />

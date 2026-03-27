@@ -42,8 +42,7 @@ const Footer = () => {
               <img 
                 src="/assets/brightluxx-logo-nav.png" 
                 alt="Brightluxx" 
-                className="h-8 w-auto"
-                style={{ filter: 'brightness(1.1)' }}
+                className="h-5 sm:h-6 w-auto"
               />
             </Link>
             <p className="text-xs leading-relaxed mb-6 max-w-[240px] tracking-wide" style={{ color: offWhiteMuted }}>

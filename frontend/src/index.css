@@ -110,6 +110,223 @@
   color-scheme: dark;
 }
 
+/* ============================================
+   LIGHT MODE — Global Overrides
+   Transforms the dark-first "Luminous Precision"
+   theme into a clean, readable light experience.
+   Triggered when <html class="light">
+   ============================================ */
+
+html.light {
+  color-scheme: light;
+  --blx-bg: #f8fafc;
+  --blx-bg-2: #f1f5f9;
+  --blx-bg-raised: #ffffff;
+  --blx-panel: #ffffff;
+  --blx-panel-2: #f8fafc;
+  --blx-text: #0f172a;
+  --blx-text-2: #475569;
+  --blx-muted: #64748b;
+  --blx-placeholder: rgba(15,23,42,0.40);
+  --blx-border: rgba(0,0,0,0.10);
+  --blx-border-2: rgba(0,0,0,0.15);
+  --blx-glass: rgba(255,255,255,0.80);
+  --blx-glass-border: rgba(0,0,0,0.08);
+  --blx-glass-strong: rgba(255,255,255,0.90);
+  --blx-hairline: rgba(0,0,0,0.06);
+  --blx-shadow-soft: 0 4px 24px rgba(0,0,0,0.06);
+  --blx-shadow-lift: 0 12px 48px rgba(0,0,0,0.10);
+  --blx-glow: radial-gradient(closest-side, rgba(6,182,212,0.10), rgba(6,182,212,0) 70%);
+  --blx-glow-strong: radial-gradient(closest-side, rgba(6,182,212,0.18), rgba(6,182,212,0) 70%);
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+}
+
+/* ---- Light mode: Backgrounds ---- */
+html.light .bg-\[\#050508\] { background-color: #f8fafc !important; }
+html.light .bg-\[\#0A0A0D\] { background-color: #f1f5f9 !important; }
+html.light .bg-\[\#0F0F12\] { background-color: #ffffff !important; }
+html.light .bg-\[\#0C0C0F\] { background-color: #ffffff !important; }
+html.light .bg-\[\#121215\] { background-color: #f8fafc !important; }
+html.light .bg-neutral-950 { background-color: #f8fafc !important; }
+html.light .bg-neutral-900 { background-color: #f1f5f9 !important; }
+html.light .bg-neutral-900\/30 { background-color: #f1f5f9 !important; }
+html.light .bg-neutral-900\/50 { background-color: #e2e8f0 !important; }
+html.light .bg-neutral-800 { background-color: #e2e8f0 !important; }
+html.light .bg-black { background-color: #f8fafc !important; }
+html.light .bg-black\/80 { background-color: rgba(248,250,252,0.95) !important; }
+html.light .bg-black\/60 { background-color: rgba(241,245,249,0.9) !important; }
+html.light .bg-black\/40 { background-color: rgba(241,245,249,0.7) !important; }
+html.light .bg-gray-900 { background-color: #f1f5f9 !important; }
+html.light .bg-gray-900\/50 { background-color: #e2e8f0 !important; }
+html.light .bg-slate-900 { background-color: #f1f5f9 !important; }
+
+/* Glass / transparent white backgrounds → solid white */
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\],
+html.light .bg-white\/\[0\.05\] {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+}
+html.light .bg-white\/\[0\.06\],
+html.light .bg-white\/\[0\.08\],
+html.light .bg-white\/\[0\.1\],
+html.light .bg-white\/5,
+html.light .bg-white\/10 {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+}
+
+/* ---- Light mode: Text Colors ---- */
+html.light .text-white { color: #0f172a !important; }
+html.light .text-neutral-100 { color: #1e293b !important; }
+html.light .text-neutral-200 { color: #334155 !important; }
+html.light .text-neutral-300 { color: #475569 !important; }
+html.light .text-neutral-400 { color: #64748b !important; }
+html.light .text-neutral-500 { color: #64748b !important; }
+html.light .text-gray-100 { color: #1e293b !important; }
+html.light .text-gray-200 { color: #334155 !important; }
+html.light .text-gray-300 { color: #475569 !important; }
+html.light .text-gray-400 { color: #64748b !important; }
+html.light .text-gray-500 { color: #6b7280 !important; }
+html.light .text-slate-300 { color: #475569 !important; }
+html.light .text-slate-400 { color: #64748b !important; }
+
+/* White opacity text → dark equivalents */
+html.light .text-white\/40 { color: rgba(15,23,42,0.5) !important; }
+html.light .text-white\/50 { color: rgba(15,23,42,0.6) !important; }
+html.light .text-white\/60 { color: rgba(15,23,42,0.7) !important; }
+html.light .text-white\/70 { color: rgba(15,23,42,0.8) !important; }
+html.light .text-white\/80 { color: rgba(15,23,42,0.9) !important; }
+html.light .text-white\/90 { color: #0f172a !important; }
+
+/* ---- Light mode: Borders ---- */
+html.light .border-white\/\[0\.06\] { border-color: #e2e8f0 !important; }
+html.light .border-white\/\[0\.08\] { border-color: #e2e8f0 !important; }
+html.light .border-white\/\[0\.1\] { border-color: #e2e8f0 !important; }
+html.light .border-white\/5 { border-color: #e2e8f0 !important; }
+html.light .border-white\/10 { border-color: #e2e8f0 !important; }
+html.light .border-white\/20 { border-color: #cbd5e1 !important; }
+html.light .border-white\/30 { border-color: #94a3b8 !important; }
+html.light .border-neutral-800 { border-color: #e2e8f0 !important; }
+html.light .border-neutral-700 { border-color: #e2e8f0 !important; }
+html.light .border-neutral-900 { border-color: #e2e8f0 !important; }
+html.light .border-gray-800 { border-color: #e2e8f0 !important; }
+html.light .border-\[rgba\(255\,255\,255\,0\.08\)\] { border-color: #e2e8f0 !important; }
+
+/* ---- Light mode: Hover states ---- */
+html.light .hover\:bg-white\/5:hover { background-color: rgba(0,0,0,0.03) !important; }
+html.light .hover\:bg-white\/10:hover { background-color: rgba(0,0,0,0.04) !important; }
+html.light .hover\:bg-white\/\[0\.06\]:hover { background-color: rgba(0,0,0,0.04) !important; }
+html.light .hover\:bg-neutral-900\/50:hover { background-color: #e2e8f0 !important; }
+html.light .hover\:text-white:hover { color: #0f172a !important; }
+
+/* ---- Light mode: Rings & Shadows ---- */
+html.light .ring-white\/10 { --tw-ring-color: rgba(0,0,0,0.08) !important; }
+html.light .shadow-\[0_0_30px_rgba\(34\,211\,238\,0\.08\)\] {
+  box-shadow: 0 4px 20px rgba(6,182,212,0.1) !important;
+}
+
+/* ---- HERO PRESERVATION ---- */
+/* Keep white text inside hero sections (identified by min-h-[Xvh] on sections) */
+html.light section[class*="min-h-"] .text-white,
+html.light section[class*="min-h-"] .text-neutral-300,
+html.light section[class*="min-h-"] .text-neutral-400,
+html.light section[class*="min-h-"] .text-white\/50,
+html.light section[class*="min-h-"] .text-white\/80 {
+  color: inherit;
+}
+/* Force white specifically for hero text elements */
+html.light section[class*="min-h-"][class*="relative"] h1,
+html.light section[class*="min-h-"][class*="relative"] h2,
+html.light section[class*="min-h-"][class*="relative"] p,
+html.light section[class*="min-h-"][class*="relative"] span,
+html.light section[class*="min-h-"][class*="relative"] a {
+  color: white !important;
+}
+/* Buttons inside heroes: keep original styling */
+html.light section[class*="min-h-"][class*="relative"] a.border-white\/30 {
+  color: white !important;
+  border-color: rgba(255,255,255,0.3) !important;
+}
+html.light section[class*="min-h-"][class*="relative"] a.bg-white {
+  color: #0f172a !important;
+  background-color: white !important;
+}
+
+/* ---- FOOTER PRESERVATION ---- */
+/* Keep footer dark-themed in light mode (common pattern) */
+/* Use higher specificity to override .bg-[#0A0A0D] rule */
+html.light footer,
+html.light footer.bg-\[\#0A0A0D\] {
+  background-color: #0f172a !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+html.light footer * {
+  border-color: rgba(255,255,255,0.08);
+}
+html.light footer .text-white { color: #f1f5f9 !important; }
+html.light footer .text-neutral-400 { color: #94a3b8 !important; }
+html.light footer .text-neutral-500 { color: #64748b !important; }
+html.light footer .text-gray-400 { color: #94a3b8 !important; }
+html.light footer .text-gray-500 { color: #64748b !important; }
+html.light footer .bg-\[\#0A0A0D\] { background-color: #0f172a !important; }
+html.light footer .bg-white\/\[0\.03\],
+html.light footer .bg-white\/\[0\.05\] {
+  background-color: rgba(255,255,255,0.05) !important;
+  box-shadow: none !important;
+}
+
+/* ---- Light mode: Scrollbar ---- */
+html.light ::-webkit-scrollbar-track { background: #f8fafc; }
+html.light ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+html.light ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
+
+/* ---- Light mode: Selection ---- */
+html.light ::selection {
+  background: rgba(6,182,212,0.20);
+  color: #0f172a;
+}
+
+/* ---- Light mode: LED grid overlay - less visible ---- */
+html.light .blx-led-grid::before { opacity: 0.015; }
+html.light .blx-led-grid-strong::before { opacity: 0.02; }
+
+/* ---- Light mode: Accent colors stay vibrant ---- */
+html.light .text-cyan-400 { color: #0891b2 !important; }
+html.light .text-cyan-300 { color: #06b6d4 !important; }
+html.light .text-violet-400 { color: #7c3aed !important; }
+html.light .text-rose-400 { color: #e11d48 !important; }
+html.light .text-emerald-400 { color: #059669 !important; }
+html.light .text-amber-400 { color: #d97706 !important; }
+
+/* Hero-area accent colors stay bright on dark overlay */
+html.light section[class*="min-h-"][class*="relative"] .text-cyan-400,
+html.light section[class*="min-h-"][class*="relative"] .text-violet-400,
+html.light section[class*="min-h-"][class*="relative"] .text-rose-400,
+html.light section[class*="min-h-"][class*="relative"] .text-emerald-400 {
+  color: inherit;
+}
+
+/* ---- Light mode: Gradient text adjustment ---- */
+html.light .text-transparent.bg-clip-text {
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---- Navbar stays its own theme (handled by ThemeContext) ---- */
+/* ---- End Light Mode Overrides ---- */
+
 ::selection {
   background: rgba(34,211,238,0.20);
   color: #F5F5F7;

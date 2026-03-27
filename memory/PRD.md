@@ -333,6 +333,23 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - All images now load directly from `https://files.ihgbrands.com/brightluxx/uploads/` without redirect
 - Testing: Verified all images load from external server — Iteration 47
 
+### Admin Upload CDN Migration Complete — Mar 27, 2026
+- **Migrated all 6 admin upload endpoints** from deprecated Emergent Object Storage to external SFTP CDN:
+  1. `POST /api/admin/upload` — General image uploads → `uploads/` folder
+  2. `POST /api/admin/upload/multiple` — Batch image uploads → `uploads/` folder
+  3. `POST /api/admin/homepage/upload-image` — Homepage images → `homepage/` folder
+  4. `POST /api/admin/homepage/upload-video` — Homepage videos → `videos/` folder
+  5. `POST /api/admin/blogs/upload-image` — Blog images → `blog/` folder
+  6. `POST /api/admin/case-studies/upload-image` — Case study images → `case-studies/` folder
+  7. `POST /api/admin/resources/upload` — Resource documents → `resources/` folder
+- **CDN Upload Helper:** `/app/backend/cdn_upload.py` handles Paramiko SFTP connections
+- **Cleaned stale imports:** Removed unused `storage.py` imports from `homepage.py`, `blog.py`, `case_studies.py`
+- **Fixed `resources.py`:** Was still using old `storage.py` upload — now uses CDN SFTP
+- All files verified accessible at `https://files.ihgbrands.com/brightluxx/` (HTTP 200)
+- Testing: All 7 endpoints verified via curl with admin auth token
+
+
+
 ### Dynamic Resource Library — Mar 11, 2026
 - Created backend API endpoints for resources (`/api/resources`, `/api/admin/resources`)
 - Implemented MongoDB collection `resources` with schema: id, title, description, category, tags, pack_id/doc_id/bim_id/link, is_active, order

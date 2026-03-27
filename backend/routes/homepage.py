@@ -10,8 +10,6 @@ import os
 
 from database import db
 from auth import get_current_admin
-from storage import upload_file, APP_NAME
-
 router = APIRouter()
 
 homepage_col = db["homepage_content"]

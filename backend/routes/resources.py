@@ -11,7 +11,7 @@ import os
 from database import db
 from auth import get_current_admin
 from utils import serialize_doc
-from storage import upload_file, APP_NAME
+from cdn_upload import upload_to_cdn
 
 router = APIRouter()
 
@@ -153,14 +153,13 @@ async def upload_resource_file(
     # Read file content
     content = await file.read()
     
-    # Upload to cloud storage
+    # Upload to external CDN via SFTP
     try:
-        storage_path = f"{APP_NAME}/resources/{unique_name}"
-        file_url = upload_file(content, storage_path, file.content_type)
+        cdn_url = upload_to_cdn(unique_name, content, "resources")
         
         return {
             "success": True,
-            "file_url": file_url,
+            "file_url": cdn_url,
             "filename": file.filename,
             "size": len(content),
         }

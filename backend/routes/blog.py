@@ -11,8 +11,6 @@ import re
 
 from database import db
 from auth import get_current_admin
-from storage import upload_file, APP_NAME
-
 router = APIRouter()
 
 blogs_col = db["blogs"]

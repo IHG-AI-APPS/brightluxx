@@ -36,6 +36,7 @@ from routes.applications_api import router as applications_api_router
 from routes.site_content import router as site_content_router
 from routes.product_families import router as product_families_router
 from routes.signage_inquiry import router as signage_inquiry_router
+from routes.sync import router as sync_router
 
 app = FastAPI()
 
@@ -110,6 +111,7 @@ app.include_router(site_content_router)
 app.include_router(product_families_router)
 app.include_router(image_management_router)
 app.include_router(signage_inquiry_router)
+app.include_router(sync_router)
 
 
 @app.on_event("startup")
@@ -135,6 +137,13 @@ async def startup():
             "created_at": datetime.now(timezone.utc)
         })
         print("Admin user seeded: admin@brightluxx.com")
+
+    # Seed content collections from seed_data.json
+    try:
+        from seed_migration import run_seed
+        await run_seed(db)
+    except Exception as e:
+        print(f"Seed migration warning: {e}")
 
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@ import TiltCard from '../components/TiltCard';
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
 // Hero background image - modern lobby with LED display
-const HERO_IMAGE = '/downloaded-images/ext_a29f21dc4090.jpgs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbCUyMGxvYmJ5JTIwTEVEJTIwZGlzcGxheSUyMHNjcmVlbiUyMG1vZGVybiUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NzM4NTgyMzR8MA&ixlib=rb-4.1.0&q=85';
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1768346564825-6f90c0b89e2e?w=1200&q=80';
 
 // Category icons
 const CATEGORY_ICONS = {

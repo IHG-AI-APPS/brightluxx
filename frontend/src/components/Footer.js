@@ -39,7 +39,12 @@ const Footer = () => {
           {/* Logo & Social Column */}
           <div className="col-span-1">
             <Link to="/" className="inline-block mb-6">
-              <span className="text-xl font-bold tracking-wider text-white">BRIGHTLUXX</span>
+              <img 
+                src="/assets/brightluxx-logo-nav.png" 
+                alt="Brightluxx" 
+                className="h-8 w-auto"
+                style={{ filter: 'brightness(1.1)' }}
+              />
             </Link>
             <p className="text-xs leading-relaxed mb-6 max-w-[240px] tracking-wide" style={{ color: offWhiteMuted }}>
               Premium LED display solutions for UAE and MENA. Established since {branding?.established_year || '2005'}.

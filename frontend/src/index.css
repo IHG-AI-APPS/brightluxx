@@ -250,27 +250,40 @@ html.light section[class*="min-h-"] .text-white\/80 {
 /* Force white specifically for hero text elements */
 html.light section[class*="min-h-"][class*="relative"] h1,
 html.light section[class*="min-h-"][class*="relative"] h2,
-html.light section[class*="min-h-"][class*="relative"] p,
-html.light section[class*="min-h-"][class*="relative"] span,
-html.light section[class*="min-h-"][class*="relative"] a {
+html.light section[class*="min-h-"][class*="relative"] h3,
+html.light section[class*="min-h-"][class*="relative"] p {
   color: white !important;
 }
-/* Buttons inside heroes: keep original styling */
-html.light section[class*="min-h-"][class*="relative"] a.border-white\/30 {
+/* Hero links: white text on dark overlays */
+html.light section[class*="min-h-"][class*="relative"] a.text-white,
+html.light section[class*="min-h-"][class*="relative"] a.text-white\/90 {
   color: white !important;
-  border-color: rgba(255,255,255,0.3) !important;
 }
-html.light section[class*="min-h-"][class*="relative"] a.bg-white {
+html.light section[class*="min-h-"][class*="relative"] a.text-white\/90 span {
+  color: white !important;
+}
+/* Hero links with light/white backgrounds: keep dark text */
+html.light section[class*="min-h-"][class*="relative"] a.bg-white,
+html.light section[class*="min-h-"][class*="relative"] a.text-black {
   color: #0f172a !important;
   background-color: white !important;
 }
+/* Spans inside light hero buttons: explicit dark text */
+html.light section[class*="min-h-"][class*="relative"] a.bg-white span,
+html.light section[class*="min-h-"][class*="relative"] a.text-black span {
+  color: #0f172a !important;
+}
+/* Hero outline buttons: keep white text with visible border */
+html.light section[class*="min-h-"][class*="relative"] a.border {
+  color: white !important;
+  border-color: rgba(255,255,255,0.3) !important;
+}
 
 /* ---- FOOTER PRESERVATION ---- */
-/* Keep footer dark-themed in light mode (common pattern) */
-/* Use higher specificity to override .bg-[#0A0A0D] rule */
+/* Keep footer identical to dark mode — true black background */
 html.light footer,
 html.light footer.bg-\[\#0A0A0D\] {
-  background-color: #0f172a !important;
+  background-color: #0A0A0D !important;
   border-color: rgba(255,255,255,0.08) !important;
 }
 html.light footer * {
@@ -281,7 +294,7 @@ html.light footer .text-neutral-400 { color: #94a3b8 !important; }
 html.light footer .text-neutral-500 { color: #64748b !important; }
 html.light footer .text-gray-400 { color: #94a3b8 !important; }
 html.light footer .text-gray-500 { color: #64748b !important; }
-html.light footer .bg-\[\#0A0A0D\] { background-color: #0f172a !important; }
+html.light footer .bg-\[\#0A0A0D\] { background-color: #0A0A0D !important; }
 html.light footer .bg-white\/\[0\.03\],
 html.light footer .bg-white\/\[0\.05\] {
   background-color: rgba(255,255,255,0.05) !important;
@@ -325,6 +338,46 @@ html.light .text-transparent.bg-clip-text {
 }
 
 /* ---- Navbar stays its own theme (handled by ThemeContext) ---- */
+
+/* ---- BUTTON / CTA PRESERVATION ---- */
+/* Elements with dark backgrounds must keep white text in light mode */
+/* Use class-only selectors (no element tags) for React Router Link compatibility */
+html.light .bg-neutral-900.text-white,
+html.light .bg-neutral-800.text-white,
+html.light .bg-black.text-white,
+html.light .bg-\[\#050508\].text-white,
+html.light .bg-\[\#0A0A0D\].text-white {
+  background-color: #171717 !important;
+  color: white !important;
+}
+/* Keep dark bg on standalone buttons/links */
+html.light .bg-neutral-900:not(section):not(div):not(main),
+html.light .bg-neutral-800:not(section):not(div):not(main) {
+  background-color: #171717 !important;
+}
+html.light a.bg-white,
+html.light button.bg-white {
+  background-color: white !important;
+  color: #0f172a !important;
+}
+html.light a.bg-white.text-black,
+html.light button.bg-white.text-black {
+  color: #0f172a !important;
+}
+/* Outline/ghost buttons in light mode - keep border visible */
+html.light a.border.text-white:not(.bg-neutral-900):not(.bg-black):not([class*="bg-"]),
+html.light button.border.text-white:not(.bg-neutral-900):not(.bg-black):not([class*="bg-"]) {
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+/* Cyan/accent CTA buttons stay vibrant */
+html.light a.bg-cyan-500,
+html.light button.bg-cyan-500,
+html.light a.bg-cyan-400,
+html.light button.bg-cyan-400 {
+  color: #0f172a !important;
+}
+
 /* ---- End Light Mode Overrides ---- */
 
 ::selection {

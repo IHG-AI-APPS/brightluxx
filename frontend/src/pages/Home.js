@@ -194,6 +194,7 @@ const AnimatedCounter = ({ end, suffix = '', prefix = '' }) => {
 ═══════════════════════════════════════════════════════════════════════ */
 const HeroWithParallax = ({ hero }) => {
   const heroRef = useRef(null);
+  const { isDark } = useTheme();
   
   // Scroll progress for the hero section
   const { scrollYProgress } = useScroll({
@@ -278,11 +279,11 @@ const HeroWithParallax = ({ hero }) => {
             transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
             <MagneticButton
-              className="relative group overflow-hidden font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs bg-white text-black hover:text-white transition-colors duration-500"
+              className={`relative group overflow-hidden font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs transition-colors duration-500 ${isDark ? 'bg-white text-black hover:text-white' : 'bg-white text-neutral-900 hover:text-white'}`}
               onClick={() => window.location.href = hero.cta_link || '/contact'}
               data-testid="home-hero-primary-cta"
             >
-              <span className="relative z-10">GET QUOTE</span>
+              <span className={`relative z-10 ${isDark ? '' : 'text-neutral-900'}`}>GET QUOTE</span>
               <motion.div 
                 className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-cyan-500"
                 initial={{ x: '-100%' }}

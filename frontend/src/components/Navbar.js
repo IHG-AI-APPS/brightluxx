@@ -42,6 +42,7 @@ const Navbar = () => {
   const [pixelVueOpen, setPixelVueOpen] = useState(false);
   const [artImmersiveOpen, setArtImmersiveOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { branding } = useSiteSettings();
   const { isDark, toggleTheme } = useTheme();
@@ -57,6 +58,11 @@ const Navbar = () => {
 
   const isActive = (path) => location.pathname === path;
   const isActivePrefix = (prefix) => location.pathname.startsWith(prefix);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   /* ─── DATA ─── */
   const productCategories = [
@@ -302,6 +308,7 @@ const Navbar = () => {
     setGlassMorphOpen(false);
     setPixelVueOpen(false);
     setArtImmersiveOpen(false);
+    setMobileMenuOpen(false);
   };
 
   /* Nav button component - UPPERCASE text with theme awareness */
@@ -901,9 +908,84 @@ const Navbar = () => {
             >
               {isDark ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-indigo-600" />}
             </motion.button>
+
+            {/* Hamburger Menu Button */}
+            <motion.button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={`p-2 rounded-full transition-all duration-300 ${
+                isDark
+                  ? 'bg-white/10 text-white'
+                  : 'bg-neutral-100 text-neutral-700'
+              }`}
+              whileTap={{ scale: 0.95 }}
+              data-testid="mobile-menu-toggle"
+            >
+              {mobileMenuOpen ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              ) : (
+                <Menu size={18} />
+              )}
+            </motion.button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Navigation Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`lg:hidden overflow-hidden border-t ${
+              isDark ? 'bg-[#0A0A0D] border-white/[0.06]' : 'bg-white border-neutral-200'
+            }`}
+            data-testid="mobile-menu-drawer"
+          >
+            <div className="max-h-[80vh] overflow-y-auto py-4 px-4 space-y-1">
+              {/* Product Families */}
+              <div className={`px-3 py-2 text-[0.6rem] font-bold tracking-[0.2em] uppercase ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>Product Families</div>
+              <Link to="/products" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isDark ? 'text-white hover:bg-white/[0.04]' : 'text-neutral-900 hover:bg-neutral-100'}`}>All Products</Link>
+              <Link to="/lumimorph" onClick={closeAll} className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-cyan-400 hover:bg-cyan-500/10 transition-colors">LumiMorph</Link>
+              <Link to="/naturatex" onClick={closeAll} className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-emerald-400 hover:bg-emerald-500/10 transition-colors">NaturaTex</Link>
+              <Link to="/signatouch" onClick={closeAll} className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-amber-400 hover:bg-amber-500/10 transition-colors">SignaTouch</Link>
+              <Link to="/glassmorph" onClick={closeAll} className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-violet-400 hover:bg-violet-500/10 transition-colors">GlassMorph</Link>
+              <Link to="/pixelvue" onClick={closeAll} className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-rose-400 hover:bg-rose-500/10 transition-colors">PixelVue</Link>
+              <Link to="/art-immersive" onClick={closeAll} className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-violet-400 hover:bg-violet-500/10 transition-colors">Art & XR</Link>
+
+              {/* Divider */}
+              <div className={`mx-3 my-2 border-t ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`} />
+
+              {/* Solutions */}
+              <div className={`px-3 py-2 text-[0.6rem] font-bold tracking-[0.2em] uppercase ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>Solutions</div>
+              <Link to="/solutions" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isDark ? 'text-white hover:bg-white/[0.04]' : 'text-neutral-900 hover:bg-neutral-100'}`}>All Solutions</Link>
+              <Link to="/led-screen-suppliers-dubai" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>LED Screens Dubai</Link>
+              <Link to="/government-solutions" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>Government Solutions</Link>
+
+              {/* Divider */}
+              <div className={`mx-3 my-2 border-t ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`} />
+
+              {/* Tools & Resources */}
+              <div className={`px-3 py-2 text-[0.6rem] font-bold tracking-[0.2em] uppercase ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>Tools & Resources</div>
+              <Link to="/technology" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>Technology</Link>
+              <Link to="/calculator" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>Screen Calculator</Link>
+              <Link to="/roi-calculator" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>ROI Calculator</Link>
+              <Link to="/case-studies" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>Case Studies</Link>
+              <Link to="/blog" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>Blog</Link>
+              <Link to="/resources" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>Resources</Link>
+
+              {/* Divider */}
+              <div className={`mx-3 my-2 border-t ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`} />
+
+              {/* Company */}
+              <Link to="/about" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>About Us</Link>
+              <Link to="/contact" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>Contact</Link>
+              <Link to="/faq" onClick={closeAll} className={`block px-3 py-2.5 rounded-lg text-sm transition-colors ${isDark ? 'text-neutral-300 hover:bg-white/[0.04]' : 'text-neutral-700 hover:bg-neutral-100'}`}>FAQ</Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
     {/* Spacer for fixed nav */}
     <div className="h-16" />

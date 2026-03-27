@@ -333,6 +333,18 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - All images now load directly from `https://files.ihgbrands.com/brightluxx/uploads/` without redirect
 - Testing: Verified all images load from external server — Iteration 47
 
+### Light Mode Global Fix — Mar 27, 2026
+- Fixed text visibility issues across ALL 70+ pages in light mode
+- Approach: Global CSS overrides in `index.css` under `html.light` selector
+- Overrides: backgrounds, text colors, borders, glass cards, hover states, scrollbar, selection
+- Hero sections (identified by `min-h-*` on `<section>`) preserve white text on dark overlays
+- Footer preserved as dark-themed even in light mode (common design pattern)
+- Accent colors (cyan, violet, rose, emerald) adjusted for vibrancy on light backgrounds
+- Testing: All pages passed (LED Film, Solutions, Products, LumiMorph, Technology, About, Blog)
+- Test report: `/app/test_reports/iteration_100.json`
+
+
+
 ### PixelVue Broken Images Fix — Mar 27, 2026
 - Fixed 5 broken product images in PixelVue navbar dropdown
 - Products fixed: iPoster, iFlip, UltraFlip, Unity, VideoBrick

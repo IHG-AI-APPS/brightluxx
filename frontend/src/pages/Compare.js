@@ -153,8 +153,7 @@ const Compare = () => {
                   setShowDropdown(true);
                 }}
                 onFocus={() => setShowDropdown(true)}
-                style={{ paddingLeft: '48px' }}
-                className="w-full"
+                className="w-full blx-search-input"
                 data-testid="compare-search-input"
               />
             </div>

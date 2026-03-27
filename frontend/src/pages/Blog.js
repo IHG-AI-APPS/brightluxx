@@ -165,8 +165,7 @@ export default function Blog() {
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                style={{ paddingLeft: '48px' }}
-                className={`w-64 py-3 pr-4 text-sm ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} placeholder:${textMuted} outline-none transition-colors rounded-lg`}
+                className={`w-64 py-3 pr-4 text-sm blx-search-input ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} placeholder:${textMuted} outline-none transition-colors rounded-lg`}
                 data-testid="blog-search"
               />
             </div>

@@ -333,6 +333,15 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - All images now load directly from `https://files.ihgbrands.com/brightluxx/uploads/` without redirect
 - Testing: Verified all images load from external server — Iteration 47
 
+### Refactoring: Search Bar CSS + Storage Cleanup — Mar 27, 2026
+- **Search bar inline styles cleanup**: Replaced all 14 `style={{ paddingLeft }}` inline styles with CSS classes `.blx-search-input` (48px, public pages) and `.blx-search-input-sm` (44px, admin pages) in `App.css`
+- Files cleaned: Blog.js, FAQ.js, Compare.js, ResourceLibrary.js, Products.js (x2), AdminCaseStudies.js, AdminResources.js, AdminBlog.js, AdminProducts.js, AdminProjects.js, AdminLeads.js, AdminInspirations.js
+- **Deprecated storage.py removal**: Deleted 3 files — `storage.py`, `routes/cdn.py`, `migrate_to_cdn.py`
+- Removed `init_storage()` call and `cdn_router` registration from `server.py`
+- All media now exclusively served via external CDN (`files.ihgbrands.com`) — no local storage fallback
+
+
+
 ### Mobile Menu + Light Mode Button/Footer Fixes — Mar 27, 2026
 - **Mobile hamburger menu**: Added full navigation drawer for screens below 1024px with all product families, solutions, tools & resources
 - **CTA button visibility**: Fixed "START YOUR PROJECT" and similar dark buttons — white text preserved on dark backgrounds in light mode

@@ -654,8 +654,7 @@ export default function ResourceLibrary() {
                 placeholder="Search resources... (e.g. pixel pitch, outdoor, retail)"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                style={{ paddingLeft: '48px' }}
-                className="w-full pr-12 py-4 rounded-xl text-sm bg-white/[0.03] border border-white/[0.08] focus:border-cyan-500/50 outline-none text-white placeholder-gray-500 transition-all"
+                className="w-full pr-12 py-4 rounded-xl text-sm blx-search-input bg-white/[0.03] border border-white/[0.08] focus:border-cyan-500/50 outline-none text-white placeholder-gray-500 transition-all"
                 data-testid="resource-search-input"
               />
               {searchQuery && (

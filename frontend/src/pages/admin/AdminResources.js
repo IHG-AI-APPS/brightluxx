@@ -296,7 +296,7 @@ export default function AdminResources() {
             placeholder="Search resources..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            style={{ paddingLeft: '44px' }} className="w-full pr-4 py-2 rounded-lg text-sm bg-[var(--blx-bg-raised)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none"
+            className="w-full pr-4 py-2 rounded-lg text-sm blx-search-input-sm bg-[var(--blx-bg-raised)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none"
             data-testid="search-resources"
           />
         </div>

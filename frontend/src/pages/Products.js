@@ -329,7 +329,7 @@ const Products = () => {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ paddingLeft: '48px' }} className={`w-full ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pr-10 py-2.5 outline-none focus:border-cyan-500 transition-colors text-sm`}
+                className={`w-full blx-search-input ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pr-10 py-2.5 outline-none focus:border-cyan-500 transition-colors text-sm`}
                 data-testid="products-search-input-mobile"
               />
               {searchQuery && (
@@ -353,8 +353,7 @@ const Products = () => {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ paddingLeft: '48px' }}
-                className={`w-48 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pr-4 py-2 outline-none focus:border-cyan-500 transition-colors text-sm`}
+                className={`w-48 blx-search-input ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pr-4 py-2 outline-none focus:border-cyan-500 transition-colors text-sm`}
                 data-testid="products-search-input"
               />
               {searchQuery && (

@@ -10,7 +10,6 @@ from routes.public import router as public_router
 from routes.admin import router as admin_router
 from routes.admin_crud import router as admin_crud_router
 from routes.upload import router as upload_router
-from routes.cdn import router as cdn_router
 from routes.analytics import router as analytics_router
 from routes.specpacks import router as specpacks_router
 from routes.spec_substitution import router as spec_sub_router
@@ -37,7 +36,6 @@ from routes.applications_api import router as applications_api_router
 from routes.site_content import router as site_content_router
 from routes.product_families import router as product_families_router
 from routes.signage_inquiry import router as signage_inquiry_router
-from storage import init_storage
 
 app = FastAPI()
 
@@ -50,7 +48,7 @@ app.add_middleware(
 )
 
 # Skip perf logging for high-frequency/static endpoints
-_SKIP_PERF = {"/api/track", "/api/health", "/api/cdn/"}
+_SKIP_PERF = {"/api/track", "/api/health"}
 
 
 @app.middleware("http")
@@ -86,7 +84,6 @@ app.include_router(public_router)
 app.include_router(admin_router)
 app.include_router(admin_crud_router)
 app.include_router(upload_router)
-app.include_router(cdn_router)
 app.include_router(analytics_router)
 app.include_router(specpacks_router)
 app.include_router(spec_sub_router)
@@ -117,12 +114,6 @@ app.include_router(signage_inquiry_router)
 
 @app.on_event("startup")
 async def startup():
-    # Initialize object storage
-    try:
-        init_storage()
-    except Exception as e:
-        print(f"Warning: Object storage init failed: {e}. Local fallback active.")
-
     # Create indexes for analytics collections
     try:
         await analytics_col.create_index([("ts", -1)])

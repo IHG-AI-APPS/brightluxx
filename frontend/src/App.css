@@ -469,3 +469,11 @@ select option:hover {
 .cdn-img-hide {
   opacity: 0;
 }
+
+/* Search input padding - replaces inline style={{ paddingLeft }} */
+.blx-search-input {
+  padding-left: 3rem !important; /* 48px - public pages */
+}
+.blx-search-input-sm {
+  padding-left: 2.75rem !important; /* 44px - admin pages */
+}

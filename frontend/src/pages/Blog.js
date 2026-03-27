@@ -159,13 +159,14 @@ export default function Blog() {
               ))}
             </div>
             <div className="relative">
-              <Search size={16} className={`absolute left-4 top-1/2 -translate-y-1/2 ${textMuted}`} />
+              <Search size={16} className={`absolute left-4 top-1/2 -translate-y-1/2 ${textMuted} pointer-events-none`} />
               <input
                 type="text"
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className={`w-64 py-3 pr-4 pl-11 text-sm ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} placeholder:${textMuted} outline-none transition-colors rounded-lg`}
+                style={{ paddingLeft: '48px' }}
+                className={`w-64 py-3 pr-4 text-sm ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} placeholder:${textMuted} outline-none transition-colors rounded-lg`}
                 data-testid="blog-search"
               />
             </div>

@@ -143,7 +143,7 @@ const Compare = () => {
           {/* Search and Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <div className="relative" ref={inputRef}>
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--blx-muted)] pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search products by name or code..."
@@ -153,7 +153,8 @@ const Compare = () => {
                   setShowDropdown(true);
                 }}
                 onFocus={() => setShowDropdown(true)}
-                className="w-full pl-10"
+                style={{ paddingLeft: '48px' }}
+                className="w-full"
                 data-testid="compare-search-input"
               />
             </div>

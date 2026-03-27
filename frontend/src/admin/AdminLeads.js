@@ -83,7 +83,7 @@ export default function AdminLeads() {
       <div className="flex flex-wrap gap-3 mb-6">
         <div className="relative flex-1 min-w-[200px]">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
-          <input type="text" placeholder="Search name, email, company..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} className="w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-xs tracking-wider text-[var(--blx-text)] pl-9 pr-4 py-2.5 focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200" data-testid="admin-leads-search" />
+          <input type="text" placeholder="Search name, email, company..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} className="w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-xs tracking-wider text-[var(--blx-text)] pr-4 py-2.5" style={{ paddingLeft: '44px' }} focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200" data-testid="admin-leads-search" />
         </div>
         <div className="flex gap-1">
           {STATUSES.map(s => (

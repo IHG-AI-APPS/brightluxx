@@ -169,7 +169,8 @@ export default function FAQ() {
                 placeholder="Search questions..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className={`w-full py-4 pr-4 pl-12 text-sm ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} placeholder:${textMuted} outline-none transition-colors rounded-lg`}
+                style={{ paddingLeft: '48px' }}
+                className={`w-full py-4 pr-4 text-sm ${inputBg} border ${inputBorder} focus:border-cyan-500/50 ${inputText} placeholder:${textMuted} outline-none transition-colors rounded-lg`}
                 data-testid="faq-search"
               />
             </div>

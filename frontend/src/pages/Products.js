@@ -323,13 +323,13 @@ const Products = () => {
           {/* Mobile: Search on top row */}
           <div className="flex md:hidden items-center gap-2 pt-3 pb-2">
             <div className="relative flex-1">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-cyan-500" />
+              <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-cyan-500 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pl-10 pr-10 py-2.5 outline-none focus:border-cyan-500 transition-colors text-sm`}
+                style={{ paddingLeft: '48px' }} className={`w-full ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pr-10 py-2.5 outline-none focus:border-cyan-500 transition-colors text-sm`}
                 data-testid="products-search-input-mobile"
               />
               {searchQuery && (
@@ -347,13 +347,14 @@ const Products = () => {
           <div className="flex items-center gap-2 py-3 overflow-x-auto scrollbar-hide">
             {/* Desktop Search - hidden on mobile */}
             <div className="relative flex-shrink-0 hidden md:block">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-cyan-500" />
+              <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-cyan-500 pointer-events-none z-10" />
               <input
                 type="text"
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-48 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pl-10 pr-4 py-2 outline-none focus:border-cyan-500 transition-colors text-sm`}
+                style={{ paddingLeft: '48px' }}
+                className={`w-48 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pr-4 py-2 outline-none focus:border-cyan-500 transition-colors text-sm`}
                 data-testid="products-search-input"
               />
               {searchQuery && (

@@ -2528,3 +2528,16 @@ Completely rewrote `ProductDetail.js` to match the Apple-style layout:
 - Test report: `/app/test_reports/iteration_105.json` — 100% pass
 
 
+
+### Major Performance Optimization — CDN Migration & Poster Fix — Mar 28, 2026
+- **Poster image removed**: Hero video now shows dark background while loading instead of the nebula poster image. No `poster` attribute on video. Video `preload="auto"` for faster playback.
+- **93+ images migrated to CDN**: All local images referenced in code (/downloaded-images/, /artmorph-assets/) uploaded to CDN with WebP optimization
+  - Navbar alone: 22 images migrated (loaded on every page!)
+  - Homepage: grande-hero.jpg 1.4MB → 98KB WebP (93% savings)
+  - Total estimated savings: 100MB+ of local images → <5MB WebP
+- **Files changed**: 16+ JS files across Navbar, Home, Products, LumiMorph, Art-Immersive, Case Studies, DEA pages, Signage, etc.
+- **Remaining**: grande-video.mp4 (46MB) still local (too large for SFTP), 2 artmorph-assets video refs local with preload="none"
+- **DB indexes**: TTL on perf_metrics (7d), analytics_events (30d), products.category, products.slug
+- Test report: `/app/test_reports/iteration_106.json` — 100% backend, 95% frontend (image load timing false positive)
+
+

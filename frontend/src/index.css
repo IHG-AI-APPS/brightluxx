@@ -111,6 +111,21 @@
 }
 
 /* ============================================
+   PERFORMANCE — Image & Layout Optimizations
+   ============================================ */
+img {
+  image-rendering: auto;
+  -webkit-image-rendering: auto;
+}
+
+/* Offscreen content optimization for long pages */
+section[data-section],
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
+
+/* ============================================
    LIGHT MODE — Global Overrides
    Transforms the dark-first "Luminous Precision"
    theme into a clean, readable light experience.

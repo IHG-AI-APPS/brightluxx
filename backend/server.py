@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from datetime import datetime, timezone
 import uuid
 import time
+import asyncio
 
 from database import admins_col, perf_col, analytics_col
 from auth import pwd_context
@@ -40,6 +42,9 @@ from routes.sync import router as sync_router
 
 app = FastAPI()
 
+# GZip compression for responses > 500 bytes
+app.add_middleware(GZipMiddleware, minimum_size=500)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -50,6 +55,14 @@ app.add_middleware(
 
 # Skip perf logging for high-frequency/static endpoints
 _SKIP_PERF = {"/api/track", "/api/health"}
+
+# Cacheable public endpoints (read-only, public data)
+_CACHEABLE = {
+    "/api/products", "/api/blogs", "/api/case-studies", "/api/resources",
+    "/api/homepage-content", "/api/solutions", "/api/technologies",
+    "/api/applications", "/api/product-families", "/api/site-settings",
+    "/api/inspirations", "/api/projects", "/api/pixelvue/products",
+}
 
 
 @app.middleware("http")
@@ -65,20 +78,33 @@ async def perf_and_security(request: Request, call_next):
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
 
-    # Performance tracking (skip CDN/track/health)
     path = request.url.path
+
+    # Cache-Control for public GET endpoints
+    if request.method == "GET" and response.status_code == 200:
+        if any(path == p or path.startswith(p + "/") for p in _CACHEABLE):
+            response.headers["Cache-Control"] = "public, max-age=300, stale-while-revalidate=600"
+        elif path.startswith("/api/admin/"):
+            response.headers["Cache-Control"] = "no-store"
+
+    # Non-blocking perf tracking
     if path.startswith("/api/") and not any(path.startswith(s) for s in _SKIP_PERF):
-        try:
-            await perf_col.insert_one({
-                "endpoint": f"{request.method} {path}",
-                "response_time_ms": round(elapsed_ms, 1),
-                "status_code": response.status_code,
-                "ts": datetime.now(timezone.utc),
-            })
-        except Exception:
-            pass
+        asyncio.create_task(_log_perf(request.method, path, elapsed_ms, response.status_code))
 
     return response
+
+
+async def _log_perf(method: str, path: str, elapsed_ms: float, status_code: int):
+    """Fire-and-forget perf logging."""
+    try:
+        await perf_col.insert_one({
+            "endpoint": f"{method} {path}",
+            "response_time_ms": round(elapsed_ms, 1),
+            "status_code": status_code,
+            "ts": datetime.now(timezone.utc),
+        })
+    except Exception:
+        pass
 
 
 app.include_router(public_router)

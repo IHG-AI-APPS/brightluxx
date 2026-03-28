@@ -2499,3 +2499,13 @@ Completely rewrote `ProductDetail.js` to match the Apple-style layout:
 - Test report: `/app/test_reports/iteration_103.json` — 100% pass
 
 
+### Art & Immersive Products Fix — Mar 28, 2026
+- **Root cause**: Zero products existed with `category=art-immersive` in the database, AND the frontend used `p.subcategory` instead of `p.sub_category` (field name mismatch with MongoDB)
+- **Fixed**: Field name in `ArtImmersiveLanding.js` and `LuxuryHomeCinemaLanding.js` (`subcategory` → `sub_category`)
+- **Seeded 14 products** across 7 subcategories: NFT Gallery (2), Immersive Experience (2), Virtual Production (2), Metaverse (2), Sculptural LED (2), Public Art (2), Interactive (2)
+- Uploaded 2 new CDN images for missing product visuals
+- Updated `seed_data.json` for live site sync (85 total products)
+- **Note**: Home Cinema page (`luxury-home-cinema`) also has 0 products — needs seeding when user requests
+
+
+

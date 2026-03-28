@@ -47,7 +47,7 @@ const ArtImmersiveLanding = () => {
 
   const filteredProducts = activeTab === 'all' 
     ? products 
-    : products.filter(p => p.subcategory === activeTab);
+    : products.filter(p => p.sub_category === activeTab);
 
   const stats = [
     { label: 'NFT Galleries Served', value: '50+', icon: Palette },

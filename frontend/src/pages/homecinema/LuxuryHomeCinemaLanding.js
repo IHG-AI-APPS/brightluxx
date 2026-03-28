@@ -45,7 +45,7 @@ const LuxuryHomeCinemaLanding = () => {
 
   const filteredProducts = activeTab === 'all' 
     ? products 
-    : products.filter(p => p.subcategory === activeTab);
+    : products.filter(p => p.sub_category === activeTab);
 
   const techHighlights = [
     { value: '2000', unit: 'nits', label: 'Peak HDR Brightness' },

@@ -110,16 +110,22 @@ export default function AdminResources() {
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        alert(errData.detail || `Upload failed (HTTP ${res.status})`);
+        setUploading(false);
+        return;
+      }
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.file_url) {
         setForm({ ...form, file_url: data.file_url });
         alert(`File uploaded successfully: ${file.name}`);
       } else {
-        alert(data.detail || 'Upload failed');
+        alert(data.detail || 'Upload completed but no URL returned');
       }
     } catch (err) {
       console.error('Upload failed:', err);
-      alert('Upload failed. Please try again.');
+      alert('Upload failed. Please check your connection and try again.');
     }
     setUploading(false);
     if (fileInputRef.current) fileInputRef.current.value = '';

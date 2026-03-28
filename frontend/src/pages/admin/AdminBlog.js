@@ -103,15 +103,21 @@ export default function AdminBlog() {
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        alert(errData.detail || `Upload failed (HTTP ${res.status})`);
+        setUploading(false);
+        return;
+      }
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.image_url) {
         setForm({ ...form, image_url: data.image_url });
       } else {
-        alert(data.detail || 'Upload failed');
+        alert(data.detail || 'Upload completed but no URL returned');
       }
     } catch (err) {
       console.error('Upload failed:', err);
-      alert('Upload failed. Please try again.');
+      alert('Upload failed. Please check your connection and try again.');
     }
     setUploading(false);
     if (fileInputRef.current) fileInputRef.current.value = '';

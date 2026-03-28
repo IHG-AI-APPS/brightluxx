@@ -28,11 +28,11 @@ export const ImageUploader = ({ value, onChange, label, compact = false }) => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const res = await api().post('/api/admin/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      if (res.data.success) {
+      const res = await api().post('/api/admin/upload', formData);
+      if (res.data?.success && res.data?.url) {
         onChange(res.data.url);
+      } else {
+        setError(res.data?.detail || 'Upload completed but no URL returned');
       }
     } catch (err) {
       setError(err.response?.data?.detail || 'Upload failed');
@@ -249,10 +249,8 @@ export const GalleryUploader = ({ value = [], onChange, label, max = 10 }) => {
     try {
       const formData = new FormData();
       Array.from(files).slice(0, max - value.length).forEach(f => formData.append('files', f));
-      const res = await api().post('/api/admin/upload/multiple', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      if (res.data.success) {
+      const res = await api().post('/api/admin/upload/multiple', formData);
+      if (res.data?.success) {
         const newUrls = res.data.uploaded.map(u => u.url);
         onChange([...value, ...newUrls]);
       }

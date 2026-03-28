@@ -23,15 +23,21 @@ const ImageUploadField = ({ value, onChange, label }) => {
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        alert(errData.detail || `Upload failed (HTTP ${res.status})`);
+        setUploading(false);
+        return;
+      }
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.url) {
         onChange(data.url);
       } else {
-        alert(data.detail || 'Upload failed');
+        alert(data.detail || 'Upload completed but no URL returned');
       }
     } catch (err) {
       console.error('Upload failed:', err);
-      alert('Upload failed');
+      alert('Upload failed. Please check your connection and try again.');
     }
     setUploading(false);
   };
@@ -103,15 +109,21 @@ const VideoUploadField = ({ videos, onChange, posterImage, onPosterChange }) => 
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        alert(errData.detail || `Video upload failed (HTTP ${res.status})`);
+        setUploading(false);
+        return;
+      }
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.url) {
         onChange([...videos, data.url]);
       } else {
-        alert(data.detail || 'Upload failed');
+        alert(data.detail || 'Upload completed but no URL returned');
       }
     } catch (err) {
       console.error('Upload failed:', err);
-      alert('Upload failed');
+      alert('Video upload failed. Please check your connection and try again.');
     }
     setUploading(false);
   };
@@ -127,12 +139,16 @@ const VideoUploadField = ({ videos, onChange, posterImage, onPosterChange }) => 
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
+      if (!res.ok) {
+        console.error('Poster upload failed:', res.status);
+        return;
+      }
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.url) {
         onPosterChange(data.url);
       }
     } catch (err) {
-      console.error('Upload failed:', err);
+      console.error('Poster upload failed:', err);
     }
   };
 

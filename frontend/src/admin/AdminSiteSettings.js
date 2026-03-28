@@ -29,7 +29,7 @@ function FileUploadField({ label, name, value, onChange, api, accept = 'image/*'
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const res = await api().post('/api/admin/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      const res = await api().post('/api/admin/upload', formData);
       if (res.data?.url) {
         onChange(res.data.url);
       }

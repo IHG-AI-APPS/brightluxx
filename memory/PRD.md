@@ -2509,3 +2509,12 @@ Completely rewrote `ProductDetail.js` to match the Apple-style layout:
 
 
 
+### Art & Immersive Unique Images + Live Load Fix — Mar 28, 2026
+- **Fixed duplicate images**: All 14 art-immersive products now have unique, distinct images (was using same 2-3 images for all)
+- **DB optimization**: Added TTL indexes (perf_metrics: 7-day expiry, analytics_events: 30-day), added indexes on products.category and products.slug
+- **Video optimization**: Changed hero video preload from `auto` to `metadata` (saves 5.6MB on initial load)
+- **Live site**: All performance fixes (GZip, Cache-Control, lazy loading, image optimization, DB indexes) require DEPLOYMENT to take effect
+- Test report: `/app/test_reports/iteration_104.json` — 100% pass
+
+
+

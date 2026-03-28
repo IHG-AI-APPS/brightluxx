@@ -57,41 +57,13 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
 };
 
 /* Hero video player with smooth transitions and PARALLAX support */
-const HeroVideoPlayer = ({ videos, posterImage, videoY, overlayOpacity }) => {
+const HeroVideoPlayer = ({ videos, videoY, overlayOpacity }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [fading, setFading] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const videoRefs = useRef([]);
 
-  // Only use the CDN video from the database, no local fallback
   const heroVideos = videos?.length > 0 ? videos : ['https://files.ihgbrands.com/brightluxx/videos/hero-video-converted.mp4'];
-  const poster = posterImage || cdnUrl('hero_banner.webp');
-
-  // Preload poster image for LCP optimization
-  useEffect(() => {
-    if (poster && typeof document !== 'undefined') {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
-      link.href = poster;
-      link.fetchPriority = 'high';
-      document.head.appendChild(link);
-      return () => { if (link.parentNode) link.parentNode.removeChild(link); };
-    }
-  }, [poster]);
-
-  // Preload first video for faster playback
-  useEffect(() => {
-    if (heroVideos[0] && typeof document !== 'undefined') {
-      // Use fetch preload for video (as='video' is not supported)
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'fetch';
-      link.href = heroVideos[0];
-      link.crossOrigin = 'anonymous';
-      document.head.appendChild(link);
-      return () => { if (link.parentNode) link.parentNode.removeChild(link); };
-    }
-  }, [heroVideos]);
 
   // Handle video transitions
   useEffect(() => {
@@ -119,7 +91,10 @@ const HeroVideoPlayer = ({ videos, posterImage, videoY, overlayOpacity }) => {
 
   return (
     <div className="absolute inset-0 overflow-hidden" data-testid="hero-video-player">
-      {/* Parallax video container - moves slower than scroll */}
+      {/* Dark background shown until video loads */}
+      <div className={`absolute inset-0 bg-[#050508] transition-opacity duration-700 ${videoReady ? 'opacity-0' : 'opacity-100'}`} />
+      
+      {/* Parallax video container */}
       <motion.div 
         className="absolute inset-0 scale-110"
         style={{ y: videoY }}
@@ -132,8 +107,8 @@ const HeroVideoPlayer = ({ videos, posterImage, videoY, overlayOpacity }) => {
             muted
             playsInline
             loop={heroVideos.length === 1}
-            preload={idx === 0 ? 'metadata' : 'none'}
-            poster={poster}
+            preload={idx === 0 ? 'auto' : 'none'}
+            onCanPlay={() => { if (idx === 0) setVideoReady(true); }}
             data-testid={`home-hero-video-${idx}`}
             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms]"
             style={{ opacity: idx === activeIdx ? 1 : fading && idx === (activeIdx + 1) % heroVideos.length ? 1 : 0 }}
@@ -143,7 +118,7 @@ const HeroVideoPlayer = ({ videos, posterImage, videoY, overlayOpacity }) => {
         ))}
       </motion.div>
       
-      {/* Cinematic gradient overlay - ALWAYS dark for video readability */}
+      {/* Cinematic gradient overlay */}
       <motion.div 
         className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/50 to-[#050508]/20"
         style={{ opacity: overlayOpacity }}
@@ -225,7 +200,6 @@ const HeroWithParallax = ({ hero, isLoaded }) => {
         {isLoaded ? (
           <HeroVideoPlayer 
             videos={hero.video_urls} 
-            posterImage={hero.poster_image} 
             videoY={smoothVideoY}
             overlayOpacity={overlayOpacity}
           />
@@ -366,7 +340,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'TEXTURED LED PANELS',
     color: 'cyan',
     icon: Layers,
-    image: '/artmorph-assets/grande-hero.jpg',
+    image: 'https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp',
     link: '/lumimorph'
   },
   { 
@@ -731,7 +705,7 @@ const Home = () => {
               >
                 <div className="aspect-video overflow-hidden">
                   <img 
-                    src="https://files.ihgbrands.com/brightluxx/downloaded-images/ext_bc8c12ee1348.jpg"
+                    src="https://files.ihgbrands.com/brightluxx/site-images/opt_ext_bc8c12ee1348.webp"
                     alt="Art & Immersive"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />

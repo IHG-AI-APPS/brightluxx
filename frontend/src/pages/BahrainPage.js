@@ -23,7 +23,7 @@ const BAHRAIN_SECTORS = [
 ];
 
 // Hero image - Bahrain skyline
-const HERO_IMAGE = '/downloaded-images/hero_bahrain_0d9d2582.png';
+const HERO_IMAGE = 'https://files.ihgbrands.com/brightluxx/site-images/opt_hero_bahrain_0d9d2582.webp';
 
 export default function BahrainPage() {
   const { isDark } = useTheme();

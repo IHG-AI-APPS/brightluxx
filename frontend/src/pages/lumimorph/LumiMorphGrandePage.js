@@ -32,10 +32,10 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
 };
 
 const TEXTURES = [
-  { id: 'wood', name: 'Wood', desc: 'Timeless elegance and warmth of natural wood textures.', image: '/artmorph-assets/app-office.png' },
-  { id: 'stone', name: 'Stone', desc: 'Enduring strength and beauty of refined stone surfaces.', image: '/artmorph-assets/app-lobby.png' },
-  { id: 'textile', name: 'Textile', desc: 'Soft sophistication and comfort of luxurious textile finishes.', image: '/artmorph-assets/app-restaurant.png' },
-  { id: 'metal', name: 'Metal', desc: 'Sleek modernity and shine of contemporary metal designs.', image: '/artmorph-assets/app-reception.png' },
+  { id: 'wood', name: 'Wood', desc: 'Timeless elegance and warmth of natural wood textures.', image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_app-office.webp' },
+  { id: 'stone', name: 'Stone', desc: 'Enduring strength and beauty of refined stone surfaces.', image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_app-lobby.webp' },
+  { id: 'textile', name: 'Textile', desc: 'Soft sophistication and comfort of luxurious textile finishes.', image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_app-restaurant.webp' },
+  { id: 'metal', name: 'Metal', desc: 'Sleek modernity and shine of contemporary metal designs.', image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_app-reception.webp' },
 ];
 
 const FAQS = [
@@ -69,7 +69,7 @@ export default function LumiMorphGrande() {
       {/* Hero */}
       <section className="relative h-screen min-h-[600px] overflow-hidden">
         <div className="absolute inset-0">
-          <video ref={videoRef} autoPlay muted loop playsInline className="w-full h-full object-cover">
+          <video ref={videoRef} autoPlay muted loop playsInline preload="none" className="w-full h-full object-cover">
             <source src="/artmorph-assets/grande-video.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/50 via-neutral-950/20 to-neutral-950" />
@@ -159,7 +159,7 @@ export default function LumiMorphGrande() {
               </div>
             </FadeIn>
             <FadeIn delay={1}>
-              <img src="/artmorph-assets/grande-hero.jpg" alt="Large Scale" className="rounded-sm w-full" />
+              <img src="https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp" alt="Large Scale" className="rounded-sm w-full" />
             </FadeIn>
           </div>
         </div>
@@ -200,7 +200,7 @@ export default function LumiMorphGrande() {
         <div className="max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <FadeIn>
-              <img src="/artmorph-assets/grande-install-1.png" alt="Installation" className="rounded-sm w-full" />
+              <img src="https://files.ihgbrands.com/brightluxx/artmorph/art_grande-install-1.webp" alt="Installation" className="rounded-sm w-full" />
             </FadeIn>
             <FadeIn delay={1}>
               <p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Simple Setup</p>
@@ -330,8 +330,8 @@ export default function LumiMorphGrande() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { name: 'LumiMorph Elite', tagline: 'Closer. Clearer. Bolder.', image: '/artmorph-assets/workspace-after.png', link: '/lumimorph/elite' },
-              { name: 'LumiMorph Mini', tagline: 'Small Scale. Infinite Possibilities', image: '/artmorph-assets/mini-hero.jpg', link: '/lumimorph/mini' },
+              { name: 'LumiMorph Elite', tagline: 'Closer. Clearer. Bolder.', image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_workspace-after.webp', link: '/lumimorph/elite' },
+              { name: 'LumiMorph Mini', tagline: 'Small Scale. Infinite Possibilities', image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_mini-hero.webp', link: '/lumimorph/mini' },
             ].map((product, i) => (
               <FadeIn key={i} delay={i + 1}>
                 <Link to={product.link} className="group block relative overflow-hidden rounded-sm aspect-video">

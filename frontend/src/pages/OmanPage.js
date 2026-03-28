@@ -23,7 +23,7 @@ const OMAN_SECTORS = [
 ];
 
 // Hero image - Muscat
-const HERO_IMAGE = '/downloaded-images/ext_d755e94ad86d.jpgs=srgb&fm=jpg&w=1600';
+const HERO_IMAGE = 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_d755e94ad86d.webp';
 
 export default function OmanPage() {
   const { isDark } = useTheme();

@@ -52,7 +52,7 @@ const STATIC_PRODUCT_FAMILIES = [
     tagline: 'Textured LED Panels',
     description: 'Revolutionary LED displays with interchangeable decorative covers. Transform any surface from art piece to dynamic display with magnetic texture panels in wood, stone, textile, and metal finishes.',
     brand_color: 'cyan',
-    hero_image: '/artmorph-assets/grande-hero.jpg',
+    hero_image: 'https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp',
     key_features: ['200+ Texture Options', 'Magnetic Covers', 'P2.6 & P6.2 Pitch', '5-Year Warranty'],
     products: [{ name: 'Elite' }, { name: 'Grande' }, { name: 'Mini' }],
   },

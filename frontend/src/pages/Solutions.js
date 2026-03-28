@@ -45,7 +45,7 @@ const SOLUTION_IMAGES = {
 };
 
 // Hero background image
-const HERO_IMAGE = '/downloaded-images/ext_d83f2569d4d3.jpgs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBuaWdodCUyMGZhY2FkZXxlbnwwfHx8fDE3NzM3Nzc4Mjh8MA&ixlib=rb-4.1.0&q=85';
+const HERO_IMAGE = 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_d83f2569d4d3.webp';
 
 /* Minimal Solution Card with 3D Tilt Effect */
 const SolutionCard = ({ solution, index }) => {

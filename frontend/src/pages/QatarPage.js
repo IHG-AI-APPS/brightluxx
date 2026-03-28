@@ -23,7 +23,7 @@ const QATAR_SECTORS = [
 ];
 
 // Hero image - Doha skyline
-const HERO_IMAGE = '/downloaded-images/ext_7ee656cc2089.jpgs=srgb&fm=jpg&w=1600';
+const HERO_IMAGE = 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_7ee656cc2089.webp';
 
 export default function QatarPage() {
   const { isDark } = useTheme();

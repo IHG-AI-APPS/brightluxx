@@ -1,0 +1,79 @@
+{
+  "summary": "Tested CDN image migration and hero video poster removal. Fixed 2 malformed CDN URLs (double prefix issue) in Home.js and Products.js. All main pages load correctly. Hero video has NO poster attribute (dark bg shows instead). 85 products returned from API. NFT gallery filter shows 2 products correctly. Art-immersive page has 11 broken product images (CDN files don't exist - data issue, not code issue).",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "Art-Immersive Landing Page",
+        "issues": ["11 product images broken - CDN files don't exist (sculpt1.webp, sculpt2.webp, meta1.webp, meta2.webp, public1.jpg, etc.) - These are database image_url references to non-existent CDN files"]
+      }
+    ]
+  },
+  "test_results": {
+    "homepage": {
+      "hero_video_no_poster": "PASS - No poster attribute on video element",
+      "hero_video_cdn_source": "PASS - Video from https://files.ihgbrands.com/brightluxx/videos/hero-video-converted.mp4",
+      "navbar_logo_cdn": "PASS - Logo from CDN",
+      "broken_images": "PASS - No broken images after fix",
+      "cdn_images_count": "15 images from CDN"
+    },
+    "products_page": {
+      "page_loads": "PASS",
+      "product_count": "85 products displayed",
+      "broken_images": "PASS - No broken images",
+      "cdn_images_count": "20 images from CDN"
+    },
+    "nft_gallery_filter": {
+      "url_params": "PASS - ?category=art-immersive&sub=nft-gallery",
+      "product_count": "PASS - 2 NFT Gallery products",
+      "sub_pills_visible": "PASS - Sub-category pills shown for art-immersive"
+    },
+    "art_immersive_page": {
+      "page_loads": "PASS",
+      "product_links": "14 product links found",
+      "broken_images": "FAIL - 11 broken product images (CDN files missing)"
+    },
+    "lumimorph_page": {
+      "page_loads": "PASS",
+      "broken_images": "PASS - No broken images",
+      "cdn_images_count": "11 images from CDN"
+    },
+    "backend_api": {
+      "total_products": "PASS - 85 products",
+      "art_immersive_products": "PASS - 14 products",
+      "nft_gallery_products": "PASS - 2 products"
+    }
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_106.json"
+  ],
+  "action_items": [
+    "MINOR: Fix 11 broken product images on art-immersive page - CDN files don't exist for: sculpt1.webp, sculpt2.webp, meta1.webp, meta2.webp, public1.jpg, etc. Either upload missing files to CDN or update database image_url references"
+  ],
+  "critical_code_review_comments": [],
+  "updated_files": [
+    "/app/frontend/src/pages/Home.js",
+    "/app/frontend/src/pages/Products.js"
+  ],
+  "fixes_applied": [
+    "Fixed malformed CDN URL in Home.js line 708: removed duplicate 'https://files.ihgbrands.com/brightluxx' prefix",
+    "Fixed malformed CDN URL in Products.js line 14: removed duplicate 'https://files.ihgbrands.com/brightluxx' prefix"
+  ],
+  "success_rate": {
+    "backend": "100%",
+    "frontend": "95% (11 broken product images on art-immersive page - data issue)"
+  },
+  "test_credentials": {
+    "admin_email": "admin@brightluxx.com",
+    "admin_password": "brightluxx2025"
+  },
+  "seed_data_creation": "",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "CDN migration complete. Hero video poster removed. 2 malformed URLs fixed. Art-immersive page has 11 broken product images - these are database references to CDN files that don't exist (sculpt1.webp, sculpt2.webp, meta1.webp, meta2.webp, public1.jpg). Main pages (homepage, products, lumimorph) all working correctly with CDN images."
+}

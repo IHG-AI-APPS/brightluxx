@@ -34,7 +34,7 @@ const KEY_PROJECTS = [
 ];
 
 // Hero image
-const HERO_IMAGE = '/downloaded-images/ext_77ab205a4c61.jpgs=srgb&fm=jpg&w=1600';
+const HERO_IMAGE = 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_77ab205a4c61.webp';
 
 export default function DubaiPage() {
   const { isDark } = useTheme();

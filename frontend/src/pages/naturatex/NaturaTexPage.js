@@ -399,7 +399,7 @@ export default function NaturaTexPage() {
 
           <FadeIn delay={1}>
             <Link to="/lumimorph" className="group block relative overflow-hidden rounded-sm aspect-[21/9]">
-              <img src="/artmorph-assets/grande-hero.jpg" alt="LumiMorph" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src="https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp" alt="LumiMorph" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
               <div className="absolute inset-0 flex items-center px-10 md:px-16">
                 <div>

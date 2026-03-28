@@ -62,8 +62,8 @@ const HeroVideoPlayer = ({ videos, posterImage, videoY, overlayOpacity }) => {
   const [fading, setFading] = useState(false);
   const videoRefs = useRef([]);
 
-  // Use new cinematic hero video as primary, fallback to original videos
-  const heroVideos = videos?.length > 0 ? videos : ['/videos/hero-video-new.mp4'];
+  // Only use the CDN video from the database, no local fallback
+  const heroVideos = videos?.length > 0 ? videos : ['https://files.ihgbrands.com/brightluxx/videos/hero-video-converted.mp4'];
   const poster = posterImage || cdnUrl('hero_banner.webp');
 
   // Preload poster image for LCP optimization

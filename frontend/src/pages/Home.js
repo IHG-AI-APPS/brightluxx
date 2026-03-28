@@ -132,7 +132,7 @@ const HeroVideoPlayer = ({ videos, posterImage, videoY, overlayOpacity }) => {
             muted
             playsInline
             loop={heroVideos.length === 1}
-            preload={idx === 0 ? 'auto' : 'metadata'}
+            preload={idx === 0 ? 'metadata' : 'none'}
             poster={poster}
             data-testid={`home-hero-video-${idx}`}
             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms]"

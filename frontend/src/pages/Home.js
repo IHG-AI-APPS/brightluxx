@@ -192,7 +192,7 @@ const AnimatedCounter = ({ end, suffix = '', prefix = '' }) => {
 /* ═══════════════════════════════════════════════════════════════════════
    HERO WITH PARALLAX — Apple-style scroll-linked animations
 ═══════════════════════════════════════════════════════════════════════ */
-const HeroWithParallax = ({ hero }) => {
+const HeroWithParallax = ({ hero, isLoaded }) => {
   const heroRef = useRef(null);
   const { isDark } = useTheme();
   
@@ -222,12 +222,22 @@ const HeroWithParallax = ({ hero }) => {
     >
       {/* Parallax video background */}
       <motion.div className="absolute inset-0" style={{ scale: smoothScale }}>
-        <HeroVideoPlayer 
-          videos={hero.video_urls} 
-          posterImage={hero.poster_image} 
-          videoY={smoothVideoY}
-          overlayOpacity={overlayOpacity}
-        />
+        {isLoaded ? (
+          <HeroVideoPlayer 
+            videos={hero.video_urls} 
+            posterImage={hero.poster_image} 
+            videoY={smoothVideoY}
+            overlayOpacity={overlayOpacity}
+          />
+        ) : (
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-[#050508]" />
+            <motion.div 
+              className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/50 to-[#050508]/20"
+              style={{ opacity: overlayOpacity }}
+            />
+          </div>
+        )}
       </motion.div>
       
       {/* Floating morphing shapes for depth - parallax at different rates */}
@@ -467,7 +477,7 @@ const Home = () => {
       {/* ═══════════════════════════════════════════════════════════════════════
           HERO SECTION — Full-screen immersive video with Apple-style PARALLAX
       ═══════════════════════════════════════════════════════════════════════ */}
-      <HeroWithParallax hero={hero} />
+      <HeroWithParallax hero={hero} isLoaded={!!homeContent} />
 
       {/* ═══════════════════════════════════════════════════════════════════════
           STATS SECTION — Glassmorphism cards with animated counters

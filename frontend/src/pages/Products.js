@@ -32,6 +32,7 @@ const MAJOR_CATEGORIES = [
   { value: 'flexible', label: 'Creative' },
   { value: 'all-in-one', label: 'All-in-One' },
   { value: 'digital-signage', label: 'Signage' },
+  { value: 'art-immersive', label: 'Art & XR' },
 ];
 
 // Full categories list for sidebar
@@ -59,6 +60,7 @@ const CATEGORIES = [
   { value: 'shelf-edge', label: 'Shelf Edge' },
   { value: 'road-signal', label: 'Road Signals' },
   { value: 'accessories', label: 'Accessories' },
+  { value: 'art-immersive', label: 'Art & XR' },
 ];
 
 /* Elegant Product Card with 3D Tilt Effect - Matches Solutions Page Style */
@@ -202,6 +204,7 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get('category') || '';
+  const activeSub = searchParams.get('sub') || '';
   const activePitchRange = searchParams.get('pitch') || '';
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('grid');
@@ -218,6 +221,17 @@ const Products = () => {
       params.set('category', cat);
     } else {
       params.delete('category');
+    }
+    params.delete('sub');
+    setSearchParams(params);
+  };
+
+  const setActiveSub = (sub) => {
+    const params = new URLSearchParams(searchParams);
+    if (sub) {
+      params.set('sub', sub);
+    } else {
+      params.delete('sub');
     }
     setSearchParams(params);
   };
@@ -237,12 +251,20 @@ const Products = () => {
     setSearchQuery('');
   };
 
+  // Sub-category label for breadcrumbs
+  const SUB_LABELS = {
+    'nft-gallery': 'NFT & Digital Art', 'immersive-experience': 'Immersive Museums',
+    'virtual-production': 'Virtual Production', 'metaverse': 'Metaverse',
+    'sculptural': 'Sculptural LED', 'public-art': 'Public Art', 'interactive': 'Interactive',
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
         const params = {};
         if (activeCategory) params.category = activeCategory;
+        if (activeSub) params.sub_category = activeSub;
         if (searchQuery) params.search = searchQuery;
         if (activePitchRange) params.pitch_range = activePitchRange;
         const res = await getProducts(params);
@@ -255,14 +277,15 @@ const Products = () => {
       }
     };
     fetchProducts();
-  }, [activeCategory, searchQuery, activePitchRange]);
+  }, [activeCategory, activeSub, searchQuery, activePitchRange]);
 
   const activeCategoryLabel = CATEGORIES.find(c => c.value === activeCategory)?.label || 'All Products';
 
   const breadcrumbs = [
     { name: 'Home', path: '/' },
     { name: 'Products', path: '/products' },
-    ...(activeCategory ? [{ name: activeCategoryLabel, path: null }] : [])
+    ...(activeCategory ? [{ name: activeCategoryLabel, path: activeSub ? `/products?category=${activeCategory}` : null }] : []),
+    ...(activeSub && SUB_LABELS[activeSub] ? [{ name: SUB_LABELS[activeSub], path: null }] : [])
   ];
 
   return (
@@ -405,6 +428,41 @@ const Products = () => {
           </div>
         </div>
       </section>
+
+      {/* Sub-category pills for Art & XR */}
+      {activeCategory === 'art-immersive' && (
+        <section className={`sticky top-[7.5rem] z-30 ${isDark ? 'bg-[#0A0A0D]/95' : 'bg-white/95'} backdrop-blur-lg border-b ${borderColor}`}>
+          <div className="max-w-[1400px] mx-auto px-4 md:px-12 lg:px-24">
+            <div className="flex items-center gap-2 py-2 overflow-x-auto scrollbar-hide">
+              {[
+                { value: '', label: 'All Art & XR' },
+                { value: 'nft-gallery', label: 'NFT & Digital Art' },
+                { value: 'immersive-experience', label: 'Immersive Museums' },
+                { value: 'virtual-production', label: 'Virtual Production' },
+                { value: 'metaverse', label: 'Metaverse' },
+                { value: 'sculptural', label: 'Sculptural LED' },
+                { value: 'public-art', label: 'Public Art' },
+                { value: 'interactive', label: 'Interactive' },
+              ].map((sub) => (
+                <button
+                  key={sub.value}
+                  onClick={() => setActiveSub(sub.value)}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-full transition-all whitespace-nowrap flex-shrink-0 ${
+                    activeSub === sub.value
+                      ? 'bg-purple-500 text-white'
+                      : (isDark 
+                          ? 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10' 
+                          : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 hover:text-neutral-900 border border-neutral-200')
+                  }`}
+                  data-testid={`products-sub-filter-${sub.value || 'all'}`}
+                >
+                  {sub.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Main Content */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 py-8">

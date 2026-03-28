@@ -1,0 +1,55 @@
+{
+  "summary": "Tested sub-category filtering fix for art-immersive products. All 7 sub-categories (nft-gallery, immersive-experience, virtual-production, metaverse, sculptural, public-art, interactive) correctly filter to exactly 2 products each. Sub-category pills appear ONLY when art-immersive category is active. Breadcrumbs show correctly: Home > Products > Art & XR > [Sub]. All tests pass.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_results": {
+    "backend_api_tests": {
+      "nft_gallery": "PASS - 2 products (ArtFrame Pro 0.9, ArtFrame Gallery 1.2)",
+      "virtual_production": "PASS - 2 products (XR Stage Pro 1.5, XR Curve 2.6)",
+      "metaverse": "PASS - 2 products (MetaPortal 1.8, MetaRoom Cube)",
+      "immersive_experience": "PASS - 2 products (ImmersaWall 360, ImmersaFloor P3.9)",
+      "sculptural": "PASS - 2 products",
+      "public_art": "PASS - 2 products",
+      "interactive": "PASS - 2 products",
+      "all_art_immersive": "PASS - 14 products (no sub filter)",
+      "all_products": "PASS - 85+ products"
+    },
+    "frontend_ui_tests": {
+      "sub_pills_visible_for_art_immersive": "PASS - Sub-category pills appear when art-immersive is active",
+      "sub_pills_hidden_for_other_categories": "PASS - Sub-category pills hidden for indoor, outdoor, etc.",
+      "sub_pills_hidden_for_all": "PASS - Sub-category pills hidden when ALL category selected",
+      "breadcrumbs_correct": "PASS - Shows Home > Products > Art & XR > [Sub-category name]",
+      "url_params_correct": "PASS - URL contains ?category=art-immersive&sub=nft-gallery format",
+      "clicking_all_clears_sub": "PASS - Clicking ALL category clears sub-category filter"
+    },
+    "homepage": "PASS - Loads correctly"
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_subcategory_filtering.py",
+    "/app/test_reports/pytest/pytest_subcategory_filtering.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [],
+  "updated_files": [
+    "/app/backend/tests/test_subcategory_filtering.py"
+  ],
+  "success_rate": {
+    "backend": "100% (12/12 pytest tests passed)",
+    "frontend": "100% (all UI tests passed)"
+  },
+  "test_credentials": {
+    "admin_email": "admin@brightluxx.com",
+    "admin_password": "brightluxx2025"
+  },
+  "seed_data_creation": "",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Sub-category filtering for art-immersive products is fully working. Backend /api/products accepts sub_category query param. Frontend shows sub-category pills ONLY for art-immersive category. Each sub-category has exactly 2 products with unique images. URL param 'sub' maps to API param 'sub_category'."
+}

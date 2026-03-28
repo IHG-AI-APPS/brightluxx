@@ -13,6 +13,7 @@ router = APIRouter()
 @router.get("/api/products")
 async def get_products(
     category: Optional[str] = None, 
+    sub_category: Optional[str] = None,
     featured: Optional[bool] = None, 
     trending: Optional[bool] = None, 
     new_arrival: Optional[bool] = None, 
@@ -22,6 +23,8 @@ async def get_products(
     query = {}
     if category:
         query["category"] = category
+    if sub_category:
+        query["sub_category"] = sub_category
     if featured is not None:
         query["featured"] = featured
     if trending is not None:

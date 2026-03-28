@@ -2482,3 +2482,20 @@ Completely rewrote `ProductDetail.js` to match the Apple-style layout:
 - All 6 admin pages with upload UI verified (100% pass)
 - Test report: `/app/test_reports/iteration_102.json`
 
+
+### Performance Optimization & Auto Image Optimization — Mar 28, 2026
+- **Auto-optimize images on upload**: All image uploads (across 5 endpoints) now auto-resize to max 1920px, convert to WebP, and compress at quality 82 via Pillow
+  - Example savings: 3000x2000 JPEG (2.6MB) → WebP (60KB) = **97.7% reduction**
+  - New files: `/app/backend/image_optimizer.py` (resize, compress, WebP conversion)
+  - Updated: `cdn_upload.py` (`upload_image_to_cdn` now auto-optimizes)
+  - SVG and GIF files pass through unmodified
+- **Backend performance**:
+  - Added GZip compression middleware (`GZipMiddleware`, min 500 bytes)
+  - Added `Cache-Control: public, max-age=300` for 14 public read-only endpoints
+  - Made perf logging non-blocking (`asyncio.create_task`)
+- **Frontend performance**:
+  - Global `MutationObserver` in `index.js` auto-adds `loading="lazy"` + `decoding="async"` to all `<img>` elements (covers 137+ images across 70+ pages)
+  - CSS `content-visibility: auto` for offscreen sections
+- Test report: `/app/test_reports/iteration_103.json` — 100% pass
+
+

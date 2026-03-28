@@ -2472,3 +2472,13 @@ Completely rewrote `ProductDetail.js` to match the Apple-style layout:
 
 **Result:** ALL product detail pages now have consistent premium Apple-style design, regardless of whether accessed via /products/:slug (database) or /indoor-led/:pitch (static) routes.
 
+
+
+### Admin Upload Fix — Mar 28, 2026
+- **Fixed P0 "Upload failed" UI error** across all admin upload flows
+- Root cause: Axios-based uploads had explicit `Content-Type: multipart/form-data` headers (strips boundary), and fetch-based handlers lacked `res.ok` checks
+- Fixed components: `ImageUploader.js`, `AdminSiteSettings.js`, `AdminCaseStudies.js`, `AdminBlog.js`, `AdminHomepage.js`, `AdminResources.js`
+- All 5 backend upload endpoints verified working via curl + pytest (100% pass)
+- All 6 admin pages with upload UI verified (100% pass)
+- Test report: `/app/test_reports/iteration_102.json`
+

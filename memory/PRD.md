@@ -2518,3 +2518,13 @@ Completely rewrote `ProductDetail.js` to match the Apple-style layout:
 
 
 
+
+### Products Page Sub-category Filtering — Mar 28, 2026
+- **Fixed**: `/products?category=art-immersive&sub=nft-gallery` now correctly filters to show only that subcategory's 2 products
+- Added `sub_category` query parameter support to backend `/api/products` endpoint
+- Added sub-category pills UI on Products page (appears only when Art & XR category is active)
+- Added "Art & XR" to both MAJOR_CATEGORIES quick filter and CATEGORIES sidebar
+- Breadcrumbs show: Home > Products > Art & XR > [Sub-category]
+- Test report: `/app/test_reports/iteration_105.json` — 100% pass
+
+

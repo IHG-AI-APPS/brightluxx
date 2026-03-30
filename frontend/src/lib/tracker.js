@@ -19,17 +19,14 @@ function send(event, extra = {}) {
     screen_width: window.innerWidth,
     ...extra,
   };
-  // Use sendBeacon for reliability (fires even on page unload)
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon(`${API}/api/track`, new Blob([JSON.stringify(payload)], { type: 'application/json' }));
-  } else {
-    fetch(`${API}/api/track`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      keepalive: true,
-    }).catch(() => {});
-  }
+  // Use fetch with credentials omitted to avoid CORS issues with wildcard origin
+  fetch(`${API}/api/track`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    credentials: 'omit',
+    keepalive: true,
+  }).catch(() => {});
 }
 
 export function trackPageView(page) {

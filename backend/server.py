@@ -47,7 +47,12 @@ app.add_middleware(GZipMiddleware, minimum_size=500)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://brightluxx.com",
+        "https://www.brightluxx.com",
+        "https://brightluxx-showcase.emergent.host",
+        "https://space-modern-build.preview.emergentagent.com",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

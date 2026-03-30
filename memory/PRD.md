@@ -28,6 +28,13 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Console preload warning for `hero-video-converted.mp4` resolved (no `<link rel="preload">` found; previous session artifact)
 - Testing: 100% pass rate (iteration_107.json) — all pages verified, zero broken images/404s
 
+### CORS Fix for Live Site Tracking — Mar 30, 2026
+- Fixed CORS policy error on live site (`brightluxx.com` → `brightluxx-showcase.emergent.host/api/track`)
+- Root cause: `sendBeacon` sends with `credentials: 'include'`, incompatible with `Access-Control-Allow-Origin: *` from ingress
+- Fix: Replaced `sendBeacon` with `fetch` using `credentials: 'omit'` in `tracker.js`
+- Also updated backend CORS to use explicit origin allowlist (best practice)
+- Requires deployment to apply on live site
+
 ### Image CDN Migration & Localization — Mar 26, 2026
 - **Complete media localization**: All images and videos now served locally for production reliability
 - Fixed 7 broken CDN paths with new UAE-themed AI-generated images

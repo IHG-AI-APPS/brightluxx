@@ -35,6 +35,13 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Also updated backend CORS to use explicit origin allowlist (best practice)
 - Requires deployment to apply on live site
 
+### Product Families Broken Images Fix — Mar 30, 2026
+- Fixed 5 broken hero images on `/product-families` page
+- Root cause: MongoDB `product_families` collection had empty/broken `hero_image` URLs
+- LumiMorph: was pointing to non-existent CDN path `artmorph-assets/room-setting.jpg` → fixed to `homepage/grande-hero.webp`
+- NaturaTex, SignaTouch, GlassMorph, PixelVue: had empty `hero_image` → populated with correct CDN URLs
+- Full site scan (21 pages): 0 broken images confirmed
+
 ### Image CDN Migration & Localization — Mar 26, 2026
 - **Complete media localization**: All images and videos now served locally for production reliability
 - Fixed 7 broken CDN paths with new UAE-themed AI-generated images

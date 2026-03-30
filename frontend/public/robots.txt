@@ -22,7 +22,7 @@ Allow: /api/blogs
 Allow: /api/case-studies
 
 # Sitemap location
-Sitemap: https://architect-lead-gen.preview.emergentagent.com/api/sitemap.xml
+Sitemap: https://space-modern-build.preview.emergentagent.com/api/sitemap.xml
 
 # Crawl-delay for server politeness
 Crawl-delay: 1

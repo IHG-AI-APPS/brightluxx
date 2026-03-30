@@ -166,8 +166,8 @@ export default function About() {
                   muted
                   loop
                   playsInline
+                  preload="metadata"
                   className="w-full h-full object-cover"
-                  poster="/assets/hero_banner.webp"
                 >
                   <source src="https://files.ihgbrands.com/brightluxx/videos/hero-video-1.mp4" type="video/mp4" />
                 </video>

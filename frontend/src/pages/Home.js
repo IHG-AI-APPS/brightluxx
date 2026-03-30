@@ -678,6 +678,8 @@ const Home = () => {
                   <img 
                     src="https://files.ihgbrands.com/brightluxx/downloaded-images/ext_6f178933d1b4.jpg"
                     alt="Luxury Home Cinema"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-neutral-900 via-neutral-900/50 to-transparent' : 'bg-gradient-to-t from-white via-white/50 to-transparent'}`} />
@@ -707,6 +709,8 @@ const Home = () => {
                   <img 
                     src="https://files.ihgbrands.com/brightluxx/site-images/opt_ext_bc8c12ee1348.webp"
                     alt="Art & Immersive"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-neutral-900 via-neutral-900/50 to-transparent' : 'bg-gradient-to-t from-white via-white/50 to-transparent'}`} />

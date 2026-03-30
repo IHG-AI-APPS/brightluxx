@@ -71,16 +71,29 @@ class ProductFamilyUpdate(BaseModel):
     is_active: Optional[bool] = None
     order: Optional[int] = None
 
+# Fallback hero images for when DB values are empty or broken
+HERO_IMAGE_FALLBACKS = {
+    'lumimorph': 'https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp',
+    'naturatex': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
+    'signatouch': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
+    'glassmorph': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
+    'pixelvue': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
+}
+
 def serialize_family(family: dict) -> dict:
     if not family:
         return None
+    slug = family.get("slug", "")
+    hero_image = family.get("hero_image", "")
+    if not hero_image:
+        hero_image = HERO_IMAGE_FALLBACKS.get(slug, "")
     return {
         "id": str(family.get("_id", "")),
         "name": family.get("name", ""),
-        "slug": family.get("slug", ""),
+        "slug": slug,
         "tagline": family.get("tagline", ""),
         "description": family.get("description", ""),
-        "hero_image": family.get("hero_image", ""),
+        "hero_image": hero_image,
         "hero_video": family.get("hero_video"),
         "brand_color": family.get("brand_color", "rose"),
         "accent_color": family.get("accent_color"),

@@ -102,21 +102,31 @@ const STATIC_PRODUCT_FAMILIES = [
   },
 ];
 
+// Fallback hero images keyed by slug
+const FALLBACK_IMAGES = {
+  lumimorph: 'https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp',
+  naturatex: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
+  signatouch: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
+  glassmorph: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
+  pixelvue: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
+};
+
 // Helper to transform API data to component format
 const transformFamily = (family) => {
   const colorConfig = COLOR_CONFIG[family.brand_color] || COLOR_CONFIG.cyan;
   const iconName = family.icon || (family.slug === 'lumimorph' ? 'Layers' : family.slug === 'naturatex' ? 'Leaf' : family.slug === 'signatouch' ? 'Monitor' : family.slug === 'glassmorph' ? 'Sparkles' : 'Tv');
+  const slug = family.slug || family.id;
   
   return {
-    id: family.slug || family.id,
+    id: slug,
     name: family.name,
     tagline: family.tagline,
     description: family.description,
     color: family.brand_color || 'cyan',
     ...colorConfig,
     icon: ICON_MAP[iconName] || Tv,
-    image: family.hero_image,
-    link: `/${family.slug}`,
+    image: family.hero_image || FALLBACK_IMAGES[slug] || '',
+    link: `/${slug}`,
     highlights: family.key_features || [],
     products: (family.products || []).map(p => p.name || p),
   };

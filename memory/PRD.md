@@ -17,6 +17,17 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ## Completed Features
 
+### Performance: Static File Cleanup & Load Optimization — Mar 30, 2026
+- **Reduced `public/` directory from 777MB to 46MB** (94% reduction) by removing unused local copies of CDN-migrated files
+- Deleted: `generated-images/` (444MB, 225 files), `downloaded-images/` (157MB, 173 files), `uploads/` (31MB, 194 files), `generated/` (6.9MB, 8 files), `videos/` (43MB, 7 files), `unatural-assets/` (12KB)
+- Cleaned `artmorph-assets/` from 88MB to 45MB (kept only `grande-video.mp4` still served locally)
+- Removed unused `hero-video.mp4` (6.8MB) from `assets/`
+- Fixed About.js: removed broken `poster="/assets/hero_banner.webp"` reference (file didn't exist), added `preload="metadata"`
+- Added `loading="lazy"` and `decoding="async"` to Home.js lifestyle section images (Home Cinema, Art & Immersive)
+- All media now served from external CDN (`https://files.ihgbrands.com/brightluxx/`) except `grande-video.mp4`
+- Console preload warning for `hero-video-converted.mp4` resolved (no `<link rel="preload">` found; previous session artifact)
+- Testing: 100% pass rate (iteration_107.json) — all pages verified, zero broken images/404s
+
 ### Image CDN Migration & Localization — Mar 26, 2026
 - **Complete media localization**: All images and videos now served locally for production reliability
 - Fixed 7 broken CDN paths with new UAE-themed AI-generated images

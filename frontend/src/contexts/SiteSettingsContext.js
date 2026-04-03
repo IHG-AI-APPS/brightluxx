@@ -33,6 +33,26 @@ export function SiteSettingsProvider({ children }) {
           link.href = data.branding.favicon_url;
           document.head.appendChild(link);
         }
+        // Update OG image from site settings (for crawlers that re-read after JS)
+        if (data.seo?.og_image) {
+          const ogImg = document.querySelector('meta[property="og:image"]');
+          if (ogImg) ogImg.setAttribute('content', data.seo.og_image);
+          const twImg = document.querySelector('meta[name="twitter:image"]');
+          if (twImg) twImg.setAttribute('content', data.seo.og_image);
+        }
+        // Update OG title/description
+        if (data.seo?.meta_title) {
+          const ogTitle = document.querySelector('meta[property="og:title"]');
+          if (ogTitle) ogTitle.setAttribute('content', data.seo.meta_title);
+          const twTitle = document.querySelector('meta[name="twitter:title"]');
+          if (twTitle) twTitle.setAttribute('content', data.seo.meta_title);
+        }
+        if (data.seo?.meta_description) {
+          const ogDesc = document.querySelector('meta[property="og:description"]');
+          if (ogDesc) ogDesc.setAttribute('content', data.seo.meta_description);
+          const twDesc = document.querySelector('meta[name="twitter:description"]');
+          if (twDesc) twDesc.setAttribute('content', data.seo.meta_description);
+        }
       })
       .catch(() => {}); // use defaults on failure
   }, []);

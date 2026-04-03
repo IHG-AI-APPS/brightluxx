@@ -165,13 +165,27 @@ export default function AdminSiteSettings() {
         )}
       </div>
 
-      {/* SEO */}
+      {/* SEO — Social Sharing Image */}
       <div className="glass-panel p-6" data-testid="site-settings-seo">
-        <h3 className="text-xs font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-5 flex items-center gap-2"><SearchIcon size={14} /> SEO Defaults</h3>
+        <h3 className="text-xs font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-5 flex items-center gap-2"><SearchIcon size={14} /> SEO & Social Sharing</h3>
         <div className="space-y-4">
           <Field label="Default Meta Title" name="meta_title" value={settings?.seo?.meta_title} onChange={e => update('seo', 'meta_title', e.target.value)} placeholder="Company — Tagline" />
           <Field label="Default Meta Description" name="meta_description" value={settings?.seo?.meta_description} onChange={e => update('seo', 'meta_description', e.target.value)} rows={3} placeholder="Brief description for search engines..." />
-          <Field label="Default OG Image URL" name="og_image" value={settings?.seo?.og_image} onChange={e => update('seo', 'og_image', e.target.value)} placeholder="https://..." />
+          <FileUploadField label="Social Share Image (OG Image)" name="og_image" value={settings?.seo?.og_image} onChange={v => update('seo', 'og_image', v)} api={api} accept="image/png,image/jpeg,image/webp" />
+          <p className="text-[0.55rem] text-[var(--blx-muted)] leading-relaxed tracking-wider">This image appears when the site link is shared on WhatsApp, Facebook, LinkedIn, Twitter, etc. Recommended size: 1200x630px.</p>
+          {settings?.seo?.og_image && (
+            <div className="mt-2 p-3 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[var(--blx-border)]">
+              <p className="text-[0.5rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-2">SHARE PREVIEW</p>
+              <div className="rounded-lg overflow-hidden border border-[var(--blx-border)] max-w-md">
+                <img src={settings.seo.og_image} alt="Share preview" className="w-full h-auto object-cover" style={{ aspectRatio: '1200/630' }} />
+                <div className="p-3 bg-[rgba(255,255,255,0.03)]">
+                  <p className="text-[0.6rem] text-[var(--blx-gold-3)] tracking-wider">brightluxx.com</p>
+                  <p className="text-xs font-bold text-[var(--blx-text)] mt-0.5">{settings?.seo?.meta_title || 'Brightluxx'}</p>
+                  <p className="text-[0.6rem] text-[var(--blx-muted)] mt-0.5 line-clamp-2">{settings?.seo?.meta_description || 'Premium LED Display Solutions'}</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

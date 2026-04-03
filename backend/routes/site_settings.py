@@ -1,5 +1,6 @@
 """Site Settings API — CRUD for site-wide configuration."""
 from fastapi import APIRouter, Depends
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from typing import Optional
 from database import db
@@ -81,3 +82,14 @@ async def update_site_settings(settings: SiteSettings):
 
     doc = await col.find_one({"key": "main"}, {"_id": 0, "key": 0})
     return {"success": True, "settings": doc}
+
+
+
+DEFAULT_OG_IMAGE = "https://files.ihgbrands.com/brightluxx/assets/brightluxx-logo-nav.png"
+
+@router.get("/api/og-image")
+async def get_og_image():
+    """Redirect to the current OG image. Used by social crawlers."""
+    doc = await col.find_one({"key": "main"}, {"_id": 0})
+    og_url = (doc or {}).get("seo", {}).get("og_image", "") or DEFAULT_OG_IMAGE
+    return RedirectResponse(url=og_url, status_code=302)

@@ -35,6 +35,13 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Also updated backend CORS to use explicit origin allowlist (best practice)
 - Requires deployment to apply on live site
 
+### Social Share Image (OG Image) Admin Feature — Apr 3, 2026
+- Added OG meta tags to `index.html` (og:image, og:title, og:description, twitter:card)
+- Created `/api/og-image` endpoint that dynamically redirects to the current OG image from site settings DB
+- Upgraded admin SEO section to "SEO & Social Sharing" with file upload for OG image + share preview card
+- `SiteSettingsContext` now dynamically updates OG meta tags on page load
+- Social crawlers (WhatsApp, Facebook, LinkedIn) will pick up the image after deployment
+
 ### Product Families Broken Images Fix — Mar 30, 2026
 - Fixed 5 broken hero images on `/product-families` page
 - Root cause: MongoDB `product_families` collection had empty/broken `hero_image` URLs

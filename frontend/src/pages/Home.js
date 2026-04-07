@@ -671,10 +671,10 @@ const Home = () => {
             <FadeIn delay={0.1}>
               <Link 
                 to="/luxury-home-cinema"
-                className={`group relative overflow-hidden rounded-2xl ${isDark ? 'bg-white/[0.02] border-white/5 hover:border-amber-500/30' : 'bg-white border-neutral-200 hover:border-amber-300'} border transition-all duration-500`}
+                className={`group block overflow-hidden rounded-2xl ${isDark ? 'bg-white/[0.02] border-white/5 hover:border-amber-500/30' : 'bg-white border-neutral-200 hover:border-amber-300'} border transition-all duration-500`}
                 data-testid="home-cinema-widget"
               >
-                <div className="aspect-video overflow-hidden">
+                <div className="aspect-[16/10] md:aspect-video overflow-hidden relative">
                   <img 
                     src="https://files.ihgbrands.com/brightluxx/downloaded-images/ext_6f178933d1b4.jpg"
                     alt="Luxury Home Cinema"
@@ -682,14 +682,13 @@ const Home = () => {
                     decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-neutral-900 via-neutral-900/50 to-transparent' : 'bg-gradient-to-t from-white via-white/50 to-transparent'}`} />
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="p-5 md:p-6">
                   <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${isDark ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-100 text-amber-700'} text-xs font-medium mb-3`}>
                     <Tv className="w-3 h-3" />
                     HOME CINEMA
                   </div>
-                  <h3 className={`text-2xl font-bold mb-2 ${textPrimary}`}>Luxury Home Cinema</h3>
+                  <h3 className={`text-xl md:text-2xl font-bold mb-2 ${textPrimary}`}>Luxury Home Cinema</h3>
                   <p className={`text-sm ${textSecondary} mb-4`}>Indoor theaters, outdoor poolside screens, yacht entertainment systems</p>
                   <span className={`inline-flex items-center gap-2 text-sm font-semibold ${isDark ? 'text-amber-400' : 'text-amber-600'} group-hover:gap-3 transition-all`}>
                     Explore Collection <ArrowRight className="w-4 h-4" />
@@ -702,10 +701,10 @@ const Home = () => {
             <FadeIn delay={0.2}>
               <Link 
                 to="/art-immersive"
-                className={`group relative overflow-hidden rounded-2xl ${isDark ? 'bg-white/[0.02] border-white/5 hover:border-violet-500/30' : 'bg-white border-neutral-200 hover:border-violet-300'} border transition-all duration-500`}
+                className={`group block overflow-hidden rounded-2xl ${isDark ? 'bg-white/[0.02] border-white/5 hover:border-violet-500/30' : 'bg-white border-neutral-200 hover:border-violet-300'} border transition-all duration-500`}
                 data-testid="art-immersive-widget"
               >
-                <div className="aspect-video overflow-hidden">
+                <div className="aspect-[16/10] md:aspect-video overflow-hidden relative">
                   <img 
                     src="https://files.ihgbrands.com/brightluxx/site-images/opt_ext_bc8c12ee1348.webp"
                     alt="Art & Immersive"
@@ -713,14 +712,13 @@ const Home = () => {
                     decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-neutral-900 via-neutral-900/50 to-transparent' : 'bg-gradient-to-t from-white via-white/50 to-transparent'}`} />
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="p-5 md:p-6">
                   <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${isDark ? 'bg-violet-500/20 text-violet-400' : 'bg-violet-100 text-violet-700'} text-xs font-medium mb-3`}>
                     <Sparkles className="w-3 h-3" />
                     ART & XR
                   </div>
-                  <h3 className={`text-2xl font-bold mb-2 ${textPrimary}`}>Art & Immersive</h3>
+                  <h3 className={`text-xl md:text-2xl font-bold mb-2 ${textPrimary}`}>Art & Immersive</h3>
                   <p className={`text-sm ${textSecondary} mb-4`}>NFT galleries, virtual production stages, immersive museums</p>
                   <span className={`inline-flex items-center gap-2 text-sm font-semibold ${isDark ? 'text-violet-400' : 'text-violet-600'} group-hover:gap-3 transition-all`}>
                     Explore Collection <ArrowRight className="w-4 h-4" />

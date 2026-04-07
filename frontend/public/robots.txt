@@ -1,5 +1,5 @@
 # Brightluxx SEO Crawl Instructions
-# Updated: March 2026
+# Updated: April 2026
 
 User-agent: *
 Allow: /
@@ -9,20 +9,15 @@ Disallow: /admin
 Disallow: /admin/*
 Disallow: /api/*
 
+# Allow sitemap and OG image
+Allow: /api/sitemap.xml
+Allow: /api/og-image
+
 # Disallow utility pages
 Disallow: /configurator
-Disallow: /calculator
-Disallow: /compare
-
-# Allow public API endpoints for data
-Allow: /api/homepage-content
-Allow: /api/pixelvue/products
-Allow: /api/solutions
-Allow: /api/blogs
-Allow: /api/case-studies
 
 # Sitemap location
-Sitemap: https://space-modern-build.preview.emergentagent.com/api/sitemap.xml
+Sitemap: https://brightluxx.com/api/sitemap.xml
 
 # Crawl-delay for server politeness
 Crawl-delay: 1

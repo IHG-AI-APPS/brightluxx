@@ -183,7 +183,7 @@ async def sitemap():
     # Add dynamic PixelVue product pages
     try:
         from database import db
-        pixelvue_products = list(db.pixelvue_products.find({"status": "published"}, {"slug": 1}))
+        pixelvue_products = await db.pixelvue_products.find({"status": "published"}, {"slug": 1, "_id": 0}).to_list(500)
         for p in pixelvue_products:
             if p.get("slug"):
                 urls.append(
@@ -200,7 +200,7 @@ async def sitemap():
     # Add dynamic solution pages
     try:
         from database import db
-        solutions = list(db.solutions_content.find({"status": "published"}, {"slug": 1}))
+        solutions = await db.solutions_content.find({"status": "published"}, {"slug": 1, "_id": 0}).to_list(500)
         for s in solutions:
             if s.get("slug"):
                 urls.append(
@@ -217,7 +217,7 @@ async def sitemap():
     # Add dynamic blog posts
     try:
         from database import db
-        blogs = list(db.blogs.find({"status": "published"}, {"slug": 1}))
+        blogs = await db.blogs.find({"status": "published"}, {"slug": 1, "_id": 0}).to_list(500)
         for b in blogs:
             if b.get("slug"):
                 urls.append(
@@ -234,7 +234,7 @@ async def sitemap():
     # Add dynamic case studies
     try:
         from database import db
-        case_studies = list(db.case_studies.find({"status": "published"}, {"slug": 1}))
+        case_studies = await db.case_studies.find({"status": "published"}, {"slug": 1, "_id": 0}).to_list(500)
         for cs in case_studies:
             if cs.get("slug"):
                 urls.append(

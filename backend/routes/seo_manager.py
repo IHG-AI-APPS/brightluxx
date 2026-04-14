@@ -300,18 +300,21 @@ async def ai_generate_seo(req: AIGenerateRequest, admin=Depends(get_current_admi
     page_path = doc.get("path", "")
     page_category = doc.get("category", "")
 
+    field_instructions = {
+        "meta_title": "meta_title: 50-60 characters, include 'Brightluxx' brand and primary keyword",
+        "meta_description": "meta_description: 150-160 characters, compelling with call-to-action, include location (UAE/Dubai)",
+        "keywords": "keywords: Array of 5-7 relevant keyword strings, mix of short-tail and long-tail",
+        "image_alt": "image_alt: Descriptive alt text (10-20 words) for the page hero image",
+        "og_title": "og_title: Social-optimized title (55-60 chars), slightly different from meta_title",
+        "og_description": "og_description: Social-optimized description (100-120 chars), engaging and shareable",
+    }
+    requested_instructions = "\n".join(f"- {field_instructions[f]}" for f in req.fields if f in field_instructions)
+
     prompt = (
         f"Generate SEO content for this page:\n"
         f"Page: {page_name}\nURL path: {page_path}\nCategory: {page_category}\n\n"
-        f"Generate ONLY these fields: {', '.join(req.fields)}\n\n"
-        f"Requirements:\n"
-        f"- meta_title: 50-60 characters, include 'Brightluxx' brand and primary keyword\n"
-        f"- meta_description: 150-160 characters, compelling with call-to-action, include location (UAE/Dubai)\n"
-        f"- keywords: Array of 5-7 relevant keywords (strings), mix of short-tail and long-tail\n"
-        f"- image_alt: Descriptive alt text (10-20 words) for the page hero image\n"
-        f"- og_title: Social-optimized title (55-60 chars), slightly different from meta_title\n"
-        f"- og_description: Social-optimized description (100-120 chars), engaging and shareable\n\n"
-        f"Return JSON object with only the requested fields. No markdown, no code blocks."
+        f"Generate ONLY these fields (nothing else):\n{requested_instructions}\n\n"
+        f"Return a JSON object with ONLY the requested field(s). No extra fields. No markdown, no code blocks."
     )
 
     response = await chat.send_message(UserMessage(text=prompt))

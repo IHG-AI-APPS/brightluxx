@@ -88,15 +88,17 @@ function PageEditor({ page, token, onSave, onClose }) {
       });
       const data = await res.json();
       if (data.generated) {
-        setForm(prev => ({
-          ...prev,
-          meta_title: data.generated.meta_title || prev.meta_title,
-          meta_description: data.generated.meta_description || prev.meta_description,
-          keywords: data.generated.keywords ? data.generated.keywords.join(', ') : prev.keywords,
-          image_alt: data.generated.image_alt || prev.image_alt,
-          og_title: data.generated.og_title || prev.og_title,
-          og_description: data.generated.og_description || prev.og_description,
-        }));
+        const g = data.generated;
+        setForm(prev => {
+          const updated = { ...prev };
+          if ('meta_title' in g) updated.meta_title = g.meta_title;
+          if ('meta_description' in g) updated.meta_description = g.meta_description;
+          if ('keywords' in g) updated.keywords = Array.isArray(g.keywords) ? g.keywords.join(', ') : g.keywords;
+          if ('image_alt' in g) updated.image_alt = g.image_alt;
+          if ('og_title' in g) updated.og_title = g.og_title;
+          if ('og_description' in g) updated.og_description = g.og_description;
+          return updated;
+        });
         if (data.page) onSave(data.page);
       }
     } finally {

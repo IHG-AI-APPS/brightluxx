@@ -179,6 +179,7 @@ const AdminPixelVue = lazy(() => import('./pages/admin/AdminPixelVue'));
 const AdminSolutions = lazy(() => import('./pages/admin/AdminSolutions'));
 const AdminCMS = lazy(() => import('./pages/admin/AdminCMS'));
 const AdminProductFamilies = lazy(() => import('./pages/admin/AdminProductFamilies'));
+const AdminSEO = lazy(() => import('./admin/AdminSEO'));
 
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAdmin();
@@ -338,6 +339,7 @@ function AppRoutes() {
         <Route path="solutions-cms" element={<AdminSolutions />} />
         <Route path="cms" element={<AdminCMS />} />
         <Route path="product-families" element={<AdminProductFamilies />} />
+        <Route path="seo" element={<AdminSEO />} />
       </Route>
       
       {/* 404 Catch-all - Must be last */}

@@ -35,6 +35,17 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Also updated backend CORS to use explicit origin allowlist (best practice)
 - Requires deployment to apply on live site
 
+### SEO Management System — Apr 14, 2026
+- Built complete SEO management system with per-page SEO data for 55 site pages
+- Backend: `/api/admin/seo/*` endpoints for CRUD, AI generation, stats, and public meta lookup
+- AI auto-generation via GPT-5.2: one-click meta titles, descriptions, keywords, image alt texts, OG fields
+- SEO scoring algorithm (0-100): title(25), description(25), keywords(20), slug(15), image_alt(15)
+- Admin dashboard at `/admin/seo`: page listing with scores, category filters, search, score breakdown
+- Editor modal with per-field AI generate buttons, character counters, schema type selection, noindex toggle
+- Bulk AI fix for low-scoring pages
+- Public API `/api/seo/page-meta?path=/` for frontend meta tag injection
+- Testing: 100% pass (iteration_108.json) — all 10 backend + all frontend tests passed
+
 ### Social Share Image (OG Image) Admin Feature — Apr 3, 2026
 - Added OG meta tags to `index.html` (og:image, og:title, og:description, twitter:card)
 - Created `/api/og-image` endpoint that dynamically redirects to the current OG image from site settings DB

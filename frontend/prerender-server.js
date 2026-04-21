@@ -117,8 +117,8 @@ function esc(s) {
     .replace(/"/g, "&quot;");
 }
 
-/** Build the heading + meta snippet that gets injected into <div id="root">. */
-function buildSnippet(headings, meta) {
+/** Build the heading + meta + internal links snippet for <div id="root">. */
+function buildSnippet(headings, meta, internalLinks) {
   const parts = [];
 
   // Heading hierarchy (the main SEO signal crawlers need)
@@ -133,26 +133,63 @@ function buildSnippet(headings, meta) {
     parts.push(`<p>${esc(meta.description)}</p>`);
   }
 
-  // Internal navigation links (helps crawl budget / link discovery)
-  parts.push(
-    `<nav aria-label="Main navigation">` +
-      `<a href="/">Home</a>` +
-      `<a href="/products">Products</a>` +
-      `<a href="/solutions">Solutions</a>` +
-      `<a href="/lumimorph">LumiMorph</a>` +
-      `<a href="/naturatex">NaturaTex</a>` +
-      `<a href="/signatouch">SignaTouch</a>` +
-      `<a href="/glassmorph">GlassMorph</a>` +
-      `<a href="/pixelvue">PixelVue</a>` +
-      `<a href="/contact">Contact</a>` +
-      `</nav>`
-  );
+  // Internal links grouped by relationship type (rich semantic linking)
+  if (internalLinks && internalLinks.length) {
+    // Group links by semantic relationship
+    const groups = {};
+    internalLinks.forEach((l) => {
+      const rel = l.rel || "related";
+      if (!groups[rel]) groups[rel] = [];
+      groups[rel].push(l);
+    });
+
+    // Map rel types to human-readable section labels for crawlers
+    const relLabels = {
+      "home": "Site",
+      "hub": "Browse",
+      "action": "Get Started",
+      "child": "Products in This Range",
+      "parent": "Part of",
+      "sibling": "Also in This Range",
+      "sibling-family": "Other Product Families",
+      "related-product": "Related Products",
+      "product-family": "Product Families",
+      "related-guide": "Technical Guides",
+      "related-solution": "Related Solutions",
+      "resource": "Resources",
+      "social-proof": "Our Work",
+      "sibling-article": "Related Articles",
+      "child-article": "Articles",
+      "audience": "For Professionals",
+      "related-tool": "Tools & Services",
+      "tool": "Tools",
+      "service": "Services",
+      "trust": "About Us",
+      "content": "Content",
+      "sibling-content": "Explore More",
+      "related-family": "Other Product Lines",
+      "sibling-location": "Other Locations",
+      "geo-landing": "LED Screens by Location",
+      "lifestyle": "Lifestyle Solutions",
+      "related": "Related",
+    };
+
+    // Render grouped nav sections
+    for (const [rel, links] of Object.entries(groups)) {
+      const label = relLabels[rel] || rel;
+      parts.push(`<nav aria-label="${esc(label)}">`);
+      links.forEach((l) => {
+        parts.push(`<a href="${esc(l.path)}">${esc(l.name)}</a>`);
+      });
+      parts.push(`</nav>`);
+    }
+  }
 
   return parts.join("");
 }
 
 /** Inject page-specific meta tags into <head>. */
-function injectMeta(html, routePath, meta) {
+function injectMeta(html, routePath, meta, internalLinks) {
   if (!meta || !meta.title) return html;
 
   const canonical = `${PROD_URL}${routePath}`;
@@ -175,7 +212,44 @@ function injectMeta(html, routePath, meta) {
     `<meta name="description" content="${desc}"`
   );
 
-  // Inject additional meta right before </head>
+  // Build JSON-LD BreadcrumbList + SiteNavigationElement
+  const jsonLdScripts = [];
+
+  // BreadcrumbList schema
+  const pathParts = routePath.split("/").filter(Boolean);
+  if (pathParts.length > 0) {
+    const breadcrumbs = [{ "@type": "ListItem", position: 1, name: "Home", item: PROD_URL }];
+    let accum = "";
+    pathParts.forEach((part, i) => {
+      accum += "/" + part;
+      breadcrumbs.push({
+        "@type": "ListItem",
+        position: i + 2,
+        name: part.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
+        ...(i < pathParts.length - 1 ? { item: PROD_URL + accum } : {}),
+      });
+    });
+    jsonLdScripts.push(JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs,
+    }));
+  }
+
+  // SiteNavigationElement for internal links
+  if (internalLinks && internalLinks.length) {
+    const navItems = internalLinks.slice(0, 30).map((l) => ({
+      "@type": "SiteNavigationElement",
+      name: l.name,
+      url: PROD_URL + l.path,
+    }));
+    jsonLdScripts.push(JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": navItems,
+    }));
+  }
+
+  // Inject additional meta + JSON-LD right before </head>
   const extra = [
     `<link rel="canonical" href="${canonical}">`,
     kw ? `<meta name="keywords" content="${kw}">` : "",
@@ -186,6 +260,7 @@ function injectMeta(html, routePath, meta) {
     `<meta name="twitter:title" content="${ogTitle}">`,
     `<meta name="twitter:description" content="${ogDesc}">`,
     `<meta name="twitter:image:alt" content="${imgAlt}">`,
+    ...jsonLdScripts.map((s) => `<script type="application/ld+json">${s}</script>`),
   ]
     .filter(Boolean)
     .join("\n    ");
@@ -237,19 +312,22 @@ function startProxy() {
           return;
         }
 
-        // Fetch CRA HTML + backend data in parallel
-        const [craRes, prerender] = await Promise.all([
+        // Fetch CRA HTML + backend data + internal links in parallel
+        const [craRes, prerender, internalLinks] = await Promise.all([
           fetchRaw(`http://localhost:${CRA_PORT}${req.url}`),
           fetchJSON(
             `${BACKEND}/api/prerender/page?path=${encodeURIComponent(routePath)}`
           ),
+          fetchJSON(
+            `${BACKEND}/api/prerender/internal-links?path=${encodeURIComponent(routePath)}`
+          ),
         ]);
 
-        console.log(`[PRERENDER] CRA status: ${craRes.status}, headings: ${prerender?.headings?.length || 0}`);
+        console.log(`[PRERENDER] CRA status: ${craRes.status}, headings: ${prerender?.headings?.length || 0}, links: ${internalLinks?.length || 0}`);
 
         if (craRes.status === 200 && prerender && prerender.headings && prerender.headings.length) {
           let html = craRes.body;
-          const snippet = buildSnippet(prerender.headings, prerender.meta);
+          const snippet = buildSnippet(prerender.headings, prerender.meta, internalLinks);
 
           // Inject heading snippet into <div id="root">
           html = html.replace(
@@ -257,8 +335,8 @@ function startProxy() {
             `<div id="root">${snippet}</div>`
           );
 
-          // Inject page-specific meta tags
-          html = injectMeta(html, routePath, prerender.meta);
+          // Inject page-specific meta tags + JSON-LD
+          html = injectMeta(html, routePath, prerender.meta, internalLinks);
 
           // Cache the result
           prerenderCache[routePath] = { html, time: Date.now() };

@@ -41,6 +41,7 @@ from routes.signage_inquiry import router as signage_inquiry_router
 from routes.sync import router as sync_router
 from routes.seo_manager import router as seo_manager_router
 from routes.prerender import router as prerender_router
+from routes.internal_links import router as internal_links_router
 
 app = FastAPI()
 
@@ -147,6 +148,7 @@ app.include_router(signage_inquiry_router)
 app.include_router(sync_router)
 app.include_router(seo_manager_router)
 app.include_router(prerender_router)
+app.include_router(internal_links_router)
 
 
 @app.on_event("startup")

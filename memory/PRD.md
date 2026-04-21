@@ -71,6 +71,19 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
+### Internal Linking Strategy for Crawlers — Apr 21, 2026
+- Built semantic internal link graph covering all 55 pages with relationship types (child, parent, sibling, related-guide, related-solution, sibling-family, geo-landing, etc.)
+- Backend API: `/api/prerender/internal-links?path=` returns page-specific link graph with rel labels
+- Product family pages link to: children, sibling families, related knowledge articles, related solutions, content hubs
+- Product sub-pages link to: parent family, siblings in same range, related knowledge, other product lines
+- Knowledge articles link to: parent hub, related product families, sibling articles, professional tools
+- SEO landing pages link to: all product families, sibling geo pages, case studies, trust pages
+- Homepage links to: all families, lifestyle pages, knowledge hub, content hubs, tools, all geo landing pages
+- Links injected as grouped `<nav aria-label="...">` sections (e.g., "Products in This Range", "Other Product Families", "Technical Guides")
+- Added JSON-LD BreadcrumbList + SiteNavigationElement schemas for structured data
+- Regular users completely unaffected — empty SPA root div preserved
+- Testing: 100% pass (iteration_111.json) — 18/18 tests, all page types verified
+
 ### Social Share Image (OG Image) Admin Feature — Apr 3, 2026
 - Added OG meta tags to `index.html` (og:image, og:title, og:description, twitter:card)
 - Created `/api/og-image` endpoint that dynamically redirects to the current OG image from site settings DB

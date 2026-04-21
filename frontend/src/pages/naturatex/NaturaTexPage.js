@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Check, Eye, Shield, Zap, Leaf } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import SEO from '../../components/SEO';
+import SEO, { useSeoData } from '../../components/SEO';
 
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
@@ -55,6 +55,8 @@ const FAQS = [
 
 export default function NaturaTexPage() {
   const [openFaq, setOpenFaq] = useState(null);
+  const seoData = useSeoData('/naturatex');
+  const heroAlt = seoData?.image_alt || 'NaturaTex Texture Screen';
 
   return (
     <div className="bg-neutral-950 min-h-screen" data-testid="naturatex-page">
@@ -69,7 +71,7 @@ export default function NaturaTexPage() {
         <div className="absolute inset-0">
           <img 
             src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png" 
-            alt="NaturaTex Texture Screen" 
+            alt={heroAlt}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/70 via-neutral-950/40 to-neutral-950" />

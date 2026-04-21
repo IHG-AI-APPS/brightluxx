@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Monitor, Tv, Layers, Sparkles, Building2, Store, Theater, Grid3X3 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import SEO from '../../components/SEO';
+import SEO, { useSeoData } from '../../components/SEO';
 import { generateItemListSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../utils/seoSchemas';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -53,6 +53,8 @@ export default function PixelVueLanding() {
   const [activeCategory, setActiveCategory] = useState('poster');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const seoData = useSeoData('/pixelvue');
+  const heroAlt = seoData?.image_alt || 'PixelVue LED Displays';
 
   // Fetch products from API
   useEffect(() => {
@@ -113,7 +115,7 @@ export default function PixelVueLanding() {
       {/* Hero */}
       <section className="relative min-h-screen overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png" alt="PixelVue LED Displays" className="w-full h-full object-cover" />
+          <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png" alt={heroAlt} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/60 via-neutral-950/40 to-neutral-950" />
         </div>
         <div className="relative flex flex-col min-h-screen">

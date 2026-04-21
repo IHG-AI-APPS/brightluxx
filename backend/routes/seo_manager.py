@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from database import db
 from routes.admin import get_current_admin
 import os
+import asyncio
 
 router = APIRouter(tags=["SEO Manager"])
 col = db["page_seo"]
@@ -356,6 +357,192 @@ async def ai_generate_bulk(req: BulkAIRequest, admin=Depends(get_current_admin))
         except Exception as e:
             results.append({"page_id": pid, "status": "error", "message": str(e)})
     return {"results": results}
+
+
+# ─── BULK GENERATE ALL MISSING ─────────────────────────────────────
+bulk_job_col = db["seo_bulk_jobs"]
+
+
+async def _run_bulk_generation(job_id: str):
+    """Background coroutine: generate SEO for all pages missing meta_description or keywords."""
+    import asyncio
+    from emergentintegrations.llm.chat import LlmChat, UserMessage
+    import json as json_mod
+    from bson import ObjectId
+
+    api_key = os.environ.get("EMERGENT_LLM_KEY", "")
+
+    # Find pages needing generation
+    pages = await col.find({
+        "$or": [
+            {"meta_description": {"$in": ["", None]}},
+            {"keywords": {"$in": [[], None]}},
+            {"meta_title": {"$in": ["", None]}},
+        ]
+    }).to_list(500)
+
+    total = len(pages)
+    await bulk_job_col.update_one(
+        {"job_id": job_id},
+        {"$set": {"total": total, "status": "running"}},
+    )
+
+    succeeded = 0
+    failed = 0
+
+    for i, doc in enumerate(pages):
+        try:
+            page_id = str(doc["_id"])
+            page_name = doc.get("name", "")
+            page_path = doc.get("path", "")
+            page_category = doc.get("category", "")
+
+            # Determine which fields are missing
+            fields_needed = []
+            if not doc.get("meta_title"):
+                fields_needed.append("meta_title")
+            if not doc.get("meta_description"):
+                fields_needed.append("meta_description")
+            if not doc.get("keywords") or len(doc.get("keywords", [])) == 0:
+                fields_needed.append("keywords")
+            if not doc.get("image_alt"):
+                fields_needed.append("image_alt")
+            if not doc.get("og_title"):
+                fields_needed.append("og_title")
+            if not doc.get("og_description"):
+                fields_needed.append("og_description")
+
+            if not fields_needed:
+                succeeded += 1
+                continue
+
+            chat = LlmChat(
+                api_key=api_key,
+                session_id=f"seo-bulk-{page_id}-{job_id[:8]}",
+                system_message=(
+                    "You are an expert SEO specialist for Brightluxx, a premium LED display solutions company "
+                    "based in UAE serving the GCC region. Generate optimized SEO content that targets architects, "
+                    "contractors, and project managers. Focus on LED displays, digital signage, MicroLED, and "
+                    "related technology keywords relevant to the Middle East market. "
+                    "Always respond with valid JSON only, no markdown."
+                ),
+            ).with_model("openai", "gpt-5.2")
+
+            field_instructions = {
+                "meta_title": "meta_title: 50-60 characters, include 'Brightluxx' brand and primary keyword",
+                "meta_description": "meta_description: 150-160 characters, compelling with call-to-action, include location (UAE/Dubai)",
+                "keywords": "keywords: Array of 5-7 relevant keyword strings, mix of short-tail and long-tail",
+                "image_alt": "image_alt: Descriptive alt text (10-20 words) for the page hero image",
+                "og_title": "og_title: Social-optimized title (55-60 chars), slightly different from meta_title",
+                "og_description": "og_description: Social-optimized description (100-120 chars), engaging and shareable",
+            }
+            requested_instructions = "\n".join(f"- {field_instructions[f]}" for f in fields_needed if f in field_instructions)
+
+            prompt = (
+                f"Generate SEO content for this page:\n"
+                f"Page: {page_name}\nURL path: {page_path}\nCategory: {page_category}\n\n"
+                f"Generate ONLY these fields (nothing else):\n{requested_instructions}\n\n"
+                f"Return a JSON object with ONLY the requested field(s). No extra fields. No markdown, no code blocks."
+            )
+
+            response = await chat.send_message(UserMessage(text=prompt))
+
+            # Parse the AI response
+            cleaned = response.strip()
+            if cleaned.startswith("```"):
+                cleaned = cleaned.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+            generated = json_mod.loads(cleaned)
+
+            # Update the DB
+            update = {}
+            for field in fields_needed:
+                if field in generated:
+                    update[field] = generated[field]
+            if update:
+                update["updated_at"] = datetime.now(timezone.utc).isoformat()
+                await col.update_one({"_id": doc["_id"]}, {"$set": update})
+
+            succeeded += 1
+        except Exception as e:
+            failed += 1
+
+        # Update progress
+        await bulk_job_col.update_one(
+            {"job_id": job_id},
+            {"$set": {"processed": i + 1, "succeeded": succeeded, "failed": failed}},
+        )
+
+        # Small delay to avoid rate limiting
+        await asyncio.sleep(1)
+
+    # Mark complete
+    await bulk_job_col.update_one(
+        {"job_id": job_id},
+        {"$set": {"status": "completed", "processed": total, "succeeded": succeeded, "failed": failed, "completed_at": datetime.now(timezone.utc).isoformat()}},
+    )
+
+
+@router.post("/api/admin/seo/ai-generate-all-missing")
+async def ai_generate_all_missing(admin=Depends(get_current_admin)):
+    """Trigger bulk AI generation for all pages missing SEO content. Runs as background task."""
+    from fastapi import BackgroundTasks
+    import uuid as uuid_mod
+
+    # Check if a job is already running
+    running = await bulk_job_col.find_one({"status": "running"})
+    if running:
+        return {
+            "status": "already_running",
+            "job_id": running["job_id"],
+            "processed": running.get("processed", 0),
+            "total": running.get("total", 0),
+        }
+
+    # Count pages needing work
+    missing_count = await col.count_documents({
+        "$or": [
+            {"meta_description": {"$in": ["", None]}},
+            {"keywords": {"$in": [[], None]}},
+            {"meta_title": {"$in": ["", None]}},
+        ]
+    })
+
+    if missing_count == 0:
+        return {"status": "nothing_to_do", "message": "All pages already have SEO content"}
+
+    job_id = str(uuid_mod.uuid4())[:12]
+    await bulk_job_col.insert_one({
+        "job_id": job_id,
+        "status": "starting",
+        "total": missing_count,
+        "processed": 0,
+        "succeeded": 0,
+        "failed": 0,
+        "started_at": datetime.now(timezone.utc).isoformat(),
+    })
+
+    # Launch as asyncio task (runs in the event loop)
+    asyncio.ensure_future(_run_bulk_generation(job_id))
+
+    return {"status": "started", "job_id": job_id, "total_pages": missing_count}
+
+
+@router.get("/api/admin/seo/bulk-job-status")
+async def bulk_job_status(admin=Depends(get_current_admin)):
+    """Check the status of the latest bulk generation job."""
+    job = await bulk_job_col.find_one({}, sort=[("started_at", -1)])
+    if not job:
+        return {"status": "no_jobs"}
+    return {
+        "job_id": job.get("job_id"),
+        "status": job.get("status"),
+        "total": job.get("total", 0),
+        "processed": job.get("processed", 0),
+        "succeeded": job.get("succeeded", 0),
+        "failed": job.get("failed", 0),
+        "started_at": job.get("started_at", ""),
+        "completed_at": job.get("completed_at", ""),
+    }
 
 
 @router.get("/api/admin/seo/stats")

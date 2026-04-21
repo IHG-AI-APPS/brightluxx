@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Award, Factory, Package, Truck, ChevronDown, Layers, Leaf, Tv, Monitor, Sparkles } from 'lucide-react';
 import { getProducts, getProjects } from '../api';
 import CdnImage from '../components/CdnImage';
-import SEO, { BASE_URL } from '../components/SEO';
+import SEO, { BASE_URL, useSeoData } from '../components/SEO';
 import { EXTERNAL_CDN, cdnUrl } from '../config/cdn';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
@@ -394,6 +394,8 @@ const Home = () => {
   const [featuredProjects, setFeaturedProjects] = useState([]);
   const [homeContent, setHomeContent] = useState(null);
   const { isDark } = useTheme();
+  const seoData = useSeoData('/');
+  const heroAlt = seoData?.image_alt || 'Brightluxx Premium LED Display Solutions';
 
   useEffect(() => {
     fetch(`${API}/api/homepage-content`)

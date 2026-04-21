@@ -393,11 +393,16 @@ export default function SEO({
     setMeta('og:site_name', SITE_NAME, 'property');
     setMeta('og:locale', 'en_AE', 'property');
 
+    // OG Image Alt (critical for image SEO)
+    const imageAlt = adminSeo?.image_alt || effectiveTitle || 'Brightluxx LED Display';
+    setMeta('og:image:alt', imageAlt, 'property');
+
     // Twitter Card
     setMeta('twitter:card', 'summary_large_image');
     setMeta('twitter:title', effectiveOgTitle ? `${effectiveOgTitle} | ${SITE_NAME}` : pageTitle);
     setMeta('twitter:description', effectiveOgDesc);
     setMeta('twitter:image', ogImage);
+    setMeta('twitter:image:alt', imageAlt);
 
     // Robots
     setMeta('robots', effectiveNoIndex ? 'noindex, nofollow' : 'index, follow');
@@ -453,9 +458,41 @@ export default function SEO({
     return () => {
       setJsonLd(null);
     };
-  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, effectiveNoIndex, effectiveKeywords, effectiveOgTitle, effectiveOgDesc, jsonLd, pagePath, breadcrumbs, faqs, product, service]);
+  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, effectiveNoIndex, effectiveKeywords, effectiveOgTitle, effectiveOgDesc, effectiveTitle, adminSeo, jsonLd, pagePath, breadcrumbs, faqs, product, service]);
 
   return null;
 }
 
 export { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA, LOCAL_BUSINESS_SCHEMA, PRODUCTION_URL };
+
+/**
+ * Hook to access SEO data (including image_alt) for the current page.
+ * Use this in page components to get admin-set hero image alt text.
+ */
+export function useSeoData(pagePath) {
+  const location = useLocation();
+  const resolvedPath = pagePath || location.pathname;
+  const [seoData, setSeoData] = useState(seoCache[resolvedPath] || null);
+  const fetchedRef = useRef(false);
+
+  useEffect(() => {
+    if (resolvedPath.startsWith('/admin')) return;
+    if (seoCache[resolvedPath]) {
+      setSeoData(seoCache[resolvedPath]);
+      return;
+    }
+    if (fetchedRef.current) return;
+    fetchedRef.current = true;
+    fetch(`${BASE_URL}/api/seo/page-meta?path=${encodeURIComponent(resolvedPath)}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data && (data.meta_title || data.meta_description || data.image_alt)) {
+          seoCache[resolvedPath] = data;
+          setSeoData(data);
+        }
+      })
+      .catch(() => {});
+  }, [resolvedPath]);
+
+  return seoData;
+}

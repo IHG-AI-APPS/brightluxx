@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Check, Monitor, TouchpadIcon, ShoppingCart, Building2, Plane, Stethoscope, Building, UtensilsCrossed } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import SEO from '../../components/SEO';
+import SEO, { useSeoData } from '../../components/SEO';
 
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
@@ -86,6 +86,8 @@ const FAQS = [
 
 export default function SignaTouchLanding() {
   const [openFaq, setOpenFaq] = useState(null);
+  const seoData = useSeoData('/signatouch');
+  const heroAlt = seoData?.image_alt || 'SignaTouch Kiosk';
 
   return (
     <div className="bg-neutral-950 min-h-screen" data-testid="signatouch-landing">
@@ -100,7 +102,7 @@ export default function SignaTouchLanding() {
         <div className="absolute inset-0">
           <img 
             src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png" 
-            alt="SignaTouch Kiosk" 
+            alt={heroAlt}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/80 to-neutral-950/40" />

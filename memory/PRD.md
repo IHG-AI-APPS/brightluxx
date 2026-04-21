@@ -59,6 +59,18 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Applied dynamic hero image alt text to 5 product landing pages (GlassMorph, SignaTouch, NaturaTex, PixelVue, Home)
 - Testing: 100% pass (iteration_109.json) — 9/9 backend, all frontend pages verified
 
+### Crawler Heading Hierarchy (SSR-like Pre-rendering) — Apr 21, 2026
+- Built Express prerender proxy (`prerender-server.js`) that injects H1/H2/H3/H4 heading hierarchy into initial HTML for search engine crawlers
+- Crawler detection: Googlebot, Bingbot, Yandex, Facebook, Twitter, LinkedIn, WhatsApp, Slack, etc.
+- Heading data extracted from 55 page JSX components, stored in MongoDB `page_seo.headings` field + `heading-data.json`
+- Also injects page-specific `<title>`, `<meta description>`, `<canonical>`, `<keywords>`, OG tags for crawlers
+- Regular users are transparently proxied to CRA dev server — zero visual/behavioral change
+- Added response caching (10-min TTL) to reduce backend API calls for repeated crawler hits
+- Hardened with socket error handlers, graceful child process cleanup on exit, uncaughtException handling
+- Production support: `postbuild-prerender.js` generates per-route static HTML files during `yarn build`
+- Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
+- Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
+
 ### Social Share Image (OG Image) Admin Feature — Apr 3, 2026
 - Added OG meta tags to `index.html` (og:image, og:title, og:description, twitter:card)
 - Created `/api/og-image` endpoint that dynamically redirects to the current OG image from site settings DB

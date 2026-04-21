@@ -41,7 +41,29 @@ cra.on("exit", (code) => {
   process.exit(code ?? 1);
 });
 
+/* ── Graceful shutdown: kill CRA child on parent exit ──────────── */
+function cleanup() {
+  try {
+    cra.kill("SIGKILL");
+  } catch {}
+}
+process.on("exit", cleanup);
+process.on("SIGTERM", () => { cleanup(); process.exit(0); });
+process.on("SIGINT", () => { cleanup(); process.exit(0); });
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught exception:", err.message);
+  cleanup();
+  process.exit(1);
+});
+process.on("unhandledRejection", (err) => {
+  console.error("Unhandled rejection:", err);
+});
+
 /* ── Helpers ───────────────────────────────────────────────────── */
+
+/** Simple TTL cache for prerender data. */
+const prerenderCache = {};
+const CACHE_TTL = 600000; // 10 minutes
 
 /** Fetch JSON from internal URL (no external deps needed). */
 function fetchJSON(url) {
@@ -202,6 +224,19 @@ function startProxy() {
         const routePath = req.url.split("?")[0];
         console.log(`[PRERENDER] Crawler detected for ${routePath} (UA: ${ua.substring(0, 50)})`);
 
+        // Check cache first
+        const cached = prerenderCache[routePath];
+        if (cached && Date.now() - cached.time < CACHE_TTL) {
+          res.writeHead(200, {
+            "Content-Type": "text/html; charset=utf-8",
+            "Content-Length": Buffer.byteLength(cached.html),
+            "X-Prerendered": "true",
+            "X-Cache": "hit",
+          });
+          res.end(cached.html);
+          return;
+        }
+
         // Fetch CRA HTML + backend data in parallel
         const [craRes, prerender] = await Promise.all([
           fetchRaw(`http://localhost:${CRA_PORT}${req.url}`),
@@ -224,6 +259,9 @@ function startProxy() {
 
           // Inject page-specific meta tags
           html = injectMeta(html, routePath, prerender.meta);
+
+          // Cache the result
+          prerenderCache[routePath] = { html, time: Date.now() };
 
           res.writeHead(200, {
             "Content-Type": "text/html; charset=utf-8",
@@ -249,22 +287,32 @@ function startProxy() {
         headers: req.headers,
       },
       (proxyRes) => {
-        res.writeHead(proxyRes.statusCode, proxyRes.headers);
-        proxyRes.pipe(res, { end: true });
+        try {
+          res.writeHead(proxyRes.statusCode, proxyRes.headers);
+          proxyRes.pipe(res, { end: true });
+        } catch {}
       }
     );
 
     proxyReq.on("error", (err) => {
-      console.error("Proxy error:", err.message);
-      res.writeHead(502);
-      res.end("Backend unavailable");
+      try {
+        if (!res.headersSent) {
+          res.writeHead(502);
+          res.end("Backend unavailable");
+        }
+      } catch {}
     });
+
+    req.on("error", () => { try { proxyReq.destroy(); } catch {} });
+    res.on("error", () => { try { proxyReq.destroy(); } catch {} });
 
     req.pipe(proxyReq, { end: true });
   });
 
   // Handle WebSocket upgrade for HMR
   server.on("upgrade", (req, socket, head) => {
+    socket.on("error", () => { try { socket.destroy(); } catch {} });
+
     const proxyReq = http.request({
       hostname: "localhost",
       port: CRA_PORT,
@@ -274,6 +322,9 @@ function startProxy() {
     });
 
     proxyReq.on("upgrade", (proxyRes, proxySocket, proxyHead) => {
+      proxySocket.on("error", () => { try { socket.destroy(); } catch {} });
+      socket.on("error", () => { try { proxySocket.destroy(); } catch {} });
+
       socket.write(
         `HTTP/1.1 101 Switching Protocols\r\n` +
           Object.entries(proxyRes.headers)
@@ -286,7 +337,7 @@ function startProxy() {
       socket.pipe(proxySocket);
     });
 
-    proxyReq.on("error", () => socket.destroy());
+    proxyReq.on("error", () => { try { socket.destroy(); } catch {} });
     proxyReq.end();
   });
 

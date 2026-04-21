@@ -40,6 +40,7 @@ from routes.product_families import router as product_families_router
 from routes.signage_inquiry import router as signage_inquiry_router
 from routes.sync import router as sync_router
 from routes.seo_manager import router as seo_manager_router
+from routes.prerender import router as prerender_router
 
 app = FastAPI()
 
@@ -145,6 +146,7 @@ app.include_router(image_management_router)
 app.include_router(signage_inquiry_router)
 app.include_router(sync_router)
 app.include_router(seo_manager_router)
+app.include_router(prerender_router)
 
 
 @app.on_event("startup")

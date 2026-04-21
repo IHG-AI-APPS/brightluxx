@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import SEO from '../../components/SEO';
 import { 
   Palette, Sparkles, Film, Box, Globe, Layers, 
   ArrowRight, Play, Monitor, Zap, Theater,
@@ -85,7 +86,7 @@ const ArtImmersiveLanding = () => {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#050508]' : 'bg-white'}`}>
-      {/* Hero Section */}
+      <SEO title="Art & Immersive LED Displays" description="Transform spaces with immersive LED displays for NFT galleries, museums, virtual production, and experiential installations." path="/art-immersive" />
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0">

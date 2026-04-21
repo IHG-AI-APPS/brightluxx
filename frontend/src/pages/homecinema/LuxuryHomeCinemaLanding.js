@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import SEO from '../../components/SEO';
 import { 
   Tv, Home, Palmtree, Ship, Sparkles, ArrowRight, 
   Play, Star, Shield, Wifi, Volume2, Cpu, Layers
@@ -63,6 +64,7 @@ const LuxuryHomeCinemaLanding = () => {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#0a0a0f]' : 'bg-neutral-50'}`}>
+      <SEO title="Luxury Home Cinema LED Displays" description="Premium LED display solutions for home theaters, poolside screens, and yacht entertainment. Indoor and outdoor home cinema screens in UAE." path="/luxury-home-cinema" />
       {/* Hero Section - Full Width Video */}
       <section className="relative min-h-[100vh] flex items-center overflow-hidden">
         {/* Video Background */}

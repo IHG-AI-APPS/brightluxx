@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { trackPageView } from '../lib/tracker';
 import { cdnUrl, EXTERNAL_CDN } from '../config/cdn';
@@ -8,6 +8,9 @@ const BASE_URL = process.env.REACT_APP_BACKEND_URL || '';
 const PRODUCTION_URL = 'https://brightluxx.com';
 const DEFAULT_IMAGE = cdnUrl('hero_banner.webp');
 const DEFAULT_DESCRIPTION = 'Premium digital LED display solutions for retail, corporate, outdoor, events, and creative installations. UAE-based with Gulf-grade engineering.';
+
+// In-memory cache for SEO data to avoid refetching
+const seoCache = {};
 
 // Organization Schema - Added to every page for Knowledge Panel eligibility
 const ORGANIZATION_SCHEMA = {
@@ -334,9 +337,41 @@ export default function SEO({
   keywords
 }) {
   const location = useLocation();
-  const pageTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Premium LED Display Solutions`;
-  const pageDescription = description || DEFAULT_DESCRIPTION;
-  const canonicalUrl = `${BASE_URL}${path || location.pathname}`;
+  const pagePath = path || location.pathname;
+  const [adminSeo, setAdminSeo] = useState(seoCache[pagePath] || null);
+  const fetchedRef = useRef(false);
+
+  // Fetch admin SEO data for this page path
+  useEffect(() => {
+    if (pagePath.startsWith('/admin')) return;
+    if (seoCache[pagePath]) {
+      setAdminSeo(seoCache[pagePath]);
+      return;
+    }
+    if (fetchedRef.current) return;
+    fetchedRef.current = true;
+    fetch(`${BASE_URL}/api/seo/page-meta?path=${encodeURIComponent(pagePath)}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data && (data.meta_title || data.meta_description)) {
+          seoCache[pagePath] = data;
+          setAdminSeo(data);
+        }
+      })
+      .catch(() => {});
+  }, [pagePath]);
+
+  // Admin data overrides props (admin > props > defaults)
+  const effectiveTitle = adminSeo?.meta_title || title;
+  const effectiveDesc = adminSeo?.meta_description || description || DEFAULT_DESCRIPTION;
+  const effectiveKeywords = adminSeo?.keywords?.length ? adminSeo.keywords.join(', ') : keywords;
+  const effectiveOgTitle = adminSeo?.og_title || effectiveTitle;
+  const effectiveOgDesc = adminSeo?.og_description || effectiveDesc;
+  const effectiveNoIndex = adminSeo?.noindex ?? noIndex;
+
+  const pageTitle = effectiveTitle ? `${effectiveTitle} | ${SITE_NAME}` : `${SITE_NAME} — Premium LED Display Solutions`;
+  const pageDescription = effectiveDesc;
+  const canonicalUrl = adminSeo?.canonical_url || `${PRODUCTION_URL}${pagePath}`;
   const ogImage = resolveImage(image);
 
   useEffect(() => {
@@ -345,13 +380,13 @@ export default function SEO({
     setCanonical(canonicalUrl);
 
     // Keywords meta tag
-    if (keywords) {
-      setMeta('keywords', keywords);
+    if (effectiveKeywords) {
+      setMeta('keywords', effectiveKeywords);
     }
 
     // Open Graph
-    setMeta('og:title', pageTitle, 'property');
-    setMeta('og:description', pageDescription, 'property');
+    setMeta('og:title', effectiveOgTitle ? `${effectiveOgTitle} | ${SITE_NAME}` : pageTitle, 'property');
+    setMeta('og:description', effectiveOgDesc, 'property');
     setMeta('og:image', ogImage, 'property');
     setMeta('og:url', canonicalUrl, 'property');
     setMeta('og:type', type, 'property');
@@ -360,12 +395,12 @@ export default function SEO({
 
     // Twitter Card
     setMeta('twitter:card', 'summary_large_image');
-    setMeta('twitter:title', pageTitle);
-    setMeta('twitter:description', pageDescription);
+    setMeta('twitter:title', effectiveOgTitle ? `${effectiveOgTitle} | ${SITE_NAME}` : pageTitle);
+    setMeta('twitter:description', effectiveOgDesc);
     setMeta('twitter:image', ogImage);
 
     // Robots
-    setMeta('robots', noIndex ? 'noindex, nofollow' : 'index, follow');
+    setMeta('robots', effectiveNoIndex ? 'noindex, nofollow' : 'index, follow');
     setMeta('author', 'Brightluxx');
     setMeta('geo.region', 'AE');
     setMeta('geo.placename', 'Dubai, United Arab Emirates');
@@ -374,7 +409,7 @@ export default function SEO({
     const allSchemas = [ORGANIZATION_SCHEMA, WEBSITE_SCHEMA];
     
     // Add LocalBusiness schema only on homepage and contact page
-    if (path === '/' || path === '/contact' || path === '/about') {
+    if (pagePath === '/' || pagePath === '/contact' || pagePath === '/about') {
       allSchemas.push(LOCAL_BUSINESS_SCHEMA);
     }
     
@@ -411,14 +446,14 @@ export default function SEO({
     setJsonLd(allSchemas);
 
     // Auto-track page view (skip admin pages)
-    if (!noIndex && !canonicalUrl.includes('/admin')) {
-      trackPageView(path || location.pathname);
+    if (!effectiveNoIndex && !canonicalUrl.includes('/admin')) {
+      trackPageView(pagePath);
     }
 
     return () => {
       setJsonLd(null);
     };
-  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, noIndex, jsonLd, path, breadcrumbs, faqs, product, service, keywords]);
+  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, effectiveNoIndex, effectiveKeywords, effectiveOgTitle, effectiveOgDesc, jsonLd, pagePath, breadcrumbs, faqs, product, service]);
 
   return null;
 }

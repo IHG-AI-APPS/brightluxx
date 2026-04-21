@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import SEO from '../../components/SEO';
 import { 
   Type, Monitor, Layers, Box, Building2, ArrowRight, 
   Sparkles, Eye, Tv, MapPin, Menu, ShoppingBag,
@@ -177,6 +178,7 @@ const SignageSolutionsLanding = () => {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#0a0a0f]' : 'bg-white'}`}>
+      <SEO title="Digital Signage Solutions Dubai" description="Complete digital signage solutions for retail, corporate, hospitality, and outdoor advertising. LED displays, touch kiosks, and content management." path="/signage-solutions" />
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden">
         {/* Background */}

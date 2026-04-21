@@ -44,6 +44,10 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Editor modal with per-field AI generate buttons, character counters, schema type selection, noindex toggle
 - Bulk AI fix for low-scoring pages
 - Public API `/api/seo/page-meta?path=/` for frontend meta tag injection
+- **Per-field AI fix**: Each field generates independently; "Generate All" generates all fields
+- **Frontend SEO integration**: SEO component now fetches admin data and applies per-page unique titles/descriptions/keywords
+- Added SEO component to 3 missing pages (Art & Immersive, Home Cinema, Signage Solutions)
+- Verified 18/18 unique titles across all major pages — zero duplicates
 - Testing: 100% pass (iteration_108.json) — all 10 backend + all frontend tests passed
 
 ### Social Share Image (OG Image) Admin Feature — Apr 3, 2026

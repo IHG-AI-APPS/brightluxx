@@ -17,7 +17,16 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ## Completed Features
 
-### Performance: Static File Cleanup & Load Optimization — Mar 30, 2026
+### CDN Migration: files.ihgbrands.com → Local /recovered/ — May 20, 2026
+- External CDN `files.ihgbrands.com` went offline (all 404). Recovered 631 files (762MB) from git history
+- 213 active media files restored to `/app/frontend/public/recovered/` (229MB)
+- 6 missing PixelVue product images AI-generated via Gemini Imagen
+- Replaced 216 broken URLs across 37 frontend files (285 replacements), 5 backend files, and 123 database documents
+- Rewrote `cdn.js` helper to serve from `/recovered/` instead of external CDN
+- Deleted junk test product ('hjdba') from database
+- Updated `index.html` preconnect/dns-prefetch tags
+- Zero `files.ihgbrands.com` references remaining in code or database
+- Testing: 100% backend (25/25), 96%→100% frontend after fixing 4 missing project images
 - **Reduced `public/` directory from 777MB to 46MB** (94% reduction) by removing unused local copies of CDN-migrated files
 - Deleted: `generated-images/` (444MB, 225 files), `downloaded-images/` (157MB, 173 files), `uploads/` (31MB, 194 files), `generated/` (6.9MB, 8 files), `videos/` (43MB, 7 files), `unatural-assets/` (12KB)
 - Cleaned `artmorph-assets/` from 88MB to 45MB (kept only `grande-video.mp4` still served locally)

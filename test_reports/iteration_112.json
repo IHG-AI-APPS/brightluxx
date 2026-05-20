@@ -1,0 +1,44 @@
+{
+  "summary": "Tested ihgbrands CDN -> /recovered/ media migration end-to-end. /recovered/ static serving works (HTTP 200, correct content-types). Database is fully clean (0 ihgbrands references across all 0 collections that contain them). All 7 key pages (/, /lumimorph, /lumimorph/elite, /glassmorph, /products, /art-immersive, /case-studies) load with HTTP 200 and render images successfully. Browser DOM check (naturalWidth > 0) shows 268/278 images loaded across all tested pages. Found and fixed one stale-serve issue: index.html preconnect/dns-prefetch tags still referenced files.ihgbrands.com because CRA dev server did not auto-reload public/index.html; resolved by restarting frontend supervisor. Identified 4 specific broken image references (3 project images on homepage + nav dropdown, 1 product image) that are genuinely missing from /recovered/ — these are content-level gaps, not migration logic bugs. All 25 pytest tests pass.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "static /recovered/", "issue": "4 image files referenced by DB documents are missing from /recovered/: downloaded-images_proj_9bd1d534_atlantis-the-royal-grand-ballr.webp, downloaded-images_proj_f3f83562_riyadh-season-main-stage.jpg, downloaded-images_proj_0d7a51e7_abu-dhabi-expo-interactive-pav.webp, uploads_fc08ef9a8307_car.webp. The cdnUrl() translation is correct, but the underlying files were not recovered from git history (likely truncated filenames or missing from any snapshot)."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Homepage / Navbar dropdown / Featured Projects strip", "issue": "3 project tile images broken (Atlantis Royal Ballroom, Riyadh Season Main Stage, Abu Dhabi Expo Pavilion). Visible as gray/blank tiles in both the homepage projects carousel and the PRODUCTS/SOLUTIONS dropdown previews. Same DB records also referenced by SEO/related-projects sections.", "selector": "img[src*='proj_9bd1d534'], img[src*='proj_f3f83562'], img[src*='proj_0d7a51e7']", "priority": "MEDIUM"},
+      {"component": "Products page", "issue": "1 product card image broken: uploads_fc08ef9a8307_car.webp (product slug 'hjdba' — appears to be a test/junk product).", "selector": "img[src*='fc08ef9a8307_car.webp']", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_media_recovery.py",
+    "/app/test_reports/pytest/media_recovery_results.xml"
+  ],
+  "action_items": [
+    "Re-recover or regenerate the 4 missing /recovered/ files OR update DB documents in `projects` collection (slugs: atlantis-royal-ballroom, riyadh-season-stage, adu-expo-pavilion) and `products` collection (slug: hjdba) to point to existing /recovered/ files or AI-generate replacements as was done for the 6 PixelVue products. The truncated filenames ('-ballr', '-pav') suggest these were truncated at import time and the originals never existed.",
+    "Consider deleting the test/junk product with slug 'hjdba' if it is not a real catalog entry.",
+    "Future migrations: when changing public/index.html, restart the frontend supervisor — CRA dev server does not hot-reload public/index.html via WebSocket HMR."
+  ],
+  "critical_code_review_comments": [
+    "cdn.js line 55: the default fallback `'/recovered/uploads_' + cleanPath` will silently produce broken URLs for any unrecognized prefix. Consider logging a console.warn in dev mode or returning a fallback placeholder image instead of a never-existing path so missing files surface during development.",
+    "cdn.js: no cache-busting mechanism. If a recovered file is replaced (e.g., updated AI-generated image), browsers will serve the stale version. Consider appending a content-hash query param or relying on Cache-Control headers from the static server.",
+    "Database integrity: no validator/migration job verifies that every image_url in `projects`/`products` points to a file that actually exists on disk. Adding a one-off integrity script (or a startup check) would prevent the 4-missing-file class of issue from going unnoticed in future migrations."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_media_recovery.py"
+  ],
+  "success_rate": {
+    "backend": "100% (25/25 pytest cases — 6 static-serve + 2 DB-no-ihgbrands + 14 page+no-ihgbrands + 2 products-API + 1 DB-image-refs-resolve)",
+    "frontend": "96% (268/278 images load successfully across 7 pages; 10 broken images correspond to 4 unique missing files all flagged above; 0 ihgbrands references in DOM <img> or background-image)"
+  },
+  "test_credentials": "Admin login not used — testing scope was static asset migration, no auth required. Admin@brightluxx.com creds were not exercised.",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Migration is functionally complete. /recovered/ static serving works, DB has 0 ihgbrands URLs, all key pages load. Remaining issue is 4 missing files that need either (a) re-recovery, (b) DB record correction, or (c) AI regeneration. Browser DOM check is the authoritative test (not HTML grep), because HTML grep can hit string literals in third-party scripts. Re-run with: pytest /app/backend/tests/test_media_recovery.py -v. Note: had to restart frontend supervisor to pick up index.html changes — be aware of this for any future public/index.html edits.",
+  "rca of the issue": "Root cause of 4 broken images: during the original CDN scrape that populated ihgbrands, project image filenames appear to have been truncated to ~30 chars (e.g., 'atlantis-the-royal-grand-ballroom' → '...grand-ballr.webp'). When git history was scanned to recover the 631 files, no file with the truncated name existed because the truncation was applied only when writing to the DB image_url field, not when storing the source file. The cdnUrl() translation correctly maps /downloaded-images/proj_HASH_NAME.webp → /recovered/downloaded-images_proj_HASH_NAME.webp, but the destination file was never written. Mitigation: either restore the original filenames in DB image_url fields (need to look up the full filenames in any source archive) or AI-regenerate as was done for the 6 PixelVue products."
+}

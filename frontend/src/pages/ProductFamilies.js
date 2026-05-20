@@ -52,7 +52,7 @@ const STATIC_PRODUCT_FAMILIES = [
     tagline: 'Textured LED Panels',
     description: 'Revolutionary LED displays with interchangeable decorative covers. Transform any surface from art piece to dynamic display with magnetic texture panels in wood, stone, textile, and metal finishes.',
     brand_color: 'cyan',
-    hero_image: 'https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp',
+    hero_image: '/recovered/homepage_grande-hero.webp',
     key_features: ['200+ Texture Options', 'Magnetic Covers', 'P2.6 & P6.2 Pitch', '5-Year Warranty'],
     products: [{ name: 'Elite' }, { name: 'Grande' }, { name: 'Mini' }],
   },
@@ -104,7 +104,7 @@ const STATIC_PRODUCT_FAMILIES = [
 
 // Fallback hero images keyed by slug
 const FALLBACK_IMAGES = {
-  lumimorph: 'https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp',
+  lumimorph: '/recovered/homepage_grande-hero.webp',
   naturatex: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
   signatouch: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
   glassmorph: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',

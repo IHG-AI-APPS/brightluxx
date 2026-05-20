@@ -23,7 +23,7 @@ const KUWAIT_SECTORS = [
 ];
 
 // Hero image - Kuwait City
-const HERO_IMAGE = 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_b1b8e1c26279.webp';
+const HERO_IMAGE = '/recovered/site-images_opt_ext_b1b8e1c26279.webp';
 
 export default function KuwaitPage() {
   const { isDark } = useTheme();

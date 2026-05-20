@@ -16,7 +16,7 @@ router = APIRouter()
 blogs_col = db["blogs"]
 
 # External CDN base URL
-EXTERNAL_CDN = "https://files.ihgbrands.com/brightluxx"
+EXTERNAL_CDN = ""
 
 
 def slugify(text: str) -> str:

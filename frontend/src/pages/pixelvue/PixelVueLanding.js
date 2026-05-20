@@ -274,7 +274,7 @@ export default function PixelVueLanding() {
           <FadeIn><div className="text-center mb-12"><p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Explore More</p><h2 className="text-3xl font-extralight text-white">Other Product Lines</h2></div></FadeIn>
           <div className="grid md:grid-cols-4 gap-4">
             {[
-              { name: 'LumiMorph', tagline: 'Textured LED Panels', color: 'cyan', link: '/lumimorph', image: 'https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp' },
+              { name: 'LumiMorph', tagline: 'Textured LED Panels', color: 'cyan', link: '/lumimorph', image: '/recovered/homepage_grande-hero.webp' },
               { name: 'NaturaTex', tagline: 'Texture Screens', color: 'emerald', link: '/naturatex', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png' },
               { name: 'SignaTouch', tagline: 'Digital Kiosks', color: 'amber', link: '/signatouch', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png' },
               { name: 'GlassMorph', tagline: 'Smart Glass', color: 'violet', link: '/glassmorph', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png' },

@@ -13153,7 +13153,7 @@
       "content": "<h2>The Display Technology Landscape</h2>\n<p>As we enter 2025, the battle between MicroLED and OLED technologies continues to shape the commercial display market. Both technologies offer exceptional image quality, but their differences make them suited for different applications.</p>\n\n<h3>Brightness Performance</h3>\n<p>MicroLED displays can achieve brightness levels exceeding 5,000 nits, making them ideal for high-ambient-light environments like retail storefronts and outdoor installations. OLED panels typically max out around 1,000-1,500 nits, which limits their use in bright environments.</p>\n\n<h3>Lifespan and Burn-in</h3>\n<p>One of MicroLED's strongest advantages is its immunity to burn-in. Unlike OLED, which can suffer from image retention when displaying static content for extended periods, MicroLED maintains consistent performance regardless of content type.</p>\n\n<h3>Cost Considerations</h3>\n<p>OLED remains more cost-effective for smaller displays and applications where extreme brightness isn't required. However, MicroLED's total cost of ownership over a 5-7 year period often makes it the smarter investment for 24/7 commercial applications.</p>\n\n<h3>Our Recommendation</h3>\n<p>For GCC installations where high brightness and durability are paramount, MicroLED is increasingly the technology of choice. Contact our team for a detailed analysis of your specific requirements.</p>",
       "category": "Technology",
       "author": "Technical Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_49916e83_microled-vs-oled:-wh.jpg",
+      "image_url": "/recovered/downloaded-images_blog_49916e83_microled-vs-oled:-wh.jpg",
       "read_time": "8 min",
       "tags": [
         "MicroLED",
@@ -13176,7 +13176,7 @@
       "content": "<h2>Understanding Pixel Pitch</h2>\n<p>Pixel pitch is the distance in millimeters between the center of one LED cluster to the center of the next. It's the single most important specification when selecting an LED display.</p>\n\n<h3>The Viewing Distance Formula</h3>\n<p>A simple rule of thumb: multiply the pixel pitch by 1.5-2 to get the minimum comfortable viewing distance in meters. For a P2.5 display, the minimum viewing distance is approximately 3.75-5 meters.</p>\n\n<h3>Application-Based Recommendations</h3>\n<ul>\n<li><strong>Control Rooms:</strong> P0.9 - P1.5 (operators sitting 1-3m away)</li>\n<li><strong>Corporate Meeting Rooms:</strong> P1.2 - P1.9</li>\n<li><strong>Retail (Indoor):</strong> P2.5 - P3.9</li>\n<li><strong>Outdoor Billboards:</strong> P6 - P10 (depending on road speed)</li>\n</ul>\n\n<h3>Budget vs Quality Trade-offs</h3>\n<p>Smaller pixel pitch means more LEDs per square meter, which increases cost. Don't overspend on unnecessary resolution\u2014a P1.2 display viewed from 10 meters away won't look better than a P2.5.</p>",
       "category": "Guides",
       "author": "Brightluxx Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_4a7ef971_the-complete-guide-t.jpg",
+      "image_url": "/recovered/downloaded-images_blog_4a7ef971_the-complete-guide-t.jpg",
       "read_time": "6 min",
       "tags": [
         "Pixel Pitch",
@@ -13198,7 +13198,7 @@
       "content": "<h2>The Retail Revolution</h2>\n<p>Dubai's retail sector has embraced LED technology like no other market. From the world's largest malls to boutique luxury stores, digital displays are redefining the shopping experience.</p>\n\n<h3>Case Study: Mall of the Emirates</h3>\n<p>The recent renovation of a major fashion retailer included a 15-meter curved LED video wall at the entrance. The result: 40% increase in foot traffic and significant uplift in average transaction value.</p>\n\n<h3>Interactive Experiences</h3>\n<p>Touch-enabled LED displays are becoming standard in Dubai's premium retail spaces. Customers can browse collections, check availability, and even customize products directly on the display.</p>\n\n<h3>Energy Efficiency Wins</h3>\n<p>Despite their brightness, modern LED displays consume 30-40% less energy than previous generations. This aligns with Dubai's sustainability goals while delivering superior visual impact.</p>",
       "category": "Industry",
       "author": "Market Insights Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_f2fa7fb0_how-led-displays-are.jpg",
+      "image_url": "/recovered/downloaded-images_blog_f2fa7fb0_how-led-displays-are.jpg",
       "read_time": "5 min",
       "tags": [
         "Dubai",
@@ -13221,7 +13221,7 @@
       "content": "<h2>The UAE Challenge</h2>\n<p>Operating LED displays in the UAE presents unique challenges. Summer surface temperatures can exceed 60\u00b0C, ambient humidity fluctuates dramatically, and dust storms are a regular occurrence.</p>\n\n<h3>IP Rating Requirements</h3>\n<p>For outdoor installations in the UAE, IP65 is the minimum acceptable rating. IP65 front + IP54 rear is suitable for covered outdoor areas. For fully exposed locations, IP67 or IP68 rated displays should be specified.</p>\n\n<h3>Thermal Management</h3>\n<p>Proper thermal management is critical. Modern outdoor displays should feature:\n<ul>\n<li>Forced air cooling with filtered intakes</li>\n<li>Automatic brightness adjustment to reduce heat generation</li>\n<li>Operating temperature rating of -20\u00b0C to +60\u00b0C minimum</li>\n</ul></p>\n\n<h3>Brightness for Visibility</h3>\n<p>In direct sunlight, displays need 5,000+ nits to remain visible. Even shaded outdoor areas in Dubai require 2,500-3,000 nits minimum.</p>",
       "category": "Technical",
       "author": "Engineering Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_0797ced6_outdoor-led-displays.jpg",
+      "image_url": "/recovered/downloaded-images_blog_0797ced6_outdoor-led-displays.jpg",
       "read_time": "7 min",
       "tags": [
         "Outdoor",
@@ -13244,7 +13244,7 @@
       "content": "<h2>What is COB?</h2>\n<p>COB (Chip-on-Board) technology represents a significant advancement over traditional SMD LED packaging. Instead of mounting individual LED chips in protective housings, COB integrates multiple chips directly onto the substrate and covers them with a protective resin layer.</p>\n\n<h3>Key Advantages</h3>\n<p><strong>Durability:</strong> COB displays are significantly more resistant to physical damage. There are no protruding LED lenses to break off, making them ideal for high-traffic areas.</p>\n<p><strong>Anti-Glare:</strong> The matte surface finish reduces reflections, making COB displays more comfortable to view in bright environments or at close distances.</p>\n<p><strong>Contrast:</strong> The black surface between pixels delivers superior contrast ratios compared to SMD displays.</p>\n\n<h3>Best Applications</h3>\n<p>COB technology excels in:\n<ul>\n<li>Corporate meeting rooms with close viewing</li>\n<li>Control rooms requiring extended viewing sessions</li>\n<li>Retail environments with customer interaction</li>\n<li>Any installation requiring maximum durability</li>\n</ul></p>",
       "category": "Technology",
       "author": "Technical Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_8fdb2db9_cob-led-technology-e.jpg",
+      "image_url": "/recovered/downloaded-images_blog_8fdb2db9_cob-led-technology-e.jpg",
       "read_time": "5 min",
       "tags": [
         "COB",
@@ -13266,7 +13266,7 @@
       "content": "<h2>The AI Revolution in Digital Signage</h2>\n<p>Artificial intelligence is transforming LED displays from passive screens into intelligent communication systems. In 2026, AI-powered signage can analyze audiences in real-time, personalize content instantly, and measure engagement with unprecedented accuracy.</p>\n\n<h3>Real-Time Content Personalization</h3>\n<p>Modern AI systems can detect audience demographics, mood, and behavior to deliver targeted content. A retail display might show sportswear to young adults in the morning and luxury accessories to professionals in the evening\u2014all automatically.</p>\n\n<h3>Predictive Analytics</h3>\n<p>AI analyzes historical data to predict peak engagement times, optimal content types, and even weather-based preferences. Displays can pre-load content that performs best under specific conditions.</p>\n\n<h3>Anonymous Audience Measurement</h3>\n<p>Privacy-compliant computer vision counts viewers, measures dwell time, and tracks attention\u2014providing ROI metrics that were impossible with traditional signage.</p>\n\n<h3>Integration with Business Systems</h3>\n<p>AI-powered displays connect to POS systems, inventory databases, and CRM platforms. Low stock? The display automatically promotes alternatives. New VIP customer nearby? Personalized welcome messages appear instantly.</p>\n\n<h3>UAE/GCC Implementation</h3>\n<p>Several Dubai malls have already deployed AI signage with impressive results: 35% increase in engagement, 22% improvement in conversion rates, and significantly better content ROI tracking.</p>\n\n<h3>Getting Started</h3>\n<p>AI capabilities can be added to existing LED displays through software upgrades and camera modules. Contact our team for a demonstration of AI-powered content management.</p>",
       "category": "Technology",
       "author": "Technical Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_e223e2be_ai-powered-digital-s.jpg",
+      "image_url": "/recovered/downloaded-images_blog_e223e2be_ai-powered-digital-s.jpg",
       "read_time": "7 min",
       "tags": [
         "AI",
@@ -13290,7 +13290,7 @@
       "content": "<h2>Understanding LED Display ROI</h2>\n<p>Investing in LED displays is a significant business decision. This guide provides a framework for calculating true ROI, including factors often overlooked in initial assessments.</p>\n\n<h3>Direct Revenue Impact</h3>\n<p>Studies show digital signage increases sales by 30-40% compared to static displays. Track baseline metrics before installation to measure actual impact.</p>\n\n<h3>Energy Costs Comparison</h3>\n<p>Modern LED displays consume 30-50% less energy than older technologies. A 100sqm display running 12 hours daily can save $5,000-$8,000 annually in electricity.</p>\n\n<h3>ROI Formula</h3>\n<p><strong>5-Year ROI = [(Revenue Increase + Cost Savings) \u00d7 5 - Total Investment] / Total Investment \u00d7 100</strong></p>\n\n<h3>Case Study: Dubai Retail</h3>\n<p>A 500sqm retail space invested $180,000 in LED displays. After 2 years: 28% sales increase ($350,000 additional revenue), $15,000 energy savings, $40,000 print savings. Projected 5-year ROI: 285%.</p>",
       "category": "Guides",
       "author": "Business Solutions Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_aed82046_led-display-roi-calc.jpg",
+      "image_url": "/recovered/downloaded-images_blog_aed82046_led-display-roi-calc.jpg",
       "read_time": "8 min",
       "tags": [
         "ROI",
@@ -13314,7 +13314,7 @@
       "content": "<h2>What Makes Transparent LED Special?</h2>\n<p>Transparent LED displays allow 70-95% of light to pass through while displaying vivid digital content. This unique property enables applications impossible with traditional screens.</p>\n\n<h3>Technical Specifications</h3>\n<ul>\n<li><strong>Transparency:</strong> 70-95% depending on pixel pitch</li>\n<li><strong>Pixel Pitch:</strong> P3.9 - P10 for most applications</li>\n<li><strong>Brightness:</strong> 4,000-6,000 nits for glass-mounted installations</li>\n<li><strong>Weight:</strong> 12-18 kg/sqm (much lighter than conventional LED)</li>\n</ul>\n\n<h3>Ideal Applications</h3>\n<p><strong>Glass Facades:</strong> Transform building exteriors without blocking natural light or views.<br>\n<strong>Retail Windows:</strong> Create dynamic storefronts that work day and night.</p>",
       "category": "Technical",
       "author": "Engineering Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_f5b36789_transparent-led-disp.jpg",
+      "image_url": "/recovered/downloaded-images_blog_f5b36789_transparent-led-disp.jpg",
       "read_time": "10 min",
       "tags": [
         "Transparent LED",
@@ -13338,7 +13338,7 @@
       "content": "<h2>The Green Revolution in Display Technology</h2>\n<p>As businesses commit to sustainability goals, LED display technology has evolved to deliver exceptional performance with dramatically reduced environmental impact.</p>\n\n<h3>Energy Savings by Technology</h3>\n<ul>\n<li><strong>COB LED:</strong> 30-40% more efficient than SMD</li>\n<li><strong>MicroLED:</strong> Up to 50% energy reduction vs. conventional</li>\n<li><strong>Smart Brightness Control:</strong> Additional 20-30% savings with ambient sensors</li>\n</ul>",
       "category": "Industry",
       "author": "Sustainability Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_6f576b3a_energy-efficient-led.jpg",
+      "image_url": "/recovered/downloaded-images_blog_6f576b3a_energy-efficient-led.jpg",
       "read_time": "6 min",
       "tags": [
         "Energy Efficiency",
@@ -13361,7 +13361,7 @@
       "content": "<h2>The World's Largest Digital Canvas</h2>\n<p>Dubai Expo 2020 featured over 50,000 square meters of LED displays, making it the largest digital exhibition in history. The legacy of these installations continues to shape the UAE's display technology landscape.</p>\n\n<h3>Record-Breaking Installations</h3>\n<p><strong>Al Wasl Dome:</strong> 130m diameter projection dome with integrated LED mesh<br>\n<strong>Sustainability Pavilion:</strong> 4,000sqm of solar-powered LED facades</p>",
       "category": "Industry",
       "author": "Market Insights Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_699e3d21_dubai-expo-2020-lega.jpg",
+      "image_url": "/recovered/downloaded-images_blog_699e3d21_dubai-expo-2020-lega.jpg",
       "read_time": "7 min",
       "tags": [
         "Dubai Expo",
@@ -13385,7 +13385,7 @@
       "content": "<h2>The Illusion That Stops Traffic</h2>\n<p>3D anamorphic LED displays create stunning optical illusions that appear to break out of the screen. These installations consistently generate viral social media content and massive brand awareness.</p>\n\n<h3>Viral Success Stories</h3>\n<p><strong>Seoul Wave:</strong> 190 million+ views across platforms<br>\n<strong>Times Square Campaigns:</strong> Average 50M impressions per activation</p>",
       "category": "Technology",
       "author": "Creative Solutions Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_d69837af_3d-anamorphic-led-di.jpg",
+      "image_url": "/recovered/downloaded-images_blog_d69837af_3d-anamorphic-led-di.jpg",
       "read_time": "6 min",
       "tags": [
         "3D Anamorphic",
@@ -13408,7 +13408,7 @@
       "content": "<h2>When Failure Is Not an Option</h2>\n<p>Control rooms demand displays that operate flawlessly 24/7/365. Modern LED video walls are replacing projection and LCD systems as the technology of choice for mission-critical environments.</p>\n\n<h3>Why LED for Control Rooms?</h3>\n<ul>\n<li><strong>No Burn-in:</strong> Unlike LCD/OLED, LEDs display static content indefinitely</li>\n<li><strong>100,000+ Hour Lifespan:</strong> 10+ years of continuous operation</li>\n</ul>",
       "category": "Technical",
       "author": "Enterprise Solutions Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_c663226f_led-walls-for-contro.jpg",
+      "image_url": "/recovered/downloaded-images_blog_c663226f_led-walls-for-contro.jpg",
       "read_time": "8 min",
       "tags": [
         "Control Room",
@@ -13432,7 +13432,7 @@
       "content": "<h2>Abu Dhabi: The Capital's Digital Transformation</h2>\n<p>Abu Dhabi is rapidly emerging as a global leader in smart city infrastructure. LED display technology plays a crucial role in the emirate's vision for world-class public spaces, cultural institutions, and commercial developments.</p>\n\n<h3>Key Installation Zones</h3>\n\n<h4>Yas Island Entertainment District</h4>\n<p>Home to Ferrari World, Yas Marina Circuit, and Yas Mall, the island features some of the region's most impressive LED installations:</p>\n<ul>\n<li><strong>Yas Marina Circuit:</strong> 2,500sqm of perimeter LED boards for F1 broadcasts</li>\n<li><strong>Ferrari World:</strong> Immersive LED tunnels and racing simulators</li>\n<li><strong>Yas Mall:</strong> Premium retail LED facades and wayfinding systems</li>\n</ul>\n\n<h4>Saadiyat Island Cultural District</h4>\n<p>The Louvre Abu Dhabi and upcoming Guggenheim require museum-grade displays with:</p>\n<ul>\n<li>Color accuracy meeting museum conservation standards</li>\n<li>Low-heat emission to protect artworks</li>\n<li>Adaptive brightness for varying exhibition conditions</li>\n</ul>\n\n<h4>ADNOC & Mubadala Headquarters</h4>\n<p>Abu Dhabi's corporate sector demands enterprise-grade LED solutions for lobbies, command centers, and executive briefing rooms. Our P1.2 and P1.5 displays meet the highest corporate standards.</p>\n\n<h3>Climate Considerations</h3>\n<p>Abu Dhabi experiences slightly different conditions than Dubai:</p>\n<ul>\n<li><strong>Higher humidity:</strong> Coastal installations require enhanced IP ratings</li>\n<li><strong>Sandstorms:</strong> Desert-adjacent sites need sealed cabinet designs</li>\n<li><strong>Extreme heat:</strong> Summer temperatures exceed 48\u00b0C\u2014industrial cooling is essential</li>\n</ul>\n\n<h3>Government Projects</h3>\n<p>Abu Dhabi Municipality and Department of Culture and Tourism regularly tender for large-scale LED projects. We maintain pre-qualification with major government entities.</p>\n\n<h3>Local Support</h3>\n<p>Our Abu Dhabi team provides same-day technical support across the emirate, from Al Ain to the Western Region.</p>\n\n<h3>Get a Site Survey</h3>\n<p>We offer complimentary site assessments for projects in Abu Dhabi. Contact our capital region team for a consultation.</p>",
       "category": "Regional",
       "author": "Abu Dhabi Regional Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_0b0c0933_led-display-solution.jpg",
+      "image_url": "/recovered/downloaded-images_blog_0b0c0933_led-display-solution.jpg",
       "read_time": "8 min",
       "tags": [
         "Abu Dhabi",
@@ -13457,7 +13457,7 @@
       "content": "<h2>Vision 2030: A Digital Revolution</h2>\n<p>Saudi Arabia's Vision 2030 is driving unprecedented demand for LED display technology. From the futuristic NEOM city to Riyadh's entertainment district, the Kingdom is investing billions in digital infrastructure.</p>\n\n<h3>NEOM & The Line</h3>\n<p>The 170km linear city represents the world's most ambitious urban project:</p>\n<ul>\n<li><strong>The Line:</strong> Mirrored facades will incorporate transparent LED technology</li>\n<li><strong>Oxagon:</strong> Industrial zone requires factory-grade display systems</li>\n<li><strong>Trojena:</strong> Outdoor mountain resort needs all-weather LED solutions</li>\n</ul>\n<p>NEOM's specifications demand next-generation technology: energy efficiency, smart integration, and extreme durability.</p>\n\n<h3>Riyadh Entertainment Projects</h3>\n\n<h4>Qiddiya Entertainment City</h4>\n<p>The $8 billion entertainment destination will feature:</p>\n<ul>\n<li>World's largest LED dome</li>\n<li>Theme park LED attractions</li>\n<li>Sports venue display systems</li>\n</ul>\n\n<h4>Diriyah Gate</h4>\n<p>UNESCO heritage site development requires displays that blend with traditional architecture while delivering modern functionality.</p>\n\n<h4>Riyadh Season Events</h4>\n<p>Annual entertainment festivals deploy temporary LED installations across 14 zones\u2014massive rental market opportunity.</p>\n\n<h3>Red Sea Project</h3>\n<p>Luxury resort development on 50 islands requires:</p>\n<ul>\n<li>Marine-grade corrosion resistance</li>\n<li>Solar-powered display options</li>\n<li>Eco-friendly, low-light-pollution designs</li>\n</ul>\n\n<h3>Market Entry Requirements</h3>\n<p><strong>SASO Certification:</strong> All LED products must meet Saudi Standards Organization requirements.<br>\n<strong>Local Content:</strong> Projects often require local manufacturing or assembly components.<br>\n<strong>Partner Network:</strong> We work with Saudi-registered integrators for seamless project delivery.</p>\n\n<h3>Current Opportunities</h3>\n<p>Active tenders include Riyadh Metro stations, King Salman Park, and multiple retail developments. Contact our KSA team for tender support.</p>\n\n<h3>Riyadh Office</h3>\n<p>Our Riyadh team provides full project support from specification to installation. We maintain stock in-Kingdom for fast delivery.</p>",
       "category": "Regional",
       "author": "Saudi Arabia Regional Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_d2b5aa26_saudi-arabia-vision-.jpg",
+      "image_url": "/recovered/downloaded-images_blog_d2b5aa26_saudi-arabia-vision-.jpg",
       "read_time": "10 min",
       "tags": [
         "Saudi Arabia",
@@ -13482,7 +13482,7 @@
       "content": "<h2>The Broader GCC Opportunity</h2>\n<p>Beyond UAE and Saudi Arabia, the GCC region offers significant LED display opportunities. Each market has unique characteristics and requirements.</p>\n\n<h3>Qatar: Post-World Cup Legacy</h3>\n<p>The 2022 FIFA World Cup left Qatar with world-class infrastructure:</p>\n<ul>\n<li><strong>Stadium LED:</strong> 8 venues with state-of-the-art display systems now available for upgrades</li>\n<li><strong>Lusail City:</strong> Smart city development continues with digital signage rollouts</li>\n<li><strong>Msheireb Downtown:</strong> Premium retail and cultural venues seeking interactive displays</li>\n</ul>\n<p>Qatar's market favors premium products with strong after-sales support.</p>\n\n<h3>Kuwait: Entertainment Revival</h3>\n<p>Kuwait is investing heavily in entertainment and retail:</p>\n<ul>\n<li><strong>The Avenues Mall:</strong> Ongoing expansion includes major LED installations</li>\n<li><strong>Sheikh Jaber Al-Ahmad Cultural Centre:</strong> Museum-grade display requirements</li>\n<li><strong>Kuwait International Airport T2:</strong> Wayfinding and advertising displays</li>\n</ul>\n\n<h3>Bahrain: Financial Hub Focus</h3>\n<p>Bahrain's compact size means concentrated opportunity:</p>\n<ul>\n<li><strong>Bahrain Financial Harbour:</strong> Corporate display market</li>\n<li><strong>Bahrain International Circuit:</strong> F1 venue LED systems</li>\n<li><strong>Retail Sector:</strong> Seef Mall and City Centre expansions</li>\n</ul>\n\n<h3>Oman: Emerging Market</h3>\n<p>Oman's tourism push is driving demand:</p>\n<ul>\n<li><strong>Muscat International Airport:</strong> Recent expansion with modern displays</li>\n<li><strong>Oman Convention Centre:</strong> Event and conference display market</li>\n<li><strong>Tourism Development:</strong> Hotels and attractions seeking digital signage</li>\n</ul>\n\n<h3>Regional Logistics</h3>\n<p>We serve all GCC markets from our Dubai hub:</p>\n<ul>\n<li><strong>Qatar:</strong> 1-2 day delivery via land freight</li>\n<li><strong>Kuwait:</strong> 3-4 day delivery via sea or air</li>\n<li><strong>Bahrain:</strong> Same-day delivery possible via causeway</li>\n<li><strong>Oman:</strong> 1-2 day delivery to Muscat</li>\n</ul>\n\n<h3>Local Compliance</h3>\n<p>Each GCC country has specific import and certification requirements. Our logistics team handles all customs documentation and compliance.</p>\n\n<h3>Regional Partnerships</h3>\n<p>We maintain authorized integrator partnerships in each GCC market. Contact us for introductions to local project partners.</p>",
       "category": "Regional",
       "author": "GCC Regional Team",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/blog_6880bdbc_gcc-led-display-mark.jpg",
+      "image_url": "/recovered/downloaded-images_blog_6880bdbc_gcc-led-display-mark.jpg",
       "read_time": "9 min",
       "tags": [
         "GCC",
@@ -15159,11 +15159,11 @@
         "cta_text": "Get Quote",
         "cta_link": "/contact",
         "video_urls": [
-          "https://files.ihgbrands.com/brightluxx/videos/hero-video-converted.mp4"
+          "/recovered/videos_hero-video-converted.mp4"
         ],
-        "poster_image": "https://files.ihgbrands.com/brightluxx/uploads/hero_banner.webp",
+        "poster_image": "/recovered/uploads_hero_banner.webp",
         "videos": [
-          "https://files.ihgbrands.com/brightluxx/videos/hero-video-converted.mp4"
+          "/recovered/videos_hero-video-converted.mp4"
         ]
       },
       "stats": [
@@ -15382,7 +15382,7 @@
       "slug": "immersive-retail",
       "category": "retail",
       "description": "Full-wall LED transforms shopping into a sensory journey.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/fc0ca389d2264c9cb8bda6f1284e2862_3d_holographic_mall.png",
+      "image_url": "/recovered/generated-images_fc0ca389d2264c9cb8bda6f1284e2862_3d_holographic_mall.png",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15393,7 +15393,7 @@
       "slug": "stadium-spectacle",
       "category": "events",
       "description": "Wrapping an entire arena in dynamic LED content.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_c582b769_stadium-spectacle.jpg",
+      "image_url": "/recovered/downloaded-images_insp_c582b769_stadium-spectacle.jpg",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15404,7 +15404,7 @@
       "slug": "architectural-media-facade",
       "category": "outdoor",
       "description": "Transparent LED integrated into glass curtain walls.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_676b6bf9_architectural-media-facade.jpg",
+      "image_url": "/recovered/downloaded-images_insp_676b6bf9_architectural-media-facade.jpg",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15415,7 +15415,7 @@
       "slug": "interactive-floor-experience",
       "category": "interactive",
       "description": "Pressure-sensitive LED floors creating immersive user experiences.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_2f18df96_interactive-floor-experience.webp",
+      "image_url": "/recovered/downloaded-images_insp_2f18df96_interactive-floor-experience.webp",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15426,7 +15426,7 @@
       "slug": "holographic-storefront",
       "category": "retail",
       "description": "Near-invisible LED film transforms any glass surface into a display.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/fc0ca389d2264c9cb8bda6f1284e2862_3d_holographic_mall.png",
+      "image_url": "/recovered/generated-images_fc0ca389d2264c9cb8bda6f1284e2862_3d_holographic_mall.png",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15437,7 +15437,7 @@
       "slug": "immersive-room-360",
       "category": "art",
       "description": "Flexible COB wrapping walls, ceiling and floor for total immersion.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_c4abdba4_immersive-room-360.webp",
+      "image_url": "/recovered/downloaded-images_insp_c4abdba4_immersive-room-360.webp",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15448,7 +15448,7 @@
       "slug": "corporate-command-centre",
       "category": "corporate",
       "description": "24/7 mission-critical video walls for real-time decisions.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/4b4319058b5a4396b82f07c58f11b4c3_control_room_led.png",
+      "image_url": "/recovered/generated-images_4b4319058b5a4396b82f07c58f11b4c3_control_room_led.png",
       "featured": false,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15459,7 +15459,7 @@
       "slug": "luxury-hotel-lobby",
       "category": "hospitality",
       "description": "Digital art installations redefining guest arrival experiences.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/5a48678779f74183bad93da540976c38_event_stage_led.png",
+      "image_url": "/recovered/generated-images_5a48678779f74183bad93da540976c38_event_stage_led.png",
       "featured": false,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15470,7 +15470,7 @@
       "slug": "concert-stage-design",
       "category": "events",
       "description": "Curved and shaped LED creating immersive stage environments.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_c7a18753_concert-stage-design.webp",
+      "image_url": "/recovered/downloaded-images_insp_c7a18753_concert-stage-design.webp",
       "featured": false,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15481,7 +15481,7 @@
       "slug": "home-cinema-dvled",
       "category": "residential",
       "description": "265-inch Direct View LED replacing projectors in luxury homes.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_77dddc5a_home-cinema-dvled.webp",
+      "image_url": "/recovered/downloaded-images_insp_77dddc5a_home-cinema-dvled.webp",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15492,7 +15492,7 @@
       "slug": "museum-interactive-gallery",
       "category": "art",
       "description": "Touch-responsive LED floors and walls for cultural institutions.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_14508fd4_museum-interactive-gallery.webp",
+      "image_url": "/recovered/downloaded-images_insp_14508fd4_museum-interactive-gallery.webp",
       "featured": false,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15503,7 +15503,7 @@
       "slug": "digital-highway-billboard",
       "category": "outdoor",
       "description": "High-brightness roadside displays engineered for Gulf heat.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/8e554ea3d5474246a26948769039eb00_outdoor_dooh_dubai.png",
+      "image_url": "/recovered/generated-images_8e554ea3d5474246a26948769039eb00_outdoor_dooh_dubai.png",
       "featured": false,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15514,7 +15514,7 @@
       "slug": "transparent-storefront",
       "category": "retail",
       "description": "Glass-mounted LED advertising without blocking the view.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/c6218b73348c42e685a28959a8b95bae_transparent_led_retail.png",
+      "image_url": "/recovered/generated-images_c6218b73348c42e685a28959a8b95bae_transparent_led_retail.png",
       "featured": false,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15525,7 +15525,7 @@
       "slug": "all-in-one-boardroom",
       "category": "corporate",
       "description": "136-inch 4K Micro LED replacing projector+screen combos.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
+      "image_url": "/recovered/generated-images_f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15536,7 +15536,7 @@
       "slug": "smart-city-dooh-network",
       "category": "outdoor",
       "description": "Low-carbon outdoor networks with remote AI content management.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_fede66a3_smart-city-dooh-network.jpg",
+      "image_url": "/recovered/downloaded-images_insp_fede66a3_smart-city-dooh-network.jpg",
       "featured": false,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15547,7 +15547,7 @@
       "slug": "expo-pavilion-ceiling",
       "category": "events",
       "description": "Overhead LED canvas turning ceilings into digital skies.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_e2453fbc_expo-pavilion-ceiling.webp",
+      "image_url": "/recovered/downloaded-images_insp_e2453fbc_expo-pavilion-ceiling.webp",
       "featured": false,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15558,7 +15558,7 @@
       "slug": "naked-eye-3d-billboard",
       "category": "outdoor",
       "description": "L-shaped corner LED creating viral glasses-free 3D spectacles.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_8e4c4219_naked-eye-3d-billboard.webp",
+      "image_url": "/recovered/downloaded-images_insp_8e4c4219_naked-eye-3d-billboard.webp",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15569,7 +15569,7 @@
       "slug": "led-sphere-museum",
       "category": "art",
       "description": "Full-sphere LED globe as a museum centrepiece for 360-degree storytelling.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_0d2708fb_led-sphere-museum-installation.webp",
+      "image_url": "/recovered/downloaded-images_insp_0d2708fb_led-sphere-museum-installation.webp",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15580,7 +15580,7 @@
       "slug": "virtual-production-film",
       "category": "corporate",
       "description": "LED volume replacing green screens for in-camera VFX on A-list productions.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_a8d86fec_virtual-production-film-stage.webp",
+      "image_url": "/recovered/downloaded-images_insp_a8d86fec_virtual-production-film-stage.webp",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15591,7 +15591,7 @@
       "slug": "digital-shelf-edge",
       "category": "retail",
       "description": "Ultra-thin COB shelf displays replacing paper price tags in hypermarkets.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_7fbfeba4_digital-shelf-edge-revolution.webp",
+      "image_url": "/recovered/downloaded-images_insp_7fbfeba4_digital-shelf-edge-revolution.webp",
       "featured": false,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15602,7 +15602,7 @@
       "slug": "cinema-led-premiere",
       "category": "art",
       "description": "DCI-certified LED screens replacing projectors in next-generation movie theatres.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_3927347d_cinema-led-premiere.webp",
+      "image_url": "/recovered/downloaded-images_insp_3927347d_cinema-led-premiere.webp",
       "featured": true,
       "created_at": "2026-03-20T03:59:05.085000"
     },
@@ -15613,7 +15613,7 @@
       "slug": "sky-ceiling-mall",
       "category": "retail",
       "description": "Overhead LED canopy transforming mall ceilings into animated digital skies.",
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/insp_8ad929f3_sky-ceiling-mall-experience.webp",
+      "image_url": "/recovered/downloaded-images_insp_8ad929f3_sky-ceiling-mall-experience.webp",
       "featured": false,
       "created_at": "2026-03-20T03:59:05.085000"
     }
@@ -27607,7 +27607,7 @@
       "slug": "lumimorph",
       "tagline": "Where Art Meets Technology",
       "description": "Revolutionary texture-changing LED displays.",
-      "hero_image": "https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp",
+      "hero_image": "/recovered/homepage_grande-hero.webp",
       "hero_video": "/artmorph-assets/grande-video.mp4",
       "brand_color": "cyan",
       "stats": [
@@ -27913,7 +27913,7 @@
           "value": "Front magnetic"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/bbee81c88bf2408cbd396f2f25ea26f5_microled_display.png",
+      "image_url": "/recovered/generated-images_bbee81c88bf2408cbd396f2f25ea26f5_microled_display.png",
       "gallery": [
         "/generated/microled_display.png",
         "/generated/control_room_led.png"
@@ -27978,7 +27978,7 @@
           "value": "Front magnetic"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
+      "image_url": "/recovered/generated-images_f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
       "gallery": [
         "/generated/corporate_boardroom.png",
         "/generated/microled_display.png"
@@ -28043,7 +28043,7 @@
           "value": "7 kg/panel"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/4b4319058b5a4396b82f07c58f11b4c3_control_room_led.png",
+      "image_url": "/recovered/generated-images_4b4319058b5a4396b82f07c58f11b4c3_control_room_led.png",
       "gallery": [
         "/generated/control_room_led.png",
         "/generated/corporate_boardroom.png"
@@ -28108,7 +28108,7 @@
           "value": "Front-access"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
+      "image_url": "/recovered/generated-images_f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
       "gallery": [
         "/generated/corporate_boardroom.png"
       ],
@@ -28172,7 +28172,7 @@
           "value": "4.2 kg/panel"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/bbee81c88bf2408cbd396f2f25ea26f5_microled_display.png",
+      "image_url": "/recovered/generated-images_bbee81c88bf2408cbd396f2f25ea26f5_microled_display.png",
       "gallery": [
         "/generated/microled_display.png"
       ],
@@ -28236,7 +28236,7 @@
           "value": "Available 2025"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/c6218b73348c42e685a28959a8b95bae_transparent_led_retail.png",
+      "image_url": "/recovered/generated-images_c6218b73348c42e685a28959a8b95bae_transparent_led_retail.png",
       "gallery": [
         "/generated/transparent_led_retail.png",
         "https://images.pexels.com/photos/13936409/pexels-photo-13936409.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -28301,7 +28301,7 @@
           "value": "Rear access"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/347b34e9_bl-trx380.jpg",
+      "image_url": "/recovered/downloaded-images_347b34e9_bl-trx380.jpg",
       "gallery": [
         "https://images.pexels.com/photos/13936409/pexels-photo-13936409.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
         "/generated/transparent_led_retail.png"
@@ -28366,7 +28366,7 @@
           "value": "Holographic MiP"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/fc0ca389d2264c9cb8bda6f1284e2862_3d_holographic_mall.png",
+      "image_url": "/recovered/generated-images_fc0ca389d2264c9cb8bda6f1284e2862_3d_holographic_mall.png",
       "gallery": [
         "/generated/3d_holographic_mall.png"
       ],
@@ -28430,7 +28430,7 @@
           "value": "Rear magnetic"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/03ecbbf4_bl-flx150.webp",
+      "image_url": "/recovered/downloaded-images_03ecbbf4_bl-flx150.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1734266366152-3f3a41b45c56?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwxfHxMRUQlMjBmbG9vciUyMGRpc3BsYXklMjBpbnRlcmFjdGl2ZSUyMGltbWVyc2l2ZXxlbnwwfHx8fDE3NzI1NjI4MjF8MA&ixlib=rb-4.1.0&q=85",
         "https://images.unsplash.com/photo-1654246513422-2429316733c9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwzfHxsZWQlMjBzY3JlZW4lMjBkaXNwbGF5JTIwc3RhZ2UlMjBsaWdodGluZ3xlbnwwfHx8YmxhY2t8MTc3MjU1OTg2MHww&ixlib=rb-4.1.0&q=85"
@@ -28495,7 +28495,7 @@
           "value": "3,840Hz"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/b4d10b62_bl-cvx160.webp",
+      "image_url": "/recovered/downloaded-images_b4d10b62_bl-cvx160.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1654246513422-2429316733c9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwzfHxsZWQlMjBzY3JlZW4lMjBkaXNwbGF5JTIwc3RhZ2UlMjBsaWdodGluZ3xlbnwwfHx8YmxhY2t8MTc3MjU1OTg2MHww&ixlib=rb-4.1.0&q=85"
       ],
@@ -28559,7 +28559,7 @@
           "value": "Rear access"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/8b4e0918_bl-flx780.webp",
+      "image_url": "/recovered/downloaded-images_8b4e0918_bl-flx780.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1588593578282-a3f494078ad0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwxfHxsZWQlMjBzY3JlZW4lMjBkaXNwbGF5JTIwc3RhZ2UlMjBsaWdodGluZ3xlbnwwfHx8YmxhY2t8MTc3MjU1OTg2MHww&ixlib=rb-4.1.0&q=85"
       ],
@@ -28623,7 +28623,7 @@
           "value": "Front magnetic"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/d6b18bcd_bl-ifl290.webp",
+      "image_url": "/recovered/downloaded-images_d6b18bcd_bl-ifl290.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1706022381024-a86e7418a71c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwyfHxMRUQlMjBmbG9vciUyMGRpc3BsYXklMjBpbnRlcmFjdGl2ZSUyMGltbWVyc2l2ZXxlbnwwfHx8fDE3NzI1NjI4MjF8MA&ixlib=rb-4.1.0&q=85",
         "https://images.unsplash.com/photo-1734266366152-3f3a41b45c56?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwxfHxMRUQlMjBmbG9vciUyMGRpc3BsYXklMjBpbnRlcmFjdGl2ZSUyMGltbWVyc2l2ZXxlbnwwfHx8fDE3NzI1NjI4MjF8MA&ixlib=rb-4.1.0&q=85"
@@ -28688,7 +28688,7 @@
           "value": "Front-access"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/56a07acc_bl-ifl390.webp",
+      "image_url": "/recovered/downloaded-images_56a07acc_bl-ifl390.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1706022381024-a86e7418a71c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwyfHxMRUQlMjBmbG9vciUyMGRpc3BsYXklMjBpbnRlcmFjdGl2ZSUyMGltbWVyc2l2ZXxlbnwwfHx8fDE3NzI1NjI4MjF8MA&ixlib=rb-4.1.0&q=85"
       ],
@@ -28752,7 +28752,7 @@
           "value": "Built-in 40W"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
+      "image_url": "/recovered/generated-images_f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
       "gallery": [
         "/generated/corporate_boardroom.png",
         "/generated/control_room_led.png"
@@ -28817,7 +28817,7 @@
           "value": "350W typical"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/4b4319058b5a4396b82f07c58f11b4c3_control_room_led.png",
+      "image_url": "/recovered/generated-images_4b4319058b5a4396b82f07c58f11b4c3_control_room_led.png",
       "gallery": [
         "/generated/control_room_led.png"
       ],
@@ -28881,7 +28881,7 @@
           "value": "3,840Hz"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/67ed172a_bl-dvl084.webp",
+      "image_url": "/recovered/downloaded-images_67ed172a_bl-dvl084.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1654246513422-2429316733c9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwzfHxsZWQlMjBzY3JlZW4lMjBkaXNwbGF5JTIwc3RhZ2UlMjBsaWdodGluZ3xlbnwwfHx8YmxhY2t8MTc3MjU1OTg2MHww&ixlib=rb-4.1.0&q=85",
         "/generated/corporate_boardroom.png"
@@ -28946,7 +28946,7 @@
           "value": "Rear access"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/8e554ea3d5474246a26948769039eb00_outdoor_dooh_dubai.png",
+      "image_url": "/recovered/generated-images_8e554ea3d5474246a26948769039eb00_outdoor_dooh_dubai.png",
       "gallery": [
         "/generated/outdoor_dooh_dubai.png"
       ],
@@ -29010,7 +29010,7 @@
           "value": "5 years"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/8e554ea3d5474246a26948769039eb00_outdoor_dooh_dubai.png",
+      "image_url": "/recovered/generated-images_8e554ea3d5474246a26948769039eb00_outdoor_dooh_dubai.png",
       "gallery": [
         "/generated/outdoor_dooh_dubai.png"
       ],
@@ -29074,7 +29074,7 @@
           "value": "CE / RoHS"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/8e554ea3d5474246a26948769039eb00_outdoor_dooh_dubai.png",
+      "image_url": "/recovered/generated-images_8e554ea3d5474246a26948769039eb00_outdoor_dooh_dubai.png",
       "gallery": [
         "/generated/outdoor_dooh_dubai.png"
       ],
@@ -29138,7 +29138,7 @@
           "value": "Rear access"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/1240e103_bl-spx470.jpg",
+      "image_url": "/recovered/downloaded-images_1240e103_bl-spx470.jpg",
       "gallery": [
         "https://images.pexels.com/photos/1103969/pexels-photo-1103969.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
       ],
@@ -29202,7 +29202,7 @@
           "value": "340W/sqm avg"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/5a48678779f74183bad93da540976c38_event_stage_led.png",
+      "image_url": "/recovered/generated-images_5a48678779f74183bad93da540976c38_event_stage_led.png",
       "gallery": [
         "/generated/event_stage_led.png"
       ],
@@ -29266,7 +29266,7 @@
           "value": "Front magnetic"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/5a48678779f74183bad93da540976c38_event_stage_led.png",
+      "image_url": "/recovered/generated-images_5a48678779f74183bad93da540976c38_event_stage_led.png",
       "gallery": [
         "/generated/event_stage_led.png"
       ],
@@ -29330,7 +29330,7 @@
           "value": "7.5 kg/panel"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
+      "image_url": "/recovered/generated-images_f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
       "gallery": [
         "/generated/corporate_boardroom.png"
       ],
@@ -29394,7 +29394,7 @@
           "value": "CE / UL"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/4b4319058b5a4396b82f07c58f11b4c3_control_room_led.png",
+      "image_url": "/recovered/generated-images_4b4319058b5a4396b82f07c58f11b4c3_control_room_led.png",
       "gallery": [
         "/generated/control_room_led.png"
       ],
@@ -29458,7 +29458,7 @@
           "value": "30 kg/panel"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/a9ee7430_bl-3dl390.webp",
+      "image_url": "/recovered/downloaded-images_a9ee7430_bl-3dl390.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1716046942830-05ecc130d311?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwxfHwzRCUyMGJpbGxib2FyZCUyMGFuYW1vcnBoaWMlMjBkaXNwbGF5JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzcyNTY1MTU5fDA&ixlib=rb-4.1.0&q=85",
         "https://images.unsplash.com/photo-1558905021-0aa3a3434320?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwyfHwzRCUyMGJpbGxib2FyZCUyMGFuYW1vcnBoaWMlMjBkaXNwbGF5JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzcyNTY1MTU5fDA&ixlib=rb-4.1.0&q=85"
@@ -29523,7 +29523,7 @@
           "value": "SBS / Top-Bottom 3D"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/31a34b26_bl-3dl250.webp",
+      "image_url": "/recovered/downloaded-images_31a34b26_bl-3dl250.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1558905021-0aa3a3434320?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwyfHwzRCUyMGJpbGxib2FyZCUyMGFuYW1vcnBoaWMlMjBkaXNwbGF5JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzcyNTY1MTU5fDA&ixlib=rb-4.1.0&q=85"
       ],
@@ -29587,7 +29587,7 @@
           "value": "Android CMS"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/94f37e45_bl-ptr150.webp",
+      "image_url": "/recovered/downloaded-images_94f37e45_bl-ptr150.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1761295231159-4eb997ccca2b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxMRUQlMjBwb3N0ZXIlMjB0b3RlbSUyMGRpc3BsYXklMjByZXRhaWwlMjBhaXJwb3J0fGVufDB8fHx8MTc3MjU2NTE0NHww&ixlib=rb-4.1.0&q=85"
       ],
@@ -29651,7 +29651,7 @@
           "value": "65 kg total"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ed287c52_bl-ptr250.webp",
+      "image_url": "/recovered/downloaded-images_ed287c52_bl-ptr250.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1761295231159-4eb997ccca2b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxMRUQlMjBwb3N0ZXIlMjB0b3RlbSUyMGRpc3BsYXklMjByZXRhaWwlMjBhaXJwb3J0fGVufDB8fHx8MTc3MjU2NTE0NHww&ixlib=rb-4.1.0&q=85"
       ],
@@ -29715,7 +29715,7 @@
           "value": "DCI / TPC"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/15af7111_bl-cnx093.webp",
+      "image_url": "/recovered/downloaded-images_15af7111_bl-cnx093.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1751823886813-0cfc86cb9478?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjBMRUQlMjBzY3JlZW4lMjB0aGVhdGVyJTIwbW92aWV8ZW58MHx8fHwxNzcyNTY1MTQ1fDA&ixlib=rb-4.1.0&q=85",
         "https://images.unsplash.com/photo-1561722798-9a732d141027?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwyfHxjaW5lbWElMjBMRUQlMjBzY3JlZW4lMjB0aGVhdGVyJTIwbW92aWV8ZW58MHx8fHwxNzcyNTY1MTQ1fDA&ixlib=rb-4.1.0&q=85"
@@ -29780,7 +29780,7 @@
           "value": "220W/sqm avg"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/a6ed2aee_bl-cnx125.webp",
+      "image_url": "/recovered/downloaded-images_a6ed2aee_bl-cnx125.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1561722798-9a732d141027?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwyfHxjaW5lbWElMjBMRUQlMjBzY3JlZW4lMjB0aGVhdGVyJTIwbW92aWV8ZW58MHx8fHwxNzcyNTY1MTQ1fDA&ixlib=rb-4.1.0&q=85"
       ],
@@ -29844,7 +29844,7 @@
           "value": "300W/sqm avg"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ef0b16e7_bl-sph300.webp",
+      "image_url": "/recovered/downloaded-images_ef0b16e7_bl-sph300.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1677476436258-6be9b6c59884?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwxfHxMRUQlMjBzcGhlcmUlMjBnbG9iZSUyMGRpc3BsYXklMjBpbnN0YWxsYXRpb258ZW58MHx8fHwxNzcyNTY1MTUyfDA&ixlib=rb-4.1.0&q=85",
         "https://images.unsplash.com/photo-1621866546415-d71979c5d036?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwyfHxMRUQlMjBzcGhlcmUlMjBnbG9iZSUyMGRpc3BsYXklMjBpbnN0YWxsYXRpb258ZW58MHx8fHwxNzcyNTY1MTUyfDA&ixlib=rb-4.1.0&q=85"
@@ -29909,7 +29909,7 @@
           "value": "Compatible with spatial audio"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/11d035c5_bl-sph500.webp",
+      "image_url": "/recovered/downloaded-images_11d035c5_bl-sph500.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1621866546415-d71979c5d036?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwyfHxMRUQlMjBzcGhlcmUlMjBnbG9iZSUyMGRpc3BsYXklMjBpbnN0YWxsYXRpb258ZW58MHx8fHwxNzcyNTY1MTUyfDA&ixlib=rb-4.1.0&q=85",
         "https://images.unsplash.com/photo-1677476436258-6be9b6c59884?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwxfHxMRUQlMjBzcGhlcmUlMjBnbG9iZSUyMGRpc3BsYXklMjBpbnN0YWxsYXRpb258ZW58MHx8fHwxNzcyNTY1MTUyfDA&ixlib=rb-4.1.0&q=85"
@@ -29974,7 +29974,7 @@
           "value": "500 x 500mm"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/vp-stage-pro-15mm_d8daf2fc.png",
+      "image_url": "/recovered/downloaded-images_vp-stage-pro-15mm_d8daf2fc.png",
       "gallery": [
         "https://images.unsplash.com/photo-1759784120360-8b5044b71f47?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHx2aXJ0dWFsJTIwcHJvZHVjdGlvbiUyMExFRCUyMHZvbHVtZSUyMGZpbG0lMjBzdGFnZXxlbnwwfHx8fDE3NzI1NjUxNTN8MA&ixlib=rb-4.1.0&q=85",
         "/generated/event_stage_led.png"
@@ -30039,7 +30039,7 @@
           "value": "Real-time per-pixel"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/vp-stage-ultra-09mm_cf898836.png",
+      "image_url": "/recovered/downloaded-images_vp-stage-ultra-09mm_cf898836.png",
       "gallery": [
         "https://images.unsplash.com/photo-1759784120360-8b5044b71f47?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHx2aXJ0dWFsJTIwcHJvZHVjdGlvbiUyMExFRCUyMHZvbHVtZSUyMGZpbG0lMjBzdGFnZXxlbnwwfHx8fDE3NzI1NjUxNTN8MA&ixlib=rb-4.1.0&q=85"
       ],
@@ -30103,7 +30103,7 @@
           "value": "Clip-on rail mount"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/40690afb_bl-shf120.webp",
+      "image_url": "/recovered/downloaded-images_40690afb_bl-shf120.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1764795850248-97a5e986b242?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwc2lnbmFnZSUyMGRpc3BsYXklMjBzY3JlZW4lMjByZXRhaWwlMjBzaGVsZnxlbnwwfHx8fDE3NzI1NjUxNjF8MA&ixlib=rb-4.1.0&q=85",
         "https://images.unsplash.com/photo-1764795850443-c046dbe2660f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwyfHxkaWdpdGFsJTIwc2lnbmFnZSUyMGRpc3BsYXklMjBzY3JlZW4lMjByZXRhaWwlMjBzaGVsZnxlbnwwfHx8fDE3NzI1NjUxNjF8MA&ixlib=rb-4.1.0&q=85"
@@ -30168,7 +30168,7 @@
           "value": "160 deg"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/e980a151_bl-shf188.webp",
+      "image_url": "/recovered/downloaded-images_e980a151_bl-shf188.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1764795850443-c046dbe2660f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwyfHxkaWdpdGFsJTIwc2lnbmFnZSUyMGRpc3BsYXklMjBzY3JlZW4lMjByZXRhaWwlMjBzaGVsZnxlbnwwfHx8fDE3NzI1NjUxNjF8MA&ixlib=rb-4.1.0&q=85"
       ],
@@ -30232,7 +30232,7 @@
           "value": "280W/sqm avg"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/1e7e26d9_bl-sky390.webp",
+      "image_url": "/recovered/downloaded-images_1e7e26d9_bl-sky390.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1734266366152-3f3a41b45c56?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwxfHxMRUQlMjBmbG9vciUyMGRpc3BsYXklMjBpbnRlcmFjdGl2ZSUyMGltbWVyc2l2ZXxlbnwwfHx8fDE3NzI1NjI4MjF8MA&ixlib=rb-4.1.0&q=85"
       ],
@@ -30296,7 +30296,7 @@
           "value": "100,000 hrs"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/675cff1d_bl-sky250.webp",
+      "image_url": "/recovered/downloaded-images_675cff1d_bl-sky250.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1734266366152-3f3a41b45c56?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwxfHxMRUQlMjBmbG9vciUyMGRpc3BsYXklMjBpbnRlcmFjdGl2ZSUyMGltbWVyc2l2ZXxlbnwwfHx8fDE3NzI1NjI4MjF8MA&ixlib=rb-4.1.0&q=85"
       ],
@@ -30360,7 +30360,7 @@
           "value": "85 kg total"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/04086b76_bl-dvl120.webp",
+      "image_url": "/recovered/downloaded-images_04086b76_bl-dvl120.webp",
       "gallery": [
         "https://images.unsplash.com/photo-1654246513422-2429316733c9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwzfHxsZWQlMjBzY3JlZW4lMjBkaXNwbGF5JTIwc3RhZ2UlMjBsaWdodGluZ3xlbnwwfHx8YmxhY2t8MTc3MjU1OTg2MHww&ixlib=rb-4.1.0&q=85"
       ],
@@ -30424,7 +30424,7 @@
           "value": "5 years on-site"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
+      "image_url": "/recovered/generated-images_f2df61be46044dcdbe65428c29e251db_corporate_boardroom.png",
       "gallery": [
         "/generated/corporate_boardroom.png"
       ],
@@ -30488,7 +30488,7 @@
           "value": "380W/sqm avg"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/8e554ea3d5474246a26948769039eb00_outdoor_dooh_dubai.png",
+      "image_url": "/recovered/generated-images_8e554ea3d5474246a26948769039eb00_outdoor_dooh_dubai.png",
       "gallery": [
         "/generated/outdoor_dooh_dubai.png"
       ],
@@ -30521,7 +30521,7 @@
           "value": "HDMI 2.0, DP 1.2, DVI"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/8fe3cef9_novastar-mctrl4k-controller.webp",
+      "image_url": "/recovered/downloaded-images_8fe3cef9_novastar-mctrl4k-controller.webp",
       "featured": false
     },
     {
@@ -30548,7 +30548,7 @@
           "value": "WiFi + 4G + LAN"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/dbd446e7_colorlight-z6-media-server.webp",
+      "image_url": "/recovered/downloaded-images_dbd446e7_colorlight-z6-media-server.webp",
       "featured": false
     },
     {
@@ -30575,7 +30575,7 @@
           "value": "93%"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/3d776d02_led-power-supply-200w.webp",
+      "image_url": "/recovered/downloaded-images_3d776d02_led-power-supply-200w.webp",
       "featured": false
     },
     {
@@ -30602,7 +30602,7 @@
           "value": "3-axis"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/d7aa2e4b_mounting-bracket-wall.webp",
+      "image_url": "/recovered/downloaded-images_d7aa2e4b_mounting-bracket-wall.webp",
       "featured": false
     },
     {
@@ -30629,7 +30629,7 @@
           "value": "2.5mm"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/6e096e2e_round-led-display-p25.webp",
+      "image_url": "/recovered/downloaded-images_6e096e2e_round-led-display-p25.webp",
       "featured": true
     },
     {
@@ -30656,7 +30656,7 @@
           "value": "3mm"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/eb98bbdf_cube-led-display-p3.webp",
+      "image_url": "/recovered/downloaded-images_eb98bbdf_cube-led-display-p3.webp",
       "featured": false
     },
     {
@@ -30683,7 +30683,7 @@
           "value": "4mm"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/34fddb17_cone-led-display-p4.webp",
+      "image_url": "/recovered/downloaded-images_34fddb17_cone-led-display-p4.webp",
       "featured": false
     },
     {
@@ -30710,7 +30710,7 @@
           "value": "24/7"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/d59aa7fb_digital-signage-pro-55.webp",
+      "image_url": "/recovered/downloaded-images_d59aa7fb_digital-signage-pro-55.webp",
       "featured": true
     },
     {
@@ -30737,7 +30737,7 @@
           "value": "3,000 nits"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/0193f21d_digital-signage-outdoor-75.webp",
+      "image_url": "/recovered/downloaded-images_0193f21d_digital-signage-outdoor-75.webp",
       "featured": false
     },
     {
@@ -30764,7 +30764,7 @@
           "value": "Android / Windows"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ef2b812c_digital-kiosk-interactive-43.jpg",
+      "image_url": "/recovered/downloaded-images_ef2b812c_digital-kiosk-interactive-43.jpg",
       "featured": false
     },
     {
@@ -30791,7 +30791,7 @@
           "value": "Android TV"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/fc95d6c1_commercial-smart-tv-85.webp",
+      "image_url": "/recovered/downloaded-images_fc95d6c1_commercial-smart-tv-85.webp",
       "featured": true
     },
     {
@@ -30818,7 +30818,7 @@
           "value": "2,500 nits"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/9065c4b7_outdoor-smart-tv-65.webp",
+      "image_url": "/recovered/downloaded-images_9065c4b7_outdoor-smart-tv-65.webp",
       "featured": false
     },
     {
@@ -30845,7 +30845,7 @@
           "value": "Under 2 hours"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/d6ceb71c_plug-play-videowall-2x2.webp",
+      "image_url": "/recovered/downloaded-images_d6ceb71c_plug-play-videowall-2x2.webp",
       "featured": true
     },
     {
@@ -30872,7 +30872,7 @@
           "value": "5 minutes"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/e83a7955_portable-led-stand-p25.webp",
+      "image_url": "/recovered/downloaded-images_e83a7955_portable-led-stand-p25.webp",
       "featured": false
     },
     {
@@ -30899,7 +30899,7 @@
           "value": "Built-in 40W"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/f3097a17_meeting-room-led-136.webp",
+      "image_url": "/recovered/downloaded-images_f3097a17_meeting-room-led-136.webp",
       "featured": false
     },
     {
@@ -30950,7 +30950,7 @@
           "value": "IP65"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/c5606b0b_frontlit-channel-letters-rgb.webp",
+      "image_url": "/recovered/downloaded-images_c5606b0b_frontlit-channel-letters-rgb.webp",
       "featured": true,
       "trending": true,
       "new_arrival": true,
@@ -31004,7 +31004,7 @@
           "value": "IP65"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/2b2de6b7_halo-lit-channel-letters.webp",
+      "image_url": "/recovered/downloaded-images_2b2de6b7_halo-lit-channel-letters.webp",
       "featured": true,
       "trending": true,
       "new_arrival": true,
@@ -31058,7 +31058,7 @@
           "value": "5 years"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/a70ddad0_dual-lit-channel-letters-pro.jpg",
+      "image_url": "/recovered/downloaded-images_a70ddad0_dual-lit-channel-letters-pro.jpg",
       "featured": true,
       "trending": true,
       "new_arrival": true,
@@ -31112,7 +31112,7 @@
           "value": "IP67"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/dc3cbbda_neoflex-led-letters.webp",
+      "image_url": "/recovered/downloaded-images_dc3cbbda_neoflex-led-letters.webp",
       "featured": false,
       "trending": true,
       "new_arrival": true,
@@ -31166,7 +31166,7 @@
           "value": "Stud / Raceway mount"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/786dae55_3d-fabricated-led-letters.webp",
+      "image_url": "/recovered/downloaded-images_786dae55_3d-fabricated-led-letters.webp",
       "featured": false,
       "trending": false,
       "new_arrival": true,
@@ -31220,7 +31220,7 @@
           "value": "Optional"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/1481d69b_mini-channel-letters-indoor.webp",
+      "image_url": "/recovered/downloaded-images_1481d69b_mini-channel-letters-indoor.webp",
       "featured": false,
       "trending": false,
       "new_arrival": true,
@@ -31274,7 +31274,7 @@
           "value": "WiFi / LAN / USB"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/a7d26b94_qsr-digital-menu-board-55.jpg",
+      "image_url": "/recovered/downloaded-images_a7d26b94_qsr-digital-menu-board-55.jpg",
       "featured": true,
       "trending": true,
       "new_arrival": true,
@@ -31328,7 +31328,7 @@
           "value": "Aluminum, anti-vandal"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/10f93732_drive-thru-led-menu-p25.jpg",
+      "image_url": "/recovered/downloaded-images_10f93732_drive-thru-led-menu-p25.jpg",
       "featured": true,
       "trending": true,
       "new_arrival": true,
@@ -31382,7 +31382,7 @@
           "value": "Wall bracket included"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/33ea142d_video-wall-menu-system-3x3.webp",
+      "image_url": "/recovered/downloaded-images_33ea142d_video-wall-menu-system-3x3.webp",
       "featured": false,
       "trending": false,
       "new_arrival": true,
@@ -31436,7 +31436,7 @@
           "value": "Steel, powder coated"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/bf56f90b_interactive-directory-kiosk.jpg",
+      "image_url": "/recovered/downloaded-images_bf56f90b_interactive-directory-kiosk.jpg",
       "featured": true,
       "trending": true,
       "new_arrival": true,
@@ -31490,7 +31490,7 @@
           "value": "100,000 hours"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/9e68ada8_airport-fids-display-p15.webp",
+      "image_url": "/recovered/downloaded-images_9e68ada8_airport-fids-display-p15.webp",
       "featured": false,
       "trending": true,
       "new_arrival": true,
@@ -31544,7 +31544,7 @@
           "value": "4G/WiFi cloud CMS"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/a13a43b3_pylon-led-wayfinding-sign.webp",
+      "image_url": "/recovered/downloaded-images_a13a43b3_pylon-led-wayfinding-sign.webp",
       "featured": false,
       "trending": false,
       "new_arrival": true,
@@ -31598,7 +31598,7 @@
           "value": "-40\u00b0C to 60\u00b0C"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/bd2af9b6_gas-station-price-led-sign.webp",
+      "image_url": "/recovered/downloaded-images_bd2af9b6_gas-station-price-led-sign.webp",
       "featured": false,
       "trending": false,
       "new_arrival": true,
@@ -31652,7 +31652,7 @@
           "value": "Yes, residue-free"
         }
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/6efc5c24_window-led-signage-film.jpg",
+      "image_url": "/recovered/downloaded-images_6efc5c24_window-led-signage-film.jpg",
       "featured": true,
       "trending": true,
       "new_arrival": true,
@@ -31725,7 +31725,7 @@
         "NFT Authentication",
         "HDR10+ Support"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/08e3e5d388dd_nft1.webp",
+      "image_url": "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/2031d053c67d612c7dc323331b83b59af6f8320b60abdd2d32421775987d0177.png",
       "featured": true,
       "id": "ae440741-cb95-4f07-ad1e-b07b532e2068",
       "created_at": "2026-03-28T08:51:22.086000",
@@ -31777,7 +31777,7 @@
         "Auto Calibration",
         "Art Mode Sleep"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ext_65be281cb148.jpg",
+      "image_url": "/recovered/downloaded-images_ext_65be281cb148.jpg",
       "id": "2a38ec7c-9314-41e2-8c79-eed9e9c504fd",
       "created_at": "2026-03-28T08:51:22.090000",
       "trending": false,
@@ -31829,7 +31829,7 @@
         "Real-time Generative Content",
         "Multi-visitor Tracking"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/27ab84041a76_immersive1.jpg",
+      "image_url": "/recovered/uploads_27ab84041a76_immersive1.jpg",
       "featured": true,
       "id": "9159621f-e9dd-48f5-b478-50ce9319e160",
       "created_at": "2026-03-28T08:51:22.091000",
@@ -31881,7 +31881,7 @@
         "IP65 Waterproof",
         "Pressure Sensors"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/b69ee353a8db_immersive2.webp",
+      "image_url": "/recovered/uploads_b69ee353a8db_immersive2.webp",
       "id": "8b4c728f-fdd5-481e-8829-0f8df9bf06d6",
       "created_at": "2026-03-28T08:51:22.091000",
       "trending": false,
@@ -31933,7 +31933,7 @@
         "Camera Genlock",
         "DCI-P3 Color"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ext_00eecd7267f8.jpg",
+      "image_url": "/recovered/downloaded-images_ext_00eecd7267f8.jpg",
       "featured": true,
       "id": "0a9155b3-752b-4b8c-9905-c1ef2ddb993b",
       "created_at": "2026-03-28T08:51:22.092000",
@@ -31985,7 +31985,7 @@
         "Magnetic Service",
         "disguise Compatible"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/852ac997e4be_vp2.webp",
+      "image_url": "/recovered/uploads_852ac997e4be_vp2.webp",
       "id": "6c964dd1-277a-46a5-89c2-37d300f0832c",
       "created_at": "2026-03-28T08:51:22.092000",
       "trending": false,
@@ -32037,7 +32037,7 @@
         "Ultra-low Latency",
         "WebXR Support"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/d9e43dfd291e_meta1.webp",
+      "image_url": "/recovered/uploads_d9e43dfd291e_meta1.webp",
       "featured": true,
       "id": "1db918c5-f79c-4425-8fd1-4de3f0cec263",
       "created_at": "2026-03-28T08:51:22.093000",
@@ -32089,7 +32089,7 @@
         "Positional Audio",
         "6DoF Tracking"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/9773523c460b_meta2.webp",
+      "image_url": "/recovered/uploads_9773523c460b_meta2.webp",
       "id": "3272b990-140c-41dd-91f3-922c833b0ed6",
       "created_at": "2026-03-28T08:51:22.093000",
       "trending": false,
@@ -32141,7 +32141,7 @@
         "Generative Content",
         "Custom Diameters"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/48dc05cf5f63_sculpt1.webp",
+      "image_url": "/recovered/uploads_48dc05cf5f63_sculpt1.webp",
       "id": "fa1e3c8a-8efb-4bc3-b99b-732c9febeaf1",
       "created_at": "2026-03-28T08:51:22.093000",
       "trending": false,
@@ -32193,7 +32193,7 @@
         "Per-pixel Control",
         "Silicone Sealed"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/c07693685cec_sculpt2.webp",
+      "image_url": "/recovered/uploads_c07693685cec_sculpt2.webp",
       "id": "be2910b7-bcf3-4aa5-aa37-46f1743c5a9e",
       "created_at": "2026-03-28T08:51:22.094000",
       "trending": false,
@@ -32245,7 +32245,7 @@
         "10+ Year Lifespan",
         "Remote Management"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/245dddfdc901_public1.jpg",
+      "image_url": "/recovered/uploads_245dddfdc901_public1.jpg",
       "featured": true,
       "id": "8b2c7616-230f-4248-ab78-8bcba9beb2ea",
       "created_at": "2026-03-28T08:51:22.094000",
@@ -32297,7 +32297,7 @@
         "Wind Resistant",
         "Lightweight 8kg/m\u00b2"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/85556ce1031d_public2.webp",
+      "image_url": "/recovered/uploads_85556ce1031d_public2.webp",
       "id": "f898a726-e5d7-4b80-8b7a-b4eced144be3",
       "created_at": "2026-03-28T08:51:22.095000",
       "trending": false,
@@ -32349,7 +32349,7 @@
         "Object Detection",
         "Developer SDK"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/ee65136cc123_interact1.webp",
+      "image_url": "/recovered/uploads_ee65136cc123_interact1.webp",
       "id": "17f32b9b-d4b5-47a8-948b-8128e50131a3",
       "created_at": "2026-03-28T08:51:22.095000",
       "trending": false,
@@ -32401,7 +32401,7 @@
         "Generative Art Engine",
         "Real-time Response"
       ],
-      "image_url": "https://files.ihgbrands.com/brightluxx/uploads/ad29bf3cf222_interact2.webp",
+      "image_url": "/recovered/uploads_ad29bf3cf222_interact2.webp",
       "id": "2a654bfa-4879-4193-8c0d-1fd8e1472ba7",
       "created_at": "2026-03-28T08:51:22.096000",
       "trending": false,

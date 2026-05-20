@@ -39,7 +39,7 @@ const PRODUCTS = [
     name: 'LumiMorph Elite',
     tagline: 'Closer. Clearer. Bolder.',
     description: 'High-resolution P2.6 panels for refined clarity, ideal for close-range viewing in premium spaces.',
-    image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_workspace-after.webp',
+    image: '/recovered/artmorph_art_workspace-after.webp',
     specs: { pitch: 'P2.6', brightness: '3,800 nits', pixels: '147,456/m²' },
     link: '/lumimorph/elite',
     featured: true,
@@ -49,7 +49,7 @@ const PRODUCTS = [
     name: 'LumiMorph Grande',
     tagline: 'Living Walls, Immersive Stories.',
     description: 'For expansive walls and immersive installations, Grande delivers strong visual impact at scale.',
-    image: 'https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp',
+    image: '/recovered/homepage_grande-hero.webp',
     specs: { pitch: 'P6.2', brightness: '4,500 nits', pixels: '25,600/m²' },
     link: '/lumimorph/grande',
     featured: true,
@@ -59,7 +59,7 @@ const PRODUCTS = [
     name: 'LumiMorph Mini',
     tagline: 'Small Scale. Infinite Possibilities.',
     description: 'Compact and adaptable. Use it alone or with Grande/Elite to shape unique designs.',
-    image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_mini-hero.webp',
+    image: '/recovered/artmorph_art_mini-hero.webp',
     specs: { pitch: 'P2.6 / P6.2', brightness: '3,800 / 4,500 nits', pixels: 'Flexible' },
     link: '/lumimorph/mini',
     featured: false,
@@ -226,13 +226,13 @@ export default function LumiMorphLanding() {
             <FadeIn delay={1}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative rounded-sm overflow-hidden">
-                  <img src="https://files.ihgbrands.com/brightluxx/artmorph/art_workspace-before.webp" alt="Display Off" className="w-full h-48 object-cover" />
+                  <img src="/recovered/artmorph_art_workspace-before.webp" alt="Display Off" className="w-full h-48 object-cover" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80">
                     <span className="text-white text-xs tracking-wider uppercase">Display Off</span>
                   </div>
                 </div>
                 <div className="relative rounded-sm overflow-hidden">
-                  <img src="https://files.ihgbrands.com/brightluxx/artmorph/art_workspace-after.webp" alt="Display On" className="w-full h-48 object-cover" />
+                  <img src="/recovered/artmorph_art_workspace-after.webp" alt="Display On" className="w-full h-48 object-cover" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80">
                     <span className="text-white text-xs tracking-wider uppercase">Display On</span>
                   </div>
@@ -301,10 +301,10 @@ export default function LumiMorphLanding() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { name: 'Business Settings', image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_insp-business.webp' },
-              { name: 'Hospitality', image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_insp-hospitality.webp' },
-              { name: 'F&B Businesses', image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_insp-fnb.webp' },
-              { name: 'Cultural Spaces', image: 'https://files.ihgbrands.com/brightluxx/artmorph/art_insp-culture.webp' },
+              { name: 'Business Settings', image: '/recovered/artmorph_art_insp-business.webp' },
+              { name: 'Hospitality', image: '/recovered/artmorph_art_insp-hospitality.webp' },
+              { name: 'F&B Businesses', image: '/recovered/artmorph_art_insp-fnb.webp' },
+              { name: 'Cultural Spaces', image: '/recovered/artmorph_art_insp-culture.webp' },
             ].map((app, i) => (
               <FadeIn key={i} delay={i + 1}>
                 <div className="relative aspect-square overflow-hidden rounded-sm group">

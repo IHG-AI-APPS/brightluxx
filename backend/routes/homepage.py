@@ -71,10 +71,10 @@ DEFAULT_HERO = {
     "cta_text": "Explore Products",
     "cta_link": "/products",
     "video_urls": [
-        "https://files.ihgbrands.com/brightluxx/videos/hero-video-1.mp4",
-        "https://files.ihgbrands.com/brightluxx/videos/hero-video-2.mp4"
+        "/recovered/videos_hero-video-1.mp4",
+        "/videos/hero-video-2.mp4"
     ],
-    "poster_image": "https://files.ihgbrands.com/brightluxx/uploads/hero_banner.webp"
+    "poster_image": "/recovered/uploads_hero_banner.webp"
 }
 
 DEFAULT_STATS = [
@@ -88,21 +88,21 @@ DEFAULT_ENTRY_DOORS = [
     {
         "title": "Products",
         "description": "MicroLED, outdoor, rental, transparent. Full range.",
-        "image": "https://files.ihgbrands.com/brightluxx/uploads/cob_microled_1.webp",
+        "image": "/uploads/cob_microled_1.webp",
         "link": "/products",
         "cta_text": "Browse"
     },
     {
         "title": "Inspirations",
         "description": "See how LED transforms spaces across industries.",
-        "image": "https://files.ihgbrands.com/brightluxx/uploads/insp_retail.webp",
+        "image": "/uploads/insp_retail.webp",
         "link": "/inspirations",
         "cta_text": "Discover"
     },
     {
         "title": "Projects",
         "description": "Real installations. Proven results across UAE and MENA.",
-        "image": "https://files.ihgbrands.com/brightluxx/uploads/proj_indian_pavilion___expo_2020_dubai.webp",
+        "image": "/uploads/proj_indian_pavilion___expo_2020_dubai.webp",
         "link": "/projects",
         "cta_text": "View"
     }

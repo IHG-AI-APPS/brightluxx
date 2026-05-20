@@ -18,7 +18,7 @@ router = APIRouter()
 resources_col = db["resources"]
 
 # External CDN base URL for uploaded files
-EXTERNAL_CDN = "https://files.ihgbrands.com/brightluxx"
+EXTERNAL_CDN = ""
 
 
 class ResourceCreate(BaseModel):

@@ -64,10 +64,10 @@ const WEATHER_FEATURES = [
 ];
 
 const APPLICATIONS = [
-  { name: 'Billboards', icon: Building2, desc: 'Highway & urban advertising', image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_74b87f9d42bb.webp' },
-  { name: 'Sports Venues', icon: Trophy, desc: 'Stadium & arena displays', image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_bdaacc608e9c.webp' },
-  { name: 'Retail', icon: Store, desc: 'Storefront & mall signage', image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_be925cac011c.webp' },
-  { name: 'Transportation', icon: Car, desc: 'Roadside & transit', image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_a75f39fb46f2.webp' },
+  { name: 'Billboards', icon: Building2, desc: 'Highway & urban advertising', image: '/recovered/site-images_opt_ext_74b87f9d42bb.webp' },
+  { name: 'Sports Venues', icon: Trophy, desc: 'Stadium & arena displays', image: '/recovered/site-images_opt_ext_bdaacc608e9c.webp' },
+  { name: 'Retail', icon: Store, desc: 'Storefront & mall signage', image: '/recovered/site-images_opt_ext_be925cac011c.webp' },
+  { name: 'Transportation', icon: Car, desc: 'Roadside & transit', image: '/recovered/site-images_opt_ext_a75f39fb46f2.webp' },
 ];
 
 /* Series Card Component */

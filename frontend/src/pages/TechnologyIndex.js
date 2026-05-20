@@ -119,7 +119,7 @@ const TECH_DATA = [
 ];
 
 // Hero background image
-const HERO_IMAGE = 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_92b8793ffd88.webp';
+const HERO_IMAGE = '/recovered/site-images_opt_ext_92b8793ffd88.webp';
 
 /* Technology Card Component */
 const TechCard = ({ tech, index, size = 'normal', isDark }) => {

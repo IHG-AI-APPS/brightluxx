@@ -85,7 +85,7 @@ async def update_site_settings(settings: SiteSettings):
 
 
 
-DEFAULT_OG_IMAGE = "https://files.ihgbrands.com/brightluxx/assets/brightluxx-logo-nav.png"
+DEFAULT_OG_IMAGE = "/recovered/assets_brightluxx-logo-nav.png"
 
 @router.get("/api/og-image")
 async def get_og_image():

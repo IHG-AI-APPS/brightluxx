@@ -10,7 +10,7 @@ CDN_HOST = "178.128.28.178"
 CDN_USER = "root"
 CDN_PASS = "IhG@1HGB$2026$W3b"
 CDN_BASE_PATH = "/var/brightluxx"
-CDN_BASE_URL = "https://files.ihgbrands.com/brightluxx"
+CDN_BASE_URL = ""
 
 
 def _ensure_remote_dir(sftp, full_path: str):

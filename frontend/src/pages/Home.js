@@ -63,7 +63,7 @@ const HeroVideoPlayer = ({ videos, videoY, overlayOpacity }) => {
   const [videoReady, setVideoReady] = useState(false);
   const videoRefs = useRef([]);
 
-  const heroVideos = videos?.length > 0 ? videos : ['https://files.ihgbrands.com/brightluxx/videos/hero-video-converted.mp4'];
+  const heroVideos = videos?.length > 0 ? videos : ['/recovered/videos_hero-video-converted.mp4'];
 
   // Handle video transitions
   useEffect(() => {
@@ -340,7 +340,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'TEXTURED LED PANELS',
     color: 'cyan',
     icon: Layers,
-    image: 'https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp',
+    image: '/recovered/homepage_grande-hero.webp',
     link: '/lumimorph'
   },
   { 
@@ -678,7 +678,7 @@ const Home = () => {
               >
                 <div className="aspect-[16/10] md:aspect-video overflow-hidden relative">
                   <img 
-                    src="https://files.ihgbrands.com/brightluxx/downloaded-images/ext_6f178933d1b4.jpg"
+                    src="/recovered/downloaded-images_ext_6f178933d1b4.jpg"
                     alt="Luxury Home Cinema"
                     loading="lazy"
                     decoding="async"
@@ -708,7 +708,7 @@ const Home = () => {
               >
                 <div className="aspect-[16/10] md:aspect-video overflow-hidden relative">
                   <img 
-                    src="https://files.ihgbrands.com/brightluxx/site-images/opt_ext_bc8c12ee1348.webp"
+                    src="/recovered/site-images_opt_ext_bc8c12ee1348.webp"
                     alt="Art & Immersive"
                     loading="lazy"
                     decoding="async"

@@ -33,7 +33,7 @@ PRODUCTS = [
             {"label": "Coating", "value": "Anti-glare Nano"}
         ],
         "features": ["16-bit Color Depth", "Anti-Glare Nano Coating", "NFT Authentication", "HDR10+ Support"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ext_65be281cb148.jpg",
+        "image_url": "/recovered/downloaded-images_ext_65be281cb148.jpg",
         "featured": True,
     },
     {
@@ -57,7 +57,7 @@ PRODUCTS = [
             {"label": "Depth", "value": "38mm"}
         ],
         "features": ["Zero Bezel", "Front Serviceable", "Auto Calibration", "Art Mode Sleep"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ext_65be281cb148.jpg",
+        "image_url": "/recovered/downloaded-images_ext_65be281cb148.jpg",
     },
     # --- Immersive Experience (immersive-experience) ---
     {
@@ -81,7 +81,7 @@ PRODUCTS = [
             {"label": "Weight", "value": "22kg/m²"}
         ],
         "features": ["360° Coverage", "Motion Sensors", "Real-time Generative Content", "Multi-visitor Tracking"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ext_bc8c12ee1348.jpg",
+        "image_url": "/downloaded-images/ext_bc8c12ee1348.jpg",
         "featured": True,
     },
     {
@@ -105,7 +105,7 @@ PRODUCTS = [
             {"label": "Thickness", "value": "95mm"}
         ],
         "features": ["Walk-on Interactive", "2000kg Load Capacity", "IP65 Waterproof", "Pressure Sensors"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ext_bc8c12ee1348.jpg",
+        "image_url": "/downloaded-images/ext_bc8c12ee1348.jpg",
     },
     # --- Virtual Production (virtual-production) ---
     {
@@ -129,7 +129,7 @@ PRODUCTS = [
             {"label": "Processing", "value": "Brompton Tessera SX40"}
         ],
         "features": ["7680Hz Refresh", "Unreal Engine Ready", "Camera Genlock", "DCI-P3 Color"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ext_00eecd7267f8.jpg",
+        "image_url": "/recovered/downloaded-images_ext_00eecd7267f8.jpg",
         "featured": True,
     },
     {
@@ -153,7 +153,7 @@ PRODUCTS = [
             {"label": "Setup", "value": "Quick-lock System"}
         ],
         "features": ["Curved Configurations", "Quick-lock Setup", "Magnetic Service", "disguise Compatible"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ext_00eecd7267f8.jpg",
+        "image_url": "/recovered/downloaded-images_ext_00eecd7267f8.jpg",
     },
     # --- Metaverse (metaverse) ---
     {
@@ -177,7 +177,7 @@ PRODUCTS = [
             {"label": "Brightness", "value": "1000 nits"}
         ],
         "features": ["Mixed Reality Ready", "Hand Tracking", "Ultra-low Latency", "WebXR Support"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/immersive-museum-1.webp",
+        "image_url": "/generated-images/immersive-museum-1.webp",
         "featured": True,
     },
     {
@@ -201,7 +201,7 @@ PRODUCTS = [
             {"label": "Brightness", "value": "800 nits"}
         ],
         "features": ["6-Sided Immersion", "Haptic Floor", "Positional Audio", "6DoF Tracking"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/immersive-museum-1.webp",
+        "image_url": "/generated-images/immersive-museum-1.webp",
     },
     # --- Sculptural LED (sculptural) ---
     {
@@ -225,7 +225,7 @@ PRODUCTS = [
             {"label": "Viewing", "value": "360° Omni-directional"}
         ],
         "features": ["Spherical 360° Display", "IP65 Outdoor", "Generative Content", "Custom Diameters"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/sphere-led-1.webp",
+        "image_url": "/generated-images/sphere-led-1.webp",
     },
     {
         "name": "SculptLED Ribbon Flex",
@@ -248,7 +248,7 @@ PRODUCTS = [
             {"label": "Brightness", "value": "2000 nits"}
         ],
         "features": ["Ultra-Flexible 50mm Bend", "IP67 Waterproof", "Per-pixel Control", "Silicone Sealed"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/sphere-led-1.webp",
+        "image_url": "/generated-images/sphere-led-1.webp",
     },
     # --- Public Art (public-art) ---
     {
@@ -272,7 +272,7 @@ PRODUCTS = [
             {"label": "Operating Temp", "value": "-30°C to 60°C"}
         ],
         "features": ["8000 nits Outdoor", "IP65 Weatherproof", "10+ Year Lifespan", "Remote Management"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ext_7e32a28621f2.jpg",
+        "image_url": "/downloaded-images/ext_7e32a28621f2.jpg",
         "featured": True,
     },
     {
@@ -296,7 +296,7 @@ PRODUCTS = [
             {"label": "Maintenance", "value": "Front Access"}
         ],
         "features": ["70% Transparent", "Building-scale", "Wind Resistant", "Lightweight 8kg/m²"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/downloaded-images/ext_7e32a28621f2.jpg",
+        "image_url": "/downloaded-images/ext_7e32a28621f2.jpg",
     },
     # --- Interactive (interactive) ---
     {
@@ -320,7 +320,7 @@ PRODUCTS = [
             {"label": "Brightness", "value": "800 nits"}
         ],
         "features": ["32-Point Multi-touch", "Gesture Recognition", "Object Detection", "Developer SDK"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/immersive-museum-1.webp",
+        "image_url": "/generated-images/immersive-museum-1.webp",
     },
     {
         "name": "KineticLED Responsive P3.9",
@@ -343,7 +343,7 @@ PRODUCTS = [
             {"label": "Brightness", "value": "1200 nits"}
         ],
         "features": ["AI Motion Tracking", "50-Person Tracking", "Generative Art Engine", "Real-time Response"],
-        "image_url": "https://files.ihgbrands.com/brightluxx/generated-images/immersive-museum-1.webp",
+        "image_url": "/generated-images/immersive-museum-1.webp",
     },
 ]
 

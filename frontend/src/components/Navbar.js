@@ -188,9 +188,9 @@ const Navbar = () => {
       bgHover: 'hover:bg-cyan-500/10',
       borderColor: 'border-cyan-500/20',
       items: [
-        { name: 'Elite', path: '/lumimorph/elite', desc: 'P2.6 High Resolution', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_a31242107128.webp' },
-        { name: 'Grande', path: '/lumimorph/grande', desc: 'P6.2 Large Scale', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_3b344ec59874.webp' },
-        { name: 'Mini', path: '/lumimorph/mini', desc: 'Compact Modular', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_0625418d5c6f.webp' },
+        { name: 'Elite', path: '/lumimorph/elite', desc: 'P2.6 High Resolution', image: '/recovered/nav-images_nav_ext_a31242107128.webp' },
+        { name: 'Grande', path: '/lumimorph/grande', desc: 'P6.2 Large Scale', image: '/recovered/nav-images_nav_ext_3b344ec59874.webp' },
+        { name: 'Mini', path: '/lumimorph/mini', desc: 'Compact Modular', image: '/recovered/nav-images_nav_ext_0625418d5c6f.webp' },
       ]
     },
     naturatex: {
@@ -199,7 +199,7 @@ const Navbar = () => {
       bgHover: 'hover:bg-emerald-500/10',
       borderColor: 'border-emerald-500/20',
       items: [
-        { name: 'HoloVeil', path: '/naturatex/holoveil', desc: 'Transparent Display', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_61e3269d0548.webp' },
+        { name: 'HoloVeil', path: '/naturatex/holoveil', desc: 'Transparent Display', image: '/recovered/nav-images_nav_ext_61e3269d0548.webp' },
       ]
     },
     signatouch: {
@@ -208,9 +208,9 @@ const Navbar = () => {
       bgHover: 'hover:bg-amber-500/10',
       borderColor: 'border-amber-500/20',
       items: [
-        { name: 'Touch Kiosk', path: '/signatouch/touch-kiosk', desc: '40-Point IR Touch', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_fbac154254eb.webp' },
-        { name: 'Smart Signage', path: '/signatouch/smart-signage', desc: 'Digital Displays', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_986865f74d23.webp' },
-        { name: 'Self Service', path: '/signatouch/self-service', desc: 'Interactive Terminals', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_b7c53a5842b6.webp' },
+        { name: 'Touch Kiosk', path: '/signatouch/touch-kiosk', desc: '40-Point IR Touch', image: '/recovered/nav-images_nav_ext_fbac154254eb.webp' },
+        { name: 'Smart Signage', path: '/signatouch/smart-signage', desc: 'Digital Displays', image: '/recovered/nav-images_nav_ext_986865f74d23.webp' },
+        { name: 'Self Service', path: '/signatouch/self-service', desc: 'Interactive Terminals', image: '/recovered/nav-images_nav_ext_b7c53a5842b6.webp' },
       ]
     },
     glassmorph: {
@@ -219,12 +219,12 @@ const Navbar = () => {
       bgHover: 'hover:bg-violet-500/10',
       borderColor: 'border-violet-500/20',
       items: [
-        { name: 'Smart Film', path: '/glassmorph/smart-film', desc: 'PDLC Privacy Glass', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_d093b5d5e43a.webp' },
-        { name: 'LED Film', path: '/glassmorph/led-film', desc: 'Transparent LED', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_b376ee066910.webp' },
-        { name: 'Media Glass', path: '/glassmorph/media-glass', desc: 'Display Windows', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_cfb3068bee77.webp' },
-        { name: 'Switchable Glass', path: '/glassmorph/switchable-glass', desc: 'Electrochromic', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_d84f066640ea.webp' },
-        { name: 'Flying Display', path: '/glassmorph/flying-display', desc: 'Suspended LED', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_5141d2207f1b.webp' },
-        { name: 'Hanging LED', path: '/glassmorph/hanging-led', desc: 'Ceiling Mounted', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_b8c329743d26.webp' },
+        { name: 'Smart Film', path: '/glassmorph/smart-film', desc: 'PDLC Privacy Glass', image: '/recovered/nav-images_nav_ext_d093b5d5e43a.webp' },
+        { name: 'LED Film', path: '/glassmorph/led-film', desc: 'Transparent LED', image: '/recovered/nav-images_nav_ext_b376ee066910.webp' },
+        { name: 'Media Glass', path: '/glassmorph/media-glass', desc: 'Display Windows', image: '/recovered/nav-images_nav_ext_cfb3068bee77.webp' },
+        { name: 'Switchable Glass', path: '/glassmorph/switchable-glass', desc: 'Electrochromic', image: '/recovered/nav-images_nav_ext_d84f066640ea.webp' },
+        { name: 'Flying Display', path: '/glassmorph/flying-display', desc: 'Suspended LED', image: '/recovered/nav-images_nav_ext_5141d2207f1b.webp' },
+        { name: 'Hanging LED', path: '/glassmorph/hanging-led', desc: 'Ceiling Mounted', image: '/recovered/nav-images_nav_ext_b8c329743d26.webp' },
       ]
     },
     pixelvue: {
@@ -233,18 +233,18 @@ const Navbar = () => {
       bgHover: 'hover:bg-rose-500/10',
       borderColor: 'border-rose-500/20',
       items: [
-        { name: 'iPoster', path: '/pixelvue/iposter', desc: 'Digital Poster', image: 'https://files.ihgbrands.com/brightluxx/uploads/pixelvue_iposter.png' },
-        { name: 'iFlip', path: '/pixelvue/iflip', desc: 'Double-Sided LED', image: 'https://files.ihgbrands.com/brightluxx/uploads/pixelvue_iflip.png' },
-        { name: 'UltraFlip', path: '/pixelvue/ultra-flip', desc: 'Premium Poster', image: 'https://files.ihgbrands.com/brightluxx/uploads/pixelvue_ultraflip.png' },
-        { name: 'DigiStandee', path: '/pixelvue/digi-standee', desc: 'Digital Standee', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_d59aa7fb_digital-signage-pro-55.webp' },
-        { name: 'OOH Poster', path: '/pixelvue/ooh-poster', desc: 'Outdoor Display', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_0193f21d_digital-signage-outdoor-75.webp' },
-        { name: 'Unity', path: '/pixelvue/unity', desc: 'Modular System', image: 'https://files.ihgbrands.com/brightluxx/uploads/pixelvue_unity.png' },
-        { name: 'Tetris', path: '/pixelvue/tetris', desc: 'Stackable Cubes', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_0625418d5c6f.webp' },
-        { name: 'VideoBrick', path: '/pixelvue/videobrick', desc: 'Video Wall Bricks', image: 'https://files.ihgbrands.com/brightluxx/uploads/pixelvue_videobrick.png' },
-        { name: 'iConference', path: '/pixelvue/iconference', desc: 'Meeting Room Display', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_61e3269d0548.webp' },
-        { name: 'EzeeSign', path: '/pixelvue/ezeesign', desc: 'Easy Signage', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_fbac154254eb.webp' },
-        { name: 'iShelf', path: '/pixelvue/ishelf', desc: 'Retail Shelf Display', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_b7c53a5842b6.webp' },
-        { name: 'TableVision', path: '/pixelvue/tablevision', desc: 'Table Display', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_d6ceb71c_plug-play-videowall-2x2.webp' },
+        { name: 'iPoster', path: '/pixelvue/iposter', desc: 'Digital Poster', image: 'https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/5dbac7e6889b544bf4f261844d917e7a8697ac08b30637e96f2c75218ad784be.png' },
+        { name: 'iFlip', path: '/pixelvue/iflip', desc: 'Double-Sided LED', image: 'https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/a40dc162a0a88bf31bf94f0de5ed77952829b133c0de6c4dea05c07e49c4a405.png' },
+        { name: 'UltraFlip', path: '/pixelvue/ultra-flip', desc: 'Premium Poster', image: 'https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/fa5bcff834efce178ae8a4c7f097e9349a31d7d833abb778099ee9f588b391ce.png' },
+        { name: 'DigiStandee', path: '/pixelvue/digi-standee', desc: 'Digital Standee', image: '/recovered/nav-images_nav_d59aa7fb_digital-signage-pro-55.webp' },
+        { name: 'OOH Poster', path: '/pixelvue/ooh-poster', desc: 'Outdoor Display', image: '/recovered/nav-images_nav_0193f21d_digital-signage-outdoor-75.webp' },
+        { name: 'Unity', path: '/pixelvue/unity', desc: 'Modular System', image: 'https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/0f94ba2fb077d6c4bdf8613e9ec3fa9295c46a647cb8f37a7afc192b6e8a1f2c.png' },
+        { name: 'Tetris', path: '/pixelvue/tetris', desc: 'Stackable Cubes', image: '/recovered/nav-images_nav_ext_0625418d5c6f.webp' },
+        { name: 'VideoBrick', path: '/pixelvue/videobrick', desc: 'Video Wall Bricks', image: 'https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/96812cb6f7543b43c96ed28c4759bc3b3da4e11f8c26d189bf0a878331e5e16b.png' },
+        { name: 'iConference', path: '/pixelvue/iconference', desc: 'Meeting Room Display', image: '/recovered/nav-images_nav_ext_61e3269d0548.webp' },
+        { name: 'EzeeSign', path: '/pixelvue/ezeesign', desc: 'Easy Signage', image: '/recovered/nav-images_nav_ext_fbac154254eb.webp' },
+        { name: 'iShelf', path: '/pixelvue/ishelf', desc: 'Retail Shelf Display', image: '/recovered/nav-images_nav_ext_b7c53a5842b6.webp' },
+        { name: 'TableVision', path: '/pixelvue/tablevision', desc: 'Table Display', image: '/recovered/nav-images_nav_d6ceb71c_plug-play-videowall-2x2.webp' },
       ]
     },
     artimmersive: {
@@ -253,12 +253,12 @@ const Navbar = () => {
       bgHover: 'hover:bg-violet-500/10',
       borderColor: 'border-violet-500/20',
       items: [
-        { name: 'NFT Gallery Displays', path: '/products?category=art-immersive&sub=nft-gallery', desc: 'Digital Art Museums', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_5607981affc7.webp' },
-        { name: 'Immersive Walls', path: '/products?category=art-immersive&sub=immersive-experience', desc: 'teamLab-style', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_a88d2305f712.webp' },
-        { name: 'XR/Virtual Production', path: '/products?category=art-immersive&sub=virtual-production', desc: 'Film & TV Stages', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_1aa1b696_bl-vpx150.webp' },
-        { name: 'Metaverse LED', path: '/products?category=art-immersive&sub=metaverse', desc: 'Interactive Experiences', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_df8d37160688.webp' },
-        { name: 'Sculptural LED', path: '/products?category=art-immersive&sub=sculptural', desc: 'Cylinders, Cubes, Waves', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_7f0dfb104596.webp' },
-        { name: 'Public Art', path: '/products?category=art-immersive&sub=public-art', desc: 'Urban Landmarks', image: 'https://files.ihgbrands.com/brightluxx/nav-images/nav_ext_d3c8d248b59f.webp' },
+        { name: 'NFT Gallery Displays', path: '/products?category=art-immersive&sub=nft-gallery', desc: 'Digital Art Museums', image: '/recovered/nav-images_nav_ext_5607981affc7.webp' },
+        { name: 'Immersive Walls', path: '/products?category=art-immersive&sub=immersive-experience', desc: 'teamLab-style', image: '/recovered/nav-images_nav_ext_a88d2305f712.webp' },
+        { name: 'XR/Virtual Production', path: '/products?category=art-immersive&sub=virtual-production', desc: 'Film & TV Stages', image: '/recovered/nav-images_nav_1aa1b696_bl-vpx150.webp' },
+        { name: 'Metaverse LED', path: '/products?category=art-immersive&sub=metaverse', desc: 'Interactive Experiences', image: '/recovered/nav-images_nav_ext_df8d37160688.webp' },
+        { name: 'Sculptural LED', path: '/products?category=art-immersive&sub=sculptural', desc: 'Cylinders, Cubes, Waves', image: '/recovered/nav-images_nav_ext_7f0dfb104596.webp' },
+        { name: 'Public Art', path: '/products?category=art-immersive&sub=public-art', desc: 'Urban Landmarks', image: '/recovered/nav-images_nav_ext_d3c8d248b59f.webp' },
       ]
     }
   };
@@ -369,7 +369,7 @@ const Navbar = () => {
           {/* Logo - proper sizing with max-height */}
           <Link to="/" className="flex items-center group flex-shrink-0" data-testid="logo-link">
             <img 
-              src="https://files.ihgbrands.com/brightluxx/assets/brightluxx-logo-nav.png"
+              src="/recovered/assets_brightluxx-logo-nav.png"
               alt={branding?.company_name || 'Brightluxx'} 
               className="h-8 w-auto max-h-8 object-contain transition-all duration-300 group-hover:opacity-80"
               style={{ 

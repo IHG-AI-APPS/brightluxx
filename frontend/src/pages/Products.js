@@ -11,7 +11,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import TiltCard from '../components/TiltCard';
 
 // Hero background image
-const HERO_IMAGE = 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_00eecd7267f8.webp';
+const HERO_IMAGE = '/recovered/site-images_opt_ext_00eecd7267f8.webp';
 
 // Pixel Pitch Ranges - for viewing distance filtering
 const PITCH_RANGES = [

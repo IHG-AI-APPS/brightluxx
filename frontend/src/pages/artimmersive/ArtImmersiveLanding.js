@@ -61,25 +61,25 @@ const ArtImmersiveLanding = () => {
     {
       title: 'teamLab-Style Museums',
       description: 'Floor-to-ceiling immersive experiences with motion sensors and real-time content generation',
-      image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_bc8c12ee1348.webp',
+      image: '/recovered/site-images_opt_ext_bc8c12ee1348.webp',
       features: ['Multi-sensory integration', 'Visitor tracking', 'Dynamic content'],
     },
     {
       title: 'NFT Galleries',
       description: 'Museum-grade displays for showcasing high-value digital art with authentication',
-      image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_65be281cb148.webp',
+      image: '/recovered/site-images_opt_ext_65be281cb148.webp',
       features: ['16-bit color depth', 'Anti-glare coating', 'NFT authentication'],
     },
     {
       title: 'Virtual Production Studios',
       description: 'Cinema-grade XR stages for film, TV, and commercial production',
-      image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_00eecd7267f8.webp',
+      image: '/recovered/site-images_opt_ext_00eecd7267f8.webp',
       features: ['7680Hz refresh', 'Unreal Engine ready', 'Camera genlock'],
     },
     {
       title: 'Public Art Landmarks',
       description: 'Iconic outdoor installations that transform urban spaces into digital canvases',
-      image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_ext_7e32a28621f2.webp',
+      image: '/recovered/site-images_opt_ext_7e32a28621f2.webp',
       features: ['IP65 weatherproof', '6000 nits brightness', 'Remote management'],
     },
   ];
@@ -97,7 +97,7 @@ const ArtImmersiveLanding = () => {
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
           >
-            <source src="https://files.ihgbrands.com/brightluxx/videos/art-hero-abstract.mp4" type="video/mp4" />
+            <source src="/recovered/videos_art-hero-abstract.mp4" type="video/mp4" />
           </video>
           {/* Dark overlay for readability */}
           <div className={`absolute inset-0 ${isDark ? 'bg-black/40' : 'bg-white/50'}`} />
@@ -183,7 +183,7 @@ const ArtImmersiveLanding = () => {
               playsInline
               className="w-full aspect-video object-cover"
             >
-              <source src="https://files.ihgbrands.com/brightluxx/videos/art-immersive-hero.mp4" type="video/mp4" />
+              <source src="/recovered/videos_art-immersive-hero.mp4" type="video/mp4" />
             </video>
             <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-t from-[#050508]/80 via-transparent to-transparent' : 'bg-gradient-to-t from-white/80 via-transparent to-transparent'}`} />
             <div className="absolute bottom-0 left-0 right-0 p-8">

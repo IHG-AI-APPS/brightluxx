@@ -360,7 +360,7 @@ export default function HoloVeilPage() {
             </FadeIn>
             <FadeIn delay={2}>
               <Link to="/lumimorph" className="group block relative overflow-hidden rounded-sm aspect-video">
-                <img src="https://files.ihgbrands.com/brightluxx/homepage/grande-hero.webp" alt="LumiMorph" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src="/recovered/homepage_grande-hero.webp" alt="LumiMorph" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <p className="text-cyan-400 text-xs tracking-wider uppercase mb-1">Textured Luminous Panels</p>

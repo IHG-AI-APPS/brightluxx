@@ -3,7 +3,7 @@ import { cdnUrl, EXTERNAL_CDN } from '../config/cdn';
 
 /**
  * CdnImage — Lazy-loading image with blur-up placeholder.
- * Images are served from the external CDN at files.ihgbrands.com.
+ * Images are served locally from /recovered/ or from Emergent static URLs.
  *
  * Props:
  *   src: string — Image path or full URL

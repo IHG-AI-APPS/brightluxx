@@ -43,16 +43,16 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
 
 // Static fallback data
 const STATIC_APPLICATIONS = [
-  { id: 'shopfront-signage', name: 'Shopfront Signage', shortName: 'Shopfront', description: 'High-impact LED displays for retail storefronts and street-level commercial signage.', icon: 'Store', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png', stats: { brightness: '10,000 nits', pitch: 'P2.5-P10' } },
-  { id: 'hospitality', name: 'Hospitality & Hotels', shortName: 'Hospitality', description: 'Elegant video walls for hotel lobbies, restaurants, and conference facilities.', icon: 'Building2', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7aee51984ef7428e636c2f56a202a90b74cac515bc9d49b80327e9c74a76d42e.png', stats: { brightness: '1,500 nits', pitch: 'P0.9-P2.5' } },
-  { id: 'retail-malls', name: 'Retail & Malls', shortName: 'Retail', description: 'Large-format displays for mall atriums and immersive brand experiences.', icon: 'Store', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/fe43f22500af65dab2a6a06f5df2fe660523726339ac9581b781476767b0b9b4.png', stats: { brightness: '2,000 nits', pitch: 'P1.5-P4' } },
-  { id: 'corporate', name: 'Corporate & Offices', shortName: 'Corporate', description: 'Professional displays for boardrooms, lobbies, and command centers.', icon: 'Briefcase', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png', stats: { brightness: '800 nits', pitch: 'P0.7-P1.9' } },
-  { id: 'healthcare', name: 'Healthcare', shortName: 'Healthcare', description: 'Reliable displays for hospitals, wayfinding, and patient information.', icon: 'Stethoscope', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/20ff688183452b421340a26c5f7272a9fcb806cb4d30add3d3434cb033be1933.png', stats: { brightness: '600 nits', pitch: 'P1.2-P2.5' } },
-  { id: 'transportation', name: 'Transportation', shortName: 'Transport', description: 'Mission-critical FIDS displays for airports and transit hubs.', icon: 'Plane', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/51def6d71b2956b099c4c00d843cdad1fcde69379e77fa31d6d2c42ddcc07d60.png', stats: { brightness: '1,500 nits', pitch: 'P1.5-P4' } },
-  { id: 'entertainment', name: 'Entertainment', shortName: 'Cinema', description: 'Cinema LED screens and immersive displays for museums and theatres.', icon: 'Theater', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/085c5152d8cf0eebf7a6c56406448f78f7ffeaf9e345eec76fcfe22d45afa880.png', stats: { brightness: '500 nits', pitch: 'P0.9-P2.5' } },
-  { id: 'sports-events', name: 'Sports & Events', shortName: 'Sports', description: 'Scoreboards, perimeter displays, and video walls for live events.', icon: 'Trophy', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/07761210154255d013573596ebb872b6c03610990a806a27e4ded7164b327fd6.png', stats: { brightness: '10,000 nits', pitch: 'P4-P16' } },
-  { id: 'education', name: 'Education', shortName: 'Education', description: 'Interactive displays for classrooms, lecture halls, and campuses.', icon: 'GraduationCap', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ece677e88cab7bac3c4414cd4fb4457d8f4dd1bce07e43712f6e8bcdf764c9dd.png', stats: { brightness: '800 nits', pitch: 'P1.2-P2.5' } },
-  { id: 'outdoor-billboards', name: 'Outdoor & Billboards', shortName: 'Outdoor', description: 'Weather-resistant billboards and media facades for high-visibility advertising.', icon: 'Sun', hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png', stats: { brightness: '12,000 nits', pitch: 'P4-P20' } },
+  { id: 'shopfront-signage', name: 'Shopfront Signage', shortName: 'Shopfront', description: 'High-impact LED displays for retail storefronts and street-level commercial signage.', icon: 'Store', hero_image: 'https://files.ihgbrands.com/emergent-images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png', stats: { brightness: '10,000 nits', pitch: 'P2.5-P10' } },
+  { id: 'hospitality', name: 'Hospitality & Hotels', shortName: 'Hospitality', description: 'Elegant video walls for hotel lobbies, restaurants, and conference facilities.', icon: 'Building2', hero_image: 'https://files.ihgbrands.com/emergent-images/7aee51984ef7428e636c2f56a202a90b74cac515bc9d49b80327e9c74a76d42e.png', stats: { brightness: '1,500 nits', pitch: 'P0.9-P2.5' } },
+  { id: 'retail-malls', name: 'Retail & Malls', shortName: 'Retail', description: 'Large-format displays for mall atriums and immersive brand experiences.', icon: 'Store', hero_image: 'https://files.ihgbrands.com/emergent-images/fe43f22500af65dab2a6a06f5df2fe660523726339ac9581b781476767b0b9b4.png', stats: { brightness: '2,000 nits', pitch: 'P1.5-P4' } },
+  { id: 'corporate', name: 'Corporate & Offices', shortName: 'Corporate', description: 'Professional displays for boardrooms, lobbies, and command centers.', icon: 'Briefcase', hero_image: 'https://files.ihgbrands.com/emergent-images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png', stats: { brightness: '800 nits', pitch: 'P0.7-P1.9' } },
+  { id: 'healthcare', name: 'Healthcare', shortName: 'Healthcare', description: 'Reliable displays for hospitals, wayfinding, and patient information.', icon: 'Stethoscope', hero_image: 'https://files.ihgbrands.com/emergent-images/20ff688183452b421340a26c5f7272a9fcb806cb4d30add3d3434cb033be1933.png', stats: { brightness: '600 nits', pitch: 'P1.2-P2.5' } },
+  { id: 'transportation', name: 'Transportation', shortName: 'Transport', description: 'Mission-critical FIDS displays for airports and transit hubs.', icon: 'Plane', hero_image: 'https://files.ihgbrands.com/emergent-images/51def6d71b2956b099c4c00d843cdad1fcde69379e77fa31d6d2c42ddcc07d60.png', stats: { brightness: '1,500 nits', pitch: 'P1.5-P4' } },
+  { id: 'entertainment', name: 'Entertainment', shortName: 'Cinema', description: 'Cinema LED screens and immersive displays for museums and theatres.', icon: 'Theater', hero_image: 'https://files.ihgbrands.com/emergent-images/085c5152d8cf0eebf7a6c56406448f78f7ffeaf9e345eec76fcfe22d45afa880.png', stats: { brightness: '500 nits', pitch: 'P0.9-P2.5' } },
+  { id: 'sports-events', name: 'Sports & Events', shortName: 'Sports', description: 'Scoreboards, perimeter displays, and video walls for live events.', icon: 'Trophy', hero_image: 'https://files.ihgbrands.com/emergent-images/07761210154255d013573596ebb872b6c03610990a806a27e4ded7164b327fd6.png', stats: { brightness: '10,000 nits', pitch: 'P4-P16' } },
+  { id: 'education', name: 'Education', shortName: 'Education', description: 'Interactive displays for classrooms, lecture halls, and campuses.', icon: 'GraduationCap', hero_image: 'https://files.ihgbrands.com/emergent-images/ece677e88cab7bac3c4414cd4fb4457d8f4dd1bce07e43712f6e8bcdf764c9dd.png', stats: { brightness: '800 nits', pitch: 'P1.2-P2.5' } },
+  { id: 'outdoor-billboards', name: 'Outdoor & Billboards', shortName: 'Outdoor', description: 'Weather-resistant billboards and media facades for high-visibility advertising.', icon: 'Sun', hero_image: 'https://files.ihgbrands.com/emergent-images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png', stats: { brightness: '12,000 nits', pitch: 'P4-P20' } },
 ];
 
 // Transform API data to component format  
@@ -73,7 +73,7 @@ const APPLICATIONS = [
     shortName: 'Shopfront',
     description: 'High-impact LED displays for retail storefronts and street-level commercial signage.',
     icon: Store,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png',
+    image: 'https://files.ihgbrands.com/emergent-images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png',
     stats: { brightness: '10,000 nits', pitch: 'P2.5-P10' },
   },
   {
@@ -82,7 +82,7 @@ const APPLICATIONS = [
     shortName: 'Hospitality',
     description: 'Elegant video walls for hotel lobbies, restaurants, and conference facilities.',
     icon: Building2,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7aee51984ef7428e636c2f56a202a90b74cac515bc9d49b80327e9c74a76d42e.png',
+    image: 'https://files.ihgbrands.com/emergent-images/7aee51984ef7428e636c2f56a202a90b74cac515bc9d49b80327e9c74a76d42e.png',
     stats: { brightness: '1,500 nits', pitch: 'P0.9-P2.5' },
   },
   {
@@ -91,7 +91,7 @@ const APPLICATIONS = [
     shortName: 'Retail',
     description: 'Large-format displays for mall atriums and immersive brand experiences.',
     icon: Store,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/fe43f22500af65dab2a6a06f5df2fe660523726339ac9581b781476767b0b9b4.png',
+    image: 'https://files.ihgbrands.com/emergent-images/fe43f22500af65dab2a6a06f5df2fe660523726339ac9581b781476767b0b9b4.png',
     stats: { brightness: '2,000 nits', pitch: 'P1.5-P4' },
   },
   {
@@ -100,7 +100,7 @@ const APPLICATIONS = [
     shortName: 'Corporate',
     description: 'Professional displays for boardrooms, lobbies, and command centers.',
     icon: Briefcase,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png',
+    image: 'https://files.ihgbrands.com/emergent-images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png',
     stats: { brightness: '800 nits', pitch: 'P0.7-P1.9' },
   },
   {
@@ -109,7 +109,7 @@ const APPLICATIONS = [
     shortName: 'Healthcare',
     description: 'Reliable displays for hospitals, wayfinding, and patient information.',
     icon: Stethoscope,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/20ff688183452b421340a26c5f7272a9fcb806cb4d30add3d3434cb033be1933.png',
+    image: 'https://files.ihgbrands.com/emergent-images/20ff688183452b421340a26c5f7272a9fcb806cb4d30add3d3434cb033be1933.png',
     stats: { brightness: '600 nits', pitch: 'P1.2-P2.5' },
   },
   {
@@ -118,7 +118,7 @@ const APPLICATIONS = [
     shortName: 'Transport',
     description: 'Mission-critical FIDS displays for airports and transit hubs.',
     icon: Plane,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/51def6d71b2956b099c4c00d843cdad1fcde69379e77fa31d6d2c42ddcc07d60.png',
+    image: 'https://files.ihgbrands.com/emergent-images/51def6d71b2956b099c4c00d843cdad1fcde69379e77fa31d6d2c42ddcc07d60.png',
     stats: { brightness: '1,500 nits', pitch: 'P1.5-P4' },
   },
   {
@@ -127,7 +127,7 @@ const APPLICATIONS = [
     shortName: 'Cinema',
     description: 'Cinema LED screens and immersive displays for museums and theatres.',
     icon: Theater,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/085c5152d8cf0eebf7a6c56406448f78f7ffeaf9e345eec76fcfe22d45afa880.png',
+    image: 'https://files.ihgbrands.com/emergent-images/085c5152d8cf0eebf7a6c56406448f78f7ffeaf9e345eec76fcfe22d45afa880.png',
     stats: { brightness: '500 nits', pitch: 'P0.9-P2.5' },
   },
   {
@@ -136,7 +136,7 @@ const APPLICATIONS = [
     shortName: 'Sports',
     description: 'Scoreboards, perimeter displays, and video walls for live events.',
     icon: Trophy,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/07761210154255d013573596ebb872b6c03610990a806a27e4ded7164b327fd6.png',
+    image: 'https://files.ihgbrands.com/emergent-images/07761210154255d013573596ebb872b6c03610990a806a27e4ded7164b327fd6.png',
     stats: { brightness: '10,000 nits', pitch: 'P4-P16' },
   },
   {
@@ -145,7 +145,7 @@ const APPLICATIONS = [
     shortName: 'Education',
     description: 'Interactive displays for classrooms, lecture halls, and campuses.',
     icon: GraduationCap,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ece677e88cab7bac3c4414cd4fb4457d8f4dd1bce07e43712f6e8bcdf764c9dd.png',
+    image: 'https://files.ihgbrands.com/emergent-images/ece677e88cab7bac3c4414cd4fb4457d8f4dd1bce07e43712f6e8bcdf764c9dd.png',
     stats: { brightness: '800 nits', pitch: 'P1.2-P2.5' },
   },
   {
@@ -154,7 +154,7 @@ const APPLICATIONS = [
     shortName: 'Outdoor',
     description: 'Weather-resistant billboards and media facades for high-visibility advertising.',
     icon: Sun,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png',
+    image: 'https://files.ihgbrands.com/emergent-images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png',
     stats: { brightness: '12,000 nits', pitch: 'P4-P20' },
   },
 ];
@@ -165,56 +165,56 @@ const PROJECT_GALLERY = [
     id: 1,
     title: 'Dubai Mall Atrium Display',
     category: 'Retail',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/254fe27311306074019389a9674e154e6930cfa5a095b5f26fad6465a581a41d.png',
+    image: 'https://files.ihgbrands.com/emergent-images/254fe27311306074019389a9674e154e6930cfa5a095b5f26fad6465a581a41d.png',
     description: 'Stunning LED video wall in luxury mall atrium with dramatic architecture',
   },
   {
     id: 2,
     title: 'Dubai Marina Billboard',
     category: 'Outdoor',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6911b0d55c61839f131d3217cc8e5bdd2c73e339919a1c04826c8dfd79eaf7f0.png',
+    image: 'https://files.ihgbrands.com/emergent-images/6911b0d55c61839f131d3217cc8e5bdd2c73e339919a1c04826c8dfd79eaf7f0.png',
     description: 'Night-time LED billboard with city skyline reflection',
   },
   {
     id: 3,
     title: 'Abu Dhabi Hotel Lobby',
     category: 'Hospitality',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/16840d02833caf602880257ce47f7a291e9f9ad0f04733cc51e57005582d34b5.png',
+    image: 'https://files.ihgbrands.com/emergent-images/16840d02833caf602880257ce47f7a291e9f9ad0f04733cc51e57005582d34b5.png',
     description: 'Elegant LED display in 5-star hotel lobby with Arabic design elements',
   },
   {
     id: 4,
     title: 'Stadium Scoreboard',
     category: 'Sports',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/22225955d577ff43bd679bda5b298f35aa4226558ec0750785a5e4f0a09750aa.png',
+    image: 'https://files.ihgbrands.com/emergent-images/22225955d577ff43bd679bda5b298f35aa4226558ec0750785a5e4f0a09750aa.png',
     description: 'Massive LED scoreboard in UAE football stadium',
   },
   {
     id: 5,
     title: 'Corporate Boardroom',
     category: 'Corporate',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/360269c4ce8437e2a7dd7fa3c5d599bbb66da0fc5194f99377a2705002a857c7.png',
+    image: 'https://files.ihgbrands.com/emergent-images/360269c4ce8437e2a7dd7fa3c5d599bbb66da0fc5194f99377a2705002a857c7.png',
     description: 'Executive boardroom with LED video wall presentation display',
   },
   {
     id: 6,
     title: 'Hospital Wayfinding',
     category: 'Healthcare',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ae5cc82c28141702c52b9a389f559c1c2e64abf5788d43dd5cab81ab40e71394.png',
+    image: 'https://files.ihgbrands.com/emergent-images/ae5cc82c28141702c52b9a389f559c1c2e64abf5788d43dd5cab81ab40e71394.png',
     description: 'Digital wayfinding screen in modern UAE hospital',
   },
   {
     id: 7,
     title: 'Cinema LED Screen',
     category: 'Entertainment',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f9de65cfc89b9659c1b078e8086075bfcb92c37a325d7251cda608d859dcf755.png',
+    image: 'https://files.ihgbrands.com/emergent-images/f9de65cfc89b9659c1b078e8086075bfcb92c37a325d7251cda608d859dcf755.png',
     description: 'LED cinema screen in modern movie theater',
   },
   {
     id: 8,
     title: 'Airport Terminal Display',
     category: 'Transportation',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/40271a3de773f454b67f00a2b6d21cb496b28c6d96f4c3890d055ef06991f979.png',
+    image: 'https://files.ihgbrands.com/emergent-images/40271a3de773f454b67f00a2b6d21cb496b28c6d96f4c3890d055ef06991f979.png',
     description: 'Large LED advertising display at Dubai International Airport',
   },
 ];

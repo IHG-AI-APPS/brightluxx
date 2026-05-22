@@ -20,7 +20,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Ultimate 8K Resolution',
     technology: 'MicroLED',
     description: 'The pinnacle of LED display technology. P0.5 MicroLED delivers unprecedented pixel density for mission-critical applications where every detail matters. Self-emissive pixels create perfect blacks and infinite contrast ratios, ideal for broadcast studios, command centers, and premium corporate environments.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a4d1778c64dc28d7723c7e853145ccbef9afc14cb958eb0a946fd94e699ad7b9.png',
+    image: 'https://files.ihgbrands.com/emergent-images/a4d1778c64dc28d7723c7e853145ccbef9afc14cb958eb0a946fd94e699ad7b9.png',
     specs: {
       pixelPitch: '0.5mm',
       resolution: '4,000,000 pixels/m²',
@@ -58,7 +58,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Premium 4K/8K Display',
     technology: 'MicroLED / COB',
     description: 'Exceptional resolution for control rooms and broadcast environments. P0.7 balances ultra-fine pitch with proven reliability, delivering stunning visuals for demanding professional applications where image quality cannot be compromised.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/2aa098b461e86086f8d20d263a7055ae2f9679c64a23bba567df53ceeb2fed2a.png',
+    image: 'https://files.ihgbrands.com/emergent-images/2aa098b461e86086f8d20d263a7055ae2f9679c64a23bba567df53ceeb2fed2a.png',
     specs: {
       pixelPitch: '0.7mm',
       resolution: '2,040,816 pixels/m²',
@@ -96,7 +96,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'High-End Commercial',
     technology: 'COB',
     description: 'The sweet spot for premium installations. P0.9 COB delivers outstanding image quality for boardrooms, lobbies, and high-end retail environments. Industry-leading contrast and color accuracy make it the choice of discerning specifiers.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/e19ad54a047ea80a202edf4e5aa5831fcfdd38239441cabea25c73bacd00787b.png',
+    image: 'https://files.ihgbrands.com/emergent-images/e19ad54a047ea80a202edf4e5aa5831fcfdd38239441cabea25c73bacd00787b.png',
     specs: {
       pixelPitch: '0.9mm',
       resolution: '1,234,568 pixels/m²',
@@ -134,7 +134,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Premium Corporate Grade',
     technology: 'COB / MiP',
     description: 'Ideal for boardrooms and corporate environments where image quality meets practical budgets. P1.2 delivers excellent resolution without premium pricing, making it the go-to choice for professional meeting spaces.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b0a6c8e7ab06e97d66fa367375a27a48222e5e821bc9358358bb7006fa0d1ef2.png',
+    image: 'https://files.ihgbrands.com/emergent-images/b0a6c8e7ab06e97d66fa367375a27a48222e5e821bc9358358bb7006fa0d1ef2.png',
     specs: {
       pixelPitch: '1.2mm',
       resolution: '694,444 pixels/m²',
@@ -172,7 +172,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Mainstream Premium',
     technology: 'COB / MiP',
     description: 'The most popular fine-pitch option. P1.5 balances resolution, reliability, and cost for a wide range of professional applications. Perfect for replacing aging LCD video walls with seamless, vibrant LED technology.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/caace68646cb302fb03d31612f995bb6e828f8a26d332c68d0a5a7b7a39fd147.png',
+    image: 'https://files.ihgbrands.com/emergent-images/caace68646cb302fb03d31612f995bb6e828f8a26d332c68d0a5a7b7a39fd147.png',
     specs: {
       pixelPitch: '1.5mm',
       resolution: '444,444 pixels/m²',
@@ -210,7 +210,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Corporate Workhorse',
     technology: 'MiP / SMD',
     description: 'Excellent choice for larger meeting rooms and mid-sized venues. P1.8 offers outstanding value for most corporate applications while maintaining professional-grade image quality.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7ceea0de8f06b9320af2d5562390c594e33592eac85f0e367a450cdc7df16b06.png',
+    image: 'https://files.ihgbrands.com/emergent-images/7ceea0de8f06b9320af2d5562390c594e33592eac85f0e367a450cdc7df16b06.png',
     specs: {
       pixelPitch: '1.8mm',
       resolution: '308,642 pixels/m²',
@@ -248,7 +248,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Retail & Public Spaces',
     technology: 'SMD / MiP',
     description: 'Optimized for retail environments and public spaces. P2.0 delivers vibrant visuals at distances where fine pitch is overkill. High brightness cuts through ambient light in busy commercial settings.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/1bd5cbd91c0734a688576c1f4456fe2d460034a918b2c8ae0815bf519daabf08.png',
+    image: 'https://files.ihgbrands.com/emergent-images/1bd5cbd91c0734a688576c1f4456fe2d460034a918b2c8ae0815bf519daabf08.png',
     specs: {
       pixelPitch: '2.0mm',
       resolution: '250,000 pixels/m²',
@@ -286,7 +286,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Versatile Commercial',
     technology: 'SMD',
     description: 'The industry workhorse for indoor commercial applications. P2.5 is the go-to choice for most retail and public space installations, offering the perfect balance of resolution, reliability, and value.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/4d5489635e70b8f867ea4f914234325f9a969d77f2e849f0d7a706ec1c9a7712.png',
+    image: 'https://files.ihgbrands.com/emergent-images/4d5489635e70b8f867ea4f914234325f9a969d77f2e849f0d7a706ec1c9a7712.png',
     specs: {
       pixelPitch: '2.5mm',
       resolution: '160,000 pixels/m²',
@@ -324,7 +324,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Value Champion',
     technology: 'SMD',
     description: 'Maximum value for larger indoor spaces. P3.0 delivers excellent visual impact at the lowest cost per square meter, perfect for sports bars, large retail spaces, and venues with longer viewing distances.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/d33d676eb1b2efaa913300daec1ef5e97f84176124528e3a532e4ac09765c039.png',
+    image: 'https://files.ihgbrands.com/emergent-images/d33d676eb1b2efaa913300daec1ef5e97f84176124528e3a532e4ac09765c039.png',
     specs: {
       pixelPitch: '3.0mm',
       resolution: '111,111 pixels/m²',
@@ -362,7 +362,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Large Venue Standard',
     technology: 'SMD',
     description: 'Designed for auditoriums and large event spaces where viewing distances exceed 4 meters. P3.9 delivers impressive visual impact for concerts, conferences, and worship spaces.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/55c2bd23e375cb2b18f8950ed29bfb7c64a5965765833b8af328c95ba80b99ee.png',
+    image: 'https://files.ihgbrands.com/emergent-images/55c2bd23e375cb2b18f8950ed29bfb7c64a5965765833b8af328c95ba80b99ee.png',
     specs: {
       pixelPitch: '3.91mm',
       resolution: '65,746 pixels/m²',
@@ -400,7 +400,7 @@ const INDOOR_PRODUCTS = {
     tagline: 'Budget Large Format',
     technology: 'SMD',
     description: 'Maximum coverage at minimum cost. P4.0 is ideal for very large indoor displays viewed from significant distances, delivering impressive visuals for sports arenas and convention centers.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9f479f117b354b20a3e7cdcade2c555aaaaecc4035c6de8e71b009cd50b97a2e.png',
+    image: 'https://files.ihgbrands.com/emergent-images/9f479f117b354b20a3e7cdcade2c555aaaaecc4035c6de8e71b009cd50b97a2e.png',
     specs: {
       pixelPitch: '4.0mm',
       resolution: '62,500 pixels/m²',
@@ -444,7 +444,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Fine Pitch Outdoor',
     technology: 'SMD (GOB)',
     description: 'The finest pitch for outdoor use. P2.5 Outdoor brings indoor-quality resolution to weatherproof applications. Ideal for premium storefronts and transit stations where close viewing demands high pixel density.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/38bee6a202df409b76b210a30ef7a5c41a0a30536ddc1eb634e34ef9fc55d784.png',
+    image: 'https://files.ihgbrands.com/emergent-images/38bee6a202df409b76b210a30ef7a5c41a0a30536ddc1eb634e34ef9fc55d784.png',
     specs: {
       pixelPitch: '2.5mm',
       resolution: '160,000 pixels/m²',
@@ -482,7 +482,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Premium Outdoor',
     technology: 'SMD (GOB)',
     description: 'High resolution outdoor display for close-viewing applications. Perfect balance of quality and durability for shopping centers, outdoor events, and building entrances.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c6d5b4abcf52bda71dccf67612fcbacf4b48607bbd586ada88807b84914b109b.png',
+    image: 'https://files.ihgbrands.com/emergent-images/c6d5b4abcf52bda71dccf67612fcbacf4b48607bbd586ada88807b84914b109b.png',
     specs: {
       pixelPitch: '3.0mm',
       resolution: '111,111 pixels/m²',
@@ -520,7 +520,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Professional Grade',
     technology: 'SMD',
     description: 'The workhorse of outdoor advertising. P4.0 delivers excellent visual quality for most outdoor applications with proven reliability and value.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7224b70bfaa0d65f983d5239bc8fa72427b8d240aa62529778a255ce8de364fb.png',
+    image: 'https://files.ihgbrands.com/emergent-images/7224b70bfaa0d65f983d5239bc8fa72427b8d240aa62529778a255ce8de364fb.png',
     specs: {
       pixelPitch: '4.0mm',
       resolution: '62,500 pixels/m²',
@@ -558,7 +558,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Value Leader',
     technology: 'SMD',
     description: 'Excellent value for mid-distance outdoor viewing. P5.0 covers more area for less investment, perfect for stadium perimeters and outdoor events.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9fb784cbaf37a50cfecd9e46ad52e8023abaf721566dfc4085c14a88f7c21a65.png',
+    image: 'https://files.ihgbrands.com/emergent-images/9fb784cbaf37a50cfecd9e46ad52e8023abaf721566dfc4085c14a88f7c21a65.png',
     specs: {
       pixelPitch: '5.0mm',
       resolution: '40,000 pixels/m²',
@@ -596,7 +596,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Billboard Standard',
     technology: 'SMD',
     description: 'Industry standard for digital billboards. P6.0 delivers excellent visibility at typical billboard viewing distances, ideal for highway advertising and rooftop signs.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/d7e9c37914e606f8f5da16e70f2973db4973b251038ac4fa10a6e0943eed7488.png',
+    image: 'https://files.ihgbrands.com/emergent-images/d7e9c37914e606f8f5da16e70f2973db4973b251038ac4fa10a6e0943eed7488.png',
     specs: {
       pixelPitch: '6.0mm',
       resolution: '27,778 pixels/m²',
@@ -634,7 +634,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Popular Billboard',
     technology: 'SMD',
     description: 'Most popular billboard pitch worldwide. P6.67 offers the ideal balance of resolution and cost for advertising, making it the go-to choice for outdoor media owners.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f6ba4a8831a428d30a0204d451a5aa1869833c5db55a730ea73a6f4571a6a4b5.png',
+    image: 'https://files.ihgbrands.com/emergent-images/f6ba4a8831a428d30a0204d451a5aa1869833c5db55a730ea73a6f4571a6a4b5.png',
     specs: {
       pixelPitch: '6.67mm',
       resolution: '22,500 pixels/m²',
@@ -672,7 +672,7 @@ const OUTDOOR_PRODUCTS = {
     tagline: 'Large Scale Billboard',
     technology: 'SMD',
     description: 'Maximum coverage for large-scale outdoor installations. P8.0 delivers impressive impact at long viewing distances, ideal for giant billboards and building wraps.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/e1a435d21a61e2e53b2af54b8b0207d5bcedc6f69a0fa322b075a9079f22cf32.png',
+    image: 'https://files.ihgbrands.com/emergent-images/e1a435d21a61e2e53b2af54b8b0207d5bcedc6f69a0fa322b075a9079f22cf32.png',
     specs: {
       pixelPitch: '8.0mm',
       resolution: '15,625 pixels/m²',

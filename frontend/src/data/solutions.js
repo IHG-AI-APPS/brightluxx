@@ -7,17 +7,17 @@ import { ShoppingBag, Building2, MonitorPlay, Theater, Layers, TrafficCone, Tv, 
 
 // Solution images from CDN
 export const SOLUTION_IMAGES = {
-  retail: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ab7bceee9a3db8d6fefaab8ba3f87f5a9b67f1cdc5b4b9ec4adaa5693c1e49ef.png',
-  corporate: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c1d0483a5cb3a71e1b52b42e3fc1b1f9ca74f6fd8a1f5f4eaf6e0f6a84f0bb6c.png',
-  outdoor: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9e82a4e8df0b44c7f7eb7c5a90e0c3b5d3d3e2a8f5f5d9e8c1a2b3c4d5e6f7a8.png',
-  events: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5.png',
-  creative: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4.png',
-  traffic: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3.png',
-  immersive: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2.png',
-  transparent: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1.png',
-  healthcare: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0.png',
-  education: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9.png',
-  sports: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8.png',
+  retail: 'https://files.ihgbrands.com/emergent-images/ab7bceee9a3db8d6fefaab8ba3f87f5a9b67f1cdc5b4b9ec4adaa5693c1e49ef.png',
+  corporate: 'https://files.ihgbrands.com/emergent-images/c1d0483a5cb3a71e1b52b42e3fc1b1f9ca74f6fd8a1f5f4eaf6e0f6a84f0bb6c.png',
+  outdoor: 'https://files.ihgbrands.com/emergent-images/9e82a4e8df0b44c7f7eb7c5a90e0c3b5d3d3e2a8f5f5d9e8c1a2b3c4d5e6f7a8.png',
+  events: 'https://files.ihgbrands.com/emergent-images/d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5.png',
+  creative: 'https://files.ihgbrands.com/emergent-images/c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4.png',
+  traffic: 'https://files.ihgbrands.com/emergent-images/b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3.png',
+  immersive: 'https://files.ihgbrands.com/emergent-images/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2.png',
+  transparent: 'https://files.ihgbrands.com/emergent-images/f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1.png',
+  healthcare: 'https://files.ihgbrands.com/emergent-images/e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0.png',
+  education: 'https://files.ihgbrands.com/emergent-images/d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9.png',
+  sports: 'https://files.ihgbrands.com/emergent-images/c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8.png',
 };
 
 // Complete solutions data with all fields

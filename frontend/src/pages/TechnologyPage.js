@@ -48,15 +48,15 @@ const GlassCard = ({ children, className = '', hover = true }) => (
 
 // Technology images mapping
 const TECH_IMAGES = {
-  'microled': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/14266577a06785e2e61816956b557c54624568f67781c286825a4d5742fc1490.png',
-  'cob-led': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a48724d68c8ed785b21369e75039e8455f3130ca26f98897d266b3f3102316f3.png',
-  'mip-led': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ba71e99ddcebaaca612753230d9b464fd2a69d845b463a99354a5b80eaa797f8.png',
-  'fine-pitch-led': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/803a560d8b43b496d0a7958dd588ab3f71a9d5a8a9e9bb74bfdff658be5d5f49.png',
-  'all-in-one-dvled': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/bf902d17f53638bbd7fe1983fa50d0eefa5a621c86c67173c00826f504ca209b.png',
-  'transparent-led': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9099db6081f3b9341a4a55c41f029d40d53834f5394236befe989fad76cd361b.png',
-  '3d-anamorphic-led': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b14b05e09ba2807606d82f72f193c586976ed21d4ff695b26ecfc96152e987c8.png',
-  'creative-led': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/4dd8e0cbcbb71aec02c3a1c31e8ec0a95ab296a33235f2fe7ecfcfb539adefe9.png',
-  'media-facade': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b256719e5b706e30693a2aa20f783eee47fb3de97a7e5c455c310224a1bb8d01.png',
+  'microled': 'https://files.ihgbrands.com/emergent-images/14266577a06785e2e61816956b557c54624568f67781c286825a4d5742fc1490.png',
+  'cob-led': 'https://files.ihgbrands.com/emergent-images/a48724d68c8ed785b21369e75039e8455f3130ca26f98897d266b3f3102316f3.png',
+  'mip-led': 'https://files.ihgbrands.com/emergent-images/ba71e99ddcebaaca612753230d9b464fd2a69d845b463a99354a5b80eaa797f8.png',
+  'fine-pitch-led': 'https://files.ihgbrands.com/emergent-images/803a560d8b43b496d0a7958dd588ab3f71a9d5a8a9e9bb74bfdff658be5d5f49.png',
+  'all-in-one-dvled': 'https://files.ihgbrands.com/emergent-images/bf902d17f53638bbd7fe1983fa50d0eefa5a621c86c67173c00826f504ca209b.png',
+  'transparent-led': 'https://files.ihgbrands.com/emergent-images/9099db6081f3b9341a4a55c41f029d40d53834f5394236befe989fad76cd361b.png',
+  '3d-anamorphic-led': 'https://files.ihgbrands.com/emergent-images/b14b05e09ba2807606d82f72f193c586976ed21d4ff695b26ecfc96152e987c8.png',
+  'creative-led': 'https://files.ihgbrands.com/emergent-images/4dd8e0cbcbb71aec02c3a1c31e8ec0a95ab296a33235f2fe7ecfcfb539adefe9.png',
+  'media-facade': 'https://files.ihgbrands.com/emergent-images/b256719e5b706e30693a2aa20f783eee47fb3de97a7e5c455c310224a1bb8d01.png',
 };
 
 // Spec Table Component

@@ -33,7 +33,7 @@ PRODUCTS = [
             {"label": "Coating", "value": "Anti-glare Nano"}
         ],
         "features": ["16-bit Color Depth", "Anti-Glare Nano Coating", "NFT Authentication", "HDR10+ Support"],
-        "image_url": "/recovered/downloaded-images_ext_65be281cb148.jpg",
+        "image_url": "https://files.ihgbrands.com/downloaded-images_ext_65be281cb148.jpg",
         "featured": True,
     },
     {
@@ -57,7 +57,7 @@ PRODUCTS = [
             {"label": "Depth", "value": "38mm"}
         ],
         "features": ["Zero Bezel", "Front Serviceable", "Auto Calibration", "Art Mode Sleep"],
-        "image_url": "/recovered/downloaded-images_ext_65be281cb148.jpg",
+        "image_url": "https://files.ihgbrands.com/downloaded-images_ext_65be281cb148.jpg",
     },
     # --- Immersive Experience (immersive-experience) ---
     {
@@ -129,7 +129,7 @@ PRODUCTS = [
             {"label": "Processing", "value": "Brompton Tessera SX40"}
         ],
         "features": ["7680Hz Refresh", "Unreal Engine Ready", "Camera Genlock", "DCI-P3 Color"],
-        "image_url": "/recovered/downloaded-images_ext_00eecd7267f8.jpg",
+        "image_url": "https://files.ihgbrands.com/downloaded-images_ext_00eecd7267f8.jpg",
         "featured": True,
     },
     {
@@ -153,7 +153,7 @@ PRODUCTS = [
             {"label": "Setup", "value": "Quick-lock System"}
         ],
         "features": ["Curved Configurations", "Quick-lock Setup", "Magnetic Service", "disguise Compatible"],
-        "image_url": "/recovered/downloaded-images_ext_00eecd7267f8.jpg",
+        "image_url": "https://files.ihgbrands.com/downloaded-images_ext_00eecd7267f8.jpg",
     },
     # --- Metaverse (metaverse) ---
     {

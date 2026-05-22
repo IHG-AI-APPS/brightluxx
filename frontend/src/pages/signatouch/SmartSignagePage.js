@@ -42,19 +42,19 @@ const USE_CASES = [
   { 
     title: 'Luxury Retail',
     desc: 'Overlay product information and brand stories on physical merchandise displays.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
+    image: 'https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
     stats: ['60% increase in dwell time', 'Premium brand perception']
   },
   { 
     title: 'Museum Exhibits',
     desc: 'Add interactive information layers to artifacts without obstructing views.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/1da67c3e418012a294b24d90081d04dd38bbfbd8e2b3abf7035f6083d3999a36.png',
+    image: 'https://files.ihgbrands.com/emergent-images/1da67c3e418012a294b24d90081d04dd38bbfbd8e2b3abf7035f6083d3999a36.png',
     stats: ['Enhanced visitor engagement', 'Preserve artifact visibility']
   },
   { 
     title: 'Automotive Showrooms',
     desc: 'Display vehicle specs and customization options alongside physical models.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9d94d952271c1bb0f9424f0cca282170183bd00b8e964f3c78227a01a0fc5402.png',
+    image: 'https://files.ihgbrands.com/emergent-images/9d94d952271c1bb0f9424f0cca282170183bd00b8e964f3c78227a01a0fc5402.png',
     stats: ['Interactive configuration', 'Futuristic brand image']
   },
 ];
@@ -82,7 +82,7 @@ export default function SmartSignagePage() {
       <section className="relative min-h-[80vh] overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png" 
+            src="https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png" 
             alt="Smart Signage Kiosk" 
             className="w-full h-full object-cover"
           />
@@ -182,7 +182,7 @@ export default function SmartSignagePage() {
             
             <FadeIn delay={1}>
               <img 
-                src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/842b07e428fe30f175b67d1d00a180c927813b1d29cef9bed286e5ebb851099f.png" 
+                src="https://files.ihgbrands.com/emergent-images/842b07e428fe30f175b67d1d00a180c927813b1d29cef9bed286e5ebb851099f.png" 
                 alt="Transparent OLED Technology" 
                 className="rounded-sm w-full"
               />
@@ -356,7 +356,7 @@ export default function SmartSignagePage() {
           <div className="grid md:grid-cols-2 gap-6">
             <FadeIn delay={1}>
               <Link to="/signatouch/touch-kiosk" className="group block relative overflow-hidden rounded-sm aspect-video">
-                <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9d94d952271c1bb0f9424f0cca282170183bd00b8e964f3c78227a01a0fc5402.png" alt="Touch Screen Kiosk" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src="https://files.ihgbrands.com/emergent-images/9d94d952271c1bb0f9424f0cca282170183bd00b8e964f3c78227a01a0fc5402.png" alt="Touch Screen Kiosk" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <p className="text-amber-400 text-xs tracking-wider uppercase mb-1">Interactive Engagement</p>
@@ -366,7 +366,7 @@ export default function SmartSignagePage() {
             </FadeIn>
             <FadeIn delay={2}>
               <Link to="/signatouch/self-service" className="group block relative overflow-hidden rounded-sm aspect-video">
-                <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/e79c0dac3b6330c88d2466f982581e4348ce9ee6bf6058b9f5469df774382bcd.png" alt="Self-Service Kiosk" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src="https://files.ihgbrands.com/emergent-images/e79c0dac3b6330c88d2466f982581e4348ce9ee6bf6058b9f5469df774382bcd.png" alt="Self-Service Kiosk" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <p className="text-amber-400 text-xs tracking-wider uppercase mb-1">Streamlined Operations</p>

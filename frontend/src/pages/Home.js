@@ -63,7 +63,7 @@ const HeroVideoPlayer = ({ videos, videoY, overlayOpacity }) => {
   const [videoReady, setVideoReady] = useState(false);
   const videoRefs = useRef([]);
 
-  const heroVideos = videos?.length > 0 ? videos : ['/recovered/videos_hero-video-converted.mp4'];
+  const heroVideos = videos?.length > 0 ? videos : ['https://files.ihgbrands.com/videos_hero-video-converted.mp4'];
 
   // Handle video transitions
   useEffect(() => {
@@ -340,7 +340,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'TEXTURED LED PANELS',
     color: 'cyan',
     icon: Layers,
-    image: '/recovered/homepage_grande-hero.webp',
+    image: 'https://files.ihgbrands.com/homepage_grande-hero.webp',
     link: '/lumimorph'
   },
   { 
@@ -349,7 +349,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'NATURAL TEXTURE SCREENS',
     color: 'emerald',
     icon: Leaf,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
+    image: 'https://files.ihgbrands.com/emergent-images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
     link: '/naturatex'
   },
   { 
@@ -358,7 +358,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'INTERACTIVE KIOSKS',
     color: 'amber',
     icon: Monitor,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
+    image: 'https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
     link: '/signatouch'
   },
   { 
@@ -367,7 +367,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'SMART GLASS SOLUTIONS',
     color: 'violet',
     icon: Sparkles,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
+    image: 'https://files.ihgbrands.com/emergent-images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
     link: '/glassmorph'
   },
   { 
@@ -376,7 +376,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'PROFESSIONAL LED DISPLAYS',
     color: 'rose',
     icon: Tv,
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
+    image: 'https://files.ihgbrands.com/emergent-images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
     link: '/pixelvue'
   },
 ];
@@ -678,7 +678,7 @@ const Home = () => {
               >
                 <div className="aspect-[16/10] md:aspect-video overflow-hidden relative">
                   <img 
-                    src="/recovered/downloaded-images_ext_6f178933d1b4.jpg"
+                    src="https://files.ihgbrands.com/downloaded-images_ext_6f178933d1b4.jpg"
                     alt="Luxury Home Cinema"
                     loading="lazy"
                     decoding="async"
@@ -708,7 +708,7 @@ const Home = () => {
               >
                 <div className="aspect-[16/10] md:aspect-video overflow-hidden relative">
                   <img 
-                    src="/recovered/site-images_opt_ext_bc8c12ee1348.webp"
+                    src="https://files.ihgbrands.com/site-images_opt_ext_bc8c12ee1348.webp"
                     alt="Art & Immersive"
                     loading="lazy"
                     decoding="async"

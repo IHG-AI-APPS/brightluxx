@@ -36,10 +36,10 @@ const VARIANTS = [
 ];
 
 const APPLICATIONS = [
-  { name: 'Conference Rooms', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/994ba21f13302f59aacc4a84641b1e64db76fbc083a69c2a8604109ab0b2d3d5.png' },
-  { name: 'Hotel Bathrooms', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0a8f0c2cdad29691e223fd0f292d83947baade0536484eaea6512b6f07c90df0.png' },
-  { name: 'Retail Displays', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b434e53819d5e958f3c797fe0db6500a38558aa325c4c09ba3550d8aad374b33.png' },
-  { name: 'Healthcare', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png' },
+  { name: 'Conference Rooms', image: 'https://files.ihgbrands.com/emergent-images/994ba21f13302f59aacc4a84641b1e64db76fbc083a69c2a8604109ab0b2d3d5.png' },
+  { name: 'Hotel Bathrooms', image: 'https://files.ihgbrands.com/emergent-images/0a8f0c2cdad29691e223fd0f292d83947baade0536484eaea6512b6f07c90df0.png' },
+  { name: 'Retail Displays', image: 'https://files.ihgbrands.com/emergent-images/b434e53819d5e958f3c797fe0db6500a38558aa325c4c09ba3550d8aad374b33.png' },
+  { name: 'Healthcare', image: 'https://files.ihgbrands.com/emergent-images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png' },
 ];
 
 const FAQS = [
@@ -60,7 +60,7 @@ export default function SmartFilmPage() {
       {/* Hero */}
       <section className="relative min-h-[80vh] overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/994ba21f13302f59aacc4a84641b1e64db76fbc083a69c2a8604109ab0b2d3d5.png" alt="Smart Film" className="w-full h-full object-cover" />
+          <img src="https://files.ihgbrands.com/emergent-images/994ba21f13302f59aacc4a84641b1e64db76fbc083a69c2a8604109ab0b2d3d5.png" alt="Smart Film" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/80 to-neutral-950/30" />
         </div>
         <div className="relative flex flex-col min-h-[80vh]">
@@ -120,7 +120,7 @@ export default function SmartFilmPage() {
             </FadeIn>
             <FadeIn delay={1}>
               <div className="relative aspect-video rounded-sm overflow-hidden border border-neutral-800">
-                <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png" alt="PDLC Technology" className="w-full h-full object-cover" />
+                <img src="https://files.ihgbrands.com/emergent-images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png" alt="PDLC Technology" className="w-full h-full object-cover" />
               </div>
             </FadeIn>
           </div>
@@ -247,14 +247,14 @@ export default function SmartFilmPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <FadeIn delay={1}>
               <Link to="/glassmorph/led-film" className="group block relative overflow-hidden rounded-sm aspect-video">
-                <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b434e53819d5e958f3c797fe0db6500a38558aa325c4c09ba3550d8aad374b33.png" alt="LED Film" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src="https://files.ihgbrands.com/emergent-images/b434e53819d5e958f3c797fe0db6500a38558aa325c4c09ba3550d8aad374b33.png" alt="LED Film" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6"><p className="text-violet-400 text-xs tracking-wider uppercase mb-1">Transparent LED</p><h3 className="text-white text-xl font-light">LED Film</h3></div>
               </Link>
             </FadeIn>
             <FadeIn delay={2}>
               <Link to="/glassmorph/switchable-glass" className="group block relative overflow-hidden rounded-sm aspect-video">
-                <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0a8f0c2cdad29691e223fd0f292d83947baade0536484eaea6512b6f07c90df0.png" alt="Switchable Glass" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src="https://files.ihgbrands.com/emergent-images/0a8f0c2cdad29691e223fd0f292d83947baade0536484eaea6512b6f07c90df0.png" alt="Switchable Glass" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6"><p className="text-violet-400 text-xs tracking-wider uppercase mb-1">Pre-Laminated</p><h3 className="text-white text-xl font-light">Switchable Glass</h3></div>
               </Link>

@@ -71,10 +71,10 @@ DEFAULT_HERO = {
     "cta_text": "Explore Products",
     "cta_link": "/products",
     "video_urls": [
-        "/recovered/videos_hero-video-1.mp4",
+        "https://files.ihgbrands.com/videos_hero-video-1.mp4",
         "/videos/hero-video-2.mp4"
     ],
-    "poster_image": "/recovered/uploads_hero_banner.webp"
+    "poster_image": "https://files.ihgbrands.com/uploads_hero_banner.webp"
 }
 
 DEFAULT_STATS = [

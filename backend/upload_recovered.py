@@ -11,12 +11,12 @@ from pathlib import Path
 
 # Generated image replacements for the 6 missing files
 GENERATED_REPLACEMENTS = {
-    "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/2031d053c67d612c7dc323331b83b59af6f8320b60abdd2d32421775987d0177.png": "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/2031d053c67d612c7dc323331b83b59af6f8320b60abdd2d32421775987d0177.png",
-    "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/a40dc162a0a88bf31bf94f0de5ed77952829b133c0de6c4dea05c07e49c4a405.png": "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/a40dc162a0a88bf31bf94f0de5ed77952829b133c0de6c4dea05c07e49c4a405.png",
-    "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/5dbac7e6889b544bf4f261844d917e7a8697ac08b30637e96f2c75218ad784be.png": "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/5dbac7e6889b544bf4f261844d917e7a8697ac08b30637e96f2c75218ad784be.png",
-    "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/fa5bcff834efce178ae8a4c7f097e9349a31d7d833abb778099ee9f588b391ce.png": "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/fa5bcff834efce178ae8a4c7f097e9349a31d7d833abb778099ee9f588b391ce.png",
-    "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/0f94ba2fb077d6c4bdf8613e9ec3fa9295c46a647cb8f37a7afc192b6e8a1f2c.png": "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/0f94ba2fb077d6c4bdf8613e9ec3fa9295c46a647cb8f37a7afc192b6e8a1f2c.png",
-    "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/96812cb6f7543b43c96ed28c4759bc3b3da4e11f8c26d189bf0a878331e5e16b.png": "https://static.prod-images.emergentagent.com/jobs/9ab88f3f-5361-48ba-8df2-514086eeb249/images/96812cb6f7543b43c96ed28c4759bc3b3da4e11f8c26d189bf0a878331e5e16b.png",
+    "https://files.ihgbrands.com/emergent-images/2031d053c67d612c7dc323331b83b59af6f8320b60abdd2d32421775987d0177.png": "https://files.ihgbrands.com/emergent-images/2031d053c67d612c7dc323331b83b59af6f8320b60abdd2d32421775987d0177.png",
+    "https://files.ihgbrands.com/emergent-images/a40dc162a0a88bf31bf94f0de5ed77952829b133c0de6c4dea05c07e49c4a405.png": "https://files.ihgbrands.com/emergent-images/a40dc162a0a88bf31bf94f0de5ed77952829b133c0de6c4dea05c07e49c4a405.png",
+    "https://files.ihgbrands.com/emergent-images/5dbac7e6889b544bf4f261844d917e7a8697ac08b30637e96f2c75218ad784be.png": "https://files.ihgbrands.com/emergent-images/5dbac7e6889b544bf4f261844d917e7a8697ac08b30637e96f2c75218ad784be.png",
+    "https://files.ihgbrands.com/emergent-images/fa5bcff834efce178ae8a4c7f097e9349a31d7d833abb778099ee9f588b391ce.png": "https://files.ihgbrands.com/emergent-images/fa5bcff834efce178ae8a4c7f097e9349a31d7d833abb778099ee9f588b391ce.png",
+    "https://files.ihgbrands.com/emergent-images/0f94ba2fb077d6c4bdf8613e9ec3fa9295c46a647cb8f37a7afc192b6e8a1f2c.png": "https://files.ihgbrands.com/emergent-images/0f94ba2fb077d6c4bdf8613e9ec3fa9295c46a647cb8f37a7afc192b6e8a1f2c.png",
+    "https://files.ihgbrands.com/emergent-images/96812cb6f7543b43c96ed28c4759bc3b3da4e11f8c26d189bf0a878331e5e16b.png": "https://files.ihgbrands.com/emergent-images/96812cb6f7543b43c96ed28c4759bc3b3da4e11f8c26d189bf0a878331e5e16b.png",
 }
 
 

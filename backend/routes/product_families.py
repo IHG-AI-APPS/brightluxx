@@ -73,11 +73,11 @@ class ProductFamilyUpdate(BaseModel):
 
 # Fallback hero images for when DB values are empty or broken
 HERO_IMAGE_FALLBACKS = {
-    'lumimorph': '/recovered/homepage_grande-hero.webp',
-    'naturatex': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
-    'signatouch': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
-    'glassmorph': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
-    'pixelvue': 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
+    'lumimorph': 'https://files.ihgbrands.com/homepage_grande-hero.webp',
+    'naturatex': 'https://files.ihgbrands.com/emergent-images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
+    'signatouch': 'https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
+    'glassmorph': 'https://files.ihgbrands.com/emergent-images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
+    'pixelvue': 'https://files.ihgbrands.com/emergent-images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
 }
 
 def serialize_family(family: dict) -> dict:

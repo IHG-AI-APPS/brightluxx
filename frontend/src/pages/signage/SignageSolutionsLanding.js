@@ -111,7 +111,7 @@ const SignageSolutionsLanding = () => {
       title: 'LED Channel Letters',
       subtitle: 'Illuminated Storefront Identity',
       desc: 'Front-lit, back-lit (halo), and RGB dynamic letters. 70% energy savings vs neon with 50,000+ hour lifespan.',
-      image: '/recovered/site-images_opt_ext_242cba1e45fb.webp',
+      image: 'https://files.ihgbrands.com/site-images_opt_ext_242cba1e45fb.webp',
       color: 'amber',
       features: ['Custom Sizes 10"-60"', '16M+ RGB Colors', 'UL Certified'],
       link: '/signage-solutions#products',
@@ -121,7 +121,7 @@ const SignageSolutionsLanding = () => {
       title: 'Digital Menu Boards',
       subtitle: 'Smart Restaurant Displays',
       desc: 'High-brightness menu displays for QSR, drive-thrus, and food courts. Cloud-managed content with real-time updates.',
-      image: '/recovered/site-images_opt_pexels_50456b1568ac.webp',
+      image: 'https://files.ihgbrands.com/site-images_opt_pexels_50456b1568ac.webp',
       color: 'cyan',
       features: ['2,500+ nits', 'Cloud CMS', '24/7 Operation'],
       link: '/signage-solutions#products',
@@ -131,7 +131,7 @@ const SignageSolutionsLanding = () => {
       title: 'Wayfinding & Directory',
       subtitle: 'Interactive Navigation',
       desc: 'Touchscreen kiosks and FIDS displays for malls, airports, and hospitals. Multi-language support with 3D maps.',
-      image: '/recovered/site-images_opt_pexels_3658bf9b0243.webp',
+      image: 'https://files.ihgbrands.com/site-images_opt_pexels_3658bf9b0243.webp',
       color: 'violet',
       features: ['Touch Interactive', 'Multi-language', 'BMS Integration'],
       link: '/signage-solutions#products',
@@ -141,7 +141,7 @@ const SignageSolutionsLanding = () => {
       title: 'Transparent Window LED',
       subtitle: 'See-Through Advertising',
       desc: 'Ultra-thin LED film that turns any window into a dynamic display. 85% transparency maintains natural light.',
-      image: '/recovered/site-images_opt_pexels_7823ce388eed.webp',
+      image: 'https://files.ihgbrands.com/site-images_opt_pexels_7823ce388eed.webp',
       color: 'emerald',
       features: ['85% Transparent', '4500+ nits', 'Self-Adhesive'],
       link: '/signage-solutions#products',
@@ -151,7 +151,7 @@ const SignageSolutionsLanding = () => {
       title: 'Specialty Signage',
       subtitle: 'Industry-Specific Solutions',
       desc: 'Fuel price signs, parking guidance, and custom applications. Remote management for multi-site deployments.',
-      image: '/recovered/site-images_opt_ext_98d515dcfb2a.webp',
+      image: 'https://files.ihgbrands.com/site-images_opt_ext_98d515dcfb2a.webp',
       color: 'rose',
       features: ['Remote Update', 'Fleet Management', 'Weather-Sealed'],
       link: '/signage-solutions#products',
@@ -161,7 +161,7 @@ const SignageSolutionsLanding = () => {
       title: 'Pylon & Monument Signs',
       subtitle: 'Landmark Presence',
       desc: 'Tall outdoor wayfinding pylons combining static branding with dynamic LED content. Engineered for 120mph wind loads.',
-      image: '/recovered/site-images_opt_ext_bafcbcea17c0.webp',
+      image: 'https://files.ihgbrands.com/site-images_opt_ext_bafcbcea17c0.webp',
       color: 'orange',
       features: ['10-30ft Heights', '7000 nits', 'Engineered Structure'],
       link: '/signage-solutions#products',
@@ -184,7 +184,7 @@ const SignageSolutionsLanding = () => {
         {/* Background */}
         <div className="absolute inset-0">
           <img 
-            src="/recovered/downloaded-images_ext_d0b67b9dced9.jpg"
+            src="https://files.ihgbrands.com/downloaded-images_ext_d0b67b9dced9.jpg"
             alt="EMAAR Dubai Mall Signage"
             className="w-full h-full object-cover"
           />

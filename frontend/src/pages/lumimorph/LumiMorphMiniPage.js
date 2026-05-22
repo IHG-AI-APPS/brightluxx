@@ -52,7 +52,7 @@ export default function LumiMorphMini() {
       {/* Hero */}
       <section className="relative min-h-[80vh] overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/recovered/artmorph_art_mini-hero.webp" alt="LumiMorph Mini" className="w-full h-full object-cover" />
+          <img src="https://files.ihgbrands.com/artmorph_art_mini-hero.webp" alt="LumiMorph Mini" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/60 via-neutral-950/40 to-neutral-950" />
         </div>
 
@@ -163,7 +163,7 @@ export default function LumiMorphMini() {
         <div className="max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <FadeIn>
-              <img src="/recovered/artmorph_art_mini-compact.webp" alt="Compact Design" className="rounded-sm w-full" />
+              <img src="https://files.ihgbrands.com/artmorph_art_mini-compact.webp" alt="Compact Design" className="rounded-sm w-full" />
             </FadeIn>
             <FadeIn delay={1}>
               <p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Compact Power</p>
@@ -210,7 +210,7 @@ export default function LumiMorphMini() {
               </div>
             </FadeIn>
             <FadeIn delay={1}>
-              <img src="/recovered/artmorph_art_mini-integration.webp" alt="Integration" className="rounded-sm w-full" />
+              <img src="https://files.ihgbrands.com/artmorph_art_mini-integration.webp" alt="Integration" className="rounded-sm w-full" />
             </FadeIn>
           </div>
         </div>
@@ -221,7 +221,7 @@ export default function LumiMorphMini() {
         <div className="max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <FadeIn>
-              <img src="/recovered/artmorph_art_mini-creative.webp" alt="Creative Layouts" className="rounded-sm w-full" />
+              <img src="https://files.ihgbrands.com/artmorph_art_mini-creative.webp" alt="Creative Layouts" className="rounded-sm w-full" />
             </FadeIn>
             <FadeIn delay={1}>
               <p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Design Freedom</p>
@@ -339,8 +339,8 @@ export default function LumiMorphMini() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { name: 'LumiMorph Elite', tagline: 'Closer. Clearer. Bolder.', image: '/recovered/artmorph_art_workspace-after.webp', link: '/lumimorph/elite' },
-              { name: 'LumiMorph Grande', tagline: 'Living Walls, Immersive Stories', image: '/recovered/homepage_grande-hero.webp', link: '/lumimorph/grande' },
+              { name: 'LumiMorph Elite', tagline: 'Closer. Clearer. Bolder.', image: 'https://files.ihgbrands.com/artmorph_art_workspace-after.webp', link: '/lumimorph/elite' },
+              { name: 'LumiMorph Grande', tagline: 'Living Walls, Immersive Stories', image: 'https://files.ihgbrands.com/homepage_grande-hero.webp', link: '/lumimorph/grande' },
             ].map((product, i) => (
               <FadeIn key={i} delay={i + 1}>
                 <Link to={product.link} className="group block relative overflow-hidden rounded-sm aspect-video">

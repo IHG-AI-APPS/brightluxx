@@ -17,16 +17,14 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ## Completed Features
 
-### CDN Migration: files.ihgbrands.com → Local /recovered/ — May 20, 2026
-- External CDN `files.ihgbrands.com` went offline (all 404). Recovered 631 files (762MB) from git history
-- 213 active media files restored to `/app/frontend/public/recovered/` (229MB)
-- 6 missing PixelVue product images AI-generated via Gemini Imagen
-- Replaced 216 broken URLs across 37 frontend files (285 replacements), 5 backend files, and 123 database documents
-- Rewrote `cdn.js` helper to serve from `/recovered/` instead of external CDN
-- Deleted junk test product ('hjdba') from database
-- Updated `index.html` preconnect/dns-prefetch tags
-- Zero `files.ihgbrands.com` references remaining in code or database
-- Testing: 100% backend (25/25), 96%→100% frontend after fixing 4 missing project images
+### CDN Migration: Restored files.ihgbrands.com — May 22, 2026
+- Uploaded 371 files (479MB) to VPS at 152.42.185.192 (`/var/brightluxx/`)
+- Configured nginx SSL to serve from `https://files.ihgbrands.com/`
+- 213 recovered files (images, videos) + 129 Emergent static images + logos + artmorph video
+- Updated 56 source files and 151 database documents to use CDN URLs
+- Rewrote `cdn.js` helper to build `files.ihgbrands.com` URLs
+- Removed local `/recovered/` directory (back to 46MB public folder)
+- All media now served via Cloudflare-proxied CDN with 1-year cache headers
 - **Reduced `public/` directory from 777MB to 46MB** (94% reduction) by removing unused local copies of CDN-migrated files
 - Deleted: `generated-images/` (444MB, 225 files), `downloaded-images/` (157MB, 173 files), `uploads/` (31MB, 194 files), `generated/` (6.9MB, 8 files), `videos/` (43MB, 7 files), `unatural-assets/` (12KB)
 - Cleaned `artmorph-assets/` from 88MB to 45MB (kept only `grande-video.mp4` still served locally)

@@ -15,31 +15,31 @@ const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 /* AI-Generated Solution Images */
 const SOLUTION_IMAGES = {
-  retail: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f1edab22f7c00ed7647328b0726ef9e2724536d87fcb9797fe25887dfe20104e.png',
-  corporate: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/560b86307144e6c3e932bdd0b195203f9854ab40f18ea255c935eda9fdbcb23a.png',
-  outdoor: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/151c4ebb15ea6704fa3459bca85c7c02918980304175228ec6b8886cd43d9bee.png',
-  events: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a27342dd23e1b9ce1afa6aa0fd9f5f0a6a841631c74a9ae412af243be9801a46.png',
-  creative: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/17b677abe013dc2ced0fab9c0eea6442ad18991722a3c325394d66f6e7ba115e.png',
-  traffic: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/eb6a2b60aa28770d377972ee091ae5e18a1a88eeba71cea58b2e2b07c8791e55.png',
-  immersive: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6693621e07894f058b6d960fb917b36db40c6318357442d73fe106f4cd276e2f.png',
-  transparent: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/513865c504ff9437c4a554cc3b6a86c818e9a8468b5e05dcbcf11e350d3d6b79.png',
-  healthcare: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/5468030b6847618ff8d0962c44c0869ac72b92e3dda4acd1b88d4c21437ea6d9.png',
-  education: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/bcd5ee75376ec9db3ba96c6371c71a4c6db5ce02ff9d79deef4c0f56a73ad26d.png',
-  sports: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0e3eabf34c883a9bfcba897e548960e8a53a87e819c5490c2053f97cb939d564.png',
+  retail: 'https://files.ihgbrands.com/emergent-images/f1edab22f7c00ed7647328b0726ef9e2724536d87fcb9797fe25887dfe20104e.png',
+  corporate: 'https://files.ihgbrands.com/emergent-images/560b86307144e6c3e932bdd0b195203f9854ab40f18ea255c935eda9fdbcb23a.png',
+  outdoor: 'https://files.ihgbrands.com/emergent-images/151c4ebb15ea6704fa3459bca85c7c02918980304175228ec6b8886cd43d9bee.png',
+  events: 'https://files.ihgbrands.com/emergent-images/a27342dd23e1b9ce1afa6aa0fd9f5f0a6a841631c74a9ae412af243be9801a46.png',
+  creative: 'https://files.ihgbrands.com/emergent-images/17b677abe013dc2ced0fab9c0eea6442ad18991722a3c325394d66f6e7ba115e.png',
+  traffic: 'https://files.ihgbrands.com/emergent-images/eb6a2b60aa28770d377972ee091ae5e18a1a88eeba71cea58b2e2b07c8791e55.png',
+  immersive: 'https://files.ihgbrands.com/emergent-images/6693621e07894f058b6d960fb917b36db40c6318357442d73fe106f4cd276e2f.png',
+  transparent: 'https://files.ihgbrands.com/emergent-images/513865c504ff9437c4a554cc3b6a86c818e9a8468b5e05dcbcf11e350d3d6b79.png',
+  healthcare: 'https://files.ihgbrands.com/emergent-images/5468030b6847618ff8d0962c44c0869ac72b92e3dda4acd1b88d4c21437ea6d9.png',
+  education: 'https://files.ihgbrands.com/emergent-images/bcd5ee75376ec9db3ba96c6371c71a4c6db5ce02ff9d79deef4c0f56a73ad26d.png',
+  sports: 'https://files.ihgbrands.com/emergent-images/0e3eabf34c883a9bfcba897e548960e8a53a87e819c5490c2053f97cb939d564.png',
 };
 
 const SOLUTION_HERO_IMAGES = {
-  retail: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/1e17d51897165f3c567fb1068bd91e95f713846e0b8dfc9d0d6b8dfc331e7c15.png',
-  corporate: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/8581b075158bc90730f45490bd7099982ba35ba2120543a49cc68a94837130a7.png',
-  outdoor: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/5f590dfb625ffadc07da67c64dee28cd82e8bc4102e3d5938e51d25796dda9af.png',
-  events: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/29b1b4f35b2132ff1c6ddca3c57098f7ab48000114c408e76fba47342730b7d7.png',
-  creative: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/60eb2ae04f2709ed722742111023c9e12d534db6e5548ae69f3bdff2ae24dc2c.png',
-  traffic: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/738fd99c2808488db2705be11de0b4237d2ccd2564d2175c3f587afc5528f116.png',
-  immersive: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/811080c892567c46a15b820cafaf94715e2452e5b623a604dbc72b8397718040.png',
-  transparent: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c06085e1344cd73c610c96f64040296ae3600ce480bad81ce7df2b88201cad21.png',
-  healthcare: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7c0abf443de9306553a36d6dab047cb2602297e3a624d790a1d2b35ac9e9a12f.png',
-  education: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/cdf329ff59e4cc2c9f37b9cfe18eeb3c5798e5d78249d786a64c83e7e31b84a8.png',
-  sports: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9526e5947bd78aa69ff98d080f2cda56d8ede781a2848cfa1ba7ec2152cf57f4.png',
+  retail: 'https://files.ihgbrands.com/emergent-images/1e17d51897165f3c567fb1068bd91e95f713846e0b8dfc9d0d6b8dfc331e7c15.png',
+  corporate: 'https://files.ihgbrands.com/emergent-images/8581b075158bc90730f45490bd7099982ba35ba2120543a49cc68a94837130a7.png',
+  outdoor: 'https://files.ihgbrands.com/emergent-images/5f590dfb625ffadc07da67c64dee28cd82e8bc4102e3d5938e51d25796dda9af.png',
+  events: 'https://files.ihgbrands.com/emergent-images/29b1b4f35b2132ff1c6ddca3c57098f7ab48000114c408e76fba47342730b7d7.png',
+  creative: 'https://files.ihgbrands.com/emergent-images/60eb2ae04f2709ed722742111023c9e12d534db6e5548ae69f3bdff2ae24dc2c.png',
+  traffic: 'https://files.ihgbrands.com/emergent-images/738fd99c2808488db2705be11de0b4237d2ccd2564d2175c3f587afc5528f116.png',
+  immersive: 'https://files.ihgbrands.com/emergent-images/811080c892567c46a15b820cafaf94715e2452e5b623a604dbc72b8397718040.png',
+  transparent: 'https://files.ihgbrands.com/emergent-images/c06085e1344cd73c610c96f64040296ae3600ce480bad81ce7df2b88201cad21.png',
+  healthcare: 'https://files.ihgbrands.com/emergent-images/7c0abf443de9306553a36d6dab047cb2602297e3a624d790a1d2b35ac9e9a12f.png',
+  education: 'https://files.ihgbrands.com/emergent-images/cdf329ff59e4cc2c9f37b9cfe18eeb3c5798e5d78249d786a64c83e7e31b84a8.png',
+  sports: 'https://files.ihgbrands.com/emergent-images/9526e5947bd78aa69ff98d080f2cda56d8ede781a2848cfa1ba7ec2152cf57f4.png',
 };
 
 const ICON_MAP = { ShoppingBag, Building2, MonitorPlay, Theater, Layers, TrafficCone, Tv, Globe, Heart, GraduationCap, Trophy, Sparkles, Sun, Music, Car, Video, Eye, Briefcase: Building2 };

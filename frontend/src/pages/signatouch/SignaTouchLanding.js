@@ -37,7 +37,7 @@ const PRODUCTS = [
     name: 'Touch Screen Kiosk',
     tagline: 'Interactive Engagement',
     desc: 'Multi-touch interactive kiosks with IR touch technology for engaging customer experiences.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9d94d952271c1bb0f9424f0cca282170183bd00b8e964f3c78227a01a0fc5402.png',
+    image: 'https://files.ihgbrands.com/emergent-images/9d94d952271c1bb0f9424f0cca282170183bd00b8e964f3c78227a01a0fc5402.png',
     specs: { sizes: '30″-77″', touch: '40-Point IR' },
     link: '/signatouch/touch-kiosk',
   },
@@ -46,7 +46,7 @@ const PRODUCTS = [
     name: 'Smart Signage Kiosk',
     tagline: 'Dynamic Content',
     desc: 'Transparent OLED displays with floating imagery effect for premium brand experiences.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
+    image: 'https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
     specs: { transparency: '45%', brightness: '600 cd/m²' },
     link: '/signatouch/smart-signage',
   },
@@ -55,19 +55,19 @@ const PRODUCTS = [
     name: 'Self-Service Kiosk',
     tagline: 'Streamlined Operations',
     desc: 'Complete self-service solutions with payment integration for retail and hospitality.',
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/e79c0dac3b6330c88d2466f982581e4348ce9ee6bf6058b9f5469df774382bcd.png',
+    image: 'https://files.ihgbrands.com/emergent-images/e79c0dac3b6330c88d2466f982581e4348ce9ee6bf6058b9f5469df774382bcd.png',
     specs: { payment: 'NFC/Card', os: 'Android/Windows' },
     link: '/signatouch/self-service',
   },
 ];
 
 const INDUSTRIES = [
-  { name: 'Retail', icon: ShoppingCart, image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png' },
-  { name: 'Hospitality', icon: Building2, image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9d94d952271c1bb0f9424f0cca282170183bd00b8e964f3c78227a01a0fc5402.png' },
-  { name: 'Healthcare', icon: Stethoscope, image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/842b07e428fe30f175b67d1d00a180c927813b1d29cef9bed286e5ebb851099f.png' },
-  { name: 'Corporate', icon: Building, image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/1df2bc4f2a39b3b19413f809a4fa3c3011b85f2f0ceca0e3eca9059a71b418bd.png' },
-  { name: 'Transportation', icon: Plane, image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f47cf0d6cc2932b068222b44d2405775e6738934b20f9eda2dd0a4bd4e0a48ff.png' },
-  { name: 'F&B', icon: UtensilsCrossed, image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/e79c0dac3b6330c88d2466f982581e4348ce9ee6bf6058b9f5469df774382bcd.png' },
+  { name: 'Retail', icon: ShoppingCart, image: 'https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png' },
+  { name: 'Hospitality', icon: Building2, image: 'https://files.ihgbrands.com/emergent-images/9d94d952271c1bb0f9424f0cca282170183bd00b8e964f3c78227a01a0fc5402.png' },
+  { name: 'Healthcare', icon: Stethoscope, image: 'https://files.ihgbrands.com/emergent-images/842b07e428fe30f175b67d1d00a180c927813b1d29cef9bed286e5ebb851099f.png' },
+  { name: 'Corporate', icon: Building, image: 'https://files.ihgbrands.com/emergent-images/1df2bc4f2a39b3b19413f809a4fa3c3011b85f2f0ceca0e3eca9059a71b418bd.png' },
+  { name: 'Transportation', icon: Plane, image: 'https://files.ihgbrands.com/emergent-images/f47cf0d6cc2932b068222b44d2405775e6738934b20f9eda2dd0a4bd4e0a48ff.png' },
+  { name: 'F&B', icon: UtensilsCrossed, image: 'https://files.ihgbrands.com/emergent-images/e79c0dac3b6330c88d2466f982581e4348ce9ee6bf6058b9f5469df774382bcd.png' },
 ];
 
 const STATS = [
@@ -101,7 +101,7 @@ export default function SignaTouchLanding() {
       <section className="relative min-h-screen overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png" 
+            src="https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png" 
             alt={heroAlt}
             className="w-full h-full object-cover"
           />
@@ -240,7 +240,7 @@ export default function SignaTouchLanding() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <FadeIn>
               <img 
-                src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/1da67c3e418012a294b24d90081d04dd38bbfbd8e2b3abf7035f6083d3999a36.png" 
+                src="https://files.ihgbrands.com/emergent-images/1da67c3e418012a294b24d90081d04dd38bbfbd8e2b3abf7035f6083d3999a36.png" 
                 alt="Interactive Kiosk" 
                 className="rounded-sm w-full"
               />
@@ -352,7 +352,7 @@ export default function SignaTouchLanding() {
           <div className="grid md:grid-cols-2 gap-6">
             <FadeIn delay={1}>
               <Link to="/lumimorph" className="group block relative overflow-hidden rounded-sm aspect-video">
-                <img src="/recovered/homepage_grande-hero.webp" alt="LumiMorph" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src="https://files.ihgbrands.com/homepage_grande-hero.webp" alt="LumiMorph" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <p className="text-cyan-400 text-xs tracking-wider uppercase mb-1">Textured Luminous Panels</p>
@@ -362,7 +362,7 @@ export default function SignaTouchLanding() {
             </FadeIn>
             <FadeIn delay={2}>
               <Link to="/naturatex" className="group block relative overflow-hidden rounded-sm aspect-video">
-                <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png" alt="NaturaTex" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src="https://files.ihgbrands.com/emergent-images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png" alt="NaturaTex" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <p className="text-emerald-400 text-xs tracking-wider uppercase mb-1">Texture Screen Technology</p>

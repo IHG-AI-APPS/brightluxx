@@ -10,7 +10,7 @@ export const DEA_PAGES = [
     heroTitle: 'Media Facades',
     heroSubtitle: 'LED-Integrated Building Skins for UAE & GCC',
     heroDescription: 'Transform entire building exteriors into dynamic digital canvases. Media facades integrate LED technology directly into architectural cladding, creating landmark destinations that captivate audiences day and night across Dubai, Abu Dhabi, Riyadh, and the wider GCC.',
-    heroImage: '/recovered/site-images_opt_ext_23d7a971869e.webp',
+    heroImage: 'https://files.ihgbrands.com/site-images_opt_ext_23d7a971869e.webp',
     whatsappMessage: "Hi, I'm interested in Media Facade LED solutions for a building project",
     overview: {
       title: 'What Are Media Facades?',
@@ -53,9 +53,9 @@ export const DEA_PAGES = [
     ],
     relatedTechs: ['transparent-led', 'outdoor-led'],
     projectImages: [
-      '/recovered/site-images_opt_ext_a07551ddfb02.webp',
-      '/recovered/site-images_opt_ext_60a4673495ee.webp',
-      '/recovered/site-images_opt_ext_cec474df463a.webp',
+      'https://files.ihgbrands.com/site-images_opt_ext_a07551ddfb02.webp',
+      'https://files.ihgbrands.com/site-images_opt_ext_60a4673495ee.webp',
+      'https://files.ihgbrands.com/site-images_opt_ext_cec474df463a.webp',
     ],
   },
   {
@@ -67,7 +67,7 @@ export const DEA_PAGES = [
     heroTitle: 'Immersive LED Rooms',
     heroSubtitle: '360-Degree LED Environments for Museums, Brand Centers & Corporate Showrooms',
     heroDescription: 'Multi-wall LED environments that transport visitors into fully immersive digital worlds. From museum exhibitions to corporate experience centers, immersive LED rooms create emotional connections through floor-to-ceiling visual storytelling that no other medium can match.',
-    heroImage: '/recovered/site-images_opt_ext_60b2a7b13c15.webp',
+    heroImage: 'https://files.ihgbrands.com/site-images_opt_ext_60b2a7b13c15.webp',
     whatsappMessage: "Hi, I'm interested in Immersive LED Room solutions for a project",
     overview: {
       title: 'What Are Immersive LED Rooms?',
@@ -110,9 +110,9 @@ export const DEA_PAGES = [
     ],
     relatedTechs: ['fine-pitch-led', 'microled', 'creative-led'],
     projectImages: [
-      '/recovered/site-images_opt_ext_0331b6b3fb28.webp',
-      '/recovered/site-images_opt_ext_6a60882d8aae.webp',
-      '/recovered/site-images_opt_ext_bd57058d4301.webp',
+      'https://files.ihgbrands.com/site-images_opt_ext_0331b6b3fb28.webp',
+      'https://files.ihgbrands.com/site-images_opt_ext_6a60882d8aae.webp',
+      'https://files.ihgbrands.com/site-images_opt_ext_bd57058d4301.webp',
     ],
   },
   {
@@ -124,7 +124,7 @@ export const DEA_PAGES = [
     heroTitle: 'Retail Experiential Screens',
     heroSubtitle: 'LED Displays for Flagship Stores, Malls & Luxury Retail',
     heroDescription: 'Luxury retail is evolving beyond static displays. Curved LED walls, transparent storefronts, 3D anamorphic corners, and in-store media walls transform flagship stores into destinations. The display is the architecture — and the architecture sells.',
-    heroImage: '/recovered/site-images_opt_ext_404baf7ac854.webp',
+    heroImage: 'https://files.ihgbrands.com/site-images_opt_ext_404baf7ac854.webp',
     whatsappMessage: "Hi, I'm interested in Retail Experiential LED Screen solutions",
     overview: {
       title: 'What Are Retail Experiential Screens?',
@@ -167,9 +167,9 @@ export const DEA_PAGES = [
     ],
     relatedTechs: ['cob-led', 'transparent-led', '3d-anamorphic-led'],
     projectImages: [
-      '/recovered/site-images_opt_ext_9e90f5c2d62a.webp',
-      '/recovered/site-images_opt_ext_6f9e3e6150a0.webp',
-      '/recovered/site-images_opt_ext_4e8e94a56f21.webp',
+      'https://files.ihgbrands.com/site-images_opt_ext_9e90f5c2d62a.webp',
+      'https://files.ihgbrands.com/site-images_opt_ext_6f9e3e6150a0.webp',
+      'https://files.ihgbrands.com/site-images_opt_ext_4e8e94a56f21.webp',
     ],
   },
 ];

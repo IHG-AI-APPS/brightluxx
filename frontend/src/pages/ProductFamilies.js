@@ -52,7 +52,7 @@ const STATIC_PRODUCT_FAMILIES = [
     tagline: 'Textured LED Panels',
     description: 'Revolutionary LED displays with interchangeable decorative covers. Transform any surface from art piece to dynamic display with magnetic texture panels in wood, stone, textile, and metal finishes.',
     brand_color: 'cyan',
-    hero_image: '/recovered/homepage_grande-hero.webp',
+    hero_image: 'https://files.ihgbrands.com/homepage_grande-hero.webp',
     key_features: ['200+ Texture Options', 'Magnetic Covers', 'P2.6 & P6.2 Pitch', '5-Year Warranty'],
     products: [{ name: 'Elite' }, { name: 'Grande' }, { name: 'Mini' }],
   },
@@ -63,7 +63,7 @@ const STATIC_PRODUCT_FAMILIES = [
     tagline: 'Natural Texture Screens',
     description: 'Nano-optical technology that seamlessly blends LED displays with natural materials. When off, it\'s art. When on, it\'s a stunning display. Perfect for luxury hospitality and corporate spaces.',
     brand_color: 'emerald',
-    hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
+    hero_image: 'https://files.ihgbrands.com/emergent-images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
     key_features: ['Nano-Optical Tech', 'COB Technology', 'P0.7-P1.8 Pitch', 'Eye-Protective'],
     products: [{ name: 'NaturaTex' }, { name: 'HoloVeil' }],
   },
@@ -74,7 +74,7 @@ const STATIC_PRODUCT_FAMILIES = [
     tagline: 'Interactive Digital Kiosks',
     description: 'Enterprise-grade interactive kiosk solutions for retail, hospitality, and corporate environments. Touch screens, transparent OLED, and self-service terminals with payment integration.',
     brand_color: 'amber',
-    hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
+    hero_image: 'https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
     key_features: ['40-Point Touch', 'Transparent OLED', 'Payment Ready', 'Android/Windows'],
     products: [{ name: 'Touch Kiosk' }, { name: 'Smart Signage' }, { name: 'Self-Service' }],
   },
@@ -85,7 +85,7 @@ const STATIC_PRODUCT_FAMILIES = [
     tagline: 'Smart Glass & Film Solutions',
     description: 'Transform any glass surface with intelligent technology. PDLC switchable privacy film, transparent LED displays, and media glass that turns windows into dynamic digital canvases.',
     brand_color: 'violet',
-    hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
+    hero_image: 'https://files.ihgbrands.com/emergent-images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
     key_features: ['99% UV Block', '95% Transparency', 'Instant Privacy', '5W/m² Power'],
     products: [{ name: 'Smart Film' }, { name: 'LED Film' }, { name: 'Media Glass' }, { name: 'Switchable Glass' }],
   },
@@ -96,7 +96,7 @@ const STATIC_PRODUCT_FAMILIES = [
     tagline: 'Professional LED Displays',
     description: 'Complete range of commercial LED solutions from sleek digital posters to creative custom shapes. Modular systems for retail, corporate, and artistic installations with stunning visual impact.',
     brand_color: 'rose',
-    hero_image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
+    hero_image: 'https://files.ihgbrands.com/emergent-images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
     key_features: ['100K+ Hours', '3840Hz Refresh', '160° Viewing', '3-Year Warranty'],
     products: [{ name: 'iPoster' }, { name: 'Unity' }, { name: 'Creative Shapes' }],
   },
@@ -104,11 +104,11 @@ const STATIC_PRODUCT_FAMILIES = [
 
 // Fallback hero images keyed by slug
 const FALLBACK_IMAGES = {
-  lumimorph: '/recovered/homepage_grande-hero.webp',
-  naturatex: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
-  signatouch: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
-  glassmorph: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
-  pixelvue: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
+  lumimorph: 'https://files.ihgbrands.com/homepage_grande-hero.webp',
+  naturatex: 'https://files.ihgbrands.com/emergent-images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
+  signatouch: 'https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
+  glassmorph: 'https://files.ihgbrands.com/emergent-images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
+  pixelvue: 'https://files.ihgbrands.com/emergent-images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
 };
 
 // Helper to transform API data to component format

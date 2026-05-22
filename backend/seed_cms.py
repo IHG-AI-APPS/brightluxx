@@ -25,7 +25,7 @@ PIXELVUE_PRODUCTS = [
         "category": "poster",
         "tagline": "Seamless Splicing. Stunning Impact.",
         "description": "Advanced indoor moveable digital signage with seamless 16:9 splicing capability. Ultra-slim 40mm profile, magnetic assembly, and flexible control options make iPoster the perfect choice for any environment.",
-        "hero_image": "https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png",
+        "hero_image": "https://files.ihgbrands.com/emergent-images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png",
         "quick_specs": [
             {"label": "Thickness", "value": "40mm"},
             {"label": "Weight", "value": "69kg"},

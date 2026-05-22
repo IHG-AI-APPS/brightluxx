@@ -32,11 +32,11 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
 };
 
 const APPLICATIONS = [
-  { name: 'Reception Desk', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0df70d52700f6cd82cae5a3e328f51241faaa9646904e18572a99184b3c02a1e.png' },
-  { name: 'Club & Nightlife', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b21d3104790b5b688b54f330701edb577f1df0c15a9332d97eb4ee63d402c71e.png' },
-  { name: 'Gallery Wall', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6afcc7649717065852dd86a565bc1b10d16ad80324537065bd03c4962adfe4ab.png' },
-  { name: 'Restaurant', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/662f0cfbba0d0fef72dbd8539069bd465c284a186594b446d81329daabf68f04.png' },
-  { name: 'Coffee Shop', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/c99cf5742431bcf7d80a80ff9d6e020fe517373abd755db97c4abcd17c9e9aa7.png' },
+  { name: 'Reception Desk', image: 'https://files.ihgbrands.com/emergent-images/0df70d52700f6cd82cae5a3e328f51241faaa9646904e18572a99184b3c02a1e.png' },
+  { name: 'Club & Nightlife', image: 'https://files.ihgbrands.com/emergent-images/b21d3104790b5b688b54f330701edb577f1df0c15a9332d97eb4ee63d402c71e.png' },
+  { name: 'Gallery Wall', image: 'https://files.ihgbrands.com/emergent-images/6afcc7649717065852dd86a565bc1b10d16ad80324537065bd03c4962adfe4ab.png' },
+  { name: 'Restaurant', image: 'https://files.ihgbrands.com/emergent-images/662f0cfbba0d0fef72dbd8539069bd465c284a186594b446d81329daabf68f04.png' },
+  { name: 'Coffee Shop', image: 'https://files.ihgbrands.com/emergent-images/c99cf5742431bcf7d80a80ff9d6e020fe517373abd755db97c4abcd17c9e9aa7.png' },
 ];
 
 const ADVANTAGES = [
@@ -70,7 +70,7 @@ export default function NaturaTexPage() {
       <section className="relative min-h-screen overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png" 
+            src="https://files.ihgbrands.com/emergent-images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png" 
             alt={heroAlt}
             className="w-full h-full object-cover"
           />
@@ -144,7 +144,7 @@ export default function NaturaTexPage() {
             
             <FadeIn delay={1}>
               <img 
-                src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/cade2d7819479f9ab07c5c3d99f2360368f6225627a82d1c5e78e96463e19695.png" 
+                src="https://files.ihgbrands.com/emergent-images/cade2d7819479f9ab07c5c3d99f2360368f6225627a82d1c5e78e96463e19695.png" 
                 alt="NaturaTex Technology Layers" 
                 className="rounded-sm w-full"
               />
@@ -264,7 +264,7 @@ export default function NaturaTexPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <FadeIn>
               <img 
-                src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6afcc7649717065852dd86a565bc1b10d16ad80324537065bd03c4962adfe4ab.png" 
+                src="https://files.ihgbrands.com/emergent-images/6afcc7649717065852dd86a565bc1b10d16ad80324537065bd03c4962adfe4ab.png" 
                 alt="Custom Pattern Textures" 
                 className="rounded-sm w-full"
               />
@@ -401,7 +401,7 @@ export default function NaturaTexPage() {
 
           <FadeIn delay={1}>
             <Link to="/lumimorph" className="group block relative overflow-hidden rounded-sm aspect-[21/9]">
-              <img src="/recovered/homepage_grande-hero.webp" alt="LumiMorph" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src="https://files.ihgbrands.com/homepage_grande-hero.webp" alt="LumiMorph" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
               <div className="absolute inset-0 flex items-center px-10 md:px-16">
                 <div>

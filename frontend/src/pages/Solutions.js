@@ -31,21 +31,21 @@ const SOLUTION_SHORT_TITLES = {
 
 // AI-Generated Solution Images
 const SOLUTION_IMAGES = {
-  retail: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f1edab22f7c00ed7647328b0726ef9e2724536d87fcb9797fe25887dfe20104e.png',
-  corporate: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/560b86307144e6c3e932bdd0b195203f9854ab40f18ea255c935eda9fdbcb23a.png',
-  outdoor: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/151c4ebb15ea6704fa3459bca85c7c02918980304175228ec6b8886cd43d9bee.png',
-  events: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a27342dd23e1b9ce1afa6aa0fd9f5f0a6a841631c74a9ae412af243be9801a46.png',
-  creative: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/17b677abe013dc2ced0fab9c0eea6442ad18991722a3c325394d66f6e7ba115e.png',
-  traffic: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/eb6a2b60aa28770d377972ee091ae5e18a1a88eeba71cea58b2e2b07c8791e55.png',
-  immersive: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6693621e07894f058b6d960fb917b36db40c6318357442d73fe106f4cd276e2f.png',
-  transparent: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/513865c504ff9437c4a554cc3b6a86c818e9a8468b5e05dcbcf11e350d3d6b79.png',
-  healthcare: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/5468030b6847618ff8d0962c44c0869ac72b92e3dda4acd1b88d4c21437ea6d9.png',
-  education: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/bcd5ee75376ec9db3ba96c6371c71a4c6db5ce02ff9d79deef4c0f56a73ad26d.png',
-  sports: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0e3eabf34c883a9bfcba897e548960e8a53a87e819c5490c2053f97cb939d564.png',
+  retail: 'https://files.ihgbrands.com/emergent-images/f1edab22f7c00ed7647328b0726ef9e2724536d87fcb9797fe25887dfe20104e.png',
+  corporate: 'https://files.ihgbrands.com/emergent-images/560b86307144e6c3e932bdd0b195203f9854ab40f18ea255c935eda9fdbcb23a.png',
+  outdoor: 'https://files.ihgbrands.com/emergent-images/151c4ebb15ea6704fa3459bca85c7c02918980304175228ec6b8886cd43d9bee.png',
+  events: 'https://files.ihgbrands.com/emergent-images/a27342dd23e1b9ce1afa6aa0fd9f5f0a6a841631c74a9ae412af243be9801a46.png',
+  creative: 'https://files.ihgbrands.com/emergent-images/17b677abe013dc2ced0fab9c0eea6442ad18991722a3c325394d66f6e7ba115e.png',
+  traffic: 'https://files.ihgbrands.com/emergent-images/eb6a2b60aa28770d377972ee091ae5e18a1a88eeba71cea58b2e2b07c8791e55.png',
+  immersive: 'https://files.ihgbrands.com/emergent-images/6693621e07894f058b6d960fb917b36db40c6318357442d73fe106f4cd276e2f.png',
+  transparent: 'https://files.ihgbrands.com/emergent-images/513865c504ff9437c4a554cc3b6a86c818e9a8468b5e05dcbcf11e350d3d6b79.png',
+  healthcare: 'https://files.ihgbrands.com/emergent-images/5468030b6847618ff8d0962c44c0869ac72b92e3dda4acd1b88d4c21437ea6d9.png',
+  education: 'https://files.ihgbrands.com/emergent-images/bcd5ee75376ec9db3ba96c6371c71a4c6db5ce02ff9d79deef4c0f56a73ad26d.png',
+  sports: 'https://files.ihgbrands.com/emergent-images/0e3eabf34c883a9bfcba897e548960e8a53a87e819c5490c2053f97cb939d564.png',
 };
 
 // Hero background image
-const HERO_IMAGE = '/recovered/site-images_opt_ext_d83f2569d4d3.webp';
+const HERO_IMAGE = 'https://files.ihgbrands.com/site-images_opt_ext_d83f2569d4d3.webp';
 
 /* Minimal Solution Card with 3D Tilt Effect */
 const SolutionCard = ({ solution, index }) => {

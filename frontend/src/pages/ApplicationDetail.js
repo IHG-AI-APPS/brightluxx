@@ -54,11 +54,11 @@ const APPLICATIONS_DATA = {
     name: 'Shopfront Signage',
     tagline: 'High-Impact Retail Displays That Drive Foot Traffic',
     icon: Store,
-    heroImage: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png',
+    heroImage: 'https://files.ihgbrands.com/emergent-images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png',
     description: 'Transform your storefront into a dynamic advertising platform with LED displays that capture attention day and night. From window displays to facade-mounted signage, our solutions are engineered for the demanding UAE retail environment.',
     gallery: [
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/254fe27311306074019389a9674e154e6930cfa5a095b5f26fad6465a581a41d.png',
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png',
+      'https://files.ihgbrands.com/emergent-images/254fe27311306074019389a9674e154e6930cfa5a095b5f26fad6465a581a41d.png',
+      'https://files.ihgbrands.com/emergent-images/2a8354553d675b8761c0ae9c9361fb72e37971527a09dd533ec64fdfa97b8f42.png',
     ],
     challenges: [
       { title: 'High Ambient Light', desc: 'UAE storefronts face intense sunlight requiring 3,000-7,000+ nits brightness for visibility.', icon: Sun },
@@ -89,11 +89,11 @@ const APPLICATIONS_DATA = {
     name: 'Hospitality & Hotels',
     tagline: 'Elevate Guest Experiences with Stunning Visual Displays',
     icon: Building2,
-    heroImage: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7aee51984ef7428e636c2f56a202a90b74cac515bc9d49b80327e9c74a76d42e.png',
+    heroImage: 'https://files.ihgbrands.com/emergent-images/7aee51984ef7428e636c2f56a202a90b74cac515bc9d49b80327e9c74a76d42e.png',
     description: 'Create memorable first impressions in hotel lobbies, enhance dining experiences in restaurants, and deliver seamless information in conference facilities. Our hospitality solutions blend technology with elegance for the UAE\'s world-class hotels and resorts.',
     gallery: [
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/16840d02833caf602880257ce47f7a291e9f9ad0f04733cc51e57005582d34b5.png',
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7aee51984ef7428e636c2f56a202a90b74cac515bc9d49b80327e9c74a76d42e.png',
+      'https://files.ihgbrands.com/emergent-images/16840d02833caf602880257ce47f7a291e9f9ad0f04733cc51e57005582d34b5.png',
+      'https://files.ihgbrands.com/emergent-images/7aee51984ef7428e636c2f56a202a90b74cac515bc9d49b80327e9c74a76d42e.png',
     ],
     challenges: [
       { title: 'Aesthetic Integration', desc: 'Displays must complement luxury interior design without appearing industrial.', icon: Eye },
@@ -124,11 +124,11 @@ const APPLICATIONS_DATA = {
     name: 'Retail & Shopping Malls',
     tagline: 'Immersive Experiences That Transform Shopping Destinations',
     icon: Store,
-    heroImage: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/fe43f22500af65dab2a6a06f5df2fe660523726339ac9581b781476767b0b9b4.png',
+    heroImage: 'https://files.ihgbrands.com/emergent-images/fe43f22500af65dab2a6a06f5df2fe660523726339ac9581b781476767b0b9b4.png',
     description: 'From spectacular atrium installations to interactive brand activations, LED displays are transforming UAE malls into entertainment destinations. Create landmark installations that drive social media engagement and foot traffic.',
     gallery: [
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/254fe27311306074019389a9674e154e6930cfa5a095b5f26fad6465a581a41d.png',
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/fe43f22500af65dab2a6a06f5df2fe660523726339ac9581b781476767b0b9b4.png',
+      'https://files.ihgbrands.com/emergent-images/254fe27311306074019389a9674e154e6930cfa5a095b5f26fad6465a581a41d.png',
+      'https://files.ihgbrands.com/emergent-images/fe43f22500af65dab2a6a06f5df2fe660523726339ac9581b781476767b0b9b4.png',
     ],
     challenges: [
       { title: 'Large-Scale Installations', desc: 'Mall atriums require massive displays (100+ sqm) with complex structural integration.', icon: Ruler },
@@ -159,11 +159,11 @@ const APPLICATIONS_DATA = {
     name: 'Corporate & Offices',
     tagline: 'Professional Display Solutions for Modern Workplaces',
     icon: Briefcase,
-    heroImage: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png',
+    heroImage: 'https://files.ihgbrands.com/emergent-images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png',
     description: 'Empower presentations, enhance collaboration, and create impressive reception areas with LED solutions designed for corporate environments. From boardrooms to command centers, we deliver professional-grade visual experiences.',
     gallery: [
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/360269c4ce8437e2a7dd7fa3c5d599bbb66da0fc5194f99377a2705002a857c7.png',
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png',
+      'https://files.ihgbrands.com/emergent-images/360269c4ce8437e2a7dd7fa3c5d599bbb66da0fc5194f99377a2705002a857c7.png',
+      'https://files.ihgbrands.com/emergent-images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png',
     ],
     challenges: [
       { title: 'Seamless Presentations', desc: 'Boardrooms need displays that work flawlessly with laptops, video conferencing, and collaboration tools.', icon: Target },
@@ -194,11 +194,11 @@ const APPLICATIONS_DATA = {
     name: 'Healthcare',
     tagline: 'Clear Communication for Critical Care Environments',
     icon: Stethoscope,
-    heroImage: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/20ff688183452b421340a26c5f7272a9fcb806cb4d30add3d3434cb033be1933.png',
+    heroImage: 'https://files.ihgbrands.com/emergent-images/20ff688183452b421340a26c5f7272a9fcb806cb4d30add3d3434cb033be1933.png',
     description: 'Improve patient experience and operational efficiency with LED displays designed for healthcare environments. From wayfinding to waiting room entertainment, our solutions meet the unique requirements of hospitals and medical facilities.',
     gallery: [
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ae5cc82c28141702c52b9a389f559c1c2e64abf5788d43dd5cab81ab40e71394.png',
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/20ff688183452b421340a26c5f7272a9fcb806cb4d30add3d3434cb033be1933.png',
+      'https://files.ihgbrands.com/emergent-images/ae5cc82c28141702c52b9a389f559c1c2e64abf5788d43dd5cab81ab40e71394.png',
+      'https://files.ihgbrands.com/emergent-images/20ff688183452b421340a26c5f7272a9fcb806cb4d30add3d3434cb033be1933.png',
     ],
     challenges: [
       { title: 'Infection Control', desc: 'Smooth, sealed surfaces that can be easily cleaned and disinfected.', icon: Shield },
@@ -228,11 +228,11 @@ const APPLICATIONS_DATA = {
     name: 'Transportation & Airports',
     tagline: 'Mission-Critical Displays for Moving Millions',
     icon: Plane,
-    heroImage: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/51def6d71b2956b099c4c00d843cdad1fcde69379e77fa31d6d2c42ddcc07d60.png',
+    heroImage: 'https://files.ihgbrands.com/emergent-images/51def6d71b2956b099c4c00d843cdad1fcde69379e77fa31d6d2c42ddcc07d60.png',
     description: 'From flight information displays to metro wayfinding, our transportation solutions deliver reliable performance for critical passenger communications. Designed for 24/7 operation in demanding environments.',
     gallery: [
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/40271a3de773f454b67f00a2b6d21cb496b28c6d96f4c3890d055ef06991f979.png',
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/51def6d71b2956b099c4c00d843cdad1fcde69379e77fa31d6d2c42ddcc07d60.png',
+      'https://files.ihgbrands.com/emergent-images/40271a3de773f454b67f00a2b6d21cb496b28c6d96f4c3890d055ef06991f979.png',
+      'https://files.ihgbrands.com/emergent-images/51def6d71b2956b099c4c00d843cdad1fcde69379e77fa31d6d2c42ddcc07d60.png',
     ],
     challenges: [
       { title: '24/7 Reliability', desc: 'Critical information systems require 99.99% uptime with redundant processing.', icon: Shield },
@@ -263,11 +263,11 @@ const APPLICATIONS_DATA = {
     name: 'Entertainment & Cinemas',
     tagline: 'Immersive Experiences That Captivate Audiences',
     icon: Theater,
-    heroImage: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/085c5152d8cf0eebf7a6c56406448f78f7ffeaf9e345eec76fcfe22d45afa880.png',
+    heroImage: 'https://files.ihgbrands.com/emergent-images/085c5152d8cf0eebf7a6c56406448f78f7ffeaf9e345eec76fcfe22d45afa880.png',
     description: 'Transform entertainment venues with LED technology that delivers stunning visual experiences. From cinema screens to museum installations, create memorable moments that audiences will never forget.',
     gallery: [
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f9de65cfc89b9659c1b078e8086075bfcb92c37a325d7251cda608d859dcf755.png',
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/085c5152d8cf0eebf7a6c56406448f78f7ffeaf9e345eec76fcfe22d45afa880.png',
+      'https://files.ihgbrands.com/emergent-images/f9de65cfc89b9659c1b078e8086075bfcb92c37a325d7251cda608d859dcf755.png',
+      'https://files.ihgbrands.com/emergent-images/085c5152d8cf0eebf7a6c56406448f78f7ffeaf9e345eec76fcfe22d45afa880.png',
     ],
     challenges: [
       { title: 'Cinema-Grade Quality', desc: 'Displays must meet DCI standards for color accuracy and contrast in dark environments.', icon: Eye },
@@ -298,11 +298,11 @@ const APPLICATIONS_DATA = {
     name: 'Sports & Events',
     tagline: 'Electrify Audiences with Stadium-Scale Displays',
     icon: Trophy,
-    heroImage: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/07761210154255d013573596ebb872b6c03610990a806a27e4ded7164b327fd6.png',
+    heroImage: 'https://files.ihgbrands.com/emergent-images/07761210154255d013573596ebb872b6c03610990a806a27e4ded7164b327fd6.png',
     description: 'From massive stadium scoreboards to ribbon displays, create unforgettable experiences for fans and sponsors. Our sports solutions are built for extreme reliability in demanding live event environments.',
     gallery: [
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/22225955d577ff43bd679bda5b298f35aa4226558ec0750785a5e4f0a09750aa.png',
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/07761210154255d013573596ebb872b6c03610990a806a27e4ded7164b327fd6.png',
+      'https://files.ihgbrands.com/emergent-images/22225955d577ff43bd679bda5b298f35aa4226558ec0750785a5e4f0a09750aa.png',
+      'https://files.ihgbrands.com/emergent-images/07761210154255d013573596ebb872b6c03610990a806a27e4ded7164b327fd6.png',
     ],
     challenges: [
       { title: 'Extreme Brightness', desc: 'Outdoor stadiums require 7,000-12,000 nits to compete with direct sunlight.', icon: Sun },
@@ -333,10 +333,10 @@ const APPLICATIONS_DATA = {
     name: 'Education',
     tagline: 'Transform Learning with Interactive Visual Technology',
     icon: GraduationCap,
-    heroImage: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ece677e88cab7bac3c4414cd4fb4457d8f4dd1bce07e43712f6e8bcdf764c9dd.png',
+    heroImage: 'https://files.ihgbrands.com/emergent-images/ece677e88cab7bac3c4414cd4fb4457d8f4dd1bce07e43712f6e8bcdf764c9dd.png',
     description: 'Engage students and enhance learning outcomes with LED displays designed for educational environments. From interactive classrooms to campus-wide digital signage, empower educators with visual technology.',
     gallery: [
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ece677e88cab7bac3c4414cd4fb4457d8f4dd1bce07e43712f6e8bcdf764c9dd.png',
+      'https://files.ihgbrands.com/emergent-images/ece677e88cab7bac3c4414cd4fb4457d8f4dd1bce07e43712f6e8bcdf764c9dd.png',
     ],
     challenges: [
       { title: 'Interactive Learning', desc: 'Classrooms need touch-enabled displays for collaborative learning.', icon: Lightbulb },
@@ -367,11 +367,11 @@ const APPLICATIONS_DATA = {
     name: 'Outdoor & Billboards',
     tagline: 'Maximum Impact for Outdoor Advertising',
     icon: Sun,
-    heroImage: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png',
+    heroImage: 'https://files.ihgbrands.com/emergent-images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png',
     description: 'Dominate the outdoor advertising landscape with LED billboards and media facades that deliver unmatched visibility. From highway spectaculars to building-wrap installations, capture attention 24/7.',
     gallery: [
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/6911b0d55c61839f131d3217cc8e5bdd2c73e339919a1c04826c8dfd79eaf7f0.png',
-      'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png',
+      'https://files.ihgbrands.com/emergent-images/6911b0d55c61839f131d3217cc8e5bdd2c73e339919a1c04826c8dfd79eaf7f0.png',
+      'https://files.ihgbrands.com/emergent-images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png',
     ],
     challenges: [
       { title: 'Extreme Brightness', desc: 'UAE sunlight demands 8,000-12,000 nits for daytime visibility.', icon: Sun },

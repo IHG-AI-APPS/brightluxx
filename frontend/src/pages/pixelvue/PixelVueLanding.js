@@ -34,10 +34,10 @@ const STATS = [
 ];
 
 const APPLICATIONS = [
-  { name: 'Retail', icon: Store, image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ced326fb45348ff3c6b3b94e1db2998bf72b515739eca5b1e63fdb20a397125d.png' },
-  { name: 'Corporate', icon: Building2, image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/d52e33b1e76b48a833a09d71983a1b122cd56dc53b0511138e28f86aaaa48e76.png' },
-  { name: 'Events', icon: Theater, image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/7e4f29b6e9b2cbee52ae90a4048ac94e36754ab9e13d106b0b28b7412a04bbd4.png' },
-  { name: 'Hospitality', icon: Grid3X3, image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png' },
+  { name: 'Retail', icon: Store, image: 'https://files.ihgbrands.com/emergent-images/ced326fb45348ff3c6b3b94e1db2998bf72b515739eca5b1e63fdb20a397125d.png' },
+  { name: 'Corporate', icon: Building2, image: 'https://files.ihgbrands.com/emergent-images/d52e33b1e76b48a833a09d71983a1b122cd56dc53b0511138e28f86aaaa48e76.png' },
+  { name: 'Events', icon: Theater, image: 'https://files.ihgbrands.com/emergent-images/7e4f29b6e9b2cbee52ae90a4048ac94e36754ab9e13d106b0b28b7412a04bbd4.png' },
+  { name: 'Hospitality', icon: Grid3X3, image: 'https://files.ihgbrands.com/emergent-images/74f81d159d7f59d83970b8e2a9edd0b1e5d2ebc4d70495f5578fdee1a9875f37.png' },
 ];
 
 const FAQS = [
@@ -115,7 +115,7 @@ export default function PixelVueLanding() {
       {/* Hero */}
       <section className="relative min-h-screen overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png" alt={heroAlt} className="w-full h-full object-cover" />
+          <img src="https://files.ihgbrands.com/emergent-images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png" alt={heroAlt} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/60 via-neutral-950/40 to-neutral-950" />
         </div>
         <div className="relative flex flex-col min-h-screen">
@@ -274,10 +274,10 @@ export default function PixelVueLanding() {
           <FadeIn><div className="text-center mb-12"><p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Explore More</p><h2 className="text-3xl font-extralight text-white">Other Product Lines</h2></div></FadeIn>
           <div className="grid md:grid-cols-4 gap-4">
             {[
-              { name: 'LumiMorph', tagline: 'Textured LED Panels', color: 'cyan', link: '/lumimorph', image: '/recovered/homepage_grande-hero.webp' },
-              { name: 'NaturaTex', tagline: 'Texture Screens', color: 'emerald', link: '/naturatex', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png' },
-              { name: 'SignaTouch', tagline: 'Digital Kiosks', color: 'amber', link: '/signatouch', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png' },
-              { name: 'GlassMorph', tagline: 'Smart Glass', color: 'violet', link: '/glassmorph', image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png' },
+              { name: 'LumiMorph', tagline: 'Textured LED Panels', color: 'cyan', link: '/lumimorph', image: 'https://files.ihgbrands.com/homepage_grande-hero.webp' },
+              { name: 'NaturaTex', tagline: 'Texture Screens', color: 'emerald', link: '/naturatex', image: 'https://files.ihgbrands.com/emergent-images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png' },
+              { name: 'SignaTouch', tagline: 'Digital Kiosks', color: 'amber', link: '/signatouch', image: 'https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png' },
+              { name: 'GlassMorph', tagline: 'Smart Glass', color: 'violet', link: '/glassmorph', image: 'https://files.ihgbrands.com/emergent-images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png' },
             ].map((line, i) => (
               <FadeIn key={i} delay={i + 1}>
                 <Link to={line.link} className="group block relative overflow-hidden rounded-sm aspect-[3/4]">

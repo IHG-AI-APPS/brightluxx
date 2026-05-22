@@ -47,7 +47,7 @@ export default function SwitchableGlassPage() {
       
       <section className="relative min-h-[80vh] overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/0a8f0c2cdad29691e223fd0f292d83947baade0536484eaea6512b6f07c90df0.png" alt="Switchable Glass" className="w-full h-full object-cover" />
+          <img src="https://files.ihgbrands.com/emergent-images/0a8f0c2cdad29691e223fd0f292d83947baade0536484eaea6512b6f07c90df0.png" alt="Switchable Glass" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/80 to-neutral-950/30" />
         </div>
         <div className="relative flex flex-col min-h-[80vh]">

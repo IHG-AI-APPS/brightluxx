@@ -3,7 +3,7 @@ import { X, Send, Sparkles } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const API = process.env.REACT_APP_BACKEND_URL;
-const AURA_AVATAR = 'https://static.prod-images.emergentagent.com/jobs/7211302e-e67e-4376-a9ca-401680b35a31/images/4de29b1557ed773232c26af312b994e1ed537e4dc5bd99c8787717c897722209.png';
+const AURA_AVATAR = 'https://files.ihgbrands.com/emergent-images/4de29b1557ed773232c26af312b994e1ed537e4dc5bd99c8787717c897722209.png';
 
 const QUICK_ACTIONS = [
   { label: 'Choose Pixel Pitch', msg: 'Help me choose the right pixel pitch for my project' },

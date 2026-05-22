@@ -32,7 +32,7 @@ const TECH_DATA = [
     tagline: 'ULTRA-PREMIUM', 
     icon: 'Sparkles', 
     pitch: 'P0.4 — P0.9', 
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/14266577a06785e2e61816956b557c54624568f67781c286825a4d5742fc1490.png',
+    image: 'https://files.ihgbrands.com/emergent-images/14266577a06785e2e61816956b557c54624568f67781c286825a4d5742fc1490.png',
     desc: 'Self-emissive pixels, perfect blacks, cinema-grade color',
     color: 'purple'
   },
@@ -42,7 +42,7 @@ const TECH_DATA = [
     tagline: 'PREMIUM STANDARD', 
     icon: 'Cpu', 
     pitch: 'P0.4 — P1.9', 
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/a48724d68c8ed785b21369e75039e8455f3130ca26f98897d266b3f3102316f3.png',
+    image: 'https://files.ihgbrands.com/emergent-images/a48724d68c8ed785b21369e75039e8455f3130ca26f98897d266b3f3102316f3.png',
     desc: 'Highest contrast, fully sealed surface, 24/7 ready',
     color: 'cyan'
   },
@@ -52,7 +52,7 @@ const TECH_DATA = [
     tagline: 'SMART SPEC', 
     icon: 'Layers', 
     pitch: 'P0.7 — P2.5', 
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/ba71e99ddcebaaca612753230d9b464fd2a69d845b463a99354a5b80eaa797f8.png',
+    image: 'https://files.ihgbrands.com/emergent-images/ba71e99ddcebaaca612753230d9b464fd2a69d845b463a99354a5b80eaa797f8.png',
     desc: '85-90% of COB quality at 30-40% lower cost',
     color: 'emerald'
   },
@@ -62,7 +62,7 @@ const TECH_DATA = [
     tagline: 'COMMERCIAL', 
     icon: 'Monitor', 
     pitch: 'P0.9 — P2.5', 
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/803a560d8b43b496d0a7958dd588ab3f71a9d5a8a9e9bb74bfdff658be5d5f49.png',
+    image: 'https://files.ihgbrands.com/emergent-images/803a560d8b43b496d0a7958dd588ab3f71a9d5a8a9e9bb74bfdff658be5d5f49.png',
     desc: 'The mainstream workhorse for indoor installations',
     color: 'amber'
   },
@@ -72,7 +72,7 @@ const TECH_DATA = [
     tagline: 'LCD REPLACEMENT', 
     icon: 'MonitorPlay', 
     pitch: 'P0.9 — P1.8', 
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/bf902d17f53638bbd7fe1983fa50d0eefa5a621c86c67173c00826f504ca209b.png',
+    image: 'https://files.ihgbrands.com/emergent-images/bf902d17f53638bbd7fe1983fa50d0eefa5a621c86c67173c00826f504ca209b.png',
     desc: 'Plug-and-play 4K seamless displays, 110" to 216"',
     color: 'pink'
   },
@@ -82,7 +82,7 @@ const TECH_DATA = [
     tagline: 'SEE THROUGH', 
     icon: 'Eye', 
     pitch: 'P3.9 — P10', 
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/9099db6081f3b9341a4a55c41f029d40d53834f5394236befe989fad76cd361b.png',
+    image: 'https://files.ihgbrands.com/emergent-images/9099db6081f3b9341a4a55c41f029d40d53834f5394236befe989fad76cd361b.png',
     desc: '85-95% transparency, content floats on glass',
     color: 'teal'
   },
@@ -92,7 +92,7 @@ const TECH_DATA = [
     tagline: 'GLASSES-FREE 3D', 
     icon: 'Cuboid', 
     pitch: 'P2.5 — P6', 
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b14b05e09ba2807606d82f72f193c586976ed21d4ff695b26ecfc96152e987c8.png',
+    image: 'https://files.ihgbrands.com/emergent-images/b14b05e09ba2807606d82f72f193c586976ed21d4ff695b26ecfc96152e987c8.png',
     desc: 'Viral corner displays that stop traffic',
     color: 'orange'
   },
@@ -102,7 +102,7 @@ const TECH_DATA = [
     tagline: 'BEYOND RECTANGLES', 
     icon: 'Box', 
     pitch: 'P1.5 — P4', 
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/4dd8e0cbcbb71aec02c3a1c31e8ec0a95ab296a33235f2fe7ecfcfb539adefe9.png',
+    image: 'https://files.ihgbrands.com/emergent-images/4dd8e0cbcbb71aec02c3a1c31e8ec0a95ab296a33235f2fe7ecfcfb539adefe9.png',
     desc: 'Curved, cylindrical, spherical, ceiling & floor',
     color: 'violet'
   },
@@ -112,14 +112,14 @@ const TECH_DATA = [
     tagline: 'BUILDING SCALE', 
     icon: 'Building2', 
     pitch: 'P15 — P50', 
-    image: 'https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/b256719e5b706e30693a2aa20f783eee47fb3de97a7e5c455c310224a1bb8d01.png',
+    image: 'https://files.ihgbrands.com/emergent-images/b256719e5b706e30693a2aa20f783eee47fb3de97a7e5c455c310224a1bb8d01.png',
     desc: 'Transform buildings into digital canvases',
     color: 'green'
   },
 ];
 
 // Hero background image
-const HERO_IMAGE = '/recovered/site-images_opt_ext_92b8793ffd88.webp';
+const HERO_IMAGE = 'https://files.ihgbrands.com/site-images_opt_ext_92b8793ffd88.webp';
 
 /* Technology Card Component */
 const TechCard = ({ tech, index, size = 'normal', isDark }) => {

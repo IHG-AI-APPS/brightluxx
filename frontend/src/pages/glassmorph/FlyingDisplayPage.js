@@ -46,7 +46,7 @@ export default function FlyingDisplayPage() {
       
       <section className="relative min-h-[80vh] overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/d100d5bc9e2955f9c46e02d8929cbcaa4a75eac35fab67dca14fce0769973b06.png" alt="Flying Display" className="w-full h-full object-cover" />
+          <img src="https://files.ihgbrands.com/emergent-images/d100d5bc9e2955f9c46e02d8929cbcaa4a75eac35fab67dca14fce0769973b06.png" alt="Flying Display" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/60 via-neutral-950/40 to-neutral-950" />
         </div>
         <div className="relative flex flex-col min-h-[80vh]">

@@ -46,7 +46,7 @@ export default function MediaGlassPage() {
       {/* Hero */}
       <section className="relative min-h-[80vh] overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://static.prod-images.emergentagent.com/jobs/a2ffd883-d4cb-4f8a-b10e-28b67c771781/images/06fff3af387692172824acfb770bda3dc0e0bd4814b6e2a9e716845fbe05e593.png" alt="Media Glass" className="w-full h-full object-cover" />
+          <img src="https://files.ihgbrands.com/emergent-images/06fff3af387692172824acfb770bda3dc0e0bd4814b6e2a9e716845fbe05e593.png" alt="Media Glass" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/80 to-neutral-950/30" />
         </div>
         <div className="relative flex flex-col min-h-[80vh]">

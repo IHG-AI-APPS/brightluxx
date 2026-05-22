@@ -32,10 +32,10 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
 };
 
 const TEXTURES = [
-  { id: 'wood', name: 'Wood', desc: 'Timeless elegance and warmth of natural wood textures.', image: '/recovered/artmorph_art_app-office.webp' },
-  { id: 'stone', name: 'Stone', desc: 'Enduring strength and beauty of refined stone surfaces.', image: '/recovered/artmorph_art_app-lobby.webp' },
-  { id: 'textile', name: 'Textile', desc: 'Soft sophistication and comfort of luxurious textile finishes.', image: '/recovered/artmorph_art_app-restaurant.webp' },
-  { id: 'metal', name: 'Metal', desc: 'Sleek modernity and shine of contemporary metal designs.', image: '/recovered/artmorph_art_app-reception.webp' },
+  { id: 'wood', name: 'Wood', desc: 'Timeless elegance and warmth of natural wood textures.', image: 'https://files.ihgbrands.com/artmorph_art_app-office.webp' },
+  { id: 'stone', name: 'Stone', desc: 'Enduring strength and beauty of refined stone surfaces.', image: 'https://files.ihgbrands.com/artmorph_art_app-lobby.webp' },
+  { id: 'textile', name: 'Textile', desc: 'Soft sophistication and comfort of luxurious textile finishes.', image: 'https://files.ihgbrands.com/artmorph_art_app-restaurant.webp' },
+  { id: 'metal', name: 'Metal', desc: 'Sleek modernity and shine of contemporary metal designs.', image: 'https://files.ihgbrands.com/artmorph_art_app-reception.webp' },
 ];
 
 const FAQS = [
@@ -70,7 +70,7 @@ export default function LumiMorphElite() {
       <section className="relative h-screen min-h-[600px] overflow-hidden">
         <div className="absolute inset-0">
           <video ref={videoRef} autoPlay muted loop playsInline className="w-full h-full object-cover">
-            <source src="/recovered/videos_lumimorph-hero-video-1.mp4" type="video/mp4" />
+            <source src="https://files.ihgbrands.com/videos_lumimorph-hero-video-1.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/50 via-neutral-950/20 to-neutral-950" />
         </div>
@@ -152,14 +152,14 @@ export default function LumiMorphElite() {
           <FadeIn delay={1}>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="relative overflow-hidden rounded-sm">
-                <img src="/recovered/artmorph_art_workspace-before.webp" alt="Display Off" className="w-full h-80 object-cover" />
+                <img src="https://files.ihgbrands.com/artmorph_art_workspace-before.webp" alt="Display Off" className="w-full h-80 object-cover" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90">
                   <span className="text-white font-medium">Display Off</span>
                   <p className="text-neutral-400 text-sm mt-1">Natural texture blends seamlessly with interior design</p>
                 </div>
               </div>
               <div className="relative overflow-hidden rounded-sm">
-                <img src="/recovered/artmorph_art_workspace-after.webp" alt="Display On" className="w-full h-80 object-cover" />
+                <img src="https://files.ihgbrands.com/artmorph_art_workspace-after.webp" alt="Display On" className="w-full h-80 object-cover" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90">
                   <span className="text-white font-medium">Display On</span>
                   <p className="text-neutral-400 text-sm mt-1">High-definition visuals shine through the textured surface</p>
@@ -175,7 +175,7 @@ export default function LumiMorphElite() {
         <div className="max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <FadeIn>
-              <img src="/recovered/artmorph_art_high-clarity.webp" alt="High Resolution" className="rounded-sm w-full" />
+              <img src="https://files.ihgbrands.com/artmorph_art_high-clarity.webp" alt="High Resolution" className="rounded-sm w-full" />
             </FadeIn>
             <FadeIn delay={1}>
               <p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Premium Performance</p>
@@ -260,7 +260,7 @@ export default function LumiMorphElite() {
               </div>
             </FadeIn>
             <FadeIn delay={1}>
-              <img src="/recovered/artmorph_art_installation.webp" alt="Modular Installation" className="rounded-sm w-full" />
+              <img src="https://files.ihgbrands.com/artmorph_art_installation.webp" alt="Modular Installation" className="rounded-sm w-full" />
             </FadeIn>
           </div>
         </div>
@@ -377,8 +377,8 @@ export default function LumiMorphElite() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { name: 'LumiMorph Grande', tagline: 'Living Walls, Immersive Stories', image: '/recovered/homepage_grande-hero.webp', link: '/lumimorph/grande' },
-              { name: 'LumiMorph Mini', tagline: 'Small Scale. Infinite Possibilities', image: '/recovered/artmorph_art_mini-hero.webp', link: '/lumimorph/mini' },
+              { name: 'LumiMorph Grande', tagline: 'Living Walls, Immersive Stories', image: 'https://files.ihgbrands.com/homepage_grande-hero.webp', link: '/lumimorph/grande' },
+              { name: 'LumiMorph Mini', tagline: 'Small Scale. Infinite Possibilities', image: 'https://files.ihgbrands.com/artmorph_art_mini-hero.webp', link: '/lumimorph/mini' },
             ].map((product, i) => (
               <FadeIn key={i} delay={i + 1}>
                 <Link to={product.link} className="group block relative overflow-hidden rounded-sm aspect-video">

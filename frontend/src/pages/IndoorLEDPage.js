@@ -80,10 +80,10 @@ const SPECS_COMMON = {
 };
 
 const APPLICATIONS = [
-  { name: 'Control Rooms', icon: Monitor, desc: 'Mission-critical 24/7 operations', image: '/recovered/site-images_opt_ext_48e2d933cdb4.webp' },
-  { name: 'Corporate', icon: Building2, desc: 'Boardrooms & lobbies', image: '/recovered/site-images_opt_ext_ad35b4b4bbcd.webp' },
-  { name: 'Retail', icon: Store, desc: 'Engaging customer displays', image: '/recovered/site-images_opt_ext_2ee0b83d54d6.webp' },
-  { name: 'Broadcast', icon: Radio, desc: 'Studio-grade visuals', image: '/recovered/site-images_opt_ext_4a88312621e4.webp' },
+  { name: 'Control Rooms', icon: Monitor, desc: 'Mission-critical 24/7 operations', image: 'https://files.ihgbrands.com/site-images_opt_ext_48e2d933cdb4.webp' },
+  { name: 'Corporate', icon: Building2, desc: 'Boardrooms & lobbies', image: 'https://files.ihgbrands.com/site-images_opt_ext_ad35b4b4bbcd.webp' },
+  { name: 'Retail', icon: Store, desc: 'Engaging customer displays', image: 'https://files.ihgbrands.com/site-images_opt_ext_2ee0b83d54d6.webp' },
+  { name: 'Broadcast', icon: Radio, desc: 'Studio-grade visuals', image: 'https://files.ihgbrands.com/site-images_opt_ext_4a88312621e4.webp' },
 ];
 
 /* Series Card Component */

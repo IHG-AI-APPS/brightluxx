@@ -74,7 +74,7 @@
   "seed_data_creation": "Test data created via POST /api/track during pytest execution (page_view, product_view, cta_click events)",
   "retest_needed": false,
   "should_main_agent_self_test": false,
-  "context_for_next_testing_agent": "Analytics & Performance monitoring fully functional. analytics_events and performance_metrics MongoDB collections have real data. Admin credentials: admin@brightluxx.com / brightluxx2025. All test-related endpoints verified: /api/track (public), /api/health (public), /api/admin/analytics (auth), /api/admin/performance (auth).",
+  "context_for_next_testing_agent": "Analytics & Performance monitoring fully functional. analytics_events and performance_metrics MongoDB collections have real data. Admin credentials: admin@brightluxx.com / ***REDACTED***. All test-related endpoints verified: /api/track (public), /api/health (public), /api/admin/analytics (auth), /api/admin/performance (auth).",
   "verified_data_flow": {
     "tracking_flow": "tracker.js -> sendBeacon -> POST /api/track -> analytics_events collection -> GET /api/admin/analytics",
     "performance_flow": "HTTP requests -> perf_and_security middleware -> performance_metrics collection -> GET /api/admin/performance"

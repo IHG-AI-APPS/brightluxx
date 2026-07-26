@@ -47,7 +47,7 @@
   },
   "test_credentials": {
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "seed_data_creation": "55 pages auto-seeded from SITE_PAGES list on first API call",
   "retest_needed": false,

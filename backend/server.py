@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from datetime import datetime, timezone
+import os
 import uuid
 import time
 import asyncio
@@ -162,18 +163,23 @@ async def startup():
     except Exception:
         pass
 
-    # Seed admin user
-    existing = await admins_col.find_one({"email": "admin@brightluxx.com"})
+    # Seed admin user — credentials come from the environment, never hardcoded.
+    seed_email = os.environ.get("ADMIN_SEED_EMAIL", "admin@brightluxx.com")
+    seed_password = os.environ.get("ADMIN_SEED_PASSWORD")
+    existing = await admins_col.find_one({"email": seed_email})
     if not existing:
-        await admins_col.insert_one({
-            "id": str(uuid.uuid4()),
-            "email": "admin@brightluxx.com",
-            "password": pwd_context.hash("brightluxx2025"),
-            "name": "Admin",
-            "role": "super_admin",
-            "created_at": datetime.now(timezone.utc)
-        })
-        print("Admin user seeded: admin@brightluxx.com")
+        if seed_password:
+            await admins_col.insert_one({
+                "id": str(uuid.uuid4()),
+                "email": seed_email,
+                "password": pwd_context.hash(seed_password),
+                "name": "Admin",
+                "role": "super_admin",
+                "created_at": datetime.now(timezone.utc)
+            })
+            print(f"Admin user seeded: {seed_email}")
+        else:
+            print("ADMIN_SEED_PASSWORD not set — skipping admin seed.")
 
     # Seed content collections from seed_data.json
     try:

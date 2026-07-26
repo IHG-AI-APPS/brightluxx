@@ -54,7 +54,7 @@
   "seed_data_creation": "Test lead created during lead submission test",
   "retest_needed": false,
   "should_main_agent_self_test": true,
-  "context_for_next_testing_agent": "Backend refactoring verification complete. The server.py split into modular files (database.py, models.py, utils.py, auth.py, routes/*.py) preserves all functionality. All 22 endpoints tested and working. Admin credentials: admin@brightluxx.com / brightluxx2025. Dashboard shows: 41 Products, 22 Inspirations, 9 Projects, 18 Leads. Rate limiter is in-memory - wait 60s between rate limit tests.",
+  "context_for_next_testing_agent": "Backend refactoring verification complete. The server.py split into modular files (database.py, models.py, utils.py, auth.py, routes/*.py) preserves all functionality. All 22 endpoints tested and working. Admin credentials: admin@brightluxx.com / ***REDACTED***. Dashboard shows: 41 Products, 22 Inspirations, 9 Projects, 18 Leads. Rate limiter is in-memory - wait 60s between rate limit tests.",
   "verified_refactoring": {
     "original_file": "/app/backend/server.py (837 lines)",
     "new_files": [

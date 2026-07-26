@@ -13,7 +13,7 @@
     {
       "feature": "Admin Login",
       "status": "PASS",
-      "details": "Login with admin@brightluxx.com / brightluxx2025 works correctly, redirects to /admin/dashboard"
+      "details": "Login with admin@brightluxx.com / ***REDACTED*** works correctly, redirects to /admin/dashboard"
     },
     {
       "feature": "PixelVue CMS Page (/admin/pixelvue)",
@@ -84,7 +84,7 @@
   },
   "test_credentials": {
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "seed_data_verification": {
     "pixelvue_products": "24 (expected: 24)",

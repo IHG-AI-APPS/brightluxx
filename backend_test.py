@@ -2,6 +2,7 @@
 Brightluxx LED Showcase Backend API Testing - CMS Admin Panel
 Tests both public APIs and admin panel functionality
 """
+import os
 import requests
 import json
 import sys
@@ -252,7 +253,7 @@ class BrightluxxAPITester:
         return self.run_test(
             "POST /api/admin/login with correct credentials",
             "POST", "api/admin/login",
-            data={"email": "admin@brightluxx.com", "password": "brightluxx2025"},
+            data={"email": "admin@brightluxx.com", "password": os.environ.get("ADMIN_PASSWORD", "brightluxx2025")},
             validation_func=validate_login
         )
 

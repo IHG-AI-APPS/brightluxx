@@ -57,7 +57,7 @@
   },
   "test_credentials": {
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "seed_data_creation": "None - pure frontend calculator with no data persistence",
   "retest_needed": false,

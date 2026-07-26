@@ -47,7 +47,7 @@
   },
   "test_credentials": {
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "seed_data_creation": "None - product images were updated via update_product_images.py before testing",
   "retest_needed": false,

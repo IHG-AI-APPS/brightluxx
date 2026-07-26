@@ -63,7 +63,7 @@
   },
   "test_credentials": {
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "seed_data_creation": "",
   "retest_needed": false,

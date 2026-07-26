@@ -78,7 +78,7 @@
   },
   "test_credentials": {
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "seed_data_verification": {
     "pixelvue_products": "24 (poster: 6, commercial: 10, creative: 8)",

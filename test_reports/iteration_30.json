@@ -69,7 +69,7 @@
   "test_credentials": {
     "admin_url": "/admin",
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "retest_needed": false,
   "should_main_agent_self_test": false,

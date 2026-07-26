@@ -73,7 +73,7 @@
   },
   "test_credentials": {
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "seed_data_creation": "Test data created in MongoDB via form submissions during testing (prefixed with TEST_)",
   "retest_needed": false,

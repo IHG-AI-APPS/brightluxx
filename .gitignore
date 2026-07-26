@@ -176,3 +176,9 @@ credentials.json
 *.pem
 *.key
 .credentials
+
+# Backup files (may contain secrets) — never commit
+*.bak
+*.bak-*
+*.orig
+.env.bak*

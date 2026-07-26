@@ -174,7 +174,7 @@ Enable non-developer content management for Products, Inspirations, Projects, an
 - `get_current_admin` dependency for route protection
 - **Admin seeded on startup**:
   - Email: `admin@brightluxx.com`
-  - Password: `brightluxx2025`
+  - Password: `***REDACTED***`
 
 **Exit gate (achieved)**
 - Admin routes require valid JWT; invalid/missing token returns 401.

@@ -1557,7 +1557,7 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Tender Monitoring Integration (ProTenders/MEED)
 - Admin Dashboard V2 (unified lead management)
 
-## Admin: `/admin/login` — admin@brightluxx.com / brightluxx2025
+## Admin: `/admin/login` — admin@brightluxx.com / ***REDACTED***
 
 ### Gap Analysis Implementation Complete — December 2026:
 - ✅ **Abu Dhabi Landing Page (`/abu-dhabi`):**

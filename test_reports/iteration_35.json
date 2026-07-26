@@ -73,7 +73,7 @@
   "test_credentials": {
     "admin_url": "/admin",
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "seed_data_creation": "Created test leads for design assist regression test",
   "retest_needed": false,

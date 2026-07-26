@@ -21,7 +21,7 @@ test.describe('Admin Panel', () => {
 
     // Fill credentials
     await page.locator('input[type="email"], input[type="text"][placeholder*="email" i]').first().fill('admin@brightluxx.com');
-    await page.locator('input[type="password"]').first().fill('brightluxx2025');
+    await page.locator('input[type="password"]').first().fill(process.env.ADMIN_PASSWORD || 'brightluxx2025');
 
     // Submit
     await page.locator('button[type="submit"]').first().click();

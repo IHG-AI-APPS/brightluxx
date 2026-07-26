@@ -5,12 +5,17 @@ Auto-optimizes images (resize, compress, WebP conversion) before upload.
 import paramiko
 import os
 
-# External CDN configuration
-CDN_HOST = "178.128.28.178"
-CDN_USER = "root"
-CDN_PASS = "IhG@1HGB$2026$W3b"
-CDN_BASE_PATH = "/var/brightluxx"
-CDN_BASE_URL = ""
+# External CDN configuration (env-driven; defaults point at the live file server)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    pass
+CDN_HOST = os.getenv("CDN_HOST", "152.42.185.192")
+CDN_USER = os.getenv("CDN_USER", "root")
+CDN_PASS = os.getenv("CDN_PASS", "")
+CDN_BASE_PATH = os.getenv("CDN_BASE_PATH", "/var/brightluxx")
+CDN_BASE_URL = os.getenv("CDN_BASE_URL", "https://files.ihgbrands.com/brightluxx")
 
 
 def _ensure_remote_dir(sftp, full_path: str):

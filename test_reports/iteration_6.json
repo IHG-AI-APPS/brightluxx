@@ -55,7 +55,7 @@
   "seed_data_creation": "Test images created using Pillow for upload tests, test leads created for rate limiting test",
   "retest_needed": false,
   "should_main_agent_self_test": true,
-  "context_for_next_testing_agent": "Security features (rate limiting, JWT auth with refresh tokens, password change, image upload with WebP optimization) all working. Rate limiter is in-memory - wait 60 seconds between rate limit tests. Upload files saved to /app/frontend/public/uploads/ with variants. Admin credentials: admin@brightluxx.com / brightluxx2025. Token expiry: access=4h, refresh=7d.",
+  "context_for_next_testing_agent": "Security features (rate limiting, JWT auth with refresh tokens, password change, image upload with WebP optimization) all working. Rate limiter is in-memory - wait 60 seconds between rate limit tests. Upload files saved to /app/frontend/public/uploads/ with variants. Admin credentials: admin@brightluxx.com / ***REDACTED***. Token expiry: access=4h, refresh=7d.",
   "verified_features": {
     "authentication": {
       "login": "Working - returns token, refresh_token, admin info",

@@ -63,7 +63,7 @@
   },
   "test_credentials": {
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "seed_data_creation": "5 blog posts seeded via /api/admin/blogs/seed with slugs: microled-vs-oled-2025, choosing-pixel-pitch-guide, led-displays-dubai-retail, outdoor-led-uae-heat-guide, cob-led-technology-explained",
   "retest_needed": false,

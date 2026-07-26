@@ -23,7 +23,7 @@
     "design_issues": []
   },
   "passed_tests": [
-    "Admin login with correct credentials (admin@brightluxx.com / brightluxx2025)",
+    "Admin login with correct credentials (admin@brightluxx.com / ***REDACTED***)",
     "Admin login error handling for wrong credentials",
     "JWT token authentication and admin info retrieval",
     "Dashboard statistics display (41 Products, 22 Inspirations, 8 Projects, 6 Leads)",

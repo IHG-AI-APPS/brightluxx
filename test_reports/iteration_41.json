@@ -62,7 +62,7 @@
   },
   "test_credentials": {
     "admin_email": "admin@brightluxx.com",
-    "admin_password": "brightluxx2025"
+    "admin_password": "***REDACTED***"
   },
   "seed_data_creation": "15 new products seeded via seed_new_products.py (accessories:4, custom-shapes:3, digital-signage:3, smart-tv:2, ready-made:3)",
   "retest_needed": false,

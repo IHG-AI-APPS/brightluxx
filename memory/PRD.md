@@ -91,7 +91,11 @@ Based on professional audit report identifying 10 critical/high/medium issues:
 - [MEDIUM] Enhanced `postbuild-prerender.js` for production builds with heading + internal link injection
 - Testing: 100% pass (iteration_113.json) — 26/26 backend, all frontend verified
 
-### Home Cinema Products Seeded + Schema.org — Jul 26, 2026
+### CDN Path Fix + Comprehensive Verification — Jul 26, 2026
+- Fixed VPS directory structure: nginx `alias /var/brightluxx/` means `/brightluxx/uploads/x` → `/var/brightluxx/uploads/x` (not nested)
+- Regenerated 4 expired product images (TheaterPro Complete, TheaterPro Mini, GameWall 240Hz, GameWall Sim 180°)
+- Both OLD (`/brightluxx/uploads/x`) and NEW (`/uploads_x`) URL formats now serve correctly
+- Testing: 100% pass (iteration_114) — 19/19 backend, 0/274 broken images across 7 pages
 - Seeded 10 Home Cinema products across 5 families: CinemaLED (2), AmbientScreen (2), PoolView (2), TheaterPro (2), GameWall (2)
 - Sub-categories: cinema-screen, living-room, outdoor-cinema, theater-system, gaming-display
 - Added schema.org Organization + LocalBusiness JSON-LD structured data (injected via prerender server for crawlers)

@@ -1,0 +1,39 @@
+{
+  "summary": "Iteration 114: Verified CDN asset recovery (old nested /brightluxx/... AND new flat formats), hero video delivery, WP legacy redirects, 404+noindex for Googlebot, llms.txt, crawler prerender H1s, cookie consent, Google Map embed, and Home Cinema products. Created pytest suite /app/backend/tests/test_iteration114_cdn_seo.py: 19/19 passed. Browser audit of /, /products, /lumimorph, /glassmorph, /contact, /products/theaterpro-complete and /products?category=home-cinema found 0 broken images (0/274 imgs) and 0 console errors / 0 4xx-5xx responses.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/products", "issue": "Response objects expose raw MongoDB `_id` (e.g. '6a667589bd680ff977b1dd28') alongside slug/id fields; should be excluded from public API payloads"}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Home hero", "issues": ["<video> has no poster attribute; while the 3MB MP4 buffers (or on clients without H.264) the hero renders as a plain black block. Recommend adding a poster/first-frame WebP for LCP and graceful fallback."]},
+      {"screen": "Products grid card", "issues": ["Card title and spec line (cyan text, e.g. '2000 nits (peak 2000 nits HDR)') sit directly over bright product imagery with weak scrim - low contrast/readability on light images."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration114_cdn_seo.py",
+    "/app/test_reports/pytest/iteration114.xml"
+  ],
+  "action_items": [
+    "Optional: strip MongoDB `_id` from /api/products responses",
+    "Optional: add poster image to home hero <video> for buffering/no-codec fallback",
+    "Optional: add data-testid to product grid cards (currently none; had to fall back to text selectors)",
+    "Optional: strengthen scrim behind product card title/spec text for contrast"
+  ],
+  "critical_code_review_comments": [
+    "Home.js HeroVideoPlayer hardcodes a CDN fallback URL ('https://files.ihgbrands.com/videos_hero-video-converted.mp4') in source; consider moving CDN base to an env/config constant so future CDN migrations don't require code edits.",
+    "LumiMorph hero uses a local /artmorph-assets/grande-video.mp4 while Home uses the CDN - inconsistent asset strategy; local video is served from the app origin (no CDN caching)."
+  ],
+  "updated_files": ["/app/backend/tests/test_iteration114_cdn_seo.py"],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "seed_data_creation": "None - used existing seeded home-cinema products (10 found: gamewall-sim-180, theaterpro-mini, gamewall-240hz, poolview-retractable-p29, theaterpro-complete, ambientscreen-curved-18, poolview-p39, ambientscreen-15, cinemaled-ultra-09, cinemaled-pro-12)",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "test_credentials": "admin@brightluxx.com / brightluxx2025 -> POST /api/admin/login returns 200 with JWT (role super_admin). NOTE: /app/memory/test_credentials.md does NOT contain these values (it only points to env vars) - recommend updating it.",
+  "context_for_next_testing_agent": "All 7 CDN URLs from the request return 200 with correct content-type and non-trivial size (both nested /brightluxx/... with ?v=4 and new flat /homepage_grande-hero.webp, /emergent-images/... formats). Video also honours HTTP Range (206). WP redirects /our-works/ -> /projects and /products/led-display -> /products both 301. Unknown URL returns real 404 + noindex for Googlebot. /llms.txt is 200 text/plain with 'Brightluxx'. Googlebot prerender returns an <h1> on /, /products, /lumimorph, /glassmorph, /contact. Cookie banner reappears after localStorage.removeItem('brightluxx_cookie_consent') and Accept persists 'accepted'. IMPORTANT: headless Chromium in this test env has NO H.264 support (canPlayType('video/mp4; codecs=avc1...') === ''), so every MP4 shows readyState=0 / networkState=3 / paused=true. Verified the file itself is valid H.264+AAC (ftyp isom/avc1) and served 206 - do NOT report video playback as an app bug from Playwright; validate via HTTP status/codec box instead.",
+  "rca_of_the_issue": "Previously reported broken images were caused by expired Emergent static URLs plus a VPS path/nginx alias mismatch (files under /var/brightluxx/brightluxx/... while nginx aliases /brightluxx/ -> /var/brightluxx/). Post-fix verification confirms all asset paths resolve 200 and no page renders a broken <img>. Remaining 'hero video not playing' observation in automation is a headless-Chromium codec limitation, not a delivery or markup defect."
+}

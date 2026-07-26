@@ -210,9 +210,21 @@ const Contact = () => {
                     </div>
                     <h3 className={`text-base font-bold uppercase tracking-wide ${textPrimary}`}>Visit Showroom</h3>
                   </div>
-                  <p className={`text-xs ${textSecondary} tracking-wide leading-relaxed`}>
+                  <p className={`text-xs ${textSecondary} tracking-wide leading-relaxed mb-4`}>
                     See our LED displays in action. Schedule a visit to our Dubai showroom for a hands-on experience.
                   </p>
+                  <div className="rounded-lg overflow-hidden border border-white/5" data-testid="google-map-embed">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3616.123!2d55.0222!3d25.0173!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDAxJzAyLjMiTiA1NcKwMDEnMjAuMCJF!5e0!3m2!1sen!2sae!4v1"
+                      width="100%"
+                      height="200"
+                      style={{ border: 0 }}
+                      allowFullScreen=""
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Brightluxx Showroom Location - Jebel Ali, Dubai"
+                    ></iframe>
+                  </div>
                 </GlassCard>
               </FadeInSection>
             </div>

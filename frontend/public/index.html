@@ -115,7 +115,71 @@
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQX7M8JK"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
-        <noscript>You need to enable JavaScript to run this app.</noscript>
+        
+        <!-- SEO: Noscript fallback with real content for crawlers that don't execute JS -->
+        <noscript>
+        <div>
+            <h1>Brightluxx — Premium LED Display Solutions in Dubai, UAE</h1>
+            <p>Brightluxx is a leading LED display manufacturer and solutions provider in Dubai, UAE, serving the GCC region since 2005. We design, manufacture, supply, and install premium LED display systems for architects, contractors, retailers, and hospitality groups across the Middle East.</p>
+            
+            <h2>Product Families</h2>
+            <ul>
+                <li><a href="/lumimorph">LumiMorph — Fine-Pitch MicroLED Displays</a> (Elite, Grande, Mini)</li>
+                <li><a href="/naturatex">NaturaTex — Texture Screen Technology</a> (HoloVeil)</li>
+                <li><a href="/signatouch">SignaTouch — Interactive Digital Signage</a> (Touch Kiosk, Smart Signage, Self-Service)</li>
+                <li><a href="/glassmorph">GlassMorph — Smart Glass & Transparent LED</a> (Smart Film, LED Film, Media Glass, Flying Display)</li>
+                <li><a href="/pixelvue">PixelVue — Standard & Specialty LED Displays</a></li>
+            </ul>
+            
+            <h2>Solutions & Applications</h2>
+            <ul>
+                <li><a href="/solutions">LED Display Solutions</a></li>
+                <li><a href="/indoor-led">Indoor LED Displays</a></li>
+                <li><a href="/outdoor-led">Outdoor LED Displays</a></li>
+                <li><a href="/signage-solutions">Digital Signage Solutions</a></li>
+                <li><a href="/art-immersive">Art & Immersive Installations</a></li>
+                <li><a href="/luxury-home-cinema">Luxury Home Cinema</a></li>
+                <li><a href="/applications">All Applications</a></li>
+            </ul>
+            
+            <h2>Service Regions</h2>
+            <ul>
+                <li><a href="/led-screen-dubai">LED Screens Dubai</a></li>
+                <li><a href="/led-display-abu-dhabi">LED Displays Abu Dhabi</a></li>
+                <li><a href="/led-screen-saudi-arabia">LED Screens Saudi Arabia</a></li>
+                <li><a href="/led-screen-qatar">LED Screens Qatar</a></li>
+                <li><a href="/led-screen-kuwait">LED Screens Kuwait</a></li>
+            </ul>
+            
+            <h2>Resources</h2>
+            <ul>
+                <li><a href="/knowledge">Knowledge Hub</a> — Technical guides on pixel pitch, brightness, IP ratings, refresh rates</li>
+                <li><a href="/blog">Blog</a> — Industry insights and LED display articles</li>
+                <li><a href="/case-studies">Case Studies</a> — Real project results across UAE</li>
+                <li><a href="/projects">Projects Portfolio</a></li>
+                <li><a href="/for-architects">For Architects</a></li>
+                <li><a href="/budget-estimator">Budget Estimator</a></li>
+            </ul>
+            
+            <h2>About & Contact</h2>
+            <p><a href="/about">About Brightluxx</a> | <a href="/contact">Contact Us</a> | <a href="/factory-tour">Factory Tour</a></p>
+            <p>1,072+ screens installed · 396+ satisfied clients · 536+ projects completed · Based in Dubai, UAE</p>
+            
+            <h2>Browse All Products</h2>
+            <p><a href="/products">View all 85+ LED display products</a> — MicroLED, video walls, transparent displays, interactive kiosks, and more.</p>
+        </div>
+        </noscript>
+        
+        <!-- SEO: Inline script for route-specific meta tags and WordPress redirects (runs before React) -->
+        <script>
+        (function(){
+            var p=location.pathname;
+            // WordPress legacy redirects
+            var wp={"/our-works/":"/projects","/our-works":"/projects","/digital-solutions/":"/solutions","/digital-solutions":"/solutions","/products/led-display":"/products","/products/led-display/":"/products","/products/indoor-led-display":"/indoor-led","/products/indoor-led-display/":"/indoor-led","/products/outdoor-led-display":"/outdoor-led","/products/outdoor-led-display/":"/outdoor-led","/products/spherical-led-display":"/products","/products/spherical-led-display/":"/products","/products/cube-led-display-p3":"/products","/products/cube-led-display-p3/":"/products","/products/transparent-led-display":"/glassmorph","/products/transparent-led-display/":"/glassmorph","/download-catalog/":"/products","/download-catalog":"/products","/about-us/":"/about","/about-us":"/about","/contact-us/":"/contact","/contact-us":"/contact","/services/":"/solutions","/services":"/solutions","/portfolio/":"/projects","/portfolio":"/projects","/gallery/":"/projects","/gallery":"/projects"};
+            if(wp[p]){location.replace(wp[p]);return;}
+            if(p.indexOf("/wp-content/")===0||p.indexOf("/wp-admin/")===0){location.replace("/products");return;}
+        })();
+        </script>
         <!-- Initial loading state for better perceived performance -->
         <div id="initial-loader" class="initial-loader"></div>
         <div id="root"></div>

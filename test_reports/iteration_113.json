@@ -1,0 +1,35 @@
+{
+  "summary": "Tested the SEO/AI-search audit fixes end-to-end against the public preview URL: 14 WordPress legacy 301 redirects, crawler 404 handling, /llms.txt + /api/llms.txt, /api/wp-redirect, noscript content in initial HTML, crawler heading/meta injection, robots.txt AI rules, cookie consent banner (accept/decline/persistence) and the Contact page Google Map embed. New pytest suite /app/backend/tests/test_seo_audit_fixes.py: 26/26 passed. Playwright verified cookie consent + map. All requested features work.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/robots.txt", "issue": "Duplicate rule blocks: GPTBot appears twice and 'Allow: /llms.txt' is repeated (once directly after the first GPTBot block). Harmless but sloppy; dedupe the AI-crawler section."},
+      {"endpoint": "prerender-server.js / backend/routes/redirects.py", "issue": "WP_REDIRECTS map is duplicated in two places and already out of sync (/products/rental-led-display/ and /products/flexible-led-display/ trailing-slash variants exist only in prerender-server.js). Single source of truth recommended."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Contact - Visit Showroom", "issues": ["Google Map embed is small (315x202) and the embed pb string uses placeholder ids (!1s0x0%3A0x0) so the pin drops on a generic lat/lng (25.0173, 55.0222) showing mostly water rather than the actual Jebel Ali Industrial Area 1 showroom. Use a real Place-ID based embed for accuracy."]},
+      {"screen": "Homepage / all pages", "issues": ["Fixed cookie banner overlays the bottom of the hero (partially covers the GET QUOTE / EXPLORE CTAs) and sits under the floating WhatsApp button until dismissed. Consider adding bottom padding while the banner is visible."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_seo_audit_fixes.py"],
+  "action_items": [
+    "Optional: dedupe robots.txt AI-crawler rules (GPTBot listed twice)",
+    "Optional: replace the Google Maps embed pb string with a real Place-ID embed and increase map height",
+    "Optional: de-duplicate WP_REDIRECTS between prerender-server.js and backend/routes/redirects.py"
+  ],
+  "critical_code_review_comments": [
+    "Non-crawler users still get HTTP 200 for unknown routes (404 only for crawler UAs). Acceptable for SEO but users' 404 page is served with a 200 status.",
+    "prerender-server.js is nearing 550 lines and mixes proxying, redirects, 404s, llms.txt serving and prerender injection; consider splitting into modules."
+  ],
+  "updated_files": ["/app/backend/tests/test_seo_audit_fixes.py", "/app/test_reports/iteration_113.json"],
+  "success_rate": {"backend": "100% (26/26)", "frontend": "100% (cookie consent + map verified)"},
+  "seed_data_creation": "None",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Regression suite for audit fixes lives at /app/backend/tests/test_seo_audit_fixes.py (WP redirects, crawler 404, llms.txt, noscript, robots.txt). Homepage networkidle never settles in Playwright (long-poll/WS) - use wait_until='domcontentloaded' + explicit timeouts. Cookie key: brightluxx_cookie_consent.",
+  "rca_of_the_issue": "N/A - all requested features verified working."
+}

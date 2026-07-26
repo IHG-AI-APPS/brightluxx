@@ -355,6 +355,8 @@ function ScrollToTop() {
   return null;
 }
 
+import CookieConsent from './components/CookieConsent';
+
 function App() {
   return (
     <Router>
@@ -366,6 +368,7 @@ function App() {
           <AppRoutes />
           <AuraChat />
           <ExitIntentPopup />
+          <CookieConsent />
         </div>
       </AdminProvider>
       </SiteSettingsProvider>

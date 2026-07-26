@@ -284,14 +284,134 @@ function waitForCRA() {
   check();
 }
 
+/* ── WordPress legacy URL redirects ────────────────────────────── */
+const WP_REDIRECTS = {
+  "/our-works/": "/projects",
+  "/our-works": "/projects",
+  "/digital-solutions/": "/solutions",
+  "/digital-solutions": "/solutions",
+  "/products/led-display": "/products",
+  "/products/led-display/": "/products",
+  "/products/indoor-led-display": "/indoor-led",
+  "/products/indoor-led-display/": "/indoor-led",
+  "/products/outdoor-led-display": "/outdoor-led",
+  "/products/outdoor-led-display/": "/outdoor-led",
+  "/products/spherical-led-display": "/products",
+  "/products/spherical-led-display/": "/products",
+  "/products/cube-led-display-p3": "/products",
+  "/products/cube-led-display-p3/": "/products",
+  "/products/transparent-led-display": "/glassmorph",
+  "/products/transparent-led-display/": "/glassmorph",
+  "/products/rental-led-display": "/products",
+  "/products/rental-led-display/": "/products",
+  "/products/flexible-led-display": "/products",
+  "/products/flexible-led-display/": "/products",
+  "/download-catalog/": "/products",
+  "/download-catalog": "/products",
+  "/about-us/": "/about",
+  "/about-us": "/about",
+  "/contact-us/": "/contact",
+  "/contact-us": "/contact",
+  "/services/": "/solutions",
+  "/services": "/solutions",
+  "/portfolio/": "/projects",
+  "/portfolio": "/projects",
+  "/gallery/": "/projects",
+  "/gallery": "/projects",
+};
+
+/* ── Known valid routes (for 404 detection) ────────────────────── */
+const KNOWN_ROUTES = new Set([
+  "/", "/products", "/product-families", "/solutions", "/contact", "/about",
+  "/lumimorph", "/lumimorph/elite", "/lumimorph/grande", "/lumimorph/mini",
+  "/naturatex", "/naturatex/holoveil",
+  "/signatouch", "/signatouch/touch-kiosk", "/signatouch/smart-signage", "/signatouch/self-service",
+  "/glassmorph", "/glassmorph/smart-film", "/glassmorph/led-film", "/glassmorph/media-glass", "/glassmorph/flying-display",
+  "/pixelvue", "/art-immersive", "/luxury-home-cinema",
+  "/applications", "/knowledge",
+  "/knowledge/cob-vs-mip-vs-smd", "/knowledge/pixel-pitch-guide", "/knowledge/brightness-nits-guide",
+  "/knowledge/ip-rating-guide", "/knowledge/refresh-rate-guide", "/knowledge/processing-calibration",
+  "/knowledge/cms-multi-site",
+  "/blog", "/case-studies", "/projects", "/inspirations",
+  "/faq", "/factory-tour", "/for-architects", "/design-assist", "/cpd-programme",
+  "/tech-guide", "/budget-estimator", "/signage-solutions",
+  "/indoor-led", "/outdoor-led",
+  "/led-screen-dubai", "/led-display-abu-dhabi", "/led-screen-saudi-arabia",
+  "/led-screen-qatar", "/led-screen-kuwait",
+  "/digital-experience", "/latest-tech", "/resource-library",
+  "/admin", "/admin/login", "/admin/seo",
+]);
+
+/* Dynamic route patterns */
+const DYNAMIC_PATTERNS = [
+  /^\/products\/[a-z0-9-]+$/,
+  /^\/blog\/[a-z0-9-]+$/,
+  /^\/case-studies\/[a-z0-9-]+$/,
+  /^\/projects\/[a-z0-9-]+$/,
+  /^\/applications\/[a-z0-9-]+$/,
+  /^\/inspirations\/[a-z0-9-]+$/,
+];
+
+function isKnownRoute(path) {
+  if (KNOWN_ROUTES.has(path)) return true;
+  return DYNAMIC_PATTERNS.some((p) => p.test(path));
+}
+
 function startProxy() {
   const server = http.createServer(async (req, res) => {
     const ua = req.headers["user-agent"] || "";
     const isCrawler = CRAWLER_RE.test(ua);
-    const isAsset = /\.(js|css|png|jpg|jpeg|webp|gif|svg|ico|map|json|woff|woff2|ttf|mp4|webm|ogg|pdf|xml)(\?.*)?$/.test(
+    const routePath = (req.url || "/").split("?")[0];
+    const isAsset = /\.(js|css|png|jpg|jpeg|webp|gif|svg|ico|map|json|woff|woff2|ttf|mp4|webm|ogg|pdf|xml|txt)(\?.*)?$/.test(
       req.url
     );
     const isApi = req.url.startsWith("/api");
+
+    // ── WordPress legacy redirects (for ALL users, not just crawlers) ──
+    if (!isAsset && !isApi && WP_REDIRECTS[routePath]) {
+      const newPath = WP_REDIRECTS[routePath];
+      res.writeHead(301, {
+        Location: newPath,
+        "X-Redirect-Reason": "WordPress legacy URL",
+      });
+      res.end();
+      return;
+    }
+
+    // ── /wp-content/ catch-all redirect ──
+    if (routePath.startsWith("/wp-content/") || routePath.startsWith("/wp-admin/") || routePath.startsWith("/wp-includes/")) {
+      res.writeHead(301, { Location: "/products" });
+      res.end();
+      return;
+    }
+
+    // ── Serve llms.txt as plain text (not SPA) ──
+    if (routePath === "/llms.txt") {
+      try {
+        const fs = require("fs");
+        const path = require("path");
+        const llmsPath = path.join(__dirname, "public", "llms.txt");
+        const content = fs.readFileSync(llmsPath, "utf8");
+        res.writeHead(200, {
+          "Content-Type": "text/plain; charset=utf-8",
+          "Content-Length": Buffer.byteLength(content),
+        });
+        res.end(content);
+        return;
+      } catch (e) {
+        // Fall through to proxy
+      }
+    }
+
+    // ── Proper 404 for unknown routes (crawlers only) ──
+    if (isCrawler && !isAsset && !isApi && !isKnownRoute(routePath)) {
+      res.writeHead(404, {
+        "Content-Type": "text/html; charset=utf-8",
+        "X-Robots-Tag": "noindex",
+      });
+      res.end(`<!DOCTYPE html><html><head><title>404 Not Found | Brightluxx</title><meta name="robots" content="noindex"></head><body><h1>Page Not Found</h1><p>The page ${esc(routePath)} does not exist.</p><nav><a href="/">Home</a> | <a href="/products">Products</a> | <a href="/contact">Contact</a></nav></body></html>`);
+      return;
+    }
 
     // ── Crawler on a page route → inject headings ──
     if (isCrawler && !isAsset && !isApi) {

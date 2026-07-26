@@ -17,6 +17,8 @@ Disallow: /compare
 # Allow critical API endpoints for crawlers
 Allow: /api/sitemap.xml
 Allow: /api/og-image
+Allow: /api/llms.txt
+Allow: /llms.txt
 
 # Sitemap
 Sitemap: https://brightluxx.com/sitemap.xml
@@ -39,12 +41,25 @@ Disallow: /admin
 Disallow: /cart
 Crawl-delay: 1
 
-# AI Crawlers
+# AI Crawlers — explicitly allowed with llms.txt reference
 User-agent: GPTBot
 Allow: /
+Allow: /llms.txt
 
 User-agent: ChatGPT-User
 Allow: /
+Allow: /llms.txt
 
 User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: Applebot-Extended
 Allow: /

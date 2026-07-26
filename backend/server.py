@@ -50,14 +50,12 @@ app = FastAPI()
 # GZip compression for responses > 500 bytes
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
+cors_origins_str = os.environ.get("CORS_ORIGINS", "*")
+cors_origins = cors_origins_str.split(",") if cors_origins_str != "*" else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://brightluxx.com",
-        "https://www.brightluxx.com",
-        "https://brightluxx-showcase.emergent.host",
-        "https://space-modern-build.preview.emergentagent.com",
-    ],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

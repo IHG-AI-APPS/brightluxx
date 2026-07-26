@@ -91,11 +91,8 @@ async def get_product_categories():
 async def compare_products(product_codes: List[str]):
     if len(product_codes) < 2 or len(product_codes) > 4:
         raise HTTPException(status_code=400, detail="Select 2-4 products to compare")
-    products = []
-    for code in product_codes:
-        product = await products_col.find_one({"product_code": code})
-        if product:
-            products.append(serialize_doc(product))
+    cursor = products_col.find({"product_code": {"$in": product_codes}})
+    products = [serialize_doc(doc) async for doc in cursor]
     return {"products": products}
 
 

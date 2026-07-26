@@ -17,7 +17,9 @@ const path = require("path");
 const PORT = parseInt(process.env.PORT || "3000", 10);
 const CRA_PORT = 3001;
 const BACKEND = "http://localhost:8001";
-const PROD_URL = "https://brightluxx.com";
+const PROD_URL = process.env.REACT_APP_BACKEND_URL
+  ? process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "")
+  : "https://brightluxx.com";
 
 /* ── Crawler detection ─────────────────────────────────────────── */
 const CRAWLER_RE =

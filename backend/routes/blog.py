@@ -66,10 +66,14 @@ async def get_published_blogs(category: Optional[str] = None):
     cursor = blogs_col.find(query, {"_id": 0}).sort("published_at", -1)
     blogs = await cursor.to_list(length=100)
     
-    # Get unique categories from published posts
-    all_posts = await blogs_col.find({"is_published": True}, {"category": 1, "_id": 0}).to_list(length=500)
-    categories = list(set([p.get("category", "General") for p in all_posts]))
-    categories = ["All"] + sorted(categories)
+    # Get unique categories efficiently via aggregation
+    pipeline = [
+        {"$match": {"is_published": True}},
+        {"$group": {"_id": "$category"}},
+        {"$sort": {"_id": 1}},
+    ]
+    cat_docs = await blogs_col.aggregate(pipeline).to_list(length=100)
+    categories = ["All"] + [doc["_id"] for doc in cat_docs if doc.get("_id")]
     
     return {"blogs": blogs, "categories": categories}
 

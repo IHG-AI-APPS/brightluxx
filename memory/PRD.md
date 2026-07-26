@@ -90,6 +90,13 @@ Based on professional audit report identifying 10 critical/high/medium issues:
 - [MEDIUM] Google Maps embed on Contact page (Jebel Ali Industrial Area 1, Dubai)
 - [MEDIUM] Enhanced `postbuild-prerender.js` for production builds with heading + internal link injection
 - Testing: 100% pass (iteration_113.json) — 26/26 backend, all frontend verified
+
+### Home Cinema Products Seeded + Schema.org — Jul 26, 2026
+- Seeded 10 Home Cinema products across 5 families: CinemaLED (2), AmbientScreen (2), PoolView (2), TheaterPro (2), GameWall (2)
+- Sub-categories: cinema-screen, living-room, outdoor-cinema, theater-system, gaming-display
+- Added schema.org Organization + LocalBusiness JSON-LD structured data (injected via prerender server for crawlers)
+- Total products: 94
+
 - Built semantic internal link graph covering all 55 pages with relationship types (child, parent, sibling, related-guide, related-solution, sibling-family, geo-landing, etc.)
 - Backend API: `/api/prerender/internal-links?path=` returns page-specific link graph with rel labels
 - Product family pages link to: children, sibling families, related knowledge articles, related solutions, content hubs

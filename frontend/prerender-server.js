@@ -215,6 +215,27 @@ function injectMeta(html, routePath, meta, internalLinks) {
   // Build JSON-LD BreadcrumbList + SiteNavigationElement
   const jsonLdScripts = [];
 
+  // Organization + LocalBusiness schema (always present)
+  jsonLdScripts.push(JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": ["Organization", "LocalBusiness"],
+    "name": "Brightluxx",
+    "legalName": "Brightluxx LED Display Solutions",
+    "url": "https://brightluxx.com",
+    "logo": "https://files.ihgbrands.com/assets/brightluxx-logo-nav.png",
+    "description": "Premium LED display manufacturer and solutions provider in Dubai, UAE.",
+    "foundingDate": "2005",
+    "address": {"@type": "PostalAddress", "streetAddress": "Jebel Ali Industrial Area 1", "addressLocality": "Dubai", "addressCountry": "AE"},
+    "geo": {"@type": "GeoCoordinates", "latitude": 24.9857, "longitude": 55.0272},
+    "areaServed": [
+      {"@type": "Country", "name": "United Arab Emirates"},
+      {"@type": "Country", "name": "Saudi Arabia"},
+      {"@type": "Country", "name": "Qatar"},
+      {"@type": "Country", "name": "Kuwait"}
+    ],
+    "knowsAbout": ["LED Displays", "MicroLED", "Digital Signage", "Video Walls", "Transparent LED", "Interactive Kiosks", "Smart Glass"]
+  }));
+
   // BreadcrumbList schema
   const pathParts = routePath.split("/").filter(Boolean);
   if (pathParts.length > 0) {

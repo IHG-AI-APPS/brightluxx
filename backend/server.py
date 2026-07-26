@@ -64,7 +64,13 @@ app.add_middleware(
 )
 
 # Skip perf logging for high-frequency/static endpoints
-_SKIP_PERF = {"/api/track", "/api/health"}
+_SKIP_PERF = {"/api/track", "/api/health", "/health"}
+
+
+@app.get("/health")
+async def health_check():
+    """Kubernetes liveness/readiness probe."""
+    return {"status": "ok"}
 
 # Cacheable public endpoints (read-only, public data)
 _CACHEABLE = {

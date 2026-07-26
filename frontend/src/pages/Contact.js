@@ -215,14 +215,14 @@ const Contact = () => {
                   </p>
                   <div className="rounded-lg overflow-hidden border border-white/5" data-testid="google-map-embed">
                     <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3616.123!2d55.0222!3d25.0173!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDAxJzAyLjMiTiA1NcKwMDEnMjAuMCJF!5e0!3m2!1sen!2sae!4v1"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.5!2d55.0272!3d24.9857!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f13c77b5b2d6d%3A0x0!2sJebel+Ali+Industrial+Area+1!5e0!3m2!1sen!2sae!4v1"
                       width="100%"
-                      height="200"
+                      height="220"
                       style={{ border: 0 }}
                       allowFullScreen=""
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
-                      title="Brightluxx Showroom Location - Jebel Ali, Dubai"
+                      title="Brightluxx Showroom - Jebel Ali Industrial Area 1, Dubai"
                     ></iframe>
                   </div>
                 </GlassCard>

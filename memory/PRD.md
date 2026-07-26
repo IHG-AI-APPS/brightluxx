@@ -78,7 +78,18 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
-### Internal Linking Strategy for Crawlers — Apr 21, 2026
+### Comprehensive SEO/AI-Search Audit Fix — Jul 26, 2026
+Based on professional audit report identifying 10 critical/high/medium issues:
+- [CRITICAL] Rich `<noscript>` content in index.html: 7 heading tags, 25 internal links, product family navigation — replaces empty "enable JavaScript" message
+- [CRITICAL] WordPress 301 redirects: 14+ legacy URLs (/our-works/, /digital-solutions/, /products/led-display, /about-us/, /wp-content/*, etc.) now 301-redirect to current equivalents
+- [CRITICAL] Proper 404 handling: unknown URLs return HTTP 404 with `X-Robots-Tag: noindex` for crawlers (eliminates soft 404 problem)
+- [CRITICAL] Inline meta injection script: route-specific `<title>` and `<meta description>` injected before React loads
+- [HIGH] `/llms.txt` static file: comprehensive plain-text summary for AI crawlers (ChatGPT, Perplexity, Claude, Gemini) — 3,500+ words covering company, products, applications, contact
+- [HIGH] Updated `robots.txt`: added ClaudeBot, PerplexityBot, Applebot-Extended rules; referenced llms.txt
+- [MEDIUM] Cookie consent banner: GDPR/UAE PDPL compliant with Accept/Decline, PostHog opt-out on decline
+- [MEDIUM] Google Maps embed on Contact page (Jebel Ali Industrial Area 1, Dubai)
+- [MEDIUM] Enhanced `postbuild-prerender.js` for production builds with heading + internal link injection
+- Testing: 100% pass (iteration_113.json) — 26/26 backend, all frontend verified
 - Built semantic internal link graph covering all 55 pages with relationship types (child, parent, sibling, related-guide, related-solution, sibling-family, geo-landing, etc.)
 - Backend API: `/api/prerender/internal-links?path=` returns page-specific link graph with rel labels
 - Product family pages link to: children, sibling families, related knowledge articles, related solutions, content hubs

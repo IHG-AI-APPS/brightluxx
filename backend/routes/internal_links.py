@@ -31,7 +31,7 @@ PRODUCT_FAMILIES = {
         "name": "SignaTouch",
         "children": ["/signatouch/touch-kiosk", "/signatouch/smart-signage", "/signatouch/self-service"],
         "related_knowledge": ["/knowledge/cms-multi-site", "/knowledge/refresh-rate-guide"],
-        "related_solutions": ["/signage-solutions", "/digital-experience"],
+        "related_solutions": ["/signage-solutions", "/digital-experience-architecture"],
         "use_cases": ["Retail Kiosks", "Wayfinding", "Self-Service Terminals"],
     },
     "/glassmorph": {
@@ -96,31 +96,31 @@ ALL_KNOWLEDGE = list(KNOWLEDGE_LINKS.keys())
 SEO_LANDING_LINKS = {
     "/indoor-led": {
         "families": ["/lumimorph", "/naturatex", "/signatouch", "/pixelvue"],
-        "sibling_landings": ["/outdoor-led", "/led-screen-dubai"],
+        "sibling_landings": ["/outdoor-led", "/led-screen-suppliers-dubai"],
     },
     "/outdoor-led": {
         "families": ["/pixelvue", "/glassmorph"],
-        "sibling_landings": ["/indoor-led", "/led-screen-dubai"],
+        "sibling_landings": ["/indoor-led", "/led-screen-suppliers-dubai"],
     },
-    "/led-screen-dubai": {
+    "/led-screen-suppliers-dubai": {
         "families": ALL_FAMILIES,
-        "sibling_landings": ["/led-display-abu-dhabi", "/led-screen-saudi-arabia", "/led-screen-qatar", "/led-screen-kuwait"],
+        "sibling_landings": ["/abu-dhabi", "/saudi-arabia", "/qatar", "/kuwait"],
     },
-    "/led-display-abu-dhabi": {
+    "/abu-dhabi": {
         "families": ALL_FAMILIES,
-        "sibling_landings": ["/led-screen-dubai", "/led-screen-saudi-arabia"],
+        "sibling_landings": ["/led-screen-suppliers-dubai", "/saudi-arabia"],
     },
-    "/led-screen-saudi-arabia": {
+    "/saudi-arabia": {
         "families": ALL_FAMILIES,
-        "sibling_landings": ["/led-screen-dubai", "/led-screen-qatar", "/led-screen-kuwait"],
+        "sibling_landings": ["/led-screen-suppliers-dubai", "/qatar", "/kuwait"],
     },
-    "/led-screen-qatar": {
+    "/qatar": {
         "families": ALL_FAMILIES,
-        "sibling_landings": ["/led-screen-dubai", "/led-screen-saudi-arabia", "/led-screen-kuwait"],
+        "sibling_landings": ["/led-screen-suppliers-dubai", "/saudi-arabia", "/kuwait"],
     },
-    "/led-screen-kuwait": {
+    "/kuwait": {
         "families": ALL_FAMILIES,
-        "sibling_landings": ["/led-screen-dubai", "/led-screen-qatar", "/led-screen-saudi-arabia"],
+        "sibling_landings": ["/led-screen-suppliers-dubai", "/qatar", "/saudi-arabia"],
     },
 }
 
@@ -282,7 +282,7 @@ async def build_links_for_page(path: str) -> list:
             links.append(_link(f, name, "product-family"))
         links.append(_link("/applications", "Applications", "related"))
         links.append(_link("/signage-solutions", "Signage Solutions", "related"))
-        links.append(_link("/digital-experience", "Digital Experience", "related"))
+        links.append(_link("/digital-experience-architecture", "Digital Experience", "related"))
         links.append(_link("/case-studies", "Case Studies", "social-proof"))
         links.append(_link("/for-architects", "For Architects", "audience"))
 

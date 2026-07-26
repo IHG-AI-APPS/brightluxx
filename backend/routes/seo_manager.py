@@ -240,7 +240,11 @@ async def list_pages(admin=Depends(get_current_admin)):
 @router.get("/api/admin/seo/pages/{page_id}")
 async def get_page(page_id: str, admin=Depends(get_current_admin)):
     from bson import ObjectId
-    doc = await col.find_one({"_id": ObjectId(page_id)})
+    from bson.errors import InvalidId
+    try:
+        doc = await col.find_one({"_id": ObjectId(page_id)})
+    except (InvalidId, Exception):
+        return {"error": "invalid page ID"}
     if not doc:
         return {"error": "not found"}
     return serialize(doc)
@@ -488,15 +492,36 @@ async def ai_generate_all_missing(admin=Depends(get_current_admin)):
     from fastapi import BackgroundTasks
     import uuid as uuid_mod
 
-    # Check if a job is already running
+    # Check if a job is already running (with 30-min timeout for stale jobs)
     running = await bulk_job_col.find_one({"status": "running"})
     if running:
-        return {
-            "status": "already_running",
-            "job_id": running["job_id"],
-            "processed": running.get("processed", 0),
-            "total": running.get("total", 0),
-        }
+        # Check if the job is stale (>30 minutes old)
+        started = running.get("started_at", "")
+        if started:
+            from datetime import datetime as dt
+            try:
+                start_time = dt.fromisoformat(started.replace("Z", "+00:00"))
+                if (datetime.now(timezone.utc) - start_time).total_seconds() > 1800:
+                    await bulk_job_col.update_one(
+                        {"job_id": running["job_id"]},
+                        {"$set": {"status": "timed_out"}},
+                    )
+                else:
+                    return {
+                        "status": "already_running",
+                        "job_id": running["job_id"],
+                        "processed": running.get("processed", 0),
+                        "total": running.get("total", 0),
+                    }
+            except Exception:
+                pass
+        else:
+            return {
+                "status": "already_running",
+                "job_id": running["job_id"],
+                "processed": running.get("processed", 0),
+                "total": running.get("total", 0),
+            }
 
     # Count pages needing work
     missing_count = await col.count_documents({

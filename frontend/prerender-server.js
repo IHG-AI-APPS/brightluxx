@@ -339,6 +339,13 @@ const WP_REDIRECTS = {
   "/portfolio": "/projects",
   "/gallery/": "/projects",
   "/gallery": "/projects",
+  "/led-screen-dubai": "/led-screen-suppliers-dubai",
+  "/led-display-abu-dhabi": "/abu-dhabi",
+  "/led-screen-saudi-arabia": "/saudi-arabia",
+  "/led-screen-qatar": "/qatar",
+  "/led-screen-kuwait": "/kuwait",
+  "/resource-library": "/resources",
+  "/digital-experience": "/digital-experience-architecture",
 };
 
 /* ── Known valid routes (for 404 detection) ────────────────────── */
@@ -357,9 +364,9 @@ const KNOWN_ROUTES = new Set([
   "/faq", "/factory-tour", "/for-architects", "/design-assist", "/cpd-programme",
   "/tech-guide", "/budget-estimator", "/signage-solutions",
   "/indoor-led", "/outdoor-led",
-  "/led-screen-dubai", "/led-display-abu-dhabi", "/led-screen-saudi-arabia",
-  "/led-screen-qatar", "/led-screen-kuwait",
-  "/digital-experience", "/latest-tech", "/resource-library",
+  "/led-screen-suppliers-dubai", "/abu-dhabi", "/saudi-arabia",
+  "/qatar", "/kuwait",
+  "/digital-experience-architecture", "/latest-tech", "/resources",
   "/admin", "/admin/login", "/admin/seo",
 ]);
 

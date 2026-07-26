@@ -1,13 +1,20 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-PQX7M8JK');</script>
-        <!-- End Google Tag Manager -->
+        <!-- Google Tag Manager — deferred until consent -->
+        <script>
+        (function(){
+            var consent = localStorage.getItem('brightluxx_cookie_consent');
+            if (consent === 'accepted') {
+                // GTM
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','GTM-PQX7M8JK');
+            }
+        })();
+        </script>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#22D3EE" />
@@ -144,11 +151,11 @@
             
             <h2>Service Regions</h2>
             <ul>
-                <li><a href="/led-screen-dubai">LED Screens Dubai</a></li>
-                <li><a href="/led-display-abu-dhabi">LED Displays Abu Dhabi</a></li>
-                <li><a href="/led-screen-saudi-arabia">LED Screens Saudi Arabia</a></li>
-                <li><a href="/led-screen-qatar">LED Screens Qatar</a></li>
-                <li><a href="/led-screen-kuwait">LED Screens Kuwait</a></li>
+                <li><a href="/led-screen-suppliers-dubai">LED Screens Dubai</a></li>
+                <li><a href="/abu-dhabi">LED Displays Abu Dhabi</a></li>
+                <li><a href="/saudi-arabia">LED Screens Saudi Arabia</a></li>
+                <li><a href="/qatar">LED Screens Qatar</a></li>
+                <li><a href="/kuwait">LED Screens Kuwait</a></li>
             </ul>
             
             <h2>Resources</h2>
@@ -269,7 +276,8 @@
             })(document, window.posthog || []);
             posthog.init("phc_xAvL2Iq4tFmANRE7kzbKwaSqp1HJjN7x48s3vr0CMjs", {
                 api_host: "https://us.i.posthog.com",
-                person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well,
+                person_profiles: "identified_only",
+                opt_out_capturing_by_default: localStorage.getItem('brightluxx_cookie_consent') !== 'accepted',
                 session_recording: {
                     recordCrossOriginIframes: true,
                     capturePerformance: false,

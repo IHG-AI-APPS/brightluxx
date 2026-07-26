@@ -16,6 +16,19 @@ export default function CookieConsent() {
   const accept = () => {
     localStorage.setItem(CONSENT_KEY, 'accepted');
     setVisible(false);
+    // Opt-in PostHog
+    if (window.posthog) {
+      window.posthog.opt_in_capturing();
+    }
+    // Load GTM if not already loaded
+    if (!document.querySelector('script[src*="googletagmanager"]')) {
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-PQX7M8JK';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+    }
   };
 
   const decline = () => {

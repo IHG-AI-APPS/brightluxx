@@ -40,20 +40,18 @@ export default function CdnImage({ src, alt = '', className = '', imgClassName =
 
   // Get the full CDN URL
   const fullCdnUrl = cdnUrl(src);
-  
-  // For blur placeholder, use a smaller version (external CDN doesn't support resize, so use same image)
-  const blurSrc = fullCdnUrl;
   const fullSrc = fullCdnUrl;
 
   return (
     <div ref={containerRef} className={`cdn-img-wrap ${className}`} data-testid="cdn-image">
-      {/* Blur placeholder - tiny image with CSS blur */}
-      <img
-        src={blurSrc}
-        alt=""
-        aria-hidden="true"
-        className={`cdn-img-blur ${loaded ? 'cdn-img-hide' : ''} ${imgClassName}`}
-      />
+      {/* Placeholder - solid color until image loads */}
+      {!loaded && (
+        <div
+          aria-hidden="true"
+          className={`cdn-img-blur ${imgClassName}`}
+          style={{ background: 'rgba(255,255,255,0.03)' }}
+        />
+      )}
       {/* Full image - loads when in viewport */}
       {inView && (
         <img

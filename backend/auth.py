@@ -8,8 +8,10 @@ import os
 from database import admins_col
 from utils import serialize_doc
 
-SECRET_KEY = os.getenv("JWT_SECRET", "brightluxx-admin-secret-key-2025-change-in-production")
-REFRESH_SECRET = os.getenv("JWT_REFRESH_SECRET", SECRET_KEY + "-refresh")
+SECRET_KEY = os.environ.get("JWT_SECRET")
+REFRESH_SECRET = os.environ.get("JWT_REFRESH_SECRET")
+if not SECRET_KEY or not REFRESH_SECRET:
+    raise RuntimeError("JWT_SECRET and JWT_REFRESH_SECRET must be set in environment")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRY = 4 * 3600
 REFRESH_TOKEN_EXPIRY = 7 * 24 * 3600

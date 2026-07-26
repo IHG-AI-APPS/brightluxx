@@ -186,7 +186,8 @@ async def startup():
     # Seed content collections from seed_data.json
     try:
         from seed_migration import run_seed
-        await run_seed(db)
+        from database import db as seed_db
+        await run_seed(seed_db)
     except Exception as e:
         print(f"Seed migration warning: {e}")
 

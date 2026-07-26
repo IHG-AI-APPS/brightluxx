@@ -1,14 +1,24 @@
 """
 SEO Manager API — Per-page SEO data management with AI auto-generation.
 """
-from fastapi import APIRouter, Depends, Body
+from fastapi import APIRouter, Depends, Body, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime, timezone
 from database import db
 from routes.admin import get_current_admin
+from bson import ObjectId
+from bson.errors import InvalidId
 import os
 import asyncio
+
+
+def parse_oid(page_id: str) -> ObjectId:
+    """Parse and validate a page_id as ObjectId, or raise 400."""
+    try:
+        return ObjectId(page_id)
+    except (InvalidId, Exception):
+        raise HTTPException(status_code=400, detail="Invalid page ID")
 
 router = APIRouter(tags=["SEO Manager"])
 col = db["page_seo"]
@@ -239,14 +249,10 @@ async def list_pages(admin=Depends(get_current_admin)):
 
 @router.get("/api/admin/seo/pages/{page_id}")
 async def get_page(page_id: str, admin=Depends(get_current_admin)):
-    from bson import ObjectId
-    from bson.errors import InvalidId
-    try:
-        doc = await col.find_one({"_id": ObjectId(page_id)})
-    except (InvalidId, Exception):
-        return {"error": "invalid page ID"}
+    oid = parse_oid(page_id)
+    doc = await col.find_one({"_id": oid})
     if not doc:
-        return {"error": "not found"}
+        raise HTTPException(status_code=404, detail="Page not found")
     return serialize(doc)
 
 
@@ -267,8 +273,8 @@ async def update_page(page_id: str, data: SEOUpdate, admin=Depends(get_current_a
     from bson import ObjectId
     update = {k: v for k, v in data.dict().items() if v is not None}
     update["updated_at"] = datetime.now(timezone.utc).isoformat()
-    await col.update_one({"_id": ObjectId(page_id)}, {"$set": update})
-    doc = await col.find_one({"_id": ObjectId(page_id)})
+    await col.update_one({"_id": parse_oid(page_id)}, {"$set": update})
+    doc = await col.find_one({"_id": parse_oid(page_id)})
     return serialize(doc)
 
 
@@ -284,9 +290,9 @@ async def ai_generate_seo(req: AIGenerateRequest, admin=Depends(get_current_admi
     from emergentintegrations.llm.chat import LlmChat, UserMessage
     import json as json_mod
 
-    doc = await col.find_one({"_id": ObjectId(req.page_id)})
+    doc = await col.find_one({"_id": parse_oid(req.page_id)})
     if not doc:
-        return {"error": "Page not found"}
+        raise HTTPException(status_code=404, detail="Page not found")
 
     api_key = os.environ.get("EMERGENT_LLM_KEY", "")
     chat = LlmChat(
@@ -340,8 +346,8 @@ async def ai_generate_seo(req: AIGenerateRequest, admin=Depends(get_current_admi
             update[field] = generated[field]
     update["updated_at"] = datetime.now(timezone.utc).isoformat()
 
-    await col.update_one({"_id": ObjectId(req.page_id)}, {"$set": update})
-    updated_doc = await col.find_one({"_id": ObjectId(req.page_id)})
+    await col.update_one({"_id": parse_oid(req.page_id)}, {"$set": update})
+    updated_doc = await col.find_one({"_id": parse_oid(req.page_id)})
     return {"generated": generated, "page": serialize(updated_doc)}
 
 

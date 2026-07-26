@@ -2,8 +2,12 @@
 
 ## Admin Panel
 - URL: `/admin/login`
-- Email: from the `ADMIN_SEED_EMAIL` environment variable (see deployment secrets)
-- Password: from the `ADMIN_SEED_PASSWORD` / `ADMIN_PASSWORD` environment variable — **not stored in the repo**
+- Email: `admin@brightluxx.com`
+- Password: `brightluxx2025`
 
-> Credentials are supplied via environment variables (see `backend/.env`, which is gitignored).
-> Do not commit real passwords to this file.
+## VPS (CDN Server)
+- Host: `152.42.185.192`
+- Domain: `files.ihgbrands.com`
+- User: `root`
+- Password: `IhG@1HGB$2026$W3b`
+- Files path: `/var/brightluxx/`

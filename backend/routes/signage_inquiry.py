@@ -1,42 +1,46 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request, HTTPException
 from pydantic import BaseModel
+from typing import Optional
 from datetime import datetime, timezone
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import signage_inquiry_email
+from anti_spam import validate_submission
+from utils import get_client_ip
 
 router = APIRouter(prefix="/api")
 
 
 class SignageInquiryRequest(BaseModel):
-    # Contact Info
     name: str
     company: str = ""
     email: str
     phone: str = ""
-    
-    # Signage Details
-    signage_type: str  # channel-letters, menu-boards, wayfinding, etc.
+    signage_type: str
     quantity: str = ""
-    
-    # For Channel Letters
-    letter_height: str = ""  # 10-24", 24-48", 48-72", 72"+
-    illumination: str = ""  # front-lit, halo-lit, dual-lit, neon-style, non-illuminated
-    material: str = ""  # aluminum-acrylic, stainless-steel, bronze, painted-metal
-    
-    # For Menu Boards / Digital Signage
-    display_size: str = ""  # 32", 43", 55", 65", 75"+, video-wall
-    
-    # General
-    location: str = ""  # indoor, outdoor, both
+    letter_height: str = ""
+    illumination: str = ""
+    material: str = ""
+    display_size: str = ""
+    location: str = ""
     installation_address: str = ""
-    timeline: str = ""  # urgent, 1-2-weeks, 1-month, flexible
-    budget_range: str = ""  # under-5k, 5k-15k, 15k-50k, 50k+
+    timeline: str = ""
+    budget_range: str = ""
     project_brief: str = ""
+    # Honeypot
+    fax: Optional[str] = None
 
 
 @router.post("/signage-inquiry")
-async def signage_inquiry(req: SignageInquiryRequest):
+async def signage_inquiry(req: SignageInquiryRequest, request: Request):
+    ip = get_client_ip(request)
+    validation_data = {"name": req.name, "email": req.email, "phone": req.phone, "message": req.project_brief, "fax": req.fax}
+    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    if not is_valid:
+        if error_msg == "__honeypot__":
+            return {"status": "ok", "message": "Inquiry submitted successfully"}
+        raise HTTPException(status_code=422, detail=error_msg)
+
     lead = {
         "name": req.name,
         "company": req.company,
@@ -54,13 +58,14 @@ async def signage_inquiry(req: SignageInquiryRequest):
         "timeline": req.timeline,
         "budget_range": req.budget_range,
         "project_brief": req.project_brief,
+        "spam_score": spam_score,
+        "ip": ip,
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     
     await leads_col.insert_one(lead)
     lead.pop("_id", None)
     
-    # Send enhanced email
     if NOTIFICATION_EMAIL:
         subject, html = signage_inquiry_email(lead)
         await send_email(NOTIFICATION_EMAIL, subject, html)

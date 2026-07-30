@@ -36,8 +36,8 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-const GlassCard = ({ children, className = '', hover = true, isDark = true }) => (
-  <div className={`
+const GlassCard = ({ children, className = '', hover = true, isDark = true, ...props }) => (
+  <div {...props} className={`
     backdrop-blur-xl ${isDark ? 'bg-white/[0.03]' : 'bg-white/80'} border ${isDark ? 'border-white/[0.08]' : 'border-neutral-200'} rounded-lg
     ${hover ? `hover:${isDark ? 'bg-white/[0.06]' : 'bg-white'} hover:border-cyan-500/30` : ''}
     transition-all duration-500 ${className}

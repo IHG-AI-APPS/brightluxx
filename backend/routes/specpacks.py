@@ -1,17 +1,19 @@
 """Spec Pack PDF generation and gated download endpoints."""
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+from typing import Optional
 from datetime import datetime, timezone
 import os
 
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import specpack_download_email
+from anti_spam import validate_submission
+from utils import get_client_ip
 
 router = APIRouter()
 
-# PDF storage directory
 PDF_DIR = os.path.join(os.path.dirname(__file__), '..', 'specpacks')
 os.makedirs(PDF_DIR, exist_ok=True)
 
@@ -22,6 +24,7 @@ class SpecPackRequest(BaseModel):
     company: str = ""
     role: str = ""
     pack_id: str = ""
+    fax: Optional[str] = None
 
 
 SPEC_PACKS = {
@@ -46,8 +49,15 @@ async def download_specpack(pack_id: str, data: SpecPackRequest, request: Reques
     if pack_id not in SPEC_PACKS:
         return {"error": "Spec pack not found"}
 
+    ip = get_client_ip(request)
+    validation_data = {"name": data.name, "email": data.email, "fax": data.fax}
+    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    if not is_valid:
+        if error_msg == "__honeypot__":
+            return {"success": True, "download_url": f"/api/specpacks/{pack_id}/file"}
+        raise HTTPException(status_code=422, detail=error_msg)
+
     # Capture the lead
-    ip = request.headers.get("x-forwarded-for", request.client.host).split(",")[0].strip()
     lead_data = {
         "name": data.name,
         "email": data.email,
@@ -57,6 +67,7 @@ async def download_specpack(pack_id: str, data: SpecPackRequest, request: Reques
         "spec_pack": pack_id,
         "spec_pack_title": SPEC_PACKS[pack_id],
         "ip": ip[:50],
+        "spam_score": spam_score,
         "status": "new",
         "created_at": datetime.now(timezone.utc),
     }

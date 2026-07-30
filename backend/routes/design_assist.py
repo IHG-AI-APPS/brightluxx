@@ -8,7 +8,8 @@ import uuid
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import design_assist_email
-from utils import lead_limiter, get_client_ip
+from anti_spam import validate_submission
+from utils import get_client_ip
 
 router = APIRouter()
 
@@ -22,13 +23,18 @@ class DesignAssistRequest(BaseModel):
     project_type: Optional[str] = ""
     project_stage: Optional[str] = ""
     message: Optional[str] = ""
+    fax: Optional[str] = None
 
 
 @router.post("/api/design-assist/request")
 async def submit_design_assist(data: DesignAssistRequest, request: Request):
     client_ip = get_client_ip(request)
-    if not lead_limiter.check(client_ip):
-        raise HTTPException(status_code=429, detail="Too many submissions.")
+    validation_data = {"name": data.name, "email": data.email, "phone": data.phone, "message": data.message or "", "fax": data.fax}
+    is_valid, error_msg, spam_score = validate_submission(validation_data, client_ip)
+    if not is_valid:
+        if error_msg == "__honeypot__":
+            return {"success": True, "message": "Thank you! Our design assist team will contact you within 24 hours."}
+        raise HTTPException(status_code=422, detail=error_msg)
 
     lead_dict = {
         "id": str(uuid.uuid4()),
@@ -49,6 +55,8 @@ async def submit_design_assist(data: DesignAssistRequest, request: Request):
         "created_at": datetime.now(timezone.utc),
     }
 
+    lead_dict["spam_score"] = spam_score
+    lead_dict["ip"] = client_ip
     await leads_col.insert_one(lead_dict)
 
     # Send enhanced email notification

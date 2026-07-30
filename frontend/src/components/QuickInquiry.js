@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Send, CheckCircle2 } from 'lucide-react';
+import HoneypotFields from './HoneypotFields';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
@@ -8,7 +9,7 @@ export default function QuickInquiry({ context = '', pageUrl = '' }) {
   const [dismissed, setDismissed] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', phone: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', fax: '' });
 
   useEffect(() => {
     const key = `qi_dismissed_${window.location.pathname}`;
@@ -146,6 +147,7 @@ export default function QuickInquiry({ context = '', pageUrl = '' }) {
                   </>
                 )}
               </button>
+              <HoneypotFields value={form.fax} onChange={e => setForm(p => ({ ...p, fax: e.target.value }))} />
             </form>
           </div>
         )}

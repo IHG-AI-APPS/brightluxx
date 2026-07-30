@@ -242,6 +242,7 @@ class LeadCapture(BaseModel):
     email: str
     company: str
     role: Optional[str] = ""
+    fax: Optional[str] = None
 
 
 # ── Chat instances with page-aware context ───────────────────────
@@ -315,9 +316,20 @@ async def chat_message(data: ChatMessage):
 
 
 @router.post("/api/chat/lead")
-async def chat_lead_capture(data: LeadCapture):
+async def chat_lead_capture(data: LeadCapture, request: Request):
     from database import leads_col
     from email_templates import chat_lead_email
+    from anti_spam import validate_submission
+    from utils import get_client_ip
+
+    ip = get_client_ip(request)
+    validation_data = {"name": data.name, "email": data.email, "fax": data.fax}
+    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    if not is_valid:
+        if error_msg == "__honeypot__":
+            return {"success": True, "message": "Thank you! Continue chatting with AURA."}
+        from fastapi import HTTPException
+        raise HTTPException(status_code=422, detail=error_msg)
 
     lead_dict = {
         "id": str(uuid.uuid4()),
@@ -329,6 +341,8 @@ async def chat_lead_capture(data: LeadCapture):
         "application": "AURA Chat Assistant",
         "status": "new",
         "notes": f"Chat session: {data.session_id}",
+        "spam_score": spam_score,
+        "ip": ip,
         "created_at": datetime.now(timezone.utc),
     }
 

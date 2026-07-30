@@ -1,9 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request, HTTPException
 from pydantic import BaseModel
+from typing import Optional
 from datetime import datetime, timezone
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import site_visit_email
+from anti_spam import validate_submission
+from utils import get_client_ip
 
 router = APIRouter(prefix="/api")
 
@@ -15,10 +18,19 @@ class SiteVisitRequest(BaseModel):
     company: str = ""
     project_brief: str = ""
     page_url: str = ""
+    fax: Optional[str] = None
 
 
 @router.post("/site-visit-request")
-async def site_visit_request(req: SiteVisitRequest):
+async def site_visit_request(req: SiteVisitRequest, request: Request):
+    ip = get_client_ip(request)
+    validation_data = {"name": req.name, "email": req.email, "phone": req.phone, "message": req.project_brief, "fax": req.fax}
+    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    if not is_valid:
+        if error_msg == "__honeypot__":
+            return {"status": "ok"}
+        raise HTTPException(status_code=422, detail=error_msg)
+
     lead = {
         "name": req.name,
         "email": req.email,
@@ -27,12 +39,13 @@ async def site_visit_request(req: SiteVisitRequest):
         "message": req.project_brief,
         "source": "exit_intent_site_visit",
         "page_url": req.page_url,
+        "spam_score": spam_score,
+        "ip": ip,
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     await leads_col.insert_one(lead)
     lead.pop("_id", None)
     
-    # Send enhanced email notification
     if NOTIFICATION_EMAIL:
         try:
             email_data = {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import HoneypotFields from '../components/HoneypotFields';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Upload, CheckCircle, FileText, MessageCircle, Phone, Shield, Clock, DollarSign } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -13,7 +14,7 @@ const STEPS = [
 
 export default function SpecSubstitution() {
   const [formData, setFormData] = useState({
-    name: '', email: '', company: '', phone: '', projectName: '', description: '',
+    name: '', email: '', company: '', phone: '', projectName: '', description: '', fax: '',
   });
   const [files, setFiles] = useState([]);
   const [submitted, setSubmitted] = useState(false);
@@ -194,6 +195,7 @@ export default function SpecSubstitution() {
                   )}
                 </div>
 
+                <HoneypotFields value={formData.fax} onChange={handleChange} />
                 <button type="submit" disabled={loading}
                   className="w-full py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] transition-all duration-200 flex items-center justify-center gap-2"
                   style={{ background: 'var(--blx-gold-grad)', color: '#0B0B0B' }}

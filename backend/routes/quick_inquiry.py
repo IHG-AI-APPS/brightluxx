@@ -4,7 +4,7 @@ from typing import Optional
 from datetime import datetime, timezone
 from database import leads_col
 from email_service import notify_new_lead
-from utils.anti_spam import validate_submission
+from anti_spam import validate_submission
 from utils import get_client_ip
 
 router = APIRouter(prefix="/api")

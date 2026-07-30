@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import HoneypotFields from '../components/HoneypotFields';
 import { Link } from 'react-router-dom';
 import { Package, CheckCircle, FileText, ShieldCheck, Globe, ArrowRight, Truck, Clock, Award } from 'lucide-react';
 
@@ -30,7 +31,7 @@ const REQUIREMENTS = [
 export default function SupplierRegistrationPage() {
   const [formData, setFormData] = useState({
     company_name: '', contact_person: '', email: '', phone: '',
-    country: '', product_category: '', certifications: '', website: '', message: '',
+    country: '', product_category: '', certifications: '', website: '', message: '', fax: '',
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -204,6 +205,7 @@ export default function SupplierRegistrationPage() {
                   <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="3" className="w-full resize-none" placeholder="Describe your company, product range, production capacity, and any relevant experience..." data-testid="supplier-input-message" />
                 </div>
 
+                <HoneypotFields value={formData.fax} onChange={handleChange} />
                 <button type="submit" disabled={loading} className={`btn-gold w-full py-3.5 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="supplier-submit-button">
                   {loading ? 'Submitting...' : 'Register as Supplier'}
                 </button>

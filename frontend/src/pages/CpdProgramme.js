@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import HoneypotFields from '../components/HoneypotFields';
 import { Link } from 'react-router-dom';
 import { ArrowRight, GraduationCap, Users, Clock, Award, Monitor, Building2, Stethoscope, Landmark, CheckCircle2, Calendar, MapPin } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -70,7 +71,7 @@ const STATS = [
 ];
 
 export default function CpdProgramme() {
-  const [form, setForm] = useState({ name: '', email: '', company: '', role: '', phone: '', preferred_topic: '', preferred_format: 'in-office', group_size: '', preferred_date: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', company: '', role: '', phone: '', preferred_topic: '', preferred_format: 'in-office', group_size: '', preferred_date: '', message: '', fax: '' });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
@@ -330,6 +331,7 @@ export default function CpdProgramme() {
                     <textarea value={form.message} onChange={e => updateField('message', e.target.value)} className="w-full h-24 resize-none" placeholder="Any specific topics or project context you'd like us to cover..." data-testid="cpd-field-message" />
                   </div>
                   {error && <p className="text-red-400 text-xs" data-testid="cpd-form-error">{error}</p>}
+                  <HoneypotFields value={form.fax} onChange={e => updateField('fax', e.target.value)} />
                   <button type="submit" disabled={submitting} className={`btn-gold px-8 py-3.5 text-xs font-bold tracking-[0.15em] ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="cpd-submit-button">
                     {submitting ? 'Submitting...' : 'Request Session'}
                   </button>

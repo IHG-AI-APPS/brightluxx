@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import HoneypotFields from '../components/HoneypotFields';
 import { Link } from 'react-router-dom';
 import { Globe, Building2, MapPin, Users, CheckCircle, ArrowRight, Phone, Mail, Handshake, TrendingUp, ShieldCheck, Truck } from 'lucide-react';
 
@@ -41,7 +42,7 @@ const BENEFITS = [
 export default function DistributionPage() {
   const [formData, setFormData] = useState({
     name: '', company: '', email: '', phone: '',
-    country: '', city: '', business_type: '', experience: '', message: '',
+    country: '', city: '', business_type: '', experience: '', message: '', fax: '',
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -255,6 +256,7 @@ export default function DistributionPage() {
                   <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="3" className="w-full resize-none" placeholder="Tell us about your business, target market, and partnership goals..." data-testid="dist-input-message" />
                 </div>
 
+                <HoneypotFields value={formData.fax} onChange={handleChange} />
                 <button type="submit" disabled={loading} className={`btn-gold w-full py-3.5 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="distribution-submit-button">
                   {loading ? 'Submitting...' : 'Submit Application'}
                 </button>

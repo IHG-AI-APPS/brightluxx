@@ -1,0 +1,46 @@
+{
+  "summary": "Iteration 116 — Tested the new anti-spam layer across all lead endpoints (backend pytest, 27 tests, 100% pass) plus frontend Contact form / SEO structure checks via Playwright. Backend anti-spam works as designed: honeypot (website/fax) silently accepted and NOT persisted (verified in Mongo), disposable-email blocking (mailinator/yopmail/guerrillamail -> 422), spam-pattern and gibberish-name rejection, >2 URL rejection, invalid-email rejection, per-IP rate limit (11th submission -> 422 'Too many submissions'), and spam_score + ip persisted on accepted leads. All 20 lead endpoints listed in the request returned success on valid payloads. Frontend: /contact honeypot inputs are rendered off-screen (left:-9229px, opacity 0), inline errors surface backend anti-spam messages, valid submission persists lead and shows success state; <main> present on /, /contact, /products, /technical-support; no breadcrumbs on homepage; exactly one breadcrumb nav on /products (no duplicates).",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/specpacks/{pack_id}/download and /api/downloads/{doc_type}/{doc_id}/request", "issue": "Inconsistent response shape: success path returns only {download_url}, while the honeypot path returns {success: true, download_url}. A bot can therefore distinguish honeypot rejection from a genuine success by the presence of the 'success' key — this defeats the silent-accept design. Make both paths return identical payloads."},
+      {"endpoint": "/api/admin/leads", "issue": "serialize_doc leaks the stringified Mongo _id in every lead object (pre-existing). Should be excluded from responses."},
+      {"endpoint": "validate_submission (anti_spam.py)", "issue": "check_rate_limit() is called FIRST and records a timestamp even for submissions that are subsequently rejected (typo'd email, gibberish name, honeypot). A genuine user who fumbles the form 10 times is locked out for a full hour. Record the timestamp only for accepted submissions, or use a higher counter for rejects."},
+      {"endpoint": "anti_spam.py", "issue": "_rate_store (defaultdict) is never pruned of stale IP keys — unbounded memory growth for a long-running process; also in-memory only, so it resets on every backend reload and is not shared across workers/replicas."},
+      {"endpoint": "/api/leads", "issue": "Response 'leadId' returns str(result.inserted_id) (Mongo ObjectId) instead of the generated uuid lead_dict['id'] used everywhere else — inconsistent identifier exposed to the client."},
+      {"endpoint": "/api/leads", "issue": "Honeypot fields (website/fax) are persisted as null keys on every stored lead document; harmless but noise in the lead schema."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Contact.js handleSubmit", "issue": "HIGH lead-loss risk: client-side 'filled too fast' guard uses formStartTime = component mount time; ANY submit within 3s of page mount sets submitted=true (fake success) and the lead is never sent to the backend. Reproduced: filling + submitting within 3s of load showed the THANK YOU screen while nothing was stored in Mongo. Real users arriving with browser autofill or a quick re-submit lose their inquiry silently. Fix: start the timer on first user interaction (focus/keypress) and/or lower the threshold; the check is client-side anyway so real bots bypass it.", "selector": "[data-testid=\"lead-capture-submit-button\"]", "priority": "HIGH"},
+      {"component": "Contact.js local GlassCard", "issue": "Local GlassCard did not forward extra props, so data-testid=\"success-message\" never rendered (success state untestable). FIXED by testing agent (added {...props} spread).", "selector": "[data-testid=\"success-message\"]", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [
+      {"flow": "Frontend honeypot coverage", "issue": "8 forms that POST to lead endpoints do NOT render the HoneypotFields/hidden honeypot input, so bots hitting those forms are only filtered by email/content/rate checks: pages/ForArchitects.js, pages/TechnologySelector.js, pages/ResourceLibrary.js, pages/signage/SignageSolutionsLanding.js, pages/SpecifierToolkitLP.js, pages/ProjectPlanner.js, components/KnowledgeBase.js, components/AuraChat.js (AuraChat keeps 'fax' in state but never renders the input, so it is always empty).", "affected_selectors": ["input[name=\"fax\"]"]}
+    ],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/backend/tests/test_iteration116_antispam.py", "/app/test_reports/pytest/iteration116_antispam.xml"],
+  "action_items": [
+    "Contact.js: fix the 3s mount-based 'bot' timer that silently discards genuine leads (start timer on first interaction).",
+    "Add hidden honeypot input to the 8 lead forms listed under integration_issues (esp. SignageSolutionsLanding, ProjectPlanner, AuraChat lead form).",
+    "Make specpacks/downloads honeypot and success responses byte-identical (both should include or omit 'success').",
+    "Do not consume a rate-limit slot for rejected submissions; prune stale IPs from _rate_store (or move the limiter to Mongo/Redis so it survives reloads and multiple workers).",
+    "Exclude Mongo _id from /api/admin/leads responses; return the uuid 'id' as leadId from /api/leads."
+  ],
+  "critical_code_review_comments": [
+    "anti_spam.validate_submission increments the rate counter before any validation, so invalid input burns a user's quota — reorder so only accepted submissions count.",
+    "The in-memory rate limiter is per-process and unbounded; with >1 uvicorn worker or a pod restart the 10/hour limit is neither enforced consistently nor persistent.",
+    "Locally re-declared GlassCard components that drop props (Contact.js) break data-testid propagation — prefer the shared components/AppleAnimations GlassCard which spreads props.",
+    "Client-side spam heuristics (3s timer) provide no real protection and can produce false 'success' — keep such logic server-side only."
+  ],
+  "updated_files": ["/app/backend/tests/test_iteration116_antispam.py", "/app/frontend/src/pages/Contact.js"],
+  "success_rate": {"backend": "100% (27/27 pytest)", "frontend": "90% (contact form, honeypot hiding, error/success states, main tag, breadcrumbs verified; 1 HIGH client-side timer bug)"},
+  "seed_data_creation": "Created ~65 TEST_/qa. prefixed leads, 2 supplier registrations, 2 support tickets during testing — all deleted afterwards from leads/supplier_registrations/support_tickets collections.",
+  "should_call_test_agent_after_fix": true,
+  "should_main_agent_self_test": false,
+  "test_credentials": "Admin: admin@brightluxx.com / brightluxx2025 (from /app/memory/test_credentials.md — note: the review request's 'BrightLuxx2024!' password is WRONG; login works only with brightluxx2025)",
+  "context_for_next_testing_agent": "Rate limiter is per-IP from X-Forwarded-For, so tests in /app/backend/tests/test_iteration116_antispam.py use a unique fake 203.0.x.x IP per test to stay independent — reuse that ip_headers() helper. Browser-driven tests share the real egress IP (10/hour), so keep UI submissions to <10 per hour. For UI form tests on /contact you MUST wait >3s after page load before submitting, otherwise the client-side bot timer fakes success without any API call. Honeypot rejection was verified against Mongo (bot@example.com etc. stored 0 docs).",
+  "rca_of_the_issue": "Fake-success bug: Contact.js sets formStartTime at component mount and treats any submit within 3000ms as a bot, calling setSubmitted(true) without invoking createLead — genuine fast submitters (autofill/returning users) get a THANK YOU screen while the lead is never stored. Missing success-message testid: Contact.js declares its own GlassCard wrapper (line 39) that destructures only children/className/hover/isDark and drops the rest, so data-testid passed by the caller was never applied to the DOM; fixed by spreading ...props onto the div."
+}

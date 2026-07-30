@@ -4,7 +4,7 @@ from typing import Optional, List
 from database import products_col, inspirations_col, projects_col, leads_col
 from models import Lead
 from utils import serialize_doc, lead_limiter, get_client_ip
-from utils.anti_spam import validate_submission
+from anti_spam import validate_submission
 from email_service import notify_new_lead
 import uuid
 

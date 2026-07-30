@@ -55,7 +55,7 @@ EMAIL_RE = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
 # Rate limiter per IP
 _rate_store = defaultdict(list)
 RATE_WINDOW = 3600  # 1 hour
-RATE_LIMIT = 5  # max submissions per hour per IP
+RATE_LIMIT = 10  # max submissions per hour per IP
 
 
 def validate_email(email: str) -> tuple:

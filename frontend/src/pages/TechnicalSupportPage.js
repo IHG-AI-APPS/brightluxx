@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import HoneypotFields from '../components/HoneypotFields';
 import { Link } from 'react-router-dom';
 import { Wrench, CheckCircle, Phone, Mail, Clock, AlertTriangle, Shield, Zap, MonitorCheck, HelpCircle } from 'lucide-react';
 
@@ -34,7 +35,7 @@ const SERVICES = [
 export default function TechnicalSupportPage() {
   const [formData, setFormData] = useState({
     name: '', company: '', email: '', phone: '',
-    product: '', issue_type: '', description: '', urgency: 'normal',
+    product: '', issue_type: '', description: '', urgency: 'normal', fax: '',
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -254,6 +255,7 @@ export default function TechnicalSupportPage() {
                   <textarea id="description" name="description" value={formData.description} onChange={handleChange} required rows="4" className="w-full resize-none" placeholder="Describe the issue in detail: when it started, what you've tried, any error messages..." data-testid="support-input-description" />
                 </div>
 
+                <HoneypotFields value={formData.fax} onChange={handleChange} />
                 <button type="submit" disabled={loading} className={`btn-gold w-full py-3.5 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="support-submit-button">
                   {loading ? 'Submitting...' : 'Submit Support Request'}
                 </button>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { X, Send, CheckCircle2, MapPin, ArrowRight } from 'lucide-react';
+import HoneypotFields from './HoneypotFields';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
@@ -7,7 +8,7 @@ export default function ExitIntentPopup() {
   const [visible, setVisible] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', project_brief: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', project_brief: '', fax: '' });
 
   const dismiss = useCallback(() => {
     setVisible(false);
@@ -177,6 +178,7 @@ export default function ExitIntentPopup() {
               <div className="text-center pt-1">
                 <span className="text-[0.5rem] text-[var(--blx-muted)] tracking-wider">No obligation. Available across UAE.</span>
               </div>
+              <HoneypotFields value={form.fax} onChange={e => setForm(p => ({ ...p, fax: e.target.value }))} />
             </form>
           </>
         )}

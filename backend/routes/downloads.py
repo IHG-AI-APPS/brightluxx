@@ -1,13 +1,16 @@
 """Cheat sheet and BIM reference download endpoints (lead-gated)."""
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+from typing import Optional
 from datetime import datetime, timezone
 import os
 
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import download_request_email
+from anti_spam import validate_submission
+from utils import get_client_ip
 
 router = APIRouter()
 
@@ -34,6 +37,7 @@ class DownloadRequest(BaseModel):
     name: str = ""
     company: str = ""
     role: str = ""
+    fax: Optional[str] = None
 
 
 @router.post("/api/downloads/{doc_type}/{doc_id}/request")
@@ -49,7 +53,14 @@ async def request_download(doc_type: str, doc_id: str, data: DownloadRequest, re
     if doc_id not in catalog:
         return {"error": "Document not found"}
 
-    ip = request.headers.get("x-forwarded-for", request.client.host).split(",")[0].strip()
+    ip = get_client_ip(request)
+    validation_data = {"name": data.name, "email": data.email, "fax": data.fax}
+    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    if not is_valid:
+        if error_msg == "__honeypot__":
+            return {"success": True, "download_url": f"/api/downloads/{doc_type}/{doc_id}/file"}
+        raise HTTPException(status_code=422, detail=error_msg)
+
     lead_data = {
         "name": data.name,
         "email": data.email,
@@ -59,6 +70,7 @@ async def request_download(doc_type: str, doc_id: str, data: DownloadRequest, re
         "document": doc_id,
         "document_title": catalog[doc_id],
         "ip": ip[:50],
+        "spam_score": spam_score,
         "status": "new",
         "created_at": datetime.now(timezone.utc),
     }

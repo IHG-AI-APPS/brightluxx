@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import HoneypotFields from '../components/HoneypotFields';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, PenTool, Lightbulb, Ruler, DollarSign, FileText, Monitor, Users, Clock, MessageCircle, Phone, Building2 } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -29,7 +30,7 @@ const FIRM_TYPES = [
 ];
 
 export default function DesignAssist() {
-  const [form, setForm] = useState({ name: '', email: '', company: '', role: '', phone: '', project_type: '', project_stage: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', company: '', role: '', phone: '', project_type: '', project_stage: '', message: '', fax: '' });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
@@ -265,6 +266,7 @@ export default function DesignAssist() {
                     <textarea value={form.message} onChange={e => updateField('message', e.target.value)} className="w-full h-28 resize-none" placeholder="Tell us about the project — location, scale, where you envision LED displays, and any technical requirements or constraints..." data-testid="da-field-message" />
                   </div>
                   {error && <p className="text-red-400 text-xs" data-testid="da-form-error">{error}</p>}
+                  <HoneypotFields value={form.fax} onChange={e => updateField('fax', e.target.value)} />
                   <button type="submit" disabled={submitting} className={`btn-gold px-8 py-3.5 text-xs font-bold tracking-[0.15em] ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="da-submit-button">
                     {submitting ? 'Submitting...' : 'Request Design Assist'}
                   </button>

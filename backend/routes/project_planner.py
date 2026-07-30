@@ -5,12 +5,15 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
 from reportlab.lib.enums import TA_CENTER
-from fastapi import APIRouter
+from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+from typing import Optional
 from datetime import datetime, timezone
 from database import leads_col
 from email_service import notify_new_lead
+from anti_spam import validate_submission
+from utils import get_client_ip
 import io
 
 router = APIRouter(prefix="/api")
@@ -182,25 +185,31 @@ async def calculate_project(req: ProjectPlannerRequest):
 
 
 @router.post("/project-planner/pdf")
-async def generate_project_pdf(req: ProjectPlannerRequest):
+async def generate_project_pdf(req: ProjectPlannerRequest, request: Request):
     spec = _calc_spec(req)
     st = _styles()
 
     if req.name and req.email:
-        lead = {
-            "name": req.name,
-            "email": req.email,
-            "phone": req.phone,
-            "company": req.company,
-            "source": "project_planner",
-            "project_name": req.project_name,
-            "application": req.application,
-            "message": f"Project Planner: {req.width}m x {req.height}m, {req.environment}, P{spec['recommended_pitch']}, {req.viewing_distance}m distance",
-            "created_at": datetime.now(timezone.utc).isoformat(),
-        }
-        await leads_col.insert_one(lead)
-        lead.pop("_id", None)
-        await notify_new_lead({**lead, "role": "Project Planner Lead"})
+        ip = get_client_ip(request)
+        validation_data = {"name": req.name, "email": req.email, "phone": req.phone}
+        is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+        if is_valid:
+            lead = {
+                "name": req.name,
+                "email": req.email,
+                "phone": req.phone,
+                "company": req.company,
+                "source": "project_planner",
+                "project_name": req.project_name,
+                "application": req.application,
+                "message": f"Project Planner: {req.width}m x {req.height}m, {req.environment}, P{spec['recommended_pitch']}, {req.viewing_distance}m distance",
+                "spam_score": spam_score,
+                "ip": ip,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+            }
+            await leads_col.insert_one(lead)
+            lead.pop("_id", None)
+            await notify_new_lead({**lead, "role": "Project Planner Lead"})
 
     buf = io.BytesIO()
     doc = SimpleDocTemplate(buf, pagesize=A4, topMargin=20*mm, bottomMargin=20*mm, leftMargin=20*mm, rightMargin=20*mm)

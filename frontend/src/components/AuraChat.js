@@ -30,7 +30,7 @@ export default function AuraChat() {
   const [loading, setLoading] = useState(false);
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [leadCaptured, setLeadCaptured] = useState(false);
-  const [leadForm, setLeadForm] = useState({ name: '', email: '', company: '', role: '' });
+  const [leadForm, setLeadForm] = useState({ name: '', email: '', company: '', role: '', fax: '' });
   const [leadError, setLeadError] = useState('');
   const [pulse, setPulse] = useState(true);
   const messagesEndRef = useRef(null);

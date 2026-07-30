@@ -1,5 +1,5 @@
 """Specification substitution service endpoints."""
-from fastapi import APIRouter, UploadFile, File, Form, Request
+from fastapi import APIRouter, UploadFile, File, Form, Request, HTTPException
 from typing import List, Optional
 from datetime import datetime, timezone
 import os
@@ -8,6 +8,8 @@ import uuid
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import spec_substitution_email
+from anti_spam import validate_submission
+from utils import get_client_ip
 
 router = APIRouter()
 
@@ -24,9 +26,18 @@ async def submit_spec_substitution(
     phone: str = Form(""),
     projectName: str = Form(""),
     description: str = Form(""),
+    fax: str = Form(""),
     files: List[UploadFile] = File(default=[]),
 ):
     """Handle spec substitution form with file uploads."""
+    ip = get_client_ip(request)
+    validation_data = {"name": name, "email": email, "phone": phone, "message": description, "fax": fax}
+    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    if not is_valid:
+        if error_msg == "__honeypot__":
+            return {"success": True, "submission_id": "ok"}
+        raise HTTPException(status_code=422, detail=error_msg)
+
     submission_id = str(uuid.uuid4())[:8]
 
     # Save uploaded files
@@ -41,7 +52,6 @@ async def submit_spec_substitution(
             saved_files.append({"name": f.filename, "path": safe_name, "size": len(content)})
 
     # Save to database
-    ip = request.headers.get("x-forwarded-for", request.client.host).split(",")[0].strip()
     lead_data = {
         "name": name,
         "email": email,
@@ -53,6 +63,7 @@ async def submit_spec_substitution(
         "submission_id": submission_id,
         "source": "spec_substitution",
         "ip": ip[:50],
+        "spam_score": spam_score,
         "status": "new",
         "created_at": datetime.now(timezone.utc),
     }

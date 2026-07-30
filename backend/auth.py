@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Header
+from fastapi import HTTPException, Header, Request
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 from datetime import datetime, timezone, timedelta
@@ -29,10 +29,35 @@ def create_token(data: dict, token_type: str = "access"):
     return jwt.encode({**data, "exp": exp.timestamp(), "type": token_type}, secret, algorithm=ALGORITHM)
 
 
-async def get_current_admin(authorization: Optional[str] = Header(None)):
-    if not authorization or not authorization.startswith("Bearer "):
+def set_auth_cookies(response, access_token: str, refresh_token: str = None):
+    """Set httpOnly secure cookies for auth tokens."""
+    response.set_cookie(
+        key="blx_access", value=access_token, httponly=True,
+        secure=True, samesite="none", max_age=ACCESS_TOKEN_EXPIRY, path="/",
+    )
+    if refresh_token:
+        response.set_cookie(
+            key="blx_refresh", value=refresh_token, httponly=True,
+            secure=True, samesite="none", max_age=REFRESH_TOKEN_EXPIRY, path="/",
+        )
+
+
+def clear_auth_cookies(response):
+    """Clear auth cookies on logout."""
+    response.delete_cookie("blx_access", path="/")
+    response.delete_cookie("blx_refresh", path="/")
+
+
+async def get_current_admin(request: Request):
+    """Extract and verify admin from httpOnly cookie or Authorization header."""
+    # Try cookie first, then header
+    token = request.cookies.get("blx_access")
+    if not token:
+        auth_header = request.headers.get("authorization", "")
+        if auth_header.startswith("Bearer "):
+            token = auth_header[7:]
+    if not token:
         raise HTTPException(status_code=401, detail="Not authenticated")
-    token = authorization.split(" ")[1]
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         if payload.get("type") not in (None, "access"):

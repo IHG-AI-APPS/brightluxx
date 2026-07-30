@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
+from fastapi.responses import JSONResponse
 from datetime import datetime, timezone
 from jose import jwt, JWTError
 
@@ -6,7 +7,7 @@ from database import admins_col, products_col, inspirations_col, projects_col, l
 from models import AdminLogin, AdminPasswordChange
 from utils import serialize_doc, login_limiter, get_client_ip
 from auth import (
-    pwd_context, create_token, get_current_admin,
+    pwd_context, create_token, get_current_admin, set_auth_cookies, clear_auth_cookies,
     ACCESS_TOKEN_EXPIRY, REFRESH_SECRET, ALGORITHM,
 )
 
@@ -25,17 +26,29 @@ async def admin_login(creds: AdminLogin, request: Request):
     login_limiter.reset(client_ip)
     access_token = create_token({"email": admin["email"], "role": admin.get("role", "admin")}, "access")
     refresh_token = create_token({"email": admin["email"], "role": admin.get("role", "admin")}, "refresh")
-    return {
+    body = {
         "token": access_token,
         "refresh_token": refresh_token,
         "expires_in": ACCESS_TOKEN_EXPIRY,
         "admin": {"email": admin["email"], "name": admin.get("name", "Admin"), "role": admin.get("role", "admin")}
     }
+    response = JSONResponse(content=body)
+    set_auth_cookies(response, access_token, refresh_token)
+    return response
 
 
 @router.post("/api/admin/refresh")
-async def admin_refresh_token(data: dict):
-    token = data.get("refresh_token", "")
+async def admin_refresh_token(request: Request):
+    # Read refresh token from cookie first, then from body
+    token = request.cookies.get("blx_refresh")
+    if not token:
+        try:
+            data = await request.json()
+            token = data.get("refresh_token", "")
+        except Exception:
+            token = ""
+    if not token:
+        raise HTTPException(status_code=401, detail="No refresh token provided")
     try:
         payload = jwt.decode(token, REFRESH_SECRET, algorithms=[ALGORITHM])
         if payload.get("type") != "refresh":
@@ -44,7 +57,10 @@ async def admin_refresh_token(data: dict):
         if not admin:
             raise HTTPException(status_code=401, detail="Admin not found")
         new_access = create_token({"email": admin["email"], "role": admin.get("role", "admin")}, "access")
-        return {"token": new_access, "expires_in": ACCESS_TOKEN_EXPIRY}
+        body = {"token": new_access, "expires_in": ACCESS_TOKEN_EXPIRY}
+        response = JSONResponse(content=body)
+        set_auth_cookies(response, new_access)
+        return response
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
 
@@ -52,6 +68,13 @@ async def admin_refresh_token(data: dict):
 @router.get("/api/admin/me")
 async def admin_me(admin=Depends(get_current_admin)):
     return {"email": admin["email"], "name": admin.get("name", "Admin"), "role": admin.get("role", "super_admin")}
+
+
+@router.post("/api/admin/logout")
+async def admin_logout():
+    response = JSONResponse(content={"success": True})
+    clear_auth_cookies(response)
+    return response
 
 
 @router.post("/api/admin/change-password")

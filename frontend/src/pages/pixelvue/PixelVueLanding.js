@@ -232,7 +232,7 @@ export default function PixelVueLanding() {
         <div className="max-w-6xl mx-auto">
           <FadeIn><div className="text-center mb-12"><p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Applications</p><h2 className="text-4xl font-extralight text-white">Endless Possibilities</h2></div></FadeIn>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {APPLICATIONS.map((app, i) => (
+            {APPLICATIONS.map((app) => (
               <FadeIn key={i} delay={i + 1}>
                 <div className="group relative aspect-[3/4] overflow-hidden rounded-sm">
                   <img src={app.image} alt={app.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />

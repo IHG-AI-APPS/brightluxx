@@ -149,7 +149,7 @@ export default function SelfServicePage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {BENEFITS.map((benefit, i) => (
-              <FadeIn key={i} delay={i}>
+              <FadeIn key={spec.label} delay={0}>
                 <div className="text-center">
                   <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-3">
                     <benefit.icon size={20} className="text-amber-400" />
@@ -221,7 +221,7 @@ export default function SelfServicePage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {INDUSTRIES.map((industry, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={feature.title}>
                 <div className="group border border-neutral-800 rounded-sm overflow-hidden hover:border-amber-500/30 transition-colors">
                   <div className="aspect-video overflow-hidden">
                     <img src={industry.image} alt={industry.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -346,7 +346,7 @@ export default function SelfServicePage() {
 
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={feature.title}>
                 <div className="border border-neutral-800 rounded-sm overflow-hidden">
                   <button
                     className="w-full p-5 text-left flex items-center justify-between hover:bg-neutral-900/50 transition-colors"

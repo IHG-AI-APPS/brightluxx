@@ -163,7 +163,7 @@ export default function NaturaTexPage() {
               { value: '170°/160°', label: 'Viewing Angle' },
               { value: 'COB', label: 'LED Type' },
               { value: '4.3 kg', label: 'Weight/Panel' },
-            ].map((spec, i) => (
+            ].map((spec) => (
               <FadeIn key={i} delay={i}>
                 <div className="text-2xl font-light text-white">{spec.value}</div>
                 <div className="text-neutral-600 text-xs tracking-wider uppercase mt-1">{spec.label}</div>

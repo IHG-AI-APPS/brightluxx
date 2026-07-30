@@ -153,7 +153,7 @@ export default function SignaTouchLanding() {
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             {STATS.map((stat, i) => (
-              <FadeIn key={i} delay={i}>
+              <FadeIn key={spec.label} delay={0}>
                 <div className="text-4xl font-light text-amber-400 mb-2">{stat.value}</div>
                 <div className="text-neutral-500 text-sm">{stat.label}</div>
               </FadeIn>
@@ -219,7 +219,7 @@ export default function SignaTouchLanding() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {INDUSTRIES.map((industry, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={feature.title}>
                 <div className="group relative overflow-hidden rounded-sm aspect-square">
                   <img src={industry.image} alt={industry.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
@@ -258,7 +258,7 @@ export default function SignaTouchLanding() {
                   { value: '600', label: 'Brightness (cd/m²)' },
                   { value: '45%', label: 'Transparency' },
                   { value: '150,000:1', label: 'Contrast Ratio' },
-                ].map((spec, i) => (
+                ].map((spec) => (
                   <div key={i}>
                     <div className="text-2xl font-light text-white">{spec.value}</div>
                     <div className="text-neutral-600 text-xs uppercase">{spec.label}</div>
@@ -290,7 +290,7 @@ export default function SignaTouchLanding() {
 
           <FadeIn delay={1}>
             <div className="grid grid-cols-4 gap-4">
-              {['30″', '48″', '55″', '77″'].map((size, i) => (
+              {['30″', '48″', '55″', '77″'].map((size) => (
                 <div key={i} className="border border-neutral-800 rounded-sm p-6 text-center hover:border-amber-500/30 transition-colors">
                   <div className="text-3xl font-light text-white mb-1">{size}</div>
                   <div className="text-neutral-600 text-xs uppercase">Screen Size</div>
@@ -316,7 +316,7 @@ export default function SignaTouchLanding() {
 
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={feature.title}>
                 <div className="border border-neutral-800 rounded-sm overflow-hidden">
                   <button
                     className="w-full p-5 text-left flex items-center justify-between hover:bg-neutral-900/50 transition-colors"

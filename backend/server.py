@@ -50,8 +50,13 @@ app = FastAPI()
 # GZip compression for responses > 500 bytes
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
-cors_origins_str = os.environ.get("CORS_ORIGINS", "*")
-cors_origins = cors_origins_str.split(",") if cors_origins_str != "*" else ["*"]
+cors_origins_str = os.environ.get("CORS_ORIGINS", "")
+if cors_origins_str:
+    cors_origins = [o.strip() for o in cors_origins_str.split(",")]
+else:
+    # Auto-detect from FRONTEND_URL or allow all for dev
+    frontend_url = os.environ.get("FRONTEND_URL", "")
+    cors_origins = [frontend_url] if frontend_url else ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -59,6 +64,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["Set-Cookie"],
 )
 
 # Skip perf logging for high-frequency/static endpoints

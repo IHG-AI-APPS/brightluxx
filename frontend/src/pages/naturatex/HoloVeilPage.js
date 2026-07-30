@@ -140,7 +140,7 @@ export default function HoloVeilPage() {
               { value: '6', label: 'Weight (kg/m²)' },
               { value: 'P3.9/P6.25', label: 'Pixel Pitch' },
               { value: 'IP20', label: 'Protection' },
-            ].map((spec, i) => (
+            ].map((spec) => (
               <FadeIn key={i} delay={i}>
                 <div className="text-2xl font-light text-white">{spec.value}</div>
                 <div className="text-neutral-600 text-xs tracking-wider uppercase mt-1">{spec.label}</div>

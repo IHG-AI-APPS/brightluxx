@@ -141,8 +141,8 @@ export default function SmartSignagePage() {
               { value: '600', unit: 'cd/m²', label: 'Brightness' },
               { value: '5.7', unit: 'mm', label: 'Panel Depth' },
               { value: '∞:1', unit: '', label: 'Contrast Ratio' },
-            ].map((spec, i) => (
-              <FadeIn key={i} delay={i}>
+            ].map((spec) => (
+              <FadeIn key={spec.label} delay={0}>
                 <div className="text-3xl font-light text-white">{spec.value}<span className="text-lg text-amber-400">{spec.unit}</span></div>
                 <div className="text-neutral-600 text-xs tracking-wider uppercase mt-1">{spec.label}</div>
               </FadeIn>
@@ -202,8 +202,8 @@ export default function SmartSignagePage() {
           </FadeIn>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {FEATURES.map((feature, i) => (
-              <FadeIn key={i} delay={i + 1}>
+            {FEATURES.map((feature) => (
+              <FadeIn key={feature.title}>
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-4">
                     <feature.icon size={24} className="text-amber-400" />
@@ -229,7 +229,7 @@ export default function SmartSignagePage() {
 
           <div className="space-y-16">
             {USE_CASES.map((useCase, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={feature.title}>
                 <div className={`grid lg:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                   <div className={i % 2 === 1 ? 'lg:order-2' : ''}>
                     <img src={useCase.image} alt={useCase.title} className="rounded-sm w-full" />
@@ -320,7 +320,7 @@ export default function SmartSignagePage() {
 
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={feature.title}>
                 <div className="border border-neutral-800 rounded-sm overflow-hidden">
                   <button
                     className="w-full p-5 text-left flex items-center justify-between hover:bg-neutral-900/50 transition-colors"

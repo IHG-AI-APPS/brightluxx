@@ -176,7 +176,7 @@ export default function PixelVueProductPage() {
       {product.quick_specs && product.quick_specs.length > 0 && (
         <section className={`py-12 px-6 border-b border-neutral-800 bg-${categoryColor}-500/5`}>
           <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {product.quick_specs.map((spec, i) => (
+            {product.quick_specs.map((spec) => (
               <FadeIn key={i} delay={i}>
                 <div className="text-3xl font-light text-white">{spec.value}</div>
                 <div className="text-neutral-600 text-xs tracking-wider uppercase mt-1">{spec.label}</div>
@@ -230,7 +230,7 @@ export default function PixelVueProductPage() {
             </FadeIn>
             <FadeIn delay={1}>
               <div className="flex flex-wrap justify-center gap-3">
-                {product.applications.map((app, i) => (
+                {product.applications.map((app) => (
                   <span key={i} className="bg-neutral-800 text-neutral-300 px-4 py-2 rounded-sm text-sm">
                     {app.name}
                   </span>
@@ -256,7 +256,7 @@ export default function PixelVueProductPage() {
                 <div className="border border-neutral-800 rounded-sm p-6">
                   <h3 className="text-white font-medium mb-4 pb-2 border-b border-neutral-800">Display</h3>
                   <div className="space-y-3">
-                    {product.specifications.slice(0, Math.ceil(product.specifications.length / 2)).map((spec, i) => (
+                    {product.specifications.slice(0, Math.ceil(product.specifications.length / 2)).map((spec) => (
                       <div key={i} className="flex justify-between">
                         <span className="text-neutral-500 text-sm">{spec.label}</span>
                         <span className="text-white text-sm">{spec.value}</span>
@@ -267,7 +267,7 @@ export default function PixelVueProductPage() {
                 <div className="border border-neutral-800 rounded-sm p-6">
                   <h3 className="text-white font-medium mb-4 pb-2 border-b border-neutral-800">Physical</h3>
                   <div className="space-y-3">
-                    {product.specifications.slice(Math.ceil(product.specifications.length / 2)).map((spec, i) => (
+                    {product.specifications.slice(Math.ceil(product.specifications.length / 2)).map((spec) => (
                       <div key={i} className="flex justify-between">
                         <span className="text-neutral-500 text-sm">{spec.label}</span>
                         <span className="text-white text-sm">{spec.value}</span>

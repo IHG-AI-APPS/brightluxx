@@ -71,7 +71,7 @@ export default function MediaGlassPage() {
       {/* Quick Specs */}
       <section className="py-12 px-6 border-b border-neutral-800 bg-violet-500/5">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[{ value: '160°', label: 'View Angle' }, { value: '85%', label: 'Transparency' }, { value: '6,000', unit: ' nits', label: 'Brightness' }, { value: '75%', label: 'Energy Saving' }].map((spec, i) => (
+          {[{ value: '160°', label: 'View Angle' }, { value: '85%', label: 'Transparency' }, { value: '6,000', unit: ' nits', label: 'Brightness' }, { value: '75%', label: 'Energy Saving' }].map((spec) => (
             <FadeIn key={i} delay={i}><div className="text-3xl font-light text-white">{spec.value}<span className="text-lg text-violet-400">{spec.unit || ''}</span></div><div className="text-neutral-600 text-xs tracking-wider uppercase mt-1">{spec.label}</div></FadeIn>
           ))}
         </div>
@@ -82,7 +82,7 @@ export default function MediaGlassPage() {
         <div className="max-w-6xl mx-auto">
           <FadeIn><div className="text-center mb-16"><p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Technology</p><h2 className="text-3xl font-extralight text-white">Advanced Media Integration</h2></div></FadeIn>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {FEATURES.map((feature, i) => (
+            {FEATURES.map((feature) => (
               <FadeIn key={i} delay={i + 1}>
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0"><feature.icon size={20} className="text-violet-400" /></div>

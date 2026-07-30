@@ -1,0 +1,55 @@
+{
+  "summary": "Iteration 120: tested (a) Navbar split into sub-components, (b) httpOnly cookie auth (login/me/refresh/logout, browser flow), (c) anti-spam lead regression, (d) array-key fix regression across product-family pages. Backend cookie auth is fully working (15/16 pytest passed). Navbar refactor works perfectly (all dropdowns, families, More menu, theme toggle, mobile drawer, nav routing, zero JS errors). CRITICAL: the sed-based 'array key stability' change introduced 27 ReferenceErrors (key={i}/key={feature}/key={spec} referring to undeclared variables), crashing 14 public pages to a blank screen (all 4 SignaTouch pages, PixelVue landing + all /pixelvue/:slug product pages, NaturaTex, /naturatex/holoveil, /lumimorph/elite, /lumimorph/grande, /glassmorph/smart-film, /glassmorph/led-film, /glassmorph/media-glass). eslint no-undef confirms every location.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "CORS middleware (server.py:53-68)", "issue": "CORS_ORIGINS=\"*\" in backend/.env combined with allow_credentials=True -> responses send Access-Control-Allow-Origin: * with Allow-Credentials: true, which browsers reject for credentialed (cookie) requests. Works today only because frontend and API share the same preview origin; will break cookie auth for any real cross-origin deployment. Set CORS_ORIGINS to explicit FRONTEND_URL."},
+      {"endpoint": "POST /api/admin/login", "issue": "Brute-force limiter is 5 attempts / 60s window (utils.py login_limiter), not the 10/hr mentioned in the request. Lockout verified working (429 returned, valid creds also blocked while locked) — flagging only the doc/config mismatch."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "SignaTouchLanding.js", "issue": "ReferenceError 'spec'/'feature'/'i' is not defined at lines 156, 222, 262, 294, 319 — /signatouch renders blank (uncaught runtime error, navbar/footer gone)", "selector": "/signatouch", "priority": "CRITICAL"},
+      {"component": "TouchKioskPage.js", "issue": "key={feature.title} inside APPLICATIONS.map((app)) at line 225 and faq map at 307 -> 'feature is not defined'; /signatouch/touch-kiosk blank", "selector": "/signatouch/touch-kiosk", "priority": "CRITICAL"},
+      {"component": "SelfServicePage.js", "issue": "lines 152 (key={spec} in benefit map), 224, 349 -> page blank", "selector": "/signatouch/self-service", "priority": "CRITICAL"},
+      {"component": "SmartSignagePage.js", "issue": "lines 232, 323 key={feature...} in useCase/faq maps -> page blank", "selector": "/signatouch/smart-signage", "priority": "CRITICAL"},
+      {"component": "PixelVueLanding.js / PixelVueProductPage.js", "issue": "key={i} with no index param — PixelVueLanding.js:236 (app map), PixelVueProductPage.js:180,234,260,271 -> /pixelvue, /pixelvue/iposter, /pixelvue/iflip all blank", "selector": "/pixelvue", "priority": "CRITICAL"},
+      {"component": "NaturaTexPage.js:167 / HoloVeilPage.js:144", "issue": "key={i} with no index param -> /naturatex and /naturatex/holoveil blank", "selector": "/naturatex", "priority": "CRITICAL"},
+      {"component": "LumiMorphElitePage.js:133 / LumiMorphGrandePage.js:131", "issue": "key={i} with no index param -> /lumimorph/elite and /lumimorph/grande blank (/lumimorph and /lumimorph/mini are fine)", "selector": "/lumimorph/elite", "priority": "CRITICAL"},
+      {"component": "glassmorph SmartFilmPage.js:93,136 / LedFilmPage.js:84,121 / MediaGlassPage.js:75,86", "issue": "key={i} plus i used in className with no index param -> those 3 sub-pages blank (/glassmorph landing OK)", "selector": "/glassmorph/smart-film", "priority": "CRITICAL"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Contact page after successful submit", "issues": ["Large empty viewport area below the thank-you card; consider centering/compacting the confirmation state"]},
+      {"screen": "Products mega-dropdown (desktop 1920px)", "issues": ["Bottom of the panel (LED SERIES row + VIEW ALL PRODUCTS) is visually clipped/faded by the max-h-[70vh] scroll container — the primary CTA is partially hidden until scrolled"]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration120_cookie_auth.py",
+    "/app/test_reports/pytest/iter120.xml",
+    "/app/tests/scan_key_mismatch.py"
+  ],
+  "action_items": [
+    "CRITICAL: fix all 27 undefined key references introduced by the sed pass. Run `npx eslint src/pages --rule '{no-undef:error}'` or `python /app/tests/scan_key_mismatch.py` for the exact list. Either re-add the (item, i) index param or use a content-based key from the correct map variable (e.g. key={app.name}, key={faq.q}, key={spec.label}). Note some files also use `i` inside className/animation delay, so re-adding the index param is the safest fix.",
+    "Re-run eslint on the whole frontend after fixing — 135 lint problems exist (no-undef + react/no-unescaped-entities + react/no-unstable-nested-components in VirtualShowroom, AdminPixelVue, AdminProductFamilies, AdminSolutions).",
+    "Set backend CORS_ORIGINS to the explicit FRONTEND_URL instead of \"*\" since allow_credentials=True is now required for cookie auth.",
+    "Consider dropping the localStorage token fallback in AdminContext (blx_admin_token/blx_admin_refresh are still written), which negates the XSS protection the httpOnly cookies were added for."
+  ],
+  "critical_code_review_comments": [
+    "Bulk sed edits on JSX must be followed by an eslint no-undef run; the current change shipped 14 crashing public pages.",
+    "auth.py get_current_admin correctly prefers cookie then Bearer header; token type check allows None type — acceptable for legacy tokens but consider requiring type=access.",
+    "Login returns tokens in the JSON body as well as cookies; once frontend is migrated, remove the body tokens to complete the security upgrade.",
+    "Navbar refactor is clean: Navbar.js 325 lines + navbarData.js 218 + 3 small components; all family dropdowns keep data-testid nav-<family>."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_iteration120_cookie_auth.py (new)",
+    "/app/tests/scan_key_mismatch.py (new helper to list bad JSX keys)"
+  ],
+  "success_rate": {"backend": "94% (15/16 pytest)", "frontend": "60% — navbar/auth/contact/products OK, 14 product-family pages crash"},
+  "seed_data_creation": "Leads created via API/UI: TEST_QA Cookie (test.qa.cookie@gmail.com), TEST_QA Browser2 (test.qa.browser2@gmail.com)",
+  "should_call_test_agent_after_fix": true,
+  "should_main_agent_self_test": false,
+  "test_credentials": "admin@brightluxx.com / brightluxx2025 (from /app/memory/test_credentials.md) — verified working",
+  "context_for_next_testing_agent": "Verified working: navbar refactor (all dropdowns/data-testids nav-products, nav-solutions, nav-lumimorph, nav-pixelvue, nav-signatouch, nav-glassmorph, nav-naturatex, nav-artimmersive, nav-more-btn, theme-toggle, mobile-menu-toggle/mobile-menu-drawer), cookie auth (blx_access/blx_refresh httpOnly+Secure+SameSite=None, /me via cookie and via Bearer, refresh from cookie, logout clears cookies + session invalid afterwards, admin dashboard survives reload, admin tabs Leads/Products/Analytics navigate fine, Sign Out clears cookies and localStorage), bcrypt hash starts with $2b$, brute-force lockout after 5 fails, disposable email rejected, /api/health, /api/products (no _id). Re-run /app/backend/tests/test_iteration120_cookie_auth.py (note: the brute-force test sleeps 62s to release the limiter). After the key fix, re-visit the 14 broken routes listed in ui_bugs.",
+  "rca_of_the_issue": "The 'array key stability' change was applied with sed across signatouch/pixelvue/lumimorph/glassmorph/naturatex pages. sed substituted a fixed replacement (key={feature.title}, key={spec...}) regardless of the actual map callback variable, and in other files removed/never had the index param while key={i} (and i-based className/delay expressions) remained. Result: ReferenceError at render time, React unmounts the whole tree -> blank page with 'Uncaught runtime errors'. Reproduce: open https://space-modern-build.preview.emergentagent.com/pixelvue — console shows 'i is not defined' from PixelVueProductPage/NaturaTexPage etc. Mitigation: restore the index param or use the correct map variable for keys, then verify with eslint no-undef."
+}

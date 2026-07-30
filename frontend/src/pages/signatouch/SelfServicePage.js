@@ -149,7 +149,7 @@ export default function SelfServicePage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {BENEFITS.map((benefit, i) => (
-              <FadeIn key={spec.label} delay={0}>
+              <FadeIn key={benefit.title || benefit.label} delay={i}>
                 <div className="text-center">
                   <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-3">
                     <benefit.icon size={20} className="text-amber-400" />
@@ -184,8 +184,8 @@ export default function SelfServicePage() {
               </p>
               
               <div className="space-y-4 mb-8">
-                {PAYMENT_OPTIONS.map((option, i) => (
-                  <div key={i} className="flex items-start gap-4 p-4 border border-neutral-800 rounded-sm">
+                {PAYMENT_OPTIONS.map((option) => (
+                  <div key={option.title} className="flex items-start gap-4 p-4 border border-neutral-800 rounded-sm">
                     <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
                       <option.icon size={18} className="text-amber-400" />
                     </div>
@@ -198,8 +198,8 @@ export default function SelfServicePage() {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                {['PCI-DSS Compliant', 'P2PE Encryption', 'EMV Certified'].map((cert, i) => (
-                  <span key={i} className="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs flex items-center gap-1">
+                {['PCI-DSS Compliant', 'P2PE Encryption', 'EMV Certified'].map((cert) => (
+                  <span key={cert} className="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs flex items-center gap-1">
                     <Check size={12} /> {cert}
                   </span>
                 ))}
@@ -221,7 +221,7 @@ export default function SelfServicePage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {INDUSTRIES.map((industry, i) => (
-              <FadeIn key={feature.title}>
+              <FadeIn key={industry.title} delay={i + 1}>
                 <div className="group border border-neutral-800 rounded-sm overflow-hidden hover:border-amber-500/30 transition-colors">
                   <div className="aspect-video overflow-hidden">
                     <img src={industry.image} alt={industry.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -346,7 +346,7 @@ export default function SelfServicePage() {
 
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <FadeIn key={feature.title}>
+              <FadeIn key={faq.q} delay={i + 1}>
                 <div className="border border-neutral-800 rounded-sm overflow-hidden">
                   <button
                     className="w-full p-5 text-left flex items-center justify-between hover:bg-neutral-900/50 transition-colors"

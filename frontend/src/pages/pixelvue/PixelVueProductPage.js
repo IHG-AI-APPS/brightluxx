@@ -176,8 +176,8 @@ export default function PixelVueProductPage() {
       {product.quick_specs && product.quick_specs.length > 0 && (
         <section className={`py-12 px-6 border-b border-neutral-800 bg-${categoryColor}-500/5`}>
           <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {product.quick_specs.map((spec) => (
-              <FadeIn key={i} delay={i}>
+            {product.quick_specs.map((spec, i) => (
+              <FadeIn key={spec.label} delay={i}>
                 <div className="text-3xl font-light text-white">{spec.value}</div>
                 <div className="text-neutral-600 text-xs tracking-wider uppercase mt-1">{spec.label}</div>
               </FadeIn>
@@ -200,7 +200,7 @@ export default function PixelVueProductPage() {
               {product.features.map((feature, i) => {
                 const IconComponent = getIcon(feature.icon);
                 return (
-                  <FadeIn key={i} delay={i + 1}>
+                  <FadeIn key={feature.title} delay={i + 1}>
                     <div className="flex items-start gap-4">
                       <div className={`w-12 h-12 rounded-full bg-${categoryColor}-500/10 border border-${categoryColor}-500/20 flex items-center justify-center flex-shrink-0`}>
                         <IconComponent size={20} className={`text-${categoryColor}-400`} />
@@ -231,7 +231,7 @@ export default function PixelVueProductPage() {
             <FadeIn delay={1}>
               <div className="flex flex-wrap justify-center gap-3">
                 {product.applications.map((app) => (
-                  <span key={i} className="bg-neutral-800 text-neutral-300 px-4 py-2 rounded-sm text-sm">
+                  <span key={app} className="bg-neutral-800 text-neutral-300 px-4 py-2 rounded-sm text-sm">
                     {app.name}
                   </span>
                 ))}
@@ -257,7 +257,7 @@ export default function PixelVueProductPage() {
                   <h3 className="text-white font-medium mb-4 pb-2 border-b border-neutral-800">Display</h3>
                   <div className="space-y-3">
                     {product.specifications.slice(0, Math.ceil(product.specifications.length / 2)).map((spec) => (
-                      <div key={i} className="flex justify-between">
+                      <div key={spec.label} className="flex justify-between">
                         <span className="text-neutral-500 text-sm">{spec.label}</span>
                         <span className="text-white text-sm">{spec.value}</span>
                       </div>
@@ -268,7 +268,7 @@ export default function PixelVueProductPage() {
                   <h3 className="text-white font-medium mb-4 pb-2 border-b border-neutral-800">Physical</h3>
                   <div className="space-y-3">
                     {product.specifications.slice(Math.ceil(product.specifications.length / 2)).map((spec) => (
-                      <div key={i} className="flex justify-between">
+                      <div key={spec.label} className="flex justify-between">
                         <span className="text-neutral-500 text-sm">{spec.label}</span>
                         <span className="text-white text-sm">{spec.value}</span>
                       </div>
@@ -359,7 +359,7 @@ export default function PixelVueProductPage() {
             </FadeIn>
             <div className="space-y-2">
               {product.faqs.map((faq, i) => (
-                <FadeIn key={i} delay={i + 1}>
+                <FadeIn key={faq.q} delay={i + 1}>
                   <div className="border border-neutral-800 rounded-sm overflow-hidden">
                     <button 
                       className="w-full p-5 text-left flex items-center justify-between hover:bg-neutral-900/50 transition-colors" 

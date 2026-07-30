@@ -153,7 +153,7 @@ export default function SignaTouchLanding() {
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             {STATS.map((stat, i) => (
-              <FadeIn key={spec.label} delay={0}>
+              <FadeIn key={stat.label} delay={i}>
                 <div className="text-4xl font-light text-amber-400 mb-2">{stat.value}</div>
                 <div className="text-neutral-500 text-sm">{stat.label}</div>
               </FadeIn>
@@ -219,7 +219,7 @@ export default function SignaTouchLanding() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {INDUSTRIES.map((industry, i) => (
-              <FadeIn key={feature.title}>
+              <FadeIn key={industry.name} delay={i + 1}>
                 <div className="group relative overflow-hidden rounded-sm aspect-square">
                   <img src={industry.image} alt={industry.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
@@ -259,15 +259,15 @@ export default function SignaTouchLanding() {
                   { value: '45%', label: 'Transparency' },
                   { value: '150,000:1', label: 'Contrast Ratio' },
                 ].map((spec) => (
-                  <div key={i}>
+                  <div key={spec.label}>
                     <div className="text-2xl font-light text-white">{spec.value}</div>
                     <div className="text-neutral-600 text-xs uppercase">{spec.label}</div>
                   </div>
                 ))}
               </div>
               <div className="space-y-3">
-                {['1-Year Warranty with S/N verification', 'Android & Windows OS options', 'HDMI high-resolution support', 'Custom 9630 motherboard for stability'].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 text-neutral-300">
+                {['1-Year Warranty with S/N verification', 'Android & Windows OS options', 'HDMI high-resolution support', 'Custom 9630 motherboard for stability'].map((item) => (
+                  <div key={item} className="flex items-center gap-3 text-neutral-300">
                     <Check size={16} className="text-amber-400" />
                     <span className="text-sm">{item}</span>
                   </div>
@@ -291,7 +291,7 @@ export default function SignaTouchLanding() {
           <FadeIn delay={1}>
             <div className="grid grid-cols-4 gap-4">
               {['30″', '48″', '55″', '77″'].map((size) => (
-                <div key={i} className="border border-neutral-800 rounded-sm p-6 text-center hover:border-amber-500/30 transition-colors">
+                <div key={size} className="border border-neutral-800 rounded-sm p-6 text-center hover:border-amber-500/30 transition-colors">
                   <div className="text-3xl font-light text-white mb-1">{size}</div>
                   <div className="text-neutral-600 text-xs uppercase">Screen Size</div>
                 </div>
@@ -316,7 +316,7 @@ export default function SignaTouchLanding() {
 
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <FadeIn key={feature.title}>
+              <FadeIn key={faq.q} delay={i + 1}>
                 <div className="border border-neutral-800 rounded-sm overflow-hidden">
                   <button
                     className="w-full p-5 text-left flex items-center justify-between hover:bg-neutral-900/50 transition-colors"

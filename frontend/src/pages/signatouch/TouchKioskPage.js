@@ -135,8 +135,8 @@ export default function TouchKioskPage() {
               { value: '4K', unit: 'UHD', label: 'Resolution' },
               { value: '8ms', unit: '', label: 'Response Time' },
               { value: '700', unit: 'cd/m²', label: 'Brightness' },
-            ].map((spec) => (
-              <FadeIn key={spec.label} delay={0}>
+            ].map((spec, i) => (
+              <FadeIn key={spec.label} delay={i}>
                 <div className="text-3xl font-light text-white">{spec.value}<span className="text-lg text-amber-400">{spec.unit}</span></div>
                 <div className="text-neutral-600 text-xs tracking-wider uppercase mt-1">{spec.label}</div>
               </FadeIn>
@@ -156,8 +156,8 @@ export default function TouchKioskPage() {
           </FadeIn>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {FEATURES.map((feature) => (
-              <FadeIn key={feature.title}>
+            {FEATURES.map((feature, i) => (
+              <FadeIn key={feature.title} delay={i + 1}>
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-4">
                     <feature.icon size={24} className="text-amber-400" />
@@ -194,7 +194,7 @@ export default function TouchKioskPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {SIZES.map((size) => (
+                    {SIZES.map((size, i) => (
                       <tr key={size.size || size.model} className="border-b border-neutral-800/50 last:border-0 hover:bg-neutral-900/30 transition-colors">
                         <td className="p-4 text-white font-medium">{size.size}</td>
                         <td className="p-4 text-center text-neutral-300">{size.resolution}</td>
@@ -221,8 +221,8 @@ export default function TouchKioskPage() {
           </FadeIn>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {APPLICATIONS.map((app) => (
-              <FadeIn key={feature.title}>
+            {APPLICATIONS.map((app, i) => (
+              <FadeIn key={app.title} delay={i + 1}>
                 <div className="group relative overflow-hidden rounded-sm aspect-[3/4]">
                   <img src={app.image} alt={app.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
@@ -304,7 +304,7 @@ export default function TouchKioskPage() {
 
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <FadeIn key={feature.title}>
+              <FadeIn key={faq.q} delay={i + 1}>
                 <div className="border border-neutral-800 rounded-sm overflow-hidden">
                   <button
                     className="w-full p-5 text-left flex items-center justify-between hover:bg-neutral-900/50 transition-colors"

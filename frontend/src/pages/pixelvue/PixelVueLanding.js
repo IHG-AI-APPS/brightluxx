@@ -141,7 +141,7 @@ export default function PixelVueLanding() {
       <section className="py-16 px-6 border-y border-neutral-800 bg-rose-500/5">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {STATS.map((stat, i) => (
-            <FadeIn key={i} delay={i}><div className="text-4xl font-light text-rose-400 mb-2">{stat.value}</div><div className="text-neutral-500 text-sm">{stat.label}</div></FadeIn>
+            <FadeIn key={stat.label} delay={i}><div className="text-4xl font-light text-rose-400 mb-2">{stat.value}</div><div className="text-neutral-500 text-sm">{stat.label}</div></FadeIn>
           ))}
         </div>
       </section>
@@ -232,8 +232,8 @@ export default function PixelVueLanding() {
         <div className="max-w-6xl mx-auto">
           <FadeIn><div className="text-center mb-12"><p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Applications</p><h2 className="text-4xl font-extralight text-white">Endless Possibilities</h2></div></FadeIn>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {APPLICATIONS.map((app) => (
-              <FadeIn key={i} delay={i + 1}>
+            {APPLICATIONS.map((app, i) => (
+              <FadeIn key={app.title} delay={i + 1}>
                 <div className="group relative aspect-[3/4] overflow-hidden rounded-sm">
                   <img src={app.image} alt={app.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
@@ -254,7 +254,7 @@ export default function PixelVueLanding() {
           <FadeIn><div className="text-center mb-12"><p className="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-4">Support</p><h2 className="text-3xl font-extralight text-white">Frequently Asked Questions</h2></div></FadeIn>
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={faq.q} delay={i + 1}>
                 <div className="border border-neutral-800 rounded-sm overflow-hidden">
                   <button className="w-full p-5 text-left flex items-center justify-between hover:bg-neutral-900/50 transition-colors" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
                     <span className="text-white font-medium pr-4">{faq.q}</span>
@@ -279,7 +279,7 @@ export default function PixelVueLanding() {
               { name: 'SignaTouch', tagline: 'Digital Kiosks', color: 'amber', link: '/signatouch', image: 'https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png' },
               { name: 'GlassMorph', tagline: 'Smart Glass', color: 'violet', link: '/glassmorph', image: 'https://files.ihgbrands.com/emergent-images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png' },
             ].map((line, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={`line-${i}`} delay={i + 1}>
                 <Link to={line.link} className="group block relative overflow-hidden rounded-sm aspect-[3/4]">
                   <img src={line.image} alt={line.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />

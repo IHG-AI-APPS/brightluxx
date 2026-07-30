@@ -163,8 +163,8 @@ export default function NaturaTexPage() {
               { value: '170°/160°', label: 'Viewing Angle' },
               { value: 'COB', label: 'LED Type' },
               { value: '4.3 kg', label: 'Weight/Panel' },
-            ].map((spec) => (
-              <FadeIn key={i} delay={i}>
+            ].map((spec, i) => (
+              <FadeIn key={spec.label} delay={i}>
                 <div className="text-2xl font-light text-white">{spec.value}</div>
                 <div className="text-neutral-600 text-xs tracking-wider uppercase mt-1">{spec.label}</div>
               </FadeIn>
@@ -185,7 +185,7 @@ export default function NaturaTexPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {APPLICATIONS.map((app, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={app.title} delay={i + 1}>
                 <div className="group relative overflow-hidden rounded-sm aspect-[3/4]">
                   <img src={app.image} alt={app.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
@@ -244,7 +244,7 @@ export default function NaturaTexPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {ADVANTAGES.map((adv, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={adv.title} delay={i + 1}>
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4">
                     <adv.icon size={24} className="text-white" />
@@ -282,8 +282,8 @@ export default function NaturaTexPage() {
                   { title: 'Seamless Mapping', desc: 'Patterns flow naturally across multiple panels without visible seams.' },
                   { title: 'Custom Patterns', desc: 'Upload your own designs or choose from our extensive texture library.' },
                   { title: 'Module-Based Units', desc: 'Flexible sizing based on module dimensions for precise installations.' },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-3">
                     <Check size={16} className="text-white mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="text-white font-medium">{item.title}</h3>
@@ -333,8 +333,8 @@ export default function NaturaTexPage() {
                       ['LED Type', 'COB', 'COB', 'COB', 'COB', 'COB'],
                       ['Material', 'Die-cast Aluminum', 'Die-cast Aluminum', 'Die-cast Aluminum', 'Die-cast Aluminum', 'Die-cast Aluminum'],
                       ['Weight/Panel (kg)', '4.3±0.3', '4.3±0.3', '4.3±0.3', '4.3±0.3', '4.3±0.3'],
-                    ].map(([label, ...values], i) => (
-                      <tr key={i} className="border-b border-neutral-800/50 last:border-0">
+                    ].map(([label, ...values]) => (
+                      <tr key={label} className="border-b border-neutral-800/50 last:border-0">
                         <td className="p-4 text-neutral-500">{label}</td>
                         {values.map((val, j) => (
                           <td key={j} className="p-4 text-center text-white">{val}</td>
@@ -366,7 +366,7 @@ export default function NaturaTexPage() {
 
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={faq.q} delay={i + 1}>
                 <div className="border border-neutral-800 rounded-sm overflow-hidden">
                   <button
                     className="w-full p-5 text-left flex items-center justify-between hover:bg-neutral-900/50 transition-colors"

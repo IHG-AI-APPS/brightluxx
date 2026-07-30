@@ -78,6 +78,17 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
+### Navbar Split + Auth Cookies + Array Keys — Jul 30, 2026
+- **Navbar refactored**: 997-line monolith → 5 sub-components:
+  - `navbarData.js` (218 lines) — all static menu data
+  - `DropdownWrap.js` — hover dropdown with transition
+  - `FamilyDropdown.js` — reusable for all 6 product family menus
+  - `NavMobileMenu.js` — mobile drawer
+  - `Navbar.js` (~230 lines) — lean orchestrator
+- **Auth httpOnly cookies**: Login sets `blx_access` + `blx_refresh` httpOnly Secure SameSite=none cookies. `get_current_admin` reads cookie first, Bearer header fallback. Logout clears cookies. CORS updated with explicit origin.
+- **Array key stability**: Replaced `key={i}` with content-based keys (spec.label, feature.title, faq.q, app.title, etc.) across 14 product-family pages (signatouch, pixelvue, naturatex, holoveil, lumimorph, glassmorph). Index `i` kept only where needed for animation delays.
+- Testing: iteration_120 — navbar + auth 94% backend, key fixes verified via compilation + screenshot
+
 ### Code Review Remediation — Jul 30, 2026
 Critical fixes applied from code quality analysis:
 - [CRITICAL] **XSS**: Added DOMPurify sanitization to all 3 dangerouslySetInnerHTML usages (BlogPost, AuraChat, AdminSiteSettings with iframe allowlist for Google Maps)

@@ -140,8 +140,8 @@ export default function HoloVeilPage() {
               { value: '6', label: 'Weight (kg/m²)' },
               { value: 'P3.9/P6.25', label: 'Pixel Pitch' },
               { value: 'IP20', label: 'Protection' },
-            ].map((spec) => (
-              <FadeIn key={i} delay={i}>
+            ].map((spec, i) => (
+              <FadeIn key={spec.label} delay={i}>
                 <div className="text-2xl font-light text-white">{spec.value}</div>
                 <div className="text-neutral-600 text-xs tracking-wider uppercase mt-1">{spec.label}</div>
               </FadeIn>
@@ -169,8 +169,8 @@ export default function HoloVeilPage() {
                   { title: 'See-Through Design', desc: 'Maintain full visibility of products, spaces, and views behind the display.' },
                   { title: '3D Holographic Effect', desc: 'Content appears to float, creating dramatic visual experiences.' },
                   { title: 'No Structural Changes', desc: 'Installs directly on existing glass with minimal modification.' },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-3">
                     <Check size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="text-white font-medium">{item.title}</h3>
@@ -204,7 +204,7 @@ export default function HoloVeilPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {ADVANTAGES.map((adv, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={adv.title} delay={i + 1}>
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
                     <adv.icon size={24} className="text-emerald-400" />
@@ -230,7 +230,7 @@ export default function HoloVeilPage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {APPLICATIONS.map((app, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={app.title} delay={i + 1}>
                 <div className="group relative overflow-hidden rounded-sm">
                   <div className="aspect-video overflow-hidden">
                     <img src={app.image} alt={app.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -281,8 +281,8 @@ export default function HoloVeilPage() {
                       ['Frame Rate', '60-120 Hz', '60-120 Hz'],
                       ['Working Temperature', '-20°C to 50°C', '-20°C to 50°C'],
                       ['Protection Rating', 'IP20 (Indoor)', 'IP20 (Indoor)'],
-                    ].map(([label, sv39, sv625], i) => (
-                      <tr key={i} className="border-b border-neutral-800/50 last:border-0">
+                    ].map(([label, sv39, sv625]) => (
+                      <tr key={label} className="border-b border-neutral-800/50 last:border-0">
                         <td className="p-4 text-neutral-500">{label}</td>
                         <td className="p-4 text-center text-white">{sv39}</td>
                         <td className="p-4 text-center text-white">{sv625}</td>
@@ -313,7 +313,7 @@ export default function HoloVeilPage() {
 
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <FadeIn key={i} delay={i + 1}>
+              <FadeIn key={faq.q} delay={i + 1}>
                 <div className="border border-neutral-800 rounded-sm overflow-hidden">
                   <button
                     className="w-full p-5 text-left flex items-center justify-between hover:bg-neutral-900/50 transition-colors"

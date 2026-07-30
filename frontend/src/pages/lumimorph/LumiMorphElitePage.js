@@ -129,7 +129,7 @@ export default function LumiMorphElite() {
               { value: 'P2.6', unit: 'mm', label: 'Pixel Pitch' },
               { value: '147,456', unit: '/m²', label: 'Pixels' },
               { value: '60W', unit: 'avg', label: 'Power/Panel' },
-            ].map((spec) => (
+            ].map((spec, i) => (
               <FadeIn key={i} delay={i}>
                 <div className="text-3xl font-light text-white">{spec.value}<span className="text-lg text-neutral-500">{spec.unit}</span></div>
                 <div className="text-neutral-600 text-xs tracking-wider uppercase mt-1">{spec.label}</div>

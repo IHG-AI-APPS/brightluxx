@@ -319,12 +319,12 @@ async def chat_message(data: ChatMessage):
 async def chat_lead_capture(data: LeadCapture, request: Request):
     from database import leads_col
     from email_templates import chat_lead_email
-    from anti_spam import validate_submission, check_recaptcha
+    from anti_spam import validate_submission_full, check_recaptcha
     from utils import get_client_ip
 
     ip = get_client_ip(request)
     validation_data = {"name": data.name, "email": data.email, "fax": data.fax}
-    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    is_valid, error_msg, spam_score, geo_data = await validate_submission_full(validation_data, ip)
     if not is_valid:
         if error_msg == "__honeypot__":
             return {"success": True, "message": "Thank you! Continue chatting with AURA."}
@@ -344,6 +344,7 @@ async def chat_lead_capture(data: LeadCapture, request: Request):
         "notes": f"Chat session: {data.session_id}",
         "spam_score": spam_score,
         "ip": ip,
+        "geo": {"country": geo_data.get("country", ""), "city": geo_data.get("city", "")},
         "created_at": datetime.now(timezone.utc),
     }
 

@@ -4,7 +4,7 @@ from typing import Optional, List
 from database import products_col, inspirations_col, projects_col, leads_col
 from models import Lead
 from utils import serialize_doc, lead_limiter, get_client_ip
-from anti_spam import validate_submission, check_recaptcha
+from anti_spam import validate_submission_full, check_recaptcha
 from email_service import notify_new_lead
 import uuid
 
@@ -179,8 +179,8 @@ async def create_lead(lead: Lead, request: Request):
     client_ip = get_client_ip(request)
     lead_dict = lead.dict()
 
-    # Anti-spam validation
-    is_valid, error_msg, spam_score = validate_submission(lead_dict, client_ip)
+    # Anti-spam + geo IP validation
+    is_valid, error_msg, spam_score, geo_data = await validate_submission_full(lead_dict, client_ip)
     if not is_valid:
         if error_msg == "__honeypot__":
             return {"success": True, "message": "Thank you! We'll contact you within 2 hours.", "leadId": "ok"}
@@ -194,6 +194,7 @@ async def create_lead(lead: Lead, request: Request):
     lead_dict["notes"] = ""
     lead_dict["spam_score"] = spam_score
     lead_dict["ip"] = client_ip
+    lead_dict["geo"] = {"country": geo_data.get("country", ""), "country_name": geo_data.get("country_name", ""), "city": geo_data.get("city", ""), "region": geo_data.get("region", ""), "isp": geo_data.get("isp", "")}
     result = await leads_col.insert_one(lead_dict)
     print(f"New lead from {lead.name} ({lead.email}) - {lead.application} [spam_score={spam_score}]")
 

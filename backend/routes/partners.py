@@ -8,7 +8,7 @@ import uuid
 from database import db, leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import franchise_email, supplier_email, support_email
-from anti_spam import validate_submission, check_recaptcha
+from anti_spam import validate_submission_full, check_recaptcha
 from utils import get_client_ip
 
 router = APIRouter()
@@ -56,7 +56,7 @@ class TechnicalSupportRequest(BaseModel):
 async def franchise_request(data: FranchiseRequest, request: Request):
     ip = get_client_ip(request)
     validation_data = {"name": data.name, "email": data.email, "phone": data.phone, "message": data.message, "fax": data.fax}
-    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    is_valid, error_msg, spam_score, geo_data = await validate_submission_full(validation_data, ip)
     if not is_valid:
         if error_msg == "__honeypot__":
             return {"success": True, "message": "Thank you! We will review your application and get back to you within 48 hours."}
@@ -80,6 +80,7 @@ async def franchise_request(data: FranchiseRequest, request: Request):
         "message": data.message,
         "spam_score": spam_score,
         "ip": ip,
+        "geo": {"country": geo_data.get("country", ""), "country_name": geo_data.get("country_name", ""), "city": geo_data.get("city", "")},
         "created_at": datetime.now(timezone.utc),
     }
     await leads_col.insert_one(lead)
@@ -99,7 +100,7 @@ async def supplier_registration(data: SupplierRegistration, request: Request):
     ip = get_client_ip(request)
     # Note: website is a legitimate field for suppliers, so only check fax honeypot
     validation_data = {"name": data.contact_person, "email": data.email, "phone": data.phone, "message": data.message, "fax": data.fax}
-    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    is_valid, error_msg, spam_score, geo_data = await validate_submission_full(validation_data, ip)
     if not is_valid:
         if error_msg == "__honeypot__":
             return {"success": True, "message": "Registration received! Our procurement team will review and contact you."}
@@ -121,6 +122,7 @@ async def supplier_registration(data: SupplierRegistration, request: Request):
         "status": "pending",
         "spam_score": spam_score,
         "ip": ip,
+        "geo": {"country": geo_data.get("country", ""), "country_name": geo_data.get("country_name", ""), "city": geo_data.get("city", "")},
         "created_at": datetime.now(timezone.utc),
     }
     await db["supplier_registrations"].insert_one(doc)
@@ -136,6 +138,7 @@ async def supplier_registration(data: SupplierRegistration, request: Request):
         "status": "new",
         "spam_score": spam_score,
         "ip": ip,
+        "geo": {"country": geo_data.get("country", ""), "country_name": geo_data.get("country_name", ""), "city": geo_data.get("city", "")},
         "created_at": datetime.now(timezone.utc),
     }
     await leads_col.insert_one(lead)
@@ -154,7 +157,7 @@ async def supplier_registration(data: SupplierRegistration, request: Request):
 async def technical_support(data: TechnicalSupportRequest, request: Request):
     ip = get_client_ip(request)
     validation_data = {"name": data.name, "email": data.email, "phone": data.phone, "message": data.description, "fax": data.fax}
-    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    is_valid, error_msg, spam_score, geo_data = await validate_submission_full(validation_data, ip)
     if not is_valid:
         if error_msg == "__honeypot__":
             return {"success": True, "message": "Support ticket created! Our technical team will respond within 4 hours for urgent requests."}
@@ -175,6 +178,7 @@ async def technical_support(data: TechnicalSupportRequest, request: Request):
         "status": "open",
         "spam_score": spam_score,
         "ip": ip,
+        "geo": {"country": geo_data.get("country", ""), "country_name": geo_data.get("country_name", ""), "city": geo_data.get("city", "")},
         "created_at": datetime.now(timezone.utc),
     }
     await db["support_tickets"].insert_one(doc)
@@ -190,6 +194,7 @@ async def technical_support(data: TechnicalSupportRequest, request: Request):
         "status": "new",
         "spam_score": spam_score,
         "ip": ip,
+        "geo": {"country": geo_data.get("country", ""), "country_name": geo_data.get("country_name", ""), "city": geo_data.get("city", "")},
         "created_at": datetime.now(timezone.utc),
     }
     await leads_col.insert_one(lead)

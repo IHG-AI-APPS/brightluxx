@@ -12,7 +12,7 @@ from typing import Optional
 from datetime import datetime, timezone
 from database import leads_col
 from email_service import notify_new_lead
-from anti_spam import validate_submission, check_recaptcha
+from anti_spam import validate_submission_full, check_recaptcha
 from utils import get_client_ip
 import io
 
@@ -192,12 +192,12 @@ async def generate_project_pdf(req: ProjectPlannerRequest, request: Request):
     if req.name and req.email:
         ip = get_client_ip(request)
         validation_data = {"name": req.name, "email": req.email, "phone": req.phone}
-        is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+        is_valid, error_msg, spam_score, geo_data = await validate_submission_full(validation_data, ip)
         if is_valid:
             try:
                 await check_recaptcha(request)
             except Exception:
-                pass  # Don't block PDF generation for reCAPTCHA failure
+                pass
             lead = {
                 "name": req.name,
                 "email": req.email,
@@ -209,6 +209,7 @@ async def generate_project_pdf(req: ProjectPlannerRequest, request: Request):
                 "message": f"Project Planner: {req.width}m x {req.height}m, {req.environment}, P{spec['recommended_pitch']}, {req.viewing_distance}m distance",
                 "spam_score": spam_score,
                 "ip": ip,
+                "geo": {"country": geo_data.get("country", ""), "city": geo_data.get("city", "")},
                 "created_at": datetime.now(timezone.utc).isoformat(),
             }
             await leads_col.insert_one(lead)

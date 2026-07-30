@@ -8,7 +8,7 @@ import uuid
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import cpd_request_email
-from anti_spam import validate_submission, check_recaptcha
+from anti_spam import validate_submission_full, check_recaptcha
 from utils import get_client_ip
 
 router = APIRouter()
@@ -32,7 +32,7 @@ class CPDRequest(BaseModel):
 async def submit_cpd_request(data: CPDRequest, request: Request):
     client_ip = get_client_ip(request)
     validation_data = {"name": data.name, "email": data.email, "phone": data.phone, "message": data.message or "", "fax": data.fax}
-    is_valid, error_msg, spam_score = validate_submission(validation_data, client_ip)
+    is_valid, error_msg, spam_score, geo_data = await validate_submission_full(validation_data, client_ip)
     if not is_valid:
         if error_msg == "__honeypot__":
             return {"success": True, "message": "Thank you! Our team will contact you within 24 hours to schedule your session."}
@@ -63,6 +63,7 @@ async def submit_cpd_request(data: CPDRequest, request: Request):
 
     lead_dict["spam_score"] = spam_score
     lead_dict["ip"] = client_ip
+    lead_dict["geo"] = {"country": geo_data.get("country", ""), "country_name": geo_data.get("country_name", ""), "city": geo_data.get("city", "")}
     await leads_col.insert_one(lead_dict)
 
     # Send enhanced email notification

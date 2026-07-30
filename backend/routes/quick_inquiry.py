@@ -4,7 +4,7 @@ from typing import Optional
 from datetime import datetime, timezone
 from database import leads_col
 from email_service import notify_new_lead
-from anti_spam import validate_submission, check_recaptcha
+from anti_spam import validate_submission_full, check_recaptcha
 from utils import get_client_ip
 
 router = APIRouter(prefix="/api")
@@ -26,9 +26,9 @@ class QuickInquiryRequest(BaseModel):
 async def quick_inquiry(req: QuickInquiryRequest, request: Request):
     ip = get_client_ip(request)
 
-    # Anti-spam
+    # Anti-spam + geo
     data = req.dict()
-    is_valid, error_msg, spam_score = validate_submission(data, ip)
+    is_valid, error_msg, spam_score, geo_data = await validate_submission_full(data, ip)
     if not is_valid:
         if error_msg == "__honeypot__":
             return {"status": "ok"}
@@ -46,6 +46,7 @@ async def quick_inquiry(req: QuickInquiryRequest, request: Request):
         "page_url": req.page_url,
         "spam_score": spam_score,
         "ip": ip,
+        "geo": {"country": geo_data.get("country", ""), "country_name": geo_data.get("country_name", ""), "city": geo_data.get("city", "")},
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     await leads_col.insert_one(lead)

@@ -1,7 +1,8 @@
 """
 Anti-spam utilities for lead form submissions.
 Provides honeypot validation, disposable email blocking,
-content quality checks, rate limiting, and reCAPTCHA v3 verification.
+content quality checks, rate limiting, reCAPTCHA v3 verification,
+geo IP enrichment, country filtering, and phone validation.
 """
 import os
 import re
@@ -17,6 +18,27 @@ logger = logging.getLogger("anti_spam")
 # reCAPTCHA v3 configuration (optional — graceful degradation if not set)
 RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY", "")
 RECAPTCHA_MIN_SCORE = float(os.environ.get("RECAPTCHA_MIN_SCORE", "0.5"))
+
+# ── Target markets (ISO 3166-1 alpha-2) ──────────────────────────
+# Primary: GCC countries
+GCC_COUNTRIES = {"AE", "SA", "QA", "KW", "BH", "OM"}
+# Secondary: Wider MENA + key business/expat markets
+MENA_COUNTRIES = {"EG", "JO", "LB", "IQ", "MA", "TN", "LY", "PS", "SY", "YE"}
+BUSINESS_COUNTRIES = {"IN", "PK", "GB", "US", "DE", "FR", "CN", "TR", "ZA", "AU", "SG", "HK"}
+ALLOWED_COUNTRIES = GCC_COUNTRIES | MENA_COUNTRIES | BUSINESS_COUNTRIES
+
+# ── Phone country codes for target markets ───────────────────────
+VALID_PHONE_CODES = {
+    "+971": "AE", "+966": "SA", "+974": "QA", "+965": "KW", "+973": "BH", "+968": "OM",
+    "+20": "EG", "+962": "JO", "+961": "LB", "+964": "IQ", "+212": "MA", "+216": "TN",
+    "+91": "IN", "+92": "PK", "+44": "GB", "+1": "US", "+49": "DE", "+33": "FR",
+    "+86": "CN", "+90": "TR", "+27": "ZA", "+61": "AU", "+65": "SG", "+852": "HK",
+    "+218": "LY", "+963": "SY", "+967": "YE", "+970": "PS",
+}
+
+# Phone regex: must start with + and country code, then 6-14 digits
+PHONE_RE = re.compile(r'^\+?\d[\d\s\-()]{6,18}$')
+DIGITS_ONLY_RE = re.compile(r'\D')
 
 # Disposable/temporary email domains (top 80 most common)
 DISPOSABLE_DOMAINS = {
@@ -136,13 +158,113 @@ def check_rate_limit(ip: str) -> bool:
 def record_submission(ip: str):
     """Record a successful submission for rate limiting."""
     _rate_store[ip].append(time.time())
-    # Prune IPs with no recent activity to prevent unbounded memory growth
     stale = [k for k, v in _rate_store.items() if not v]
     for k in stale:
         del _rate_store[k]
 
 
-def compute_spam_score(data: dict) -> int:
+# ── Geo IP cache (avoid repeated lookups for same IP) ────────────
+_geo_cache = {}
+_GEO_CACHE_TTL = 3600  # 1 hour
+
+
+async def lookup_geo_ip(ip: str) -> dict:
+    """Look up geographic location for an IP address.
+    Returns {"country": "AE", "country_name": "United Arab Emirates", "city": "Dubai", "region": "Dubai", ...}
+    Uses ip-api.com (free, no key, 45 req/min)."""
+    if not ip or ip in ("127.0.0.1", "localhost", "::1"):
+        return {"country": "", "country_name": "", "city": "", "region": "", "isp": "", "query": ip}
+
+    # Check cache
+    cached = _geo_cache.get(ip)
+    if cached and time.time() - cached["_ts"] < _GEO_CACHE_TTL:
+        return cached
+
+    try:
+        async with httpx.AsyncClient(timeout=5) as client:
+            resp = await client.get(f"http://ip-api.com/json/{ip}?fields=status,country,countryCode,regionName,city,isp,query")
+        data = resp.json()
+        if data.get("status") == "success":
+            result = {
+                "country": data.get("countryCode", ""),
+                "country_name": data.get("country", ""),
+                "city": data.get("city", ""),
+                "region": data.get("regionName", ""),
+                "isp": data.get("isp", ""),
+                "query": ip,
+                "_ts": time.time(),
+            }
+            _geo_cache[ip] = result
+            # Prune old cache entries
+            if len(_geo_cache) > 5000:
+                cutoff = time.time() - _GEO_CACHE_TTL
+                _geo_cache.clear()
+            return result
+    except Exception as e:
+        logger.warning("Geo IP lookup failed for %s: %s", ip, e)
+
+    return {"country": "", "country_name": "", "city": "", "region": "", "isp": "", "query": ip}
+
+
+def validate_phone(phone: str) -> tuple:
+    """Validate phone number format and country code.
+    Returns (is_valid, error_message, detected_country_code)."""
+    if not phone or not phone.strip():
+        return True, "", ""  # Phone is optional on many forms
+
+    cleaned = phone.strip()
+
+    # Must have some digits
+    digits = DIGITS_ONLY_RE.sub("", cleaned)
+    if len(digits) < 7:
+        return False, "Please enter a valid phone number with country code (e.g. +971 50 123 4567).", ""
+
+    if len(digits) > 15:
+        return False, "Phone number is too long. Please check and try again.", ""
+
+    # Check for valid country code
+    if cleaned.startswith("+") or cleaned.startswith("00"):
+        normalized = "+" + digits.lstrip("0") if cleaned.startswith("00") else "+" + digits
+        for code, country in sorted(VALID_PHONE_CODES.items(), key=lambda x: -len(x[0])):
+            if normalized.startswith(code):
+                remaining = digits[len(code.replace("+", "")):]
+                if len(remaining) >= 6:
+                    return True, "", country
+        # Has + prefix but unrecognized code
+        return True, "", "OTHER"
+
+    # No country code — could be local format
+    # UAE local numbers: 05x xxx xxxx (10 digits) or 04 xxx xxxx (9 digits)
+    if len(digits) >= 9 and digits[0] == "0":
+        return True, "", "AE_LOCAL"
+
+    return True, "", "UNKNOWN"
+
+
+def check_country_allowed(geo_country: str, phone_country: str) -> tuple:
+    """Check if the lead is from an allowed country.
+    Uses OR logic: allowed if geo IP is in target list OR phone has target country code.
+    Returns (is_allowed, error_message)."""
+    # If no geo data, allow (don't block on lookup failure)
+    if not geo_country:
+        return True, ""
+
+    # Country is in allowed list
+    if geo_country in ALLOWED_COUNTRIES:
+        return True, ""
+
+    # Not in allowed list, but phone has a target market code
+    if phone_country and phone_country in ALLOWED_COUNTRIES:
+        return True, ""
+
+    # UAE local number format
+    if phone_country == "AE_LOCAL":
+        return True, ""
+
+    return False, "We currently serve the UAE, GCC, and Middle East region. For inquiries outside this area, please email sales@brightluxx.com directly."
+
+
+def compute_spam_score(data: dict, geo_data: dict = None) -> int:
     """Compute a spam likelihood score (0-100). Higher = more likely spam.
     Score >= 70 is considered spam."""
     score = 0
@@ -161,6 +283,9 @@ def compute_spam_score(data: dict) -> int:
         domain = email.split("@")[1].lower()
         if domain in DISPOSABLE_DOMAINS:
             score += 40
+        # Free email providers — slight penalty for B2B context
+        elif domain in ("gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "aol.com", "icloud.com", "mail.com", "protonmail.com"):
+            score += 5
     
     # No phone number provided (for business inquiries, unusual)
     if not phone:
@@ -191,28 +316,42 @@ def compute_spam_score(data: dict) -> int:
     # Very short or empty message for a contact form
     if len(message) < 10 and data.get("source") == "contact_form":
         score += 10
+
+    # Geo-based scoring
+    if geo_data:
+        country = geo_data.get("country", "")
+        if country and country in GCC_COUNTRIES:
+            score -= 10  # Bonus for GCC
+        elif country and country not in ALLOWED_COUNTRIES:
+            score += 20  # Penalty for non-target country
     
-    return min(score, 100)
+    return max(0, min(score, 100))
 
 
-def validate_submission(data: dict, ip: str) -> tuple:
-    """Full validation pipeline for form submissions.
-    Returns (is_valid, error_message, spam_score).
+async def validate_submission_full(data: dict, ip: str) -> tuple:
+    """Full async validation pipeline with geo IP enrichment.
+    Returns (is_valid, error_message, spam_score, geo_data).
     Only records rate-limit slot on accepted submissions."""
-    
+
     # Rate limit check (does not consume a slot)
     if not check_rate_limit(ip):
-        return False, "Too many submissions. Please try again later.", 100
-    
+        return False, "Too many submissions. Please try again later.", 100, {}
+
     # Honeypot
     if validate_honeypot(data):
-        return False, "__honeypot__", 100
-    
+        return False, "__honeypot__", 100, {}
+
     # Email validation
     email_valid, email_err = validate_email(data.get("email", ""))
     if not email_valid:
-        return False, email_err, 80
-    
+        return False, email_err, 80, {}
+
+    # Phone validation
+    phone = data.get("phone", "")
+    phone_valid, phone_err, phone_country = validate_phone(phone)
+    if not phone_valid:
+        return False, phone_err, 70, {}
+
     # Content quality
     content_valid, content_err = validate_content_quality(
         data.get("name", ""),
@@ -220,14 +359,60 @@ def validate_submission(data: dict, ip: str) -> tuple:
         data.get("company", ""),
     )
     if not content_valid:
+        return False, content_err, 60, {}
+
+    # Geo IP lookup
+    geo_data = await lookup_geo_ip(ip)
+    geo_country = geo_data.get("country", "")
+
+    # Country + phone combined check
+    country_ok, country_err = check_country_allowed(geo_country, phone_country)
+    if not country_ok:
+        logger.info("Blocked lead from %s (IP: %s, phone country: %s)", geo_country, ip, phone_country)
+        return False, country_err, 90, geo_data
+
+    # Spam score (includes geo factors)
+    spam_score = compute_spam_score(data, geo_data)
+    if spam_score >= 70:
+        return False, "Your submission was flagged for review. If this is a genuine inquiry, please email us directly.", spam_score, geo_data
+
+    # Accepted — record for rate limiting
+    record_submission(ip)
+    return True, "", spam_score, geo_data
+
+
+def validate_submission(data: dict, ip: str) -> tuple:
+    """Synchronous validation pipeline (no geo IP).
+    Returns (is_valid, error_message, spam_score).
+    Used as fallback; prefer validate_submission_full for lead endpoints."""
+
+    if not check_rate_limit(ip):
+        return False, "Too many submissions. Please try again later.", 100
+
+    if validate_honeypot(data):
+        return False, "__honeypot__", 100
+
+    email_valid, email_err = validate_email(data.get("email", ""))
+    if not email_valid:
+        return False, email_err, 80
+
+    phone = data.get("phone", "")
+    phone_valid, phone_err, _ = validate_phone(phone)
+    if not phone_valid:
+        return False, phone_err, 70
+
+    content_valid, content_err = validate_content_quality(
+        data.get("name", ""),
+        data.get("message", ""),
+        data.get("company", ""),
+    )
+    if not content_valid:
         return False, content_err, 60
-    
-    # Spam score
+
     spam_score = compute_spam_score(data)
     if spam_score >= 70:
         return False, "Your submission was flagged for review. If this is a genuine inquiry, please email us directly.", spam_score
-    
-    # Accepted — record for rate limiting
+
     record_submission(ip)
     return True, "", spam_score
 

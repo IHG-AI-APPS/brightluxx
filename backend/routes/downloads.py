@@ -9,7 +9,7 @@ import os
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import download_request_email
-from anti_spam import validate_submission, check_recaptcha
+from anti_spam import validate_submission_full, check_recaptcha
 from utils import get_client_ip
 
 router = APIRouter()
@@ -55,7 +55,7 @@ async def request_download(doc_type: str, doc_id: str, data: DownloadRequest, re
 
     ip = get_client_ip(request)
     validation_data = {"name": data.name, "email": data.email, "fax": data.fax}
-    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    is_valid, error_msg, spam_score, geo_data = await validate_submission_full(validation_data, ip)
     if not is_valid:
         if error_msg == "__honeypot__":
             return {"download_url": f"/api/downloads/{doc_type}/{doc_id}/file"}
@@ -73,6 +73,7 @@ async def request_download(doc_type: str, doc_id: str, data: DownloadRequest, re
         "document_title": catalog[doc_id],
         "ip": ip[:50],
         "spam_score": spam_score,
+        "geo": {"country": geo_data.get("country", ""), "city": geo_data.get("city", "")},
         "status": "new",
         "created_at": datetime.now(timezone.utc),
     }

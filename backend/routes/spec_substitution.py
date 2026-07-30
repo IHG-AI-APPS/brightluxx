@@ -8,7 +8,7 @@ import uuid
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import spec_substitution_email
-from anti_spam import validate_submission, check_recaptcha
+from anti_spam import validate_submission_full, check_recaptcha
 from utils import get_client_ip
 
 router = APIRouter()
@@ -32,7 +32,7 @@ async def submit_spec_substitution(
     """Handle spec substitution form with file uploads."""
     ip = get_client_ip(request)
     validation_data = {"name": name, "email": email, "phone": phone, "message": description, "fax": fax}
-    is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
+    is_valid, error_msg, spam_score, geo_data = await validate_submission_full(validation_data, ip)
     if not is_valid:
         if error_msg == "__honeypot__":
             return {"success": True, "submission_id": "ok"}
@@ -66,6 +66,7 @@ async def submit_spec_substitution(
         "source": "spec_substitution",
         "ip": ip[:50],
         "spam_score": spam_score,
+        "geo": {"country": geo_data.get("country", ""), "city": geo_data.get("city", "")},
         "status": "new",
         "created_at": datetime.now(timezone.utc),
     }

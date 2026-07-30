@@ -159,6 +159,19 @@ export default function AdminLeads() {
                 <div className="flex items-center gap-3 text-xs tracking-wider"><Mail size={14} className="text-[var(--blx-muted)]" /> <a href={`mailto:${detail.email}`} className="text-[var(--blx-gold-3)] hover:underline">{detail.email}</a></div>
                 <div className="flex items-center gap-3 text-xs tracking-wider"><Phone size={14} className="text-[var(--blx-muted)]" /> <a href={`tel:${detail.phone}`} className="hover:text-[var(--blx-gold-3)]">{detail.phone}</a></div>
                 {detail.city && <div className="flex items-center gap-3 text-xs text-[var(--blx-text-2)] tracking-wider"><MapPin size={14} className="text-[var(--blx-muted)]" /> {detail.city}</div>}
+                {detail.geo && detail.geo.country && (
+                  <div className="flex items-center gap-3 text-xs text-[var(--blx-text-2)] tracking-wider">
+                    <MapPin size={14} className="text-[var(--blx-muted)]" />
+                    {[detail.geo.city, detail.geo.region, detail.geo.country_name].filter(Boolean).join(', ')}
+                    {detail.geo.isp && <span className="text-[var(--blx-muted)]">({detail.geo.isp})</span>}
+                  </div>
+                )}
+                {detail.spam_score != null && (
+                  <div className="flex items-center gap-3 text-xs tracking-wider">
+                    <span className="text-[var(--blx-muted)]">Spam Score:</span>
+                    <span className={detail.spam_score >= 50 ? 'text-red-400' : detail.spam_score >= 20 ? 'text-yellow-400' : 'text-green-400'}>{detail.spam_score}/100</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-3 text-xs text-[var(--blx-text-2)] tracking-wider"><Clock size={14} className="text-[var(--blx-muted)]" /> {formatDate(detail.created_at)}</div>
               </div>
               <div className="glass-panel p-4 space-y-2">

@@ -124,13 +124,16 @@ UNIQUE_SCENES = {
 
 import hashlib
 
+# Category prompts derived from UNIQUE_SCENES for preview/listing endpoints
+CATEGORY_PROMPTS = {k: v[0] for k, v in UNIQUE_SCENES.items()}
+CATEGORY_PROMPTS["default"] = UNIQUE_SCENES["indoor"][0]
+
 def get_unique_prompt(category: str, product_name: str, pixel_pitch: str) -> str:
     """Get a UNIQUE prompt for each product based on its slug - ensures variety"""
     scenes = UNIQUE_SCENES.get(category, UNIQUE_SCENES.get("indoor"))
     
     # Use product name hash to deterministically select a scene
-    # This ensures same product always gets same scene, but different products get different scenes
-    hash_val = int(hashlib.md5(product_name.encode()).hexdigest(), 16)
+    hash_val = int(hashlib.sha256(product_name.encode()).hexdigest(), 16)
     scene_index = hash_val % len(scenes)
     scene = scenes[scene_index]
     

@@ -1,0 +1,37 @@
+{
+  "summary": "Verified iteration-119 code-review fixes on Brightluxx (backend + frontend). Created /app/backend/tests/test_iteration119_review_fixes.py (29 tests, 28 pass). Confirmed: CATEGORY_PROMPTS now defined and both /api/admin/images/categories and /api/admin/images/preview-prompt/{slug} return 200 with valid data; image_management.py uses hashlib.sha256 with zero md5 references; zero bare 'except:' remaining anywhere in /app/backend (grepped whole backend, not just the 5 named routes); OLD_SECRET and ADMIN_PASSWORD now read from os.environ with no hardcoded credential defaults. Frontend: DOMPurify imported and applied on every dangerouslySetInnerHTML in src (BlogPost, AuraChat, AdminSiteSettings) - verified live in browser that an injected <script>, img onerror and javascript: href in the google_map embed are all stripped while the Google Maps <iframe> (with allowfullscreen/loading) survives, and window.__xss was never set. Contact form submits end-to-end (success panel shown), BlogPost renders sanitized rich HTML (26.5KB), AURA chat streams a markdown answer with bold/links rendered - all three pages with 0 JS/page errors. Admin login works; AdminLeads detail drawer shows geo (city/region/country_name + ISP) and colour-coded Spam Score. Regression: re-ran iteration_116 + iteration_118 suites -> 78/78 pass (the previously failing spam-score clamp test now passes).",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "GET /api/admin/leads", "issue": "MongoDB `_id` is exposed in every lead object (serialize_doc stringifies _id instead of removing it). Pre-existing, affects all admin_crud endpoints using serialize_doc. Also some legacy lead docs have id=null."},
+      {"endpoint": "POST /api/leads", "issue": "Anti-spam/validation rejections return HTTP 422 (raised via HTTPException 422?) rather than 400 for business-rule failures (disposable email, spam content). Semantically these are 400-class client errors; only noting for API consistency, not a functional break."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "AdminLeads / AdminLayout", "issue": "React DOM-nesting console errors on /admin/leads: '<span> cannot be a child of <tbody>/<tr>/<select>/<option> - This will cause a hydration error' (4 occurrences). Cosmetic/console-only, table renders fine, but invalid HTML nesting should be cleaned up.", "selector": "[data-testid=\"admin-leads-table\"]", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration119_review_fixes.py",
+    "/app/test_reports/pytest/iteration119.xml"
+  ],
+  "action_items": [
+    "Exclude MongoDB `_id` in serialize_doc (or pop it) so /api/admin/leads and other admin_crud responses stop leaking ObjectId.",
+    "Optional: fix invalid <span> nesting inside <tbody>/<tr>/<select> in AdminLeads/AdminLayout to clear React hydration warnings."
+  ],
+  "critical_code_review_comments": [
+    "AdminSiteSettings DOMPurify config allows <iframe> globally via ADD_TAGS; consider also constraining src with a hostname allowlist (google.com/maps) since an admin-editable field with arbitrary iframe src still permits framing untrusted origins.",
+    "serialize_doc converts _id to a string rather than dropping it - single-point fix removes the ObjectId leak across all admin CRUD routes."
+  ],
+  "updated_files": ["/app/backend/tests/test_iteration119_review_fixes.py"],
+  "success_rate": {"backend": "97% (28/29 new tests; 78/78 regression tests from iter 116+118)", "frontend": "100% of tested flows (contact submit, blog render, AURA chat, admin login, leads geo drawer, site-settings XSS sanitization)"},
+  "seed_data_creation": "Created and deleted transient leads prefixed TEST_i119 / TEST_i119ui (Mongo cleanup executed, 0 residual).",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "test_credentials": "admin@brightluxx.com / brightluxx2025 (from /app/memory/test_credentials.md)",
+  "context_for_next_testing_agent": "New regression file: /app/backend/tests/test_iteration119_review_fixes.py. It includes source-level guards (no bare except in routes, DOMPurify on every dangerouslySetInnerHTML, secrets from env, sha256 not md5) plus live API tests. One intentionally failing test remains: test_admin_leads_no_mongo_object_id - it documents the _id leak and should pass once serialize_doc is fixed. Note /api/leads returns 422 (not 400) for anti-spam rejections. Site Settings admin route is /admin/site-settings (NOT /admin/settings, which is Account/Security). Use wait_until='domcontentloaded' for Playwright navigation - 'networkidle' never settles on this site.",
+  "rca_of_the_issue": "No new defects introduced by this fix iteration. The only failing assertion (_id in admin leads payload) is pre-existing: routes/admin_crud.py:183 maps documents through serialize_doc(), which converts ObjectId to str instead of removing the _id key, so every admin listing includes the internal Mongo id."
+}

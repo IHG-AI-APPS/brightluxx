@@ -18,7 +18,7 @@ backend_env = dotenv_values("/app/backend/.env")
 ADMIN_EMAIL = backend_env.get("ADMIN_SEED_EMAIL")
 ADMIN_PASSWORD = backend_env.get("ADMIN_SEED_PASSWORD") or backend_env.get("ADMIN_PASSWORD")
 
-OLD_SECRET = "brightluxx-admin-secret-key-2025-change-in-production"
+OLD_SECRET = os.environ.get("OLD_JWT_SECRET", "old-insecure-placeholder-for-testing")
 GOOGLEBOT = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
 
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAdmin } from './AdminContext';
+import DOMPurify from 'dompurify';
 import { Globe, Building2, Share2, Code, Search as SearchIcon, Save, CheckCircle2, AlertCircle, Image, Upload, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 
 const INPUT = "w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-xs tracking-wider text-[var(--blx-text)] px-4 py-2.5 focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200";
@@ -160,7 +161,7 @@ export default function AdminSiteSettings() {
         <Field label="Google Maps Embed Code" name="google_map" value={settings?.embeds?.google_map} onChange={e => update('embeds', 'google_map', e.target.value)} rows={4} placeholder='<iframe src="https://www.google.com/maps/embed?..." ...></iframe>' />
         {settings?.embeds?.google_map && (
           <div className="mt-3 rounded-lg overflow-hidden border border-[var(--blx-border)]" data-testid="map-preview">
-            <div dangerouslySetInnerHTML={{ __html: settings.embeds.google_map }} className="[&>iframe]:w-full [&>iframe]:h-48 [&>iframe]:border-0" />
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(settings.embeds.google_map, { ADD_TAGS: ['iframe'], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'loading', 'referrerpolicy'] }) }} className="[&>iframe]:w-full [&>iframe]:h-48 [&>iframe]:border-0" />
           </div>
         )}
       </div>

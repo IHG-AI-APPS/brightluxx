@@ -176,7 +176,7 @@ async def update_product(product_id: str, product: PixelVueProductUpdate):
     
     try:
         obj_id = ObjectId(product_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid product ID")
     
     existing = await db.pixelvue_products.find_one({"_id": obj_id})
@@ -203,7 +203,7 @@ async def delete_product(product_id: str):
     
     try:
         obj_id = ObjectId(product_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid product ID")
     
     result = await db.pixelvue_products.delete_one({"_id": obj_id})
@@ -219,7 +219,7 @@ async def toggle_product_active(product_id: str):
     
     try:
         obj_id = ObjectId(product_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid product ID")
     
     product = await db.pixelvue_products.find_one({"_id": obj_id})
@@ -246,7 +246,7 @@ async def reorder_products(product_orders: List[dict]):
                 {"_id": obj_id},
                 {"$set": {"order": item["order"]}}
             )
-        except:
+        except Exception:
             continue
     
     return {"message": "Products reordered successfully"}

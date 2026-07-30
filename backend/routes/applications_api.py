@@ -149,7 +149,7 @@ async def update_application(application_id: str, application: ApplicationUpdate
     
     try:
         obj_id = ObjectId(application_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid application ID")
     
     existing = await db.applications_content.find_one({"_id": obj_id})
@@ -170,7 +170,7 @@ async def delete_application(application_id: str):
     
     try:
         obj_id = ObjectId(application_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid application ID")
     
     result = await db.applications_content.delete_one({"_id": obj_id})
@@ -186,7 +186,7 @@ async def toggle_application_active(application_id: str):
     
     try:
         obj_id = ObjectId(application_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid application ID")
     
     application = await db.applications_content.find_one({"_id": obj_id})

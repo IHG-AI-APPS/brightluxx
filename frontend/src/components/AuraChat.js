@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Send, Sparkles } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 import { getRecaptchaHeaders } from '../utils/recaptcha';
 
 const API = process.env.REACT_APP_BACKEND_URL;
@@ -218,7 +219,7 @@ export default function AuraChat() {
                     fontFamily: 'var(--blx-font)',
                     textTransform: 'none',
                   }}
-                  dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.content) }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(renderMarkdown(msg.content)) }}
                   data-testid={`aura-msg-${i}`}
                 />
               </div>

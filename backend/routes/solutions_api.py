@@ -142,7 +142,7 @@ async def update_solution(solution_id: str, solution: SolutionUpdate):
     
     try:
         obj_id = ObjectId(solution_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid solution ID")
     
     existing = await db.solutions.find_one({"_id": obj_id})
@@ -163,7 +163,7 @@ async def delete_solution(solution_id: str):
     
     try:
         obj_id = ObjectId(solution_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid solution ID")
     
     result = await db.solutions.delete_one({"_id": obj_id})
@@ -179,7 +179,7 @@ async def toggle_solution_active(solution_id: str):
     
     try:
         obj_id = ObjectId(solution_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid solution ID")
     
     solution = await db.solutions.find_one({"_id": obj_id})

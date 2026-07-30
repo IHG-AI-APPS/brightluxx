@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, User, Calendar, Share2, Facebook, Twitter, Linkedin, Copy, Check, Tag, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import DOMPurify from 'dompurify';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { generateArticleSchema, generateBreadcrumbSchema } from '../utils/seoSchemas';
@@ -224,7 +225,7 @@ export default function BlogPost() {
                   prose-li:text-gray-400
                   prose-blockquote:border-l-cyan-500 prose-blockquote:text-gray-400 prose-blockquote:italic
                 "
-                dangerouslySetInnerHTML={{ __html: blog.content }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
                 data-testid="blog-content"
               />
 

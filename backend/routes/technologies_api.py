@@ -152,7 +152,7 @@ async def update_technology(technology_id: str, technology: TechnologyUpdate):
     
     try:
         obj_id = ObjectId(technology_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid technology ID")
     
     existing = await db.technologies_content.find_one({"_id": obj_id})
@@ -173,7 +173,7 @@ async def delete_technology(technology_id: str):
     
     try:
         obj_id = ObjectId(technology_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid technology ID")
     
     result = await db.technologies_content.delete_one({"_id": obj_id})
@@ -189,7 +189,7 @@ async def toggle_technology_active(technology_id: str):
     
     try:
         obj_id = ObjectId(technology_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid technology ID")
     
     technology = await db.technologies_content.find_one({"_id": obj_id})

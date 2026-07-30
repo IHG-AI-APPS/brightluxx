@@ -166,7 +166,7 @@ async def update_family(family_id: str, family: ProductFamilyUpdate):
     
     try:
         obj_id = ObjectId(family_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid family ID")
     
     existing = await db.product_families.find_one({"_id": obj_id})
@@ -187,7 +187,7 @@ async def delete_family(family_id: str):
     
     try:
         obj_id = ObjectId(family_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid family ID")
     
     result = await db.product_families.delete_one({"_id": obj_id})
@@ -203,7 +203,7 @@ async def toggle_family_active(family_id: str):
     
     try:
         obj_id = ObjectId(family_id)
-    except:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid family ID")
     
     family = await db.product_families.find_one({"_id": obj_id})

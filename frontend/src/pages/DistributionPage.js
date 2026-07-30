@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HoneypotFields from '../components/HoneypotFields';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 import { Link } from 'react-router-dom';
 import { Globe, Building2, MapPin, Users, CheckCircle, ArrowRight, Phone, Mail, Handshake, TrendingUp, ShieldCheck, Truck } from 'lucide-react';
 
@@ -55,9 +56,10 @@ export default function DistributionPage() {
     setLoading(true);
     setError('');
     try {
+      const rcHeaders = await getRecaptchaHeaders('franchise_request');
       const res = await fetch(`${API}/api/franchise-request`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify(formData),
       });
       if (!res.ok) throw new Error('Submission failed');

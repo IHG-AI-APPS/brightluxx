@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import HoneypotFields from '../components/HoneypotFields';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, CheckCircle2, Lock, Cpu, Eye, Building2, ShoppingBag, Briefcase, Stethoscope, Plane, Sparkles, Sun, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -229,9 +230,10 @@ export default function TechnologySelector() {
     setError('');
     try {
       const rec = getRecommendation(answers);
+      const rcHeaders = await getRecaptchaHeaders('technology_selector');
       await fetch(`${API}/api/leads`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify({ ...form, source: 'technology_selector', application: `Tech Selector: ${rec.primary.name} (${answers.application})` }),
       });
       setLeadGated(false);

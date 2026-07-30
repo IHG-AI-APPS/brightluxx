@@ -9,7 +9,7 @@ import os
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import specpack_download_email
-from anti_spam import validate_submission
+from anti_spam import validate_submission, check_recaptcha
 from utils import get_client_ip
 
 router = APIRouter()
@@ -56,6 +56,8 @@ async def download_specpack(pack_id: str, data: SpecPackRequest, request: Reques
         if error_msg == "__honeypot__":
             return {"download_url": f"/api/specpacks/{pack_id}/file"}
         raise HTTPException(status_code=422, detail=error_msg)
+
+    await check_recaptcha(request)
 
     # Capture the lead
     lead_data = {

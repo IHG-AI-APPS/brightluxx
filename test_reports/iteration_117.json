@@ -1,0 +1,48 @@
+{
+  "summary": "Iteration 117 — Verified the new Google reCAPTCHA v3 integration does not break anything while RECAPTCHA_SECRET_KEY / REACT_APP_RECAPTCHA_SITE_KEY are unset (graceful degradation), plus full anti-spam regression. Backend: 26/26 pytest pass (/app/backend/tests/test_iteration117_recaptcha.py). Confirmed anti_spam.verify_recaptcha('') returns {success: True, score: 1.0, skipped: True} and a garbage token is also skipped. All 14 lead endpoints (/api/leads, quick-inquiry, signage-inquiry, franchise-request, cpd/request, design-assist/request, specpacks/retail-hospitality/download, downloads/cheatsheet/pixel-pitch-cheatsheet/request, chat/lead, site-visit-request, technical-support, supplier-registration, project-planner/pdf) return success WITHOUT an X-Recaptcha-Token header; sending a bogus/empty token header is also ignored. Anti-spam regression intact: disposable email -> 422, spam content -> 422, invalid email -> 422, >2 URLs -> 422, honeypot (fax/website) -> silent 200 with leadId 'ok', per-IP rate limit still trips on the 11th submission. GET /api/health -> {status: 'ok'}. Frontend: / and /contact load with zero console/page errors, no recaptcha/api.js script tag, no .grecaptcha-badge, window.grecaptcha === undefined. /contact form submits end-to-end (POST /api/leads 200, no X-Recaptcha-Token header, success-message rendered); /technical-support form (which uses getRecaptchaHeaders) also submits 200 and shows support-success. The previously reported 3s mount-timer fake-success bug in Contact.js is gone (formStartTime removed) — genuine leads now always hit the API.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "routes/project_planner.py:198", "issue": "check_recaptcha is wrapped in try/except: pass, so once a secret key is configured reCAPTCHA is effectively NOT enforced on the project-planner lead path (silent bypass). Intentional? If so, add a comment/score-log; otherwise enforce it."},
+      {"endpoint": "all routes", "issue": "check_recaptcha() runs AFTER validate_submission(), which already consumed the caller's rate-limit slot. A user failing reCAPTCHA burns quota. Verify reCAPTCHA first (cheap header check) or record the rate slot only after both checks pass."},
+      {"endpoint": "anti_spam.verify_recaptcha", "issue": "On any exception (incl. non-2xx from Google, malformed JSON, wrong secret) it fails OPEN with score 0.5 — a wrong/expired secret key would silently disable protection with no log. Add a logger.warning so misconfiguration is visible."},
+      {"endpoint": "anti_spam.py", "issue": "RECAPTCHA_SECRET_KEY / RECAPTCHA_MIN_SCORE are read at import time only, and HTTPException is imported inline in 3 places — move `from fastapi import HTTPException` to module top."},
+      {"endpoint": "/api/specpacks/{id}/download, /api/downloads/{type}/{id}/request", "issue": "STILL OPEN from iteration 116: honeypot path returns {success: true, download_url}, success path returns only {download_url} — bots can distinguish honeypot rejection."},
+      {"endpoint": "/api/admin/leads", "issue": "STILL OPEN from iteration 116: stringified Mongo _id leaked via serialize_doc."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "ProjectPlanner PDF lead capture", "issue": "pages/ProjectPlanner.js is the only public lead form that does NOT call getRecaptchaHeaders(), so no token would be sent once a site key is configured. It currently works only because project_planner.py swallows reCAPTCHA errors. Add getRecaptchaHeaders('project_planner') for consistency.", "affected_selectors": ["POST /api/project-planner/pdf"]},
+      {"flow": "reCAPTCHA token race on first submit", "issue": "utils/recaptcha.js getRecaptchaToken() returns '' when window.grecaptcha is not yet defined (script loads async from App.js useEffect). With a site key configured, a very fast first submit would send no token and the backend would reject it with 422 'Security verification required'. Consider awaiting script load (retry/poll for grecaptcha) before resolving.", "affected_selectors": ["[data-testid=\"lead-capture-submit-button\"]"]},
+      {"flow": "Dead code", "issue": "src/hooks/useRecaptcha.js is unused (utility preferred per the request) — remove to avoid drift between two implementations.", "affected_selectors": []}
+    ],
+    "design_issues": [
+      {"screen": "/contact and /technical-support success state", "issues": ["After submission the success card stays at the previous scroll offset, leaving a large empty viewport below the card; scroll-to-top on success would read better."]},
+      {"screen": "/technical-support", "issues": ["Console hydration warnings ('<span> cannot be a child of <select>') originate from the Emergent preview instrumentation wrapper injected around ISSUE_TYPES <option> map, not app source — informational only, no functional impact."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_iteration117_recaptcha.py", "/app/test_reports/pytest/iteration117_recaptcha.xml"],
+  "action_items": [
+    "Decide on project_planner.py try/except around check_recaptcha (silent bypass) and add getRecaptchaHeaders to pages/ProjectPlanner.js.",
+    "Make getRecaptchaToken wait for the grecaptcha script (poll/promise) so the first fast submit isn't rejected once a site key is set.",
+    "Log a warning when Google verification fails open (wrong/expired secret currently disables protection silently).",
+    "Do not consume a rate-limit slot before reCAPTCHA verification.",
+    "Carry-over from iteration 116: identical payloads for specpacks/downloads honeypot vs success; exclude Mongo _id from /api/admin/leads.",
+    "Delete unused src/hooks/useRecaptcha.js."
+  ],
+  "critical_code_review_comments": [
+    "verify_recaptcha fails open on every exception — combined with the inline try/except in project_planner this means two independent silent-bypass paths; at minimum emit logs so a misconfigured key is detectable in production.",
+    "Ordering bug: reCAPTCHA is verified after the rate limiter has already recorded the submission, so failed verifications reduce a legitimate user's hourly quota.",
+    "Module-level os.environ read means enabling reCAPTCHA requires a backend restart — acceptable, but document it in the .env template."
+  ],
+  "updated_files": ["/app/backend/tests/test_iteration117_recaptcha.py"],
+  "success_rate": {"backend": "100% (26/26 pytest)", "frontend": "100% (homepage + /contact + /technical-support load and submit cleanly; no recaptcha script/badge as expected)"},
+  "seed_data_creation": "Created ~30 TEST_i117_ prefixed leads/inquiries/tickets plus 2 UI-submitted records (qa117b.tester@brightretail.ae lead, qa117.support@hotelgrp.ae support ticket). Not deleted — all are TEST_/qa117 prefixed and safe to purge.",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "test_credentials": "Admin: admin@brightluxx.com / brightluxx2025 (from /app/memory/test_credentials.md)",
+  "context_for_next_testing_agent": "reCAPTCHA graceful degradation is fully verified with keys UNSET. Nobody has yet tested the ENABLED path — to do that you must set RECAPTCHA_SECRET_KEY + REACT_APP_RECAPTCHA_SITE_KEY and restart both services; without real Google keys the only testable enabled-path behaviour is 'no token -> 422 Security verification required' (any garbage token then fails open with score 0.5 because Google returns success=false -> actually 422). Reuse ip_headers() from /app/backend/tests/test_iteration117_recaptcha.py: the in-memory rate limiter is 10/hour per X-Forwarded-For, and browser tests share the real egress IP so keep UI submissions under 10/hour. Contact.js form requires name, company, email, phone, city AND application (select) — testids are input-name/input-company/input-email/input-phone/input-city/input-application/input-message and lead-capture-submit-button; success card is [data-testid=\"success-message\"]. The iteration-116 3s mount-timer fake-success bug is FIXED.",
+  "rca_of_the_issue": "No functional defect found. check_recaptcha -> verify_recaptcha short-circuits on empty RECAPTCHA_SECRET_KEY before touching Google, and the frontend utility short-circuits on missing REACT_APP_RECAPTCHA_SITE_KEY (no script injected, getRecaptchaHeaders returns {}), so no X-Recaptcha-Token header is sent and none is required. Remaining findings are latent risks that only surface once keys are configured (token race on first submit, project_planner bypass, fail-open silence)."
+}

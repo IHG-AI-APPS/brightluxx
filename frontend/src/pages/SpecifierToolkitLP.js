@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HoneypotFields from '../components/HoneypotFields';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Download, Calculator, Ruler, FileText, Box, Layers, BookOpen, Shield } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -31,9 +32,10 @@ export default function SpecifierToolkitLP() {
     setSubmitting(true);
     setError('');
     try {
+      const rcHeaders = await getRecaptchaHeaders('specifier_toolkit');
       const res = await fetch(`${API}/api/leads`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify({ ...form, source: 'linkedin_specifier_toolkit', application: `Specifier Toolkit: ${form.role}` }),
       });
       const data = await res.json();

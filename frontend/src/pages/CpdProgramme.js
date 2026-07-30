@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HoneypotFields from '../components/HoneypotFields';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 import { Link } from 'react-router-dom';
 import { ArrowRight, GraduationCap, Users, Clock, Award, Monitor, Building2, Stethoscope, Landmark, CheckCircle2, Calendar, MapPin } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -85,9 +86,10 @@ export default function CpdProgramme() {
     setSubmitting(true);
     setError('');
     try {
+      const rcHeaders = await getRecaptchaHeaders('cpd_request');
       const res = await fetch(`${API}/api/cpd/request`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify(form),
       });
       const data = await res.json();

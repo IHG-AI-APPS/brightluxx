@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import site_visit_email
-from anti_spam import validate_submission
+from anti_spam import validate_submission, check_recaptcha
 from utils import get_client_ip
 
 router = APIRouter(prefix="/api")
@@ -30,6 +30,8 @@ async def site_visit_request(req: SiteVisitRequest, request: Request):
         if error_msg == "__honeypot__":
             return {"status": "ok"}
         raise HTTPException(status_code=422, detail=error_msg)
+
+    await check_recaptcha(request)
 
     lead = {
         "name": req.name,

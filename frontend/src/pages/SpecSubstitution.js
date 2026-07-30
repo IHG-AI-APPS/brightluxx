@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HoneypotFields from '../components/HoneypotFields';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Upload, CheckCircle, FileText, MessageCircle, Phone, Shield, Clock, DollarSign } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -38,8 +39,10 @@ export default function SpecSubstitution() {
       Object.entries(formData).forEach(([k, v]) => fd.append(k, v));
       files.forEach(f => fd.append('files', f));
 
+      const rcHeaders = await getRecaptchaHeaders('spec_substitution');
       const res = await fetch(`${API}/api/spec-substitution`, {
         method: 'POST',
+        headers: rcHeaders,
         body: fd,
       });
       const data = await res.json();

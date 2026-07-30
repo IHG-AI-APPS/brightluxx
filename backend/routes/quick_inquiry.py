@@ -4,7 +4,7 @@ from typing import Optional
 from datetime import datetime, timezone
 from database import leads_col
 from email_service import notify_new_lead
-from anti_spam import validate_submission
+from anti_spam import validate_submission, check_recaptcha
 from utils import get_client_ip
 
 router = APIRouter(prefix="/api")
@@ -33,6 +33,8 @@ async def quick_inquiry(req: QuickInquiryRequest, request: Request):
         if error_msg == "__honeypot__":
             return {"status": "ok"}
         raise HTTPException(status_code=422, detail=error_msg)
+
+    await check_recaptcha(request)
 
     lead = {
         "name": req.name,

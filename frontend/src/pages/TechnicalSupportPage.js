@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HoneypotFields from '../components/HoneypotFields';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 import { Link } from 'react-router-dom';
 import { Wrench, CheckCircle, Phone, Mail, Clock, AlertTriangle, Shield, Zap, MonitorCheck, HelpCircle } from 'lucide-react';
 
@@ -48,9 +49,10 @@ export default function TechnicalSupportPage() {
     setLoading(true);
     setError('');
     try {
+      const rcHeaders = await getRecaptchaHeaders('technical_support');
       const res = await fetch(`${API}/api/technical-support`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify(formData),
       });
       if (!res.ok) throw new Error('Submission failed');

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle, ChevronDown } from 'lucide-react';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 
 /**
  * SpecifierAnswerBox — TL;DR "quick-spec" summary for architects/consultants.
@@ -131,9 +132,10 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
     e.preventDefault();
     setLoading(true);
     try {
+      const rcHeaders = await getRecaptchaHeaders('specpack_download');
       const res = await fetch(`${API}/api/specpacks/${packId}/download`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify({ email, name, company, role, pack_id: packId, fax }),
       });
       const data = await res.json();

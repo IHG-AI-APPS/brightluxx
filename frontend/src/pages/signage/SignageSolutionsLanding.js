@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HoneypotFields from '../../components/HoneypotFields';
+import { getRecaptchaHeaders } from '../../utils/recaptcha';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SEO from '../../components/SEO';
@@ -70,9 +71,10 @@ const SignageSolutionsLanding = () => {
     setFormError('');
     
     try {
+      const rcHeaders = await getRecaptchaHeaders('signage_inquiry');
       const res = await fetch(`${API_URL}/api/signage-inquiry`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify(formData)
       });
       

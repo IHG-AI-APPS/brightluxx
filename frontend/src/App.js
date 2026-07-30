@@ -2,6 +2,7 @@ import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { SiteSettingsProvider } from './contexts/SiteSettingsContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { loadRecaptchaScript } from './utils/recaptcha';
 import './App.css';
 import './styles/apple-design.css';
 
@@ -358,6 +359,7 @@ function ScrollToTop() {
 import CookieConsent from './components/CookieConsent';
 
 function App() {
+  useEffect(() => { loadRecaptchaScript(); }, []);
   return (
     <Router>
       <ThemeProvider>

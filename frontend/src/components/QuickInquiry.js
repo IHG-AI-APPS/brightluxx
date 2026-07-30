@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Send, CheckCircle2 } from 'lucide-react';
 import HoneypotFields from './HoneypotFields';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
@@ -37,9 +38,10 @@ export default function QuickInquiry({ context = '', pageUrl = '' }) {
     if (!form.name || !form.email) return;
     setSubmitting(true);
     try {
+      const rcHeaders = await getRecaptchaHeaders('quick_inquiry');
       await fetch(`${API}/api/quick-inquiry`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify({
           ...form,
           message: `Quick inquiry: Interested in ${context}`,

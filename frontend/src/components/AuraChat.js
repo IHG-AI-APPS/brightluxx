@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Send, Sparkles } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 const AURA_AVATAR = 'https://files.ihgbrands.com/emergent-images/4de29b1557ed773232c26af312b994e1ed537e4dc5bd99c8787717c897722209.png';
@@ -92,9 +93,10 @@ export default function AuraChat() {
       return;
     }
     try {
+      const rcHeaders = await getRecaptchaHeaders('chat_lead');
       await fetch(`${API}/api/chat/lead`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify({ session_id: sessionId.current, ...leadForm }),
       });
       setLeadCaptured(true);

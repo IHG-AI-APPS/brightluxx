@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, FileText, Box, Layers, Download, CheckCircle, ArrowRight, BookOpen, X, Eye, Sparkles, Grid3X3, Cpu, Monitor, Zap, Table, BarChart3, Ruler } from 'lucide-react';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -419,24 +420,26 @@ function DownloadCard({ item }) {
         setLoading(false);
         return;
       }
+
+      const rcHeaders = await getRecaptchaHeaders('resource_download');
       
       if (item.pack_id) {
         const res = await fetch(`${API}/api/specpacks/${item.pack_id}/download`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json', ...rcHeaders },
           body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download', pack_id: item.pack_id, fax }),
         });
         const d = await res.json();
         url = d.download_url;
       } else if (item.doc_id) {
         const res = await fetch(`${API}/api/downloads/cheatsheet/${item.doc_id}/request`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json', ...rcHeaders },
           body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download', fax }),
         });
         const d = await res.json();
         url = d.download_url;
       } else if (item.bim_id) {
         const res = await fetch(`${API}/api/downloads/bim/${item.bim_id}/request`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json', ...rcHeaders },
           body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download', fax }),
         });
         const d = await res.json();

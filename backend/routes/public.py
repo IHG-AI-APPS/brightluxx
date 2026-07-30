@@ -4,7 +4,7 @@ from typing import Optional, List
 from database import products_col, inspirations_col, projects_col, leads_col
 from models import Lead
 from utils import serialize_doc, lead_limiter, get_client_ip
-from anti_spam import validate_submission
+from anti_spam import validate_submission, check_recaptcha
 from email_service import notify_new_lead
 import uuid
 
@@ -183,9 +183,11 @@ async def create_lead(lead: Lead, request: Request):
     is_valid, error_msg, spam_score = validate_submission(lead_dict, client_ip)
     if not is_valid:
         if error_msg == "__honeypot__":
-            # Silently accept (don't reveal to bots it was rejected)
             return {"success": True, "message": "Thank you! We'll contact you within 2 hours.", "leadId": "ok"}
         raise HTTPException(status_code=422, detail=error_msg)
+
+    # reCAPTCHA v3 verification
+    recaptcha_result = await check_recaptcha(request)
 
     lead_dict["id"] = str(uuid.uuid4())
     lead_dict["status"] = "new"

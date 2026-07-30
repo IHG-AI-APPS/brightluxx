@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HoneypotFields from '../components/HoneypotFields';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 import { Link } from 'react-router-dom';
 import { Package, CheckCircle, FileText, ShieldCheck, Globe, ArrowRight, Truck, Clock, Award } from 'lucide-react';
 
@@ -44,9 +45,10 @@ export default function SupplierRegistrationPage() {
     setLoading(true);
     setError('');
     try {
+      const rcHeaders = await getRecaptchaHeaders('supplier_registration');
       const res = await fetch(`${API}/api/supplier-registration`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify(formData),
       });
       if (!res.ok) throw new Error('Submission failed');

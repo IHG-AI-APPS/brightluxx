@@ -12,7 +12,7 @@ from typing import Optional
 from datetime import datetime, timezone
 from database import leads_col
 from email_service import notify_new_lead
-from anti_spam import validate_submission
+from anti_spam import validate_submission, check_recaptcha
 from utils import get_client_ip
 import io
 
@@ -194,6 +194,10 @@ async def generate_project_pdf(req: ProjectPlannerRequest, request: Request):
         validation_data = {"name": req.name, "email": req.email, "phone": req.phone}
         is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
         if is_valid:
+            try:
+                await check_recaptcha(request)
+            except Exception:
+                pass  # Don't block PDF generation for reCAPTCHA failure
             lead = {
                 "name": req.name,
                 "email": req.email,

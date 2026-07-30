@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { X, Send, CheckCircle2, MapPin, ArrowRight } from 'lucide-react';
 import HoneypotFields from './HoneypotFields';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
@@ -43,9 +44,10 @@ export default function ExitIntentPopup() {
     if (!form.name || !form.email || !form.phone) return;
     setSubmitting(true);
     try {
+      const rcHeaders = await getRecaptchaHeaders('site_visit');
       await fetch(`${API}/api/site-visit-request`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify({ ...form, page_url: window.location.pathname }),
       });
       setSubmitted(true);

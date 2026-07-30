@@ -8,7 +8,7 @@ import uuid
 from database import db, leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import franchise_email, supplier_email, support_email
-from anti_spam import validate_submission
+from anti_spam import validate_submission, check_recaptcha
 from utils import get_client_ip
 
 router = APIRouter()
@@ -62,6 +62,8 @@ async def franchise_request(data: FranchiseRequest, request: Request):
             return {"success": True, "message": "Thank you! We will review your application and get back to you within 48 hours."}
         raise HTTPException(status_code=422, detail=error_msg)
 
+    await check_recaptcha(request)
+
     lead = {
         "id": str(uuid.uuid4()),
         "name": data.name,
@@ -102,6 +104,8 @@ async def supplier_registration(data: SupplierRegistration, request: Request):
         if error_msg == "__honeypot__":
             return {"success": True, "message": "Registration received! Our procurement team will review and contact you."}
         raise HTTPException(status_code=422, detail=error_msg)
+
+    await check_recaptcha(request)
 
     doc = {
         "id": str(uuid.uuid4()),
@@ -155,6 +159,8 @@ async def technical_support(data: TechnicalSupportRequest, request: Request):
         if error_msg == "__honeypot__":
             return {"success": True, "message": "Support ticket created! Our technical team will respond within 4 hours for urgent requests."}
         raise HTTPException(status_code=422, detail=error_msg)
+
+    await check_recaptcha(request)
 
     doc = {
         "id": str(uuid.uuid4()),

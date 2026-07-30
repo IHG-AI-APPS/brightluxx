@@ -1,11 +1,18 @@
 """
 Anti-spam utilities for lead form submissions.
 Provides honeypot validation, disposable email blocking,
-content quality checks, and rate limiting.
+content quality checks, rate limiting, and reCAPTCHA v3 verification.
 """
+import os
 import re
 import time
 from collections import defaultdict
+
+import httpx
+
+# reCAPTCHA v3 configuration (optional — graceful degradation if not set)
+RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY", "")
+RECAPTCHA_MIN_SCORE = float(os.environ.get("RECAPTCHA_MIN_SCORE", "0.5"))
 
 # Disposable/temporary email domains (top 80 most common)
 DISPOSABLE_DOMAINS = {
@@ -219,3 +226,51 @@ def validate_submission(data: dict, ip: str) -> tuple:
     # Accepted — record for rate limiting
     record_submission(ip)
     return True, "", spam_score
+
+
+async def verify_recaptcha(token: str, ip: str = None) -> dict:
+    """Verify a reCAPTCHA v3 token with Google.
+    Returns {"success": True, "score": float, ...} on success.
+    Raises HTTPException on failure.
+    Skips verification if RECAPTCHA_SECRET_KEY is not configured."""
+    if not RECAPTCHA_SECRET_KEY:
+        return {"success": True, "score": 1.0, "skipped": True}
+
+    if not token:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=422, detail="Security verification required. Please try again.")
+
+    data = {"secret": RECAPTCHA_SECRET_KEY, "response": token}
+    if ip:
+        data["remoteip"] = ip
+
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            resp = await client.post("https://www.google.com/recaptcha/api/siteverify", data=data)
+        resp.raise_for_status()
+        result = resp.json()
+    except Exception:
+        # If Google's API is down, don't block legitimate users
+        return {"success": True, "score": 0.5, "error": "verification_unavailable"}
+
+    if not result.get("success"):
+        from fastapi import HTTPException
+        raise HTTPException(status_code=422, detail="Security verification failed. Please refresh and try again.")
+
+    score = float(result.get("score", 0))
+    if score < RECAPTCHA_MIN_SCORE:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=422, detail="Your submission was flagged as suspicious. Please try again or contact us directly.")
+
+    return result
+
+
+async def check_recaptcha(request) -> dict:
+    """One-line helper to verify reCAPTCHA from a FastAPI Request.
+    Reads the token from X-Recaptcha-Token header.
+    Returns the verification result dict.
+    Gracefully skips if RECAPTCHA_SECRET_KEY is not set."""
+    from utils import get_client_ip
+    token = request.headers.get("x-recaptcha-token", "")
+    ip = get_client_ip(request)
+    return await verify_recaptcha(token, ip)

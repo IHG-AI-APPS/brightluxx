@@ -319,7 +319,7 @@ async def chat_message(data: ChatMessage):
 async def chat_lead_capture(data: LeadCapture, request: Request):
     from database import leads_col
     from email_templates import chat_lead_email
-    from anti_spam import validate_submission
+    from anti_spam import validate_submission, check_recaptcha
     from utils import get_client_ip
 
     ip = get_client_ip(request)
@@ -330,6 +330,8 @@ async def chat_lead_capture(data: LeadCapture, request: Request):
             return {"success": True, "message": "Thank you! Continue chatting with AURA."}
         from fastapi import HTTPException
         raise HTTPException(status_code=422, detail=error_msg)
+
+    await check_recaptcha(request)
 
     lead_dict = {
         "id": str(uuid.uuid4()),

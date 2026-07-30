@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getRecaptchaToken } from './utils/recaptcha';
 
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -11,6 +12,15 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+});
+
+// Automatically add reCAPTCHA token to POST requests
+api.interceptors.request.use(async (config) => {
+  if (config.method === 'post') {
+    const token = await getRecaptchaToken('submit');
+    if (token) config.headers['X-Recaptcha-Token'] = token;
+  }
+  return config;
 });
 
 // Products

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Download, FileText, Phone, MessageCircle, BookOpen, Briefcase, Ruler, PenTool, CheckCircle, Box, Layers } from 'lucide-react';
+import { getRecaptchaHeaders } from '../utils/recaptcha';
 import SEO from '../components/SEO';
 import { SpecPackCTA } from '../components/KnowledgeBase';
 
@@ -47,9 +48,10 @@ function LeadGatedDownload({ docType, docId, title, children }) {
     e.preventDefault();
     setLoading(true);
     try {
+      const rcHeaders = await getRecaptchaHeaders('download_request');
       const res = await fetch(`${API}/api/downloads/${docType}/${docId}/request`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...rcHeaders },
         body: JSON.stringify({ email, name, fax }),
       });
       const data = await res.json();

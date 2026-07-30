@@ -78,6 +78,18 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
+### Geo IP Enrichment + Country/Phone Filtering — Jul 30, 2026
+- **Geo IP enrichment**: Every lead auto-tagged with country, country_name, city, region, ISP via ip-api.com lookup
+- Results cached in-memory (1h TTL) to avoid repeated lookups for same IP
+- **Country allowlist**: GCC (AE, SA, QA, KW, BH, OM) + MENA (EG, JO, LB, IQ, MA, TN, LY, PS, SY, YE) + Business (IN, PK, GB, US, DE, FR, CN, TR, ZA, AU, SG, HK)
+- **OR logic**: Submissions pass if geo IP is in allowed countries OR phone has a valid target-market country code (handles VPN/travel)
+- Non-target countries blocked with message directing to email
+- **Phone validation**: E.164 format, valid country codes for 26 target markets, UAE local format (05x), 7-15 digit range
+- **Enhanced spam scoring**: Free email providers (gmail, yahoo, etc.) +5 penalty; non-allowed countries +20 penalty
+- All 13 lead endpoints upgraded to async `validate_submission_full` with geo data
+- Geo data stored as `{country, country_name, city, region, isp}` on every lead document
+- Testing: 98% pass (iteration_118.json) — 50/51 backend (1 was documented score-clamp bug, now fixed), 100% frontend
+
 ### Google reCAPTCHA v3 Integration — Jul 30, 2026
 - Integrated invisible Google reCAPTCHA v3 across ALL 13 lead endpoints site-wide
 - **Graceful degradation**: When `RECAPTCHA_SECRET_KEY` is not set, all forms work normally with existing anti-spam

@@ -36,8 +36,7 @@ VALID_PHONE_CODES = {
     "+218": "LY", "+963": "SY", "+967": "YE", "+970": "PS",
 }
 
-# Phone regex: must start with + and country code, then 6-14 digits
-PHONE_RE = re.compile(r'^\+?\d[\d\s\-()]{6,18}$')
+# Phone digit extraction
 DIGITS_ONLY_RE = re.compile(r'\D')
 
 # Disposable/temporary email domains (top 80 most common)
@@ -195,9 +194,7 @@ async def lookup_geo_ip(ip: str) -> dict:
                 "_ts": time.time(),
             }
             _geo_cache[ip] = result
-            # Prune old cache entries
             if len(_geo_cache) > 5000:
-                cutoff = time.time() - _GEO_CACHE_TTL
                 _geo_cache.clear()
             return result
     except Exception as e:
@@ -317,12 +314,10 @@ def compute_spam_score(data: dict, geo_data: dict = None) -> int:
     if len(message) < 10 and data.get("source") == "contact_form":
         score += 10
 
-    # Geo-based scoring
+    # Geo-based scoring (applied as bonus/penalty, not absolute)
     if geo_data:
         country = geo_data.get("country", "")
-        if country and country in GCC_COUNTRIES:
-            score -= 10  # Bonus for GCC
-        elif country and country not in ALLOWED_COUNTRIES:
+        if country and country not in ALLOWED_COUNTRIES:
             score += 20  # Penalty for non-target country
     
     return max(0, min(score, 100))

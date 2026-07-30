@@ -78,6 +78,17 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
+### Code Review Remediation — Jul 30, 2026
+Critical fixes applied from code quality analysis:
+- [CRITICAL] **XSS**: Added DOMPurify sanitization to all 3 dangerouslySetInnerHTML usages (BlogPost, AuraChat, AdminSiteSettings with iframe allowlist for Google Maps)
+- [CRITICAL] **Undefined vars**: Fixed 4 undefined `CATEGORY_PROMPTS` references in image_management.py (derived from UNIQUE_SCENES)
+- [CRITICAL] **Hardcoded secrets**: Removed from test_security.py and test_iteration115_review_fixes.py (now read from env)
+- [CRITICAL] **Weak hash**: Replaced MD5 with SHA-256 in image_management.py
+- [IMPORTANT] **Bare except**: Fixed 16 bare `except:` clauses → `except Exception:` across 5 route files
+- [IMPORTANT] **MongoDB _id leak**: serialize_doc now converts `_id` to `id` and removes `_id` from all API responses
+- [IMPORTANT] **Admin geo display**: Lead detail drawer shows geo (country/city/ISP) and color-coded spam score
+- Testing: 97% pass (iteration_119.json) — 28/29 new + 78/78 regression; 100% frontend
+
 ### Geo IP Enrichment + Country/Phone Filtering — Jul 30, 2026
 - **Geo IP enrichment**: Every lead auto-tagged with country, country_name, city, region, ISP via ip-api.com lookup
 - Results cached in-memory (1h TTL) to avoid repeated lookups for same IP

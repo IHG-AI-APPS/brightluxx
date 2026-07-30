@@ -8,7 +8,10 @@ import time
 def serialize_doc(doc):
     if doc is None:
         return None
-    doc["_id"] = str(doc["_id"])
+    if "_id" in doc:
+        if "id" not in doc:
+            doc["id"] = str(doc["_id"])
+        del doc["_id"]
     for key, value in doc.items():
         if isinstance(value, datetime):
             doc[key] = value.isoformat()

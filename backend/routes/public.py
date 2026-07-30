@@ -4,6 +4,7 @@ from typing import Optional, List
 from database import products_col, inspirations_col, projects_col, leads_col
 from models import Lead
 from utils import serialize_doc, lead_limiter, get_client_ip
+from utils.anti_spam import validate_submission
 from email_service import notify_new_lead
 import uuid
 
@@ -176,14 +177,23 @@ async def get_project(slug: str):
 @router.post("/api/leads")
 async def create_lead(lead: Lead, request: Request):
     client_ip = get_client_ip(request)
-    if not lead_limiter.check(client_ip):
-        raise HTTPException(status_code=429, detail="Too many submissions. Please wait a moment.")
     lead_dict = lead.dict()
+
+    # Anti-spam validation
+    is_valid, error_msg, spam_score = validate_submission(lead_dict, client_ip)
+    if not is_valid:
+        if error_msg == "__honeypot__":
+            # Silently accept (don't reveal to bots it was rejected)
+            return {"success": True, "message": "Thank you! We'll contact you within 2 hours.", "leadId": "ok"}
+        raise HTTPException(status_code=422, detail=error_msg)
+
     lead_dict["id"] = str(uuid.uuid4())
     lead_dict["status"] = "new"
     lead_dict["notes"] = ""
+    lead_dict["spam_score"] = spam_score
+    lead_dict["ip"] = client_ip
     result = await leads_col.insert_one(lead_dict)
-    print(f"New lead from {lead.name} ({lead.email}) - {lead.application}")
+    print(f"New lead from {lead.name} ({lead.email}) - {lead.application} [spam_score={spam_score}]")
 
     # Send email notification (fire-and-forget)
     try:

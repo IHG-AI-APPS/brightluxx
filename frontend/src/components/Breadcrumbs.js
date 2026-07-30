@@ -1,19 +1,49 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
 
-/**
- * Breadcrumbs Component
- * Renders semantic breadcrumb navigation with proper accessibility
- * 
- * @param {Array} items - Array of {name, path} objects
- * @param {string} className - Additional CSS classes
- */
-export default function Breadcrumbs({ items = [], className = '' }) {
-  if (!items || items.length === 0) return null;
+const ROUTE_NAMES = {
+  'products': 'Products', 'product-families': 'Product Families',
+  'solutions': 'Solutions', 'contact': 'Contact', 'about': 'About',
+  'lumimorph': 'LumiMorph', 'elite': 'Elite', 'grande': 'Grande', 'mini': 'Mini',
+  'naturatex': 'NaturaTex', 'holoveil': 'HoloVeil',
+  'signatouch': 'SignaTouch', 'touch-kiosk': 'Touch Kiosk',
+  'smart-signage': 'Smart Signage', 'self-service': 'Self Service',
+  'glassmorph': 'GlassMorph', 'smart-film': 'Smart Film',
+  'led-film': 'LED Film', 'media-glass': 'Media Glass', 'flying-display': 'Flying Display',
+  'pixelvue': 'PixelVue', 'art-immersive': 'Art & Immersive',
+  'luxury-home-cinema': 'Luxury Home Cinema', 'knowledge': 'Knowledge Hub',
+  'blog': 'Blog', 'case-studies': 'Case Studies', 'projects': 'Projects',
+  'faq': 'FAQ', 'indoor-led': 'Indoor LED', 'outdoor-led': 'Outdoor LED',
+  'for-architects': 'For Architects', 'design-assist': 'Design Assist',
+  'budget-estimator': 'Budget Estimator', 'factory-tour': 'Factory Tour',
+  'led-screen-suppliers-dubai': 'LED Screens Dubai', 'abu-dhabi': 'Abu Dhabi',
+  'saudi-arabia': 'Saudi Arabia', 'qatar': 'Qatar', 'kuwait': 'Kuwait',
+  'inspirations': 'Inspirations', 'applications': 'Applications',
+  'digital-experience-architecture': 'Digital Experience',
+};
 
-  // Always include Home as first item if not present
-  const breadcrumbs = items[0]?.path === '/' ? items : [{ name: 'Home', path: '/' }, ...items];
+/**
+ * Breadcrumbs Component — auto-generates from URL when no items provided.
+ */
+export default function Breadcrumbs({ items, className = '' }) {
+  const location = useLocation();
+  
+  // Auto-generate from URL if no items passed
+  let breadcrumbs;
+  if (items && items.length > 0) {
+    breadcrumbs = items[0]?.path === '/' ? items : [{ name: 'Home', path: '/' }, ...items];
+  } else {
+    const parts = location.pathname.split('/').filter(Boolean);
+    if (parts.length === 0) return null;
+    breadcrumbs = [{ name: 'Home', path: '/' }];
+    let acc = '';
+    parts.forEach((part, i) => {
+      acc += '/' + part;
+      const name = ROUTE_NAMES[part] || part.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      breadcrumbs.push({ name, path: i < parts.length - 1 ? acc : null });
+    });
+  }
 
   return (
     <nav 

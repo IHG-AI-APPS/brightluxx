@@ -69,6 +69,9 @@ class Lead(BaseModel):
     message: Optional[str] = None
     source: str = "contact_form"
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    # Honeypot fields — hidden from users, filled by bots
+    website: Optional[str] = None
+    fax: Optional[str] = None
 
 
 class AdminLogin(BaseModel):

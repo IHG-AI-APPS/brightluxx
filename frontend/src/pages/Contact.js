@@ -62,10 +62,12 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: '', company: '', email: '', phone: '',
     city: '', application: '', timeline: '', budget: '', message: '',
+    website: '', fax: '',
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const formStartTime = React.useRef(Date.now());
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -73,13 +75,21 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    
+    // Client-side spam check: if filled too fast (<3 sec), likely a bot
+    if (Date.now() - formStartTime.current < 3000) {
+      setSubmitted(true); // Fake success for bots
+      setLoading(false);
+      return;
+    }
+    
     try {
       await createLead({ ...formData, source: 'contact_form' });
       setSubmitted(true);
-      setFormData({ name: '', company: '', email: '', phone: '', city: '', application: '', timeline: '', budget: '', message: '' });
+      setFormData({ name: '', company: '', email: '', phone: '', city: '', application: '', timeline: '', budget: '', message: '', website: '', fax: '' });
     } catch (err) {
-      console.error('Error submitting lead:', err);
-      setError('Failed to submit. Please try again or contact us directly.');
+      const detail = err?.response?.data?.detail;
+      setError(detail || 'Failed to submit. Please try again or contact us directly.');
     } finally {
       setLoading(false);
     }
@@ -406,6 +416,12 @@ const Contact = () => {
                           placeholder="Tell us about your project..."
                           data-testid="input-message"
                         ></textarea>
+                      </div>
+
+                      {/* Honeypot fields — invisible to users, bots fill them */}
+                      <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true" tabIndex={-1}>
+                        <input type="text" name="website" value={formData.website} onChange={handleChange} autoComplete="off" tabIndex={-1} />
+                        <input type="text" name="fax" value={formData.fax} onChange={handleChange} autoComplete="off" tabIndex={-1} />
                       </div>
 
                       <button

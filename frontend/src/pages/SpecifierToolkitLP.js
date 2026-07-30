@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import HoneypotFields from '../components/HoneypotFields';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Download, Calculator, Ruler, FileText, Box, Layers, BookOpen, Shield } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -16,7 +17,7 @@ const TOOLKIT_ITEMS = [
 ];
 
 export default function SpecifierToolkitLP() {
-  const [form, setForm] = useState({ name: '', email: '', company: '', role: '', project_type: '' });
+  const [form, setForm] = useState({ name: '', email: '', company: '', role: '', project_type: '', fax: '' });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
@@ -157,6 +158,7 @@ export default function SpecifierToolkitLP() {
                     </select>
                   </div>
                   {error && <p className="text-red-400 text-xs" data-testid="toolkit-form-error">{error}</p>}
+                  <HoneypotFields value={form.fax} onChange={e => setForm(p => ({...p, fax: e.target.value}))} />
                   <button type="submit" disabled={submitting} className={`btn-gold w-full px-6 py-3.5 text-xs font-bold tracking-[0.15em] ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`} data-testid="toolkit-submit-button">
                     {submitting ? 'Processing...' : 'Get Toolkit Access'}
                   </button>

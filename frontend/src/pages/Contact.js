@@ -67,7 +67,6 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
-  const formStartTime = React.useRef(Date.now());
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -75,13 +74,6 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
-    // Client-side spam check: if filled too fast (<3 sec), likely a bot
-    if (Date.now() - formStartTime.current < 3000) {
-      setSubmitted(true); // Fake success for bots
-      setLoading(false);
-      return;
-    }
     
     try {
       await createLead({ ...formData, source: 'contact_form' });

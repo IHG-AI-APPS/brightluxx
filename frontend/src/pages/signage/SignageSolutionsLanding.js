@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import HoneypotFields from '../../components/HoneypotFields';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SEO from '../../components/SEO';
@@ -33,7 +34,8 @@ const SignageSolutionsLanding = () => {
     installation_address: '',
     timeline: '',
     budget_range: '',
-    project_brief: ''
+    project_brief: '',
+    fax: ''
   });
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -758,6 +760,7 @@ const SignageSolutionsLanding = () => {
                 </div>
               )}
 
+              <HoneypotFields value={formData.fax} onChange={handleFormChange} />
               <button
                 type="submit"
                 disabled={formSubmitting}

@@ -112,17 +112,23 @@ def validate_content_quality(name: str, message: str = "", company: str = "") ->
 
 def check_rate_limit(ip: str) -> bool:
     """Check if IP has exceeded the submission rate limit.
-    Returns True if allowed, False if rate limited."""
+    Returns True if allowed, False if rate limited.
+    Does NOT record the attempt — call record_submission() after acceptance."""
     now = time.time()
     
     # Clean old entries
     _rate_store[ip] = [t for t in _rate_store[ip] if now - t < RATE_WINDOW]
     
-    if len(_rate_store[ip]) >= RATE_LIMIT:
-        return False
-    
-    _rate_store[ip].append(now)
-    return True
+    return len(_rate_store[ip]) < RATE_LIMIT
+
+
+def record_submission(ip: str):
+    """Record a successful submission for rate limiting."""
+    _rate_store[ip].append(time.time())
+    # Prune IPs with no recent activity to prevent unbounded memory growth
+    stale = [k for k, v in _rate_store.items() if not v]
+    for k in stale:
+        del _rate_store[k]
 
 
 def compute_spam_score(data: dict) -> int:
@@ -180,15 +186,15 @@ def compute_spam_score(data: dict) -> int:
 
 def validate_submission(data: dict, ip: str) -> tuple:
     """Full validation pipeline for form submissions.
-    Returns (is_valid, error_message, spam_score)."""
+    Returns (is_valid, error_message, spam_score).
+    Only records rate-limit slot on accepted submissions."""
     
-    # Rate limit
+    # Rate limit check (does not consume a slot)
     if not check_rate_limit(ip):
         return False, "Too many submissions. Please try again later.", 100
     
     # Honeypot
     if validate_honeypot(data):
-        # Don't tell bots why it failed — return success silently
         return False, "__honeypot__", 100
     
     # Email validation
@@ -210,4 +216,6 @@ def validate_submission(data: dict, ip: str) -> tuple:
     if spam_score >= 70:
         return False, "Your submission was flagged for review. If this is a genuine inquiry, please email us directly.", spam_score
     
+    # Accepted — record for rate limiting
+    record_submission(ip)
     return True, "", spam_score

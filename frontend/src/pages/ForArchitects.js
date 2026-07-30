@@ -39,6 +39,7 @@ function LeadGatedDownload({ docType, docId, title, children }) {
   const [showForm, setShowForm] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [fax, setFax] = useState('');
   const [loading, setLoading] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
 
@@ -49,7 +50,7 @@ function LeadGatedDownload({ docType, docId, title, children }) {
       const res = await fetch(`${API}/api/downloads/${docType}/${docId}/request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({ email, name, fax }),
       });
       const data = await res.json();
       if (data.download_url) {
@@ -76,6 +77,9 @@ function LeadGatedDownload({ docType, docId, title, children }) {
           className="w-20 px-2 py-1.5 rounded text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none" />
         <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required
           className="w-32 px-2 py-1.5 rounded text-[0.625rem] bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] focus:border-[var(--blx-gold-3)] outline-none" />
+        <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true" tabIndex={-1}>
+          <input type="text" name="fax" value={fax} onChange={e => setFax(e.target.value)} autoComplete="off" tabIndex={-1} />
+        </div>
         <button type="submit" disabled={loading} className="px-3 py-1.5 rounded text-[0.5rem] font-bold tracking-wider" style={{ background: 'var(--blx-gold-grad)', color: '#0B0B0B' }} data-testid={`download-submit-${docId}`}>
           {loading ? '...' : 'GET'}
         </button>

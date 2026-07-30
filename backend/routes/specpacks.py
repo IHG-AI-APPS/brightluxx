@@ -54,7 +54,7 @@ async def download_specpack(pack_id: str, data: SpecPackRequest, request: Reques
     is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
     if not is_valid:
         if error_msg == "__honeypot__":
-            return {"success": True, "download_url": f"/api/specpacks/{pack_id}/file"}
+            return {"download_url": f"/api/specpacks/{pack_id}/file"}
         raise HTTPException(status_code=422, detail=error_msg)
 
     # Capture the lead

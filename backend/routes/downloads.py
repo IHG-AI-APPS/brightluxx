@@ -58,7 +58,7 @@ async def request_download(doc_type: str, doc_id: str, data: DownloadRequest, re
     is_valid, error_msg, spam_score = validate_submission(validation_data, ip)
     if not is_valid:
         if error_msg == "__honeypot__":
-            return {"success": True, "download_url": f"/api/downloads/{doc_type}/{doc_id}/file"}
+            return {"download_url": f"/api/downloads/{doc_type}/{doc_id}/file"}
         raise HTTPException(status_code=422, detail=error_msg)
 
     lead_data = {

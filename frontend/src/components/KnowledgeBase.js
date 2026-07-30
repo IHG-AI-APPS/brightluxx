@@ -122,6 +122,7 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [role, setRole] = useState('');
+  const [fax, setFax] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const API = process.env.REACT_APP_BACKEND_URL || '';
@@ -133,7 +134,7 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
       const res = await fetch(`${API}/api/specpacks/${packId}/download`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, company, role, pack_id: packId }),
+        body: JSON.stringify({ email, name, company, role, pack_id: packId, fax }),
       });
       const data = await res.json();
       if (data.download_url) {
@@ -205,6 +206,9 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
             <option value="end-user" style={{ background: '#1a1a1a' }}>End User / Client</option>
             <option value="other" style={{ background: '#1a1a1a' }}>Other</option>
           </select>
+          <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true" tabIndex={-1}>
+            <input type="text" name="fax" value={fax} onChange={e => setFax(e.target.value)} autoComplete="off" tabIndex={-1} />
+          </div>
           <button
             type="submit"
             disabled={loading}

@@ -400,6 +400,7 @@ function DownloadCard({ item }) {
   const [showForm, setShowForm] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [fax, setFax] = useState('');
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
@@ -422,21 +423,21 @@ function DownloadCard({ item }) {
       if (item.pack_id) {
         const res = await fetch(`${API}/api/specpacks/${item.pack_id}/download`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download', pack_id: item.pack_id }),
+          body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download', pack_id: item.pack_id, fax }),
         });
         const d = await res.json();
         url = d.download_url;
       } else if (item.doc_id) {
         const res = await fetch(`${API}/api/downloads/cheatsheet/${item.doc_id}/request`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download' }),
+          body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download', fax }),
         });
         const d = await res.json();
         url = d.download_url;
       } else if (item.bim_id) {
         const res = await fetch(`${API}/api/downloads/bim/${item.bim_id}/request`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download' }),
+          body: JSON.stringify({ email: email || 'download@brightluxx.com', name: name || 'Resource Download', fax }),
         });
         const d = await res.json();
         url = d.download_url;

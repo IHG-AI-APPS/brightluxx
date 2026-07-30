@@ -78,6 +78,27 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
+### Comprehensive Anti-Spam Protection — Jul 30, 2026
+- Built centralized anti-spam module (`/app/backend/anti_spam.py`) with 5 protection layers:
+  1. **Honeypot fields**: Hidden `fax`/`website` fields invisible to users, auto-filled by bots → silent fake-success rejection
+  2. **Disposable email blocking**: 80+ known temp-mail domains (mailinator, guerrillamail, yopmail, etc.)
+  3. **Content quality checks**: Gibberish names, spam patterns (viagra, crypto, SEO services), excess URLs
+  4. **Spam scoring** (0-100): Composite score considering all signals; ≥70 = blocked with review message
+  5. **Per-IP rate limiting**: 10 accepted submissions/hour/IP; rejected submissions do NOT consume quota
+- Protected ALL 13 lead-generating endpoints: Contact, Quick Inquiry, Signage Inquiry, Franchise Request, Supplier Registration, Technical Support, CPD Request, Design Assist, Spec Packs, Cheat Sheets/BIM Downloads, Chat Lead, Site Visit, Spec Substitution
+- Added honeypot fields to ALL frontend forms: Contact, QuickInquiry, ExitIntentPopup, CpdProgramme, DesignAssist, DistributionPage, SupplierRegistrationPage, TechnicalSupportPage, SpecSubstitution, SignageSolutionsLanding, TechnologySelector, SpecifierToolkitLP, ForArchitects, KnowledgeBase, AuraChat, ResourceLibrary
+- Created reusable `HoneypotFields.js` component for consistent implementation
+- Fixed Contact.js bug: removed client-side 3s timer that silently discarded genuine leads (server-side validation handles all spam)
+- Fixed response consistency: honeypot rejection returns identical payload to success (bots can't distinguish)
+- Fixed `utils/` module collision that prevented backend startup
+- All leads now stored with `spam_score` and `ip` fields for admin review
+- Testing: 100% pass (iteration_116.json) — 27/27 backend pytest
+
+### SEO Best-Practice Pass — Jul 30, 2026
+- Added semantic `<main>` tag wrapping all page content in PublicLayout
+- Removed duplicated global breadcrumbs from PublicLayout (37+ pages already have their own)
+- Breadcrumbs component with BreadcrumbList schema.org markup preserved on all page-specific implementations
+
 ### Comprehensive SEO/AI-Search Audit Fix — Jul 26, 2026
 Based on professional audit report identifying 10 critical/high/medium issues:
 - [CRITICAL] Rich `<noscript>` content in index.html: 7 heading tags, 25 internal links, product family navigation — replaces empty "enable JavaScript" message

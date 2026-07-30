@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import HoneypotFields from '../components/HoneypotFields';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, CheckCircle2, Lock, Cpu, Eye, Building2, ShoppingBag, Briefcase, Stethoscope, Plane, Sparkles, Sun, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -205,7 +206,7 @@ export default function TechnologySelector() {
   const [answers, setAnswers] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [leadGated, setLeadGated] = useState(true);
-  const [form, setForm] = useState({ name: '', email: '', company: '', role: '' });
+  const [form, setForm] = useState({ name: '', email: '', company: '', role: '', fax: '' });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -392,6 +393,7 @@ export default function TechnologySelector() {
                           </select>
                         </div>
                         {error && <p className="text-red-400 text-xs" data-testid="quiz-form-error">{error}</p>}
+                        <HoneypotFields value={form.fax} onChange={e => setForm(p => ({...p, fax: e.target.value}))} />
                         <button 
                           type="submit" 
                           disabled={submitting} 

@@ -269,6 +269,9 @@ export default function AuraChat() {
                   <input type="email" placeholder="Work email *" value={leadForm.email} onChange={e => setLeadForm(p => ({...p, email: e.target.value}))} className="w-full text-xs py-2" data-testid="aura-lead-email" />
                   <input type="text" placeholder="Company *" value={leadForm.company} onChange={e => setLeadForm(p => ({...p, company: e.target.value}))} className="w-full text-xs py-2" data-testid="aura-lead-company" />
                   {leadError && <p className="text-red-400 text-[0.625rem]">{leadError}</p>}
+                  <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true" tabIndex={-1}>
+                    <input type="text" name="fax" value={leadForm.fax} onChange={e => setLeadForm(p => ({...p, fax: e.target.value}))} autoComplete="off" tabIndex={-1} />
+                  </div>
                   <div className="flex gap-2">
                     <button type="submit" className="btn-gold flex-1 px-3 py-2 text-[0.625rem] font-bold tracking-[0.12em]" data-testid="aura-lead-submit">Save & Continue</button>
                     <button type="button" onClick={() => setShowLeadForm(false)} className="btn-glass px-3 py-2 text-[0.625rem] font-bold tracking-[0.12em]" data-testid="aura-lead-skip">Skip</button>

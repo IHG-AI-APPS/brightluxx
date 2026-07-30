@@ -328,7 +328,6 @@ async def chat_lead_capture(data: LeadCapture, request: Request):
     if not is_valid:
         if error_msg == "__honeypot__":
             return {"success": True, "message": "Thank you! Continue chatting with AURA."}
-        from fastapi import HTTPException
         raise HTTPException(status_code=422, detail=error_msg)
 
     await check_recaptcha(request)

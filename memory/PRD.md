@@ -78,6 +78,20 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
+### Google reCAPTCHA v3 Integration — Jul 30, 2026
+- Integrated invisible Google reCAPTCHA v3 across ALL 13 lead endpoints site-wide
+- **Graceful degradation**: When `RECAPTCHA_SECRET_KEY` is not set, all forms work normally with existing anti-spam
+- Backend: `verify_recaptcha()` and `check_recaptcha(request)` in `/app/backend/anti_spam.py`
+- Token sent as `X-Recaptcha-Token` HTTP header (not in body — zero model changes needed)
+- Frontend: `utils/recaptcha.js` with `loadRecaptchaScript()`, `getRecaptchaToken()`, `getRecaptchaHeaders()`
+- Script loaded once in `App.js` useEffect; axios interceptor adds token to all POST requests via `api.js`
+- All 16+ fetch-based forms updated to include `getRecaptchaHeaders()` in their fetch calls
+- Token wait/poll for async script load (up to 5s) prevents race condition on first submit
+- Logging: warnings for verification failures, info for low scores
+- **To activate**: Add `RECAPTCHA_SECRET_KEY=your_secret` to `backend/.env` and `REACT_APP_RECAPTCHA_SITE_KEY=your_site_key` to `frontend/.env`, then restart both services
+- Keys obtained from: https://www.google.com/recaptcha/admin (create v3 site)
+- Testing: 100% pass (iteration_117.json) — 26/26 backend, 100% frontend
+
 ### Comprehensive Anti-Spam Protection — Jul 30, 2026
 - Built centralized anti-spam module (`/app/backend/anti_spam.py`) with 5 protection layers:
   1. **Honeypot fields**: Hidden `fax`/`website` fields invisible to users, auto-filled by bots → silent fake-success rejection

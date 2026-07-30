@@ -6,9 +6,13 @@ content quality checks, rate limiting, and reCAPTCHA v3 verification.
 import os
 import re
 import time
+import logging
 from collections import defaultdict
 
 import httpx
+from fastapi import HTTPException
+
+logger = logging.getLogger("anti_spam")
 
 # reCAPTCHA v3 configuration (optional — graceful degradation if not set)
 RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY", "")
@@ -237,7 +241,6 @@ async def verify_recaptcha(token: str, ip: str = None) -> dict:
         return {"success": True, "score": 1.0, "skipped": True}
 
     if not token:
-        from fastapi import HTTPException
         raise HTTPException(status_code=422, detail="Security verification required. Please try again.")
 
     data = {"secret": RECAPTCHA_SECRET_KEY, "response": token}
@@ -249,17 +252,17 @@ async def verify_recaptcha(token: str, ip: str = None) -> dict:
             resp = await client.post("https://www.google.com/recaptcha/api/siteverify", data=data)
         resp.raise_for_status()
         result = resp.json()
-    except Exception:
-        # If Google's API is down, don't block legitimate users
+    except Exception as e:
+        logger.warning("reCAPTCHA verification unavailable: %s", e)
         return {"success": True, "score": 0.5, "error": "verification_unavailable"}
 
     if not result.get("success"):
-        from fastapi import HTTPException
+        logger.warning("reCAPTCHA verification failed: %s", result.get("error-codes"))
         raise HTTPException(status_code=422, detail="Security verification failed. Please refresh and try again.")
 
     score = float(result.get("score", 0))
     if score < RECAPTCHA_MIN_SCORE:
-        from fastapi import HTTPException
+        logger.info("reCAPTCHA low score %.2f for IP %s", score, ip)
         raise HTTPException(status_code=422, detail="Your submission was flagged as suspicious. Please try again or contact us directly.")
 
     return result

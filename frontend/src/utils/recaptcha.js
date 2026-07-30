@@ -21,7 +21,12 @@ export function loadRecaptchaScript() {
 }
 
 export async function getRecaptchaToken(action = 'submit') {
-  if (!SITE_KEY || !window.grecaptcha) return '';
+  if (!SITE_KEY) return '';
+  // Wait for script to load (up to 5s)
+  for (let i = 0; i < 50 && !window.grecaptcha; i++) {
+    await new Promise(r => setTimeout(r, 100));
+  }
+  if (!window.grecaptcha) return '';
   try {
     return await new Promise((resolve) => {
       window.grecaptcha.ready(() => {

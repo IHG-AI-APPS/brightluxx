@@ -9,6 +9,7 @@ title/description in the initial HTML response.
 """
 from fastapi import APIRouter, Query
 from database import db
+import json
 import re
 
 router = APIRouter()
@@ -178,8 +179,27 @@ async def get_ssr_meta(path: str = Query(...)):
 
     # CRITICAL: canonical must ALWAYS be self-referencing unless explicitly overridden
     # Never fall back to homepage
-    if not result["canonical"] or result["canonical"] == f"{PRODUCTION_URL}/" and path != "/":
+    if not result["canonical"] or (result["canonical"] == f"{PRODUCTION_URL}/" and path != "/"):
         result["canonical"] = f"{PRODUCTION_URL}{path}"
+
+    # For product pages, add FAQ schema if product has FAQ
+    if path.startswith("/products/"):
+        slug = path.split("/products/")[1].rstrip("/")
+        product = await db["products"].find_one({"slug": slug})
+        if product and product.get("faq"):
+            faq_schema = {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": item["q"],
+                        "acceptedAnswer": {"@type": "Answer", "text": item["a"]}
+                    }
+                    for item in product["faq"]
+                ]
+            }
+            result["faq_schema"] = json.dumps(faq_schema)
 
     # Cache result (cap at 500 entries)
     if len(_meta_cache) > 500:

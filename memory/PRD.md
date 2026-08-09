@@ -78,6 +78,21 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
+### SEO DB Expansion + Product Enrichment — Aug 9, 2026
+- **SEO coverage expanded: 55 → 205 pages** (150 new entries generated with GPT-4.1-mini, 0 errors)
+  - All page types covered: product families, technologies, solutions, tools, location pages, product detail pages
+  - Each entry has: meta_title (50-60 chars), meta_description (150-160 chars), 6-8 keywords, OG data, image_alt
+- **94 products enriched** with AI-generated content:
+  - **FAQ**: 6-8 product-specific Q&As per product (buyer/specifier questions about specs, installation, warranty, comparisons, use cases)
+  - **Applications**: 4-6 use cases per product with title, description, and icon
+  - **Expanded descriptions**: Short descriptions (<150 chars) expanded to 200-300 chars
+- **FAQ + Applications sections** added to product detail pages (frontend)
+  - Expandable FAQ accordion with smooth animations
+  - Application grid with icons and descriptions
+  - FAQ schema markup (JSON-LD `FAQPage`) injected server-side for Google rich snippets
+- **Total content generated**: 244/244 (150 SEO + 94 products), 0 errors
+- Background generation endpoint: `POST /api/admin/content/generate-all` with progress tracking
+
 ### Server-Side Meta Injection (Search Console Audit Fix) — Jul 30, 2026
 **Root cause fixed**: CRA SPA served same generic `<title>`, empty `<meta description>`, and homepage `<link canonical>` for ALL 182 pages. Crawlers saw the pre-JavaScript HTML which was identical for every route.
 - Built `/api/ssr/meta?path=...` endpoint: returns page-specific title, description, canonical, H1, OG tags, keywords for any path

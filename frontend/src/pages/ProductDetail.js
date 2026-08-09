@@ -1,14 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Check, Send, MessageCircle, Download, Grid3X3, Sun, Monitor, RefreshCw, Zap, Eye, Shield, Layers } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Send, MessageCircle, Download, Grid3X3, Sun, Monitor, RefreshCw, Zap, Eye, Shield, Layers, ChevronDown, ShoppingBag, Building2, Theater, TrafficCone, Globe, Box, Cuboid, GraduationCap, Tv, Sparkles } from 'lucide-react';
 import { getProduct, getProducts, createLead } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { trackProductView, trackQuoteRequest } from '../lib/tracker';
 import QuickInquiry from '../components/QuickInquiry';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+
+function FAQItem({ q, a, isDark, text1, text2, card }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={`rounded-xl border ${card} overflow-hidden`}>
+      <button
+        onClick={() => setOpen(!open)}
+        className={`w-full flex items-center justify-between p-4 text-left ${isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-neutral-50'} transition-colors`}
+        data-testid={`faq-toggle-${q.substring(0, 20).replace(/\s/g, '-')}`}
+      >
+        <span className={`text-sm font-semibold ${text1} pr-4`}>{q}</span>
+        <ChevronDown size={16} className={`flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''} ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`} />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className={`px-4 pb-4 text-sm ${text2} leading-relaxed`}>{a}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 const CATEGORY_LABELS = {
   'cob-microled': 'COB MicroLED', 'mip': 'MiP', 'transparent': 'Transparent',
@@ -354,6 +382,50 @@ export default function ProductDetail() {
           </div>
         </div>
       </section>
+
+      {/* ===== APPLICATIONS ===== */}
+      {product.applications && product.applications.length > 0 && (
+        <section className={`py-16 ${isDark ? 'bg-white/[0.02]' : 'bg-neutral-50'}`}>
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-2">Ideal Applications</p>
+            <h2 className={`text-2xl font-bold ${text1} mb-8`}>Where {product.name} Excels</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {product.applications.map((app) => {
+                const ICONS = { ShoppingBag, Building2, Theater, TrafficCone, Globe, Grid3X3, Box, Cuboid, GraduationCap, Tv, Monitor, Sparkles, Eye, Zap, Shield, Layers };
+                const Icon = ICONS[app.icon] || Monitor;
+                return (
+                  <div key={app.title} className={`p-5 rounded-xl border ${card}`} data-testid={`app-${app.title}`}>
+                    <div className="flex items-start gap-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${isDark ? 'bg-cyan-500/10' : 'bg-cyan-50'}`}>
+                        <Icon size={18} className="text-cyan-500" />
+                      </div>
+                      <div>
+                        <h3 className={`text-sm font-bold ${text1} mb-1`}>{app.title}</h3>
+                        <p className={`text-xs ${text2} leading-relaxed`}>{app.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ===== FAQ ===== */}
+      {product.faq && product.faq.length > 0 && (
+        <section className={`py-16 ${isDark ? '' : 'bg-white'}`}>
+          <div className="max-w-[900px] mx-auto px-6 md:px-12">
+            <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-2">Frequently Asked Questions</p>
+            <h2 className={`text-2xl font-bold ${text1} mb-8`}>{product.name} FAQ</h2>
+            <div className="space-y-3" data-testid="product-faq-section">
+              {product.faq.map((item) => (
+                <FAQItem key={item.q} q={item.q} a={item.a} isDark={isDark} text1={text1} text2={text2} card={card} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ===== RELATED PRODUCTS ===== */}
       {related.length > 0 && (

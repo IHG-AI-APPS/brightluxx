@@ -150,6 +150,10 @@ function injectSSRMeta(html, meta) {
   }
   // Replace noscript H1 (whitespace-tolerant regex)
   html = html.replace(/<noscript>\s*<div>\s*<h1>[^]*?<\/h1>/, `<noscript><div><h1>${esc(meta.h1)}</h1>`);
+  // Inject FAQ schema if present
+  if (meta.faq_schema) {
+    html = html.replace('</head>', `<script type="application/ld+json">${meta.faq_schema}</script>\n</head>`);
+  }
   return html;
 }
 

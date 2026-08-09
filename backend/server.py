@@ -44,6 +44,7 @@ from routes.seo_manager import router as seo_manager_router
 from routes.prerender import router as prerender_router
 from routes.internal_links import router as internal_links_router
 from routes.redirects import router as redirects_router
+from routes.ssr_meta import router as ssr_meta_router
 
 app = FastAPI()
 
@@ -164,6 +165,7 @@ app.include_router(seo_manager_router)
 app.include_router(prerender_router)
 app.include_router(internal_links_router)
 app.include_router(redirects_router)
+app.include_router(ssr_meta_router)
 
 
 @app.on_event("startup")

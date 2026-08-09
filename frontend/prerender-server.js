@@ -505,7 +505,119 @@ function startProxy() {
       }
     }
 
-    // ── Default: transparent proxy to CRA ──
+    // ── Default: transparent proxy to CRA with SSR meta injection ──
+    // For HTML page routes (not assets/api), inject page-specific meta tags
+    const needsMetaInjection = !isAsset && !isApi;
+
+    if (needsMetaInjection) {
+      // Fetch SSR meta + CRA page in parallel
+      try {
+        const [craRes, ssrMeta] = await Promise.all([
+          fetchRaw(`http://localhost:${CRA_PORT}${req.url}`),
+          fetchJSON(`${BACKEND}/api/ssr/meta?path=${encodeURIComponent(routePath)}`).catch(() => null),
+        ]);
+
+        if (craRes.status === 200 && ssrMeta) {
+          let html = craRes.body;
+
+          // Replace <title>
+          html = html.replace(
+            /<title>[^<]*<\/title>/,
+            `<title>${esc(ssrMeta.title)}</title>`
+          );
+
+          // Replace meta description
+          html = html.replace(
+            /<meta name="description" content="[^"]*"/,
+            `<meta name="description" content="${esc(ssrMeta.description)}"`
+          );
+
+          // Replace or insert canonical
+          if (html.includes('<link rel="canonical"')) {
+            html = html.replace(
+              /<link rel="canonical" href="[^"]*"/,
+              `<link rel="canonical" href="${esc(ssrMeta.canonical)}"`
+            );
+          } else {
+            html = html.replace(
+              '</head>',
+              `<link rel="canonical" href="${esc(ssrMeta.canonical)}">\n</head>`
+            );
+          }
+
+          // Replace OG tags
+          html = html.replace(
+            /<meta property="og:title" content="[^"]*"/,
+            `<meta property="og:title" content="${esc(ssrMeta.og_title)}"`
+          );
+          html = html.replace(
+            /<meta property="og:description" content="[^"]*"/,
+            `<meta property="og:description" content="${esc(ssrMeta.og_description)}"`
+          );
+          if (ssrMeta.og_image) {
+            html = html.replace(
+              /<meta property="og:image" content="[^"]*"/,
+              `<meta property="og:image" content="${esc(ssrMeta.og_image)}"`
+            );
+          }
+          html = html.replace(
+            /<meta property="og:url" content="[^"]*"/,
+            `<meta property="og:url" content="${esc(ssrMeta.canonical)}"`
+          );
+
+          // Replace Twitter tags
+          html = html.replace(
+            /<meta name="twitter:title" content="[^"]*"/,
+            `<meta name="twitter:title" content="${esc(ssrMeta.og_title)}"`
+          );
+          html = html.replace(
+            /<meta name="twitter:description" content="[^"]*"/,
+            `<meta name="twitter:description" content="${esc(ssrMeta.og_description)}"`
+          );
+
+          // Replace keywords if present
+          if (ssrMeta.keywords) {
+            if (html.includes('<meta name="keywords"')) {
+              html = html.replace(
+                /<meta name="keywords" content="[^"]*"/,
+                `<meta name="keywords" content="${esc(ssrMeta.keywords)}"`
+              );
+            } else {
+              html = html.replace(
+                '</head>',
+                `<meta name="keywords" content="${esc(ssrMeta.keywords)}">\n</head>`
+              );
+            }
+          }
+
+          // Replace noscript H1
+          html = html.replace(
+            /<noscript><div><h1>[^<]*<\/h1>/,
+            `<noscript><div><h1>${esc(ssrMeta.h1)}</h1>`
+          );
+
+          res.writeHead(200, {
+            "Content-Type": "text/html; charset=utf-8",
+            "Content-Length": Buffer.byteLength(html),
+            "X-SSR-Meta": "injected",
+          });
+          res.end(html);
+          return;
+        }
+
+        // If meta fetch failed but CRA succeeded, serve CRA as-is
+        if (craRes.status === 200) {
+          res.writeHead(craRes.status, craRes.headers);
+          res.end(craRes.body);
+          return;
+        }
+      } catch (err) {
+        console.error("SSR meta injection error:", err.message);
+        // Fall through to raw proxy on error
+      }
+    }
+
+    // ── Fallback: raw proxy to CRA (assets, API, or when meta injection fails) ──
     const proxyReq = http.request(
       {
         hostname: "localhost",

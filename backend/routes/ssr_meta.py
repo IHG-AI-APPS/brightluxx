@@ -1,0 +1,188 @@
+"""
+Server-Side Meta Injection endpoint.
+Returns page-specific title, description, canonical, H1, and OG data
+for any given URL path. Used by the frontend server to inject correct
+metadata into <head> before sending HTML to browsers/crawlers.
+
+This fixes the core SPA SEO issue: every page getting the same generic
+title/description in the initial HTML response.
+"""
+from fastapi import APIRouter, Query
+from database import db
+import re
+
+router = APIRouter()
+
+PRODUCTION_URL = "https://brightluxx.com"
+SITE_NAME = "Brightluxx"
+DEFAULT_DESC = "Premium LED display solutions for architects, contractors, and specifiers in Dubai, UAE & GCC. MicroLED, outdoor, transparent, and creative LED displays."
+DEFAULT_OG_IMAGE = "https://files.ihgbrands.com/uploads_hero_banner.webp"
+
+# In-memory cache (reset on server restart)
+_meta_cache = {}
+
+# Human-friendly path-to-title mapping for pages without DB entries
+PATH_TITLES = {
+    "/": "Premium LED Display Solutions in Dubai, UAE",
+    "/products": "LED Display Products — Indoor, Outdoor, Creative & Transparent",
+    "/solutions": "LED Display Solutions by Industry",
+    "/technology": "LED Display Technology — COB, MiP, MicroLED & More",
+    "/contact": "Contact Us — LED Display Enquiries Dubai, UAE",
+    "/about": "About Brightluxx — LED Display Manufacturer Since 2005",
+    "/blog": "Blog — LED Display Industry Insights & News",
+    "/faq": "Frequently Asked Questions — LED Displays",
+    "/case-studies": "Case Studies — LED Display Projects Across UAE",
+    "/projects": "Project Portfolio — LED Display Installations",
+    "/resources": "Resources — Spec Packs, Cheat Sheets & BIM References",
+    "/knowledge": "Knowledge Hub — LED Display Technical Guides",
+    "/calculator": "LED Screen Size Calculator",
+    "/budget-estimator": "LED Display Budget Estimator",
+    "/viewing-distance": "Viewing Distance & Pixel Pitch Calculator",
+    "/power-estimator": "LED Display Power Consumption Estimator",
+    "/project-planner": "LED Project Planner — Timeline & Specifications",
+    "/technology-selector": "LED Technology Selector Quiz",
+    "/spec-substitution": "LED Spec Substitution Service",
+    "/value-engineering": "LED Value Engineering — Cost Optimization",
+    "/installation-guide": "LED Display Installation Guide",
+    "/cpd-programme": "CPD Programme — LED Technology Training",
+    "/for-architects": "LED Displays for Architects — Specification Resources",
+    "/for-contractors": "LED Displays for Contractors — Installation Guides",
+    "/distribution": "Distribution & Franchise Partnerships",
+    "/factory-tour": "Virtual Factory Tour — LED Manufacturing Facility",
+    "/compare-brands": "Compare LED Display Brands — Brightluxx vs Competitors",
+    "/led-screen-suppliers-dubai": "LED Screen Suppliers in Dubai — Brightluxx",
+    "/abu-dhabi": "LED Display Supplier Abu Dhabi — Brightluxx",
+    "/saudi-arabia": "LED Display Solutions Saudi Arabia — Brightluxx",
+    "/qatar": "LED Screen Solutions Qatar — Brightluxx",
+    "/kuwait": "LED Display Solutions Kuwait — Brightluxx",
+    "/government-solutions": "Government LED Display Solutions — Brightluxx UAE",
+    "/indoor-led": "Indoor LED Displays — Fine Pitch P0.4 to P4",
+    "/outdoor-led": "Outdoor LED Displays — Weatherproof P2.5 to P10",
+    "/luxury-home-cinema": "Luxury Home Cinema LED Displays",
+    "/art-immersive": "Art & Immersive LED Installations — XR, NFT, Sculptural",
+    "/signage-solutions": "Digital Signage Solutions — Channel Letters, Menus & More",
+    "/product-families": "LED Display Product Families",
+    "/lumimorph": "LumiMorph — Fine-Pitch Modular LED Displays",
+    "/naturatex": "NaturaTex — Texture Screen Technology",
+    "/signatouch": "SignaTouch — Interactive Digital Signage & Kiosks",
+    "/glassmorph": "GlassMorph — Smart Glass & Transparent LED",
+    "/pixelvue": "PixelVue — Standard & Specialty LED Displays",
+    # Technology sub-pages
+    "/technology/cob-led": "COB LED Technology — Chip-on-Board Explained",
+    "/technology/cob": "COB LED Technology — Chip-on-Board Explained",
+    "/technology/microled": "MicroLED & MiP Technology — Next-Gen Pixel Tech",
+    "/technology/mip-led": "MiP LED Technology — Mini-in-Package Displays",
+    "/technology/gob": "GOB Protection — Glue-on-Board Coating Technology",
+    "/technology/hdr": "HDR & Color Technology for LED Displays",
+    "/technology/driving-ic": "Driving ICs — PWM & Common Cathode Technology",
+    "/technology/fine-pitch-led": "Fine Pitch LED Technology — Sub-P1.0 Displays",
+    "/technology/media-facade": "Media Facade LED Technology",
+    "/technology/all-in-one-dvled": "All-in-One dvLED Technology",
+    "/technology/transparent-led": "Transparent LED Display Technology",
+    "/technology/creative-led": "Creative LED Display Technology — Curved & Custom",
+    "/technology/3d-anamorphic-led": "3D Anamorphic Naked-Eye LED Technology",
+    # Solution sub-pages
+    "/solutions/retail": "LED Displays for Retail & Hospitality",
+    "/solutions/corporate": "LED Displays for Corporate Offices & Lobbies",
+    "/solutions/entertainment": "LED Displays for Entertainment & Events",
+    "/solutions/transportation": "LED Displays for Transportation — Airports, Metro",
+    "/solutions/worship": "LED Displays for Houses of Worship",
+    "/solutions/control-rooms": "LED Video Walls for Control Rooms & Command Centers",
+    "/solutions/virtual-production": "LED Walls for Virtual Production & XR Stages",
+    "/solutions/architecture": "Architectural LED Displays — Facades & Media Walls",
+}
+
+# Path descriptions for pages without DB entries
+PATH_DESCS = {
+    "/products": "Browse 85+ premium LED display products — MicroLED, outdoor, transparent, interactive, and creative LED solutions for UAE & GCC projects.",
+    "/solutions": "Industry-specific LED display solutions for retail, corporate, entertainment, transportation, worship, and control rooms across UAE.",
+    "/technology": "Explore LED display technologies including COB, MiP, MicroLED, GOB protection, HDR, and driving IC innovations.",
+    "/contact": "Get in touch with Brightluxx for LED display enquiries, site surveys, and project consultations in Dubai, UAE.",
+    "/about": "Learn about Brightluxx — a leading LED display manufacturer and supplier in Dubai, UAE, serving the GCC since 2005.",
+    "/blog": "Latest news, insights, and technical articles about LED display technology, installations, and industry trends.",
+    "/indoor-led": "Premium indoor LED displays from P0.4 to P4 pixel pitch. COB MicroLED, MiP, fine-pitch, and all-in-one solutions for corporate and retail.",
+    "/outdoor-led": "Weatherproof outdoor LED displays from P2.5 to P10. High brightness, coastal GOB, mesh facade, and road signal displays.",
+}
+
+
+def _title_from_path(path: str) -> str:
+    """Generate a human-friendly title from a URL path when no DB entry exists."""
+    if path in PATH_TITLES:
+        return PATH_TITLES[path]
+    # Dynamic fallback: convert path segments to title case
+    segments = [s for s in path.strip("/").split("/") if s]
+    if not segments:
+        return "Premium LED Display Solutions in Dubai, UAE"
+    readable = " — ".join(
+        seg.replace("-", " ").replace("_", " ").title() for seg in segments
+    )
+    return readable
+
+
+def _desc_from_path(path: str) -> str:
+    """Generate a description from path."""
+    if path in PATH_DESCS:
+        return PATH_DESCS[path]
+    title = _title_from_path(path)
+    return f"{title}. Premium LED display solutions by Brightluxx in Dubai, UAE."
+
+
+@router.get("/api/ssr/meta")
+async def get_ssr_meta(path: str = Query(...)):
+    """Return page-specific meta for server-side injection into HTML <head>."""
+    # Normalize path
+    path = path.rstrip("/") or "/"
+
+    # Check cache
+    if path in _meta_cache:
+        return _meta_cache[path]
+
+    # Try SEO database first
+    seo_col = db["page_seo"]
+    seo_entry = await seo_col.find_one({"path": path})
+
+    if seo_entry and (seo_entry.get("meta_title") or seo_entry.get("meta_description")):
+        result = {
+            "title": f"{seo_entry.get('meta_title', '')} | {SITE_NAME}" if seo_entry.get("meta_title") else f"{_title_from_path(path)} | {SITE_NAME}",
+            "description": seo_entry.get("meta_description", "") or _desc_from_path(path),
+            "canonical": seo_entry.get("canonical_url", "") or f"{PRODUCTION_URL}{path}",
+            "h1": seo_entry.get("meta_title", "") or _title_from_path(path),
+            "keywords": ", ".join(seo_entry.get("keywords", [])) if seo_entry.get("keywords") else "",
+            "og_title": f"{seo_entry.get('og_title', '') or seo_entry.get('meta_title', '')} | {SITE_NAME}",
+            "og_description": seo_entry.get("og_description", "") or seo_entry.get("meta_description", "") or _desc_from_path(path),
+            "og_image": seo_entry.get("og_image", "") or DEFAULT_OG_IMAGE,
+            "og_image_alt": seo_entry.get("image_alt", "") or _title_from_path(path),
+            "noindex": seo_entry.get("noindex", False),
+        }
+    else:
+        # Fallback: generate from path
+        title = _title_from_path(path)
+        desc = _desc_from_path(path)
+        result = {
+            "title": f"{title} | {SITE_NAME}",
+            "description": desc,
+            "canonical": f"{PRODUCTION_URL}{path}",
+            "h1": title,
+            "keywords": "",
+            "og_title": f"{title} | {SITE_NAME}",
+            "og_description": desc,
+            "og_image": DEFAULT_OG_IMAGE,
+            "og_image_alt": title,
+            "noindex": False,
+        }
+
+    # CRITICAL: canonical must ALWAYS be self-referencing unless explicitly overridden
+    # Never fall back to homepage
+    if not result["canonical"] or result["canonical"] == f"{PRODUCTION_URL}/" and path != "/":
+        result["canonical"] = f"{PRODUCTION_URL}{path}"
+
+    # Cache result
+    _meta_cache[path] = result
+    return result
+
+
+@router.post("/api/ssr/meta/clear-cache")
+async def clear_ssr_cache():
+    """Clear the SSR meta cache (call after SEO data changes)."""
+    _meta_cache.clear()
+    return {"cleared": True}

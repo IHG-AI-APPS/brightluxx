@@ -474,7 +474,7 @@ async def get_ssr_meta(path: str = Query(...)):
 
 
 @router.post("/api/ssr/meta/clear-cache")
-async def clear_ssr_cache():
+async def clear_ssr_cache_endpoint():
     """Clear the SSR meta cache (call after SEO data changes)."""
     _meta_cache.clear()
     return {"cleared": True}

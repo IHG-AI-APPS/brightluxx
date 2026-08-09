@@ -3,27 +3,38 @@ import { Star, Send, ChevronDown, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../api';
 
-function StarRating({ value, onChange, readonly = false, size = 20 }) {
+function StarRating({ value, onChange, readonly = false, size = 20, idPrefix = '' }) {
   const [hover, setHover] = useState(0);
   return (
-    <div className="flex gap-0.5" data-testid="star-rating">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <button
-          key={star}
-          type="button"
-          disabled={readonly}
-          onClick={() => onChange?.(star)}
-          onMouseEnter={() => !readonly && setHover(star)}
-          onMouseLeave={() => setHover(0)}
-          className={`transition-colors ${readonly ? 'cursor-default' : 'cursor-pointer'}`}
-          data-testid={`star-${star}`}
-        >
-          <Star
-            size={size}
-            className={`${(hover || value) >= star ? 'text-amber-400 fill-amber-400' : 'text-neutral-600'} transition-colors`}
-          />
-        </button>
-      ))}
+    <div className="flex gap-0.5" data-testid={`${idPrefix}star-rating`}>
+      {[1, 2, 3, 4, 5].map((star) => {
+        if (readonly) {
+          return (
+            <span key={star} className="cursor-default">
+              <Star
+                size={size}
+                className={`${value >= star ? 'text-amber-400 fill-amber-400' : 'text-neutral-600'} transition-colors`}
+              />
+            </span>
+          );
+        }
+        return (
+          <button
+            key={star}
+            type="button"
+            onClick={() => onChange?.(star)}
+            onMouseEnter={() => setHover(star)}
+            onMouseLeave={() => setHover(0)}
+            className="cursor-pointer transition-colors"
+            data-testid={`${idPrefix}star-${star}`}
+          >
+            <Star
+              size={size}
+              className={`${(hover || value) >= star ? 'text-amber-400 fill-amber-400' : 'text-neutral-600'} transition-colors`}
+            />
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -135,7 +146,7 @@ export default function ReviewSection({ slug, productName, isDark, text1, text2,
 
               <div className="mb-4">
                 <label className={`block text-sm font-medium ${text2} mb-2`}>Rating *</label>
-                <StarRating value={form.rating} onChange={(v) => setForm({...form, rating: v})} size={28} />
+                <StarRating value={form.rating} onChange={(v) => setForm({...form, rating: v})} size={28} idPrefix="form-" />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">

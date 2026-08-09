@@ -99,6 +99,53 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - `robots.txt` references both `/sitemap.xml` and `/api/sitemap.xml`
 - Testing: 31/31 pytest pass (iteration_122) — XML validity, no duplicates, no redirects, PixelVue coverage, SSR schemas, Googlebot reachability
 
+### Structured Data Gaps Fix — Aug 9, 2026
+- **Extended `ssr_meta.py`** `_build_schemas()` to inject JSON-LD for ALL page types:
+  - Case studies → Article + BreadcrumbList (from DB: title, challenge, hero_image, dates)
+  - Applications → WebPage + BreadcrumbList
+  - Contractors → Article + BreadcrumbList
+  - Latest tech → Article + BreadcrumbList
+  - Knowledge hub → Article + BreadcrumbList
+  - Technology sub-pages → Article + BreadcrumbList
+  - Solutions sub-pages → WebPage + BreadcrumbList
+  - Digital experience → WebPage + BreadcrumbList
+  - Blog → Article + FAQPage + BreadcrumbList (upgraded from just FAQPage)
+  - Products → Product (with AggregateRating from reviews) + FAQPage + BreadcrumbList
+  - All other pages → WebPage fallback
+- **31 previously schema-less pages now have structured data** in initial HTML
+- Reusable helpers: `_article_schema()`, `_webpage_schema()`, `_breadcrumb_schema()`, `_org_schema()`
+
+### Customer Review Collection System — Aug 9, 2026
+- **Backend** (`routes/reviews.py`):
+  - `POST /api/products/{slug}/reviews` — submit review with validation (rating 1-5, comment ≥10 chars, valid email)
+  - `GET /api/products/{slug}/reviews` — public approved reviews with aggregate stats (no PII exposed)
+  - `GET /api/admin/reviews` — admin moderation with stats (pending/approved/rejected)
+  - `PUT /api/admin/reviews/{id}` — approve/reject reviews
+  - `DELETE /api/admin/reviews/{id}` — delete reviews
+  - Anti-spam integration via `validate_submission_full` (honeypot, rate limiting, content quality)
+  - Duplicate prevention (30-day window per email+product)
+  - Product-exists validation BEFORE anti-spam (404 always returned for bad slugs)
+  - PII-safe public projection (email, spam_score, moderated_by never exposed)
+- **Frontend** (`components/ReviewSection.js`):
+  - Star rating component with interactive form and readonly display
+  - Review submission form with honeypot field
+  - Reviews list with show-all expansion
+  - Success confirmation message
+  - Placed between FAQ and Related Products sections on ProductDetail
+- **Schema integration**: Product schema.org/Product now includes `AggregateRating` (ratingValue, reviewCount) computed from approved reviews
+- MongoDB indexes: `{product_slug, status}` and unique `{id}` on reviews collection
+
+### Smart Cache Purge — Aug 9, 2026
+- **SSR meta cache auto-clears** when admin saves content:
+  - Product create/update (`admin_crud.py`)
+  - Blog create/update (`blog.py`)
+  - Case study create/update (`case_studies.py`)
+  - SEO page update (`seo_manager.py`)
+  - Review approve/reject/delete (`reviews.py`)
+- Fixed critical name-collision bug: `clear_ssr_cache` sync helper was shadowed by async route handler; renamed route to `clear_ssr_cache_endpoint`
+- Zero RuntimeWarnings after fix verified
+- Google sees fresh schema data immediately after admin actions
+
 ### Blog FAQ + Product Schema Markup — Aug 9, 2026
 - **15/15 blog posts** enriched with AI-generated FAQ (5-7 Q&As each, targeting long-tail search keywords)
   - Blog FAQ section added to BlogPost.js with expandable accordion UI

@@ -1,6 +1,6 @@
 """Product review collection and moderation endpoints."""
 from fastapi import APIRouter, HTTPException, Depends, Query, Request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from database import db
 from auth import get_current_admin
 from anti_spam import validate_submission_full
@@ -13,16 +13,20 @@ reviews_col = db["reviews"]
 
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
+# Public-safe fields only (no email, spam_score, moderated_by)
+PUBLIC_FIELDS = {"id": 1, "product_slug": 1, "product_name": 1, "name": 1,
+                 "rating": 1, "title": 1, "comment": 1, "created_at": 1, "_id": 0}
+
 
 # --- Public endpoints ---
 
 @router.get("/api/products/{slug}/reviews")
-async def get_product_reviews(slug: str, page: int = 1, limit: int = 20):
-    """Get approved reviews for a product."""
+async def get_product_reviews(slug: str, page: int = 1, limit: int = Query(default=20, le=100)):
+    """Get approved reviews for a product (no PII)."""
     query = {"product_slug": slug, "status": "approved"}
     total = await reviews_col.count_documents(query)
     skip = (page - 1) * limit
-    cursor = reviews_col.find(query, {"_id": 0}).sort("created_at", -1).skip(skip).limit(limit)
+    cursor = reviews_col.find(query, PUBLIC_FIELDS).sort("created_at", -1).skip(skip).limit(limit)
     reviews = await cursor.to_list(length=limit)
 
     # Compute aggregate
@@ -57,11 +61,26 @@ async def submit_review(slug: str, request: Request):
     if not comment or len(comment) < 10:
         raise HTTPException(400, "Review must be at least 10 characters")
 
+    # Check product exists FIRST (before anti-spam, so 404 is always returned for bad slugs)
+    product = await db["products"].find_one({"slug": slug}, {"name": 1})
+    if not product:
+        raise HTTPException(404, "Product not found")
+
+    # Check duplicate (same email + product within 30 days)
+    thirty_days_ago = datetime.now(timezone.utc) - timedelta(days=30)
+    existing = await reviews_col.find_one({
+        "product_slug": slug,
+        "email": email,
+        "created_at": {"$gte": thirty_days_ago},
+    })
+    if existing:
+        raise HTTPException(409, "You have already reviewed this product recently")
+
     # Anti-spam check (lightweight — reviews don't require phone)
     client_ip = request.client.host if request.client else "unknown"
     spam_data = {
         "name": name, "email": email, "message": comment,
-        "phone": "",  # not required for reviews
+        "phone": "",
         "_honeypot": body.get("_honeypot", ""),
         "_website": body.get("_website", ""),
     }
@@ -69,20 +88,6 @@ async def submit_review(slug: str, request: Request):
     if not is_valid:
         # Silent success for spammers (honeypot/rate-limit)
         return {"status": "submitted", "message": "Thank you for your review!"}
-
-    # Check product exists
-    product = await db["products"].find_one({"slug": slug}, {"name": 1})
-    if not product:
-        raise HTTPException(404, "Product not found")
-
-    # Check duplicate (same email + product within 30 days)
-    existing = await reviews_col.find_one({
-        "product_slug": slug,
-        "email": email,
-        "created_at": {"$gte": datetime(datetime.now(timezone.utc).year, datetime.now(timezone.utc).month, 1, tzinfo=timezone.utc)},
-    })
-    if existing:
-        raise HTTPException(409, "You have already reviewed this product recently")
 
     review = {
         "id": str(uuid.uuid4()),

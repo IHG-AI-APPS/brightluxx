@@ -1,43 +1,45 @@
 # Brightluxx Changelog
 
-## March 18, 2026
+## Aug 9, 2026 — Structured Data + Reviews + Smart Cache Purge
+- Extended `_build_schemas()` in ssr_meta.py to cover ALL page types (Article/WebPage/BreadcrumbList)
+- 31 previously schema-less pages now have JSON-LD in initial HTML
+- Customer review collection system: submit, moderate, display with AggregateRating in Product schema
+- Smart cache purge: admin saves auto-clear SSR cache (product, blog, case study, SEO, reviews)
+- Fixed critical clear_ssr_cache name collision (sync helper vs async route handler)
+- PII-safe public review projection (no email/spam_score exposure)
+- Product-exists check before anti-spam, proper 30-day duplicate window
+- 64/64 pytest pass (iter_122 + iter_123 combined)
 
-### App-Level Mobile & Tablet Optimization
-- **NEW** Mobile Bottom Navigation Bar (5 tabs: Home, Products, Solutions, Contact, More)
-- **NEW** Mobile Drawer Menu (slide-in from right with organized sections)
-- **NEW** PublicLayout component wrapping all public pages
-- **UPDATED** Removed old StickyCTA bar with WhatsApp/Get Quote buttons
-- **UPDATED** Removed hamburger menu from Navbar (replaced by bottom nav)
-- **UPDATED** robots.txt sitemap URL
-- **TESTING** 100% pass rate - iteration_93.json
+## Aug 9, 2026 — Dynamic XML Sitemap Enhancement
+- Rebuilt `/api/sitemap.xml` as fully DB-driven (286 URLs from 8 collections)
+- Fixed redirect filtering (8 WP legacy URLs excluded), status filter bug, case studies inclusion
+- Added 10-min TTL to SSR meta cache, exception logging in sitemap DB blocks
+- 31/31 pytest pass (iteration_122)
 
-### Files Created
-- `/app/frontend/src/components/MobileBottomNav.js`
-- `/app/frontend/src/components/MobileDrawer.js`
-- `/app/frontend/src/components/PublicLayout.js`
+## Aug 9, 2026 — Blog FAQ + Product Schema Markup
+- 15/15 blogs enriched with AI-generated FAQ (FAQPage JSON-LD)
+- Product schema.org/Product added to all 94 products via SSR injection
+- Schema fields: brand, manufacturer, availability, price_range, warranty, condition
 
-### Files Modified
-- `/app/frontend/src/App.js` - Routes now use PublicLayout wrapper
-- `/app/frontend/src/App.css` - Mobile nav styling
-- `/app/frontend/src/components/Navbar.js` - Simplified for mobile
-- `/app/frontend/public/robots.txt` - Updated sitemap URL
+## Aug 9, 2026 — SEO DB Expansion + Product Enrichment
+- SEO coverage expanded: 55 → 205 pages (150 new entries)
+- 94 products enriched with FAQ (6-8 Q&As), applications (4-6 use cases), expanded descriptions
+- Total: 244/244 generated, 0 errors
 
----
+## Jul 30, 2026 — Server-Side Meta Injection (Search Console Fix)
+- Built `/api/ssr/meta` endpoint for page-specific metadata
+- Fixed all 4 Search Console audit findings (unique titles, canonicals, soft 404s, legacy URLs)
 
-## Previous Sessions
+## Jul 30, 2026 — Navbar Split + Auth Cookies + Array Keys
+- Split 961-line Navbar into 5 modular components
+- Migrated auth tokens from localStorage to httpOnly cookies
+- Targeted stable React key replacements
 
-### March 17-18, 2026 - Core Web Vitals & SEO Optimization
-- Removed AMP implementation in favor of Core Web Vitals
-- Added preconnect/prefetch resource hints
-- Optimized LCP with fetchPriority on hero images
-- Updated sitemap with all SEO landing pages
-- Comprehensive SEO overhaul with breadcrumbs & structured data
-- New landing pages: Abu Dhabi, Saudi Arabia, ROI Calculator, Compare Competitors
+## Jul 30, 2026 — Code Review Remediation
+- Hardcoded secrets moved to env/config, MD5→SHA-256, DOMPurify sanitization
+- Bare except blocks fixed, Mongo serialization fixed
 
-### March 11-17, 2026 - Dynamic CMS & Admin Enhancements
-- Dynamic Resource Library with admin management
-- Dynamic Blog System (full CRUD)
-- Dynamic Case Studies
-- Homepage Editor with media uploads
-- Centralized Taxonomy system
-- Multiple UI/UX bug fixes
+## Jul 30, 2026 — Anti-Spam & Lead Quality
+- Honeypot fields, content quality checks, disposable email rejection
+- Rate limiting, geo IP enrichment, phone validation
+- reCAPTCHA v3 infrastructure (awaiting Google keys)

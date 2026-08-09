@@ -180,6 +180,10 @@ async def startup():
         await analytics_col.create_index([("event", 1), ("ts", -1)])
         await perf_col.create_index([("ts", -1)])
         await perf_col.create_index([("endpoint", 1), ("ts", -1)])
+        # Review indexes
+        from database import db as idx_db
+        await idx_db["reviews"].create_index([("product_slug", 1), ("status", 1)])
+        await idx_db["reviews"].create_index([("id", 1)], unique=True)
     except Exception:
         pass
 

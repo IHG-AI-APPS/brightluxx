@@ -78,6 +78,27 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
+### Server-Side Meta Injection (Search Console Audit Fix) — Jul 30, 2026
+**Root cause fixed**: CRA SPA served same generic `<title>`, empty `<meta description>`, and homepage `<link canonical>` for ALL 182 pages. Crawlers saw the pre-JavaScript HTML which was identical for every route.
+- Built `/api/ssr/meta?path=...` endpoint: returns page-specific title, description, canonical, H1, OG tags, keywords for any path
+  - Uses `page_seo` MongoDB collection (55 AI-generated entries, avg score 91)
+  - Falls back to comprehensive `PATH_TITLES`/`PATH_DESCS` dicts (90+ curated entries)
+  - Dynamic fallback: URL path segments → human-readable titles for unlisted routes
+  - Canonical always self-referencing (`PRODUCTION_URL + current_path`), never falls back to `/`
+  - No double "Brightluxx" suffix (skips when title already contains site name)
+  - In-memory cache with 500-entry cap
+- Refactored `prerender-server.js`:
+  - Shared `injectSSRMeta()` function used by BOTH crawler and browser paths
+  - **ALL HTML responses** now have correct `<title>`, `<meta description>`, `<link canonical>`, OG tags, keywords injected server-side
+  - Removed stale `KNOWN_ROUTES` 404 gate that blocked 40+ valid routes for crawlers
+  - `X-SSR-Meta: injected` response header confirms injection
+- **Fixes all 4 Search Console audit findings**:
+  1. 182/182 pages → unique title in initial HTML ✅
+  2. 138 broken canonicals → all self-referencing ✅
+  3. 27 soft 404s → downstream fix ✅
+  4. Legacy URLs → already handled ✅
+- Testing: iteration_121 + manual curl verification
+
 ### Navbar Split + Auth Cookies + Array Keys — Jul 30, 2026
 - **Navbar refactored**: 997-line monolith → 5 sub-components:
   - `navbarData.js` (218 lines) — all static menu data

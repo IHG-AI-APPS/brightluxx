@@ -142,29 +142,34 @@ async def get_ssr_meta(path: str = Query(...)):
     seo_entry = await seo_col.find_one({"path": path})
 
     if seo_entry and (seo_entry.get("meta_title") or seo_entry.get("meta_description")):
+        raw_title = seo_entry.get("meta_title", "") or _title_from_path(path)
+        title_with_suffix = raw_title if "brightluxx" in raw_title.lower() else f"{raw_title} | {SITE_NAME}"
+        raw_og_title = seo_entry.get("og_title", "") or seo_entry.get("meta_title", "")
+        og_with_suffix = raw_og_title if "brightluxx" in raw_og_title.lower() else f"{raw_og_title} | {SITE_NAME}"
         result = {
-            "title": f"{seo_entry.get('meta_title', '')} | {SITE_NAME}" if seo_entry.get("meta_title") else f"{_title_from_path(path)} | {SITE_NAME}",
+            "title": title_with_suffix,
             "description": seo_entry.get("meta_description", "") or _desc_from_path(path),
             "canonical": seo_entry.get("canonical_url", "") or f"{PRODUCTION_URL}{path}",
-            "h1": seo_entry.get("meta_title", "") or _title_from_path(path),
+            "h1": raw_title,
             "keywords": ", ".join(seo_entry.get("keywords", [])) if seo_entry.get("keywords") else "",
-            "og_title": f"{seo_entry.get('og_title', '') or seo_entry.get('meta_title', '')} | {SITE_NAME}",
+            "og_title": og_with_suffix,
             "og_description": seo_entry.get("og_description", "") or seo_entry.get("meta_description", "") or _desc_from_path(path),
             "og_image": seo_entry.get("og_image", "") or DEFAULT_OG_IMAGE,
-            "og_image_alt": seo_entry.get("image_alt", "") or _title_from_path(path),
+            "og_image_alt": seo_entry.get("image_alt", "") or raw_title,
             "noindex": seo_entry.get("noindex", False),
         }
     else:
         # Fallback: generate from path
         title = _title_from_path(path)
         desc = _desc_from_path(path)
+        title_with_suffix = title if "brightluxx" in title.lower() else f"{title} | {SITE_NAME}"
         result = {
-            "title": f"{title} | {SITE_NAME}",
+            "title": title_with_suffix,
             "description": desc,
             "canonical": f"{PRODUCTION_URL}{path}",
             "h1": title,
             "keywords": "",
-            "og_title": f"{title} | {SITE_NAME}",
+            "og_title": title_with_suffix,
             "og_description": desc,
             "og_image": DEFAULT_OG_IMAGE,
             "og_image_alt": title,
@@ -176,7 +181,9 @@ async def get_ssr_meta(path: str = Query(...)):
     if not result["canonical"] or result["canonical"] == f"{PRODUCTION_URL}/" and path != "/":
         result["canonical"] = f"{PRODUCTION_URL}{path}"
 
-    # Cache result
+    # Cache result (cap at 500 entries)
+    if len(_meta_cache) > 500:
+        _meta_cache.clear()
     _meta_cache[path] = result
     return result
 

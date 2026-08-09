@@ -119,6 +119,41 @@ function esc(s) {
     .replace(/"/g, "&quot;");
 }
 
+/** Inject SSR meta from /api/ssr/meta into HTML <head>.
+ *  Used by BOTH crawler and browser paths for consistent meta. */
+function injectSSRMeta(html, meta) {
+  // Replace <title>
+  html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(meta.title)}</title>`);
+  // Replace meta description
+  html = html.replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${esc(meta.description)}"`);
+  // Replace canonical
+  if (html.includes('<link rel="canonical"')) {
+    html = html.replace(/<link rel="canonical" href="[^"]*"/, `<link rel="canonical" href="${esc(meta.canonical)}"`);
+  } else {
+    html = html.replace('</head>', `<link rel="canonical" href="${esc(meta.canonical)}">\n</head>`);
+  }
+  // Replace OG tags
+  html = html.replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${esc(meta.og_title)}"`);
+  html = html.replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${esc(meta.og_description)}"`);
+  if (meta.og_image) html = html.replace(/<meta property="og:image" content="[^"]*"/, `<meta property="og:image" content="${esc(meta.og_image)}"`);
+  html = html.replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${esc(meta.canonical)}"`);
+  // Twitter tags
+  html = html.replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${esc(meta.og_title)}"`);
+  html = html.replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${esc(meta.og_description)}"`);
+  // Keywords
+  if (meta.keywords) {
+    if (html.includes('<meta name="keywords"')) {
+      html = html.replace(/<meta name="keywords" content="[^"]*"/, `<meta name="keywords" content="${esc(meta.keywords)}"`);
+    } else {
+      html = html.replace('</head>', `<meta name="keywords" content="${esc(meta.keywords)}">\n</head>`);
+    }
+  }
+  // Replace noscript H1 (whitespace-tolerant regex)
+  html = html.replace(/<noscript>\s*<div>\s*<h1>[^]*?<\/h1>/, `<noscript><div><h1>${esc(meta.h1)}</h1>`);
+  return html;
+}
+
+
 /** Build the heading + meta + internal links snippet for <div id="root">. */
 function buildSnippet(headings, meta, internalLinks) {
   const parts = [];
@@ -433,17 +468,7 @@ function startProxy() {
       }
     }
 
-    // ── Proper 404 for unknown routes (crawlers only) ──
-    if (isCrawler && !isAsset && !isApi && !isKnownRoute(routePath)) {
-      res.writeHead(404, {
-        "Content-Type": "text/html; charset=utf-8",
-        "X-Robots-Tag": "noindex",
-      });
-      res.end(`<!DOCTYPE html><html><head><title>404 Not Found | Brightluxx</title><meta name="robots" content="noindex"></head><body><h1>Page Not Found</h1><p>The page ${esc(routePath)} does not exist.</p><nav><a href="/">Home</a> | <a href="/products">Products</a> | <a href="/contact">Contact</a></nav></body></html>`);
-      return;
-    }
-
-    // ── Crawler on a page route → inject headings ──
+    // ── Crawler on a page route → inject headings + meta ──
     if (isCrawler && !isAsset && !isApi) {
       try {
         const routePath = req.url.split("?")[0];
@@ -456,37 +481,43 @@ function startProxy() {
             "Content-Type": "text/html; charset=utf-8",
             "Content-Length": Buffer.byteLength(cached.html),
             "X-Prerendered": "true",
+            "X-SSR-Meta": "injected",
             "X-Cache": "hit",
           });
           res.end(cached.html);
           return;
         }
 
-        // Fetch CRA HTML + backend data + internal links in parallel
-        const [craRes, prerender, internalLinks] = await Promise.all([
+        // Fetch CRA HTML + backend data + internal links + SSR meta in parallel
+        const [craRes, prerender, internalLinks, ssrMeta] = await Promise.all([
           fetchRaw(`http://localhost:${CRA_PORT}${req.url}`),
-          fetchJSON(
-            `${BACKEND}/api/prerender/page?path=${encodeURIComponent(routePath)}`
-          ),
-          fetchJSON(
-            `${BACKEND}/api/prerender/internal-links?path=${encodeURIComponent(routePath)}`
-          ),
+          fetchJSON(`${BACKEND}/api/prerender/page?path=${encodeURIComponent(routePath)}`),
+          fetchJSON(`${BACKEND}/api/prerender/internal-links?path=${encodeURIComponent(routePath)}`),
+          fetchJSON(`${BACKEND}/api/ssr/meta?path=${encodeURIComponent(routePath)}`).catch(() => null),
         ]);
 
         console.log(`[PRERENDER] CRA status: ${craRes.status}, headings: ${prerender?.headings?.length || 0}, links: ${internalLinks?.length || 0}`);
 
-        if (craRes.status === 200 && prerender && prerender.headings && prerender.headings.length) {
+        if (craRes.status === 200) {
           let html = craRes.body;
-          const snippet = buildSnippet(prerender.headings, prerender.meta, internalLinks);
 
-          // Inject heading snippet into <div id="root">
-          html = html.replace(
-            '<div id="root"></div>',
-            `<div id="root">${snippet}</div>`
-          );
+          // Inject heading snippet into <div id="root"> if headings available
+          if (prerender && prerender.headings && prerender.headings.length) {
+            const snippet = buildSnippet(prerender.headings, prerender.meta, internalLinks);
+            html = html.replace(
+              '<div id="root"></div>',
+              `<div id="root">${snippet}</div>`
+            );
+          }
 
-          // Inject page-specific meta tags + JSON-LD
-          html = injectMeta(html, routePath, prerender.meta, internalLinks);
+          // Use unified SSR meta for head injection (same as browser path)
+          if (ssrMeta) {
+            html = injectSSRMeta(html, ssrMeta);
+          }
+          // Also inject JSON-LD schemas from prerender data
+          if (prerender && prerender.meta) {
+            html = injectMeta(html, routePath, prerender.meta, internalLinks);
+          }
 
           // Cache the result
           prerenderCache[routePath] = { html, time: Date.now() };
@@ -495,12 +526,12 @@ function startProxy() {
             "Content-Type": "text/html; charset=utf-8",
             "Content-Length": Buffer.byteLength(html),
             "X-Prerendered": "true",
+            "X-SSR-Meta": "injected",
           });
           res.end(html);
           return;
         }
       } catch (err) {
-        // Fall through to proxy on any error
         console.error("Prerender error:", err.message);
       }
     }
@@ -510,7 +541,6 @@ function startProxy() {
     const needsMetaInjection = !isAsset && !isApi;
 
     if (needsMetaInjection) {
-      // Fetch SSR meta + CRA page in parallel
       try {
         const [craRes, ssrMeta] = await Promise.all([
           fetchRaw(`http://localhost:${CRA_PORT}${req.url}`),
@@ -518,84 +548,7 @@ function startProxy() {
         ]);
 
         if (craRes.status === 200 && ssrMeta) {
-          let html = craRes.body;
-
-          // Replace <title>
-          html = html.replace(
-            /<title>[^<]*<\/title>/,
-            `<title>${esc(ssrMeta.title)}</title>`
-          );
-
-          // Replace meta description
-          html = html.replace(
-            /<meta name="description" content="[^"]*"/,
-            `<meta name="description" content="${esc(ssrMeta.description)}"`
-          );
-
-          // Replace or insert canonical
-          if (html.includes('<link rel="canonical"')) {
-            html = html.replace(
-              /<link rel="canonical" href="[^"]*"/,
-              `<link rel="canonical" href="${esc(ssrMeta.canonical)}"`
-            );
-          } else {
-            html = html.replace(
-              '</head>',
-              `<link rel="canonical" href="${esc(ssrMeta.canonical)}">\n</head>`
-            );
-          }
-
-          // Replace OG tags
-          html = html.replace(
-            /<meta property="og:title" content="[^"]*"/,
-            `<meta property="og:title" content="${esc(ssrMeta.og_title)}"`
-          );
-          html = html.replace(
-            /<meta property="og:description" content="[^"]*"/,
-            `<meta property="og:description" content="${esc(ssrMeta.og_description)}"`
-          );
-          if (ssrMeta.og_image) {
-            html = html.replace(
-              /<meta property="og:image" content="[^"]*"/,
-              `<meta property="og:image" content="${esc(ssrMeta.og_image)}"`
-            );
-          }
-          html = html.replace(
-            /<meta property="og:url" content="[^"]*"/,
-            `<meta property="og:url" content="${esc(ssrMeta.canonical)}"`
-          );
-
-          // Replace Twitter tags
-          html = html.replace(
-            /<meta name="twitter:title" content="[^"]*"/,
-            `<meta name="twitter:title" content="${esc(ssrMeta.og_title)}"`
-          );
-          html = html.replace(
-            /<meta name="twitter:description" content="[^"]*"/,
-            `<meta name="twitter:description" content="${esc(ssrMeta.og_description)}"`
-          );
-
-          // Replace keywords if present
-          if (ssrMeta.keywords) {
-            if (html.includes('<meta name="keywords"')) {
-              html = html.replace(
-                /<meta name="keywords" content="[^"]*"/,
-                `<meta name="keywords" content="${esc(ssrMeta.keywords)}"`
-              );
-            } else {
-              html = html.replace(
-                '</head>',
-                `<meta name="keywords" content="${esc(ssrMeta.keywords)}">\n</head>`
-              );
-            }
-          }
-
-          // Replace noscript H1
-          html = html.replace(
-            /<noscript><div><h1>[^<]*<\/h1>/,
-            `<noscript><div><h1>${esc(ssrMeta.h1)}</h1>`
-          );
-
+          let html = injectSSRMeta(craRes.body, ssrMeta);
           res.writeHead(200, {
             "Content-Type": "text/html; charset=utf-8",
             "Content-Length": Buffer.byteLength(html),
@@ -613,7 +566,6 @@ function startProxy() {
         }
       } catch (err) {
         console.error("SSR meta injection error:", err.message);
-        // Fall through to raw proxy on error
       }
     }
 

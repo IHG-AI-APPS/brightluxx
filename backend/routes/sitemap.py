@@ -232,9 +232,9 @@ async def sitemap():
     except Exception:
         pass
 
-    # 6. Case studies
+    # 6. Case studies (no status field — all records are published)
     try:
-        async for cs in db["case_studies"].find({"status": "published"}, {"slug": 1, "updated_at": 1}):
+        async for cs in db["case_studies"].find({}, {"slug": 1, "updated_at": 1}):
             if cs.get("slug"):
                 add(f"/case-studies/{cs['slug']}", 0.6, "monthly", _format_date(cs.get("updated_at")))
     except Exception:

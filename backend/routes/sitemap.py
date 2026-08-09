@@ -1,14 +1,37 @@
 """Dynamic sitemap.xml generation — fully DB-driven.
 Combines SEO pages, products, blogs, case studies, and static routes
-with real lastmod dates and deduplication."""
+with real lastmod dates and deduplication.
+Filters out redirected/noindex URLs."""
 from fastapi import APIRouter
 from fastapi.responses import Response
 from datetime import datetime, timezone
 from database import db
+import logging
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 BASE_URL = "https://brightluxx.com"
+
+# Paths that 301-redirect (WP legacy + prerender-server.js) — must NOT appear in sitemap
+REDIRECT_PATHS = {
+    "/our-works/", "/our-works", "/digital-solutions/", "/digital-solutions",
+    "/products/led-display", "/products/led-display/",
+    "/products/indoor-led-display", "/products/indoor-led-display/",
+    "/products/outdoor-led-display", "/products/outdoor-led-display/",
+    "/products/spherical-led-display", "/products/spherical-led-display/",
+    "/products/cube-led-display-p3", "/products/cube-led-display-p3/",
+    "/products/transparent-led-display", "/products/transparent-led-display/",
+    "/products/rental-led-display", "/products/flexible-led-display",
+    "/download-catalog/", "/download-catalog",
+    "/about-us/", "/about-us", "/contact-us/", "/contact-us",
+    "/services/", "/services", "/portfolio/", "/portfolio",
+    "/gallery/", "/gallery",
+    # prerender-server.js WP_REDIRECTS
+    "/led-screen-dubai", "/led-display-abu-dhabi",
+    "/led-screen-saudi-arabia", "/led-screen-qatar", "/led-screen-kuwait",
+    "/resource-library", "/digital-experience",
+}
 
 # Static routes with priority and change frequency (fallback for pages not in DB)
 STATIC_ROUTES = {
@@ -44,18 +67,6 @@ STATIC_ROUTES = {
     "/glassmorph/flying-display": (0.8, "monthly"),
     "/glassmorph/switchable-glass": (0.8, "monthly"),
     "/glassmorph/hanging-led": (0.8, "monthly"),
-    "/pixelvue/iposter": (0.8, "monthly"),
-    "/pixelvue/iflip": (0.8, "monthly"),
-    "/pixelvue/ultra-flip": (0.8, "monthly"),
-    "/pixelvue/digi-standee": (0.8, "monthly"),
-    "/pixelvue/ooh-poster": (0.8, "monthly"),
-    "/pixelvue/unity": (0.8, "monthly"),
-    "/pixelvue/tetris": (0.8, "monthly"),
-    "/pixelvue/videobrick": (0.8, "monthly"),
-    "/pixelvue/iconference": (0.8, "monthly"),
-    "/pixelvue/ezeesign": (0.8, "monthly"),
-    "/pixelvue/ishelf": (0.8, "monthly"),
-    "/pixelvue/tablevision": (0.8, "monthly"),
     # Technology pages
     "/technology": (0.8, "weekly"),
     "/technology/cob-led": (0.7, "monthly"),
@@ -113,7 +124,6 @@ STATIC_ROUTES = {
     "/factory-tour": (0.5, "monthly"),
     "/distribution": (0.5, "monthly"),
     "/compare-products": (0.5, "monthly"),
-    "/resource-library": (0.8, "weekly"),
     "/lp/specifier-toolkit": (0.6, "monthly"),
     # Knowledge hub articles
     "/knowledge/cob-vs-mip-vs-smd": (0.8, "monthly"),
@@ -163,7 +173,7 @@ def _format_date(dt) -> str:
         return datetime.now(timezone.utc).strftime("%Y-%m-%d")
     if isinstance(dt, str):
         try:
-            return dt[:10]  # "2026-08-09T..." → "2026-08-09"
+            return dt[:10]
         except Exception:
             return datetime.now(timezone.utc).strftime("%Y-%m-%d")
     if isinstance(dt, datetime):
@@ -179,7 +189,7 @@ async def sitemap():
     entries = []
 
     def add(path, priority, freq, lastmod=None):
-        if path in seen:
+        if path in seen or path in REDIRECT_PATHS:
             return
         seen.add(path)
         entries.append(
@@ -193,14 +203,17 @@ async def sitemap():
 
     # 1. SEO DB pages (205 entries with real update dates)
     try:
-        async for page in db["page_seo"].find({}, {"path": 1, "updated_at": 1}):
+        async for page in db["page_seo"].find(
+            {"noindex": {"$ne": True}},
+            {"path": 1, "updated_at": 1}
+        ):
             path = page.get("path", "")
             if not path:
                 continue
             pr, fr = STATIC_ROUTES.get(path, (0.6, "monthly"))
             add(path, pr, fr, _format_date(page.get("updated_at")))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Sitemap: page_seo query failed: {e}")
 
     # 2. Static routes not yet covered by SEO DB
     for path, (pr, fr) in STATIC_ROUTES.items():
@@ -213,64 +226,64 @@ async def sitemap():
             if slug:
                 lm = _format_date(p.get("schema_updated") or p.get("updated_at"))
                 add(f"/products/{slug}", 0.7, "weekly", lm)
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Sitemap: products query failed: {e}")
 
-    # 4. PixelVue products
+    # 4. PixelVue products (no status field — include all)
     try:
-        async for p in db["pixelvue_products"].find({"status": "published"}, {"slug": 1, "updated_at": 1}):
+        async for p in db["pixelvue_products"].find({}, {"slug": 1, "updated_at": 1}):
             if p.get("slug"):
                 add(f"/pixelvue/{p['slug']}", 0.7, "weekly", _format_date(p.get("updated_at")))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Sitemap: pixelvue_products query failed: {e}")
 
     # 5. Blog posts
     try:
         async for b in db["blogs"].find({}, {"slug": 1, "updated_at": 1, "created_at": 1}):
             if b.get("slug"):
                 add(f"/blog/{b['slug']}", 0.6, "weekly", _format_date(b.get("updated_at") or b.get("created_at")))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Sitemap: blogs query failed: {e}")
 
     # 6. Case studies (no status field — all records are published)
     try:
         async for cs in db["case_studies"].find({}, {"slug": 1, "updated_at": 1}):
             if cs.get("slug"):
                 add(f"/case-studies/{cs['slug']}", 0.6, "monthly", _format_date(cs.get("updated_at")))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Sitemap: case_studies query failed: {e}")
 
     # 7. Solutions content
     try:
-        async for s in db["solutions_content"].find({"status": "published"}, {"slug": 1, "updated_at": 1}):
+        async for s in db["solutions_content"].find({}, {"slug": 1, "updated_at": 1}):
             if s.get("slug"):
                 add(f"/solutions/{s['slug']}", 0.7, "weekly", _format_date(s.get("updated_at")))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Sitemap: solutions_content query failed: {e}")
 
-    # 8. Application pages
+    # 8. Application pages (no status field — include all)
     try:
-        async for a in db["applications_content"].find({"status": "published"}, {"slug": 1, "updated_at": 1}):
+        async for a in db["applications_content"].find({}, {"slug": 1, "updated_at": 1}):
             if a.get("slug"):
                 add(f"/applications/{a['slug']}", 0.7, "monthly", _format_date(a.get("updated_at")))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Sitemap: applications_content query failed: {e}")
 
-    # 9. Technology pages
+    # 9. Technology pages (no status field — include all)
     try:
-        async for t in db["technologies_content"].find({"status": "published"}, {"slug": 1, "updated_at": 1}):
+        async for t in db["technologies_content"].find({}, {"slug": 1, "updated_at": 1}):
             if t.get("slug"):
                 add(f"/technology/{t['slug']}", 0.7, "monthly", _format_date(t.get("updated_at")))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Sitemap: technologies_content query failed: {e}")
 
-    # 10. Inspiration/project pages
+    # 10. Inspiration/project pages (no status field — include all)
     try:
-        async for i in db["inspirations"].find({"status": "published"}, {"slug": 1, "updated_at": 1}):
+        async for i in db["inspirations"].find({}, {"slug": 1, "updated_at": 1}):
             if i.get("slug"):
                 add(f"/inspirations/{i['slug']}", 0.5, "monthly", _format_date(i.get("updated_at")))
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Sitemap: inspirations query failed: {e}")
 
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'

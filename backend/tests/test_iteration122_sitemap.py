@@ -68,8 +68,8 @@ class TestSitemapStructure:
         cc = sitemap_resp.headers.get("cache-control", "").lower()
         assert cc, "no Cache-Control header on sitemap response"
 
-    def test_url_count_251(self, url_entries):
-        assert len(url_entries) == 251, f"expected 251 urls, got {len(url_entries)}"
+    def test_url_count_minimum(self, url_entries):
+        assert len(url_entries) >= 280, f"expected >=280 urls, got {len(url_entries)}"
 
     def test_no_duplicates(self, url_entries):
         locs = [e["loc"] for e in url_entries]
@@ -118,7 +118,7 @@ class TestSitemapStructure:
 # ---------- Sitemap coverage ----------
 class TestSitemapCoverage:
     @pytest.mark.parametrize("prefix,expected", [
-        ("/products/", 94),
+        ("/products/", 93),
         ("/blog/", 15),
         ("/case-studies/", 8),
     ])

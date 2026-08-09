@@ -78,6 +78,27 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
+
+### Dynamic XML Sitemap Enhancement — Aug 9, 2026
+- **Rebuilt `/api/sitemap.xml`** as fully DB-driven dynamic sitemap (`backend/routes/sitemap.py`)
+  - Queries 8 MongoDB collections: page_seo, products, blogs, case_studies, pixelvue_products, solutions_content, applications_content, technologies_content, inspirations
+  - Real `lastmod` dates from DB `updated_at` fields (241/286 have real dates)
+  - Deduplication: `seen` set prevents duplicate URLs
+  - Redirect filtering: 37 WP legacy redirect paths excluded (matched against `REDIRECT_PATHS` set)
+  - noindex filtering: page_seo entries with `noindex: true` excluded
+  - Proper XML structure with `changefreq` and `priority` per URL
+- **286 total URLs** — up from 191 (original static):
+  - 93 products, 24 PixelVue, 15 blogs, 8 case studies, 22 inspirations
+  - 8 solutions, 17 technology, 13 applications, 3 contractors, 7 knowledge
+  - 69 static/SEO landing pages
+- **Cleaned up dead code**: removed old `generate_sitemap_xml()` from `seo.py` (was never registered)
+- **Fixed status filter bug**: pixelvue_products, applications_content, technologies_content, inspirations had no `status` field — removed `{"status": "published"}` filter
+- **SSR cache TTL**: Added 10-minute TTL to `_meta_cache` in `ssr_meta.py` (was serving stale schemas indefinitely)
+- **Exception logging**: Replaced bare `except: pass` with `logger.error()` in all sitemap DB blocks
+- Static sitemap index at `/sitemap.xml` → points to `https://brightluxx.com/api/sitemap.xml`
+- `robots.txt` references both `/sitemap.xml` and `/api/sitemap.xml`
+- Testing: 31/31 pytest pass (iteration_122) — XML validity, no duplicates, no redirects, PixelVue coverage, SSR schemas, Googlebot reachability
+
 ### Blog FAQ + Product Schema Markup — Aug 9, 2026
 - **15/15 blog posts** enriched with AI-generated FAQ (5-7 Q&As each, targeting long-tail search keywords)
   - Blog FAQ section added to BlogPost.js with expandable accordion UI
@@ -114,7 +135,7 @@ Build a premium LED display showcase website for Brightluxx targeting architects
   - Dynamic fallback: URL path segments → human-readable titles for unlisted routes
   - Canonical always self-referencing (`PRODUCTION_URL + current_path`), never falls back to `/`
   - No double "Brightluxx" suffix (skips when title already contains site name)
-  - In-memory cache with 500-entry cap
+  - In-memory cache with 500-entry cap and 10-minute TTL
 - Refactored `prerender-server.js`:
   - Shared `injectSSRMeta()` function used by BOTH crawler and browser paths
   - **ALL HTML responses** now have correct `<title>`, `<meta description>`, `<link canonical>`, OG tags, keywords injected server-side

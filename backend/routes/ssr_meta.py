@@ -11,6 +11,7 @@ from fastapi import APIRouter, Query
 from database import db
 import json
 import re
+import time
 
 router = APIRouter()
 
@@ -19,8 +20,9 @@ SITE_NAME = "Brightluxx"
 DEFAULT_DESC = "Premium LED display solutions for architects, contractors, and specifiers in Dubai, UAE & GCC. MicroLED, outdoor, transparent, and creative LED displays."
 DEFAULT_OG_IMAGE = "https://files.ihgbrands.com/uploads_hero_banner.webp"
 
-# In-memory cache (reset on server restart)
+# In-memory cache with TTL (reset on server restart)
 _meta_cache = {}
+_CACHE_TTL = 600  # 10 minutes
 
 # Human-friendly path-to-title mapping for pages without DB entries
 PATH_TITLES = {
@@ -134,9 +136,10 @@ async def get_ssr_meta(path: str = Query(...)):
     # Normalize path
     path = path.rstrip("/") or "/"
 
-    # Check cache
-    if path in _meta_cache:
-        return _meta_cache[path]
+    # Check cache with TTL
+    cached = _meta_cache.get(path)
+    if cached and (time.time() - cached["_ts"]) < _CACHE_TTL:
+        return cached["data"]
 
     # Try SEO database first
     seo_col = db["page_seo"]
@@ -272,10 +275,10 @@ async def get_ssr_meta(path: str = Query(...)):
             }
             result["schemas"] = [json.dumps(faq_schema)]
 
-    # Cache result (cap at 500 entries)
+    # Cache result with timestamp (cap at 500 entries)
     if len(_meta_cache) > 500:
         _meta_cache.clear()
-    _meta_cache[path] = result
+    _meta_cache[path] = {"data": result, "_ts": time.time()}
     return result
 
 

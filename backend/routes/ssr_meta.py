@@ -399,9 +399,12 @@ async def _build_schemas(path: str, meta: dict) -> list:
             (title, url),
         ])))
 
-    # --- Fallback: any other page gets a WebPage schema ---
+    # --- Fallback: any other page gets a WebPage schema + BreadcrumbList ---
     else:
         schemas.append(json.dumps(_webpage_schema(title=title, description=desc, url=url)))
+        if path != "/":
+            crumbs = [("Home", PRODUCTION_URL), (title, url)]
+            schemas.append(json.dumps(_breadcrumb_schema(crumbs)))
 
     return schemas
 

@@ -135,7 +135,27 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - **Schema integration**: Product schema.org/Product now includes `AggregateRating` (ratingValue, reviewCount) computed from approved reviews
 - MongoDB indexes: `{product_slug, status}` and unique `{id}` on reviews collection
 
-### Smart Cache Purge — Aug 9, 2026
+### Admin Reviews Moderation Panel — Aug 9, 2026
+- **New admin page** at `/admin/reviews` for review moderation
+  - Stats cards: pending/approved/rejected counts, clickable for filtering
+  - Review table with reviewer name/email, product, star rating, status, date, approve/reject/delete actions
+  - Detail panel: slides in from right with full review info, spam score, moderation actions
+  - Filters: product slug search, status dropdown
+  - Pagination support for large review volumes
+- Nav item added to admin sidebar between Leads and Analytics
+- Route registered at `/admin/reviews` in App.js
+
+### Duplicate BreadcrumbList Cleanup — Aug 9, 2026
+- **Root cause**: BreadcrumbList was emitted from THREE sources:
+  1. `prerender-server.js` generic path-based generator (for crawler requests)
+  2. `ssr_meta.py` `_build_schemas()` (accurate, page-title-aware)
+  3. `SEO.js` client-side `breadcrumbs` prop (for hydrated SPA)
+- **Fixed**: Removed sources 1 and 3, keeping only `ssr_meta.py` as single source
+  - Removed prerender-server.js lines 285-304 (generic path-segment BreadcrumbList)
+  - Removed SEO.js `breadcrumbs` prop handling (lines 421-425)
+  - Added BreadcrumbList to `_build_schemas()` fallback branch for hub/index pages
+- **Result**: All pages have exactly 1 BreadcrumbList (or 0 for homepage)
+- Verified across 23+ pages with zero duplicates
 - **SSR meta cache auto-clears** when admin saves content:
   - Product create/update (`admin_crud.py`)
   - Blog create/update (`blog.py`)

@@ -93,7 +93,7 @@ export default function AdminReviews() {
 
       {/* Filters */}
       <div className="flex gap-3 mb-6">
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-0">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--blx-muted)]" />
           <input
             type="text"
@@ -107,7 +107,7 @@ export default function AdminReviews() {
         <select
           value={statusFilter}
           onChange={e => { setStatusFilter(e.target.value); setPage(1); }}
-          className="px-3 py-2 rounded-lg border border-[var(--blx-border)] bg-[rgba(20,20,20,0.5)] text-sm"
+          className="w-44 shrink-0 px-3 py-2 rounded-lg border border-[var(--blx-border)] bg-[rgba(20,20,20,0.5)] text-sm"
           data-testid="reviews-status-filter"
         >
           <option value="">All Status</option>

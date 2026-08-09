@@ -69,8 +69,13 @@ function TechnologiesPanel() {
   useEffect(() => { fetchData(); }, [fetchData]);
 
   const handleToggleActive = async (id) => {
-    await fetch(`${API_URL}/api/technologies/admin/${id}/toggle-active`, { method: 'POST' });
-    fetchData();
+    try {
+      const res = await fetch(`${API_URL}/api/technologies/admin/${id}/toggle-active`, { method: 'POST' });
+      if (!res.ok) throw new Error(`Failed to update visibility (${res.status})`);
+      await fetchData();
+    } catch (err) {
+      alert(err.message || 'Failed to update visibility');
+    }
   };
 
   const handleDelete = async (id) => {
@@ -155,8 +160,13 @@ function ApplicationsPanel() {
   useEffect(() => { fetchData(); }, [fetchData]);
 
   const handleToggleActive = async (id) => {
-    await fetch(`${API_URL}/api/applications/admin/${id}/toggle-active`, { method: 'POST' });
-    fetchData();
+    try {
+      const res = await fetch(`${API_URL}/api/applications/admin/${id}/toggle-active`, { method: 'POST' });
+      if (!res.ok) throw new Error(`Failed to update visibility (${res.status})`);
+      await fetchData();
+    } catch (err) {
+      alert(err.message || 'Failed to update visibility');
+    }
   };
 
   const handleDelete = async (id) => {
@@ -241,8 +251,13 @@ function SiteContentPanel() {
   useEffect(() => { fetchData(); }, [fetchData]);
 
   const handleToggleActive = async (slug) => {
-    await fetch(`${API_URL}/api/site-content/admin/${slug}/toggle-active`, { method: 'POST' });
-    fetchData();
+    try {
+      const res = await fetch(`${API_URL}/api/site-content/admin/${slug}/toggle-active`, { method: 'POST' });
+      if (!res.ok) throw new Error(`Failed to update visibility (${res.status})`);
+      await fetchData();
+    } catch (err) {
+      alert(err.message || 'Failed to update visibility');
+    }
   };
 
   const handleDelete = async (slug) => {

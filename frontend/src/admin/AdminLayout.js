@@ -29,6 +29,26 @@ export default function AdminLayout() {
   const { admin, logout } = useAdmin();
   const navigate = useNavigate();
 
+  // The admin CMS is designed dark-only. When the public site is in light mode,
+  // the global light-mode overrides in index.css repaint the admin's hardcoded
+  // dark utility classes and leave some buttons/inputs illegible (dark-on-dark).
+  // Force the dark theme while any admin page is mounted, then restore the user's
+  // chosen theme on exit so the public site is completely unaffected.
+  React.useEffect(() => {
+    const html = document.documentElement;
+    const wasLight = html.classList.contains('light');
+    if (wasLight) {
+      html.classList.remove('light');
+      html.classList.add('dark');
+    }
+    return () => {
+      if (wasLight) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+      }
+    };
+  }, []);
+
   const handleLogout = () => { logout(); navigate('/admin'); };
 
   return (

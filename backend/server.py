@@ -102,10 +102,12 @@ async def perf_and_security(request: Request, call_next):
 
     # Cache-Control for public GET endpoints
     if request.method == "GET" and response.status_code == 200:
-        if any(path == p or path.startswith(p + "/") for p in _CACHEABLE):
-            response.headers["Cache-Control"] = "public, max-age=300, stale-while-revalidate=600"
-        elif path.startswith("/api/admin/"):
+        # Admin endpoints must never be publicly cached — this covers both
+        # /api/admin/* and CMS admin sub-paths like /api/product-families/admin/all.
+        if path.startswith("/api/admin/") or "/admin/" in path:
             response.headers["Cache-Control"] = "no-store"
+        elif any(path == p or path.startswith(p + "/") for p in _CACHEABLE):
+            response.headers["Cache-Control"] = "public, max-age=300, stale-while-revalidate=600"
 
     # Non-blocking perf tracking
     if path.startswith("/api/") and not any(path.startswith(s) for s in _SKIP_PERF):

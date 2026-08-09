@@ -179,7 +179,7 @@ const Projects = () => {
             </button>
 
             {selectedProject.image_url ? (
-              <img src={selectedProject.image_url} alt={selectedProject.title} className="w-full h-64 object-cover rounded-t-[var(--blx-radius-lg)]" />
+              <img src={cdnUrl(selectedProject.image_url)} alt={selectedProject.title} className="w-full h-64 object-cover rounded-t-[var(--blx-radius-lg)]" />
             ) : (
               <div className="w-full h-64 flex items-center justify-center rounded-t-[var(--blx-radius-lg)]" style={{ background: 'linear-gradient(135deg, rgba(229,197,116,0.08), rgba(229,197,116,0.02))' }}>
                 <Building size={48} className="text-[var(--blx-muted)]" />

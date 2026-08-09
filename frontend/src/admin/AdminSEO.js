@@ -358,6 +358,8 @@ export default function AdminSEO() {
     );
   }
 
+  const needsWorkCount = stats ? (stats.needs_work || 0) + (stats.missing || 0) : 0;
+
   return (
     <div className="p-6 max-w-[1400px] mx-auto" data-testid="admin-seo-page">
       {/* Header */}
@@ -397,9 +399,9 @@ export default function AdminSEO() {
             <div className="text-[0.55rem] font-bold tracking-[0.2em] text-emerald-400/60 mb-1">OPTIMIZED</div>
             <div className="text-2xl font-bold text-emerald-400">{stats.optimized}</div>
           </div>
-          <div className="p-4 rounded-xl bg-red-500/5 border border-red-500/10" data-testid="stat-needs-work">
-            <div className="text-[0.55rem] font-bold tracking-[0.2em] text-red-400/60 mb-1">NEEDS WORK</div>
-            <div className="text-2xl font-bold text-red-400">{stats.needs_work + stats.missing}</div>
+          <div className={`p-4 rounded-xl ${needsWorkCount === 0 ? 'bg-white/[0.02] border border-white/5' : 'bg-red-500/5 border border-red-500/10'}`} data-testid="stat-needs-work">
+            <div className={`text-[0.55rem] font-bold tracking-[0.2em] mb-1 ${needsWorkCount === 0 ? 'text-[var(--blx-muted)]' : 'text-red-400/60'}`}>NEEDS WORK</div>
+            <div className={`text-2xl font-bold ${needsWorkCount === 0 ? '' : 'text-red-400'}`}>{needsWorkCount}</div>
           </div>
         </div>
       )}
@@ -448,10 +450,10 @@ export default function AdminSEO() {
             className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 cursor-pointer transition-all group"
             data-testid={`seo-page-row-${page.path.replace(/\//g, '-')}`}
           >
-            <div className="w-12">
+            <div className="flex-shrink-0">
               <ScoreBadge score={page.score} />
             </div>
-            <div className="w-14">
+            <div className="w-28 flex-shrink-0">
               <ScoreBar score={page.score} />
             </div>
             <div className="flex-1 min-w-0">
@@ -467,9 +469,9 @@ export default function AdminSEO() {
             </div>
             <div className="hidden md:flex items-center gap-1 flex-wrap max-w-[200px]">
               {(page.keywords || []).slice(0, 3).map((kw, i) => (
-                <span key={i} className="text-[0.5rem] px-1.5 py-0.5 rounded bg-white/5 text-[var(--blx-muted)] truncate max-w-[80px]">{kw}</span>
+                <span key={i} title={kw} className="text-[0.5rem] px-1.5 py-0.5 rounded bg-white/5 text-[var(--blx-muted)] truncate max-w-[80px]">{kw}</span>
               ))}
-              {(page.keywords || []).length > 3 && <span className="text-[0.5rem] text-[var(--blx-muted)]">+{page.keywords.length - 3}</span>}
+              {(page.keywords || []).length > 3 && <span title={page.keywords.slice(3).join(', ')} className="text-[0.5rem] text-[var(--blx-muted)]">+{page.keywords.length - 3}</span>}
             </div>
             <ChevronDown size={14} className="text-[var(--blx-muted)] group-hover:text-white transition-colors" />
           </div>

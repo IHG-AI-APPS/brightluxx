@@ -229,12 +229,14 @@ const SignageSolutionsLanding = () => {
                 Get a Quote
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link
-                to="#products"
+              <button
+                type="button"
+                onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
                 className={`inline-flex items-center gap-2 px-8 py-4 ${isDark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-neutral-100 text-neutral-900 hover:bg-neutral-200'} font-semibold rounded-full transition-colors`}
+                data-testid="signage-browse-products-btn"
               >
                 Browse Products
-              </Link>
+              </button>
             </div>
 
             {/* Stats */}

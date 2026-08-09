@@ -166,7 +166,7 @@ export default function BlogPost() {
           <div className="h-40 bg-gradient-to-b from-cyan-500/5 to-transparent" />
         )}
         
-        <div className="max-w-[900px] mx-auto px-6 md:px-12 relative" style={{ marginTop: blog.image_url ? '-160px' : '60px' }}>
+        <div className="max-w-[900px] mx-auto px-6 md:px-12 relative" style={{ marginTop: blog.image_url ? '2.5rem' : '60px' }}>
           <FadeInSection>
             <Breadcrumbs 
               items={[

@@ -11,7 +11,7 @@ import os
 router = APIRouter(prefix="/api/pixelvue", tags=["pixelvue"])
 
 # Import database
-from database import db
+from database import db, id_query
 
 # Pydantic Models
 class QuickSpec(BaseModel):
@@ -174,26 +174,22 @@ async def update_product(product_id: str, product: PixelVueProductUpdate):
     """Admin: Update a product"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(product_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid product ID")
-    
-    existing = await db.pixelvue_products.find_one({"_id": obj_id})
+    flt = id_query(product_id)
+    existing = await db.pixelvue_products.find_one(flt)
     if not existing:
         raise HTTPException(status_code=404, detail="Product not found")
-    
+
     # Check for duplicate slug if slug is being changed
     update_data = {k: v for k, v in product.model_dump().items() if v is not None}
     if "slug" in update_data and update_data["slug"] != existing.get("slug"):
-        slug_exists = await db.pixelvue_products.find_one({"slug": update_data["slug"], "_id": {"$ne": obj_id}})
+        slug_exists = await db.pixelvue_products.find_one({"slug": update_data["slug"], "_id": {"$nin": flt["_id"]["$in"]}})
         if slug_exists:
             raise HTTPException(status_code=400, detail="Product with this slug already exists")
-    
+
     update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
-    
-    await db.pixelvue_products.update_one({"_id": obj_id}, {"$set": update_data})
-    updated = await db.pixelvue_products.find_one({"_id": obj_id})
+
+    await db.pixelvue_products.update_one(flt, {"$set": update_data})
+    updated = await db.pixelvue_products.find_one(flt)
     return serialize_product(updated)
 
 @router.delete("/admin/products/{product_id}")
@@ -201,15 +197,10 @@ async def delete_product(product_id: str):
     """Admin: Delete a product"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(product_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid product ID")
-    
-    result = await db.pixelvue_products.delete_one({"_id": obj_id})
+    result = await db.pixelvue_products.delete_one(id_query(product_id))
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Product not found")
-    
+
     return {"message": "Product deleted successfully"}
 
 @router.post("/admin/products/{product_id}/toggle-active")
@@ -217,21 +208,17 @@ async def toggle_product_active(product_id: str):
     """Admin: Toggle product active status"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(product_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid product ID")
-    
-    product = await db.pixelvue_products.find_one({"_id": obj_id})
+    flt = id_query(product_id)
+    product = await db.pixelvue_products.find_one(flt)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    
+
     new_status = not product.get("is_active", True)
     await db.pixelvue_products.update_one(
-        {"_id": obj_id},
+        flt,
         {"$set": {"is_active": new_status, "updated_at": datetime.now(timezone.utc).isoformat()}}
     )
-    
+
     return {"is_active": new_status}
 
 @router.post("/admin/products/reorder")
@@ -241,9 +228,8 @@ async def reorder_products(product_orders: List[dict]):
     
     for item in product_orders:
         try:
-            obj_id = ObjectId(item["id"])
             await db.pixelvue_products.update_one(
-                {"_id": obj_id},
+                id_query(item["id"]),
                 {"$set": {"order": item["order"]}}
             )
         except Exception:

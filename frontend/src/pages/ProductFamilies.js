@@ -100,6 +100,17 @@ const STATIC_PRODUCT_FAMILIES = [
     key_features: ['100K+ Hours', '3840Hz Refresh', '160° Viewing', '3-Year Warranty'],
     products: [{ name: 'iPoster' }, { name: 'Unity' }, { name: 'Creative Shapes' }],
   },
+  {
+    id: 'art-immersive',
+    name: 'Art & XR',
+    slug: 'art-immersive',
+    tagline: 'Immersive Art & Extended Reality',
+    description: 'Immersive digital art and extended-reality LED experiences — NFT galleries, teamLab-style immersive walls, XR/virtual-production stages, metaverse installations, and sculptural public art.',
+    brand_color: 'violet',
+    hero_image: 'https://files.ihgbrands.com/nav-images_nav_ext_5607981affc7.webp',
+    key_features: ['NFT Galleries', 'Immersive Walls', 'XR / Virtual Production', 'Sculptural & Public Art'],
+    products: [{ name: 'NFT Gallery Displays' }, { name: 'Immersive Walls' }, { name: 'XR/Virtual Production' }],
+  },
 ];
 
 // Fallback hero images keyed by slug
@@ -145,6 +156,7 @@ const COMPARISON_DATA = {
   signatouch: { bestFor: 'Retail & Service', pitch: '4K UHD', feature: 'Touch & Payment', install: 'Freestanding' },
   glassmorph: { bestFor: 'Glass Facades', pitch: 'P3 - P10', feature: 'Transparency', install: 'Retrofit/New' },
   pixelvue: { bestFor: 'Commercial', pitch: 'P1.5 - P10', feature: 'Modular Design', install: 'Multi-Config' },
+  'art-immersive': { bestFor: 'Art & Experiential', pitch: 'P1.5 - P6', feature: 'Immersive & XR', install: 'Custom' },
 };
 
 const ProductFamilyCard = ({ family, index }) => {
@@ -249,7 +261,7 @@ export default function ProductFamilies() {
     <div className={`${pageBg} min-h-screen transition-colors duration-500`} data-testid="product-families-page">
       <SEO 
         title="Product Families — Premium LED Display Collections | Brightluxx UAE"
-        description="Explore Brightluxx's 5 premium LED display product families: LumiMorph textured panels, NaturaTex natural screens, SignaTouch kiosks, GlassMorph smart glass, and PixelVue commercial displays."
+        description="Explore Brightluxx's 6 premium LED display product families: LumiMorph textured panels, NaturaTex natural screens, SignaTouch kiosks, GlassMorph smart glass, PixelVue commercial displays, and Art & XR immersive experiences."
         path="/product-families"
       />
 
@@ -272,7 +284,7 @@ export default function ProductFamilies() {
           </FadeIn>
           <FadeIn delay={2}>
             <p className={`${textSecondary} text-lg max-w-2xl mx-auto mb-8`}>
-              Five distinct product lines, each crafted for specific applications. 
+              Six distinct product lines, each crafted for specific applications.
               From luxury interiors to commercial signage — find your perfect LED solution.
             </p>
           </FadeIn>

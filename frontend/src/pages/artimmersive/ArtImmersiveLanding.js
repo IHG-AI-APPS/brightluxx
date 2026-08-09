@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SEO from '../../components/SEO';
-import { 
-  Palette, Sparkles, Film, Box, Globe, Layers, 
+import ShowreelModal from '../../components/ShowreelModal';
+import {
+  Palette, Sparkles, Film, Box, Globe, Layers,
   ArrowRight, Play, Monitor, Zap, Theater,
   Building2, Award, CheckCircle2
 } from 'lucide-react';
@@ -15,6 +16,7 @@ const ArtImmersiveLanding = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('all');
+  const [showreelOpen, setShowreelOpen] = useState(false);
   const { isDark } = useTheme();
 
   useEffect(() => {
@@ -138,7 +140,12 @@ const ArtImmersiveLanding = () => {
                 Start Your Project
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <button className={`inline-flex items-center gap-2 px-8 py-4 ${isDark ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-neutral-100 border-neutral-200 text-neutral-900 hover:bg-neutral-200'} border font-semibold rounded-full transition-colors`}>
+              <button
+                type="button"
+                onClick={() => setShowreelOpen(true)}
+                className={`inline-flex items-center gap-2 px-8 py-4 ${isDark ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-neutral-100 border-neutral-200 text-neutral-900 hover:bg-neutral-200'} border font-semibold rounded-full transition-colors`}
+                data-testid="art-immersive-showreel-btn"
+              >
                 <Play className="w-5 h-5" />
                 Watch Showreel
               </button>
@@ -389,6 +396,13 @@ const ArtImmersiveLanding = () => {
           </motion.div>
         </div>
       </section>
+
+      <ShowreelModal
+        open={showreelOpen}
+        onClose={() => setShowreelOpen(false)}
+        src="https://files.ihgbrands.com/videos_art-immersive-hero.mp4"
+        title="Art & Immersive Showreel"
+      />
     </div>
   );
 };

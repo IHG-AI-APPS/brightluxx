@@ -34,10 +34,12 @@ export default function AdminSolutions() {
 
   const handleToggleActive = async (solutionId) => {
     try {
-      await fetch(`${API_URL}/api/solutions/admin/${solutionId}/toggle-active`, { method: 'POST' });
-      fetchSolutions();
+      const res = await fetch(`${API_URL}/api/solutions/admin/${solutionId}/toggle-active`, { method: 'POST' });
+      if (!res.ok) throw new Error(`Failed to update visibility (${res.status})`);
+      await fetchSolutions();
     } catch (error) {
       console.error('Error toggling solution:', error);
+      alert(error.message || 'Failed to update visibility');
     }
   };
 

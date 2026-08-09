@@ -10,7 +10,7 @@ from bson import ObjectId
 router = APIRouter(prefix="/api/technologies", tags=["technologies"])
 
 # Import database
-from database import db
+from database import db, id_query
 
 # Pydantic Models
 class TechSpec(BaseModel):
@@ -150,20 +150,16 @@ async def update_technology(technology_id: str, technology: TechnologyUpdate):
     """Admin: Update a technology"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(technology_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid technology ID")
-    
-    existing = await db.technologies_content.find_one({"_id": obj_id})
+    flt = id_query(technology_id)
+    existing = await db.technologies_content.find_one(flt)
     if not existing:
         raise HTTPException(status_code=404, detail="Technology not found")
-    
+
     update_data = {k: v for k, v in technology.model_dump().items() if v is not None}
     update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
-    
-    await db.technologies_content.update_one({"_id": obj_id}, {"$set": update_data})
-    updated = await db.technologies_content.find_one({"_id": obj_id})
+
+    await db.technologies_content.update_one(flt, {"$set": update_data})
+    updated = await db.technologies_content.find_one(flt)
     return serialize_technology(updated)
 
 @router.delete("/admin/{technology_id}")
@@ -171,15 +167,10 @@ async def delete_technology(technology_id: str):
     """Admin: Delete a technology"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(technology_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid technology ID")
-    
-    result = await db.technologies_content.delete_one({"_id": obj_id})
+    result = await db.technologies_content.delete_one(id_query(technology_id))
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Technology not found")
-    
+
     return {"message": "Technology deleted successfully"}
 
 @router.post("/admin/{technology_id}/toggle-active")
@@ -187,19 +178,15 @@ async def toggle_technology_active(technology_id: str):
     """Admin: Toggle technology active status"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(technology_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid technology ID")
-    
-    technology = await db.technologies_content.find_one({"_id": obj_id})
+    flt = id_query(technology_id)
+    technology = await db.technologies_content.find_one(flt)
     if not technology:
         raise HTTPException(status_code=404, detail="Technology not found")
-    
+
     new_status = not technology.get("is_active", True)
     await db.technologies_content.update_one(
-        {"_id": obj_id},
+        flt,
         {"$set": {"is_active": new_status, "updated_at": datetime.now(timezone.utc).isoformat()}}
     )
-    
+
     return {"is_active": new_status}

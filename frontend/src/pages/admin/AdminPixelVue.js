@@ -44,12 +44,14 @@ export default function AdminPixelVue() {
 
   const handleToggleActive = async (productId) => {
     try {
-      await fetch(`${API_URL}/api/pixelvue/admin/products/${productId}/toggle-active`, {
+      const res = await fetch(`${API_URL}/api/pixelvue/admin/products/${productId}/toggle-active`, {
         method: 'POST'
       });
-      fetchProducts();
+      if (!res.ok) throw new Error(`Failed to update visibility (${res.status})`);
+      await fetchProducts();
     } catch (error) {
       console.error('Error toggling product:', error);
+      alert(error.message || 'Failed to update visibility');
     }
   };
 

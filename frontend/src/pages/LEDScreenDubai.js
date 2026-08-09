@@ -40,30 +40,34 @@ const SERVICES = [
 
 // Product categories for Dubai market
 const PRODUCT_CATEGORIES = [
-  { 
+  {
     name: 'Indoor LED Screens',
     slug: 'indoor',
+    link: '/products?category=indoor',
     desc: 'P0.9 to P4 for retail, corporate, and hospitality',
     image: 'https://files.ihgbrands.com/emergent-images/a379f5353c57d10c3ccb272e021b119bde5d9c6101d9a4d4f71817893955204d.png',
     features: ['Fine Pitch Options', 'High Refresh Rate', 'Energy Efficient']
   },
-  { 
+  {
     name: 'Outdoor LED Billboards',
     slug: 'outdoor',
+    link: '/solutions/outdoor',
     desc: 'Weather-resistant displays for Dubai climate',
     image: 'https://files.ihgbrands.com/emergent-images/557b0ddabad0adc0fba81b320821a3adf782837c1aa705d6b13b9c4a5dac87eb.png',
     features: ['10,000+ Nits', 'IP65 Rated', 'Heat Resistant']
   },
-  { 
+  {
     name: 'Transparent LED',
     slug: 'transparent',
+    link: '/solutions/transparent',
     desc: 'See-through displays for storefronts & facades',
     image: 'https://files.ihgbrands.com/emergent-images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
     features: ['85% Transparency', 'Lightweight', 'Easy Install']
   },
-  { 
+  {
     name: 'LED Video Walls',
     slug: 'video-wall',
+    link: '/products?category=all-in-one',
     desc: 'Seamless large-format displays for any space',
     image: 'https://files.ihgbrands.com/emergent-images/8581b075158bc90730f45490bd7099982ba35ba2120543a49cc68a94837130a7.png',
     features: ['Seamless Design', 'Modular', 'Any Size']
@@ -272,7 +276,7 @@ export default function LEDScreenDubai() {
             {PRODUCT_CATEGORIES.map((cat, i) => (
               <Link
                 key={i}
-                to={`/solutions/${cat.slug}`}
+                to={cat.link || `/solutions/${cat.slug}`}
                 className="group relative overflow-hidden rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all"
                 data-testid={`product-cat-${cat.slug}`}
               >

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SEO from '../../components/SEO';
-import { 
-  Tv, Home, Palmtree, Ship, Sparkles, ArrowRight, 
+import ShowreelModal from '../../components/ShowreelModal';
+import {
+  Tv, Home, Palmtree, Ship, Sparkles, ArrowRight,
   Play, Star, Shield, Wifi, Volume2, Cpu, Layers
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -14,6 +15,7 @@ const LuxuryHomeCinemaLanding = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('all');
+  const [showreelOpen, setShowreelOpen] = useState(false);
   const { isDark } = useTheme();
 
   useEffect(() => {
@@ -129,7 +131,12 @@ const LuxuryHomeCinemaLanding = () => {
                 Schedule Consultation
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <button className={`inline-flex items-center gap-2 px-8 py-4 ${isDark ? 'bg-white/10 backdrop-blur border-white/20 text-white hover:bg-white/20' : 'bg-white/80 backdrop-blur border-neutral-200 text-neutral-900 hover:bg-white'} border font-semibold rounded-full transition-colors`}>
+              <button
+                type="button"
+                onClick={() => setShowreelOpen(true)}
+                className={`inline-flex items-center gap-2 px-8 py-4 ${isDark ? 'bg-white/10 backdrop-blur border-white/20 text-white hover:bg-white/20' : 'bg-white/80 backdrop-blur border-neutral-200 text-neutral-900 hover:bg-white'} border font-semibold rounded-full transition-colors`}
+                data-testid="home-cinema-showreel-btn"
+              >
                 <Play className="w-5 h-5" />
                 Watch Showreel
               </button>
@@ -433,6 +440,13 @@ const LuxuryHomeCinemaLanding = () => {
           </motion.div>
         </div>
       </section>
+
+      <ShowreelModal
+        open={showreelOpen}
+        onClose={() => setShowreelOpen(false)}
+        src="https://files.ihgbrands.com/videos_home-cinema-hero.mp4"
+        title="Luxury Home Cinema Showreel"
+      />
     </div>
   );
 };

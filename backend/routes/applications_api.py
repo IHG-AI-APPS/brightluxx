@@ -10,7 +10,7 @@ from bson import ObjectId
 router = APIRouter(prefix="/api/applications", tags=["applications"])
 
 # Import database
-from database import db
+from database import db, id_query
 
 # Pydantic Models
 class UseCase(BaseModel):
@@ -147,20 +147,16 @@ async def update_application(application_id: str, application: ApplicationUpdate
     """Admin: Update an application"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(application_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid application ID")
-    
-    existing = await db.applications_content.find_one({"_id": obj_id})
+    flt = id_query(application_id)
+    existing = await db.applications_content.find_one(flt)
     if not existing:
         raise HTTPException(status_code=404, detail="Application not found")
-    
+
     update_data = {k: v for k, v in application.model_dump().items() if v is not None}
     update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
-    
-    await db.applications_content.update_one({"_id": obj_id}, {"$set": update_data})
-    updated = await db.applications_content.find_one({"_id": obj_id})
+
+    await db.applications_content.update_one(flt, {"$set": update_data})
+    updated = await db.applications_content.find_one(flt)
     return serialize_application(updated)
 
 @router.delete("/admin/{application_id}")
@@ -168,15 +164,10 @@ async def delete_application(application_id: str):
     """Admin: Delete an application"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(application_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid application ID")
-    
-    result = await db.applications_content.delete_one({"_id": obj_id})
+    result = await db.applications_content.delete_one(id_query(application_id))
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Application not found")
-    
+
     return {"message": "Application deleted successfully"}
 
 @router.post("/admin/{application_id}/toggle-active")
@@ -184,18 +175,14 @@ async def toggle_application_active(application_id: str):
     """Admin: Toggle application active status"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(application_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid application ID")
-    
-    application = await db.applications_content.find_one({"_id": obj_id})
+    flt = id_query(application_id)
+    application = await db.applications_content.find_one(flt)
     if not application:
         raise HTTPException(status_code=404, detail="Application not found")
-    
+
     new_status = not application.get("is_active", True)
     await db.applications_content.update_one(
-        {"_id": obj_id},
+        flt,
         {"$set": {"is_active": new_status, "updated_at": datetime.now(timezone.utc).isoformat()}}
     )
     

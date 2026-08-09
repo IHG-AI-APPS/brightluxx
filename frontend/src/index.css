@@ -167,6 +167,19 @@ html.light {
   --input: 214 32% 91%;
 }
 
+/* Always-dark floating widgets (AURA chat, Quick Inquiry) have hardcoded dark
+   backgrounds, so keep their text tokens on the dark-theme values in light mode
+   too — otherwise the theme flips their text dark and it vanishes on the panel. */
+html.light [data-testid="aura-chat-window"],
+html.light [data-testid="quick-inquiry-form"] {
+  color: #F5F5F7;
+  --blx-text: #F5F5F7;
+  --blx-text-2: #A8B0BC;
+  --blx-muted: #6B7280;
+  --blx-placeholder: rgba(245,245,247,0.40);
+  --blx-border: rgba(255,255,255,0.08);
+}
+
 /* ---- Light mode: Backgrounds ---- */
 html.light .bg-\[\#050508\] { background-color: #f8fafc !important; }
 html.light .bg-\[\#0A0A0D\] { background-color: #f1f5f9 !important; }

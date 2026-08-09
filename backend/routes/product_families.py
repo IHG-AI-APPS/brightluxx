@@ -11,7 +11,7 @@ from bson import ObjectId
 router = APIRouter(prefix="/api/product-families", tags=["product-families"])
 
 # Import database
-from database import db
+from database import db, id_query
 
 # Pydantic Models
 class Stat(BaseModel):
@@ -164,20 +164,16 @@ async def update_family(family_id: str, family: ProductFamilyUpdate):
     """Admin: Update a product family"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(family_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid family ID")
-    
-    existing = await db.product_families.find_one({"_id": obj_id})
+    flt = id_query(family_id)
+    existing = await db.product_families.find_one(flt)
     if not existing:
         raise HTTPException(status_code=404, detail="Product family not found")
-    
+
     update_data = {k: v for k, v in family.model_dump().items() if v is not None}
     update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
-    
-    await db.product_families.update_one({"_id": obj_id}, {"$set": update_data})
-    updated = await db.product_families.find_one({"_id": obj_id})
+
+    await db.product_families.update_one(flt, {"$set": update_data})
+    updated = await db.product_families.find_one(flt)
     return serialize_family(updated)
 
 @router.delete("/admin/{family_id}")
@@ -185,15 +181,10 @@ async def delete_family(family_id: str):
     """Admin: Delete a product family"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(family_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid family ID")
-    
-    result = await db.product_families.delete_one({"_id": obj_id})
+    result = await db.product_families.delete_one(id_query(family_id))
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Product family not found")
-    
+
     return {"message": "Product family deleted successfully"}
 
 @router.post("/admin/{family_id}/toggle-active")
@@ -201,19 +192,15 @@ async def toggle_family_active(family_id: str):
     """Admin: Toggle product family active status"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(family_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid family ID")
-    
-    family = await db.product_families.find_one({"_id": obj_id})
+    flt = id_query(family_id)
+    family = await db.product_families.find_one(flt)
     if not family:
         raise HTTPException(status_code=404, detail="Product family not found")
-    
+
     new_status = not family.get("is_active", True)
     await db.product_families.update_one(
-        {"_id": obj_id},
+        flt,
         {"$set": {"is_active": new_status, "updated_at": datetime.now(timezone.utc).isoformat()}}
     )
-    
+
     return {"is_active": new_status}

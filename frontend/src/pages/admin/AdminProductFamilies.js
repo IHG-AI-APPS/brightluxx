@@ -32,8 +32,13 @@ export default function AdminProductFamilies() {
   useEffect(() => { fetchFamilies(); }, [fetchFamilies]);
 
   const handleToggleActive = async (id) => {
-    await fetch(`${API_URL}/api/product-families/admin/${id}/toggle-active`, { method: 'POST' });
-    fetchFamilies();
+    try {
+      const res = await fetch(`${API_URL}/api/product-families/admin/${id}/toggle-active`, { method: 'POST' });
+      if (!res.ok) throw new Error(`Failed to update visibility (${res.status})`);
+      await fetchFamilies();
+    } catch (err) {
+      alert(err.message || 'Failed to update visibility');
+    }
   };
 
   const handleDelete = async (id) => {

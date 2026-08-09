@@ -10,7 +10,7 @@ from bson import ObjectId
 router = APIRouter(prefix="/api/solutions", tags=["solutions"])
 
 # Import database
-from database import db
+from database import db, id_query
 
 # Pydantic Models
 class Feature(BaseModel):
@@ -140,20 +140,16 @@ async def update_solution(solution_id: str, solution: SolutionUpdate):
     """Admin: Update a solution"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(solution_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid solution ID")
-    
-    existing = await db.solutions.find_one({"_id": obj_id})
+    flt = id_query(solution_id)
+    existing = await db.solutions.find_one(flt)
     if not existing:
         raise HTTPException(status_code=404, detail="Solution not found")
-    
+
     update_data = {k: v for k, v in solution.model_dump().items() if v is not None}
     update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
-    
-    await db.solutions.update_one({"_id": obj_id}, {"$set": update_data})
-    updated = await db.solutions.find_one({"_id": obj_id})
+
+    await db.solutions.update_one(flt, {"$set": update_data})
+    updated = await db.solutions.find_one(flt)
     return serialize_solution(updated)
 
 @router.delete("/admin/{solution_id}")
@@ -161,15 +157,10 @@ async def delete_solution(solution_id: str):
     """Admin: Delete a solution"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(solution_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid solution ID")
-    
-    result = await db.solutions.delete_one({"_id": obj_id})
+    result = await db.solutions.delete_one(id_query(solution_id))
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Solution not found")
-    
+
     return {"message": "Solution deleted successfully"}
 
 @router.post("/admin/{solution_id}/toggle-active")
@@ -177,19 +168,15 @@ async def toggle_solution_active(solution_id: str):
     """Admin: Toggle solution active status"""
     # Using imported db
     
-    try:
-        obj_id = ObjectId(solution_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid solution ID")
-    
-    solution = await db.solutions.find_one({"_id": obj_id})
+    flt = id_query(solution_id)
+    solution = await db.solutions.find_one(flt)
     if not solution:
         raise HTTPException(status_code=404, detail="Solution not found")
-    
+
     new_status = not solution.get("is_active", True)
     await db.solutions.update_one(
-        {"_id": obj_id},
+        flt,
         {"$set": {"is_active": new_status, "updated_at": datetime.now(timezone.utc).isoformat()}}
     )
-    
+
     return {"is_active": new_status}

@@ -4,6 +4,7 @@ from datetime import datetime, timezone, timedelta
 from database import db
 from auth import get_current_admin
 from anti_spam import validate_submission_full
+from utils import get_client_ip
 import uuid
 import re
 
@@ -77,11 +78,11 @@ async def submit_review(slug: str, request: Request):
         raise HTTPException(409, "You have already reviewed this product recently")
 
     # Anti-spam check (lightweight — reviews don't require phone)
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     spam_data = {
         "name": name, "email": email, "message": comment,
         "phone": "",
-        "_honeypot": body.get("_honeypot", ""),
+        "website": body.get("_honeypot", ""),
         "_website": body.get("_website", ""),
     }
     is_valid, error_msg, spam_score, geo_data = await validate_submission_full(spam_data, client_ip)

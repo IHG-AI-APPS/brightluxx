@@ -330,7 +330,6 @@ export default function SEO({
   type = 'website', 
   noIndex = false, 
   jsonLd,
-  breadcrumbs,
   faqs,
   product,
   service,

@@ -68,12 +68,14 @@ async def admin_delete_product(product_id: str, admin=Depends(get_current_admin)
     result = await products_col.delete_one({"id": product_id})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Product not found")
+    clear_ssr_cache()
     return {"success": True}
 
 
 @router.post("/api/admin/products/bulk-delete")
 async def admin_bulk_delete_products(ids: List[str], admin=Depends(get_current_admin)):
     result = await products_col.delete_many({"id": {"$in": ids}})
+    clear_ssr_cache()
     return {"success": True, "deleted": result.deleted_count}
 
 

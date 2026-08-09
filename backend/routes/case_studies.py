@@ -245,6 +245,7 @@ async def delete_case_study(case_id: str, admin=Depends(get_current_admin)):
     result = await case_studies_col.delete_one({"id": case_id})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Case study not found")
+    clear_ssr_cache()
     return {"success": True, "message": "Case study deleted"}
 
 

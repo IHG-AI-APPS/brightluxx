@@ -7,8 +7,9 @@ metadata into <head> before sending HTML to browsers/crawlers.
 This fixes the core SPA SEO issue: every page getting the same generic
 title/description in the initial HTML response.
 """
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Depends
 from database import db
+from auth import get_current_admin
 import json
 import re
 import time
@@ -477,7 +478,7 @@ async def get_ssr_meta(path: str = Query(...)):
 
 
 @router.post("/api/ssr/meta/clear-cache")
-async def clear_ssr_cache_endpoint():
-    """Clear the SSR meta cache (call after SEO data changes)."""
+async def clear_ssr_cache_endpoint(admin=Depends(get_current_admin)):
+    """Clear the SSR meta cache (admin only)."""
     _meta_cache.clear()
     return {"cleared": True}

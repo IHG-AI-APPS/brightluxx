@@ -318,6 +318,52 @@ function injectMeta(html, routePath, meta, internalLinks) {
   return html;
 }
 
+/** Inject only JSON-LD schemas (no canonical/OG) — used on crawler path where injectSSRMeta handles meta. */
+function injectMetaJsonLdOnly(html, meta, internalLinks) {
+  const jsonLdScripts = [];
+
+  // Organization + LocalBusiness schema (always present)
+  jsonLdScripts.push(JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": ["Organization", "LocalBusiness"],
+    "name": "Brightluxx",
+    "legalName": "Brightluxx LED Display Solutions",
+    "url": "https://brightluxx.com",
+    "logo": "https://files.ihgbrands.com/assets/brightluxx-logo-nav.png",
+    "description": "Premium LED display manufacturer and solutions provider in Dubai, UAE.",
+    "foundingDate": "2005",
+    "address": {"@type": "PostalAddress", "streetAddress": "Jebel Ali Industrial Area 1", "addressLocality": "Dubai", "addressCountry": "AE"},
+    "geo": {"@type": "GeoCoordinates", "latitude": 24.9857, "longitude": 55.0272},
+    "areaServed": [
+      {"@type": "Country", "name": "United Arab Emirates"},
+      {"@type": "Country", "name": "Saudi Arabia"},
+      {"@type": "Country", "name": "Qatar"},
+      {"@type": "Country", "name": "Kuwait"}
+    ],
+    "knowsAbout": ["LED Displays", "MicroLED", "Digital Signage", "Video Walls", "Transparent LED", "Interactive Kiosks", "Smart Glass"]
+  }));
+
+  // SiteNavigationElement for internal links
+  if (internalLinks && internalLinks.length) {
+    const navItems = internalLinks.slice(0, 30).map((l) => ({
+      "@type": "SiteNavigationElement",
+      name: l.name,
+      url: PROD_URL + l.path,
+    }));
+    jsonLdScripts.push(JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": navItems,
+    }));
+  }
+
+  if (jsonLdScripts.length) {
+    const scripts = jsonLdScripts.map((s) => `<script type="application/ld+json">${s}</script>`).join("\n    ");
+    html = html.replace("</head>", `    ${scripts}\n  </head>`);
+  }
+
+  return html;
+}
+
 /* ── Wait for CRA, then start proxy ────────────────────────────── */
 
 function waitForCRA() {
@@ -504,9 +550,10 @@ function startProxy() {
           if (ssrMeta) {
             html = injectSSRMeta(html, ssrMeta);
           }
-          // Also inject JSON-LD schemas from prerender data
+          // Inject JSON-LD schemas only (Organization, SiteNavigation) — skip canonical/OG
+          // since injectSSRMeta already handles those from /api/ssr/meta
           if (prerender && prerender.meta) {
-            html = injectMeta(html, routePath, prerender.meta, internalLinks);
+            html = injectMetaJsonLdOnly(html, prerender.meta, internalLinks);
           }
 
           // Cache the result

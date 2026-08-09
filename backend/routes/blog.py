@@ -212,6 +212,7 @@ async def delete_blog(blog_id: str, admin=Depends(get_current_admin)):
     result = await blogs_col.delete_one({"id": blog_id})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Blog post not found")
+    clear_ssr_cache()
     return {"success": True, "message": "Blog post deleted"}
 
 

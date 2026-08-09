@@ -79,6 +79,15 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
 
+
+### Code Review Remediation (Round 2) — Aug 9, 2026
+- **MEDIUM fix**: Review rate-limit now uses `get_client_ip(request)` instead of `request.client.host` — prevents all reviewers sharing one bucket behind proxy
+- **MEDIUM fix**: Crawler HTML no longer gets duplicate canonical/OG tags — `injectMetaJsonLdOnly()` function on crawler path emits only JSON-LD (Organization, SiteNavigation), not meta/canonical
+- **LOW fix**: Review honeypot field name aligned (`website` matches `validate_honeypot`)
+- **LOW fix**: Cache purge added to product delete, bulk-delete, blog delete, case study delete
+- **LOW fix**: `POST /api/ssr/meta/clear-cache` now requires admin auth (was unauthenticated)
+- **LOW fix**: Dead `breadcrumbs` prop removed from SEO.js
+
 ### Dynamic XML Sitemap Enhancement — Aug 9, 2026
 - **Rebuilt `/api/sitemap.xml`** as fully DB-driven dynamic sitemap (`backend/routes/sitemap.py`)
   - Queries 8 MongoDB collections: page_seo, products, blogs, case_studies, pixelvue_products, solutions_content, applications_content, technologies_content, inspirations

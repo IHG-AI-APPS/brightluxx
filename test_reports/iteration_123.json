@@ -1,0 +1,65 @@
+{
+  "summary": "Iteration 123: tested (1) JSON-LD structured-data coverage on the 31+ previously schema-less pages, (2) the new product review collection/moderation system incl. AggregateRating, and (3) the 'Smart Cache Purge'. 30/33 pytest cases pass. Feature 1 VERIFIED FIXED: all 16 sampled paths (case-studies, applications, contractors, latest-tech, knowledge, technology, solutions, digital-experience, /sla-guide, /supplier-registration, /technical-support, /lp/specifier-toolkit, homepage, product, blog) now return the expected Article/WebPage + BreadcrumbList from /api/ssr/meta AND the schema is present and valid JSON in the INITIAL HTML under a Googlebot UA (0 schema-less pages, 0 invalid JSON). Feature 2 VERIFIED WORKING end-to-end: validation 400s (rating missing/0/6/'five', comment<10, bad email, short name), 404 for unknown product, 409 duplicate, submit->pending->admin approve->public + Product.aggregateRating, reject removes from public, admin endpoints require auth, no _id leakage; Playwright confirmed the on-page review UI (write-review-btn -> form -> star rating -> submit -> review-success) works and the approved review renders with 5.0 (1). Feature 3 IS BROKEN: 'Smart Cache Purge' is a no-op in ALL 8 call sites.",
+  "backend_issues": {
+    "critical": [
+      {"endpoint": "routes/ssr_meta.py + reviews.py/admin_crud.py/blog.py/case_studies.py/seo_manager.py", "issue": "SMART CACHE PURGE IS A COMPLETE NO-OP (name shadowing). ssr_meta.py defines a sync helper `def clear_ssr_cache()` at line 133 and then RE-DEFINES the same name at line 477 as the `async def clear_ssr_cache()` FastAPI route handler. The later definition wins, so `from routes.ssr_meta import clear_ssr_cache` imports the ASYNC route handler; every call site invokes it WITHOUT await, so it just creates a coroutine that is discarded and the cache is never cleared. Proven twice: (a) backend.err.log contains `/app/backend/routes/reviews.py:164: RuntimeWarning: coroutine 'clear_ssr_cache' was never awaited` (and :176), (b) after approving a new review the Product schema from /api/ssr/meta still shows the OLD reviewCount (1) while the live approved count is 2, until POST /api/ssr/meta/clear-cache is called. Affects product create/update, blog create/update, case-study create/update, SEO page update and review moderation. FIX: rename the route handler (e.g. `async def clear_ssr_cache_endpoint()`), keep the sync helper name, and add a unit test that `inspect.iscoroutinefunction(clear_ssr_cache) is False`.", "priority": "CRITICAL"},
+      {"endpoint": "GET /api/products/{slug}/reviews", "issue": "PII LEAK: the PUBLIC reviews endpoint returns the reviewer's raw email address (verified: 'ahmed@example.com' returned to an unauthenticated caller), plus internal fields spam_score, moderated_by and status. Project the response (exclude email/spam_score/moderated_by) or use a Pydantic response_model.", "priority": "HIGH"}
+    ],
+    "minor": [
+      {"endpoint": "POST /api/products/{slug}/reviews", "issue": "Ordering bug: the anti-spam check runs BEFORE the product-exists check and returns a silent 200 {'status':'submitted'} when validate_submission_full fails. So once a client trips the IP rate limit, POST to a NON-EXISTENT product returns 200 instead of 404 and every genuine review is silently dropped with a success message. Move the product lookup (and duplicate check) above the anti-spam gate."},
+      {"endpoint": "POST /api/products/{slug}/reviews", "issue": "Duplicate-detection window is wrong: the code comments say '30 days' but the query uses `created_at >= first day of the CURRENT calendar month`. On the 1st of a month the window is ~0 days; on the 31st it is 31. Use `datetime.now(tz) - timedelta(days=30)`."},
+      {"endpoint": "POST /api/products/{slug}/reviews & PUT /api/admin/reviews/{id}", "issue": "No Pydantic models — request bodies are parsed with `await request.json()` and validated by hand, so a non-JSON body raises an unhandled JSONDecodeError (500) instead of 422, and errors are plain strings rather than structured detail."},
+      {"endpoint": "GET /api/products/{slug}/reviews", "issue": "`total` and `stats.total_reviews` are computed by two separate queries returning the same number (redundant round-trip); also `page`/`limit` are unbounded ints (limit=100000 accepted)."},
+      {"endpoint": "reviews collection", "issue": "No indexes created for the review queries ({product_slug,status}, {id}); reviews_col is grabbed at import time with no index setup, unlike other collections."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "ProductDetail key-specs grid", "issue": "Duplicate spec chip: 'PIXEL PITCH 1.8mm' is rendered twice on /products/gamewall-sim-180 (once from the top-level pixel_pitch field and once from key_specs). The same duplication is emitted into Product.additionalProperty in the JSON-LD.", "selector": "product spec grid", "priority": "LOW"},
+      {"component": "ReviewSection StarRating", "issue": "Readonly star ratings render as <button disabled> with data-testid star-1..star-5, so those testids are non-unique on the page (3 matches) and the first match is disabled — any test/automation clicking [data-testid='star-4'] hits a disabled readonly star. Suffix or scope the interactive testids (e.g. review-form-star-4) or use non-button elements for readonly stars.", "selector": "[data-testid='star-4']", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [
+      {"flow": "Structured data (initial HTML)", "issue": "DUPLICATE BreadcrumbList in the initial HTML on 4 page types: /technology/*, /knowledge/*, /solutions/* and /products/* emit BreadcrumbList twice (once server-injected from _build_schemas, once from the client-side schema component). Iteration 122 reported the same for blogs (now fixed); dedupe the remaining client-side emitters.", "affected_selectors": ["script[type='application/ld+json']"]},
+      {"flow": "Review moderation", "issue": "There is NO admin UI for review moderation — grep over /app/frontend/src finds zero references to /api/admin/reviews. Submitted reviews stay 'pending' forever unless an admin calls the API manually, so the review feature is not usable end-to-end by the site owner.", "affected_selectors": ["/admin (no reviews tab)"]}
+    ],
+    "design_issues": [
+      {"screen": "/products/{slug} review section", "issues": ["The floating 'Quick Inquiry' card and WhatsApp/chat bubbles sit over the lower-left of the review list at 1920x1080; not blocking the form but it overlaps review content on narrower viewports."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration123_schemas_reviews.py",
+    "/app/backend/tests/test_iteration123_cache_purge.py",
+    "/app/tests/sweep_ldjson_123.py",
+    "/app/tests/cleanup_reviews_123.py",
+    "/app/test_reports/pytest/iter123.xml"
+  ],
+  "action_items": [
+    "CRITICAL: fix the clear_ssr_cache name collision in routes/ssr_meta.py (sync helper line 133 vs async route line 477). Rename the route handler; the purge currently does nothing in reviews.py, admin_crud.py, blog.py, case_studies.py and seo_manager.py (RuntimeWarning 'coroutine never awaited' in backend.err.log). Re-run pytest /app/backend/tests/test_iteration123_cache_purge.py to verify.",
+    "HIGH: stop returning reviewer email (and spam_score/moderated_by) from the PUBLIC GET /api/products/{slug}/reviews.",
+    "Move the product-exists + duplicate checks BEFORE the anti-spam gate in POST /api/products/{slug}/reviews so a rate-limited client cannot get 200 for a non-existent product and genuine reviews are not silently dropped.",
+    "Fix the duplicate-review window (currently start-of-month, documented as 30 days).",
+    "Add an admin UI (or at least an /admin tab) for review moderation — the backend endpoints exist but nothing in the frontend calls them, so pending reviews are never approved.",
+    "De-duplicate BreadcrumbList on /technology/*, /knowledge/*, /solutions/* and /products/* (server-injected + client-side both emit it).",
+    "Convert the review endpoints to Pydantic request models (currently request.json() + manual checks; malformed JSON -> 500).",
+    "Make readonly star testids unique/non-clickable (data-testid star-1..5 matches 3 elements, first is disabled).",
+    "Remove the duplicate 'Pixel Pitch' chip on ProductDetail (and in Product.additionalProperty)."
+  ],
+  "critical_code_review_comments": [
+    "Defining a module-level helper and a route handler with the SAME function name in one module is a silent-failure class of bug: Python simply rebinds the name and FastAPI still registers the route, so nothing looks broken. Add a lint rule / unit assertion for exported cache-purge helpers, and prefer `_clear_cache()` + `async def clear_cache_endpoint()`.",
+    "reviews.py trusts raw request.json() and hand-rolls validation for 5 fields — this duplicates what Pydantic gives for free and already produced an ordering bug (anti-spam before existence check) and an unhandled JSONDecodeError path.",
+    "The public review serializer returns the entire Mongo document minus _id; always whitelist fields on public endpoints instead of blacklisting _id (this is how the email PII leaked)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_iteration123_schemas_reviews.py (new)",
+    "/app/backend/tests/test_iteration123_cache_purge.py (new)",
+    "/app/tests/sweep_ldjson_123.py (new)",
+    "/app/tests/cleanup_reviews_123.py (new)"
+  ],
+  "success_rate": {"backend": "91% (30/33 pytest cases; the 3 failures are the real cache-purge no-op and the email PII leak)", "frontend": "90% (review UI works end-to-end; deductions for duplicate BreadcrumbList, no admin moderation UI, non-unique star testids)"},
+  "seed_data_creation": "Created and then DELETED several TEST_/QA reviews on gamewall-sim-180. Final DB state restored: exactly 1 review (Ahmed Al Maktoum, 5 stars, approved); stats pending=0 approved=1 rejected=0. SSR meta cache cleared at the end via POST /api/ssr/meta/clear-cache.",
+  "should_call_test_agent_after_fix": true,
+  "should_main_agent_self_test": false,
+  "test_credentials": "admin@brightluxx.com / brightluxx2025 — verified working; /api/admin/login returns 200 and the session cookie authorizes /api/admin/reviews (no Bearer token needed, cookie auth is enough).",
+  "context_for_next_testing_agent": "VERIFIED GOOD (no need to retest unless ssr_meta changes): all 10 requested /api/ssr/meta schema paths + product/blog, valid @context on every schema, sequential breadcrumb positions, ld+json present & valid in initial HTML for 16 paths under Googlebot UA, /api/health, sitemap >=286 URLs with 0 duplicates, all review validation 400/404/409 cases, admin auth requirement, approve/reject visibility, Playwright review submission flow. TO RETEST AFTER FIX: `pytest /app/backend/tests/test_iteration123_cache_purge.py /app/backend/tests/test_iteration123_schemas_reviews.py -p no:randomly` — test_review_approval_purges_ssr_cache, TestReviewLifecycle::test_submit_and_moderate_flow (cache assertion) and test_public_reviews_do_not_leak_email must go green. Use /app/tests/sweep_ldjson_123.py for the ld+json/duplicate sweep and /app/tests/cleanup_reviews_123.py to purge QA reviews. Gotchas: (1) the backend lowercases review emails, compare with .lower(); (2) [data-testid='star-N'] matches 3 elements — scope with [data-testid='review-form'] [data-testid='star-4']; (3) page.wait_for_load_state('networkidle') never settles on this site, use 'domcontentloaded' + timeout; (4) a cookie-consent banner must be accepted before clicking near the viewport bottom; (5) the anti-spam IP rate limiter can silently 200 review submissions after several rapid posts.",
+  "rca_of_the_issue": "Smart Cache Purge no-op: routes/ssr_meta.py binds the module name `clear_ssr_cache` twice — first to the sync helper (line 133, `_meta_cache.clear()`), then to the async FastAPI handler for POST /api/ssr/meta/clear-cache (line 477). Python keeps the last binding, so all 8 importers get a coroutine function and call it without await; the coroutine is garbage-collected, the dict is never cleared, and CPython only whispers `RuntimeWarning: coroutine 'clear_ssr_cache' was never awaited` into backend.err.log. Reproduce: `python -c \"import inspect; from routes.ssr_meta import clear_ssr_cache; print(inspect.iscoroutinefunction(clear_ssr_cache))\"` -> True; or warm /api/ssr/meta?path=/products/gamewall-sim-180, approve a new review, re-fetch and observe the stale aggregateRating.reviewCount. Because _CACHE_TTL is 600s the stale window is bounded at 10 minutes, which is why the effect is easy to miss. PII leak: get_product_reviews projects only {_id: 0} and returns the full document, so email/spam_score/moderated_by reach anonymous clients."
+}

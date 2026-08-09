@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { trackProductView, trackQuoteRequest } from '../lib/tracker';
 import QuickInquiry from '../components/QuickInquiry';
+import ReviewSection from '../components/ReviewSection';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -426,6 +427,9 @@ export default function ProductDetail() {
           </div>
         </section>
       )}
+
+      {/* ===== REVIEWS ===== */}
+      <ReviewSection slug={slug} productName={product.name} isDark={isDark} text1={text1} text2={text2} card={card} />
 
       {/* ===== RELATED PRODUCTS ===== */}
       {related.length > 0 && (

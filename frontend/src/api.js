@@ -42,6 +42,10 @@ export const getProject = (slug) => api.get(`/api/projects/${slug}`);
 // Leads
 export const createLead = (data) => api.post('/api/leads', data);
 
+// Reviews
+export const getProductReviews = (slug, params) => api.get(`/api/products/${slug}/reviews`, { params });
+export const submitProductReview = (slug, data) => api.post(`/api/products/${slug}/reviews`, data);
+
 // Search
 export const search = (query) => api.get('/api/search', { params: { q: query } });
 

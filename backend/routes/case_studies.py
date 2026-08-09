@@ -11,6 +11,7 @@ import re
 
 from database import db
 from auth import get_current_admin
+from routes.ssr_meta import clear_ssr_cache
 router = APIRouter()
 
 case_studies_col = db["case_studies"]
@@ -179,7 +180,7 @@ async def create_case_study(data: CaseStudyCreate, admin=Depends(get_current_adm
     }
     
     await case_studies_col.insert_one(case_study)
-    
+    clear_ssr_cache()
     return {"success": True, "case_study": {k: v for k, v in case_study.items() if k != "_id"}}
 
 
@@ -233,7 +234,7 @@ async def update_case_study(case_id: str, data: CaseStudyUpdate, admin=Depends(g
             raise HTTPException(status_code=400, detail="Slug already exists")
     
     await case_studies_col.update_one({"id": case_id}, {"$set": update_data})
-    
+    clear_ssr_cache()
     updated = await case_studies_col.find_one({"id": case_id}, {"_id": 0})
     return {"success": True, "case_study": updated}
 

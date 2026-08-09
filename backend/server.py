@@ -46,6 +46,7 @@ from routes.internal_links import router as internal_links_router
 from routes.redirects import router as redirects_router
 from routes.ssr_meta import router as ssr_meta_router
 from routes.content_gen import router as content_gen_router
+from routes.reviews import router as reviews_router
 
 app = FastAPI()
 
@@ -168,6 +169,7 @@ app.include_router(internal_links_router)
 app.include_router(redirects_router)
 app.include_router(ssr_meta_router)
 app.include_router(content_gen_router)
+app.include_router(reviews_router)
 
 
 @app.on_event("startup")

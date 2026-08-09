@@ -11,6 +11,7 @@ import re
 
 from database import db
 from auth import get_current_admin
+from routes.ssr_meta import clear_ssr_cache
 router = APIRouter()
 
 blogs_col = db["blogs"]
@@ -200,7 +201,7 @@ async def update_blog(blog_id: str, data: BlogUpdate, admin=Depends(get_current_
             raise HTTPException(status_code=400, detail="Slug already exists")
     
     await blogs_col.update_one({"id": blog_id}, {"$set": update_data})
-    
+    clear_ssr_cache()
     updated = await blogs_col.find_one({"id": blog_id}, {"_id": 0})
     return {"success": True, "blog": updated}
 

@@ -12,6 +12,8 @@ from bson.errors import InvalidId
 import os
 import asyncio
 
+from routes.ssr_meta import clear_ssr_cache
+
 
 def parse_oid(page_id: str) -> ObjectId:
     """Parse and validate a page_id as ObjectId, or raise 400."""
@@ -274,6 +276,7 @@ async def update_page(page_id: str, data: SEOUpdate, admin=Depends(get_current_a
     update = {k: v for k, v in data.dict().items() if v is not None}
     update["updated_at"] = datetime.now(timezone.utc).isoformat()
     await col.update_one({"_id": parse_oid(page_id)}, {"$set": update})
+    clear_ssr_cache()
     doc = await col.find_one({"_id": parse_oid(page_id)})
     return serialize(doc)
 

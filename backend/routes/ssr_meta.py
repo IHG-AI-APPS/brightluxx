@@ -130,6 +130,282 @@ def _desc_from_path(path: str) -> str:
     return f"{title}. Premium LED display solutions by Brightluxx in Dubai, UAE."
 
 
+def clear_ssr_cache():
+    """Exported helper so admin routes can purge the cache."""
+    _meta_cache.clear()
+
+
+def _org_schema():
+    """Reusable Organization schema snippet."""
+    return {
+        "@type": "Organization",
+        "name": SITE_NAME,
+        "url": PRODUCTION_URL,
+        "logo": DEFAULT_OG_IMAGE,
+    }
+
+
+def _breadcrumb_schema(items):
+    """Build BreadcrumbList schema.  items = [(name, url), ...]"""
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": i + 1,
+                "name": name,
+                "item": url,
+            }
+            for i, (name, url) in enumerate(items)
+        ],
+    }
+
+
+def _article_schema(*, title, description, url, image=None, date_published=None,
+                     date_modified=None, section=None):
+    """Build an Article schema."""
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": title[:110] if title else "",
+        "description": description or "",
+        "url": url,
+        "image": image or DEFAULT_OG_IMAGE,
+        "author": _org_schema(),
+        "publisher": _org_schema(),
+    }
+    if date_published:
+        schema["datePublished"] = str(date_published)[:10]
+    if date_modified:
+        schema["dateModified"] = str(date_modified)[:10]
+    if section:
+        schema["articleSection"] = section
+    return schema
+
+
+def _webpage_schema(*, title, description, url):
+    """Build a generic WebPage schema."""
+    return {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": title,
+        "description": description or "",
+        "url": url,
+        "publisher": _org_schema(),
+    }
+
+
+async def _build_schemas(path: str, meta: dict) -> list:
+    """Build JSON-LD schemas for any page type. Returns list of JSON strings."""
+    schemas = []
+    title = meta.get("h1") or meta.get("title", "")
+    desc = meta.get("description", "")
+    url = f"{PRODUCTION_URL}{path}"
+
+    # --- Product pages ---
+    if path.startswith("/products/"):
+        slug = path.split("/products/")[1].rstrip("/")
+        product = await db["products"].find_one({"slug": slug})
+        if product:
+            product_schema = {
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": product.get("name", ""),
+                "description": product.get("description", "") or product.get("tagline", ""),
+                "sku": product.get("product_code", ""),
+                "brand": {"@type": "Brand", "name": product.get("brand", "Brightluxx")},
+                "manufacturer": _org_schema(),
+                "url": url,
+                "category": product.get("category", "LED Display"),
+                "image": product.get("image_url", "") or DEFAULT_OG_IMAGE,
+            }
+            # Offers
+            price_range = product.get("price_range")
+            if price_range and isinstance(price_range, dict):
+                product_schema["offers"] = {
+                    "@type": "AggregateOffer",
+                    "priceCurrency": price_range.get("currency", "USD"),
+                    "lowPrice": price_range.get("low", 0),
+                    "highPrice": price_range.get("high", 0),
+                    "offerCount": 1,
+                    "availability": f"https://schema.org/{product.get('availability', 'InStock')}",
+                    "seller": _org_schema(),
+                    "url": url,
+                }
+            # Properties
+            props = []
+            for field, label in [("pixel_pitch", "Pixel Pitch"), ("brightness", "Brightness"),
+                                 ("resolution", "Resolution"), ("warranty", "Warranty")]:
+                if product.get(field):
+                    props.append({"@type": "PropertyValue", "name": label, "value": product[field]})
+            key_specs = product.get("key_specs", {})
+            if isinstance(key_specs, dict):
+                for k, v in key_specs.items():
+                    if k not in ("pixel_pitch", "brightness", "resolution"):
+                        props.append({"@type": "PropertyValue", "name": k.replace("_", " ").title(), "value": str(v)})
+            if props:
+                product_schema["additionalProperty"] = props
+            # AggregateRating from reviews
+            review_stats = await db["reviews"].aggregate([
+                {"$match": {"product_slug": slug, "status": "approved"}},
+                {"$group": {"_id": None, "avg": {"$avg": "$rating"}, "count": {"$sum": 1}}}
+            ]).to_list(1)
+            if review_stats and review_stats[0]["count"] > 0:
+                product_schema["aggregateRating"] = {
+                    "@type": "AggregateRating",
+                    "ratingValue": round(review_stats[0]["avg"], 1),
+                    "reviewCount": review_stats[0]["count"],
+                    "bestRating": 5,
+                    "worstRating": 1,
+                }
+            schemas.append(json.dumps(product_schema))
+            # FAQ
+            if product.get("faq"):
+                schemas.append(json.dumps({
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": [
+                        {"@type": "Question", "name": item["q"],
+                         "acceptedAnswer": {"@type": "Answer", "text": item["a"]}}
+                        for item in product["faq"]
+                    ]
+                }))
+            # Breadcrumb
+            schemas.append(json.dumps(_breadcrumb_schema([
+                ("Home", PRODUCTION_URL),
+                ("Products", f"{PRODUCTION_URL}/products"),
+                (product.get("name", slug), url),
+            ])))
+
+    # --- Blog pages ---
+    elif path.startswith("/blog/") and path != "/blog":
+        blog_slug = path.split("/blog/")[1].rstrip("/")
+        blog = await db["blogs"].find_one({"slug": blog_slug})
+        if blog:
+            schemas.append(json.dumps(_article_schema(
+                title=blog.get("title", title),
+                description=blog.get("excerpt", desc),
+                url=url,
+                image=blog.get("cover_image") or blog.get("image_url"),
+                date_published=blog.get("created_at"),
+                date_modified=blog.get("updated_at"),
+                section="LED Display Technology",
+            )))
+            if blog.get("faq"):
+                schemas.append(json.dumps({
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": [
+                        {"@type": "Question", "name": item["q"],
+                         "acceptedAnswer": {"@type": "Answer", "text": item["a"]}}
+                        for item in blog["faq"]
+                    ]
+                }))
+            schemas.append(json.dumps(_breadcrumb_schema([
+                ("Home", PRODUCTION_URL),
+                ("Blog", f"{PRODUCTION_URL}/blog"),
+                (blog.get("title", blog_slug), url),
+            ])))
+
+    # --- Case study pages ---
+    elif path.startswith("/case-studies/") and path != "/case-studies":
+        cs_slug = path.split("/case-studies/")[1].rstrip("/")
+        cs = await db["case_studies"].find_one({"slug": cs_slug})
+        if cs:
+            schemas.append(json.dumps(_article_schema(
+                title=cs.get("title", title),
+                description=cs.get("challenge", desc),
+                url=url,
+                image=cs.get("hero_image") or cs.get("thumbnail"),
+                date_published=cs.get("created_at"),
+                date_modified=cs.get("updated_at"),
+                section="Case Study",
+            )))
+            schemas.append(json.dumps(_breadcrumb_schema([
+                ("Home", PRODUCTION_URL),
+                ("Case Studies", f"{PRODUCTION_URL}/case-studies"),
+                (cs.get("title", cs_slug), url),
+            ])))
+
+    # --- Application pages ---
+    elif path.startswith("/applications/") and path != "/applications":
+        schemas.append(json.dumps(_webpage_schema(title=title, description=desc, url=url)))
+        schemas.append(json.dumps(_breadcrumb_schema([
+            ("Home", PRODUCTION_URL),
+            ("Applications", f"{PRODUCTION_URL}/applications"),
+            (title, url),
+        ])))
+
+    # --- Digital experience pages ---
+    elif path.startswith("/digital-experience"):
+        schemas.append(json.dumps(_webpage_schema(title=title, description=desc, url=url)))
+        crumbs = [("Home", PRODUCTION_URL)]
+        if "/" in path.lstrip("/").split("/", 1)[-1]:
+            crumbs.append(("Digital Experience", f"{PRODUCTION_URL}/digital-experience-architecture"))
+        crumbs.append((title, url))
+        schemas.append(json.dumps(_breadcrumb_schema(crumbs)))
+
+    # --- Contractor pages ---
+    elif path.startswith("/contractors/"):
+        schemas.append(json.dumps(_article_schema(
+            title=title, description=desc, url=url, section="Contractor Resources",
+        )))
+        schemas.append(json.dumps(_breadcrumb_schema([
+            ("Home", PRODUCTION_URL),
+            ("For Contractors", f"{PRODUCTION_URL}/for-contractors"),
+            (title, url),
+        ])))
+
+    # --- Latest tech pages ---
+    elif path.startswith("/latest-tech/"):
+        schemas.append(json.dumps(_article_schema(
+            title=title, description=desc, url=url, section="Latest Technology",
+        )))
+        schemas.append(json.dumps(_breadcrumb_schema([
+            ("Home", PRODUCTION_URL),
+            ("Latest Tech", f"{PRODUCTION_URL}/latest-tech"),
+            (title, url),
+        ])))
+
+    # --- Knowledge hub articles ---
+    elif path.startswith("/knowledge/") and path != "/knowledge":
+        schemas.append(json.dumps(_article_schema(
+            title=title, description=desc, url=url, section="Knowledge Hub",
+        )))
+        schemas.append(json.dumps(_breadcrumb_schema([
+            ("Home", PRODUCTION_URL),
+            ("Knowledge Hub", f"{PRODUCTION_URL}/knowledge"),
+            (title, url),
+        ])))
+
+    # --- Technology sub-pages ---
+    elif path.startswith("/technology/") and path != "/technology":
+        schemas.append(json.dumps(_article_schema(
+            title=title, description=desc, url=url, section="LED Technology",
+        )))
+        schemas.append(json.dumps(_breadcrumb_schema([
+            ("Home", PRODUCTION_URL),
+            ("Technology", f"{PRODUCTION_URL}/technology"),
+            (title, url),
+        ])))
+
+    # --- Solutions sub-pages ---
+    elif path.startswith("/solutions/") and path != "/solutions":
+        schemas.append(json.dumps(_webpage_schema(title=title, description=desc, url=url)))
+        schemas.append(json.dumps(_breadcrumb_schema([
+            ("Home", PRODUCTION_URL),
+            ("Solutions", f"{PRODUCTION_URL}/solutions"),
+            (title, url),
+        ])))
+
+    # --- Fallback: any other page gets a WebPage schema ---
+    else:
+        schemas.append(json.dumps(_webpage_schema(title=title, description=desc, url=url)))
+
+    return schemas
+
+
 @router.get("/api/ssr/meta")
 async def get_ssr_meta(path: str = Query(...)):
     """Return page-specific meta for server-side injection into HTML <head>."""
@@ -185,95 +461,10 @@ async def get_ssr_meta(path: str = Query(...)):
     if not result["canonical"] or (result["canonical"] == f"{PRODUCTION_URL}/" and path != "/"):
         result["canonical"] = f"{PRODUCTION_URL}{path}"
 
-    # For product pages: add Product schema + FAQ schema
-    if path.startswith("/products/"):
-        slug = path.split("/products/")[1].rstrip("/")
-        product = await db["products"].find_one({"slug": slug})
-        if product:
-            schemas = []
-
-            # Product schema (schema.org/Product)
-            product_schema = {
-                "@context": "https://schema.org",
-                "@type": "Product",
-                "name": product.get("name", ""),
-                "description": product.get("description", "") or product.get("tagline", ""),
-                "sku": product.get("product_code", ""),
-                "brand": {"@type": "Brand", "name": product.get("brand", "Brightluxx")},
-                "manufacturer": {"@type": "Organization", "name": "Brightluxx"},
-                "url": f"{PRODUCTION_URL}{path}",
-                "category": product.get("category", "LED Display"),
-            }
-            # Image
-            img = product.get("image_url", "") or DEFAULT_OG_IMAGE
-            product_schema["image"] = img
-
-            # Offers (price range for B2B)
-            price_range = product.get("price_range")
-            if price_range and isinstance(price_range, dict):
-                product_schema["offers"] = {
-                    "@type": "AggregateOffer",
-                    "priceCurrency": price_range.get("currency", "USD"),
-                    "lowPrice": price_range.get("low", 0),
-                    "highPrice": price_range.get("high", 0),
-                    "offerCount": 1,
-                    "availability": f"https://schema.org/{product.get('availability', 'InStock')}",
-                    "seller": {"@type": "Organization", "name": "Brightluxx"},
-                    "url": f"{PRODUCTION_URL}{path}",
-                }
-
-            # Additional properties
-            props = []
-            if product.get("pixel_pitch"):
-                props.append({"@type": "PropertyValue", "name": "Pixel Pitch", "value": product["pixel_pitch"]})
-            if product.get("brightness"):
-                props.append({"@type": "PropertyValue", "name": "Brightness", "value": product["brightness"]})
-            if product.get("resolution"):
-                props.append({"@type": "PropertyValue", "name": "Resolution", "value": product["resolution"]})
-            if product.get("warranty"):
-                props.append({"@type": "PropertyValue", "name": "Warranty", "value": product["warranty"]})
-            if props:
-                product_schema["additionalProperty"] = props
-
-            # Key specs
-            key_specs = product.get("key_specs", {})
-            if isinstance(key_specs, dict):
-                for k, v in key_specs.items():
-                    if k not in ("pixel_pitch", "brightness", "resolution"):
-                        props.append({"@type": "PropertyValue", "name": k.replace("_", " ").title(), "value": str(v)})
-
-            schemas.append(json.dumps(product_schema))
-
-            # FAQ schema
-            if product.get("faq"):
-                faq_schema = {
-                    "@context": "https://schema.org",
-                    "@type": "FAQPage",
-                    "mainEntity": [
-                        {"@type": "Question", "name": item["q"],
-                         "acceptedAnswer": {"@type": "Answer", "text": item["a"]}}
-                        for item in product["faq"]
-                    ]
-                }
-                schemas.append(json.dumps(faq_schema))
-
-            result["schemas"] = schemas
-
-    # For blog pages: add FAQ schema if blog has FAQ
-    elif path.startswith("/blog/"):
-        blog_slug = path.split("/blog/")[1].rstrip("/")
-        blog = await db["blogs"].find_one({"slug": blog_slug})
-        if blog and blog.get("faq"):
-            faq_schema = {
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {"@type": "Question", "name": item["q"],
-                     "acceptedAnswer": {"@type": "Answer", "text": item["a"]}}
-                    for item in blog["faq"]
-                ]
-            }
-            result["schemas"] = [json.dumps(faq_schema)]
+    # --- Schema injection by page type ---
+    schemas = await _build_schemas(path, result)
+    if schemas:
+        result["schemas"] = schemas
 
     # Cache result with timestamp (cap at 500 entries)
     if len(_meta_cache) > 500:

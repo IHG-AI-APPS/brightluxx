@@ -7,6 +7,7 @@ from database import products_col, inspirations_col, projects_col, leads_col
 from models import AdminProductCreate, AdminProductUpdate, AdminInspirationCreate, AdminProjectCreate
 from utils import serialize_doc, slugify
 from auth import get_current_admin
+from routes.ssr_meta import clear_ssr_cache
 
 router = APIRouter()
 
@@ -42,6 +43,7 @@ async def admin_create_product(data: AdminProductCreate, admin=Depends(get_curre
     if existing:
         raise HTTPException(status_code=400, detail=f"Product code {data.product_code} already exists")
     await products_col.insert_one(product_dict)
+    clear_ssr_cache()
     return {"success": True, "product": serialize_doc(await products_col.find_one({"id": product_dict["id"]}))}
 
 
@@ -57,6 +59,7 @@ async def admin_update_product(product_id: str, data: AdminProductUpdate, admin=
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Product not found")
     updated = await products_col.find_one({"id": product_id})
+    clear_ssr_cache()
     return {"success": True, "product": serialize_doc(updated)}
 
 

@@ -418,12 +418,6 @@ export default function SEO({
       allSchemas.push(LOCAL_BUSINESS_SCHEMA);
     }
     
-    // Add breadcrumb schema if provided
-    const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
-    if (breadcrumbSchema) {
-      allSchemas.push(breadcrumbSchema);
-    }
-    
     // Add FAQ schema if provided
     const faqSchema = generateFAQSchema(faqs);
     if (faqSchema) {
@@ -458,7 +452,7 @@ export default function SEO({
     return () => {
       setJsonLd(null);
     };
-  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, effectiveNoIndex, effectiveKeywords, effectiveOgTitle, effectiveOgDesc, effectiveTitle, adminSeo, jsonLd, pagePath, breadcrumbs, faqs, product, service]);
+  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, effectiveNoIndex, effectiveKeywords, effectiveOgTitle, effectiveOgDesc, effectiveTitle, adminSeo, jsonLd, pagePath, faqs, product, service]);
 
   return null;
 }

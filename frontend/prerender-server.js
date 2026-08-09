@@ -282,26 +282,7 @@ function injectMeta(html, routePath, meta, internalLinks) {
     "knowsAbout": ["LED Displays", "MicroLED", "Digital Signage", "Video Walls", "Transparent LED", "Interactive Kiosks", "Smart Glass"]
   }));
 
-  // BreadcrumbList schema
-  const pathParts = routePath.split("/").filter(Boolean);
-  if (pathParts.length > 0) {
-    const breadcrumbs = [{ "@type": "ListItem", position: 1, name: "Home", item: PROD_URL }];
-    let accum = "";
-    pathParts.forEach((part, i) => {
-      accum += "/" + part;
-      breadcrumbs.push({
-        "@type": "ListItem",
-        position: i + 2,
-        name: part.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
-        ...(i < pathParts.length - 1 ? { item: PROD_URL + accum } : {}),
-      });
-    });
-    jsonLdScripts.push(JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbs,
-    }));
-  }
+  // BreadcrumbList schema — REMOVED: now injected by /api/ssr/meta with accurate page titles
 
   // SiteNavigationElement for internal links
   if (internalLinks && internalLinks.length) {

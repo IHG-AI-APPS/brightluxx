@@ -78,6 +78,19 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 - Backend API: `/api/prerender/headings` and `/api/prerender/page` endpoints
 - Testing: 100% pass (iteration_110.json) — 19/19 backend tests, all frontend verified, concurrent stress test passed
 
+### Blog FAQ + Product Schema Markup — Aug 9, 2026
+- **15/15 blog posts** enriched with AI-generated FAQ (5-7 Q&As each, targeting long-tail search keywords)
+  - Blog FAQ section added to BlogPost.js with expandable accordion UI
+  - FAQPage JSON-LD schema injected server-side for Google FAQ rich snippets
+- **Product schema markup** (schema.org/Product) added to all 94 product pages via SSR injection:
+  - `name`, `description`, `sku` (product_code), `brand` (Brightluxx), `manufacturer`
+  - `AggregateOffer` with `lowPrice`/`highPrice` per category (B2B price ranges)
+  - `availability` (InStock), `warranty` (3 Year Standard / 5 Year Extended)
+  - `additionalProperty` for pixel_pitch, brightness, resolution
+  - Product + FAQPage dual schema per product page
+- **Schema fields added to DB**: brand, manufacturer, availability, price_range, warranty, condition for all 94 products
+- 109/109 generated with 0 errors (15 blogs + 94 product schema updates)
+
 ### SEO DB Expansion + Product Enrichment — Aug 9, 2026
 - **SEO coverage expanded: 55 → 205 pages** (150 new entries generated with GPT-4.1-mini, 0 errors)
   - All page types covered: product families, technologies, solutions, tools, location pages, product detail pages

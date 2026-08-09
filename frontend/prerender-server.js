@@ -154,6 +154,11 @@ function injectSSRMeta(html, meta) {
   if (meta.faq_schema) {
     html = html.replace('</head>', `<script type="application/ld+json">${meta.faq_schema}</script>\n</head>`);
   }
+  // Inject all schemas (Product, FAQPage, etc.)
+  if (meta.schemas && Array.isArray(meta.schemas)) {
+    const schemaScripts = meta.schemas.map(s => `<script type="application/ld+json">${s}</script>`).join('\n');
+    html = html.replace('</head>', `${schemaScripts}\n</head>`);
+  }
   return html;
 }
 

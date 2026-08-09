@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Clock, User, Calendar, Share2, Facebook, Twitter, Linkedin, Copy, Check, Tag, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowLeft, Clock, User, Calendar, Share2, Facebook, Twitter, Linkedin, Copy, Check, Tag, ArrowRight, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import DOMPurify from 'dompurify';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -40,11 +40,34 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-const GlassCard = ({ children, className = '' }) => (
-  <div className={`backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] rounded-lg ${className}`}>
+const GlassCard = ({ children, className = '', ...props }) => (
+  <div className={`backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] rounded-lg ${className}`} {...props}>
     {children}
   </div>
 );
+
+const BlogFAQItem = ({ q, a }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] rounded-lg overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between p-4 text-left hover:bg-white/[0.02] transition-colors"
+        data-testid="blog-faq-toggle"
+      >
+        <span className="text-sm font-semibold text-white pr-4">{q}</span>
+        <ChevronDown size={16} className={`flex-shrink-0 text-neutral-500 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }}>
+            <div className="px-4 pb-4 text-sm text-neutral-400 leading-relaxed">{a}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -306,6 +329,28 @@ export default function BlogPost() {
           </FadeInSection>
         </div>
       </section>
+
+      {/* Blog FAQ Section */}
+      {blog.faq && blog.faq.length > 0 && (
+        <section className="py-12 border-t border-white/5">
+          <div className="max-w-[900px] mx-auto px-6 md:px-12">
+            <FadeInSection>
+              <p className="text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase mb-2">Frequently Asked Questions</p>
+              <h2 className="text-xl md:text-2xl font-bold tracking-wide mb-6">
+                Common Questions About{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
+                  This Topic
+                </span>
+              </h2>
+              <div className="space-y-3" data-testid="blog-faq-section">
+                {blog.faq.map((item) => (
+                  <BlogFAQItem key={item.q} q={item.q} a={item.a} />
+                ))}
+              </div>
+            </FadeInSection>
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <section className="py-16 border-t border-white/5">

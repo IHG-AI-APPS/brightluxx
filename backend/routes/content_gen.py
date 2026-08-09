@@ -312,12 +312,138 @@ Return valid JSON only."""
     logger.info(f"Product enrichment complete: {_job['completed']}/{_job['total']}")
 
 
+async def _enrich_blogs():
+    """Generate FAQ sections for all blog posts."""
+    blogs_col = db["blogs"]
+    _job["phase"] = "blog_faq"
+
+    blogs = []
+    async for b in blogs_col.find({}):
+        blogs.append(b)
+
+    _job["total"] += len(blogs)
+    logger.info(f"Generating FAQ for {len(blogs)} blog posts")
+
+    for blog in blogs:
+        bid = blog["_id"]
+        title = blog.get("title", "")
+        slug = blog.get("slug", "")
+        content = blog.get("content", "")
+        excerpt = blog.get("excerpt", "")
+        tags = blog.get("tags", [])
+        category = blog.get("category", "")
+
+        # Use excerpt + first 800 chars of content as context
+        content_preview = content[:800] if content else excerpt
+
+        prompt = f"""Generate FAQ for this LED display industry blog post:
+
+Title: {title}
+Category: {category}
+Tags: {', '.join(tags) if isinstance(tags, list) else str(tags)}
+Excerpt: {excerpt}
+Content preview: {content_preview}
+
+Generate 5-7 FAQ items that:
+1. Cover the key questions a reader would have after seeing this topic
+2. Include at least one "how" question, one "why" question, and one comparison/cost question
+3. Include UAE/GCC context where relevant
+4. Answers should be 2-4 sentences, authoritative and helpful
+5. Questions should target long-tail search keywords related to this topic
+
+Return JSON: {{"faq": [{{"q": "...", "a": "..."}}]}}"""
+
+        try:
+            result = await _generate_with_llm(prompt, f"blog-{slug}")
+
+            if "faq" in result and isinstance(result["faq"], list) and len(result["faq"]) > 0:
+                await blogs_col.update_one(
+                    {"_id": bid},
+                    {"$set": {"faq": result["faq"], "updated_at": datetime.now(timezone.utc).isoformat()}}
+                )
+
+            _job["completed"] += 1
+            _job["progress"] = _job["completed"]
+
+        except Exception as e:
+            logger.error(f"Blog FAQ error for {slug}: {e}")
+            _job["errors"].append(f"Blog {slug}: {str(e)[:100]}")
+
+        await asyncio.sleep(1)
+
+    logger.info(f"Blog FAQ generation complete")
+
+
+async def _add_product_schema_fields():
+    """Add schema-ready fields (brand, availability, priceRange, warranty) to products."""
+    products_col = db["products"]
+    _job["phase"] = "product_schema"
+
+    # Category-based price ranges (USD, approximate for B2B LED industry)
+    PRICE_RANGES = {
+        "cob-microled": {"low": 2500, "high": 15000, "currency": "USD"},
+        "mip": {"low": 1800, "high": 12000, "currency": "USD"},
+        "indoor": {"low": 800, "high": 8000, "currency": "USD"},
+        "all-in-one": {"low": 3000, "high": 25000, "currency": "USD"},
+        "cinema-led": {"low": 5000, "high": 50000, "currency": "USD"},
+        "dvled": {"low": 4000, "high": 40000, "currency": "USD"},
+        "outdoor": {"low": 600, "high": 5000, "currency": "USD"},
+        "outdoor-hb": {"low": 800, "high": 6000, "currency": "USD"},
+        "outdoor-gob": {"low": 700, "high": 5500, "currency": "USD"},
+        "outdoor-fp": {"low": 1200, "high": 8000, "currency": "USD"},
+        "mesh": {"low": 400, "high": 3000, "currency": "USD"},
+        "road-signal": {"low": 500, "high": 4000, "currency": "USD"},
+        "transparent": {"low": 1500, "high": 10000, "currency": "USD"},
+        "flexible": {"low": 1200, "high": 8000, "currency": "USD"},
+        "custom-shapes": {"low": 2000, "high": 15000, "currency": "USD"},
+        "sphere": {"low": 5000, "high": 30000, "currency": "USD"},
+        "naked-eye-3d": {"low": 3000, "high": 20000, "currency": "USD"},
+        "ceiling-led": {"low": 1500, "high": 10000, "currency": "USD"},
+        "digital-signage": {"low": 500, "high": 8000, "currency": "USD"},
+        "smart-tv": {"low": 300, "high": 5000, "currency": "USD"},
+        "ready-made": {"low": 2000, "high": 15000, "currency": "USD"},
+        "interactive": {"low": 2000, "high": 12000, "currency": "USD"},
+        "virtual-production": {"low": 3000, "high": 25000, "currency": "USD"},
+        "poster-totem": {"low": 800, "high": 5000, "currency": "USD"},
+        "shelf-edge": {"low": 200, "high": 1500, "currency": "USD"},
+        "accessories": {"low": 50, "high": 2000, "currency": "USD"},
+        "signage-solutions": {"low": 500, "high": 15000, "currency": "USD"},
+        "home-cinema": {"low": 8000, "high": 80000, "currency": "USD"},
+    }
+    DEFAULT_PRICE = {"low": 500, "high": 10000, "currency": "USD"}
+
+    count = 0
+    async for product in products_col.find({}):
+        cat = product.get("category", "")
+        price = PRICE_RANGES.get(cat, DEFAULT_PRICE)
+
+        schema_fields = {
+            "brand": "Brightluxx",
+            "manufacturer": "Brightluxx",
+            "availability": "InStock",
+            "price_range": price,
+            "warranty": "3 Years Standard | 5 Years Extended Available",
+            "condition": "NewCondition",
+            "schema_updated": datetime.now(timezone.utc).isoformat(),
+        }
+
+        await products_col.update_one({"_id": product["_id"]}, {"$set": schema_fields})
+        count += 1
+        _job["completed"] += 1
+        _job["progress"] = _job["completed"]
+
+    _job["total"] += count
+    logger.info(f"Product schema fields added to {count} products")
+
+
 async def _run_full_generation():
-    """Run both SEO generation and product enrichment."""
+    """Run SEO generation, product enrichment, blog FAQ, and product schema."""
     _job.update({"status": "running", "phase": "seo_pages", "progress": 0, "total": 0, "errors": [], "completed": 0})
     try:
         await _generate_seo_batch()
         await _enrich_products()
+        await _enrich_blogs()
+        await _add_product_schema_fields()
 
         # Clear SSR meta cache so new data is served
         from routes.ssr_meta import _meta_cache
@@ -331,14 +457,40 @@ async def _run_full_generation():
         logger.error(f"Full generation error: {e}")
 
 
+async def _run_blog_and_schema():
+    """Run only blog FAQ + product schema (skipping already-done SEO + product enrichment)."""
+    _job.update({"status": "running", "phase": "blog_faq", "progress": 0, "total": 0, "errors": [], "completed": 0})
+    try:
+        await _enrich_blogs()
+        await _add_product_schema_fields()
+
+        from routes.ssr_meta import _meta_cache
+        _meta_cache.clear()
+
+        _job["status"] = "complete"
+        _job["phase"] = "done"
+    except Exception as e:
+        _job["status"] = "error"
+        _job["errors"].append(str(e))
+        logger.error(f"Blog/schema generation error: {e}")
+
+
 @router.post("/api/admin/content/generate-all")
 async def start_full_generation(background_tasks: BackgroundTasks, admin=Depends(get_current_admin)):
-    """Start background generation of SEO metadata + product enrichment."""
+    """Start background generation of SEO metadata + product enrichment + blog FAQ + schema."""
     if _job["status"] == "running":
         return {"error": "Generation already in progress", "job": _job}
-
     background_tasks.add_task(_run_full_generation)
-    return {"status": "started", "message": "Background generation started for SEO + product enrichment"}
+    return {"status": "started", "message": "Full background generation started"}
+
+
+@router.post("/api/admin/content/generate-blog-schema")
+async def start_blog_schema_generation(background_tasks: BackgroundTasks, admin=Depends(get_current_admin)):
+    """Start background generation of blog FAQ + product schema only."""
+    if _job["status"] == "running":
+        return {"error": "Generation already in progress", "job": _job}
+    background_tasks.add_task(_run_blog_and_schema)
+    return {"status": "started", "message": "Blog FAQ + Product Schema generation started"}
 
 
 @router.get("/api/admin/content/generate-status")

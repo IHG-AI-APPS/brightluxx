@@ -182,24 +182,95 @@ async def get_ssr_meta(path: str = Query(...)):
     if not result["canonical"] or (result["canonical"] == f"{PRODUCTION_URL}/" and path != "/"):
         result["canonical"] = f"{PRODUCTION_URL}{path}"
 
-    # For product pages, add FAQ schema if product has FAQ
+    # For product pages: add Product schema + FAQ schema
     if path.startswith("/products/"):
         slug = path.split("/products/")[1].rstrip("/")
         product = await db["products"].find_one({"slug": slug})
-        if product and product.get("faq"):
+        if product:
+            schemas = []
+
+            # Product schema (schema.org/Product)
+            product_schema = {
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": product.get("name", ""),
+                "description": product.get("description", "") or product.get("tagline", ""),
+                "sku": product.get("product_code", ""),
+                "brand": {"@type": "Brand", "name": product.get("brand", "Brightluxx")},
+                "manufacturer": {"@type": "Organization", "name": "Brightluxx"},
+                "url": f"{PRODUCTION_URL}{path}",
+                "category": product.get("category", "LED Display"),
+            }
+            # Image
+            img = product.get("image_url", "") or DEFAULT_OG_IMAGE
+            product_schema["image"] = img
+
+            # Offers (price range for B2B)
+            price_range = product.get("price_range")
+            if price_range and isinstance(price_range, dict):
+                product_schema["offers"] = {
+                    "@type": "AggregateOffer",
+                    "priceCurrency": price_range.get("currency", "USD"),
+                    "lowPrice": price_range.get("low", 0),
+                    "highPrice": price_range.get("high", 0),
+                    "offerCount": 1,
+                    "availability": f"https://schema.org/{product.get('availability', 'InStock')}",
+                    "seller": {"@type": "Organization", "name": "Brightluxx"},
+                    "url": f"{PRODUCTION_URL}{path}",
+                }
+
+            # Additional properties
+            props = []
+            if product.get("pixel_pitch"):
+                props.append({"@type": "PropertyValue", "name": "Pixel Pitch", "value": product["pixel_pitch"]})
+            if product.get("brightness"):
+                props.append({"@type": "PropertyValue", "name": "Brightness", "value": product["brightness"]})
+            if product.get("resolution"):
+                props.append({"@type": "PropertyValue", "name": "Resolution", "value": product["resolution"]})
+            if product.get("warranty"):
+                props.append({"@type": "PropertyValue", "name": "Warranty", "value": product["warranty"]})
+            if props:
+                product_schema["additionalProperty"] = props
+
+            # Key specs
+            key_specs = product.get("key_specs", {})
+            if isinstance(key_specs, dict):
+                for k, v in key_specs.items():
+                    if k not in ("pixel_pitch", "brightness", "resolution"):
+                        props.append({"@type": "PropertyValue", "name": k.replace("_", " ").title(), "value": str(v)})
+
+            schemas.append(json.dumps(product_schema))
+
+            # FAQ schema
+            if product.get("faq"):
+                faq_schema = {
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": [
+                        {"@type": "Question", "name": item["q"],
+                         "acceptedAnswer": {"@type": "Answer", "text": item["a"]}}
+                        for item in product["faq"]
+                    ]
+                }
+                schemas.append(json.dumps(faq_schema))
+
+            result["schemas"] = schemas
+
+    # For blog pages: add FAQ schema if blog has FAQ
+    elif path.startswith("/blog/"):
+        blog_slug = path.split("/blog/")[1].rstrip("/")
+        blog = await db["blogs"].find_one({"slug": blog_slug})
+        if blog and blog.get("faq"):
             faq_schema = {
                 "@context": "https://schema.org",
                 "@type": "FAQPage",
                 "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": item["q"],
-                        "acceptedAnswer": {"@type": "Answer", "text": item["a"]}
-                    }
-                    for item in product["faq"]
+                    {"@type": "Question", "name": item["q"],
+                     "acceptedAnswer": {"@type": "Answer", "text": item["a"]}}
+                    for item in blog["faq"]
                 ]
             }
-            result["faq_schema"] = json.dumps(faq_schema)
+            result["schemas"] = [json.dumps(faq_schema)]
 
     # Cache result (cap at 500 entries)
     if len(_meta_cache) > 500:

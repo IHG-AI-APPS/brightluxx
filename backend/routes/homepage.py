@@ -10,9 +10,63 @@ import os
 
 from database import db
 from auth import get_current_admin
+from fastapi.responses import StreamingResponse
+import requests as http_requests
 router = APIRouter()
 
 homepage_col = db["homepage_content"]
+
+# Object storage config
+_STORAGE_BASE = "https://integrations.emergentagent.com/objstore/api/v1/storage"
+_storage_key_cache = {"key": None}
+
+
+def _get_storage_key():
+    """Get or cache the object storage key."""
+    if _storage_key_cache["key"]:
+        return _storage_key_cache["key"]
+    emergent_key = os.environ.get("EMERGENT_LLM_KEY", "")
+    if not emergent_key:
+        return None
+    resp = http_requests.post(f"{_STORAGE_BASE}/init", json={"emergent_key": emergent_key}, timeout=15)
+    if resp.status_code == 200:
+        _storage_key_cache["key"] = resp.json()["storage_key"]
+        return _storage_key_cache["key"]
+    return None
+
+
+@router.get("/api/media/{path:path}")
+async def serve_media(path: str):
+    """Proxy media files from Emergent object storage with caching."""
+    storage_key = _get_storage_key()
+    if not storage_key:
+        raise HTTPException(503, "Storage not available")
+
+    obj_path = f"brightluxx/{path}"
+    resp = http_requests.get(
+        f"{_STORAGE_BASE}/objects/{obj_path}",
+        headers={"X-Storage-Key": storage_key},
+        stream=True,
+        timeout=30,
+    )
+    if resp.status_code != 200:
+        raise HTTPException(404, "Media not found")
+
+    content_type = resp.headers.get("Content-Type", "application/octet-stream")
+    content_length = resp.headers.get("Content-Length")
+
+    headers = {
+        "Cache-Control": "public, max-age=86400, immutable",
+        "Accept-Ranges": "bytes",
+    }
+    if content_length:
+        headers["Content-Length"] = content_length
+
+    return StreamingResponse(
+        resp.iter_content(chunk_size=256 * 1024),
+        media_type=content_type,
+        headers=headers,
+    )
 
 
 class HeroSection(BaseModel):

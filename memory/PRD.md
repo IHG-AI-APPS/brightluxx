@@ -2866,3 +2866,14 @@ Completely rewrote `ProductDetail.js` to match the Apple-style layout:
 - Test report: `/app/test_reports/iteration_106.json` — 100% backend, 95% frontend (image load timing false positive)
 
 
+
+
+
+### Hero Video Poster Image — Aug 10, 2026
+- **Generated poster**: FFmpeg extracted 1920×1080 frame from hero video, saved as WebP (155KB) + JPG
+- **Object storage**: Uploaded to `brightluxx/images/hero-poster.webp` and `brightluxx/images/hero-poster.jpg`
+- **Backend proxy**: Serves poster via `/api/media/images/hero-poster.webp` (HTTP 200, image/webp, Cache-Control 86400s)
+- **DB update**: `homepage_content.hero.poster_image` set to `/api/media/images/hero-poster.webp`
+- **Frontend**: `Home.js` `HeroVideoPlayer` now accepts `posterImage` prop from DB, falls back to CDN `HERO_POSTER`
+- **Build**: Seed re-exported (509 docs, 16 collections), 320 pages pre-rendered, 0 errors
+- **Status**: Agent-tested in preview. Requires user redeploy for production.

@@ -59,7 +59,7 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
 /* Hero video player with smooth transitions and PARALLAX support */
 const HERO_POSTER = 'https://files.ihgbrands.com/hero-video-poster.webp';
 
-const HeroVideoPlayer = ({ videos, videoY, overlayOpacity }) => {
+const HeroVideoPlayer = ({ videos, posterImage, videoY, overlayOpacity }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [fading, setFading] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
@@ -110,7 +110,7 @@ const HeroVideoPlayer = ({ videos, videoY, overlayOpacity }) => {
             playsInline
             loop={heroVideos.length === 1}
             preload={idx === 0 ? 'auto' : 'none'}
-            poster={idx === 0 ? HERO_POSTER : undefined}
+            poster={idx === 0 ? (posterImage || HERO_POSTER) : undefined}
             onCanPlay={() => { if (idx === 0) setVideoReady(true); }}
             data-testid={`home-hero-video-${idx}`}
             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms]"
@@ -202,7 +202,8 @@ const HeroWithParallax = ({ hero, isLoaded }) => {
       <motion.div className="absolute inset-0" style={{ scale: smoothScale }}>
         {isLoaded ? (
           <HeroVideoPlayer 
-            videos={hero.video_urls} 
+            videos={hero.video_urls}
+            posterImage={hero.poster_image}
             videoY={smoothVideoY}
             overlayOpacity={overlayOpacity}
           />

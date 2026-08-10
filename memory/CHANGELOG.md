@@ -1,5 +1,15 @@
 # Brightluxx Changelog
 
+## Aug 10, 2026 — Hero Video Poster Image (DB-Driven)
+- Generated high-quality 1920×1080 poster frame from hero video via FFmpeg
+- Uploaded WebP (155KB) + JPG fallback to Emergent object storage
+- Backend proxy serves poster at `/api/media/images/hero-poster.webp`
+- `Home.js` updated: `HeroVideoPlayer` now uses DB `hero.poster_image` with CDN fallback
+- Seed re-exported (509 docs, 16 collections) and 320-page production build regenerated
+- Requires user redeploy to go live
+
+
+
 ## Aug 9, 2026 — Structured Data + Reviews + Smart Cache Purge
 - Extended `_build_schemas()` in ssr_meta.py to cover ALL page types (Article/WebPage/BreadcrumbList)
 - 31 previously schema-less pages now have JSON-LD in initial HTML

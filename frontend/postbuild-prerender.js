@@ -364,6 +364,20 @@ async function run() {
     "/digital-experience-architecture",
     "/knowledge/cob-vs-mip-vs-smd", "/knowledge/pixel-pitch-guide",
     "/knowledge/brightness-nits-guide", "/knowledge/ip-rating-guide",
+    "/knowledge/refresh-rate-guide", "/knowledge/processing-calibration",
+    "/knowledge/cms-multi-site",
+    "/sla-guide", "/supplier-registration", "/technical-support",
+    "/spec-substitution", "/value-engineering", "/installation-guide",
+    "/design-assist", "/cpd-programme", "/factory-tour", "/distribution",
+    "/compare-products", "/lp/specifier-toolkit", "/signage-solutions",
+    "/art-immersive", "/luxury-home-cinema",
+    "/latest-tech/glasses-free-3d", "/latest-tech/microled",
+    "/latest-tech/transparent-led", "/latest-tech/ai-powered",
+    "/contractors/dvled-vs-lcd", "/contractors/led-cost-per-sqm",
+    "/contractors/led-installation-guide",
+    "/digital-experience/media-facades", "/digital-experience/immersive-led-rooms",
+    "/digital-experience/retail-experiential-screens",
+    "/tools/roi-calculator",
   ].forEach(r => allRoutes.add(r));
   allRoutes.add("/");
 

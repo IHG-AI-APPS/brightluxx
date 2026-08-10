@@ -93,6 +93,26 @@ export default function CaseStudyDetail() {
 
   if (notFound || !cs) return <Navigate to="/case-studies" replace />;
 
+  // Normalize data — handle both old format and new format
+  const technology = cs.technology || (cs.technologies || []).join(', ') || '';
+  const pixelPitch = cs.pixel_pitch || '';
+  const displaySize = cs.display_size || '';
+  const resultsArray = Array.isArray(cs.results) ? cs.results : cs.results ? [cs.results] : [];
+  const specsArray = Array.isArray(cs.specs) ? cs.specs : [];
+  const productsUsed = cs.products_used || [];
+  const technologies = cs.technologies || (cs.technology ? [cs.technology] : []);
+  const techId = cs.tech_id || '';
+
+  // Build specs from available data if not provided
+  const displaySpecs = specsArray.length > 0 ? specsArray : [
+    ...(pixelPitch ? [['Pixel Pitch', pixelPitch]] : []),
+    ...(displaySize ? [['Display Size', displaySize]] : []),
+    ...(technologies.length ? [['Technologies', technologies.join(', ')]] : []),
+    ...(productsUsed.length ? [['Products Used', productsUsed.join(', ')]] : []),
+    ...(cs.location ? [['Location', cs.location]] : []),
+    ...(cs.year ? [['Year', cs.year]] : []),
+  ];
+
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
@@ -104,24 +124,19 @@ export default function CaseStudyDetail() {
     <div className="bg-[#050508]" data-testid={`case-study-${cs.id}`}>
       <SEO
         title={`${cs.title} | LED Project ${cs.location}`}
-        description={`${cs.challenge.slice(0, 120)} ${cs.technology} LED display project in ${cs.location}. View full case study.`}
+        description={`${cs.challenge?.slice(0, 120) || ''} ${technology} LED display project in ${cs.location}. View full case study.`}
         path={`/case-studies/${cs.slug || cs.id}`}
         image={cs.hero_image}
-        keywords={`${cs.title}, LED project ${cs.location}, ${cs.technology} display, ${cs.category} LED, case study Dubai`}
-        breadcrumbs={[
-          { name: 'Home', path: '/' },
-          { name: 'Case Studies', path: '/case-studies' },
-          { name: cs.title, path: null }
-        ]}
+        keywords={`${cs.title}, LED project ${cs.location}, ${technology} display, ${cs.category} LED, case study Dubai`}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Article",
           "headline": cs.title,
-          "description": cs.challenge.slice(0, 160),
+          "description": cs.challenge?.slice(0, 160) || '',
           "author": { "@type": "Organization", "name": "Brightluxx" },
           "publisher": { "@type": "Organization", "name": "Brightluxx" },
-          "datePublished": `${cs.year}-01-01`,
-          "about": { "@type": "Thing", "name": cs.technology },
+          "datePublished": `${cs.year || '2025'}-01-01`,
+          "about": { "@type": "Thing", "name": technology },
           "locationCreated": {
             "@type": "Place",
             "name": cs.location
@@ -161,7 +176,7 @@ export default function CaseStudyDetail() {
                 </span>
               )}
               <span className="bg-white/10 backdrop-blur-sm text-white border border-white/10 px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-lg">
-                {cs.technology} {cs.pixel_pitch}
+                {technology} {pixelPitch}
               </span>
             </div>
             
@@ -172,7 +187,7 @@ export default function CaseStudyDetail() {
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-400">
               <span className="flex items-center gap-2"><MapPin size={14} className="text-cyan-400" /> {cs.location}</span>
               <span className="flex items-center gap-2"><Calendar size={14} className="text-cyan-400" /> {cs.year}</span>
-              <span className="flex items-center gap-2"><Cpu size={14} className="text-cyan-400" /> {cs.display_size}</span>
+              {displaySize && <span className="flex items-center gap-2"><Cpu size={14} className="text-cyan-400" /> {displaySize}</span>}
             </div>
           </FadeInSection>
         </div>
@@ -209,7 +224,7 @@ export default function CaseStudyDetail() {
                       { icon: Building2, label: 'Client', value: cs.client },
                       { icon: Users, label: 'Consultant', value: cs.consultant },
                       { icon: HardHat, label: 'Contractor', value: cs.contractor },
-                    ].map(({ icon: Icon, label, value }) => (
+                    ].filter(item => item.value).map(({ icon: Icon, label, value }) => (
                       <div key={label}>
                         <div className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase mb-2 flex items-center gap-2">
                           <Icon size={12} className="text-cyan-400" /> {label}
@@ -250,21 +265,28 @@ export default function CaseStudyDetail() {
                     <span className="w-10 h-px bg-gradient-to-r from-cyan-500 to-transparent" />
                     Results & Impact
                   </h2>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {cs.results.map((r, i) => (
-                      <GlassCard key={i} className="p-5 flex items-start gap-4" hover={false} data-testid={`case-result-${i}`}>
-                        <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
-                          <CheckCircle2 size={18} className="text-cyan-400" />
-                        </div>
-                        <span className="text-sm text-gray-400 leading-relaxed normal-case">{r}</span>
-                      </GlassCard>
-                    ))}
-                  </div>
+                  {resultsArray.length > 1 ? (
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      {resultsArray.map((r, i) => (
+                        <GlassCard key={i} className="p-5 flex items-start gap-4" hover={false} data-testid={`case-result-${i}`}>
+                          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
+                            <CheckCircle2 size={18} className="text-cyan-400" />
+                          </div>
+                          <span className="text-sm text-gray-400 leading-relaxed normal-case">{r}</span>
+                        </GlassCard>
+                      ))}
+                    </div>
+                  ) : resultsArray.length === 1 ? (
+                    <GlassCard className="p-6" hover={false}>
+                      <p className="text-gray-400 leading-relaxed tracking-wide normal-case text-base">{resultsArray[0]}</p>
+                    </GlassCard>
+                  ) : null}
                 </div>
               </FadeInSection>
 
               {/* Spec Table */}
               <FadeInSection delay={4}>
+                {displaySpecs.length > 0 && (
                 <div className="mb-12">
                   <h2 className="text-xl font-bold uppercase tracking-wide mb-6 flex items-center gap-3">
                     <span className="w-10 h-px bg-gradient-to-r from-cyan-500 to-transparent" />
@@ -273,7 +295,7 @@ export default function CaseStudyDetail() {
                   <GlassCard className="overflow-hidden" hover={false} data-testid="case-spec-table">
                     <table className="w-full">
                       <tbody>
-                        {cs.specs.map(([label, value], i) => (
+                        {displaySpecs.map(([label, value], i) => (
                           <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors">
                             <td className="py-4 px-6 text-xs font-bold tracking-[0.12em] text-gray-500 uppercase w-[40%]">{label}</td>
                             <td className="py-4 px-6 text-sm text-gray-300">{value}</td>
@@ -283,6 +305,7 @@ export default function CaseStudyDetail() {
                     </table>
                   </GlassCard>
                 </div>
+                )}
               </FadeInSection>
 
               {/* Share */}
@@ -349,19 +372,37 @@ export default function CaseStudyDetail() {
             {/* Sidebar */}
             <aside className="space-y-6">
               {/* Technology Link */}
+              {technology && (
               <FadeInSection>
-                <Link to={`/technology/${cs.tech_id}`} className="block group" data-testid="case-tech-link">
+                {techId ? (
+                <Link to={`/technology/${techId}`} className="block group" data-testid="case-tech-link">
                   <GlassCard className="p-6">
                     <div className="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase mb-3">Technology Used</div>
-                    <div className="text-base font-bold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors">{cs.technology}</div>
-                    <div className="text-xs text-gray-500 mb-1">Pixel Pitch: <span className="text-gray-300">{cs.pixel_pitch}</span></div>
-                    <div className="text-xs text-gray-500 mb-4">Display: <span className="text-gray-300">{cs.display_size}</span></div>
+                    <div className="text-base font-bold tracking-wide mb-2 group-hover:text-cyan-400 transition-colors">{technology}</div>
+                    {pixelPitch && <div className="text-xs text-gray-500 mb-1">Pixel Pitch: <span className="text-gray-300">{pixelPitch}</span></div>}
+                    {displaySize && <div className="text-xs text-gray-500 mb-4">Display: <span className="text-gray-300">{displaySize}</span></div>}
                     <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase group-hover:gap-3 transition-all">
                       View Technology Guide <ArrowRight size={12} />
                     </div>
                   </GlassCard>
                 </Link>
+                ) : (
+                <GlassCard className="p-6" hover={false}>
+                  <div className="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase mb-3">Technology Used</div>
+                  <div className="text-base font-bold tracking-wide mb-2">{technology}</div>
+                  {productsUsed.length > 0 && (
+                    <div className="mt-3 space-y-1.5">
+                      {productsUsed.map((p, i) => (
+                        <div key={i} className="text-xs text-gray-400 flex items-center gap-2">
+                          <CheckCircle2 size={10} className="text-cyan-500/60" /> {p}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </GlassCard>
+                )}
               </FadeInSection>
+              )}
 
               {/* Tags */}
               <FadeInSection delay={1}>

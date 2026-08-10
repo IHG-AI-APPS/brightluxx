@@ -106,7 +106,7 @@ const VideoUploadField = ({ videos, onChange, posterImage, onPosterChange }) => 
     }
 
     setUploading(true);
-    const CHUNK_SIZE = 4 * 1024 * 1024; // 4MB chunks to stay under proxy limits
+    const CHUNK_SIZE = 2 * 1024 * 1024; // 2MB chunks to stay well under proxy limits
 
     try {
       // Step 1: Init chunked upload session

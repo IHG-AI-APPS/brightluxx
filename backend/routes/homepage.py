@@ -257,6 +257,12 @@ async def upload_homepage_image(
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
 
+import base64
+
+uploads_col = db["upload_sessions"]
+chunks_col = db["upload_chunks"]
+
+
 @router.post("/api/admin/homepage/upload-video/init")
 async def init_chunked_upload(request: Request, admin=Depends(get_current_admin)):
     """Initialize a chunked video upload session."""
@@ -272,78 +278,79 @@ async def init_chunked_upload(request: Request, admin=Depends(get_current_admin)
         raise HTTPException(400, "File too large. Maximum 100MB.")
 
     upload_id = uuid.uuid4().hex[:12]
-    upload_dir = f"/tmp/blx_uploads/{upload_id}"
-    os.makedirs(upload_dir, exist_ok=True)
-
-    # Store metadata
-    import json
-    with open(f"{upload_dir}/meta.json", "w") as f:
-        json.dump({"filename": filename, "totalSize": total_size, "contentType": content_type, "chunks": 0}, f)
+    await uploads_col.insert_one({
+        "upload_id": upload_id,
+        "filename": filename,
+        "total_size": total_size,
+        "content_type": content_type,
+        "chunk_count": 0,
+        "created_at": datetime.now(timezone.utc),
+    })
 
     return {"uploadId": upload_id}
 
 
 @router.post("/api/admin/homepage/upload-video/chunk/{upload_id}")
 async def upload_chunk(upload_id: str, file: UploadFile = File(...), admin=Depends(get_current_admin)):
-    """Upload a single chunk of a video file."""
-    upload_dir = f"/tmp/blx_uploads/{upload_id}"
-    if not os.path.exists(upload_dir):
+    """Upload a single chunk (stored as separate MongoDB document)."""
+    session = await uploads_col.find_one({"upload_id": upload_id})
+    if not session:
         raise HTTPException(404, "Upload session not found")
 
-    import json
-    with open(f"{upload_dir}/meta.json") as f:
-        meta = json.load(f)
-
-    chunk_num = meta["chunks"]
     content = await file.read()
-    with open(f"{upload_dir}/chunk_{chunk_num:04d}", "wb") as f:
-        f.write(content)
+    chunk_idx = session["chunk_count"]
 
-    meta["chunks"] = chunk_num + 1
-    with open(f"{upload_dir}/meta.json", "w") as f:
-        json.dump(meta, f)
+    # Store each chunk as a separate document (avoids 16MB document limit)
+    await chunks_col.insert_one({
+        "upload_id": upload_id,
+        "index": chunk_idx,
+        "data": base64.b64encode(content).decode("ascii"),
+    })
 
-    return {"chunkIndex": chunk_num, "received": len(content)}
+    await uploads_col.update_one(
+        {"upload_id": upload_id},
+        {"$inc": {"chunk_count": 1}},
+    )
+
+    return {"chunkIndex": chunk_idx, "received": len(content)}
 
 
 @router.post("/api/admin/homepage/upload-video/complete/{upload_id}")
 async def complete_chunked_upload(upload_id: str, admin=Depends(get_current_admin)):
-    """Reassemble chunks and upload the complete video to CDN."""
+    """Reassemble chunks from MongoDB and upload to CDN."""
     from cdn_upload import upload_video_to_cdn
-    import json
 
-    upload_dir = f"/tmp/blx_uploads/{upload_id}"
-    if not os.path.exists(upload_dir):
+    session = await uploads_col.find_one({"upload_id": upload_id})
+    if not session:
         raise HTTPException(404, "Upload session not found")
 
-    with open(f"{upload_dir}/meta.json") as f:
-        meta = json.load(f)
+    # Reassemble chunks in order
+    video_bytes = bytearray()
+    for i in range(session["chunk_count"]):
+        chunk_doc = await chunks_col.find_one({"upload_id": upload_id, "index": i})
+        if not chunk_doc:
+            await chunks_col.delete_many({"upload_id": upload_id})
+            await uploads_col.delete_one({"upload_id": upload_id})
+            raise HTTPException(400, f"Missing chunk {i}")
+        video_bytes.extend(base64.b64decode(chunk_doc["data"]))
 
-    # Reassemble chunks
-    content = bytearray()
-    for i in range(meta["chunks"]):
-        chunk_path = f"{upload_dir}/chunk_{i:04d}"
-        with open(chunk_path, "rb") as f:
-            content.extend(f.read())
-
-    if len(content) > 100 * 1024 * 1024:
-        import shutil
-        shutil.rmtree(upload_dir, ignore_errors=True)
+    if len(video_bytes) > 100 * 1024 * 1024:
+        await chunks_col.delete_many({"upload_id": upload_id})
+        await uploads_col.delete_one({"upload_id": upload_id})
         raise HTTPException(400, "Reassembled file exceeds 100MB limit")
 
-    ext = os.path.splitext(meta["filename"])[1].lower() or ".mp4"
+    ext = os.path.splitext(session["filename"])[1].lower() or ".mp4"
     unique_name = f"hero_video_{uuid.uuid4().hex[:8]}{ext}"
 
     try:
-        video_url = upload_video_to_cdn(unique_name, bytes(content))
-        # Cleanup temp files
-        import shutil
-        shutil.rmtree(upload_dir, ignore_errors=True)
-        return {"success": True, "url": video_url, "filename": meta["filename"]}
+        video_url = upload_video_to_cdn(unique_name, bytes(video_bytes))
     except Exception as e:
-        import shutil
-        shutil.rmtree(upload_dir, ignore_errors=True)
-        raise HTTPException(500, f"Upload failed: {str(e)}")
+        raise HTTPException(500, f"CDN upload failed: {str(e)}")
+    finally:
+        await chunks_col.delete_many({"upload_id": upload_id})
+        await uploads_col.delete_one({"upload_id": upload_id})
+
+    return {"success": True, "url": video_url, "filename": session["filename"]}
 
 
 @router.post("/api/admin/homepage/upload-video")

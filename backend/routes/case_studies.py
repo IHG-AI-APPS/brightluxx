@@ -76,12 +76,20 @@ class CaseStudyUpdate(BaseModel):
 # Categories for case studies
 CASE_STUDY_CATEGORIES = [
     {"id": "all", "label": "All Projects"},
-    {"id": "hospitality", "label": "Hospitality"},
     {"id": "retail", "label": "Retail"},
+    {"id": "hospitality", "label": "Hospitality"},
     {"id": "corporate", "label": "Corporate"},
+    {"id": "f&b", "label": "F&B / Restaurant"},
+    {"id": "healthcare", "label": "Healthcare"},
+    {"id": "jewellery", "label": "Jewellery & Luxury"},
+    {"id": "residential", "label": "Residential"},
+    {"id": "fashion", "label": "Fashion"},
+    {"id": "salon", "label": "Salon & Spa"},
+    {"id": "supermarket", "label": "Supermarket"},
+    {"id": "fragrance", "label": "Fragrance"},
+    {"id": "bespoke", "label": "Bespoke Lighting"},
     {"id": "transport", "label": "Transport"},
     {"id": "entertainment", "label": "Entertainment"},
-    {"id": "healthcare", "label": "Healthcare"},
 ]
 
 

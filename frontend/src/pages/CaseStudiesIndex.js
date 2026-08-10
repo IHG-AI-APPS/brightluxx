@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, MapPin, Sparkles, Building2, ShoppingBag, Briefcase, Plane, Film, Heart, Trophy, Monitor } from 'lucide-react';
+import { ArrowRight, MapPin, Sparkles, Building2, ShoppingBag, Briefcase, Plane, Film, Heart, Trophy, Monitor, Utensils, Gem, Home, Shirt, Scissors, ShoppingCart, Droplets, Lightbulb } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -21,6 +21,14 @@ const CATEGORY_ICONS = {
   entertainment: Film,
   healthcare: Heart,
   sports: Trophy,
+  'f&b': Utensils,
+  jewellery: Gem,
+  residential: Home,
+  fashion: Shirt,
+  salon: Scissors,
+  supermarket: ShoppingCart,
+  fragrance: Droplets,
+  bespoke: Lightbulb,
   all: Monitor
 };
 
@@ -32,7 +40,15 @@ const CATEGORY_SHORT = {
   transport: 'Transport',
   entertainment: 'Entertainment',
   healthcare: 'Healthcare',
-  sports: 'Sports'
+  sports: 'Sports',
+  'f&b': 'F&B',
+  jewellery: 'Jewellery',
+  residential: 'Residential',
+  fashion: 'Fashion',
+  salon: 'Salon & Spa',
+  supermarket: 'Supermarket',
+  fragrance: 'Fragrance',
+  bespoke: 'Bespoke',
 };
 
 /* Minimal Case Study Card with 3D Tilt Effect */

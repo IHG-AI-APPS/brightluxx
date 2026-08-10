@@ -99,27 +99,67 @@ const VideoUploadField = ({ videos, onChange, posterImage, onPosterChange }) => 
 
   const handleVideoUpload = async (file) => {
     if (!file) return;
+    const MAX_SIZE = 100 * 1024 * 1024; // 100MB
+    if (file.size > MAX_SIZE) {
+      alert('File too large. Maximum 100MB.');
+      return;
+    }
+
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-    
+    const CHUNK_SIZE = 4 * 1024 * 1024; // 4MB chunks to stay under proxy limits
+
     try {
-      const res = await fetch(`${API}/api/admin/homepage/upload-video`, {
+      // Step 1: Init chunked upload session
+      const initRes = await fetch(`${API}/api/admin/homepage/upload-video/init`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name, totalSize: file.size, contentType: file.type }),
       });
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        alert(errData.detail || `Video upload failed (HTTP ${res.status})`);
+      if (!initRes.ok) {
+        const err = await initRes.json().catch(() => ({}));
+        alert(err.detail || `Upload init failed (HTTP ${initRes.status})`);
         setUploading(false);
         return;
       }
-      const data = await res.json();
+      const { uploadId } = await initRes.json();
+
+      // Step 2: Upload chunks
+      const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+      for (let i = 0; i < totalChunks; i++) {
+        const start = i * CHUNK_SIZE;
+        const end = Math.min(start + CHUNK_SIZE, file.size);
+        const chunk = file.slice(start, end);
+        const chunkForm = new FormData();
+        chunkForm.append('file', chunk, `chunk_${i}`);
+
+        const chunkRes = await fetch(`${API}/api/admin/homepage/upload-video/chunk/${uploadId}`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: chunkForm,
+        });
+        if (!chunkRes.ok) {
+          alert(`Chunk ${i+1}/${totalChunks} failed (HTTP ${chunkRes.status})`);
+          setUploading(false);
+          return;
+        }
+      }
+
+      // Step 3: Complete — reassemble and upload to CDN
+      const completeRes = await fetch(`${API}/api/admin/homepage/upload-video/complete/${uploadId}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!completeRes.ok) {
+        const err = await completeRes.json().catch(() => ({}));
+        alert(err.detail || `Upload completion failed (HTTP ${completeRes.status})`);
+        setUploading(false);
+        return;
+      }
+      const data = await completeRes.json();
       if (data.success && data.url) {
         onChange([...videos, data.url]);
       } else {
-        alert(data.detail || 'Upload completed but no URL returned');
+        alert('Upload completed but no URL returned');
       }
     } catch (err) {
       console.error('Upload failed:', err);

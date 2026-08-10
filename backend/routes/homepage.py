@@ -1,7 +1,7 @@
 """
 Homepage content management - Dynamic sections for the homepage.
 """
-from fastapi import APIRouter, HTTPException, Depends, UploadFile, File
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File, Request
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
 from pydantic import BaseModel
@@ -255,6 +255,95 @@ async def upload_homepage_image(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
+
+
+@router.post("/api/admin/homepage/upload-video/init")
+async def init_chunked_upload(request: Request, admin=Depends(get_current_admin)):
+    """Initialize a chunked video upload session."""
+    body = await request.json()
+    filename = body.get("filename", "video.mp4")
+    total_size = body.get("totalSize", 0)
+    content_type = body.get("contentType", "video/mp4")
+
+    allowed_types = ["video/mp4", "video/webm", "video/quicktime", "video/x-msvideo"]
+    if content_type not in allowed_types:
+        raise HTTPException(400, "Invalid file type. Allowed: MP4, WebM, MOV, AVI")
+    if total_size > 100 * 1024 * 1024:
+        raise HTTPException(400, "File too large. Maximum 100MB.")
+
+    upload_id = uuid.uuid4().hex[:12]
+    upload_dir = f"/tmp/blx_uploads/{upload_id}"
+    os.makedirs(upload_dir, exist_ok=True)
+
+    # Store metadata
+    import json
+    with open(f"{upload_dir}/meta.json", "w") as f:
+        json.dump({"filename": filename, "totalSize": total_size, "contentType": content_type, "chunks": 0}, f)
+
+    return {"uploadId": upload_id}
+
+
+@router.post("/api/admin/homepage/upload-video/chunk/{upload_id}")
+async def upload_chunk(upload_id: str, file: UploadFile = File(...), admin=Depends(get_current_admin)):
+    """Upload a single chunk of a video file."""
+    upload_dir = f"/tmp/blx_uploads/{upload_id}"
+    if not os.path.exists(upload_dir):
+        raise HTTPException(404, "Upload session not found")
+
+    import json
+    with open(f"{upload_dir}/meta.json") as f:
+        meta = json.load(f)
+
+    chunk_num = meta["chunks"]
+    content = await file.read()
+    with open(f"{upload_dir}/chunk_{chunk_num:04d}", "wb") as f:
+        f.write(content)
+
+    meta["chunks"] = chunk_num + 1
+    with open(f"{upload_dir}/meta.json", "w") as f:
+        json.dump(meta, f)
+
+    return {"chunkIndex": chunk_num, "received": len(content)}
+
+
+@router.post("/api/admin/homepage/upload-video/complete/{upload_id}")
+async def complete_chunked_upload(upload_id: str, admin=Depends(get_current_admin)):
+    """Reassemble chunks and upload the complete video to CDN."""
+    from cdn_upload import upload_video_to_cdn
+    import json
+
+    upload_dir = f"/tmp/blx_uploads/{upload_id}"
+    if not os.path.exists(upload_dir):
+        raise HTTPException(404, "Upload session not found")
+
+    with open(f"{upload_dir}/meta.json") as f:
+        meta = json.load(f)
+
+    # Reassemble chunks
+    content = bytearray()
+    for i in range(meta["chunks"]):
+        chunk_path = f"{upload_dir}/chunk_{i:04d}"
+        with open(chunk_path, "rb") as f:
+            content.extend(f.read())
+
+    if len(content) > 100 * 1024 * 1024:
+        import shutil
+        shutil.rmtree(upload_dir, ignore_errors=True)
+        raise HTTPException(400, "Reassembled file exceeds 100MB limit")
+
+    ext = os.path.splitext(meta["filename"])[1].lower() or ".mp4"
+    unique_name = f"hero_video_{uuid.uuid4().hex[:8]}{ext}"
+
+    try:
+        video_url = upload_video_to_cdn(unique_name, bytes(content))
+        # Cleanup temp files
+        import shutil
+        shutil.rmtree(upload_dir, ignore_errors=True)
+        return {"success": True, "url": video_url, "filename": meta["filename"]}
+    except Exception as e:
+        import shutil
+        shutil.rmtree(upload_dir, ignore_errors=True)
+        raise HTTPException(500, f"Upload failed: {str(e)}")
 
 
 @router.post("/api/admin/homepage/upload-video")

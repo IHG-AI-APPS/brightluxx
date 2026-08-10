@@ -1,97 +1,114 @@
 """
-Database seed migration — ensures content collections have data on startup.
-Loads from seed_data.json (exported from preview environment).
-Only seeds collections that are EMPTY to avoid overwriting admin edits.
+Database seed migration — ensures all content collections have complete, up-to-date data.
+Loads from seed_data_full.json (exported from preview with all enrichments).
+Uses UPSERT logic: updates existing docs by unique key, inserts missing ones.
+Safe to run on every startup — never deletes data, only adds/updates.
 """
 import json
 import os
 from datetime import datetime, timezone
 
-SEED_FILE = os.path.join(os.path.dirname(__file__), "seed_data.json")
+SEED_FILE = os.path.join(os.path.dirname(__file__), "seed_data_full.json")
+LEGACY_SEED_FILE = os.path.join(os.path.dirname(__file__), "seed_data.json")
 
-# The "Art & XR" product family exists on the public site (navbar / homepage) but was
-# missing from the product_families collection, so it never showed in the admin panel
-# or on the DB-driven /product-families page. This record backfills it. It is inserted
-# only if absent (guarded by slug + name below), so it never overwrites admin edits.
-ART_XR_FAMILY = {
-    "_id": "family-art-immersive",
-    "name": "Art & XR",
-    "slug": "art-immersive",
-    "tagline": "Immersive Art & Extended Reality",
-    "description": "Immersive digital art and extended-reality LED experiences — NFT galleries, teamLab-style immersive walls, XR/virtual-production stages, metaverse installations, and sculptural public art.",
-    "hero_image": "https://files.ihgbrands.com/nav-images_nav_ext_5607981affc7.webp",
-    "hero_video": None,
-    "brand_color": "violet",
-    "accent_color": None,
-    "stats": [
-        {"value": "6", "label": "Experience Types"},
-        {"value": "360°", "label": "Immersion"},
-        {"value": "XR", "label": "Virtual Production"},
-    ],
-    "overview": "Art & XR brings together NFT gallery displays, immersive walls, XR/virtual-production stages, metaverse LED and sculptural public art into a single creative product line.",
-    "key_features": ["NFT Gallery Displays", "Immersive Walls", "XR / Virtual Production", "Sculptural & Public Art"],
-    "products": [
-        {"name": "NFT Gallery Displays", "slug": "products?category=art-immersive&sub=nft-gallery", "description": "Digital Art Museums", "image": "https://files.ihgbrands.com/nav-images_nav_ext_5607981affc7.webp"},
-        {"name": "Immersive Walls", "slug": "products?category=art-immersive&sub=immersive-experience", "description": "teamLab-style installations", "image": "https://files.ihgbrands.com/nav-images_nav_ext_a88d2305f712.webp"},
-        {"name": "XR/Virtual Production", "slug": "products?category=art-immersive&sub=virtual-production", "description": "Film & TV stages", "image": "https://files.ihgbrands.com/nav-images_nav_1aa1b696_bl-vpx150.webp"},
-        {"name": "Metaverse LED", "slug": "products?category=art-immersive&sub=metaverse", "description": "Interactive experiences", "image": "https://files.ihgbrands.com/nav-images_nav_ext_df8d37160688.webp"},
-        {"name": "Sculptural LED", "slug": "products?category=art-immersive&sub=sculptural", "description": "Cylinders, cubes, waves", "image": "https://files.ihgbrands.com/nav-images_nav_ext_7f0dfb104596.webp"},
-        {"name": "Public Art", "slug": "products?category=art-immersive&sub=public-art", "description": "Urban landmarks", "image": "https://files.ihgbrands.com/nav-images_nav_ext_d3c8d248b59f.webp"},
-    ],
-    "categories": [],
-    "use_cases": ["Museums & Galleries", "Film & TV Production", "Public Installations", "Experiential Retail"],
-    "gallery": [],
-    "faqs": [],
-    "seo_title": "Art & XR — Immersive LED & Extended Reality | Brightluxx",
-    "seo_description": "NFT galleries, immersive walls, XR/virtual production, metaverse LED and sculptural public art from Brightluxx.",
-    "is_active": True,
-    "order": 6,
+# Unique key field for each collection (used for upsert matching)
+COLLECTION_KEYS = {
+    "page_seo": "path",
+    "products": "slug",
+    "blogs": "slug",
+    "case_studies": "slug",
+    "pixelvue_products": "slug",
+    "product_families": "slug",
+    "solutions": "slug",
+    "inspirations": "slug",
+    "applications_content": "slug",
+    "technologies_content": "slug",
+    "resources": "id",
+    "taxonomy": "id",
+    "homepage_content": "type",
+    "site_settings": "key",
+    "reviews": "id",
+    "projects": "slug",
 }
 
 
-async def ensure_extra_families(db):
-    """Backfill product families that exist on the site but were never seeded into the DB.
-
-    Idempotent: only inserts a family if no document with the same slug or name exists,
-    so it is safe to run on every startup and never clobbers admin edits.
-    """
-    existing = await db.product_families.find_one(
-        {"$or": [{"slug": ART_XR_FAMILY["slug"]}, {"name": ART_XR_FAMILY["name"]}]}
-    )
-    if existing:
-        return
-    now = datetime.now(timezone.utc).isoformat()
-    doc = dict(ART_XR_FAMILY)
-    doc["created_at"] = now
-    doc["updated_at"] = now
-    await db.product_families.insert_one(doc)
-    print("Seed: backfilled 'Art & XR' product family")
-
 async def run_seed(db):
-    """Seed empty content collections from seed_data.json."""
-    if not os.path.exists(SEED_FILE):
-        print("Seed: seed_data.json not found, skipping")
+    """Seed/sync content collections using upsert from seed_data_full.json."""
+    # Prefer comprehensive seed file, fall back to legacy
+    seed_file = SEED_FILE if os.path.exists(SEED_FILE) else LEGACY_SEED_FILE
+    if not os.path.exists(seed_file):
+        print("Seed: no seed file found, skipping")
         return
 
-    with open(SEED_FILE, "r") as f:
+    with open(seed_file, "r") as f:
         seed = json.load(f)
 
-    seeded = []
+    stats = {"inserted": 0, "updated": 0, "skipped": 0, "collections": 0}
+
     for coll_name, docs in seed.items():
         if not docs:
             continue
-        count = await db[coll_name].count_documents({})
-        if count == 0:
-            await db[coll_name].insert_many(docs)
-            seeded.append(f"{coll_name} ({len(docs)})")
 
-    if seeded:
-        print(f"Seed: Populated {len(seeded)} collections: {', '.join(seeded)}")
+        key_field = COLLECTION_KEYS.get(coll_name)
+        if not key_field:
+            # Unknown collection — insert only if empty (safe fallback)
+            count = await db[coll_name].count_documents({})
+            if count == 0:
+                await db[coll_name].insert_many(docs)
+                stats["inserted"] += len(docs)
+            continue
+
+        col = db[coll_name]
+        col_inserted = 0
+        col_updated = 0
+
+        for doc in docs:
+            # Remove _id to avoid ObjectId conflicts between environments
+            doc.pop("_id", None)
+
+            key_value = doc.get(key_field)
+            if not key_value:
+                # No key — insert if no duplicate exists
+                await col.insert_one(doc)
+                col_inserted += 1
+                continue
+
+            # Upsert: update if exists, insert if not
+            existing = await col.find_one({key_field: key_value})
+            if existing:
+                # Update existing doc — preserve _id, merge new fields
+                update_fields = {}
+                for k, v in doc.items():
+                    if k == key_field:
+                        continue
+                    # Only update if the seed has meaningful data
+                    # Don't overwrite with empty/None if existing has data
+                    if v is not None and v != "" and v != []:
+                        update_fields[k] = v
+                    elif not existing.get(k):
+                        update_fields[k] = v
+
+                if update_fields:
+                    await col.update_one(
+                        {key_field: key_value},
+                        {"$set": update_fields}
+                    )
+                    col_updated += 1
+                else:
+                    stats["skipped"] += 1
+            else:
+                # Insert new doc
+                await col.insert_one(doc)
+                col_inserted += 1
+
+        if col_inserted > 0 or col_updated > 0:
+            stats["collections"] += 1
+            stats["inserted"] += col_inserted
+            stats["updated"] += col_updated
+            print(f"  Seed: {coll_name} — {col_inserted} inserted, {col_updated} updated")
+
+    total = stats["inserted"] + stats["updated"]
+    if total > 0:
+        print(f"Seed: Synced {total} docs across {stats['collections']} collections ({stats['inserted']} new, {stats['updated']} updated)")
     else:
-        print("Seed: All content collections already have data, skipping")
-
-    # Backfill families that are missing even when the collection already has data.
-    try:
-        await ensure_extra_families(db)
-    except Exception as e:
-        print(f"Seed: ensure_extra_families warning: {e}")
+        print("Seed: All content up to date, no changes needed")

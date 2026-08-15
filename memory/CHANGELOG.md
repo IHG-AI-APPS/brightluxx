@@ -1,12 +1,26 @@
 # Brightluxx Changelog
 
-## Aug 10, 2026 — Hero Video Poster Image (DB-Driven)
-- Generated high-quality 1920×1080 poster frame from hero video via FFmpeg
-- Uploaded WebP (155KB) + JPG fallback to Emergent object storage
-- Backend proxy serves poster at `/api/media/images/hero-poster.webp`
-- `Home.js` updated: `HeroVideoPlayer` now uses DB `hero.poster_image` with CDN fallback
-- Seed re-exported (509 docs, 16 collections) and 320-page production build regenerated
-- Requires user redeploy to go live
+## Aug 10, 2026 — Production Site Audit Fixes (Phase 1-3)
+
+### SEO/AI Visibility (Critical)
+- **Production-mode static server**: `prerender-server.js` now detects build/ directory and serves pre-rendered HTML directly — no CRA dev server proxy. TTFB: <1ms (was 1.4-2.2s)
+- **Rich initial HTML for ALL users**: Product detail pages include name, description, specs, FAQ. Blog/case-study listings include item links. All content visible before JS loads
+- **319 pre-rendered pages** with unique per-route `<title>`, `<meta description>`, canonical, OG tags, JSON-LD schemas
+- **HTTP 404**: Unknown routes properly return 404 with branded page (not 200 with homepage shell)
+- **301 redirects**: All legacy WordPress URLs redirect server-side (not JS-only): /our-works/ → /projects, /digital-solutions/ → /solutions, /download-catalog/, /products/led-display, /products/indoor-led-display/, /products/spherical-led-display/, /products/cube-led-display-p3, /wp-content/* → /products
+- **AI crawler detection**: Added GPTBot, ClaudeBot, PerplexityBot, ChatGPT-User, OAI-SearchBot, Anthropic-AI, Cohere-AI, ByteSpider, Meta-ExternalAgent, YouBot
+- **llms.txt**: Served as text/plain with company overview, product families, locations, key facts
+
+### Content/QA
+- **Deleted test product** "hjdba" (slug, product_code "test") from DB and sitemap
+- **Google Maps embed** added to site settings for contact page
+
+### Performance
+- **Self-hosted fonts**: Removed Google Fonts (Inter) and cdnfonts.com (Satoshi) origins. All fonts now self-hosted from /fonts/
+- **Cache headers**: HTML=300s, fingerprinted assets=1yr immutable, fonts=1hr (correctly set by our server; may be overridden by ingress in preview)
+- **Hero video fix**: Switched to CDN source (files.ihgbrands.com) which supports Range requests (206). Added Range/HEAD support to media proxy endpoint. CDN video is 3.1MB vs 58MB object storage version
+- **Admin API call noise**: /api/admin/me no longer called on public pages (gated to admin routes/cookie presence)
+- **Cookie consent**: Hidden on /admin routes
 
 
 

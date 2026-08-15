@@ -410,12 +410,78 @@ async function run() {
 
       let html = indexHtml;
 
-      // Inject heading snippet
+      // Build rich content snippet for div#root
+      let contentParts = [];
+
+      // Heading hierarchy from heading-data.json
       const headings = headingData[route];
       if (headings && headings.length) {
-        const headingHtml = headings.map(h => `<${h.tag}>${esc(h.text)}</${h.tag}>`).join("");
-        const descPara = meta.description ? `<p>${esc(meta.description)}</p>` : "";
-        html = html.replace('<div id="root"></div>', `<div id="root">${headingHtml}${descPara}</div>`);
+        contentParts.push(headings.map(h => `<${h.tag}>${esc(h.text)}</${h.tag}>`).join(""));
+      }
+
+      // Description paragraph
+      if (meta.description) {
+        contentParts.push(`<p>${esc(meta.description)}</p>`);
+      }
+
+      // Rich content from seed data (product specs, blog text, listing links)
+      if (route.startsWith("/products/") && route !== "/products") {
+        const slug = route.split("/products/")[1];
+        const product = productsIndex[slug];
+        if (product) {
+          if (!headings || !headings.length) contentParts.unshift(`<h1>${esc(product.name || slug)}</h1>`);
+          if (product.tagline) contentParts.push(`<p><strong>${esc(product.tagline)}</strong></p>`);
+          if (product.description) contentParts.push(`<p>${esc(String(product.description).slice(0, 500))}</p>`);
+          if (product.specifications && typeof product.specifications === "object") {
+            const specs = Object.entries(product.specifications).slice(0, 8);
+            if (specs.length) {
+              contentParts.push("<dl>" + specs.map(([k,v]) => `<dt>${esc(k)}</dt><dd>${esc(String(v))}</dd>`).join("") + "</dl>");
+            }
+          }
+          if (product.faq && product.faq.length) {
+            contentParts.push("<h2>FAQ</h2>" + product.faq.slice(0, 4).map(f => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join(""));
+          }
+        }
+      } else if (route.startsWith("/blog/") && route !== "/blog") {
+        const slug = route.split("/blog/")[1];
+        const blog = blogsIndex[slug];
+        if (blog) {
+          if (!headings || !headings.length) contentParts.unshift(`<h1>${esc(blog.title || slug)}</h1>`);
+          if (blog.excerpt) contentParts.push(`<p>${esc(blog.excerpt)}</p>`);
+          if (blog.content) contentParts.push(`<div>${String(blog.content).slice(0, 1000)}</div>`);
+          if (blog.faq && blog.faq.length) {
+            contentParts.push("<h2>FAQ</h2>" + blog.faq.slice(0, 4).map(f => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join(""));
+          }
+        }
+      } else if (route.startsWith("/case-studies/") && route !== "/case-studies") {
+        const slug = route.split("/case-studies/")[1];
+        const cs = caseStudiesIndex[slug];
+        if (cs) {
+          if (!headings || !headings.length) contentParts.unshift(`<h1>${esc(cs.title || slug)}</h1>`);
+          if (cs.challenge) contentParts.push(`<p>${esc(cs.challenge)}</p>`);
+          if (cs.solution) contentParts.push(`<p>${esc(cs.solution)}</p>`);
+          if (cs.location) contentParts.push(`<p>Location: ${esc(cs.location)}</p>`);
+        }
+      } else if (route === "/products") {
+        // Product listing: add links to all products
+        const productLinks = Object.entries(productsIndex).slice(0, 30).map(([slug, p]) =>
+          `<a href="/products/${esc(slug)}">${esc(p.name || slug)}</a>`
+        ).join(" · ");
+        if (productLinks) contentParts.push(`<nav aria-label="Products">${productLinks}</nav>`);
+      } else if (route === "/blog") {
+        const blogLinks = Object.entries(blogsIndex).slice(0, 15).map(([slug, b]) =>
+          `<a href="/blog/${esc(slug)}">${esc(b.title || slug)}</a>`
+        ).join(" · ");
+        if (blogLinks) contentParts.push(`<nav aria-label="Blog articles">${blogLinks}</nav>`);
+      } else if (route === "/case-studies") {
+        const csLinks = Object.entries(caseStudiesIndex).slice(0, 24).map(([slug, cs]) =>
+          `<a href="/case-studies/${esc(slug)}">${esc(cs.title || slug)}</a>`
+        ).join(" · ");
+        if (csLinks) contentParts.push(`<nav aria-label="Case studies">${csLinks}</nav>`);
+      }
+
+      if (contentParts.length) {
+        html = html.replace('<div id="root"></div>', `<div id="root">${contentParts.join("")}</div>`);
       }
 
       // Inject metadata
@@ -438,6 +504,29 @@ async function run() {
   if (fs.existsSync(llmsSrc) && fs.existsSync(BUILD_DIR)) {
     fs.copyFileSync(llmsSrc, path.join(BUILD_DIR, "llms.txt"));
   }
+
+  // Generate 404.html page
+  const notFoundMeta = {
+    title: "404 — Page Not Found | Brightluxx",
+    description: "The page you're looking for doesn't exist. Browse our LED display products and solutions.",
+    canonical: `${PROD_URL}/404`,
+    keywords: "",
+    ogTitle: "404 — Page Not Found | Brightluxx",
+    ogDescription: "The page you're looking for doesn't exist.",
+    ogImage: DEFAULT_OG_IMAGE,
+    schemas: [],
+    h1: "Page Not Found",
+  };
+  let notFoundHtml = indexHtml;
+  notFoundHtml = notFoundHtml.replace(/<title>[^<]*<\/title>/, `<title>${esc(notFoundMeta.title)}</title>`);
+  notFoundHtml = notFoundHtml.replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${esc(notFoundMeta.description)}"`);
+  notFoundHtml = notFoundHtml.replace("</head>", `<meta name="robots" content="noindex">\n</head>`);
+  notFoundHtml = notFoundHtml.replace(
+    '<div id="root"></div>',
+    `<div id="root"><div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#050508;color:#fff;font-family:system-ui,-apple-system,sans-serif"><div style="text-align:center;padding:2rem"><h1 style="font-size:6rem;font-weight:700;letter-spacing:-0.04em;margin:0 0 1rem;background:linear-gradient(135deg,#fff,#666);-webkit-background-clip:text;-webkit-text-fill-color:transparent">404</h1><p style="font-size:1.1rem;color:#999;margin:0 0 2rem">This page doesn't exist.</p><nav style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="/" style="color:#22d3ee;padding:0.75rem 2rem;border:1px solid #22d3ee;border-radius:999px;text-decoration:none;transition:all 0.3s">Homepage</a><a href="/products" style="color:#22d3ee;padding:0.75rem 2rem;border:1px solid rgba(34,211,238,0.3);border-radius:999px;text-decoration:none">Products</a><a href="/contact" style="color:#22d3ee;padding:0.75rem 2rem;border:1px solid rgba(34,211,238,0.3);border-radius:999px;text-decoration:none">Contact</a></nav></div></div></div>`
+  );
+  fs.writeFileSync(path.join(BUILD_DIR, "404.html"), notFoundHtml);
+  console.log("Generated 404.html");
 
   console.log(`\nPre-rendered: ${success} pages, ${failed} errors out of ${routes.length} total.`);
 }

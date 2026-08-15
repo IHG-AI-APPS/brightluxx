@@ -1,0 +1,101 @@
+{
+  "summary": "Iteration 125 — validated the new PRODUCTION-mode static prerender server end-to-end (40 pytest cases + 4 Playwright runs). All 14 requested features PASS except hero video playback. Confirmed: 319 pre-rendered pages served with rich raw HTML (product specs/FAQ/Product+FAQPage JSON-LD, 15 blog links, 24 case-study links), 94 products (test product 'hjdba' fully purged from API, DB, sitemap and build), unique per-page titles+descriptions on /, /products, /blog, /about, /contact, /solutions, HTTP 404 + branded 404 page for unknown routes, all 10 tested WordPress 301 redirects correct, /wp-content/* -> 301 /products, /llms.txt 200 text/plain starting '# Brightluxx', zero fonts.googleapis.com / fonts.cdnfonts.com requests with self-hosted Satoshi woff2 loading, cookie consent Accept/Decline working, /admin/login SPA shell + full admin login E2E to dashboard, Google Maps iframe on /contact, client-side routing works after prerendered page load, no mobile horizontal overflow. Auth playbook verified: bcrypt $2b$12$ hash, httpOnly+Secure+SameSite=none cookies, explicit-origin CORS with credentials at origin, 429 lockout on the 6th failed login, logout invalidates session. ONE HIGH-severity defect: the homepage hero video never plays.",
+  "backend_issues": {
+    "critical": [
+      {
+        "endpoint": "GET /api/media/{path} (hero-video-ede053db.mp4)",
+        "issue": "Hero video NEVER plays on the homepage. Endpoint sets 'Accept-Ranges: bytes' but completely ignores the incoming Range header — a 'Range: bytes=0-1023' request returns HTTP 200 with the full 58.1 MB body instead of 206 Content-Range. Browser stays at readyState=0, buffered=0, paused=true even after 30s; only the poster image is ever visible. Also: the asset itself is 58.1 MB (far too large for a hero LCP element), the endpoint uses BLOCKING sync requests.get(stream=True) inside an 'async def' which stalls the FastAPI event loop for the whole 58 MB proxy transfer, and no ETag/Last-Modified/conditional-GET support.",
+        "priority": "CRITICAL"
+      }
+    ],
+    "minor": [
+      {
+        "endpoint": "HEAD /api/media/{path}",
+        "issue": "Returns 405 Method Not Allowed (route registered for GET only). CDNs/browsers/link-checkers issue HEAD for media probing."
+      },
+      {
+        "endpoint": "GET /api/admin/me",
+        "issue": "Fired on EVERY public page load (/, /products, /blog, /case-studies), returning 401 and logging a console error for every anonymous visitor. Should be gated to /admin/* routes or to the presence of the blx_access cookie."
+      },
+      {
+        "endpoint": "server.py startup seed_admin (lines 190-206)",
+        "issue": "Playbook requirement 5 NOT met: seeding only runs 'if not existing'. If ADMIN_SEED_PASSWORD is rotated in .env, the existing admin document is never updated, so the new password silently has no effect. Should upsert the hash when the env password differs."
+      },
+      {
+        "endpoint": "server.py CORS (lines 56-62)",
+        "issue": "Fallback path sets allow_origins=['*'] together with allow_credentials=True — an invalid combination that browsers reject outright. Should fail fast instead of falling back to wildcard. (Currently masked because CORS_ORIGINS is set.)"
+      },
+      {
+        "endpoint": "utils.py RateLimiter / login_limiter",
+        "issue": "Login brute-force lockout state is in-process memory only. It works today (single uvicorn worker) but resets on restart and is bypassable with >1 worker/replica."
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Homepage HeroSection <video>",
+        "issue": "Video element never reaches readyState>=2; remains paused with buffered=0 after 30s. Users only ever see the static poster image. Root cause is the /api/media Range bug + 58 MB file size (see backend critical).",
+        "selector": "video",
+        "priority": "HIGH"
+      },
+      {
+        "component": "ProductCard (/products grid)",
+        "issue": "On some cards the product title wraps to 2 lines and visually collides with the 'nits' metadata line underneath (observed on 'PoolView Retractable P2.9'). Reserve a fixed min-height / add line-clamp for the title.",
+        "selector": "[data-testid*='product-card']",
+        "priority": "LOW"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "Admin dashboard (/admin/dashboard)",
+        "issues": [
+          "Cookie consent banner renders over the admin panel and overlaps the bottom of the 'Product Categories' list. Suppress CookieConsent on /admin/* routes."
+        ]
+      },
+      {
+        "screen": "/products category filter pills (desktop 1920px)",
+        "issues": [
+          "The horizontal pill row is clipped mid-word at the right viewport edge with no visible scroll affordance (fade/arrow), so users cannot tell more filters exist."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration125_static_server.py",
+    "/app/backend/tests/test_iteration125_auth_playbook.py",
+    "/app/test_reports/pytest/iter125_full.xml"
+  ],
+  "action_items": [
+    "CRITICAL: Implement HTTP Range support in serve_media (routes/homepage.py:38) — parse the Range header, forward it upstream, and return 206 with Content-Range/Content-Length. Or better: stop proxying large video through FastAPI and serve the hero MP4 from the CDN (files.ihgbrands.com) directly.",
+    "CRITICAL: Re-encode/shrink the hero video — 58.1 MB is unusable for a hero LCP element. Target <5 MB (H.264 720p + WebM/AV1 alternative), and consider preload='metadata'.",
+    "Replace the blocking sync requests.get in the async serve_media handler with httpx.AsyncClient streaming (currently blocks the event loop for the whole 58 MB transfer).",
+    "Register HEAD on /api/media/{path} (currently 405).",
+    "Stop calling /api/admin/me on public pages — gate it behind /admin/* or cookie presence to remove the 401 console noise for every visitor.",
+    "Make seed_admin idempotent-with-update: if ADMIN_SEED_PASSWORD differs from the stored hash, update it (playbook requirement 5).",
+    "Remove the allow_origins=['*'] + allow_credentials=True fallback in server.py; fail fast if CORS_ORIGINS/FRONTEND_URL is unset.",
+    "Hide CookieConsent on /admin/* routes.",
+    "Fix ProductCard title/metadata collision and add a scroll affordance to the filter pill row."
+  ],
+  "critical_code_review_comments": [
+    "routes/homepage.py:58-69 — advertising 'Accept-Ranges: bytes' while ignoring the Range header is worse than not advertising it: media players trust the header and then stall. This is the direct cause of the dead hero video.",
+    "routes/homepage.py:46 — sync `http_requests.get(..., stream=True)` inside `async def serve_media` blocks the event loop for the entire proxied transfer; a single hero-video request can starve all other API traffic.",
+    "prerender-server.js is 885 lines and holds two complete server implementations (DEV proxy + PRODUCTION static) plus 4 near-duplicate JSON-LD/meta injection helpers (injectMeta / injectMetaJsonLdOnly share ~40 identical lines). Split into prerender-server.dev.js, prerender-server.prod.js and a shared seo-inject.js.",
+    "prerender-server.js:29 — because build/ exists, the server is now permanently in PRODUCTION mode, so frontend hot-reload is dead in this preview container. Gate the mode on an explicit env var (e.g. SERVE_MODE) so devs can still get CRA/HMR without deleting build/.",
+    "STALENESS RISK: build/ is a point-in-time snapshot. Any CMS edit made through /admin now changes the API but NOT the 319 pre-rendered HTML files, so public pages will serve stale titles/descriptions/content until a rebuild. There is no rebuild/invalidation hook wired to admin writes — this needs an explicit strategy before deploy.",
+    "prerender-server.js production branch has no /api handling at all. It works in preview because k8s ingress splits /api, but it will break if the app is ever fronted by a single origin without that ingress rule.",
+    "prerender-server.js:436-480 — KNOWN_ROUTES/DYNAMIC_PATTERNS is now dead code in PRODUCTION mode (404 is decided by file existence). Delete it or share it, otherwise it will drift and mislead."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_iteration125_static_server.py",
+    "/app/backend/tests/test_iteration125_auth_playbook.py"
+  ],
+  "success_rate": {"backend": "92.5% (37/40 pytest cases; 3 failures all in TestHeroMedia)", "frontend": "93% (13/14 requested flows; hero video playback failed)"},
+  "seed_data_creation": "None. No test data written; admin login used existing credentials from /app/memory/test_credentials.md.",
+  "should_call_test_agent_after_fix": true,
+  "should_main_agent_self_test": false,
+  "test_credentials": "/app/memory/test_credentials.md valid — admin@brightluxx.com / brightluxx2025 logs in successfully and reaches /admin/dashboard.",
+  "context_for_next_testing_agent": "Run `pytest /app/backend/tests/test_iteration125_static_server.py /app/backend/tests/test_iteration125_auth_playbook.py -v -p no:randomly -s`. Only TestHeroMedia should be failing (3 cases: HEAD 405, Range ignored, 58 MB size) — those are the open bugs. NOTE two PREVIEW-ENVIRONMENT ARTEFACTS, not app bugs, already handled in the tests: (1) Cloudflare/k8s ingress rewrites Cache-Control on static assets to 'no-store, no-cache, must-revalidate' — origin at localhost:3000 correctly returns 'public, max-age=31536000, immutable' for /static/*, 'max-age=300' for HTML, 'max-age=3600' for /fonts/*; (2) the ingress rewrites Access-Control-Allow-Origin to '*' — origin at localhost:8001 correctly returns the explicit origin + Allow-Credentials: true. Both tests fall back to checking the origin via curl. Also note test_brute_force_lockout leaves the IP rate-limited for 60s, so test_logout_clears_cookie sleeps 62s (suite takes ~70s). Server is in PRODUCTION mode (build/ exists, 319 pre-rendered index.html files) — after any frontend source change you MUST re-run the build or you will be testing stale HTML.",
+  "rca_of_the_issue": "Hero video dead-on-arrival. Repro: GET https://space-modern-build.preview.emergentagent.com/api/media/videos/hero-video-ede053db.mp4 with header 'Range: bytes=0-1023' -> HTTP 200 and the full 58,138,610-byte body (expected 206 + Content-Range). In-browser: load '/', wait 30s, evaluate document.querySelector('video') -> {readyState: 0, buffered: 0, paused: true, error: null}. Cause: routes/homepage.py serve_media() hard-codes 'Accept-Ranges: bytes' in the response headers and pipes the upstream object-storage body through a StreamingResponse, but never reads req.headers['Range'] nor forwards it upstream. Chrome's media stack sees Accept-Ranges, issues a ranged request for the moov atom, receives a non-206 full-file stream, and refuses to demux — so metadata is never parsed and readyState stays 0. Aggravating factors: the asset is 58 MB (no bitrate ladder, no WebM fallback) and the proxy uses a blocking sync requests call inside an async handler. Mitigation: forward the Range header to object storage and relay 206 + Content-Range/Content-Length, switch to httpx.AsyncClient, re-encode the hero to <5 MB, and ideally bypass the API entirely by serving the video from files.ihgbrands.com."
+}

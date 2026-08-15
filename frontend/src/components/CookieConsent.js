@@ -6,6 +6,8 @@ export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    // Don't show on admin routes
+    if (window.location.pathname.startsWith('/admin')) return;
     const consent = localStorage.getItem(CONSENT_KEY);
     if (!consent) {
       const timer = setTimeout(() => setVisible(true), 2000);

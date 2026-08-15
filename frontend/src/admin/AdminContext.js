@@ -62,7 +62,17 @@ export const AdminProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (token) {
+    // Only check admin auth on /admin routes or when a token exists
+    const isAdminRoute = window.location.pathname.startsWith('/admin');
+    const hasToken = !!token;
+    const hasCookie = document.cookie.includes('blx_access');
+
+    if (!isAdminRoute && !hasToken && !hasCookie) {
+      setLoading(false);
+      return;
+    }
+
+    if (hasToken) {
       api().get('/api/admin/me')
         .then(res => { setAdmin(res.data); setLoading(false); })
         .catch(() => { logout(); setLoading(false); });

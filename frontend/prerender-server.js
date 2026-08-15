@@ -1,16 +1,19 @@
 /**
- * Prerender Proxy Server
+ * Prerender Server — Dual-mode frontend server
  *
- * Sits in front of the CRA dev server (port 3001).
- * - Regular users → proxied transparently to CRA.
- * - Search-engine crawlers → CRA HTML with heading tags injected
- *   inside <div id="root"> so they appear in the initial HTML.
+ * PRODUCTION MODE (build/ directory exists):
+ *   Serves pre-rendered static HTML files directly — no CRA dev server.
+ *   Full SEO content in initial HTML for ALL users and crawlers.
+ *   Server-side 301 redirects, proper HTTP 404s, cache headers.
  *
- * In production builds the same heading injection is done by
- * postbuild-prerender.js instead.
+ * DEV MODE (no build/ directory):
+ *   Proxies to CRA dev server on port 3001.
+ *   Injects SSR metadata for all users.
+ *   Full content injection for search engine/AI crawlers.
  */
 
 const http = require("http");
+const fs = require("fs");
 const { spawn } = require("child_process");
 const path = require("path");
 
@@ -21,45 +24,53 @@ const PROD_URL = process.env.REACT_APP_BACKEND_URL
   ? process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "")
   : "https://brightluxx.com";
 
-/* ── Crawler detection ─────────────────────────────────────────── */
+/* ── Production mode detection ─────────────────────────────────── */
+const BUILD_DIR = path.join(__dirname, "build");
+const IS_PRODUCTION =
+  fs.existsSync(BUILD_DIR) && fs.existsSync(path.join(BUILD_DIR, "index.html"));
+
+/* ── Crawler detection (includes AI crawlers) ──────────────────── */
 const CRAWLER_RE =
-  /googlebot|bingbot|yandex|baiduspider|facebookexternalhit|twitterbot|linkedinbot|whatsapp|slackbot|telegrambot|discordbot|redditbot|pinterestbot|applebot|semrushbot|ahrefsbot|mj12bot|rogerbot|embedly|quora|pinterest|w3c_validator|lighthouse/i;
+  /googlebot|bingbot|yandex|baiduspider|facebookexternalhit|twitterbot|linkedinbot|whatsapp|slackbot|telegrambot|discordbot|redditbot|pinterestbot|applebot|semrushbot|ahrefsbot|mj12bot|rogerbot|embedly|quora|pinterest|w3c_validator|lighthouse|gptbot|chatgpt-user|oai-searchbot|claudebot|anthropic-ai|perplexitybot|cohere-ai|bytespider|meta-externalagent|iaskspider|youbot|petalbot/i;
 
-/* ── Start CRA dev server on CRA_PORT ──────────────────────────── */
-const cra = spawn("npx", ["craco", "start"], {
-  cwd: path.resolve(__dirname),
-  env: {
-    ...process.env,
-    PORT: String(CRA_PORT),
-    BROWSER: "none",
-    HOST: "0.0.0.0",
-  },
-  stdio: "inherit",
-});
+/* ── CRA dev server (DEV MODE only) ────────────────────────────── */
+let cra = null;
+if (!IS_PRODUCTION) {
+  cra = spawn("npx", ["craco", "start"], {
+    cwd: path.resolve(__dirname),
+    env: {
+      ...process.env,
+      PORT: String(CRA_PORT),
+      BROWSER: "none",
+      HOST: "0.0.0.0",
+    },
+    stdio: "inherit",
+  });
 
-cra.on("error", (err) => console.error("CRA spawn error:", err));
-cra.on("exit", (code) => {
-  console.error("CRA exited with code", code);
-  process.exit(code ?? 1);
-});
+  cra.on("error", (err) => console.error("CRA spawn error:", err));
+  cra.on("exit", (code) => {
+    console.error("CRA exited with code", code);
+    process.exit(code ?? 1);
+  });
 
-/* ── Graceful shutdown: kill CRA child on parent exit ──────────── */
-function cleanup() {
-  try {
-    cra.kill("SIGKILL");
-  } catch {}
+  /* ── Graceful shutdown: kill CRA child on parent exit ──────────── */
+  function cleanup() {
+    try {
+      cra.kill("SIGKILL");
+    } catch {}
+  }
+  process.on("exit", cleanup);
+  process.on("SIGTERM", () => { cleanup(); process.exit(0); });
+  process.on("SIGINT", () => { cleanup(); process.exit(0); });
+  process.on("uncaughtException", (err) => {
+    console.error("Uncaught exception:", err.message);
+    cleanup();
+    process.exit(1);
+  });
+  process.on("unhandledRejection", (err) => {
+    console.error("Unhandled rejection:", err);
+  });
 }
-process.on("exit", cleanup);
-process.on("SIGTERM", () => { cleanup(); process.exit(0); });
-process.on("SIGINT", () => { cleanup(); process.exit(0); });
-process.on("uncaughtException", (err) => {
-  console.error("Uncaught exception:", err.message);
-  cleanup();
-  process.exit(1);
-});
-process.on("unhandledRejection", (err) => {
-  console.error("Unhandled rejection:", err);
-});
 
 /* ── Helpers ───────────────────────────────────────────────────── */
 
@@ -434,12 +445,17 @@ const KNOWN_ROUTES = new Set([
   "/knowledge/ip-rating-guide", "/knowledge/refresh-rate-guide", "/knowledge/processing-calibration",
   "/knowledge/cms-multi-site",
   "/blog", "/case-studies", "/projects", "/inspirations",
-  "/faq", "/factory-tour", "/for-architects", "/design-assist", "/cpd-programme",
+  "/faq", "/factory-tour", "/for-architects", "/for-contractors", "/design-assist", "/cpd-programme",
   "/tech-guide", "/budget-estimator", "/signage-solutions",
   "/indoor-led", "/outdoor-led",
   "/led-screen-suppliers-dubai", "/abu-dhabi", "/saudi-arabia",
-  "/qatar", "/kuwait",
+  "/qatar", "/kuwait", "/government-solutions",
   "/digital-experience-architecture", "/latest-tech", "/resources",
+  "/calculator", "/viewing-distance", "/power-estimator", "/project-planner", "/technology-selector",
+  "/compare-brands", "/compare-products", "/technology",
+  "/sla-guide", "/supplier-registration", "/technical-support",
+  "/spec-substitution", "/value-engineering", "/installation-guide", "/distribution",
+  "/lp/specifier-toolkit",
   "/admin", "/admin/login", "/admin/seo",
 ]);
 
@@ -451,6 +467,16 @@ const DYNAMIC_PATTERNS = [
   /^\/projects\/[a-z0-9-]+$/,
   /^\/applications\/[a-z0-9-]+$/,
   /^\/inspirations\/[a-z0-9-]+$/,
+  /^\/solutions\/[a-z0-9-]+$/,
+  /^\/technology\/[a-z0-9-]+$/,
+  /^\/pixelvue\/[a-z0-9-]+$/,
+  /^\/indoor-led\/[a-z0-9-p.]+$/,
+  /^\/outdoor-led\/[a-z0-9-p.]+$/,
+  /^\/latest-tech\/[a-z0-9-]+$/,
+  /^\/contractors\/[a-z0-9-]+$/,
+  /^\/digital-experience\/[a-z0-9-]+$/,
+  /^\/tools\/[a-z0-9-]+$/,
+  /^\/admin\/.+$/,
 ];
 
 function isKnownRoute(path) {
@@ -578,6 +604,31 @@ function startProxy() {
     const needsMetaInjection = !isAsset && !isApi;
 
     if (needsMetaInjection) {
+      // ── 404 for unknown routes ──
+      if (!isKnownRoute(routePath) && !routePath.startsWith("/admin")) {
+        try {
+          const [craRes, ssrMeta] = await Promise.all([
+            fetchRaw(`http://localhost:${CRA_PORT}${req.url}`),
+            fetchJSON(`${BACKEND}/api/ssr/meta?path=${encodeURIComponent(routePath)}`).catch(() => null),
+          ]);
+          if (craRes.status === 200) {
+            let html = ssrMeta ? injectSSRMeta(craRes.body, ssrMeta) : craRes.body;
+            // Replace title for 404
+            html = html.replace(/<title>[^<]*<\/title>/, "<title>404 — Page Not Found | Brightluxx</title>");
+            res.writeHead(404, {
+              "Content-Type": "text/html; charset=utf-8",
+              "Content-Length": Buffer.byteLength(html),
+              "X-SSR-Meta": "404",
+            });
+            res.end(html);
+            return;
+          }
+        } catch {}
+        res.writeHead(404);
+        res.end("Not Found");
+        return;
+      }
+
       try {
         const [craRes, ssrMeta] = await Promise.all([
           fetchRaw(`http://localhost:${CRA_PORT}${req.url}`),
@@ -677,5 +728,157 @@ function startProxy() {
   });
 }
 
-console.log("Starting CRA dev server on port", CRA_PORT, "...");
-waitForCRA();
+/* ═══════════════════════════════════════════════════════════════════════
+   PRODUCTION MODE — Serve pre-rendered static files directly
+═══════════════════════════════════════════════════════════════════════ */
+function startProductionServer() {
+  const MIME_TYPES = {
+    ".html": "text/html; charset=utf-8",
+    ".js": "application/javascript; charset=utf-8",
+    ".css": "text/css; charset=utf-8",
+    ".json": "application/json; charset=utf-8",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".webp": "image/webp",
+    ".gif": "image/gif",
+    ".svg": "image/svg+xml",
+    ".ico": "image/x-icon",
+    ".woff": "font/woff",
+    ".woff2": "font/woff2",
+    ".ttf": "font/ttf",
+    ".eot": "application/vnd.ms-fontobject",
+    ".mp4": "video/mp4",
+    ".webm": "video/webm",
+    ".ogg": "audio/ogg",
+    ".pdf": "application/pdf",
+    ".xml": "application/xml; charset=utf-8",
+    ".txt": "text/plain; charset=utf-8",
+    ".map": "application/json",
+    ".wasm": "application/wasm",
+  };
+
+  // Load 404 page
+  const notFoundPath = path.join(BUILD_DIR, "404.html");
+  const notFoundHtml = fs.existsSync(notFoundPath)
+    ? fs.readFileSync(notFoundPath, "utf8")
+    : `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>404 — Page Not Found | Brightluxx</title><meta name="robots" content="noindex"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#050508;color:#fff;font-family:system-ui,-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh}a{color:#22d3ee;text-decoration:none}.c{text-align:center}.c h1{font-size:6rem;font-weight:700;letter-spacing:-0.04em;margin-bottom:1rem;background:linear-gradient(135deg,#fff,#999);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.c p{font-size:1.1rem;color:#999;margin-bottom:2rem}.c a{display:inline-block;padding:0.75rem 2rem;border:1px solid #22d3ee;border-radius:999px;transition:all 0.3s}a:hover{background:#22d3ee;color:#050508}</style></head><body><div class="c"><h1>404</h1><p>This page doesn't exist.</p><a href="/">Back to Brightluxx</a></div></body></html>`;
+
+  // SPA shell for admin routes
+  const spaShell = fs.readFileSync(path.join(BUILD_DIR, "index.html"), "utf8");
+
+  function serveFile(res, filePath, cacheControl) {
+    const ext = path.extname(filePath).toLowerCase();
+    const contentType = MIME_TYPES[ext] || "application/octet-stream";
+    try {
+      const stat = fs.statSync(filePath);
+      const content = fs.readFileSync(filePath);
+      res.writeHead(200, {
+        "Content-Type": contentType,
+        "Content-Length": stat.size,
+        "Cache-Control": cacheControl || "public, max-age=3600",
+        "X-Content-Type-Options": "nosniff",
+      });
+      res.end(content);
+    } catch {
+      res.writeHead(404);
+      res.end("Not Found");
+    }
+  }
+
+  const server = http.createServer((req, res) => {
+    const url = req.url || "/";
+    const routePath = url.split("?")[0].replace(/\/+$/, "") || "/";
+    const ext = path.extname(routePath);
+
+    // ── WordPress legacy 301 redirects ──
+    const target = WP_REDIRECTS[routePath] || WP_REDIRECTS[routePath + "/"];
+    if (target) {
+      res.writeHead(301, {
+        Location: target,
+        "Cache-Control": "public, max-age=86400",
+        "X-Redirect-Reason": "WordPress legacy URL",
+      });
+      res.end();
+      return;
+    }
+
+    // ── /wp-content/ catch-all redirect ──
+    if (routePath.startsWith("/wp-content/") || routePath.startsWith("/wp-admin/") || routePath.startsWith("/wp-includes/")) {
+      res.writeHead(301, { Location: "/products", "Cache-Control": "public, max-age=86400" });
+      res.end();
+      return;
+    }
+
+    // ── Static files with extension → serve from build/ ──
+    if (ext) {
+      const filePath = path.join(BUILD_DIR, routePath);
+      const resolved = path.resolve(filePath);
+      if (!resolved.startsWith(path.resolve(BUILD_DIR))) {
+        res.writeHead(403);
+        res.end("Forbidden");
+        return;
+      }
+      if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+        const isFingerprinted = routePath.startsWith("/static/");
+        const cache = isFingerprinted
+          ? "public, max-age=31536000, immutable"
+          : "public, max-age=3600";
+        serveFile(res, filePath, cache);
+      } else {
+        res.writeHead(404);
+        res.end("Not Found");
+      }
+      return;
+    }
+
+    // ── Admin routes → always serve SPA shell ──
+    if (routePath.startsWith("/admin")) {
+      res.writeHead(200, {
+        "Content-Type": "text/html; charset=utf-8",
+        "Content-Length": Buffer.byteLength(spaShell),
+        "Cache-Control": "no-cache",
+      });
+      res.end(spaShell);
+      return;
+    }
+
+    // ── Page routes → serve pre-rendered HTML ──
+    const htmlFile =
+      routePath === "/"
+        ? path.join(BUILD_DIR, "index.html")
+        : path.join(BUILD_DIR, routePath, "index.html");
+
+    if (fs.existsSync(htmlFile) && fs.statSync(htmlFile).isFile()) {
+      serveFile(res, htmlFile, "public, max-age=300");
+    } else {
+      // Unknown route → HTTP 404
+      res.writeHead(404, {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-cache",
+      });
+      res.end(notFoundHtml);
+    }
+  });
+
+  server.listen(PORT, "0.0.0.0", () => {
+    const count = require("child_process")
+      .execSync(`find "${BUILD_DIR}" -name "index.html" | wc -l`)
+      .toString()
+      .trim();
+    console.log(
+      `[PRODUCTION] Static server on :${PORT} — ${count} pre-rendered pages from build/`
+    );
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ENTRY POINT — Choose mode based on build/ directory
+═══════════════════════════════════════════════════════════════════════ */
+if (IS_PRODUCTION) {
+  console.log("[MODE] Production — serving pre-rendered static files");
+  startProductionServer();
+} else {
+  console.log("[MODE] Development — starting CRA dev server on port", CRA_PORT);
+  waitForCRA();
+}

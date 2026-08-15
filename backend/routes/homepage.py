@@ -36,24 +36,34 @@ def _get_storage_key():
 
 
 @router.get("/api/media/{path:path}")
-async def serve_media(path: str):
-    """Proxy media files from Emergent object storage with caching."""
+@router.head("/api/media/{path:path}")
+async def serve_media(path: str, request: Request):
+    """Proxy media files from Emergent object storage with Range support."""
     storage_key = _get_storage_key()
     if not storage_key:
         raise HTTPException(503, "Storage not available")
 
     obj_path = f"brightluxx/{path}"
+    upstream_url = f"{_STORAGE_BASE}/objects/{obj_path}"
+    upstream_headers = {"X-Storage-Key": storage_key}
+
+    # Forward Range header if present
+    range_header = request.headers.get("range")
+    if range_header:
+        upstream_headers["Range"] = range_header
+
     resp = http_requests.get(
-        f"{_STORAGE_BASE}/objects/{obj_path}",
-        headers={"X-Storage-Key": storage_key},
+        upstream_url,
+        headers=upstream_headers,
         stream=True,
         timeout=30,
     )
-    if resp.status_code != 200:
+    if resp.status_code not in (200, 206):
         raise HTTPException(404, "Media not found")
 
     content_type = resp.headers.get("Content-Type", "application/octet-stream")
     content_length = resp.headers.get("Content-Length")
+    content_range = resp.headers.get("Content-Range")
 
     headers = {
         "Cache-Control": "public, max-age=86400, immutable",
@@ -61,9 +71,23 @@ async def serve_media(path: str):
     }
     if content_length:
         headers["Content-Length"] = content_length
+    if content_range:
+        headers["Content-Range"] = content_range
+
+    status_code = resp.status_code  # 200 or 206
+
+    if request.method == "HEAD":
+        resp.close()
+        return StreamingResponse(
+            iter([]),
+            status_code=status_code,
+            media_type=content_type,
+            headers=headers,
+        )
 
     return StreamingResponse(
         resp.iter_content(chunk_size=256 * 1024),
+        status_code=status_code,
         media_type=content_type,
         headers=headers,
     )

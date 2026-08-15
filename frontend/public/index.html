@@ -54,28 +54,32 @@
         <meta name="msapplication-config" content="/browserconfig.xml" />
         
         <!-- Preconnect for performance (Critical Third-Party Origins) -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link rel="preconnect" href="https://files.ihgbrands.com" crossorigin />
         
         <!-- DNS Prefetch for non-critical resources -->
         <link rel="dns-prefetch" href="https://files.ihgbrands.com" />
         <link rel="dns-prefetch" href="https://us.i.posthog.com" />
         
-        <!-- Preload Critical CSS (Inter font for headers) -->
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" as="style" />
+        <!-- Preload self-hosted Satoshi font (main typeface) -->
+        <link rel="preload" href="/fonts/Satoshi-Regular.woff2" as="font" type="font/woff" crossorigin />
         
         <!-- Critical CSS for initial render (prevents FOUC) -->
         <style>
             /* Critical CSS - Inline for fastest FCP */
             :root { --bg-dark: #050508; --text-white: #ffffff; --primary: #22d3ee; }
             html { background-color: var(--bg-dark); }
-            body { margin: 0; padding: 0; background-color: var(--bg-dark); color: var(--text-white); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+            body { margin: 0; padding: 0; background-color: var(--bg-dark); color: var(--text-white); font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; }
             #root { min-height: 100vh; background-color: var(--bg-dark); }
             /* Loading state */
             .initial-loader { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--bg-dark); z-index: 9999; }
             .initial-loader::after { content: ''; width: 40px; height: 40px; border: 3px solid rgba(34,211,238,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
             @keyframes spin { to { transform: rotate(360deg); } }
+            /* Self-hosted Satoshi font */
+            @font-face { font-family: 'Satoshi'; font-style: normal; font-weight: 300; font-display: swap; src: url('/fonts/Satoshi-Light.woff2') format('woff'); }
+            @font-face { font-family: 'Satoshi'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/Satoshi-Regular.woff2') format('woff'); }
+            @font-face { font-family: 'Satoshi'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/Satoshi-Medium.woff2') format('woff'); }
+            @font-face { font-family: 'Satoshi'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/Satoshi-Bold.woff2') format('woff'); }
+            @font-face { font-family: 'Satoshi'; font-style: normal; font-weight: 900; font-display: swap; src: url('/fonts/Satoshi-Black.woff2') format('woff'); }
         </style>
         
         <!-- Favicons (v2 - updated Mar 2026) -->
@@ -86,9 +90,6 @@
         
         <!-- Manifest for PWA -->
         <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-        
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet" />
         
         <title>Brightluxx — Premium LED Display Solutions</title>
         <script>window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);</script>

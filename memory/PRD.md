@@ -2877,3 +2877,24 @@ Completely rewrote `ProductDetail.js` to match the Apple-style layout:
 - **Frontend**: `Home.js` `HeroVideoPlayer` now accepts `posterImage` prop from DB, falls back to CDN `HERO_POSTER`
 - **Build**: Seed re-exported (509 docs, 16 collections), 320 pages pre-rendered, 0 errors
 - **Status**: Agent-tested in preview. Requires user redeploy for production.
+
+
+### Production Site Audit — Aug 10, 2026
+- **CRITICAL SEO FIX**: `prerender-server.js` now has dual-mode:
+  - PRODUCTION (build/ exists): Serves 319 pre-rendered HTML files directly — all users get rich content before JS loads
+  - DEV (no build/): CRA proxy with SSR meta injection (same as before)
+- TTFB reduced from 1.4-2.2s to <1ms (no CRA dev server overhead in production)
+- HTTP 404 for unknown routes (was returning 200 with homepage shell)
+- Server-side 301 redirects for 20+ legacy WordPress URLs
+- AI crawler detection added (GPTBot, ClaudeBot, PerplexityBot, etc.)
+- llms.txt served as text/plain (was SPA shell)
+- Deleted test product "hjdba" from DB
+- Self-hosted Satoshi fonts (removed Google Fonts + cdnfonts.com origins)
+- Cache headers: HTML=300s, static assets=1yr immutable, fonts=1hr
+- Hero video: CDN source (Range-request compatible, 3.1MB)
+- Media proxy: Added Range/HEAD support
+- Admin /api/admin/me call gated to admin routes only
+- Cookie consent hidden on admin pages
+- Google Maps embed added to site settings
+- **Testing**: 92.5% backend / 93% frontend pass (iteration_125)
+- **Deployment**: Requires user to deploy. Production gets build/ and production mode automatically.

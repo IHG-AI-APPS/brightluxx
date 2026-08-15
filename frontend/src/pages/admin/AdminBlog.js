@@ -51,7 +51,7 @@ export default function AdminBlog() {
 
   useEffect(() => {
     fetchBlogs();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const openCreateModal = () => {
     setEditingBlog(null);

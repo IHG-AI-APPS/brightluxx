@@ -381,7 +381,7 @@ export default function AdminHomepage() {
     setLoading(false);
   };
 
-  useEffect(() => { fetchContent(); }, []);
+  useEffect(() => { fetchContent(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const updateContent = (updates) => {
     setContent({ ...content, ...updates });

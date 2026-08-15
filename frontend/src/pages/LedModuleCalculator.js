@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Grid3X3, Ruler, Monitor, Zap, Scale, Eye, Maximize, Info, RotateCcw } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -163,14 +163,14 @@ export default function LedModuleCalculator() {
 
   const mod = MODULE_PRESETS[moduleIdx];
   const pitch = PITCH_OPTIONS[pitchIdx];
-  const toMm = (v) => unit === 'mm' ? v : unit === 'cm' ? v * 10 : v * 304.8;
+  const toMm = useCallback((v) => unit === 'mm' ? v : unit === 'cm' ? v * 10 : v * 304.8, [unit]);
 
   const results = useMemo(() => {
     const wMm = toMm(targetW);
     const hMm = toMm(targetH);
     if (wMm <= 0 || hMm <= 0) return null;
     return calculate(wMm, hMm, mod.w, mod.h, pitch.value, pitch.power, pitch.weight);
-  }, [targetW, targetH, unit, moduleIdx, pitchIdx]);
+  }, [targetW, targetH, toMm, mod.w, mod.h, pitch.value, pitch.power, pitch.weight]);
 
   const faqJsonLd = buildFaqJsonLd(FAQS);
   const handleReset = () => { setTargetW(3000); setTargetH(2000); setUnit('mm'); setModuleIdx(3); setPitchIdx(5); };

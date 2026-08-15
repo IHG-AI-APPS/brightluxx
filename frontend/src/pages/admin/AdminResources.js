@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Plus, Pencil, Trash2, FileText, Layers, Box, BookOpen, Check, X, Search, Filter, Upload, File, ExternalLink } from 'lucide-react';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
@@ -41,7 +41,7 @@ export default function AdminResources() {
 
   const token = sessionStorage.getItem('blx_admin_token');
 
-  const fetchResources = async () => {
+  const fetchResources = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch(`${API}/api/admin/resources`, {
@@ -51,14 +51,14 @@ export default function AdminResources() {
       setResources(data.resources || []);
       setCounts(data.counts || {});
     } catch (err) {
-      console.error('Failed to fetch resources:', err);
+      // fetch error
     }
     setLoading(false);
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchResources();
-  }, []);
+  }, [fetchResources]);
 
   const openCreateModal = () => {
     setEditingResource(null);

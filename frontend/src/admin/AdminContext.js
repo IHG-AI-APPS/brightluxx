@@ -10,6 +10,14 @@ export const AdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const refreshTimerRef = useRef(null);
 
+  // One-time migration: clear stale tokens from localStorage (moved to sessionStorage)
+  useEffect(() => {
+    if (localStorage.getItem('blx_admin_token')) {
+      localStorage.removeItem('blx_admin_token');
+      localStorage.removeItem('blx_admin_refresh');
+    }
+  }, []);
+
   const api = useCallback(() => {
     const instance = axios.create({
       baseURL: API,

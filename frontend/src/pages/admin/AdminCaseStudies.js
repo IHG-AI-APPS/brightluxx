@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Plus, Pencil, Trash2, Eye, EyeOff, Star, Search, Upload, Image, X, ExternalLink, MapPin, Calendar, Cpu, Building2 } from 'lucide-react';
 
 const API = process.env.REACT_APP_BACKEND_URL || '';
@@ -62,7 +62,7 @@ export default function AdminCaseStudies() {
 
   const token = sessionStorage.getItem('blx_admin_token');
 
-  const fetchCaseStudies = async () => {
+  const fetchCaseStudies = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch(`${API}/api/admin/case-studies`, {
@@ -72,14 +72,14 @@ export default function AdminCaseStudies() {
       setCaseStudies(data.case_studies || []);
       setCounts(data.counts || {});
     } catch (err) {
-      console.error('Failed to fetch case studies:', err);
+      // fetch error
     }
     setLoading(false);
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchCaseStudies();
-  }, []);
+  }, [fetchCaseStudies]);
 
   const openCreateModal = () => {
     setEditingCase(null);

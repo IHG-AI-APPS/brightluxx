@@ -37,6 +37,7 @@ export default function AdminTaxonomy() {
     setLoading(false);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { fetchData(); }, []);
 
   const handleSync = async () => {

@@ -303,11 +303,12 @@ export default function AdminSEO() {
   const headers = { Authorization: `Bearer ${token}` };
 
   const fetchData = useCallback(async () => {
+    const hdrs = { Authorization: `Bearer ${token}` };
     setLoading(true);
     try {
       const [pagesRes, statsRes] = await Promise.all([
-        fetch(`${API}/api/admin/seo/pages`, { headers }),
-        fetch(`${API}/api/admin/seo/stats`, { headers }),
+        fetch(`${API}/api/admin/seo/pages`, { headers: hdrs }),
+        fetch(`${API}/api/admin/seo/stats`, { headers: hdrs }),
       ]);
       setPages(await pagesRes.json());
       setStats(await statsRes.json());

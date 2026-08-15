@@ -9,7 +9,7 @@ const ICON_OPTIONS = ['Factory', 'Package', 'Truck', 'GraduationCap', 'Wrench', 
 const ImageUploadField = ({ value, onChange, label }) => {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
-  const token = localStorage.getItem('blx_admin_token');
+  const token = sessionStorage.getItem('blx_admin_token');
 
   const handleUpload = async (file) => {
     if (!file) return;
@@ -95,7 +95,7 @@ const VideoUploadField = ({ videos, onChange, posterImage, onPosterChange }) => 
   const [videoPlaying, setVideoPlaying] = useState(false);
   const fileInputRef = useRef(null);
   const posterInputRef = useRef(null);
-  const token = localStorage.getItem('blx_admin_token');
+  const token = sessionStorage.getItem('blx_admin_token');
 
   const handleVideoUpload = async (file) => {
     if (!file) return;
@@ -365,7 +365,7 @@ export default function AdminHomepage() {
   const [activeSection, setActiveSection] = useState('hero');
   const [hasChanges, setHasChanges] = useState(false);
 
-  const token = localStorage.getItem('blx_admin_token');
+  const token = sessionStorage.getItem('blx_admin_token');
 
   const fetchContent = async () => {
     setLoading(true);

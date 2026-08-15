@@ -145,7 +145,7 @@ export function SpecPackCTA({ packId, title, description, onDownload }) {
         if (onDownload) onDownload({ email, name, packId });
       }
     } catch (err) {
-      console.error('Download error:', err);
+      // console.error('Download error:', err);
     }
     setLoading(false);
   };

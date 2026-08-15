@@ -32,7 +32,7 @@ export default function AdminBlog() {
     featured: false,
   });
 
-  const token = localStorage.getItem('blx_admin_token');
+  const token = sessionStorage.getItem('blx_admin_token');
 
   const fetchBlogs = async () => {
     setLoading(true);

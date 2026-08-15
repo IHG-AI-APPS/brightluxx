@@ -37,7 +37,7 @@ const Compare = () => {
         const res = await getProducts({});
         setAllProducts(res.data.products || []);
       } catch (err) {
-        console.error('Error fetching products:', err);
+        // console.error('Error fetching products:', err);
       } finally {
         setFetchingProducts(false);
       }
@@ -72,7 +72,7 @@ const Compare = () => {
       const res = await compareProducts(selectedCodes);
       setComparisonData(res.data.products || []);
     } catch (err) {
-      console.error('Compare error:', err);
+      // console.error('Compare error:', err);
     } finally {
       setLoading(false);
     }

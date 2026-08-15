@@ -29,7 +29,7 @@ class TestSpecSubstitutionAPI:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         result = response.json()
-        assert result.get('success') is True
+        assert result.get('success') == True
         assert 'submission_id' in result
         assert len(result['submission_id']) == 8  # UUID first 8 chars
         print(f"✓ Spec substitution created with submission_id: {result['submission_id']}")
@@ -53,7 +53,7 @@ class TestSpecSubstitutionAPI:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         result = response.json()
-        assert result.get('success') is True
+        assert result.get('success') == True
         assert 'submission_id' in result
         print(f"✓ Spec substitution with file upload - submission_id: {result['submission_id']}")
 
@@ -69,7 +69,7 @@ class TestSpecSubstitutionAPI:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         result = response.json()
-        assert result.get('success') is True
+        assert result.get('success') == True
         print("✓ Spec substitution works with minimal required fields")
 
     def test_spec_substitution_missing_required_name(self):
@@ -129,7 +129,7 @@ class TestSpecSubstitutionAPI:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         result = response.json()
-        assert result.get('success') is True
+        assert result.get('success') == True
         print("✓ Spec substitution handles multiple file uploads")
 
 
@@ -174,5 +174,5 @@ class TestExistingAPIsStillWork:
         
         assert response.status_code == 200
         data = response.json()
-        assert data.get('success') is True
+        assert data.get('success') == True
         print("✓ /api/leads contact form endpoint still works")

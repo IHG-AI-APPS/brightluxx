@@ -64,13 +64,13 @@ export default function PixelVueLanding() {
         const data = await res.json();
         setProducts(data);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        // console.error('Error fetching products:', error);
       } finally {
         setLoading(false);
       }
     };
     fetchProducts();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Group products by category
   const productsByCategory = {

@@ -39,7 +39,7 @@ export default function AdminResources() {
     order: 0,
   });
 
-  const token = localStorage.getItem('blx_admin_token');
+  const token = sessionStorage.getItem('blx_admin_token');
 
   const fetchResources = async () => {
     setLoading(true);

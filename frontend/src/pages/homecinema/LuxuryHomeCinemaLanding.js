@@ -19,7 +19,20 @@ const LuxuryHomeCinemaLanding = () => {
   const { isDark } = useTheme();
 
   useEffect(() => {
-    fetchProducts();
+    const loadProducts = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/products?category=luxury-home-cinema`);
+        if (res.ok) {
+          const data = await res.json();
+          setProducts(data.products || data || []);
+        }
+      } catch (err) {
+        // console.error('Error fetching products:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProducts();
   }, []);
 
   const fetchProducts = async () => {
@@ -30,7 +43,7 @@ const LuxuryHomeCinemaLanding = () => {
         setProducts(data.products || data || []);
       }
     } catch (err) {
-      console.error('Error fetching products:', err);
+      // console.error('Error fetching products:', err);
     } finally {
       setLoading(false);
     }

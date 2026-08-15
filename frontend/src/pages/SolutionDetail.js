@@ -107,7 +107,7 @@ export default function SolutionDetail() {
         const currentSolution = allData.find(s => s.slug === id);
         setSolution(currentSolution);
       } catch (error) {
-        console.error('Error fetching solution:', error);
+        // console.error('Error fetching solution:', error);
       } finally {
         setLoading(false);
       }
@@ -132,7 +132,7 @@ export default function SolutionDetail() {
         const res = await getProducts({ limit: 6 });
         setProducts(res.data.products || []);
       } catch (e) {
-        console.error('Error fetching products:', e);
+        // console.error('Error fetching products:', e);
       }
     };
     fetchProducts();

@@ -144,7 +144,7 @@ class TestPasswordChange:
 
     def test_password_change_full_cycle(self, auth_token):
         """Test 4: Change password, verify login works, revert"""
-        NEW_PASSWORD = "newpassword2025"
+        NEW_PASSWORD = os.environ.get("TEST_NEW_PASSWORD", "newpassword2025")
         
         # Step 1: Change password
         response = requests.post(f"{BASE_URL}/api/admin/change-password",

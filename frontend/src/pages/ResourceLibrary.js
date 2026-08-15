@@ -451,7 +451,7 @@ function DownloadCard({ item }) {
         setShowForm(false);
         setShowPreview(false);
       }
-    } catch (err) { console.error(err); }
+    } catch (err) { /* noop */ }
     setLoading(false);
   };
 
@@ -588,7 +588,7 @@ export default function ResourceLibrary() {
         setResources(data.resources || []);
         setCounts(data.counts || { all: 0, specpack: 0, cheatsheet: 0, bim: 0, guide: 0 });
       } catch (err) {
-        console.error('Failed to fetch resources:', err);
+        // console.error('Failed to fetch resources:', err);
       }
       setLoading(false);
     };

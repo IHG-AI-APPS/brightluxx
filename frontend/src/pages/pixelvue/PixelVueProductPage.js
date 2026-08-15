@@ -72,7 +72,7 @@ export default function PixelVueProductPage() {
       }
     };
     fetchProduct();
-  }, [slug]);
+  }, [slug]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return (

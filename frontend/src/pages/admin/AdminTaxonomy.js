@@ -20,7 +20,7 @@ export default function AdminTaxonomy() {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({ type: 'product_category', value: '', label: '', description: '', order: 0, is_active: true });
 
-  const token = localStorage.getItem('blx_admin_token');
+  const token = sessionStorage.getItem('blx_admin_token');
 
   const fetchData = async () => {
     setLoading(true);

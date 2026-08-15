@@ -108,7 +108,7 @@ class TestMainUploadEndpoint:
         data = response.json()
         
         # Verify response structure
-        assert data.get("success") is True, "success should be True"
+        assert data.get("success") == True, "success should be True"
         assert "url" in data, "Response should contain url"
         assert data["url"].startswith("https://files.ihgbrands.com/brightluxx/"), \
             f"URL should be CDN URL, got: {data['url']}"
@@ -161,7 +161,7 @@ class TestCaseStudiesUpload:
         assert response.status_code == 200, f"Upload failed: {response.text}"
         data = response.json()
         
-        assert data.get("success") is True
+        assert data.get("success") == True
         assert "image_url" in data, "Response should contain image_url"
         assert "case-studies" in data["image_url"], \
             f"URL should contain 'case-studies', got: {data['image_url']}"
@@ -186,7 +186,7 @@ class TestBlogUpload:
         assert response.status_code == 200, f"Upload failed: {response.text}"
         data = response.json()
         
-        assert data.get("success") is True
+        assert data.get("success") == True
         assert "image_url" in data, "Response should contain image_url"
         assert "blog" in data["image_url"], \
             f"URL should contain 'blog', got: {data['image_url']}"
@@ -211,7 +211,7 @@ class TestHomepageUpload:
         assert response.status_code == 200, f"Upload failed: {response.text}"
         data = response.json()
         
-        assert data.get("success") is True
+        assert data.get("success") == True
         assert "url" in data, "Response should contain url"
         assert "homepage" in data["url"], \
             f"URL should contain 'homepage', got: {data['url']}"
@@ -236,7 +236,7 @@ class TestResourcesUpload:
         assert response.status_code == 200, f"Upload failed: {response.text}"
         data = response.json()
         
-        assert data.get("success") is True
+        assert data.get("success") == True
         assert "file_url" in data, "Response should contain file_url"
         assert "resources" in data["file_url"], \
             f"URL should contain 'resources', got: {data['file_url']}"
@@ -264,7 +264,7 @@ class TestMultipleUpload:
         assert response.status_code == 200, f"Upload failed: {response.text}"
         data = response.json()
         
-        assert data.get("success") is True
+        assert data.get("success") == True
         assert "uploaded" in data
         assert data.get("count", 0) >= 1, "Should have uploaded at least 1 file"
         

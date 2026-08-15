@@ -6,7 +6,7 @@ const API = process.env.REACT_APP_BACKEND_URL || '';
 
 export const AdminProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('blx_admin_token'));
+  const [token, setToken] = useState(sessionStorage.getItem('blx_admin_token'));
   const [loading, setLoading] = useState(true);
   const refreshTimerRef = useRef(null);
 
@@ -21,13 +21,13 @@ export const AdminProvider = ({ children }) => {
       async (error) => {
         if (error.response?.status === 401) {
           try {
-            const refreshToken = localStorage.getItem('blx_admin_refresh');
+            const refreshToken = sessionStorage.getItem('blx_admin_refresh');
             const res = await axios.post(`${API}/api/admin/refresh`,
               refreshToken ? { refresh_token: refreshToken } : {},
               { withCredentials: true }
             );
             const newToken = res.data.token;
-            localStorage.setItem('blx_admin_token', newToken);
+            sessionStorage.setItem('blx_admin_token', newToken);
             setToken(newToken);
             error.config.headers.Authorization = `Bearer ${newToken}`;
             error.config.withCredentials = true;
@@ -47,12 +47,12 @@ export const AdminProvider = ({ children }) => {
     const refreshIn = Math.max((expiresIn - 900) * 1000, 60000);
     refreshTimerRef.current = setTimeout(async () => {
       try {
-        const refreshToken = localStorage.getItem('blx_admin_refresh');
+        const refreshToken = sessionStorage.getItem('blx_admin_refresh');
         const res = await axios.post(`${API}/api/admin/refresh`,
           refreshToken ? { refresh_token: refreshToken } : {},
           { withCredentials: true }
         );
-        localStorage.setItem('blx_admin_token', res.data.token);
+        sessionStorage.setItem('blx_admin_token', res.data.token);
         setToken(res.data.token);
         scheduleRefresh(res.data.expires_in);
       } catch {
@@ -90,9 +90,9 @@ export const AdminProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const res = await axios.post(`${API}/api/admin/login`, { email, password }, { withCredentials: true });
-    // Store in localStorage as fallback for header-based auth
-    localStorage.setItem('blx_admin_token', res.data.token);
-    localStorage.setItem('blx_admin_refresh', res.data.refresh_token);
+    // Store in sessionStorage as fallback for header-based auth (cleared on browser close)
+    sessionStorage.setItem('blx_admin_token', res.data.token);
+    sessionStorage.setItem('blx_admin_refresh', res.data.refresh_token);
     setToken(res.data.token);
     setAdmin(res.data.admin);
     scheduleRefresh(res.data.expires_in);
@@ -100,10 +100,10 @@ export const AdminProvider = ({ children }) => {
   };
 
   const logout = () => {
-    // Clear cookies via API + clear localStorage
+    // Clear cookies via API + clear sessionStorage
     axios.post(`${API}/api/admin/logout`, {}, { withCredentials: true }).catch(() => {});
-    localStorage.removeItem('blx_admin_token');
-    localStorage.removeItem('blx_admin_refresh');
+    sessionStorage.removeItem('blx_admin_token');
+    sessionStorage.removeItem('blx_admin_refresh');
     if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
     setToken(null);
     setAdmin(null);

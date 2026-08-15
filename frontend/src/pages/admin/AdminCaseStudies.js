@@ -60,7 +60,7 @@ export default function AdminCaseStudies() {
     featured: false,
   });
 
-  const token = localStorage.getItem('blx_admin_token');
+  const token = sessionStorage.getItem('blx_admin_token');
 
   const fetchCaseStudies = async () => {
     setLoading(true);

@@ -31,7 +31,7 @@ MONGO_URL = os.environ.get("MONGO_URL") or backend_env.get("MONGO_URL")
 DB_NAME = os.environ.get("DB_NAME") or backend_env.get("DB_NAME")
 
 ADMIN_EMAIL = "admin@brightluxx.com"
-ADMIN_PASSWORD = "brightluxx2025"
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
 
 TIMEOUT = 45
 

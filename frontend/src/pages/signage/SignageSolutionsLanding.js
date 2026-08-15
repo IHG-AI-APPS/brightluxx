@@ -43,6 +43,19 @@ const SignageSolutionsLanding = () => {
   const [formError, setFormError] = useState('');
 
   useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/products?category=signage-solutions`);
+        if (res.ok) {
+          const data = await res.json();
+          setProducts(data.products || data || []);
+        }
+      } catch (err) {
+        // console.error('Error fetching products:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchProducts();
   }, []);
 
@@ -54,7 +67,7 @@ const SignageSolutionsLanding = () => {
         setProducts(data.products || data || []);
       }
     } catch (err) {
-      console.error('Error fetching products:', err);
+      // console.error('Error fetching products:', err);
     } finally {
       setLoading(false);
     }

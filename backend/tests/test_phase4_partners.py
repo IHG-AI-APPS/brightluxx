@@ -33,7 +33,7 @@ class TestFranchiseRequest:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         data = response.json()
-        assert data.get("success") is True
+        assert data.get("success") == True
         assert "message" in data
         print(f"Franchise request success: {data}")
     
@@ -51,7 +51,7 @@ class TestFranchiseRequest:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         data = response.json()
-        assert data.get("success") is True
+        assert data.get("success") == True
         print(f"Franchise minimal fields success: {data}")
     
     def test_franchise_request_missing_required_fields(self):
@@ -88,7 +88,7 @@ class TestSupplierRegistration:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         data = response.json()
-        assert data.get("success") is True
+        assert data.get("success") == True
         assert "message" in data
         print(f"Supplier registration success: {data}")
     
@@ -106,7 +106,7 @@ class TestSupplierRegistration:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         data = response.json()
-        assert data.get("success") is True
+        assert data.get("success") == True
         print(f"Supplier minimal fields success: {data}")
     
     def test_supplier_registration_missing_required_fields(self):
@@ -141,7 +141,7 @@ class TestTechnicalSupport:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         data = response.json()
-        assert data.get("success") is True
+        assert data.get("success") == True
         assert "message" in data
         print(f"Technical support (normal) success: {data}")
     
@@ -161,7 +161,7 @@ class TestTechnicalSupport:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         data = response.json()
-        assert data.get("success") is True
+        assert data.get("success") == True
         print(f"Technical support (priority) success: {data}")
     
     def test_technical_support_urgent_urgency(self):
@@ -180,7 +180,7 @@ class TestTechnicalSupport:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         data = response.json()
-        assert data.get("success") is True
+        assert data.get("success") == True
         print(f"Technical support (urgent) success: {data}")
     
     def test_technical_support_required_fields_only(self):
@@ -196,7 +196,7 @@ class TestTechnicalSupport:
         
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         data = response.json()
-        assert data.get("success") is True
+        assert data.get("success") == True
         print(f"Technical support minimal fields success: {data}")
     
     def test_technical_support_missing_required_fields(self):

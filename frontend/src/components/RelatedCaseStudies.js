@@ -60,7 +60,7 @@ export default function RelatedCaseStudies({ solutionSlug, solutionTitle, limit 
           setCaseStudies(toShow);
         }
       } catch (error) {
-        console.error('Error fetching case studies:', error);
+        // console.error('Error fetching case studies:', error);
       } finally {
         setLoading(false);
       }

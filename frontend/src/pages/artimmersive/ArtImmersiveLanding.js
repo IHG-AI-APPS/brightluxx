@@ -31,7 +31,7 @@ const ArtImmersiveLanding = () => {
         setProducts(data.products || data || []);
       }
     } catch (err) {
-      console.error('Error fetching products:', err);
+      // console.error('Error fetching products:', err);
     } finally {
       setLoading(false);
     }

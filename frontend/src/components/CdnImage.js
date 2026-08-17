@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { cdnUrl, EXTERNAL_CDN } from '../config/cdn';
 
+const API = process.env.REACT_APP_BACKEND_URL || '';
+
 /**
- * CdnImage — Lazy-loading image with blur-up placeholder.
- * Images are served from files.ihgbrands.com CDN.
+ * CdnImage — Lazy-loading image with optimization proxy.
+ * Heavy CDN images are routed through /api/img for WebP conversion + resize.
+ * Unsplash/Pexels images use their native size params.
  *
  * Props:
  *   src: string — Image path or full URL
@@ -38,15 +41,19 @@ export default function CdnImage({ src, alt = '', className = '', imgClassName =
     );
   }
 
-  // Get the full CDN URL with optional size optimization
+  // Get optimized image URL
   const fullCdnUrl = cdnUrl(src);
-  // For Unsplash/Pexels: append w= if not already present
-  // For ihgbrands CDN: no server-side resize, but set width/height for browser
   let fullSrc = fullCdnUrl;
-  if (w && fullSrc.includes('unsplash.com') && !fullSrc.includes('w=')) {
-    fullSrc += (fullSrc.includes('?') ? '&' : '?') + `w=${w}&q=${q || 75}&auto=format`;
-  } else if (w && fullSrc.includes('pexels.com') && !fullSrc.includes('w=')) {
-    fullSrc += (fullSrc.includes('?') ? '&' : '?') + `w=${w}`;
+  const targetW = w || 600;
+  const targetQ = q || 75;
+
+  if (fullSrc.includes('unsplash.com') && !fullSrc.includes('w=')) {
+    fullSrc += (fullSrc.includes('?') ? '&' : '?') + `w=${targetW}&q=${targetQ}&auto=format`;
+  } else if (fullSrc.includes('pexels.com') && !fullSrc.includes('w=')) {
+    fullSrc += (fullSrc.includes('?') ? '&' : '?') + `w=${targetW}`;
+  } else if (fullSrc.includes('ihgbrands.com') || fullSrc.includes('generated-images')) {
+    // Route heavy CDN images through optimization proxy
+    fullSrc = `${API}/api/img?url=${encodeURIComponent(fullSrc)}&w=${targetW}&q=${targetQ}`;
   }
 
   return (

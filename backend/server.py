@@ -48,6 +48,7 @@ from routes.ssr_meta import router as ssr_meta_router
 from routes.content_gen import router as content_gen_router
 from routes.reviews import router as reviews_router
 from routes.rebuild import router as rebuild_router
+from routes.img_proxy import router as img_proxy_router
 
 app = FastAPI()
 
@@ -172,6 +173,7 @@ app.include_router(ssr_meta_router)
 app.include_router(content_gen_router)
 app.include_router(reviews_router)
 app.include_router(rebuild_router)
+app.include_router(img_proxy_router)
 
 
 @app.on_event("startup")

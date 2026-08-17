@@ -38,9 +38,16 @@ export default function CdnImage({ src, alt = '', className = '', imgClassName =
     );
   }
 
-  // Get the full CDN URL
+  // Get the full CDN URL with optional size optimization
   const fullCdnUrl = cdnUrl(src);
-  const fullSrc = fullCdnUrl;
+  // For Unsplash/Pexels: append w= if not already present
+  // For ihgbrands CDN: no server-side resize, but set width/height for browser
+  let fullSrc = fullCdnUrl;
+  if (w && fullSrc.includes('unsplash.com') && !fullSrc.includes('w=')) {
+    fullSrc += (fullSrc.includes('?') ? '&' : '?') + `w=${w}&q=${q || 75}&auto=format`;
+  } else if (w && fullSrc.includes('pexels.com') && !fullSrc.includes('w=')) {
+    fullSrc += (fullSrc.includes('?') ? '&' : '?') + `w=${w}`;
+  }
 
   return (
     <div ref={containerRef} className={`cdn-img-wrap ${className}`} data-testid="cdn-image">
@@ -58,6 +65,8 @@ export default function CdnImage({ src, alt = '', className = '', imgClassName =
           src={fullSrc}
           alt={alt}
           loading={eager ? 'eager' : 'lazy'}
+          decoding="async"
+          width={w || undefined}
           onLoad={() => setLoaded(true)}
           className={`cdn-img-full ${loaded ? 'cdn-img-show' : ''} ${imgClassName}`}
           data-testid="cdn-image-full"

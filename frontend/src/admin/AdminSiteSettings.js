@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAdmin } from './AdminContext';
 import DOMPurify from 'dompurify';
-import { Globe, Building2, Share2, Code, Search as SearchIcon, Save, CheckCircle2, AlertCircle, Image, Upload, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import { Globe, Building2, Share2, Code, Search as SearchIcon, Save, CheckCircle2, AlertCircle, Image, Upload, Phone, Mail, MapPin, MessageCircle, RotateCw, Loader2 } from 'lucide-react';
 
 const INPUT = "w-full bg-[rgba(255,255,255,0.04)] border border-[var(--blx-border)] rounded-lg text-xs tracking-wider text-[var(--blx-text)] px-4 py-2.5 focus:outline-none focus:border-[var(--blx-gold-3)] transition-colors duration-200";
 const LABEL = "text-[0.5625rem] font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-1.5 block";
@@ -190,12 +190,106 @@ export default function AdminSiteSettings() {
         </div>
       </div>
 
+      {/* Site Rebuild */}
+      <SiteRebuildPanel api={api} />
+
       {/* Save bottom */}
       <div className="flex justify-end">
         <button onClick={handleSave} disabled={saving} className="btn-gold px-6 py-2.5 text-xs flex items-center gap-2 disabled:opacity-50" data-testid="site-settings-save-bottom">
           <Save size={14} /> {saving ? 'Saving...' : 'Save All Settings'}
         </button>
       </div>
+    </div>
+  );
+}
+
+
+function SiteRebuildPanel({ api }) {
+  const [status, setStatus] = useState(null);
+  const [polling, setPolling] = useState(false);
+
+  const fetchStatus = useCallback(async () => {
+    try {
+      const res = await api().get('/api/admin/rebuild/status');
+      setStatus(res.data);
+      return res.data.status;
+    } catch {
+      return 'idle';
+    }
+  }, [api]);
+
+  useEffect(() => {
+    fetchStatus();
+  }, [fetchStatus]);
+
+  useEffect(() => {
+    if (!polling) return;
+    const interval = setInterval(async () => {
+      const s = await fetchStatus();
+      if (s !== 'building') setPolling(false);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [polling, fetchStatus]);
+
+  const triggerBuild = async () => {
+    try {
+      await api().post('/api/admin/rebuild');
+      setStatus(prev => ({ ...prev, status: 'building', log_tail: 'Starting build...' }));
+      setPolling(true);
+    } catch {
+      // error
+    }
+  };
+
+  const isBuilding = status?.status === 'building';
+  const isDone = status?.status === 'done';
+  const isError = status?.status === 'error';
+
+  return (
+    <div className="glass-panel p-6" data-testid="site-rebuild-panel">
+      <h3 className="text-xs font-bold tracking-[0.2em] text-[var(--blx-muted)] mb-4 flex items-center gap-2">
+        <RotateCw size={14} /> Site Rebuild
+      </h3>
+      <p className="text-[0.6rem] text-[var(--blx-muted)] leading-relaxed tracking-wider mb-4">
+        Regenerate all pre-rendered HTML pages with the latest content from CMS. Run this after making content changes to update SEO metadata, product pages, blog posts, and case studies on the live site.
+      </p>
+
+      <div className="flex items-center gap-4">
+        <button
+          onClick={triggerBuild}
+          disabled={isBuilding}
+          className="btn-gold px-5 py-2 text-xs flex items-center gap-2 disabled:opacity-50"
+          data-testid="rebuild-trigger-btn"
+        >
+          {isBuilding ? <Loader2 size={14} className="animate-spin" /> : <RotateCw size={14} />}
+          {isBuilding ? 'Building...' : 'Rebuild Site'}
+        </button>
+
+        {isDone && status.pages && (
+          <span className="text-[0.6rem] text-emerald-400 flex items-center gap-1.5">
+            <CheckCircle2 size={12} />
+            {status.pages} pages rebuilt in {status.duration_s}s
+          </span>
+        )}
+        {isError && (
+          <span className="text-[0.6rem] text-red-400 flex items-center gap-1.5">
+            <AlertCircle size={12} />
+            Build failed
+          </span>
+        )}
+      </div>
+
+      {status?.log_tail && (
+        <pre className="mt-3 text-[0.55rem] text-[var(--blx-muted)] bg-[rgba(0,0,0,0.3)] rounded-md p-3 font-mono overflow-x-auto max-h-24 whitespace-pre-wrap" data-testid="rebuild-log">
+          {status.log_tail}
+        </pre>
+      )}
+
+      {status?.finished_at && (
+        <p className="mt-2 text-[0.5rem] text-[var(--blx-muted)] tracking-wider">
+          Last build: {new Date(status.finished_at).toLocaleString()}
+        </p>
+      )}
     </div>
   );
 }

@@ -17,6 +17,9 @@ const fs = require("fs");
 const { spawn } = require("child_process");
 const path = require("path");
 
+// Load .env for FORCE_DEV_MODE and other settings
+try { require("dotenv").config({ path: path.join(__dirname, ".env") }); } catch {}
+
 const PORT = parseInt(process.env.PORT || "3000", 10);
 const CRA_PORT = 3001;
 const BACKEND = "http://localhost:8001";

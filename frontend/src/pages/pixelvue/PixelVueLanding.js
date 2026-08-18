@@ -64,7 +64,7 @@ export default function PixelVueLanding() {
         const data = await res.json();
         setProducts(data);
       } catch (error) {
-        // console.error('Error fetching products:', error);
+        console.error('Error fetching PixelVue products:', error);
       } finally {
         setLoading(false);
       }

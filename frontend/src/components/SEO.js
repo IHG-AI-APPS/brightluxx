@@ -357,7 +357,7 @@ export default function SEO({
           setAdminSeo(data);
         }
       })
-      .catch(() => {});
+      .catch((err) => { console.error('SEO page-meta fetch failed:', err); });
   }, [pagePath]);
 
   // Admin data overrides props (admin > props > defaults)

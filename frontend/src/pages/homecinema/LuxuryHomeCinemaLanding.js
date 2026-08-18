@@ -27,27 +27,13 @@ const LuxuryHomeCinemaLanding = () => {
           setProducts(data.products || data || []);
         }
       } catch (err) {
-        // console.error('Error fetching products:', err);
+        console.error('Error fetching home cinema products:', err);
       } finally {
         setLoading(false);
       }
     };
     loadProducts();
   }, []);
-
-  const fetchProducts = async () => {
-    try {
-      const res = await fetch(`${API_URL}/api/products?category=luxury-home-cinema`);
-      if (res.ok) {
-        const data = await res.json();
-        setProducts(data.products || data || []);
-      }
-    } catch (err) {
-      // console.error('Error fetching products:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const subcategories = [
     { id: 'all', name: 'All Products', icon: Tv },

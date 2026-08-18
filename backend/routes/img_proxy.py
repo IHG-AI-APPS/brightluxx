@@ -39,7 +39,7 @@ async def optimize_image(
 ):
     """Download, resize, convert to WebP, and serve an optimized image."""
     # Cache key based on url + dimensions + quality
-    cache_key = hashlib.md5(f"{url}:{w}:{q}".encode()).hexdigest()
+    cache_key = hashlib.sha256(f"{url}:{w}:{q}".encode()).hexdigest()
 
     cached = _cache_get(cache_key)
     if cached:

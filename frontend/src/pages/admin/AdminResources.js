@@ -51,7 +51,7 @@ export default function AdminResources() {
       setResources(data.resources || []);
       setCounts(data.counts || {});
     } catch (err) {
-      // fetch error
+      console.error('Failed to load resources:', err);
     }
     setLoading(false);
   }, [token]);

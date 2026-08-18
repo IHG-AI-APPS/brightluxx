@@ -72,7 +72,7 @@ export default function AdminCaseStudies() {
       setCaseStudies(data.case_studies || []);
       setCounts(data.counts || {});
     } catch (err) {
-      // fetch error
+      console.error('Failed to load case studies:', err);
     }
     setLoading(false);
   }, [token]);

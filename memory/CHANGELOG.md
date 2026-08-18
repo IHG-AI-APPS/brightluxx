@@ -91,3 +91,11 @@
 Applied: img_proxy cache key md5→sha256; removed dead duplicate fetchProducts in SignageSolutionsLanding + LuxuryHomeCinemaLanding; error logging added to empty catches (SEO.js page-meta fetch, PixelVueLanding, SignageSolutionsLanding, LuxuryHomeCinemaLanding, AdminResources, AdminCaseStudies).
 False positives (no change, verified): rebuild.py "exec()" is asyncio.create_subprocess_exec (safe, no shell); pyflakes found 0 undefined variables; "is" comparisons are all `is None`/`is True` on real bools; test md5 mention is an assertion string; AdminContext.js:15 localStorage is the stale-token REMOVAL migration; CookieConsent localStorage stores only consent preference.
 Deferred deliberately: array-index keys bulk rewrite (previously broke 14 pages — see do-not-retry ledger); sessionStorage admin token fallback (cookie-first auth already primary, deliberate prior security decision); oversized-component splits + complexity refactors of postbuild-prerender.js/prerender-server.js (refactor only after production behavior is confirmed stable, per roadmap); IntersectionObserver dep warnings (standard reveal-hook pattern with [] deps is correct).
+
+## Per-Product AI Image Generation — Aug 18, 2026
+- Generated 94 bespoke photorealistic product images (Gemini Nano Banana via Emergent LLM key), one per product, prompt-matched to exact product type (poster totems, transparent facades, LED floors, channel letters, gas-price signs, XR stages, pool screens, controllers, etc.) in brand dark/amber aesthetic.
+- Script: /app/scripts/gen_product_images.py (resumable/idempotent — skips products already on prod_<slug>.webp). 94 ok, 0 failed, all 32–150KB WebP.
+- Uploaded to CDN site-images/prod_<slug>.webp; DB products.image_url updated (94 unique, 0 duplicates); seed_data_full.json re-exported (508 docs); prerender rebuilt (319 pages).
+- CdnImage.js: site-images/* now bypasses /api/img proxy (files are pre-optimized; proxying added latency).
+- Verified: /products grid shows unique on-topic images, 0 proxied, all 94 CDN URLs return 200 image/webp.
+- NEEDS DEPLOY: production picks up new images via seed_migration + new build.

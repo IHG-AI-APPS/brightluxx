@@ -7,15 +7,17 @@ import './App.css';
 import './styles/apple-design.css';
 
 import PublicLayout from './components/PublicLayout';
-import AuraChat from './components/AuraChat';
-import ExitIntentPopup from './components/ExitIntentPopup';
 import PageLoader from './components/PageLoader';
 
-// Critical path - loaded immediately (Home, Products, Contact)
-import Home from './pages/Home';
-import Products from './pages/Products';
-import Contact from './pages/Contact';
-import NotFound from './pages/NotFound';
+// Non-critical overlays — lazy loaded
+const AuraChat = lazy(() => import('./components/AuraChat'));
+const ExitIntentPopup = lazy(() => import('./components/ExitIntentPopup'));
+
+// Code-split pages - all lazy loaded for smaller initial bundle
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const Contact = lazy(() => import('./pages/Contact'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Code-split pages - lazy loaded for performance
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));

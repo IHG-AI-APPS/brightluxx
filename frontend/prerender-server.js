@@ -14,10 +14,10 @@
 
 const http = require("http");
 const fs = require("fs");
-const { spawn } = require("child_process");
+const { spawn, execSync } = require("child_process");
 const path = require("path");
 
-// Load .env for FORCE_DEV_MODE and other settings
+// Load .env
 try { require("dotenv").config({ path: path.join(__dirname, ".env") }); } catch {}
 
 const PORT = parseInt(process.env.PORT || "3000", 10);
@@ -27,8 +27,29 @@ const PROD_URL = process.env.REACT_APP_BACKEND_URL
   ? process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "")
   : "https://brightluxx.com";
 
-/* ── Production mode detection ─────────────────────────────────── */
+/* ── Production mode detection + auto-build ────────────────────── */
 const BUILD_DIR = path.join(__dirname, "build");
+
+// If build/ doesn't exist, attempt to create it (production deploys)
+if (!fs.existsSync(path.join(BUILD_DIR, "index.html"))) {
+  console.log("[STARTUP] No build/ found. Attempting production build...");
+  try {
+    execSync(
+      "npx craco build && node postbuild-prerender.js",
+      {
+        cwd: __dirname,
+        stdio: "inherit",
+        env: { ...process.env, GENERATE_SOURCEMAP: "false", ESLINT_NO_DEV_ERRORS: "true" },
+        timeout: 120000, // 2 minute timeout
+      }
+    );
+    console.log("[STARTUP] Build complete.");
+  } catch (err) {
+    console.error("[STARTUP] Build failed:", err.message);
+    console.log("[STARTUP] Falling back to CRA dev mode.");
+  }
+}
+
 const IS_PRODUCTION =
   fs.existsSync(BUILD_DIR) && fs.existsSync(path.join(BUILD_DIR, "index.html"));
 

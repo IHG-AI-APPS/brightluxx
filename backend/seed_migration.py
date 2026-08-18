@@ -112,3 +112,13 @@ async def run_seed(db):
         print(f"Seed: Synced {total} docs across {stats['collections']} collections ({stats['inserted']} new, {stats['updated']} updated)")
     else:
         print("Seed: All content up to date, no changes needed")
+
+    # Clean up: remove products that exist in DB but NOT in seed (e.g. deleted test products)
+    if "products" in seed:
+        seed_slugs = {d.get("slug") for d in seed["products"] if d.get("slug")}
+        if seed_slugs:
+            result = await db["products"].delete_many(
+                {"slug": {"$exists": True, "$nin": list(seed_slugs)}}
+            )
+            if result.deleted_count > 0:
+                print(f"  Seed: Cleaned up {result.deleted_count} orphan product(s) not in seed")

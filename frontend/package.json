@@ -58,7 +58,7 @@
     "zod": "^3.24.4"
   },
   "scripts": {
-    "start": "if [ ! -f build/index.html ]; then echo '[STARTUP] Building production assets...' && GENERATE_SOURCEMAP=false ESLINT_NO_DEV_ERRORS=true craco build && node postbuild-prerender.js; fi && node prerender-server.js",
+    "start": "node prerender-server.js",
     "start:cra": "craco start",
     "build": "craco build && node postbuild-prerender.js",
     "test": "craco test"

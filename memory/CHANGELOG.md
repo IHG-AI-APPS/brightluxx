@@ -112,3 +112,9 @@ Deferred deliberately: array-index keys bulk rewrite (previously broke 14 pages 
 - Noindex audit: 16 noindex pages in our build, ALL intentional (404.html, 14 legacy redirect stubs, hjdba tombstone). GSC's count of 29 includes stale R2 files from old builds + client-rendered noindex on unknown URLs (also intentional).
 - Production verified via raw curl: redirect stubs + tombstone ARE live (correct content), but HTTP status is 200 everywhere — Cloudflare worker layer (platform-owned). True 404/301/cache-control requires either user's own Cloudflare rules on brightluxx.com or Emergent support (support@emergent.sh) — see support answer in chat.
 - hjdba: deleted from production DB (API returns 404), page tombstoned with noindex+redirect.
+
+## GCC City Page Differentiation — Aug 18, 2026
+- Created /app/frontend/src/data/locationContent.json: unique per-city projects + 5 unique FAQs for /dubai, /abu-dhabi, /qatar, /saudi-arabia, /kuwait, /bahrain, /oman (real projects only where they exist — Dubai 4, Abu Dhabi 2, Saudi 1; others FAQ-only to avoid fabricating installs).
+- New components: /app/frontend/src/components/LocationExtras.js (LocationProjects grid + LocationFAQ accordion with FAQPage JSON-LD). Injected before {/* CTA */} in all 7 city pages (script-patched; imports after SEO import).
+- postbuild-prerender.js: injects location projects+FAQs into prerendered HTML and appends FAQPage schema (NOTE: meta.schemas expects JSON STRINGS, not objects — objects render as [object Object]).
+- Verified: all 7 prerendered pages have unique FAQ content + valid FAQPage schema, self-canonicals; UI accordion works. 322 pages, 0 errors. NEEDS DEPLOY.

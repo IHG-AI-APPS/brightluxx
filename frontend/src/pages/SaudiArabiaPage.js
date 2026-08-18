@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { LocationProjects, LocationFAQ } from '../components/LocationExtras';
+import LOCATION_CONTENT from '../data/locationContent.json';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { 
   ArrowRight, Building2, Landmark, MapPin, Phone, MessageCircle,
@@ -219,6 +221,9 @@ export default function SaudiArabiaPage() {
           </div>
         </div>
       </section>
+
+      <LocationProjects data={LOCATION_CONTENT["/saudi-arabia"]} accent="cyan" />
+      <LocationFAQ data={LOCATION_CONTENT["/saudi-arabia"]} accent="cyan" />
 
       {/* CTA */}
       <section className={`py-16 ${isDark ? 'bg-gradient-to-r from-cyan-900/20 to-purple-900/20' : 'bg-gradient-to-r from-cyan-50 to-purple-50'}`}>

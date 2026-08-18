@@ -1,0 +1,85 @@
+{
+  "/dubai": {
+    "label": "Dubai",
+    "projects": [
+      { "title": "Dubai Mall Digital Atrium", "venue": "The Dubai Mall, Downtown Dubai", "detail": "Curved fine-pitch LED columns and a central digital atrium delivering synchronised 3D content to the world's most-visited mall." },
+      { "title": "Mall of the Emirates Glass Facade", "venue": "Mall of the Emirates, Al Barsha", "detail": "Transparent LED mesh across the glass frontage — full-motion content by night, unobstructed daylight views by day." },
+      { "title": "DIFC Luxury VIP Lounge", "venue": "Dubai International Financial Centre", "detail": "Museum-grade fine-pitch MicroLED wall for a private financial-district lounge, calibrated for close viewing distances." },
+      { "title": "Atlantis The Royal Grand Ballroom", "venue": "Atlantis The Royal, Palm Jumeirah", "detail": "Ultra-wide seamless ballroom LED backdrop engineered for weddings, galas and corporate events." }
+    ],
+    "faqs": [
+      { "q": "How much does an LED screen cost in Dubai?", "a": "Indoor fine-pitch LED walls in Dubai typically range from AED 2,500 to AED 9,000 per square metre depending on pixel pitch, while outdoor advertising screens start around AED 1,800 per square metre. We provide itemised quotations covering panels, structure, installation and content management within 24 hours." },
+      { "q": "Do you have a showroom in Dubai I can visit?", "a": "Yes — our Dubai showroom and demo facility lets you compare COB, MiP and SMD panels side by side at real viewing distances before you commit. Book a visit through the contact page and our team will prepare demos matched to your project type." },
+      { "q": "Do I need a permit for an LED sign in Dubai?", "a": "Outdoor and shopfront LED signage in Dubai requires approval from Dubai Municipality and, for onshore trade signage, alignment with DED signboard guidelines. We prepare the technical drawings, brightness specifications and structural calculations your PRO needs for submission." },
+      { "q": "How long does LED wall installation take in Dubai?", "a": "A standard indoor video wall is typically installed and commissioned within 3 to 7 working days once panels are on site. Larger builds like media facades or ballroom screens run 2 to 6 weeks including structural steel, cabling and calibration." },
+      { "q": "What after-sales support do you provide in the UAE?", "a": "All Dubai installations include a 2-year warranty with options to extend to 5 years, spare module stock held locally, and same-week on-site response. Remote monitoring can flag failed modules or power issues before they become visible on screen." }
+    ]
+  },
+  "/abu-dhabi": {
+    "label": "Abu Dhabi",
+    "projects": [
+      { "title": "ADNOC HQ Command Center", "venue": "ADNOC Headquarters, Corniche", "detail": "Mission-critical control-room LED wall built for 24/7 operation with redundant power and processing." },
+      { "title": "Abu Dhabi Expo Interactive Pavilion", "venue": "ADNEC, Abu Dhabi", "detail": "Interactive LED pavilion combining touch-responsive floor and wall displays for a national exhibition." }
+    ],
+    "faqs": [
+      { "q": "Do you deliver and install LED screens in Abu Dhabi?", "a": "Yes — Abu Dhabi is served directly from our Dubai headquarters, roughly 90 minutes away. Site surveys, installation crews and after-sales visits are scheduled in the capital every week at no additional travel premium for standard projects." },
+      { "q": "What approvals are needed for outdoor LED signage in Abu Dhabi?", "a": "Outdoor digital signage in Abu Dhabi is regulated by the Department of Municipalities and Transport (DMT), which reviews brightness, content type and structural safety. We supply the photometric reports and engineering drawings required for the application." },
+      { "q": "Can you build control-room video walls for government entities?", "a": "Yes — our ADNOC headquarters command-center installation is built for 24/7 operation with redundant power supplies, backup processing and front-serviceable modules. We design to the uptime and security requirements typical of Abu Dhabi government and energy-sector projects." },
+      { "q": "How long does delivery take for an Abu Dhabi project?", "a": "Stocked panel series are typically on site within 1 to 2 weeks; custom pitches or curved builds take 3 to 6 weeks including factory production and QC. Installation windows are coordinated around building management and DMT requirements." },
+      { "q": "Do you provide maintenance contracts in Abu Dhabi?", "a": "Yes — annual maintenance covers preventive cleaning, calibration, module-level repairs and priority call-outs to Abu Dhabi, Al Ain and the Western Region. Government and mission-critical sites can opt for guaranteed response-time SLAs." }
+    ]
+  },
+  "/qatar": {
+    "label": "Qatar",
+    "faqs": [
+      { "q": "Can you ship LED screens to Doha, and how long does it take?", "a": "Yes — we ship to Qatar by road freight via Saudi Arabia or by sea/air into Hamad Port and HIA. Door-to-door delivery to Doha typically takes 1 to 3 weeks including GCC customs clearance, which we handle with our logistics partners." },
+      { "q": "Do you carry out site surveys and installation in Qatar?", "a": "Yes — our engineering team travels to Doha for site surveys, and installations are executed by our supervisors working with vetted local crews. Commissioning, calibration and handover training are always performed by our own engineers." },
+      { "q": "Are your LED displays compatible with Qatar power standards?", "a": "All panels are configured for Qatar's 240V/50Hz supply and KAHRAMAA requirements, with surge protection and power redundancy options for critical venues. Outdoor systems are rated for Doha's heat, humidity and dust." },
+      { "q": "Can you supply stadium and sports-venue LED in Qatar?", "a": "Yes — we supply perimeter boards, ribbon displays and giant screens with the high refresh rates (3840Hz+) required for broadcast venues, in line with the standards set during Qatar's World Cup stadium programme." },
+      { "q": "How is content managed for screens installed in Qatar?", "a": "Every installation includes a cloud CMS that schedules Arabic and English content remotely from any location, so Doha screens can be operated from Qatar or from a regional head office. We provide training and ongoing remote support." }
+    ]
+  },
+  "/saudi-arabia": {
+    "label": "Saudi Arabia",
+    "projects": [
+      { "title": "Riyadh Season Main Stage", "venue": "Boulevard Riyadh City", "detail": "High-brightness modular stage LED for one of the region's largest entertainment festivals, built for rapid rigging and broadcast-grade refresh." }
+    ],
+    "faqs": [
+      { "q": "Do you deliver LED screens to Riyadh, Jeddah and NEOM?", "a": "Yes — we deliver across the Kingdom by GCC road freight, typically 1 to 2 weeks door-to-door to Riyadh or Jeddah including customs. Giga-project sites are supplied through project logistics with staged deliveries and on-site storage planning." },
+      { "q": "Are your products compliant for the Saudi market?", "a": "Shipments are prepared with SABER/SASO conformity documentation required for Saudi customs clearance. Our team manages the certification paperwork so consignments clear without delays." },
+      { "q": "Can you support Riyadh Season-scale event installations?", "a": "Yes — our Riyadh Season main-stage build used rapid-rigging modular panels with broadcast-grade refresh rates. We support festival and event contractors with rental-spec panels, flight-cased logistics and on-site engineering." },
+      { "q": "Do you work with Saudi contractors and consultants?", "a": "Yes — we regularly work as the LED specialist under Saudi main contractors, providing shop drawings, structural loads, power schedules and ICC-ready documentation for consultant approval." },
+      { "q": "What warranty and support do you offer in Saudi Arabia?", "a": "Installations include a 2-year warranty extendable to 5 years, with spare modules quoted into every project so repairs happen on site without waiting for imports. Remote diagnostics plus scheduled maintenance visits cover Riyadh, Jeddah and the Eastern Province." }
+    ]
+  },
+  "/kuwait": {
+    "label": "Kuwait",
+    "faqs": [
+      { "q": "Do you supply and install LED screens in Kuwait City?", "a": "Yes — Kuwait is served by GCC road freight from Dubai, typically 5 to 10 days door-to-door including customs. Our engineers travel for surveys and supervise installation with trained local crews." },
+      { "q": "Can your outdoor screens handle Kuwait's summer heat?", "a": "Yes — our outdoor panels are rated for continuous operation at ambient temperatures above 55°C, with high-temperature LEDs, oversized heat-sinking and optional active cooling. Brightness sensors adjust output automatically to remain visible in extreme summer glare." },
+      { "q": "What is the typical cost of an LED screen in Kuwait?", "a": "Pricing mirrors our UAE rates plus freight — indoor fine-pitch walls from roughly KD 200 per square metre and outdoor advertising screens from KD 150 per square metre, depending on pitch and structure. Detailed quotations are provided within 24 hours of receiving site dimensions." },
+      { "q": "Do you handle mall and retail signage approvals in Kuwait?", "a": "We provide the technical documentation — brightness reports, structural drawings and electrical loads — that mall management and Kuwait Municipality request for digital signage installations. Local sign-off is coordinated with your fit-out contractor." },
+      { "q": "What after-sales support is available in Kuwait?", "a": "Every project includes remote monitoring and diagnostics, spare-module packs delivered with the installation, and scheduled maintenance visits from our regional team. Critical faults are triaged remotely the same day." }
+    ]
+  },
+  "/bahrain": {
+    "label": "Bahrain",
+    "faqs": [
+      { "q": "How do you deliver LED screens to Bahrain?", "a": "Consignments travel by road from Dubai across the King Fahd Causeway or by direct sea freight into Khalifa Bin Salman Port, typically 5 to 10 days door-to-door including GCC customs. Installation is scheduled immediately after delivery." },
+      { "q": "Do you serve Bahrain's banking and financial sector?", "a": "Yes — fine-pitch LED for lobbies, trading floors and briefing rooms is a core specialism, matching the close-viewing image quality expected in Bahrain Financial Harbour and Diplomatic Area offices. We hold experience with the DIFC financial-district equivalent in Dubai." },
+      { "q": "How do your screens cope with Bahrain's coastal humidity?", "a": "Panels specified for Bahrain use conformal-coated PCBs and corrosion-resistant cabinets to withstand salt-laden coastal air. Outdoor systems carry IP65 protection front and rear with anti-corrosion fasteners and sealed power supplies." },
+      { "q": "Can you support events and exhibitions in Bahrain?", "a": "Yes — rental-spec LED with fast-lock frames and flight-case logistics is available for Bahrain events, exhibitions at BIEC and motorsport hospitality. Crews and equipment mobilise from Dubai within days." },
+      { "q": "What warranty applies to Bahrain installations?", "a": "The standard 2-year warranty (extendable to 5) applies fully in Bahrain, backed by spare modules left on site and remote diagnostics. Maintenance visits are bundled with our Eastern-Gulf service routes for fast response." }
+    ]
+  },
+  "/oman": {
+    "label": "Oman",
+    "faqs": [
+      { "q": "Do you deliver and install LED displays in Muscat?", "a": "Yes — Oman is served by road freight from Dubai, usually 4 to 8 days door-to-door to Muscat including customs at Hatta/Al Wajajah. Our engineers handle surveys, installation supervision and commissioning on site." },
+      { "q": "Are your screens suitable for Oman's coastal climate?", "a": "Yes — for Muscat and coastal sites we specify conformal-coated modules and IP65 cabinets that resist humidity and salt air, with brightness headroom for intense sunlight. Khareef-season humidity in Salalah is factored into ventilation design." },
+      { "q": "Which sectors do you serve in Oman?", "a": "Retail malls, hotels and resorts, government reception areas and outdoor advertising operators make up most of our Oman work. Solutions range from lobby video walls to large outdoor billboards and mosque/majlis displays." },
+      { "q": "How much does an LED screen cost in Oman?", "a": "Budgets track our UAE pricing plus freight — indoor walls from approximately OMR 250 per square metre and outdoor screens from OMR 180 per square metre depending on pitch and structure. Firm quotations are issued within 24 hours." },
+      { "q": "What support do you provide after installation in Oman?", "a": "Installations include a 2-year warranty, remote monitoring and a spare-module pack so most repairs are done on site instantly. Scheduled maintenance visits to Muscat are combined with our regular Oman service runs." }
+    ]
+  }
+}

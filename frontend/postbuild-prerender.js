@@ -297,6 +297,13 @@ async function run() {
     headingData = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
   }
 
+  // Location-specific content (projects + FAQs) for GCC city pages
+  let locationContent = {};
+  const locFile = path.join(__dirname, "src", "data", "locationContent.json");
+  if (fs.existsSync(locFile)) {
+    locationContent = JSON.parse(fs.readFileSync(locFile, "utf8"));
+  }
+
   // Load seed data for offline metadata generation
   let seoIndex = {}, productsIndex = {}, blogsIndex = {}, caseStudiesIndex = {};
   if (fs.existsSync(SEED_FILE)) {
@@ -478,6 +485,25 @@ async function run() {
           `<a href="/case-studies/${esc(slug)}">${esc(cs.title || slug)}</a>`
         ).join(" · ");
         if (csLinks) contentParts.push(`<nav aria-label="Case studies">${csLinks}</nav>`);
+      } else if (locationContent[route]) {
+        const loc = locationContent[route];
+        if (loc.projects && loc.projects.length) {
+          contentParts.push(`<h2>${esc(loc.label)} Project Highlights</h2>` +
+            loc.projects.map(p => `<h3>${esc(p.title)}</h3><p>${esc(p.venue)} — ${esc(p.detail)}</p>`).join(""));
+        }
+        if (loc.faqs && loc.faqs.length) {
+          contentParts.push(`<h2>LED Display FAQs — ${esc(loc.label)}</h2>` +
+            loc.faqs.map(f => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join(""));
+          meta.schemas = (meta.schemas || []).concat([JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": loc.faqs.map(f => ({
+              "@type": "Question",
+              "name": f.q,
+              "acceptedAnswer": { "@type": "Answer", "text": f.a },
+            })),
+          })]);
+        }
       }
 
       if (contentParts.length) {

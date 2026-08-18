@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { LocationProjects, LocationFAQ } from '../components/LocationExtras';
+import LOCATION_CONTENT from '../data/locationContent.json';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { 
   ArrowRight, Building2, Landmark, MapPin, Phone, MessageCircle,
@@ -180,6 +182,9 @@ export default function AbuDhabiPage() {
           </div>
         </div>
       </section>
+
+      <LocationProjects data={LOCATION_CONTENT["/abu-dhabi"]} accent="amber" />
+      <LocationFAQ data={LOCATION_CONTENT["/abu-dhabi"]} accent="amber" />
 
       {/* CTA */}
       <section className="py-16 px-6 border-t border-white/5">

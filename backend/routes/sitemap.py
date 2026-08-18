@@ -294,3 +294,90 @@ async def sitemap():
 
     return Response(content=xml, media_type="application/xml",
                     headers={"Cache-Control": "public, max-age=3600"})
+
+
+@router.get("/api/image-sitemap.xml")
+async def image_sitemap():
+    """Image sitemap for Google Image Search indexing.
+    Lists all product, blog, and case study images with metadata."""
+    entries = []
+
+    def img_entry(page_url, image_url, title="", caption=""):
+        esc_title = title.replace("&", "&amp;").replace("<", "&lt;").replace('"', "&quot;")
+        esc_caption = caption.replace("&", "&amp;").replace("<", "&lt;").replace('"', "&quot;")[:200]
+        parts = [
+            "  <url>",
+            f"    <loc>{BASE_URL}{page_url}</loc>",
+            "    <image:image>",
+            f"      <image:loc>{image_url}</image:loc>",
+        ]
+        if esc_title:
+            parts.append(f"      <image:title>{esc_title}</image:title>")
+        if esc_caption:
+            parts.append(f"      <image:caption>{esc_caption}</image:caption>")
+        parts.append("    </image:image>")
+        parts.append("  </url>")
+        return "\n".join(parts)
+
+    # Products
+    try:
+        async for p in db["products"].find(
+            {"image_url": {"$exists": True, "$ne": ""}},
+            {"slug": 1, "name": 1, "image_url": 1, "tagline": 1, "category": 1}
+        ):
+            if p.get("slug") and p.get("image_url"):
+                title = f"{p.get('name', '')} - Brightluxx LED Display"
+                caption = p.get("tagline", "") or f"{p.get('name', '')} {p.get('category', '')} LED display"
+                entries.append(img_entry(
+                    f"/products/{p['slug']}",
+                    p["image_url"],
+                    title,
+                    caption,
+                ))
+    except Exception as e:
+        logger.error(f"Image sitemap products: {e}")
+
+    # Case studies
+    try:
+        async for cs in db["case_studies"].find(
+            {"images": {"$exists": True}},
+            {"slug": 1, "title": 1, "images": 1, "location": 1}
+        ):
+            if cs.get("slug"):
+                for img in (cs.get("images") or [])[:5]:
+                    url = img if isinstance(img, str) else img.get("url", "")
+                    if url:
+                        entries.append(img_entry(
+                            f"/case-studies/{cs['slug']}",
+                            url,
+                            f"{cs.get('title', '')} - LED Project",
+                            cs.get("location", ""),
+                        ))
+    except Exception as e:
+        logger.error(f"Image sitemap case studies: {e}")
+
+    # Blogs
+    try:
+        async for b in db["blogs"].find(
+            {"image_url": {"$exists": True, "$ne": ""}},
+            {"slug": 1, "title": 1, "image_url": 1}
+        ):
+            if b.get("slug") and b.get("image_url"):
+                entries.append(img_entry(
+                    f"/blog/{b['slug']}",
+                    b["image_url"],
+                    b.get("title", ""),
+                ))
+    except Exception as e:
+        logger.error(f"Image sitemap blogs: {e}")
+
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+        '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'
+        + "\n".join(entries) + "\n"
+        "</urlset>"
+    )
+
+    return Response(content=xml, media_type="application/xml",
+                    headers={"Cache-Control": "public, max-age=3600"})

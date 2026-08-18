@@ -537,7 +537,6 @@ async function run() {
     "/products/indoor-led-display": "/indoor-led",
     "/products/outdoor-led-display": "/outdoor-led",
     "/products/spherical-led-display": "/products",
-    "/products/cube-led-display-p3": "/products",
     "/products/transparent-led-display": "/glassmorph",
     "/products/rental-led-display": "/products",
     "/products/flexible-led-display": "/products",

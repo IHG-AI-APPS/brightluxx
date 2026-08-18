@@ -449,8 +449,6 @@ const WP_REDIRECTS = {
   "/products/outdoor-led-display/": "/outdoor-led",
   "/products/spherical-led-display": "/products",
   "/products/spherical-led-display/": "/products",
-  "/products/cube-led-display-p3": "/products",
-  "/products/cube-led-display-p3/": "/products",
   "/products/transparent-led-display": "/glassmorph",
   "/products/transparent-led-display/": "/glassmorph",
   "/products/rental-led-display": "/products",

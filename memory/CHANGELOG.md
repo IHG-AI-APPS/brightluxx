@@ -99,3 +99,10 @@ Deferred deliberately: array-index keys bulk rewrite (previously broke 14 pages 
 - CdnImage.js: site-images/* now bypasses /api/img proxy (files are pre-optimized; proxying added latency).
 - Verified: /products grid shows unique on-topic images, 0 proxied, all 94 CDN URLs return 200 image/webp.
 - NEEDS DEPLOY: production picks up new images via seed_migration + new build.
+
+## Product Gallery Images + Redirect Map Bug Fixes — Aug 18, 2026
+- Generated 188 gallery images (2 extra angles per product: close-up detail + alternate environmental view), 0 failures, all ≤150KB WebP on CDN (prod_<slug>_g1/_g2.webp). Script: /app/scripts/gen_gallery_images.py (idempotent). products.gallery set for all 94 (old dead /generated/*.png galleries replaced).
+- ProductDetail.js: new gallery UI — main image + 3 clickable thumbnails (amber active ring), data-testids product-main-image / product-gallery-thumbnails / product-gallery-thumb-N. Verified click-switch works.
+- BUG FIXED: legacy redirect maps (prerender-server.js WP_REDIRECTS, postbuild REDIRECT_STUBS, and the inline client-side wp map in public/index.html) redirected /products/cube-led-display-p3 → /products even though it is a REAL product, AND /services → /solutions even though Services is a REAL page (App.js:312). Removed both from all three maps. NOTE: the inline map in public/index.html is the client-side redirect fallback that runs in production (Cloudflare static) — keep the three maps in sync and never add real routes to them.
+- Seed re-exported (508 docs incl. 188 gallery URLs), prerender rebuilt (319 pages). NEEDS DEPLOY.
+- Gotcha: browsers cache 301s aggressively — test redirect changes with a query-string cache-buster.

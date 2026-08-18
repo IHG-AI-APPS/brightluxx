@@ -71,6 +71,7 @@ export default function ProductDetail() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [activeImage, setActiveImage] = useState(null);
 
   const bg = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
   const text1 = isDark ? 'text-white' : 'text-neutral-900';
@@ -80,6 +81,7 @@ export default function ProductDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
     setSubmitted(false);
+    setActiveImage(null);
     const load = async () => {
       setLoading(true);
       try {
@@ -134,6 +136,8 @@ export default function ProductDetail() {
   }
 
   const colorClass = CATEGORY_COLORS[product.category] || CATEGORY_COLORS.default;
+  const galleryImages = [product.image_url, ...(product.gallery || [])].filter((v, i, a) => v && a.indexOf(v) === i).slice(0, 4);
+  const currentImage = activeImage || product.image_url;
   const apps = product.application ? product.application.split(',').map(a => a.trim()) : [];
   
   // Build specs array
@@ -170,17 +174,18 @@ export default function ProductDetail() {
       <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-12">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           
-          {/* LEFT: Product Image */}
+          {/* LEFT: Product Image + Gallery */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className={`relative rounded-2xl overflow-hidden border ${card} aspect-[4/3]`}>
-              <CdnImage 
-                src={product.image_url} 
-                alt={product.name} 
-                className="w-full h-full" 
+            <div className={`relative rounded-2xl overflow-hidden border ${card} aspect-[4/3]`} data-testid="product-main-image">
+              <CdnImage
+                key={currentImage}
+                src={currentImage}
+                alt={product.name}
+                className="w-full h-full"
                 imgClassName="w-full h-full object-cover"
                 w={800}
                 eager
@@ -192,6 +197,26 @@ export default function ProductDetail() {
                 </span>
               </div>
             </div>
+            {galleryImages.length > 1 && (
+              <div className="mt-4 grid grid-cols-3 gap-3" data-testid="product-gallery-thumbnails">
+                {galleryImages.map((img, idx) => (
+                  <button
+                    key={img}
+                    type="button"
+                    onClick={() => setActiveImage(img)}
+                    data-testid={`product-gallery-thumb-${idx}`}
+                    aria-label={`View image ${idx + 1} of ${product.name}`}
+                    className={`relative rounded-xl overflow-hidden border aspect-[4/3] transition-all duration-300 ${
+                      currentImage === img
+                        ? 'border-amber-400 ring-2 ring-amber-400/50 opacity-100'
+                        : `${card} opacity-60 hover:opacity-100`
+                    }`}
+                  >
+                    <CdnImage src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full" imgClassName="w-full h-full object-cover" w={300} />
+                  </button>
+                ))}
+              </div>
+            )}
           </motion.div>
 
           {/* RIGHT: Product Info */}

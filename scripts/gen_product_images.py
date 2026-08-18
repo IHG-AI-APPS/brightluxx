@@ -145,7 +145,7 @@ async def gen_image(prompt, slug, retries=2):
 
 
 async def main():
-    products = json.load(open('/tmp/products_list.json'))
+    products = json.load(open('/app/scripts/products_list.json'))
     db = AsyncIOMotorClient(os.environ['MONGO_URL'])[os.environ['DB_NAME']]
     done = fail = 0
     for i, p in enumerate(products):
@@ -169,4 +169,5 @@ async def main():
         await asyncio.sleep(1)
     print(f"DONE: {done} ok, {fail} failed", flush=True)
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())

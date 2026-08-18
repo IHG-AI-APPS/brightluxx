@@ -216,17 +216,6 @@ async def create_lead(lead: Lead, request: Request):
     }
 
 
-@router.get("/api/cdn/{file_path:path}")
-async def legacy_cdn_redirect(file_path: str):
-    """Legacy /api/cdn/* image paths -> 301 to the external CDN (flattened naming)."""
-    flat = file_path.replace("/", "_")
-    return RedirectResponse(
-        url=f"https://files.ihgbrands.com/uploads_{flat}",
-        status_code=301,
-        headers={"Cache-Control": "public, max-age=86400"},
-    )
-
-
 @router.get("/api/search")
 async def search(q: str):
     results = {"products": [], "inspirations": [], "projects": []}

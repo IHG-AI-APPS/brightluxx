@@ -67,3 +67,22 @@
 - Honeypot fields, content quality checks, disposable email rejection
 - Rate limiting, geo IP enrichment, phone validation
 - reCAPTCHA v3 infrastructure (awaiting Google keys)
+
+## Production Architecture Discovery + Image/Perf/Redirect Fixes — Aug 18, 2026
+**KEY FINDING (deployer agent):** Production frontend is served by a Cloudflare edge worker from static R2 assets. `prerender-server.js` NEVER runs in production — only `yarn build` output is deployed. The worker does SPA fallback (200 for unknown URLs), sets its own `no-cache, no-store` on HTML, and cannot do 301s. All server-level fixes must live in static build artifacts or backend /api/*.
+
+### Fixed this session
+- **Broken project images**: `projects` collection + seed had dead local `/downloaded-images/`, `/generated-images/` paths (files deleted May 22 CDN migration). All 8 projects now use optimized CDN WebPs (`brightluxx/site-images/opt-proj-*.webp`, 41–139KB, verified HTTP 200 image/webp). 2 lost files (MoE facade, DIFC lounge) regenerated via AI. Zero dead paths remain in DB (10 collections scanned) or seed or prerendered HTML.
+- **/api/cdn/***: now 301-redirects to `files.ihgbrands.com/uploads_<flattened>` (routes/redirects.py, single source; duplicate removed from public.py).
+- **Heavy homepage PNGs**: 4 PRODUCT_FAMILIES images (1.4–1.5MB PNG) → WebP 67–101KB, uploaded to CDN, Home.js updated (`opt_fam_*.webp`).
+- **Slow APIs**: `/api/products` + `/api/projects` gained `limit` param (homepage payload 196KB → 20KB). Server-side response cache active (x-api-cache HIT ~1.5ms). Cache-Control `public, max-age=300` at origin for public GETs (added seo/page-meta, img, media to _CACHEABLE). NOTE: preview ingress rewrites this to no-store — expected; production nginx passes origin headers.
+- **Legacy redirects**: postbuild-prerender.js now generates static redirect stubs (meta refresh 0 + canonical + noindex) for 19 legacy WP URLs — works under Cloudflare static serving. 15 written (rest are real pages: /products/cube-led-display-p3 is a real product, /led-screen-dubai real SEO page).
+- **hjdba tombstone**: `build/products/hjdba/index.html` redirect stub overwrites the stale R2 file on next deploy (R2 sync doesn't delete old files). Production API already returns 404 for it.
+- Testing: iteration_126 — 13/13 backend, 100% frontend (94 products, 8 projects, 0 broken images).
+
+### Platform limitations (cannot fix from code — Cloudflare worker owned)
+- True HTTP 404 status for unknown URLs (worker serves SPA shell 200; NotFound page sets client-side noindex).
+- True HTTP 301 (meta-refresh stubs are the SEO-equivalent workaround).
+- `Cache-Control: no-store` on HTML pages (worker sets it).
+- `/wp-content/*` catch-all redirect (infinite paths can't be static files).
+→ User can request worker-level rules from Emergent support if HTTP-level codes are required.

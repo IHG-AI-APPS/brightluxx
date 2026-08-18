@@ -29,6 +29,12 @@ Build a premium LED display showcase website for Brightluxx targeting architects
 
 ## Completed Features
 
+### Production Architecture + Image/Perf/Redirect Fixes — Aug 18, 2026
+- **Discovered**: production frontend = Cloudflare worker + R2 static assets; prerender-server.js never runs live. Fixes must be static build artifacts or /api/*.
+- Fixed 8 broken project images (dead local paths → optimized CDN WebPs ≤139KB), 4 heavy homepage PNGs (→ WebP ≤101KB), /api/cdn 301 redirect, products/projects `limit` param (196KB→20KB homepage payload), static redirect stubs for 15 legacy WP URLs, /products/hjdba tombstone.
+- Platform-limited (Cloudflare worker owned): true HTTP 404/301 status codes and HTML Cache-Control. See CHANGELOG Aug 18 entry.
+- Testing: 100% (iteration_126)
+
 ### CDN Migration: Restored files.ihgbrands.com — May 22, 2026
 - Uploaded 371 files (479MB) to VPS at 152.42.185.192 (`/var/brightluxx/`)
 - Configured nginx SSL to serve from `https://files.ihgbrands.com/`

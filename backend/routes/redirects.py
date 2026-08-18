@@ -16,7 +16,11 @@ EXTERNAL_CDN = "https://files.ihgbrands.com"
 async def legacy_cdn_redirect(filename: str):
     """Legacy /api/cdn/* image paths → permanent redirect to external CDN."""
     flat = filename.replace("/", "_")
-    return RedirectResponse(url=f"{EXTERNAL_CDN}/uploads_{flat}", status_code=301)
+    return RedirectResponse(
+        url=f"{EXTERNAL_CDN}/uploads_{flat}",
+        status_code=301,
+        headers={"Cache-Control": "public, max-age=86400"},
+    )
 
 # WordPress legacy URL → current equivalent
 WP_REDIRECTS = {

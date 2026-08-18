@@ -106,3 +106,9 @@ Deferred deliberately: array-index keys bulk rewrite (previously broke 14 pages 
 - BUG FIXED: legacy redirect maps (prerender-server.js WP_REDIRECTS, postbuild REDIRECT_STUBS, and the inline client-side wp map in public/index.html) redirected /products/cube-led-display-p3 → /products even though it is a REAL product, AND /services → /solutions even though Services is a REAL page (App.js:312). Removed both from all three maps. NOTE: the inline map in public/index.html is the client-side redirect fallback that runs in production (Cloudflare static) — keep the three maps in sync and never add real routes to them.
 - Seed re-exported (508 docs incl. 188 gallery URLs), prerender rebuilt (319 pages). NEEDS DEPLOY.
 - Gotcha: browsers cache 301s aggressively — test redirect changes with a query-string cache-buster.
+
+## GSC Indexing Fixes — Aug 18, 2026
+- Root cause of "Duplicate without user-selected canonical": /dubai, /bahrain, /oman were real React routes but had NO page_seo docs → not prerendered → production served homepage shell with homepage canonical. Added page_seo docs with unique titles/descriptions/self-canonicals; now prerendered (322 pages total).
+- Noindex audit: 16 noindex pages in our build, ALL intentional (404.html, 14 legacy redirect stubs, hjdba tombstone). GSC's count of 29 includes stale R2 files from old builds + client-rendered noindex on unknown URLs (also intentional).
+- Production verified via raw curl: redirect stubs + tombstone ARE live (correct content), but HTTP status is 200 everywhere — Cloudflare worker layer (platform-owned). True 404/301/cache-control requires either user's own Cloudflare rules on brightluxx.com or Emergent support (support@emergent.sh) — see support answer in chat.
+- hjdba: deleted from production DB (API returns 404), page tombstoned with noindex+redirect.

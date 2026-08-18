@@ -27,39 +27,61 @@ const PROD_URL = process.env.REACT_APP_BACKEND_URL
   ? process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "")
   : "https://brightluxx.com";
 
-/* ── Production mode detection + auto-build ────────────────────── */
+/* ── Production mode detection ──────────────────────────────────── */
 const BUILD_DIR = path.join(__dirname, "build");
+let IS_PRODUCTION = fs.existsSync(path.join(BUILD_DIR, "index.html"));
+let _buildInProgress = false;
 
-// If build/ doesn't exist, attempt to create it (production deploys)
-if (!fs.existsSync(path.join(BUILD_DIR, "index.html"))) {
-  console.log("[STARTUP] No build/ found. Attempting production build...");
-  try {
-    execSync(
-      "npx craco build && node postbuild-prerender.js",
-      {
-        cwd: __dirname,
-        stdio: "inherit",
-        env: { ...process.env, GENERATE_SOURCEMAP: "false", ESLINT_NO_DEV_ERRORS: "true" },
-        timeout: 120000, // 2 minute timeout
+// If no build exists, start a temporary server immediately (for health checks)
+// then build in the background and switch to production mode
+if (!IS_PRODUCTION) {
+  _buildInProgress = true;
+  console.log("[STARTUP] No build/ found — starting temporary server while building...");
+  const LOADING_HTML = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Brightluxx</title><meta http-equiv="refresh" content="5"><style>body{background:#050508;color:#fff;font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}.l{text-align:center}.s{width:40px;height:40px;border:3px solid rgba(34,211,238,0.2);border-top-color:#22d3ee;border-radius:50%;animation:r 1s linear infinite;margin:1rem auto}@keyframes r{to{transform:rotate(360deg)}}</style></head><body><div class="l"><div class="s"></div><h1>Starting up...</h1><p style="color:#999">Preparing optimized pages. This page will auto-refresh.</p></div></body></html>`;
+
+  const tempServer = http.createServer((req, res) => {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(LOADING_HTML);
+  });
+  tempServer.listen(PORT, "0.0.0.0", () => {
+    console.log(`[STARTUP] Temp server on :${PORT} while building...`);
+
+    // Build in background AFTER server is listening
+    const buildCmd = "npx craco build && node postbuild-prerender.js";
+    const buildEnv = { ...process.env, GENERATE_SOURCEMAP: "false", ESLINT_NO_DEV_ERRORS: "true" };
+    const { exec } = require("child_process");
+
+    const buildProc = exec(buildCmd, { cwd: __dirname, env: buildEnv, timeout: 180000 }, (err) => {
+      if (err) {
+        console.error("[STARTUP] Build failed:", err.message);
+        console.log("[STARTUP] Falling back to CRA dev mode...");
+        _buildInProgress = false;
+        tempServer.close(() => {
+          waitForCRA();
+        });
+        return;
       }
-    );
-    console.log("[STARTUP] Build complete.");
-  } catch (err) {
-    console.error("[STARTUP] Build failed:", err.message);
-    console.log("[STARTUP] Falling back to CRA dev mode.");
-  }
+      console.log("[STARTUP] Build complete. Switching to production mode...");
+      IS_PRODUCTION = true;
+      _buildInProgress = false;
+      tempServer.close(() => {
+        startProductionServer();
+      });
+    });
+    buildProc.stdout.pipe(process.stdout);
+    buildProc.stderr.pipe(process.stderr);
+  });
+} else {
+  console.log(`[STARTUP] build/ found — entering production mode directly.`);
 }
-
-const IS_PRODUCTION =
-  fs.existsSync(BUILD_DIR) && fs.existsSync(path.join(BUILD_DIR, "index.html"));
 
 /* ── Crawler detection (includes AI crawlers) ──────────────────── */
 const CRAWLER_RE =
   /googlebot|bingbot|yandex|baiduspider|facebookexternalhit|twitterbot|linkedinbot|whatsapp|slackbot|telegrambot|discordbot|redditbot|pinterestbot|applebot|semrushbot|ahrefsbot|mj12bot|rogerbot|embedly|quora|pinterest|w3c_validator|lighthouse|gptbot|chatgpt-user|oai-searchbot|claudebot|anthropic-ai|perplexitybot|cohere-ai|bytespider|meta-externalagent|iaskspider|youbot|petalbot/i;
 
-/* ── CRA dev server (DEV MODE only) ────────────────────────────── */
+/* ── CRA dev server (DEV MODE only — skipped during background build) ── */
 let cra = null;
-if (!IS_PRODUCTION) {
+if (!IS_PRODUCTION && !_buildInProgress) {
   cra = spawn("npx", ["craco", "start"], {
     cwd: path.resolve(__dirname),
     env: {
@@ -898,11 +920,14 @@ function startProductionServer() {
 
 /* ═══════════════════════════════════════════════════════════════════════
    ENTRY POINT — Choose mode based on build/ directory
+   (Skipped if background build is handling the server lifecycle above.)
 ═══════════════════════════════════════════════════════════════════════ */
-if (IS_PRODUCTION) {
-  console.log("[MODE] Production — serving pre-rendered static files");
-  startProductionServer();
-} else {
-  console.log("[MODE] Development — starting CRA dev server on port", CRA_PORT);
-  waitForCRA();
+if (!_buildInProgress) {
+  if (IS_PRODUCTION) {
+    console.log("[MODE] Production — serving pre-rendered static files");
+    startProductionServer();
+  } else {
+    console.log("[MODE] Development — starting CRA dev server on port", CRA_PORT);
+    waitForCRA();
+  }
 }

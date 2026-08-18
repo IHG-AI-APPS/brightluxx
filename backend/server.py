@@ -53,6 +53,8 @@ from routes.img_proxy import router as img_proxy_router
 app = FastAPI()
 
 # GZip compression for responses > 500 bytes
+from api_cache import APICacheMiddleware
+app.add_middleware(APICacheMiddleware)
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
 cors_origins_str = os.environ.get("CORS_ORIGINS", "")
@@ -87,6 +89,7 @@ _CACHEABLE = {
     "/api/homepage-content", "/api/solutions", "/api/technologies",
     "/api/applications", "/api/product-families", "/api/site-settings",
     "/api/inspirations", "/api/projects", "/api/pixelvue/products",
+    "/api/seo/page-meta", "/api/img", "/api/media",
 }
 
 
@@ -188,6 +191,16 @@ async def startup():
         from database import db as idx_db
         await idx_db["reviews"].create_index([("product_slug", 1), ("status", 1)])
         await idx_db["reviews"].create_index([("id", 1)], unique=True)
+        # Content collection indexes for fast public queries
+        await idx_db["products"].create_index([("slug", 1)])
+        await idx_db["products"].create_index([("category", 1), ("created_at", -1)])
+        await idx_db["products"].create_index([("featured", 1)])
+        await idx_db["projects"].create_index([("slug", 1)])
+        await idx_db["projects"].create_index([("featured", 1), ("created_at", -1)])
+        await idx_db["page_seo"].create_index([("path", 1)])
+        await idx_db["blogs"].create_index([("slug", 1)])
+        await idx_db["case_studies"].create_index([("slug", 1)])
+        await idx_db["inspirations"].create_index([("category", 1)])
     except Exception:
         pass
 

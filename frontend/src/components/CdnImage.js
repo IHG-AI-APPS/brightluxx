@@ -51,6 +51,8 @@ export default function CdnImage({ src, alt = '', className = '', imgClassName =
     fullSrc += (fullSrc.includes('?') ? '&' : '?') + `w=${targetW}&q=${targetQ}&auto=format`;
   } else if (fullSrc.includes('pexels.com') && !fullSrc.includes('w=')) {
     fullSrc += (fullSrc.includes('?') ? '&' : '?') + `w=${targetW}`;
+  } else if (fullSrc.includes('site-images/opt-') || fullSrc.includes('site-images_opt')) {
+    // Already pre-optimized WebP on CDN — serve directly
   } else if (fullSrc.includes('ihgbrands.com') || fullSrc.includes('generated-images')) {
     // Route heavy CDN images through optimization proxy
     fullSrc = `${API}/api/img?url=${encodeURIComponent(fullSrc)}&w=${targetW}&q=${targetQ}`;

@@ -9,6 +9,15 @@ import os
 
 router = APIRouter(tags=["Redirects"])
 
+EXTERNAL_CDN = "https://files.ihgbrands.com"
+
+
+@router.get("/api/cdn/{filename:path}")
+async def legacy_cdn_redirect(filename: str):
+    """Legacy /api/cdn/* image paths → permanent redirect to external CDN."""
+    flat = filename.replace("/", "_")
+    return RedirectResponse(url=f"{EXTERNAL_CDN}/uploads_{flat}", status_code=301)
+
 # WordPress legacy URL → current equivalent
 WP_REDIRECTS = {
     "/our-works/": "/projects",

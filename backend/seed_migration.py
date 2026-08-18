@@ -118,7 +118,11 @@ async def run_seed(db):
         seed_slugs = {d.get("slug") for d in seed["products"] if d.get("slug")}
         if seed_slugs:
             result = await db["products"].delete_many(
-                {"slug": {"$exists": True, "$nin": list(seed_slugs)}}
+                {"$or": [
+                    {"slug": {"$exists": True, "$nin": list(seed_slugs)}},
+                    {"slug": {"$exists": False}},
+                    {"product_code": "test"},
+                ]}
             )
             if result.deleted_count > 0:
                 print(f"  Seed: Cleaned up {result.deleted_count} orphan product(s) not in seed")

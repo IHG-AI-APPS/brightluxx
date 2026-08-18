@@ -344,7 +344,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'TEXTURED LED PANELS',
     color: 'cyan',
     icon: Layers,
-    image: 'https://files.ihgbrands.com/homepage_grande-hero.webp',
+    image: 'https://files.ihgbrands.com/brightluxx/site-images/opt-family-lumimorph.webp',
     link: '/lumimorph'
   },
   { 
@@ -353,7 +353,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'NATURAL TEXTURE SCREENS',
     color: 'emerald',
     icon: Leaf,
-    image: 'https://files.ihgbrands.com/emergent-images/ea77d4dd0e99bf17d39a28af7bcce5ed3db13b59241d32385de3a59cf9952a29.png',
+    image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_naturatex.webp',
     link: '/naturatex'
   },
   { 
@@ -362,7 +362,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'INTERACTIVE KIOSKS',
     color: 'amber',
     icon: Monitor,
-    image: 'https://files.ihgbrands.com/emergent-images/f7ad6c93eff45321279f7b8912a259cd14afd89d426a4ecb8c8a049055ac5a98.png',
+    image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_signatouch.webp',
     link: '/signatouch'
   },
   { 
@@ -371,7 +371,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'SMART GLASS SOLUTIONS',
     color: 'violet',
     icon: Sparkles,
-    image: 'https://files.ihgbrands.com/emergent-images/64444ed7ca157e07ab9eeea06f1bb969e8744dbda982442ba235f506fd348b48.png',
+    image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_glassmorph.webp',
     link: '/glassmorph'
   },
   { 
@@ -380,7 +380,7 @@ const PRODUCT_FAMILIES = [
     tagline: 'PROFESSIONAL LED DISPLAYS',
     color: 'rose',
     icon: Tv,
-    image: 'https://files.ihgbrands.com/emergent-images/127b54193b9ab0ec636c8645560811771af1f58dde5daceea69f261828cf7c0a.png',
+    image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_pixelvue.webp',
     link: '/pixelvue'
   },
 ];

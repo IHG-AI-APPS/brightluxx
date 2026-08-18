@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import RedirectResponse
 from typing import Optional, List
 
 from database import products_col, inspirations_col, projects_col, leads_col
@@ -19,7 +20,8 @@ async def get_products(
     trending: Optional[bool] = None, 
     new_arrival: Optional[bool] = None, 
     search: Optional[str] = None,
-    pitch_range: Optional[str] = None
+    pitch_range: Optional[str] = None,
+    limit: Optional[int] = None
 ):
     query = {}
     if category:
@@ -75,7 +77,10 @@ async def get_products(
                     elif min_pitch <= pitch_val < max_pitch:
                         filtered.append(p)
             products = filtered
-    
+
+    if limit and limit > 0:
+        products = products[:limit]
+
     return {"products": products}
 
 
@@ -155,14 +160,14 @@ async def get_inspirations(category: Optional[str] = None):
 
 
 @router.get("/api/projects")
-async def get_projects(sector: Optional[str] = None, featured: Optional[bool] = None):
+async def get_projects(sector: Optional[str] = None, featured: Optional[bool] = None, limit: Optional[int] = None):
     query = {}
     if sector:
         query["sector"] = sector
     if featured is not None:
         query["featured"] = featured
     cursor = projects_col.find(query).sort("created_at", -1)
-    projects = [serialize_doc(doc) for doc in await cursor.to_list(length=100)]
+    projects = [serialize_doc(doc) for doc in await cursor.to_list(length=min(limit, 100) if limit and limit > 0 else 100)]
     return {"projects": projects}
 
 
@@ -209,6 +214,17 @@ async def create_lead(lead: Lead, request: Request):
         "message": "Thank you! We'll contact you within 2 hours.",
         "leadId": str(result.inserted_id)
     }
+
+
+@router.get("/api/cdn/{file_path:path}")
+async def legacy_cdn_redirect(file_path: str):
+    """Legacy /api/cdn/* image paths -> 301 to the external CDN (flattened naming)."""
+    flat = file_path.replace("/", "_")
+    return RedirectResponse(
+        url=f"https://files.ihgbrands.com/uploads_{flat}",
+        status_code=301,
+        headers={"Cache-Control": "public, max-age=86400"},
+    )
 
 
 @router.get("/api/search")

@@ -528,6 +528,62 @@ async function run() {
   fs.writeFileSync(path.join(BUILD_DIR, "404.html"), notFoundHtml);
   console.log("Generated 404.html");
 
+  // ── Static redirect stubs (production frontend = Cloudflare static assets;
+  //    no server runs, so redirects must exist as physical HTML files) ──
+  const REDIRECT_STUBS = {
+    "/our-works": "/projects",
+    "/digital-solutions": "/solutions",
+    "/products/led-display": "/products",
+    "/products/indoor-led-display": "/indoor-led",
+    "/products/outdoor-led-display": "/outdoor-led",
+    "/products/spherical-led-display": "/products",
+    "/products/cube-led-display-p3": "/products",
+    "/products/transparent-led-display": "/glassmorph",
+    "/products/rental-led-display": "/products",
+    "/products/flexible-led-display": "/products",
+    "/download-catalog": "/products",
+    "/about-us": "/about",
+    "/contact-us": "/contact",
+    "/portfolio": "/projects",
+    "/gallery": "/projects",
+    "/led-screen-dubai": "/led-screen-suppliers-dubai",
+    "/led-display-abu-dhabi": "/abu-dhabi",
+    "/led-screen-saudi-arabia": "/saudi-arabia",
+    "/led-screen-qatar": "/qatar",
+  };
+  // Tombstones: overwrite stale prerendered files left in the CDN store
+  // from previous deploys (sync doesn't delete removed files)
+  const TOMBSTONES = { "/products/hjdba": "/products" };
+
+  const makeRedirectStub = (target) => {
+    const absTarget = `${PROD_URL}${target}`;
+    return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>Redirecting to ${esc(absTarget)}</title>
+<meta http-equiv="refresh" content="0;url=${esc(absTarget)}">
+<link rel="canonical" href="${esc(absTarget)}">
+<meta name="robots" content="noindex">
+<script>window.location.replace(${JSON.stringify(target)});</script>
+</head><body><p>This page has moved permanently to <a href="${esc(absTarget)}">${esc(absTarget)}</a>.</p></body></html>`;
+  };
+
+  let stubCount = 0;
+  Object.entries(REDIRECT_STUBS).forEach(([src, target]) => {
+    if (path.extname(src)) return;
+    const dir = path.join(BUILD_DIR, src);
+    const file = path.join(dir, "index.html");
+    if (fs.existsSync(file)) return; // never overwrite a real prerendered page
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(file, makeRedirectStub(target));
+    stubCount++;
+  });
+  Object.entries(TOMBSTONES).forEach(([src, target]) => {
+    const dir = path.join(BUILD_DIR, src);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, "index.html"), makeRedirectStub(target));
+    stubCount++;
+  });
+  console.log(`Generated ${stubCount} redirect stubs/tombstones`);
+
   console.log(`\nPre-rendered: ${success} pages, ${failed} errors out of ${routes.length} total.`);
 }
 

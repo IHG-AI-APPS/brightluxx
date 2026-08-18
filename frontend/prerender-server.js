@@ -856,6 +856,21 @@ function startProductionServer() {
       return;
     }
 
+    // ── Legacy local media paths → 301 to external CDN (flattened) ──
+    if (
+      routePath.startsWith("/downloaded-images/") ||
+      routePath.startsWith("/generated-images/") ||
+      routePath.startsWith("/uploads/")
+    ) {
+      const flat = routePath.replace(/^\//, "").replace(/\//g, "_");
+      res.writeHead(301, {
+        Location: `https://files.ihgbrands.com/${flat}`,
+        "Cache-Control": "public, max-age=86400",
+      });
+      res.end();
+      return;
+    }
+
     // ── Static files with extension → serve from build/ ──
     if (ext) {
       const filePath = path.join(BUILD_DIR, routePath);

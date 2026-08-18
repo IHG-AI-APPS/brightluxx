@@ -1,5 +1,17 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Broken Images + Backend Performance Fix — Jun 2026 (this session)
+- **Projects collection dead paths fixed**: all 8 projects pointed at deleted local paths (`/downloaded-images/...`, `/generated-images/...`). Downloaded originals from CDN (2 were gone entirely — regenerated with AI), optimized to ≤140KB WebP (from 1.4–4.6MB!), uploaded to `files.ihgbrands.com/brightluxx/site-images/opt-proj-*.webp`, updated DB + seed_data_full.json. Zero dead-path refs in built HTML.
+- **Homepage family card images**: 5 heavy images (1.4–1.5MB PNGs) → optimized ≤104KB WebP in Home.js.
+- **`/api/cdn/*` restored**: new route in public.py returns 301 → `files.ihgbrands.com/uploads_<flattened>`.
+- **API cache middleware** (`backend/api_cache.py`): in-memory 5-min TTL for hot public GETs (homepage-content, products, projects, site-settings, page-meta, etc.). MISS→HIT verified; any non-GET /api request clears cache. Fixes production 1–2.4s API latency after first hit.
+- **Mongo indexes** added at startup: products(slug, category+created_at, featured), projects, page_seo(path), blogs, case_studies, inspirations.
+- **Seed cleanup hardened**: also deletes products with `product_code: "test"` or missing slug (kills `hjdba` in production DB at next deploy startup).
+- **prerender-server.js**: `/downloaded-images/*`, `/generated-images/*`, `/uploads/*` now 301 → CDN flattened URL.
+- **CdnImage.js**: pre-optimized `site-images/opt-*` files bypass the /api/img proxy.
+- **KEY FACT (from postbuild-prerender.js comment + user evidence): production frontend is served as Cloudflare STATIC assets — no Node server runs.** prerender-server.js logic (real 301s, HTTP 404 status, HTML cache headers) only works in preview. Static equivalents shipped: meta-refresh redirect stubs (19), tombstone for /products/hjdba, prerendered 404.html. Deployer RCA was requested to confirm if platform supports real status codes/headers.
+- Preview ingress adds `Cache-Control: no-store` to API responses (origin sends `public, max-age=300`) — verify cache headers on localhost, not via preview URL.
+
 ## Original Problem Statement
 Build a premium LED display showcase website for Brightluxx targeting architects, consultants, designers, and contractors in UAE/GCC. Focus on specifier knowledge base + lead generation. Strategy: "Specification Engine" dominating search for digital display technical and commercial queries.
 

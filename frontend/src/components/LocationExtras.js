@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ChevronDown, Building2, ArrowRight } from 'lucide-react';
+import { ChevronDown, Building2, ArrowRight, MapPin, ShieldCheck } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
 const fadeIn = {
@@ -43,6 +43,66 @@ export const LocationProjects = ({ data, accent = 'cyan' }) => {
           <Link to="/projects" className={`inline-flex items-center gap-2 text-sm font-semibold ${a.text} hover:underline`} data-testid="location-projects-all-link">
             View All Projects <ArrowRight size={14} />
           </Link>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export const LocationAreas = ({ data, accent = 'cyan' }) => {
+  const { isDark } = useTheme();
+  const a = ACCENT[accent] || ACCENT.cyan;
+  if (!data || !data.areas || !data.areas.length) return null;
+  const cardBg = isDark ? 'bg-white/5' : 'bg-white';
+  const borderColor = isDark ? 'border-white/10' : 'border-neutral-200';
+  return (
+    <section className="py-16 lg:py-20" data-testid="location-areas-section">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="text-center mb-12">
+          <span className={`${a.text} text-xs font-bold tracking-[0.3em] uppercase mb-3 block`}>Coverage</span>
+          <h2 className={`text-2xl md:text-3xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-neutral-900'}`}>{data.label} Areas We Serve</h2>
+        </motion.div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {data.areas.map((area, i) => (
+            <motion.div key={area.name} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: i * 0.05 }} className={`${cardBg} border ${borderColor} rounded-xl p-5 ${a.border} transition-colors`} data-testid={`location-area-${i}`}>
+              <div className="flex items-center gap-2 mb-2">
+                <MapPin size={15} className={a.text} />
+                <h3 className={`text-sm font-bold ${isDark ? 'text-white' : 'text-neutral-900'}`}>{area.name}</h3>
+              </div>
+              <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>{area.note}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export const LocationRegulations = ({ data, accent = 'cyan' }) => {
+  const { isDark } = useTheme();
+  const a = ACCENT[accent] || ACCENT.cyan;
+  if (!data || !data.regulations || !data.regulations.length) return null;
+  const cardBg = isDark ? 'bg-white/5' : 'bg-white';
+  const borderColor = isDark ? 'border-white/10' : 'border-neutral-200';
+  return (
+    <section className={`py-16 lg:py-20 ${isDark ? 'bg-white/[0.02]' : 'bg-neutral-100'}`} data-testid="location-regulations-section">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="text-center mb-12">
+          <span className={`${a.text} text-xs font-bold tracking-[0.3em] uppercase mb-3 block`}>Compliance</span>
+          <h2 className={`text-2xl md:text-3xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-neutral-900'}`}>Signage Regulations &amp; Power — {data.label}</h2>
+        </motion.div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {data.regulations.map((reg, i) => (
+            <motion.div key={reg.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: i * 0.08 }} className={`${cardBg} border ${borderColor} rounded-2xl p-6`} data-testid={`location-regulation-${i}`}>
+              <div className="flex items-start gap-3">
+                <ShieldCheck size={20} className={`${a.text} mt-0.5 flex-shrink-0`} />
+                <div>
+                  <h3 className={`text-base font-semibold mb-2 ${isDark ? 'text-white' : 'text-neutral-900'}`}>{reg.title}</h3>
+                  <p className={`text-sm leading-relaxed ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>{reg.text}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

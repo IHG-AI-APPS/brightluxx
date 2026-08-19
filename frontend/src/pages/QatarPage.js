@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { LocationProjects, LocationFAQ } from '../components/LocationExtras';
+import { LocationProjects, LocationFAQ, LocationAreas, LocationRegulations } from '../components/LocationExtras';
 import LOCATION_CONTENT from '../data/locationContent.json';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { 
@@ -223,6 +223,8 @@ export default function QatarPage() {
         </div>
       </section>
 
+      <LocationAreas data={LOCATION_CONTENT["/qatar"]} accent="cyan" />
+      <LocationRegulations data={LOCATION_CONTENT["/qatar"]} accent="cyan" />
       <LocationProjects data={LOCATION_CONTENT["/qatar"]} accent="cyan" />
       <LocationFAQ data={LOCATION_CONTENT["/qatar"]} accent="cyan" />
 

@@ -179,6 +179,46 @@
         "q": "Do you provide maintenance contracts in Abu Dhabi?",
         "a": "Yes — annual maintenance covers preventive cleaning, calibration, module-level repairs and priority call-outs to Abu Dhabi, Al Ain and the Western Region. Government and mission-critical sites can opt for guaranteed response-time SLAs."
       }
+    ],
+    "areas": [
+      {
+        "name": "Corniche & Al Markaziyah",
+        "note": "Corporate towers and bank HQs — fine-pitch lobby walls including our ADNOC command center."
+      },
+      {
+        "name": "Al Maryah Island (ADGM)",
+        "note": "Financial-district lobbies and boardrooms with museum-grade MicroLED."
+      },
+      {
+        "name": "Yas Island",
+        "note": "Entertainment, arenas and retail — high-refresh event and venue screens."
+      },
+      {
+        "name": "ICAD & Mussafah",
+        "note": "Industrial and logistics facilities — control-room and safety display systems."
+      },
+      {
+        "name": "Khalifa City & Zayed City",
+        "note": "Community retail, clinics and education campuses."
+      },
+      {
+        "name": "Al Ain",
+        "note": "Covered by our weekly Abu Dhabi service runs for installs and maintenance."
+      }
+    ],
+    "regulations": [
+      {
+        "title": "DMT Signage Approval",
+        "text": "Outdoor digital signage in Abu Dhabi is reviewed by the Department of Municipalities and Transport for brightness, content type and structural safety. We prepare the photometric and engineering submissions."
+      },
+      {
+        "title": "ADDED Signboard Rules",
+        "text": "Trade-name signboards must align with Abu Dhabi Department of Economic Development guidelines — our designs are prepared to pass first review."
+      },
+      {
+        "title": "ADDC Power Coordination",
+        "text": "Larger outdoor screens need approved load calculations and often a dedicated three-phase ADDC supply. We size the load and coordinate with your electrical contractor."
+      }
     ]
   },
   "/qatar": {
@@ -203,6 +243,42 @@
       {
         "q": "How is content managed for screens installed in Qatar?",
         "a": "Every installation includes a cloud CMS that schedules Arabic and English content remotely from any location, so Doha screens can be operated from Qatar or from a regional head office. We provide training and ongoing remote support."
+      }
+    ],
+    "areas": [
+      {
+        "name": "West Bay",
+        "note": "Doha's corporate core — tower lobbies, banks and hotel video walls."
+      },
+      {
+        "name": "Lusail",
+        "note": "New-city retail boulevards, stadium precincts and marina hospitality."
+      },
+      {
+        "name": "The Pearl",
+        "note": "Luxury retail and F&B storefront displays."
+      },
+      {
+        "name": "Msheireb Downtown",
+        "note": "Smart-city digital signage and cultural installations."
+      },
+      {
+        "name": "Doha Industrial Area",
+        "note": "Warehousing and operations facilities — control and safety displays."
+      }
+    ],
+    "regulations": [
+      {
+        "title": "Ministry of Municipality Permit",
+        "text": "External advertising screens in Qatar require municipal advertising approval covering size, placement and content. We supply the technical file for your local submission."
+      },
+      {
+        "title": "Ashghal Road Visibility",
+        "text": "Screens visible from Qatari roads must respect distraction and luminance guidance from the Public Works Authority — we fit auto-dimming sensors as standard."
+      },
+      {
+        "title": "KAHRAMAA Power Compliance",
+        "text": "All systems are configured for Qatar's 240V/50Hz supply with surge protection sized to KAHRAMAA requirements."
       }
     ]
   },
@@ -236,6 +312,42 @@
         "q": "What warranty and support do you offer in Saudi Arabia?",
         "a": "Installations include a 2-year warranty extendable to 5 years, with spare modules quoted into every project so repairs happen on site without waiting for imports. Remote diagnostics plus scheduled maintenance visits cover Riyadh, Jeddah and the Eastern Province."
       }
+    ],
+    "areas": [
+      {
+        "name": "Riyadh — KAFD & Olaya",
+        "note": "Financial-district towers, giga-project showrooms and Boulevard entertainment zones."
+      },
+      {
+        "name": "Jeddah — Tahlia & Corniche",
+        "note": "Retail flagships, hospitality and waterfront advertising screens."
+      },
+      {
+        "name": "Dammam & Khobar",
+        "note": "Eastern Province corporate, energy-sector and mall installations."
+      },
+      {
+        "name": "NEOM & Giga-Projects",
+        "note": "Staged project logistics and specification support for developer and contractor teams."
+      },
+      {
+        "name": "Makkah & Madinah",
+        "note": "Hospitality towers and wayfinding displays for pilgrim-facing venues."
+      }
+    ],
+    "regulations": [
+      {
+        "title": "Baladiya Advertising Licence",
+        "text": "Outdoor screens in Saudi cities are licensed by the local municipality (Baladiya) with structural and content conditions. We prepare drawings and load calculations for your submission."
+      },
+      {
+        "title": "SASO / SABER Conformity",
+        "text": "Imports clear Saudi customs under SABER certificates of conformity — we manage the certification paperwork on every shipment."
+      },
+      {
+        "title": "SEC Power Coordination",
+        "text": "Large screens require approved electrical loads with the Saudi Electricity Company; we issue load schedules and work with your contractor."
+      }
     ]
   },
   "/kuwait": {
@@ -260,6 +372,42 @@
       {
         "q": "What after-sales support is available in Kuwait?",
         "a": "Every project includes remote monitoring and diagnostics, spare-module packs delivered with the installation, and scheduled maintenance visits from our regional team. Critical faults are triaged remotely the same day."
+      }
+    ],
+    "areas": [
+      {
+        "name": "Kuwait City CBD",
+        "note": "Bank and corporate tower lobbies along the waterfront business district."
+      },
+      {
+        "name": "Salmiya",
+        "note": "Retail strips and mall storefront displays on Salem Al Mubarak Street."
+      },
+      {
+        "name": "Al Rai & The Avenues",
+        "note": "Kuwait's largest mall district — window-facing and atrium LED."
+      },
+      {
+        "name": "Hawally",
+        "note": "Commercial and clinic signage across the district."
+      },
+      {
+        "name": "Ahmadi & Fahaheel",
+        "note": "Energy-sector facilities and southern retail centres."
+      }
+    ],
+    "regulations": [
+      {
+        "title": "Kuwait Municipality Advertising Licence",
+        "text": "External digital advertising requires a municipality licence with size and placement conditions — we provide the technical documentation your local agent submits."
+      },
+      {
+        "title": "MEW Electrical Approval",
+        "text": "Screens are specified to Ministry of Electricity & Water supply standards with approved load sheets for larger installations."
+      },
+      {
+        "title": "Extreme-Heat Specification",
+        "text": "Kuwait summers exceed 55°C — we specify high-temperature LEDs, oversized heat-sinking and derated power supplies so warranties remain valid year-round."
       }
     ]
   },
@@ -286,6 +434,42 @@
         "q": "What warranty applies to Bahrain installations?",
         "a": "The standard 2-year warranty (extendable to 5) applies fully in Bahrain, backed by spare modules left on site and remote diagnostics. Maintenance visits are bundled with our Eastern-Gulf service routes for fast response."
       }
+    ],
+    "areas": [
+      {
+        "name": "Manama CBD & Bahrain Financial Harbour",
+        "note": "Fine-pitch lobby and trading-floor displays for the banking sector."
+      },
+      {
+        "name": "Seef District",
+        "note": "Mall retail — City Centre Bahrain and Seef Mall storefront LED."
+      },
+      {
+        "name": "Muharraq & Airport",
+        "note": "Aviation-adjacent hospitality and FIDS-style information displays."
+      },
+      {
+        "name": "Riffa",
+        "note": "Community retail and showroom signage."
+      },
+      {
+        "name": "Bahrain Investment Wharf",
+        "note": "Industrial and logistics operations displays."
+      }
+    ],
+    "regulations": [
+      {
+        "title": "Municipalities Affairs Signage Permit",
+        "text": "Outdoor signage in Bahrain is permitted through the Ministry of Municipalities Affairs — we prepare the structural and photometric file for submission."
+      },
+      {
+        "title": "EWA Power Compliance",
+        "text": "Systems are configured to Electricity & Water Authority standards with approved loads for larger screens."
+      },
+      {
+        "title": "Coastal Corrosion Specification",
+        "text": "Manama's salt-laden air demands conformal-coated PCBs, sealed IP65 cabinets and anti-corrosion fasteners — specified as standard on Bahrain projects."
+      }
     ]
   },
   "/oman": {
@@ -310,6 +494,42 @@
       {
         "q": "What support do you provide after installation in Oman?",
         "a": "Installations include a 2-year warranty, remote monitoring and a spare-module pack so most repairs are done on site instantly. Scheduled maintenance visits to Muscat are combined with our regular Oman service runs."
+      }
+    ],
+    "areas": [
+      {
+        "name": "Qurum & Al Khuwair",
+        "note": "Muscat's commercial spine — showrooms, offices and mall displays."
+      },
+      {
+        "name": "Mutrah & Ruwi",
+        "note": "Souq-adjacent retail and hotel installations along the corniche."
+      },
+      {
+        "name": "Seeb & Muscat Airport",
+        "note": "Airport-corridor hospitality, exhibitions and Oman Convention Centre events."
+      },
+      {
+        "name": "Salalah",
+        "note": "Khareef-season tourism venues — humidity-rated outdoor specification."
+      },
+      {
+        "name": "Sohar",
+        "note": "Port and industrial-zone operations displays."
+      }
+    ],
+    "regulations": [
+      {
+        "title": "Muscat Municipality Permit",
+        "text": "External advertising screens require Muscat Municipality approval covering placement, size and content — we prepare the supporting technical file."
+      },
+      {
+        "title": "Nama / MEDC Power Standards",
+        "text": "Installations are specified to Oman's 240V/50Hz distribution standards with approved load calculations for larger screens."
+      },
+      {
+        "title": "Humidity & Khareef Specification",
+        "text": "Coastal Muscat and Salalah's khareef season demand conformal coating, IP65 sealing and ventilation design rated for sustained 90%+ humidity."
       }
     ]
   },

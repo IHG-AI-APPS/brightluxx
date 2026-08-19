@@ -147,3 +147,8 @@ Deferred deliberately: array-index keys bulk rewrite (previously broke 14 pages 
 - Meta rewrites (page_seo) for zero-click pages: /abu-dhabi (ADNOC-Trusted), /oman (from OMR 180/m²), /bahrain (5–10 day delivery), /kuwait (55°C-rated), /pixelvue (Official Range & Prices), /technology/3d-anamorphic-led (3D Billboard Cost & Examples). Fixed empty /pixelvue canonical.
 - AggregateRating/Review NOT implemented — awaiting real customer reviews from user (no fabrication).
 - Verified in build: home [WebPage,Org,LocalBusiness], solution [Service,FAQPage,Breadcrumb,Org,LB], product [Product,FAQPage,Breadcrumb,Org,LB], blog [Article,FAQPage,...]. 334 pages. NEEDS DEPLOY.
+
+## City Page Depth Parity — Aug 19, 2026
+- Added areas-served (5-6 real districts each) + signage-regulations (3 each, country-specific authorities: DMT/ADDED/ADDC, Ministry of Municipality/Ashghal/KAHRAMAA, Baladiya/SASO/SEC, Kuwait Municipality/MEW, Municipalities Affairs/EWA, Muscat Municipality/Nama) to /abu-dhabi, /qatar, /saudi-arabia, /kuwait, /bahrain, /oman via locationContent.json.
+- New reusable components LocationAreas + LocationRegulations in LocationExtras.js; rendered on all 6 pages (script-patched before LocationProjects). postbuild auto-injects both into prerendered HTML (pre-existing loc.areas/loc.regulations injection).
+- Verified: all 6 prerendered pages contain both sections; /qatar screenshot confirmed UI. 334 pages, 0 errors. NEEDS DEPLOY.

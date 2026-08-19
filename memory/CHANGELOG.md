@@ -118,3 +118,8 @@ Deferred deliberately: array-index keys bulk rewrite (previously broke 14 pages 
 - New components: /app/frontend/src/components/LocationExtras.js (LocationProjects grid + LocationFAQ accordion with FAQPage JSON-LD). Injected before {/* CTA */} in all 7 city pages (script-patched; imports after SEO import).
 - postbuild-prerender.js: injects location projects+FAQs into prerendered HTML and appends FAQPage schema (NOTE: meta.schemas expects JSON STRINGS, not objects — objects render as [object Object]).
 - Verified: all 7 prerendered pages have unique FAQ content + valid FAQPage schema, self-canonicals; UI accordion works. 322 pages, 0 errors. NEEDS DEPLOY.
+
+## GCC City Hero Images — Aug 19, 2026
+- Generated 7 city-accurate skyline heroes (Burj Khalifa/Dubai, Etihad Towers/Abu Dhabi, West Bay/Doha, Kingdom Centre/Riyadh, Kuwait Towers, Bahrain WTC/Manama, Mutrah Corniche/Muscat) at 104–172KB WebP (old heroes were 0.76–3MB). Script: /app/scripts/gen_city_heroes.py. CDN: site-images/hero_<city>.webp.
+- Updated HERO_IMAGE in 6 pages; AbuDhabiPage had NO hero image (plain gradient) — added skyline layer under translucent amber gradient.
+- Rebuilt (322 pages), screenshots verified Kuwait + Abu Dhabi. NEEDS DEPLOY.

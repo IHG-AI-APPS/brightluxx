@@ -97,7 +97,10 @@ export default function AbuDhabiPage() {
 
       {/* Hero */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-[#050508] to-[#050508]" />
+        <div className="absolute inset-0">
+          <img src="https://files.ihgbrands.com/brightluxx/site-images/hero_abu_dhabi.webp" alt="Abu Dhabi Corniche skyline with Etihad Towers at dusk" className="w-full h-full object-cover" />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-900/40 via-[#050508]/85 to-[#050508]/95" />
         
         <div className="relative z-10 max-w-6xl mx-auto px-6 py-20">
           <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.15 } } }}>

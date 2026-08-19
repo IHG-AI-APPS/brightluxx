@@ -25,7 +25,7 @@ const SAUDI_SECTORS = [
 ];
 
 // Hero image - Riyadh skyline
-const HERO_IMAGE = 'https://files.ihgbrands.com/site-images_opt_ext_b75c64d94299.webp';
+const HERO_IMAGE = 'https://files.ihgbrands.com/brightluxx/site-images/hero_saudi.webp';
 
 export default function SaudiArabiaPage() {
   const { isDark } = useTheme();

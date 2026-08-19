@@ -123,3 +123,10 @@ Deferred deliberately: array-index keys bulk rewrite (previously broke 14 pages 
 - Generated 7 city-accurate skyline heroes (Burj Khalifa/Dubai, Etihad Towers/Abu Dhabi, West Bay/Doha, Kingdom Centre/Riyadh, Kuwait Towers, Bahrain WTC/Manama, Mutrah Corniche/Muscat) at 104–172KB WebP (old heroes were 0.76–3MB). Script: /app/scripts/gen_city_heroes.py. CDN: site-images/hero_<city>.webp.
 - Updated HERO_IMAGE in 6 pages; AbuDhabiPage had NO hero image (plain gradient) — added skyline layer under translucent amber gradient.
 - Rebuilt (322 pages), screenshots verified Kuwait + Abu Dhabi. NEEDS DEPLOY.
+
+## /dubai Page Rebuild for SEO — Aug 19, 2026
+- ROOT CAUSE of 19 impressions/month: /dubai wasn't prerendered + had homepage canonical until Aug 18 fix — Google saw it as a homepage duplicate. Internal-link parity with /abu-dhabi already existed (both in footer).
+- Rebuilt /dubai: H1 "LED Screen Supplier in Dubai"; keyword-rich intro (all 8 target keywords naturally placed) with links to /indoor-led, /outdoor-led, /signage-solutions, /led-screen-suppliers-dubai; NEW sections: Dubai Areas We Serve (Jebel Ali, Al Quoz, Business Bay, JLT, Al Nahda, Al Satwa, Downtown, DIFC), Dubai Signage Regulations & Power (Municipality permit, DED signboard, RTA brightness, DEWA 3-phase), Dubai Case Studies (6 live + 8 static links), Google Map embed (Jebel Ali showroom), 7 FAQs incl. "best LED display suppliers in Dubai" and "storefront screen size".
+- All content is data-driven via locationContent.json (intro/areas/regulations/caseStudies keys) and injected into prerendered HTML by postbuild (verified all 8 checks in build/dubai/index.html). page_seo /dubai meta updated to keyword title/desc. Cross-link added from /led-screen-suppliers-dubai → /dubai.
+- Fixed address inconsistency: Dubai contact card said Al Quoz; Contact page says Jebel Ali Industrial Area 1 — aligned to Jebel Ali.
+- 322 pages, 0 errors; sections verified via screenshot + testids. NEEDS DEPLOY.

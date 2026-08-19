@@ -59,8 +59,8 @@ export default function DubaiPage() {
             cs.location?.toLowerCase().includes('dubai') || 
             cs.client?.toLowerCase().includes('emaar') ||
             cs.client?.toLowerCase().includes('meraas')
-          ).slice(0, 3);
-          setCaseStudies(dubaiStudies.length > 0 ? dubaiStudies : studies.slice(0, 3));
+          ).slice(0, 6);
+          setCaseStudies(dubaiStudies.length > 0 ? dubaiStudies : studies.slice(0, 6));
         }
       } catch (error) {
         console.error('Error:', error);
@@ -75,10 +75,10 @@ export default function DubaiPage() {
   return (
     <div className={`min-h-screen ${pageBg} transition-colors duration-500`} data-testid="dubai-page">
       <SEO 
-        title="LED Screens Dubai | #1 LED Display Supplier UAE"
-        description="Dubai's leading LED display supplier. Indoor & outdoor screens, video walls, transparent LED. Projects in Dubai Mall, DIFC, JBR. Same-day delivery from local warehouse."
+        title="LED Screen Supplier Dubai | LED Display Company | Brightluxx"
+        description="Brightluxx — LED screen supplier in Dubai with Jebel Ali showroom. Indoor & outdoor LED screens, video walls & digital signage. Dubai Mall, DIFC, JLT projects. Same-day quotes."
         path="/dubai"
-        keywords="LED screen Dubai, video wall Dubai, LED display supplier UAE, outdoor LED Dubai, digital signage Dubai, LED rental Dubai"
+        keywords="LED screen supplier Dubai, LED display company Dubai, LED video wall Dubai, outdoor LED screen Dubai, digital signage company Dubai, LED display manufacturer Dubai, LED screen suppliers in Dubai, indoor LED screen supplier in Dubai"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Locations', path: '/solutions' },
@@ -127,13 +127,13 @@ export default function DubaiPage() {
                 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-3"
                 style={{ color: '#ffffff' }}
               >
-                LED Display Solutions{' '}
+                LED Screen Supplier in{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
                   Dubai
                 </span>
               </h1>
               <p className="text-white/70 text-base md:text-lg max-w-lg mb-6">
-                Dubai's trusted LED display partner. From Dubai Mall to DIFC, we power the city's most iconic digital experiences.
+                Dubai's LED display company for indoor & outdoor screens, video walls and digital signage. From Dubai Mall to DIFC, we power the city's most iconic digital experiences.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link 
@@ -170,6 +170,71 @@ export default function DubaiPage() {
                 <badge.icon size={18} className="text-cyan-400" />
                 <span className={`text-xs font-semibold uppercase tracking-wider ${textSecondary}`}>{badge.label}</span>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SEO Intro */}
+      <section className="py-14 lg:py-16">
+        <div className="max-w-[900px] mx-auto px-6 md:px-12" data-testid="dubai-intro-section">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+            <h2 className={`text-2xl md:text-3xl font-bold tracking-tight mb-5 ${textPrimary}`}>Your LED Display Company in Dubai</h2>
+            {(LOCATION_CONTENT["/dubai"].intro || []).map((p, i) => (
+              <p key={i} className={`text-sm md:text-base leading-relaxed mb-4 ${textSecondary}`}>{p}</p>
+            ))}
+            <div className="flex flex-wrap gap-3 mt-2">
+              <Link to="/indoor-led" className="text-cyan-400 text-sm font-semibold hover:underline" data-testid="dubai-link-indoor">Indoor LED Screens</Link>
+              <span className={textSecondary}>·</span>
+              <Link to="/outdoor-led" className="text-cyan-400 text-sm font-semibold hover:underline" data-testid="dubai-link-outdoor">Outdoor LED Screens</Link>
+              <span className={textSecondary}>·</span>
+              <Link to="/signage-solutions" className="text-cyan-400 text-sm font-semibold hover:underline" data-testid="dubai-link-signage">Digital Signage</Link>
+              <span className={textSecondary}>·</span>
+              <Link to="/led-screen-suppliers-dubai" className="text-cyan-400 text-sm font-semibold hover:underline" data-testid="dubai-link-suppliers">LED Screen Suppliers in Dubai</Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Areas We Serve */}
+      <section className={`py-16 lg:py-20 ${isDark ? 'bg-white/[0.02]' : 'bg-neutral-100'}`}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24" data-testid="dubai-areas-section">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="text-center mb-12">
+            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Coverage</span>
+            <h2 className={`text-2xl md:text-3xl font-bold tracking-tight ${textPrimary}`}>Dubai Areas We Serve</h2>
+          </motion.div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {(LOCATION_CONTENT["/dubai"].areas || []).map((area, i) => (
+              <motion.div key={area.name} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: i * 0.05 }} className={`${cardBg} border ${borderColor} rounded-xl p-5 hover:border-cyan-500/30 transition-colors`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <MapPin size={15} className="text-cyan-400" />
+                  <h3 className={`text-sm font-bold ${textPrimary}`}>{area.name}</h3>
+                </div>
+                <p className={`text-xs leading-relaxed ${textSecondary}`}>{area.note}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Regulations & Power */}
+      <section className="py-16 lg:py-20">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24" data-testid="dubai-regulations-section">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="text-center mb-12">
+            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Compliance</span>
+            <h2 className={`text-2xl md:text-3xl font-bold tracking-tight ${textPrimary}`}>Dubai Signage Regulations & Power</h2>
+          </motion.div>
+          <div className="grid sm:grid-cols-2 gap-5">
+            {(LOCATION_CONTENT["/dubai"].regulations || []).map((reg, i) => (
+              <motion.div key={reg.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: i * 0.08 }} className={`${cardBg} border ${borderColor} rounded-2xl p-6`}>
+                <div className="flex items-start gap-3">
+                  <Shield size={20} className="text-cyan-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className={`text-base font-semibold mb-2 ${textPrimary}`}>{reg.title}</h3>
+                    <p className={`text-sm leading-relaxed ${textSecondary}`}>{reg.text}</p>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -275,7 +340,7 @@ export default function DubaiPage() {
                   <MapPin size={18} className="text-cyan-400 mt-0.5" />
                   <div>
                     <p className={`text-sm font-semibold ${textPrimary}`}>Showroom & Warehouse</p>
-                    <p className={`text-sm ${textSecondary}`}>Al Quoz Industrial Area 3, Dubai, UAE</p>
+                    <p className={`text-sm ${textSecondary}`}>Jebel Ali Industrial Area 1, Dubai, UAE</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -315,6 +380,54 @@ export default function DubaiPage() {
       </section>
 
       <LocationProjects data={LOCATION_CONTENT["/dubai"]} accent="cyan" />
+
+      {/* Dubai Case Studies */}
+      <section className="py-16 lg:py-20">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24" data-testid="dubai-case-studies-section">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="text-center mb-12">
+            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Proof of Work</span>
+            <h2 className={`text-2xl md:text-3xl font-bold tracking-tight ${textPrimary}`}>Dubai Case Studies</h2>
+          </motion.div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {(caseStudies.length ? caseStudies.map(cs => ({ slug: cs.slug, title: cs.title, location: cs.location })) : (LOCATION_CONTENT["/dubai"].caseStudies || [])).slice(0, 8).map((cs, i) => (
+              <Link key={cs.slug} to={`/case-studies/${cs.slug}`} className={`${cardBg} border ${borderColor} rounded-xl p-5 hover:border-cyan-500/30 transition-colors group block`} data-testid={`dubai-case-study-${i}`}>
+                <h3 className={`text-sm font-bold mb-2 group-hover:text-cyan-400 transition-colors ${textPrimary}`}>{cs.title}</h3>
+                <span className="text-cyan-400 text-xs font-semibold inline-flex items-center gap-1">Read Case Study <ArrowRight size={12} /></span>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link to="/case-studies" className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-400 hover:underline" data-testid="dubai-all-case-studies-link">
+              View All Case Studies <ArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Showroom Map */}
+      <section className={`py-16 lg:py-20 ${isDark ? 'bg-white/[0.02]' : 'bg-neutral-100'}`}>
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12" data-testid="dubai-map-section">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="text-center mb-8">
+            <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">Visit Us</span>
+            <h2 className={`text-2xl md:text-3xl font-bold tracking-tight ${textPrimary}`}>Our Dubai Showroom & Warehouse</h2>
+            <p className={`text-sm mt-3 ${textSecondary}`}>Jebel Ali Industrial Area 1, Dubai — see LED panels running before you buy.</p>
+          </motion.div>
+          <div className={`rounded-2xl overflow-hidden border ${borderColor}`}>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.5!2d55.0272!3d24.9857!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f13c77b5b2d6d%3A0x0!2sJebel+Ali+Industrial+Area+1!5e0!3m2!1sen!2sae!4v1"
+              width="100%"
+              height="360"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Brightluxx LED Screen Supplier Dubai — Jebel Ali Industrial Area 1 Showroom"
+              data-testid="dubai-google-map"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
       <LocationFAQ data={LOCATION_CONTENT["/dubai"]} accent="cyan" />
 
       {/* CTA */}

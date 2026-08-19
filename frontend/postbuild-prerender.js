@@ -487,9 +487,24 @@ async function run() {
         if (csLinks) contentParts.push(`<nav aria-label="Case studies">${csLinks}</nav>`);
       } else if (locationContent[route]) {
         const loc = locationContent[route];
+        if (loc.intro && loc.intro.length) {
+          contentParts.push(loc.intro.map(p => `<p>${esc(p)}</p>`).join(""));
+        }
+        if (loc.areas && loc.areas.length) {
+          contentParts.push(`<h2>${esc(loc.label)} Areas We Serve</h2><ul>` +
+            loc.areas.map(a => `<li><strong>${esc(a.name)}</strong>: ${esc(a.note)}</li>`).join("") + "</ul>");
+        }
+        if (loc.regulations && loc.regulations.length) {
+          contentParts.push(`<h2>${esc(loc.label)} Signage Regulations &amp; Power</h2>` +
+            loc.regulations.map(r => `<h3>${esc(r.title)}</h3><p>${esc(r.text)}</p>`).join(""));
+        }
         if (loc.projects && loc.projects.length) {
           contentParts.push(`<h2>${esc(loc.label)} Project Highlights</h2>` +
             loc.projects.map(p => `<h3>${esc(p.title)}</h3><p>${esc(p.venue)} — ${esc(p.detail)}</p>`).join(""));
+        }
+        if (loc.caseStudies && loc.caseStudies.length) {
+          contentParts.push(`<h2>${esc(loc.label)} Case Studies</h2><nav aria-label="Case studies">` +
+            loc.caseStudies.map(c => `<a href="/case-studies/${esc(c.slug)}">${esc(c.title)}</a>`).join(" · ") + "</nav>");
         }
         if (loc.faqs && loc.faqs.length) {
           contentParts.push(`<h2>LED Display FAQs — ${esc(loc.label)}</h2>` +

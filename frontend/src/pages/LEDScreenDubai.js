@@ -441,6 +441,9 @@ export default function LEDScreenDubai() {
             <Phone size={14} className="inline mr-1" />
             Or call directly: <a href="tel:+971559954274" className="text-cyan-400 hover:underline">+971 55 995 4274</a>
           </p>
+          <p className="mt-3 text-sm text-gray-500">
+            Learn more about our full <Link to="/dubai" className="text-cyan-400 hover:underline" data-testid="link-to-dubai-page">LED display company services in Dubai</Link> — areas served, regulations and case studies.
+          </p>
         </div>
       </section>
 

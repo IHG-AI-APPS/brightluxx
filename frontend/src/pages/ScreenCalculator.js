@@ -567,6 +567,17 @@ export default function ScreenCalculator() {
           </div>
         </div>
       </section>
+      <section className="py-10">
+        <div className="max-w-[900px] mx-auto px-6 text-center">
+          <p className="text-sm text-neutral-400 mb-3">More free LED tools:</p>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm font-semibold">
+            <Link to="/tools" className="text-cyan-400 hover:underline" data-testid="link-tools-hub">All Tools</Link>
+            <Link to="/viewing-distance" className="text-cyan-400 hover:underline">Viewing Distance Calculator</Link>
+            <Link to="/tools/led-wall-size-calculator" className="text-cyan-400 hover:underline">Wall Size Calculator</Link>
+            <Link to="/tools/video-wall-resolution-calculator" className="text-cyan-400 hover:underline">Resolution Calculator</Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

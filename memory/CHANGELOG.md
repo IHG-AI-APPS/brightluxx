@@ -130,3 +130,11 @@ Deferred deliberately: array-index keys bulk rewrite (previously broke 14 pages 
 - All content is data-driven via locationContent.json (intro/areas/regulations/caseStudies keys) and injected into prerendered HTML by postbuild (verified all 8 checks in build/dubai/index.html). page_seo /dubai meta updated to keyword title/desc. Cross-link added from /led-screen-suppliers-dubai → /dubai.
 - Fixed address inconsistency: Dubai contact card said Al Quoz; Contact page says Jebel Ali Industrial Area 1 — aligned to Jebel Ali.
 - 322 pages, 0 errors; sections verified via screenshot + testids. NEEDS DEPLOY.
+
+## Content Expansion: Tools Hub, Blogs, Mission-Critical, Suppliers Sync — Aug 19, 2026
+- 3 new blog posts (DB-driven, auto-prerendered, FAQ schema): led-display-pricing-guide-uae (targets 3x3 video wall cost, price per sq ft, cost per sqm), indoor-vs-outdoor-led-screen-dubai, led-wall-buyers-checklist. All link to /dubai as hub. Blog prerender content slice raised 1000→6000 chars.
+- New pages: /tools (hub, 6 tool cards), /tools/led-wall-size-calculator, /tools/video-wall-resolution-calculator (both interactive, testing-agent-verified math), /mission-critical-displays (control room/command center vertical, FAQPage schema, links ADNOC case study + /solutions/control-rooms + /abu-dhabi). Files: src/pages/tools/*, src/pages/MissionCriticalDisplays.js. Note: /viewing-distance and /led-calculator already existed.
+- /led-screen-suppliers-dubai: added 5-question supplier-selection FAQ accordion (locationContent.json key) with FAQPage schema; removed overlapping/contradictory old warranty FAQ (said 3yr vs standard 2yr).
+- "More free LED tools" link strips added to /calculator and /led-calculator.
+- BUG FIXED (testing agent): /led-calculator, /configurator, /showroom, /compare, /lumimorph-elite 404'd on direct load (never prerendered). Fixed by adding page_seo docs — page_seo paths auto-register in prerender routes + sitemap. LESSON: every new React route needs a page_seo doc or it 404s in production static serving.
+- Testing: iteration_127 passed (calculator math, blogs, FAQs, links); follow-up fixes verified via curl (all 200). 334 pages. NEEDS DEPLOY.

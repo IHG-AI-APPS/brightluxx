@@ -312,5 +312,30 @@
         "a": "Installations include a 2-year warranty, remote monitoring and a spare-module pack so most repairs are done on site instantly. Scheduled maintenance visits to Muscat are combined with our regular Oman service runs."
       }
     ]
+  },
+  "/led-screen-suppliers-dubai": {
+    "label": "Choosing a Dubai Supplier",
+    "faqs": [
+      {
+        "q": "How do I compare LED screen suppliers in Dubai?",
+        "a": "Compare on five things: a physical showroom you can visit (not just a trading office), factory-direct panel sourcing, in-house installation teams, local spare-module stock, and written warranty with defined response times. Ask each supplier for delivered project addresses in Dubai you can go and see."
+      },
+      {
+        "q": "What warranty should a Dubai LED supplier offer?",
+        "a": "A serious supplier offers a minimum 2-year comprehensive warranty extendable to 5 years, covering modules, power supplies and receiving cards — with spare modules stocked locally in the UAE so repairs happen in days, not import cycles. Brightluxx includes local spares with every installation."
+      },
+      {
+        "q": "Should I buy directly from China instead of a Dubai supplier?",
+        "a": "Factory-direct import can look 15–25% cheaper on paper but leaves you without installation, DEWA/municipality compliance, calibration, warranty logistics and after-sales support. Most importers end up paying more fixing issues than a Dubai supplier would have charged end-to-end."
+      },
+      {
+        "q": "How fast can a Dubai LED supplier deliver and install?",
+        "a": "Stocked indoor panels can be installed within 1–2 weeks; custom pitch, outdoor or curved builds typically take 3–6 weeks including production and QC. Beware suppliers promising complex builds in days — panels without proper factory calibration show visible batch differences."
+      },
+      {
+        "q": "Does Brightluxx have a showroom I can visit before buying?",
+        "a": "Yes — our showroom and warehouse in Jebel Ali Industrial Area 1 runs live COB, MiP and SMD demo walls so you can compare image quality at your real viewing distance. Book a visit via the contact page; bring your own content on USB to see it on screen."
+      }
+    ]
   }
 }

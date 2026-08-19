@@ -1,0 +1,39 @@
+{
+  "summary": "Tested iteration 127 additions: /tools hub (6 cards), 2 new calculators, /mission-critical-displays, 3 new blog posts, location FAQ accordion on /led-screen-suppliers-dubai, and link strips on /calculator + /led-calculator. Backend: GET /api/blogs returns exactly 18 blogs including the 3 new slugs; detail endpoints return full HTML content, no _id leaks; FAQPage schema present in served HTML (exactly 1, no duplicate). Frontend: all calculators compute correct values reactively (6/8 -> 4.0m x 2.3m, distance 3 -> 2.0m + P1.2-P1.8; 4 x 2.25 @P2.5 -> 1600 x 900 px / 1,440,000 px), mission-critical page has h1, 4 capability cards, sector list, 4 FAQ cards, working mc-adnoc-link and mc-cta, blog posts render full article with no raw HTML and working in-content links (/calculator navigated OK), all 3 posts appear in /blog listing, location FAQ has 5 questions and question-1 expands its answer, link-tools-hub present on both calculator pages and navigates to /tools. Backend pytest 15/16 passed; single failure is a real defect: /led-calculator hard-404s on direct URL load.",
+  "backend_issues": {
+    "critical": [
+      {"endpoint": "GET /led-calculator (static prerender-server)", "issue": "Direct HTTP load of /led-calculator returns HTTP 404 page. Route exists in App.js (line 330) but is missing from KNOWN_ROUTES in /app/frontend/prerender-server.js AND is not in the prerender route list in postbuild-prerender.js (no build/led-calculator/index.html). It works only via client-side navigation (tool-card-3 from /tools works). SEO + direct/shared links broken for a tool page promoted in this iteration.", "priority": "HIGH"}
+    ],
+    "minor": [
+      {"endpoint": "GET /configurator, /showroom, /compare, /lumimorph-elite", "issue": "Same root cause as above: valid React routes returning HTTP 404 from the static server (not prerendered and absent from KNOWN_ROUTES). Pre-existing, but should be added along with /led-calculator. (/tools, /tools/*, /mission-critical-displays only pass because build artifacts exist — /tools and /mission-critical-displays are also absent from KNOWN_ROUTES, so they will 404 if a future build misses them.)"}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "/led-screen-suppliers-dubai", "issues": ["Two FAQ blocks now stack on the page: the existing plain 'LED Display FAQs' card list and the new 'LED Display FAQs — Choosing a Dubai Supplier' accordion. Near-duplicate headings/topics (warranty appears in both) — consider merging or renaming to avoid redundant content."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration127_tools_blogs.py",
+    "/app/test_reports/pytest/iteration127.xml",
+    "/app/tests/check_routes.py"
+  ],
+  "action_items": [
+    "Add '/led-calculator' (and /configurator, /showroom, /compare, /lumimorph-elite, /tools, /tools/led-wall-size-calculator, /tools/video-wall-resolution-calculator, /mission-critical-displays) to KNOWN_ROUTES in /app/frontend/prerender-server.js and to the hardcoded prerender route list in postbuild-prerender.js, then rebuild so direct loads return 200.",
+    "Optional: dedupe/merge the two FAQ sections on /led-screen-suppliers-dubai.",
+    "Fix lint: unescaped apostrophe in WallSizeCalculator.js line 32 (we'll) and unused useState import in LedToolsHub.js line 1."
+  ],
+  "critical_code_review_comments": [
+    "Route registration is duplicated in 3 places (App.js routes, prerender-server KNOWN_ROUTES, postbuild-prerender route list) and already drifted — derive KNOWN_ROUTES from a single shared route manifest to prevent future hard 404s on valid pages.",
+    "prerender-server DYNAMIC_PATTERNS covers /tools/* so tool sub-pages are safe, but top-level pages added without KNOWN_ROUTES entries are silently 404-able."
+  ],
+  "updated_files": ["/app/backend/tests/test_iteration127_tools_blogs.py", "/app/tests/check_routes.py"],
+  "success_rate": {"backend": "94% (15/16)", "frontend": "100% of tested flows"},
+  "seed_data_creation": "None — read-only public page/API testing",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Run `python3 /app/tests/check_routes.py` to list App.js routes that are neither prerendered nor in prerender-server KNOWN_ROUTES (these hard-404 on direct load). Backend regression suite for this iteration: /app/backend/tests/test_iteration127_tools_blogs.py. Note /api/blogs/{slug} returns {'blog': {...}} wrapper. Console error 'SEO page-meta fetch failed: TypeError: Failed to fetch' appears on blog pages (emergent-main.js fetch wrapper) — non-blocking, pre-existing.",
+  "rca_of_the_issue": "prerender-server.js serves prerendered directories directly and otherwise 404s anything not matching KNOWN_ROUTES/DYNAMIC_PATTERNS. /led-calculator was never added to either list nor to the prerender route array, so no build/led-calculator/index.html exists and the server returns the 404 page for direct requests, while client-side React Router navigation still renders the page correctly."
+}

@@ -455,7 +455,7 @@ async function run() {
         if (blog) {
           if (!headings || !headings.length) contentParts.unshift(`<h1>${esc(blog.title || slug)}</h1>`);
           if (blog.excerpt) contentParts.push(`<p>${esc(blog.excerpt)}</p>`);
-          if (blog.content) contentParts.push(`<div>${String(blog.content).slice(0, 1000)}</div>`);
+          if (blog.content) contentParts.push(`<div>${String(blog.content).slice(0, 6000)}</div>`);
           if (blog.faq && blog.faq.length) {
             contentParts.push("<h2>FAQ</h2>" + blog.faq.slice(0, 4).map(f => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join(""));
           }

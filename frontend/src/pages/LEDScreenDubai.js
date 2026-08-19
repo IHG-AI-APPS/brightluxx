@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { LocationFAQ } from '../components/LocationExtras';
+import LOCATION_CONTENT from '../data/locationContent.json';
 import { 
   ArrowRight, CheckCircle2, MapPin, Phone, MessageCircle, 
   Building2, Star, Shield, Award, Clock, Truck, Wrench,
@@ -462,10 +464,6 @@ export default function LEDScreenDubai() {
                 a: "Yes, we provide complete turnkey installation services across Dubai and the UAE. Our local team handles site surveys, installation, and configuration."
               },
               {
-                q: "What warranty do you offer on LED displays?",
-                a: "All our LED displays come with a 3-year warranty covering parts and labor. Extended warranty options are available for corporate clients."
-              },
-              {
                 q: "Can you supply LED screens for government projects?",
                 a: "Yes, Brightluxx is an ISO 9001 certified supplier approved for government and semi-government projects in the UAE."
               }
@@ -478,6 +476,8 @@ export default function LEDScreenDubai() {
           </div>
         </div>
       </section>
+
+      <LocationFAQ data={LOCATION_CONTENT["/led-screen-suppliers-dubai"]} accent="cyan" />
     </div>
   );
 }

@@ -105,6 +105,10 @@ const DeaPageDetail = lazy(() => import('./pages/DeaPageDetail'));
 
 // Tools - Lazy loaded
 const ViewingDistanceCalculator = lazy(() => import('./pages/ViewingDistanceCalculator'));
+const LedToolsHub = lazy(() => import('./pages/tools/LedToolsHub'));
+const WallSizeCalculator = lazy(() => import('./pages/tools/WallSizeCalculator'));
+const ResolutionCalculator = lazy(() => import('./pages/tools/ResolutionCalculator'));
+const MissionCriticalDisplays = lazy(() => import('./pages/MissionCriticalDisplays'));
 const PowerConsumptionEstimator = lazy(() => import('./pages/PowerConsumptionEstimator'));
 const InstallationGuide = lazy(() => import('./pages/InstallationGuide'));
 const ProjectPlanner = lazy(() => import('./pages/ProjectPlanner'));
@@ -303,6 +307,10 @@ function AppRoutes() {
       <Route path="/lp/specifier-toolkit" element={<SpecifierToolkitLP />} />
       <Route path="/technology-selector" element={<PublicLayout><TechnologySelector /></PublicLayout>} />
       <Route path="/viewing-distance" element={<PublicLayout><ViewingDistanceCalculator /></PublicLayout>} />
+      <Route path="/tools" element={<PublicLayout><LedToolsHub /></PublicLayout>} />
+      <Route path="/tools/led-wall-size-calculator" element={<PublicLayout><WallSizeCalculator /></PublicLayout>} />
+      <Route path="/tools/video-wall-resolution-calculator" element={<PublicLayout><ResolutionCalculator /></PublicLayout>} />
+      <Route path="/mission-critical-displays" element={<PublicLayout><MissionCriticalDisplays /></PublicLayout>} />
       <Route path="/power-estimator" element={<PublicLayout><PowerConsumptionEstimator /></PublicLayout>} />
       <Route path="/installation-guide" element={<PublicLayout><InstallationGuide /></PublicLayout>} />
       <Route path="/project-planner" element={<PublicLayout><ProjectPlanner /></PublicLayout>} />

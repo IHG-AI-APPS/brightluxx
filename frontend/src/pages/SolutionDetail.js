@@ -490,6 +490,24 @@ export default function SolutionDetail() {
             </div>
           </FadeInSection>
         </section>
+
+        {Array.isArray(solution.faqs) && solution.faqs.length > 0 && (
+          <section className="py-14" data-testid="solution-faq-section">
+            <FadeInSection>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white text-center mb-8">
+                {solution.title} LED — FAQs
+              </h2>
+              <div className="max-w-3xl mx-auto space-y-4">
+                {solution.faqs.map((f, i) => (
+                  <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-5" data-testid={`solution-faq-${i}`}>
+                    <h3 className="text-sm font-semibold text-white mb-2">{f.q}</h3>
+                    <p className="text-sm leading-relaxed text-neutral-400">{f.a}</p>
+                  </div>
+                ))}
+              </div>
+            </FadeInSection>
+          </section>
+        )}
       </div>
 
       <QuickInquiry context={`${solution.title} LED solutions`} />

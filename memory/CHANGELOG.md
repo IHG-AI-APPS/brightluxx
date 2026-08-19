@@ -138,3 +138,12 @@ Deferred deliberately: array-index keys bulk rewrite (previously broke 14 pages 
 - "More free LED tools" link strips added to /calculator and /led-calculator.
 - BUG FIXED (testing agent): /led-calculator, /configurator, /showroom, /compare, /lumimorph-elite 404'd on direct load (never prerendered). Fixed by adding page_seo docs — page_seo paths auto-register in prerender routes + sitemap. LESSON: every new React route needs a page_seo doc or it 404s in production static serving.
 - Testing: iteration_127 passed (calculator math, blogs, FAQs, links); follow-up fixes verified via curl (all 200). 334 pages. NEEDS DEPLOY.
+
+## Rich Results / Schema Expansion — Aug 19, 2026
+- Organization + LocalBusiness schema now SITEWIDE (Jebel Ali address, +971559954274, geo, hours, priceRange, GCC areaServed) — added in BOTH schema paths: backend routes/ssr_meta.py (_global_business_schemas) AND postbuild buildMetaFromSeed. Removed old duplicate minimal org block from injectMeta.
+- KEY ARCHITECTURE FACT: postbuild-prerender prefers live backend /api/ssr/meta when backend is up (admin rebuild path), falls back to buildMetaFromSeed offline (PRODUCTION pipeline path — no backend during platform build). Both paths must be kept in sync. Backend also caches meta in-memory (_meta_cache TTL) — restart backend after page_seo DB edits before rebuilding.
+- Solutions: added 3 unique visible FAQs to all 11 solutions (DB field `faqs` — plural, matches solutions_api model; NOT `faq`), rendered in SolutionDetail.js + injected into prerendered body + FAQPage & Service schema in both schema paths.
+- Products already had Product schema with price offers + FAQPage (all 94, price_range low/high USD). Blogs already had Article+FAQPage.
+- Meta rewrites (page_seo) for zero-click pages: /abu-dhabi (ADNOC-Trusted), /oman (from OMR 180/m²), /bahrain (5–10 day delivery), /kuwait (55°C-rated), /pixelvue (Official Range & Prices), /technology/3d-anamorphic-led (3D Billboard Cost & Examples). Fixed empty /pixelvue canonical.
+- AggregateRating/Review NOT implemented — awaiting real customer reviews from user (no fabrication).
+- Verified in build: home [WebPage,Org,LocalBusiness], solution [Service,FAQPage,Breadcrumb,Org,LB], product [Product,FAQPage,Breadcrumb,Org,LB], blog [Article,FAQPage,...]. 334 pages. NEEDS DEPLOY.

@@ -146,6 +146,36 @@ def _org_schema():
     }
 
 
+def _global_business_schemas():
+    """Sitewide Organization + LocalBusiness JSON-LD (footer NAP appears on every page)."""
+    address = {"@type": "PostalAddress", "streetAddress": "Jebel Ali Industrial Area 1",
+               "addressLocality": "Dubai", "addressCountry": "AE"}
+    return [
+        json.dumps({
+            "@context": "https://schema.org", "@type": "Organization",
+            "@id": f"{PRODUCTION_URL}/#organization",
+            "name": "Brightluxx", "legalName": "Brightluxx LED Displays",
+            "url": PRODUCTION_URL, "logo": f"{PRODUCTION_URL}/android-chrome-512x512.png",
+            "telephone": "+971559954274", "address": address,
+            "contactPoint": {"@type": "ContactPoint", "telephone": "+971559954274",
+                             "contactType": "sales", "areaServed": ["AE", "SA", "QA", "KW", "BH", "OM"],
+                             "availableLanguage": ["en", "ar"]},
+        }),
+        json.dumps({
+            "@context": "https://schema.org", "@type": "LocalBusiness",
+            "@id": f"{PRODUCTION_URL}/#localbusiness",
+            "name": "Brightluxx LED Displays", "image": f"{PRODUCTION_URL}/android-chrome-512x512.png",
+            "url": PRODUCTION_URL, "telephone": "+971559954274",
+            "priceRange": "AED 2,500 - AED 12,000 per m²", "address": address,
+            "geo": {"@type": "GeoCoordinates", "latitude": 24.9857, "longitude": 55.0272},
+            "openingHoursSpecification": {"@type": "OpeningHoursSpecification",
+                                          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                                          "opens": "09:00", "closes": "18:00"},
+            "areaServed": ["Dubai", "Abu Dhabi", "United Arab Emirates", "Saudi Arabia", "Qatar", "Kuwait", "Bahrain", "Oman"],
+        }),
+    ]
+
+
 def _breadcrumb_schema(items):
     """Build BreadcrumbList schema.  items = [(name, url), ...]"""
     return {
@@ -393,7 +423,21 @@ async def _build_schemas(path: str, meta: dict) -> list:
 
     # --- Solutions sub-pages ---
     elif path.startswith("/solutions/") and path != "/solutions":
-        schemas.append(json.dumps(_webpage_schema(title=title, description=desc, url=url)))
+        sol = await db["solutions"].find_one({"slug": path.split("/")[-1]})
+        schemas.append(json.dumps({
+            "@context": "https://schema.org", "@type": "Service",
+            "name": (sol or {}).get("title") or title,
+            "description": (sol or {}).get("description") or desc,
+            "url": url, "provider": _org_schema(),
+            "areaServed": ["United Arab Emirates", "Saudi Arabia", "Qatar", "Kuwait", "Bahrain", "Oman"],
+        }))
+        if sol and isinstance(sol.get("faqs"), list) and sol["faqs"]:
+            schemas.append(json.dumps({
+                "@context": "https://schema.org", "@type": "FAQPage",
+                "mainEntity": [{"@type": "Question", "name": f.get("q", ""),
+                                "acceptedAnswer": {"@type": "Answer", "text": f.get("a", "")}}
+                               for f in sol["faqs"]],
+            }))
         schemas.append(json.dumps(_breadcrumb_schema([
             ("Home", PRODUCTION_URL),
             ("Solutions", f"{PRODUCTION_URL}/solutions"),
@@ -407,6 +451,7 @@ async def _build_schemas(path: str, meta: dict) -> list:
             crumbs = [("Home", PRODUCTION_URL), (title, url)]
             schemas.append(json.dumps(_breadcrumb_schema(crumbs)))
 
+    schemas.extend(_global_business_schemas())
     return schemas
 
 

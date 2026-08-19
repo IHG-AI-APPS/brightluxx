@@ -212,6 +212,20 @@ function buildMetaFromSeed(route, seoIndex, productsIndex, blogsIndex, caseStudi
       author: { "@type": "Organization", name: SITE_NAME },
       publisher: { "@type": "Organization", name: SITE_NAME },
     }));
+  } else if (route.startsWith("/solutions/") && solutionsIndex[route.split("/").pop()]) {
+    const sol = solutionsIndex[route.split("/").pop()];
+    schemas.push(JSON.stringify({
+      "@context": "https://schema.org", "@type": "Service",
+      name: sol.title || rawTitle, description: sol.description || description,
+      url: canonical, provider: { "@type": "Organization", name: SITE_NAME },
+      areaServed: ["United Arab Emirates", "Saudi Arabia", "Qatar", "Kuwait", "Bahrain", "Oman"],
+    }));
+    if (Array.isArray(sol.faqs) && sol.faqs.length) {
+      schemas.push(JSON.stringify({
+        "@context": "https://schema.org", "@type": "FAQPage",
+        mainEntity: sol.faqs.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+      }));
+    }
   } else {
     schemas.push(JSON.stringify({
       "@context": "https://schema.org", "@type": "WebPage",
@@ -219,6 +233,27 @@ function buildMetaFromSeed(route, seoIndex, productsIndex, blogsIndex, caseStudi
       publisher: { "@type": "Organization", name: SITE_NAME },
     }));
   }
+
+  // Organization + LocalBusiness schema — sitewide (footer NAP appears on every page)
+  schemas.push(JSON.stringify({
+    "@context": "https://schema.org", "@type": "Organization",
+    "@id": `${PROD_URL}/#organization`,
+    name: "Brightluxx", legalName: "Brightluxx LED Displays",
+    url: PROD_URL, logo: `${PROD_URL}/android-chrome-512x512.png`,
+    telephone: "+971559954274",
+    address: { "@type": "PostalAddress", streetAddress: "Jebel Ali Industrial Area 1", addressLocality: "Dubai", addressCountry: "AE" },
+    contactPoint: { "@type": "ContactPoint", telephone: "+971559954274", contactType: "sales", areaServed: ["AE", "SA", "QA", "KW", "BH", "OM"], availableLanguage: ["en", "ar"] },
+  }));
+  schemas.push(JSON.stringify({
+    "@context": "https://schema.org", "@type": "LocalBusiness",
+    "@id": `${PROD_URL}/#localbusiness`,
+    name: "Brightluxx LED Displays", image: `${PROD_URL}/android-chrome-512x512.png`,
+    url: PROD_URL, telephone: "+971559954274", priceRange: "AED 2,500 - AED 12,000 per m²",
+    address: { "@type": "PostalAddress", streetAddress: "Jebel Ali Industrial Area 1", addressLocality: "Dubai", addressCountry: "AE" },
+    geo: { "@type": "GeoCoordinates", latitude: 24.9857, longitude: 55.0272 },
+    openingHoursSpecification: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], opens: "09:00", closes: "18:00" },
+    areaServed: ["Dubai", "Abu Dhabi", "United Arab Emirates", "Saudi Arabia", "Qatar", "Kuwait", "Bahrain", "Oman"],
+  }));
 
   // BreadcrumbList for non-homepage
   if (route !== "/") {
@@ -271,15 +306,6 @@ function injectMeta(html, meta) {
     const scripts = meta.schemas.map(s => `<script type="application/ld+json">${s}</script>`).join("\n");
     html = html.replace("</head>", `${scripts}\n</head>`);
   }
-  // Organization schema (always)
-  const orgSchema = JSON.stringify({
-    "@context": "https://schema.org", "@type": ["Organization", "LocalBusiness"],
-    name: "Brightluxx", url: PROD_URL,
-    logo: "https://files.ihgbrands.com/assets/brightluxx-logo-nav.png",
-    description: "Premium LED display manufacturer and solutions provider in Dubai, UAE.",
-    address: { "@type": "PostalAddress", streetAddress: "Jebel Ali Industrial Area 1", addressLocality: "Dubai", addressCountry: "AE" },
-  });
-  html = html.replace("</head>", `<script type="application/ld+json">${orgSchema}</script>\n</head>`);
   return html;
 }
 
@@ -305,13 +331,14 @@ async function run() {
   }
 
   // Load seed data for offline metadata generation
-  let seoIndex = {}, productsIndex = {}, blogsIndex = {}, caseStudiesIndex = {};
+  let seoIndex = {}, productsIndex = {}, blogsIndex = {}, caseStudiesIndex = {}, solutionsIndex = {};
   if (fs.existsSync(SEED_FILE)) {
     console.log("Loading metadata from seed_data_full.json (offline mode)...");
     const seed = JSON.parse(fs.readFileSync(SEED_FILE, "utf8"));
     (seed.page_seo || []).forEach(d => { seoIndex[d.path] = d; });
     (seed.products || []).forEach(d => { if (d.slug) productsIndex[d.slug] = d; });
     (seed.blogs || []).forEach(d => { if (d.slug) blogsIndex[d.slug] = d; });
+    (seed.solutions || []).forEach(d => { if (d.slug) solutionsIndex[d.slug] = d; });
     (seed.case_studies || []).forEach(d => { if (d.slug) caseStudiesIndex[d.slug] = d; });
     console.log(`  Loaded: ${Object.keys(seoIndex).length} SEO, ${Object.keys(productsIndex).length} products, ${Object.keys(blogsIndex).length} blogs, ${Object.keys(caseStudiesIndex).length} case studies`);
   }
@@ -485,6 +512,12 @@ async function run() {
           `<a href="/case-studies/${esc(slug)}">${esc(cs.title || slug)}</a>`
         ).join(" · ");
         if (csLinks) contentParts.push(`<nav aria-label="Case studies">${csLinks}</nav>`);
+      } else if (route.startsWith("/solutions/") && solutionsIndex[route.split("/").pop()]) {
+        const sol = solutionsIndex[route.split("/").pop()];
+        if (Array.isArray(sol.faqs) && sol.faqs.length) {
+          contentParts.push(`<h2>${esc(sol.title || "")} LED — FAQs</h2>` +
+            sol.faqs.map(f => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join(""));
+        }
       } else if (locationContent[route]) {
         const loc = locationContent[route];
         if (loc.intro && loc.intro.length) {

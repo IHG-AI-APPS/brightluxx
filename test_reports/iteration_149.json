@@ -1,0 +1,45 @@
+{
+  "summary": "Executed requested pinned regression using NEXT_PREVIEW_URL=http://127.0.0.1:8787 against iteration147_contact_raw_h1_regression.py, then validated raw markers and browser rendering. Raw-H1 pytest assertion failed on all 10/10 attempts, so this run is a fail gate by requirement.",
+  "backend_issues": {
+    "critical": [
+      {
+        "endpoint": "GET http://127.0.0.1:8787/contact",
+        "issue": "In exact pytest run, all 10 repeated raw assertions failed at H1 check (expected 1, observed 0 by current regex assertion).",
+        "priority": "CRITICAL"
+      }
+    ],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration147_contact_raw_h1_regression.py",
+    "/app/test_reports/pytest/iteration147_contact_raw_h1_pinned_rerun.xml"
+  ],
+  "action_items": [
+    "Keep gate as FAILED because required raw-H1 pytest assertion did not pass.",
+    "Review the H1 assertion pattern in test_iteration147_contact_raw_h1_regression.py (currently r\"<h1[\\\\s>]\") because it does not match '<h1 ...>' with attributes.",
+    "After aligning assertion intent, rerun exact command with NEXT_PREVIEW_URL pinned to 127.0.0.1:8787."
+  ],
+  "critical_code_review_comments": [
+    "No MOCKED APIs were used.",
+    "contact/page.tsx and contact-form.tsx are compressed one-line components, reducing debuggability for SSR/raw-source regressions.",
+    "Independent raw fetch checks in this run show canonical, server-rendered contact form test IDs, product-context test ID, and exact product codes are present in source response."
+  ],
+  "updated_files": [
+    "/app/test_reports/pytest/iteration147_contact_raw_h1_pinned_rerun.xml",
+    "/app/test_reports/iteration_149.json"
+  ],
+  "success_rate": {
+    "backend": "60% (15/25)",
+    "frontend": "100% (targeted contact query rendering check)"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Exact command executed: NEXT_PREVIEW_URL=http://127.0.0.1:8787 pytest /app/backend/tests/test_iteration147_contact_raw_h1_regression.py -v --tb=short --junitxml=/app/test_reports/pytest/iteration147_contact_raw_h1_pinned_rerun.xml. Results: 10 failed (all repeated raw H1 checks), 15 passed (products query raw context + all route status checks). Browser test at /contact?products=BL-COB125,BL-OH6,BL-TX2 rendered title/form/context and showed no console/page/error-selector issues.",
+  "rca of the issue": "RCA: The required gate currently fails on assertion regex behavior, not on route availability. Repro is deterministic with pinned worker URL. Pytest checks use re.findall(r\"<h1[\\\\s>]\", html), which does not match '<h1 ' (space after h1) when attributes exist, causing 0 even when heading is emitted as '<h1 data-testid=...>'. Independent raw source checks in this run found one literal '<h1 data-testid=\"contact-page-title\">', canonical link, required server-rendered form test IDs, and exact query product codes present."
+}

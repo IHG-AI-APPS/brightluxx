@@ -1,7 +1,7 @@
 """Analytics tracking and reporting endpoints."""
 from fastapi import APIRouter, Request, Depends
 from datetime import datetime, timezone, timedelta
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
 
 from database import analytics_col, perf_col, leads_col, products_col, projects_col, inspirations_col
@@ -18,6 +18,14 @@ class TrackEvent(BaseModel):
     category: str = ""
     session_id: str = ""
     screen_width: int = 0
+    product_code: str = ""
+    product_name: str = ""
+    application: str = ""
+    search_term: str = ""
+    filters: str = ""
+    finder_result: str = ""
+    comparison_codes: List[str] = []
+    form_type: str = ""
 
 
 @router.post("/api/track")
@@ -34,6 +42,14 @@ async def track_event(data: TrackEvent, request: Request):
         "category": data.category,
         "session_id": data.session_id,
         "screen_width": data.screen_width,
+        "product_code": data.product_code,
+        "product_name": data.product_name,
+        "application": data.application,
+        "search_term": data.search_term,
+        "filters": data.filters,
+        "finder_result": data.finder_result,
+        "comparison_codes": data.comparison_codes,
+        "form_type": data.form_type,
         "ip_hash": str(hash(ip))[-8:],
         "ua_short": ua[:100],
         "ts": datetime.now(timezone.utc),

@@ -1,0 +1,37 @@
+{
+  "summary": "Executed pinned local regression suite for /contact raw-H1 gate with corrected matcher and ran targeted browser verification at http://127.0.0.1:8787. All required checks passed.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration147_contact_raw_h1_regression.py",
+    "/app/test_reports/pytest/iteration150_contact_raw_h1_pinned.xml"
+  ],
+  "action_items": [
+    "No app-code fix required for this gate in the tested local OpenNext worker.",
+    "Keep remote Cloudflare verification explicitly out of scope for this run."
+  ],
+  "critical_code_review_comments": [
+    "No CRITICAL code issues found in scoped acceptance gate files.",
+    "No MOCKED APIs were used."
+  ],
+  "updated_files": [
+    "/app/test_reports/pytest/iteration150_contact_raw_h1_pinned.xml",
+    "/app/test_reports/iteration_150.json"
+  ],
+  "success_rate": {
+    "backend": "100% (25/25)",
+    "frontend": "100% (targeted /contact integration and console/hydration checks)"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Pinned command used: NEXT_PREVIEW_URL=http://127.0.0.1:8787 pytest /app/backend/tests/test_iteration147_contact_raw_h1_regression.py -v --tb=short --junitxml=/app/test_reports/pytest/iteration150_contact_raw_h1_pinned.xml. Result: 25 passed. Browser check on /contact?products=BL-COB125,BL-OH6,BL-TX2 confirmed title/form/context/canonical and no console/page/hydration errors.",
+  "rca of the issue": "Prior apparent failure was caused by regex mismatch, not missing semantic heading. Old pattern r\"<h1[\\\\s>]\" failed to match whitespace-before-attributes as intended in this gate. Corrected matcher r\"<h1(?:\\s|>)\" now correctly detects literal '<h1 ...>' and resolved the false-negative H1 failures in this local pinned run."
+}

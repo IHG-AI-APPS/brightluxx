@@ -10,6 +10,7 @@ import './styles.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://brightluxx.com'),
   title: { default: 'Brightluxx — Premium LED Display Solutions', template: '%s' },
+  ...(process.env.NEXT_PUBLIC_STAGING === '1' ? { robots: { index: false, follow: false, nocache: true } } : {}),
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

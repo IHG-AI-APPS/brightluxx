@@ -23,6 +23,10 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [{ source: '/api/:path*', destination: `${process.env.API_ORIGIN}/api/:path*` }];
   },
+  async headers() {
+    if (process.env.NEXT_PUBLIC_STAGING !== '1') return [];
+    return [{ source: '/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' }] }];
+  },
 };
 
 export default nextConfig;

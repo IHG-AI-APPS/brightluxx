@@ -3895,7 +3895,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/node_modules/next/dist/server/load-manifest.external.js": {
-      "bytes": 245466,
+      "bytes": 245699,
       "imports": [
         {
           "path": "path",
@@ -4515,7 +4515,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/ssr/_1azcgy7._.js": {
-      "bytes": 6670,
+      "bytes": 6714,
       "imports": [],
       "format": "cjs"
     },
@@ -4957,7 +4957,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/[root-of-the-server]__0ee_7gw._.js": {
-      "bytes": 8529,
+      "bytes": 8395,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/compiled/@opentelemetry/api/index.js",
@@ -8519,7 +8519,7 @@
           "bytesInOutput": 464
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/load-manifest.external.js": {
-          "bytesInOutput": 163752
+          "bytesInOutput": 163889
         },
         ".open-next/cloudflare-templates/shims/throw.js": {
           "bytesInOutput": 215
@@ -8603,7 +8603,7 @@
           "bytesInOutput": 3007
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/_1azcgy7._.js": {
-          "bytesInOutput": 6835
+          "bytesInOutput": 6874
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/_next-internal_server_app__not-found_page_actions_0pt47yr.js": {
           "bytesInOutput": 270
@@ -8717,7 +8717,7 @@
           "bytesInOutput": 12989
         },
         ".open-next/server-functions/default/.next/server/chunks/[root-of-the-server]__0ee_7gw._.js": {
-          "bytesInOutput": 8508
+          "bytesInOutput": 8374
         },
         ".open-next/server-functions/default/.next/server/chunks/_next-internal_server_app_robots_txt_route_actions_15vc_89.js": {
           "bytesInOutput": 269
@@ -8930,7 +8930,7 @@
           "bytesInOutput": 176935
         }
       },
-      "bytes": 9589679
+      "bytes": 9589804
     }
   }
 }

@@ -1,0 +1,165 @@
+{
+  "stage": "C",
+  "status": "FAIL",
+  "rule": "Visual parity PASS only when every viewport is classified P2 (no P0/P1).",
+  "blocked_reason": "",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 800
+      },
+      "classification": "P1",
+      "metrics": {
+        "overall_diff_percent": 9.3,
+        "header_navigation_diff_percent": 4.44,
+        "hero_media_typography_diff_percent": 12.08,
+        "cta_placement_diff_percent": 7.18,
+        "fixed_controls_diff_percent": 6.9,
+        "mobile_layout_diff_percent": 0.0
+      },
+      "findings": {
+        "header_navigation": "Header/nav: near-match.",
+        "hero_media_typography": "Hero media/typography: major hero composition divergence.",
+        "cta_placement": "CTA placement: CTA spacing/positioning differs.",
+        "fixed_controls": "Fixed controls: floating controls differ.",
+        "mobile_layout": "Mobile layout: not applicable for desktop/tablet widths."
+      },
+      "evidence": {
+        "cra": "/app/migration-baseline/screenshots/stage-c-cra-1440.png",
+        "next": "/app/migration-baseline/screenshots/stage-c-next-1440.png"
+      }
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800
+      },
+      "classification": "P0",
+      "metrics": {
+        "overall_diff_percent": 24.6,
+        "header_navigation_diff_percent": 13.92,
+        "hero_media_typography_diff_percent": 30.81,
+        "cta_placement_diff_percent": 19.65,
+        "fixed_controls_diff_percent": 17.1,
+        "mobile_layout_diff_percent": 0.0
+      },
+      "findings": {
+        "header_navigation": "Header/nav: major structural mismatch (menu/actions differ).",
+        "hero_media_typography": "Hero media/typography: major hero composition divergence.",
+        "cta_placement": "CTA placement: CTA location/state materially differs.",
+        "fixed_controls": "Fixed controls: fixed utility controls are structurally different.",
+        "mobile_layout": "Mobile layout: not applicable for desktop/tablet widths."
+      },
+      "evidence": {
+        "cra": "/app/migration-baseline/screenshots/stage-c-cra-1024.png",
+        "next": "/app/migration-baseline/screenshots/stage-c-next-1024.png"
+      }
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 800
+      },
+      "classification": "P0",
+      "metrics": {
+        "overall_diff_percent": 23.05,
+        "header_navigation_diff_percent": 14.05,
+        "hero_media_typography_diff_percent": 28.82,
+        "cta_placement_diff_percent": 19.13,
+        "fixed_controls_diff_percent": 15.6,
+        "mobile_layout_diff_percent": 0.0
+      },
+      "findings": {
+        "header_navigation": "Header/nav: major structural mismatch (menu/actions differ).",
+        "hero_media_typography": "Hero media/typography: major hero composition divergence.",
+        "cta_placement": "CTA placement: CTA location/state materially differs.",
+        "fixed_controls": "Fixed controls: fixed utility controls are structurally different.",
+        "mobile_layout": "Mobile layout: not applicable for desktop/tablet widths."
+      },
+      "evidence": {
+        "cra": "/app/migration-baseline/screenshots/stage-c-cra-768.png",
+        "next": "/app/migration-baseline/screenshots/stage-c-next-768.png"
+      }
+    },
+    {
+      "viewport": {
+        "width": 430,
+        "height": 800
+      },
+      "classification": "P0",
+      "metrics": {
+        "overall_diff_percent": 23.42,
+        "header_navigation_diff_percent": 16.16,
+        "hero_media_typography_diff_percent": 28.92,
+        "cta_placement_diff_percent": 19.25,
+        "fixed_controls_diff_percent": 16.09,
+        "mobile_layout_diff_percent": 10.4
+      },
+      "findings": {
+        "header_navigation": "Header/nav: major structural mismatch (menu/actions differ).",
+        "hero_media_typography": "Hero media/typography: major hero composition divergence.",
+        "cta_placement": "CTA placement: CTA location/state materially differs.",
+        "fixed_controls": "Fixed controls: fixed utility controls are structurally different.",
+        "mobile_layout": "Mobile layout: major mobile navigation/layout mismatch."
+      },
+      "evidence": {
+        "cra": "/app/migration-baseline/screenshots/stage-c-cra-430.png",
+        "next": "/app/migration-baseline/screenshots/stage-c-next-430.png"
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 800
+      },
+      "classification": "P0",
+      "metrics": {
+        "overall_diff_percent": 24.62,
+        "header_navigation_diff_percent": 16.67,
+        "hero_media_typography_diff_percent": 30.49,
+        "cta_placement_diff_percent": 20.22,
+        "fixed_controls_diff_percent": 17.18,
+        "mobile_layout_diff_percent": 10.85
+      },
+      "findings": {
+        "header_navigation": "Header/nav: major structural mismatch (menu/actions differ).",
+        "hero_media_typography": "Hero media/typography: major hero composition divergence.",
+        "cta_placement": "CTA placement: CTA location/state materially differs.",
+        "fixed_controls": "Fixed controls: fixed utility controls are structurally different.",
+        "mobile_layout": "Mobile layout: major mobile navigation/layout mismatch."
+      },
+      "evidence": {
+        "cra": "/app/migration-baseline/screenshots/stage-c-cra-390.png",
+        "next": "/app/migration-baseline/screenshots/stage-c-next-390.png"
+      }
+    },
+    {
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "classification": "P0",
+      "metrics": {
+        "overall_diff_percent": 25.05,
+        "header_navigation_diff_percent": 17.13,
+        "hero_media_typography_diff_percent": 30.93,
+        "cta_placement_diff_percent": 20.98,
+        "fixed_controls_diff_percent": 19.21,
+        "mobile_layout_diff_percent": 11.23
+      },
+      "findings": {
+        "header_navigation": "Header/nav: major structural mismatch (menu/actions differ).",
+        "hero_media_typography": "Hero media/typography: major hero composition divergence.",
+        "cta_placement": "CTA placement: CTA location/state materially differs.",
+        "fixed_controls": "Fixed controls: fixed utility controls are structurally different.",
+        "mobile_layout": "Mobile layout: major mobile navigation/layout mismatch."
+      },
+      "evidence": {
+        "cra": "/app/migration-baseline/screenshots/stage-c-cra-360.png",
+        "next": "/app/migration-baseline/screenshots/stage-c-next-360.png"
+      }
+    }
+  ],
+  "blocked_viewports": []
+}

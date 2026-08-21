@@ -1,0 +1,81 @@
+{
+  "summary": "Completed Stage C follow-up visual acceptance run: captured and persisted all required CRA and Next homepage screenshots at six viewports, generated viewport-by-viewport parity classification report, and determined Stage C visual parity is FAIL (not PASS).",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Homepage parity (1024/768/430/390/360)",
+        "issue": "Major visual mismatch versus CRA baseline across hero composition, CTA placement/state, and fixed controls.",
+        "selector": "main.homepage, .home-hero, .floating-whatsapp, .floating-phone",
+        "priority": "CRITICAL"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Stage C CRA-vs-Next visual parity acceptance",
+        "issue": "Report classification includes P1/P0 differences (no all-P2 set), therefore Stage C visual parity cannot be marked PASS.",
+        "affected_selectors": [
+          "[data-testid='hero-section']",
+          "[data-testid='home-hero-primary-cta']",
+          "[data-testid='home-hero-secondary-cta']"
+        ]
+      }
+    ],
+    "design_issues": [
+      {
+        "screen": "Homepage visual parity matrix",
+        "issues": [
+          "Header/navigation control set differs from CRA baseline at most viewports.",
+          "Hero media crop and typography wrapping diverge materially at 1024 and below.",
+          "CTA placement/state differs (visibility and spacing mismatch).",
+          "Fixed utility controls differ strongly on mobile (CRA bottom nav vs Next floating controls).",
+          "Mobile layout mismatch persists at 430/390/360."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/migration-baseline/stage-c-visual-parity-report.json",
+    "/app/scripts/stage_c_visual_parity_report.py"
+  ],
+  "action_items": [
+    "Resolve P0/P1 visual deltas called out in /app/migration-baseline/stage-c-visual-parity-report.json for each viewport.",
+    "Align header/navigation control set and spacing with CRA baseline.",
+    "Match hero media crop, typography wrapping, and CTA state/placement to CRA baseline.",
+    "Reconcile mobile fixed controls and bottom-area layout behavior with baseline screenshots.",
+    "Re-run Stage C parity capture/classification after fixes; do not begin Stage D yet."
+  ],
+  "critical_code_review_comments": [
+    "Maintainability risk: /app/nextjs/app/page.tsx homepage markup is compressed into one long line, making parity-focused review and diffing error-prone.",
+    "Process gap: visual parity gating was previously missing persisted evidence checks; this run now produced concrete artifacts and a machine-readable report."
+  ],
+  "updated_files": [
+    "/app/migration-baseline/screenshots/stage-c-cra-1440.png",
+    "/app/migration-baseline/screenshots/stage-c-cra-1024.png",
+    "/app/migration-baseline/screenshots/stage-c-cra-768.png",
+    "/app/migration-baseline/screenshots/stage-c-cra-430.png",
+    "/app/migration-baseline/screenshots/stage-c-cra-390.png",
+    "/app/migration-baseline/screenshots/stage-c-cra-360.png",
+    "/app/migration-baseline/screenshots/stage-c-next-1440.png",
+    "/app/migration-baseline/screenshots/stage-c-next-1024.png",
+    "/app/migration-baseline/screenshots/stage-c-next-768.png",
+    "/app/migration-baseline/screenshots/stage-c-next-430.png",
+    "/app/migration-baseline/screenshots/stage-c-next-390.png",
+    "/app/migration-baseline/screenshots/stage-c-next-360.png",
+    "/app/migration-baseline/stage-c-visual-parity-report.json",
+    "/app/scripts/stage_c_visual_parity_report.py",
+    "/app/test_reports/iteration_137.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (frontend-only scope)",
+    "frontend": "50% (artifact capture complete; visual parity acceptance failed due P0/P1 deltas)"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "All 12 required PNG artifacts now exist in /app/migration-baseline/screenshots with exact naming pattern stage-c-{cra|next}-{1440,1024,768,430,390,360}.png. Classification report is at /app/migration-baseline/stage-c-visual-parity-report.json and currently status=FAIL (contains P1/P0).",
+  "rca of the issue": "Root cause of Stage C blocker from iteration 136 (missing artifacts) is resolved by persisting matched screenshot pairs. New blocker is true visual non-parity: reproducible differences in hero composition, CTA placement/state, and fixed/mobile controls between CRA and Next across most widths."
+}

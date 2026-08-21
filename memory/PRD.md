@@ -1,5 +1,11 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Next.js Migration — Stage C Acceptance Result: NOT READY
+- **Independent evidence captured** (iteration 137): matched CRA/Next screenshots now persist at all six required viewports and are classified in `/app/migration-baseline/stage-c-visual-parity-report.json`.
+- **Passes**: homepage interactions, raw server HTML, approved single H1, metadata/canonical/JSON-LD, final counters, crawlable homepage links, hydration audit, and OpenNext build/workerd smoke all pass; no mocked APIs.
+- **Blocking P0/P1 visual deltas**: 1440 is P1; 1024, 768, 430, 390, and 360 are P0. Findings cover hero composition/typography, CTA placement, fixed controls, and header/mobile structural differences. The parity dashboard records each visual gate as FAIL.
+- **Do not start Stage D**: visual P0/P1 fixes and real CRA-vs-Next performance measurements remain required before Stage C can be accepted. CRA and production remain untouched.
+
 ## LATEST: Next.js Migration — Stage C Foundation Verified, Stage D Not Started
 - **Migration parity dashboard** is available only at `/__migration-parity` in the isolated target. It is noindex, disallowed by robots, excluded from the sitemap, and independently retested in iteration 135 after a private-segment routing defect was fixed.
 - **Homepage foundation** now uses a server-rendered Phase 1 structure for hero copy, links, counters, discovery paths, generic-first product-family positioning, Why Brightluxx, and CTA content. `HomeCounters` is the only homepage client island; raw HTML test coverage confirms the approved H1, hero CTAs, JSON-LD, canonical, and non-zero counter values.

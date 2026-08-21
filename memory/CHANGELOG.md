@@ -1,5 +1,10 @@
 # Brightluxx Changelog
 
+## Current Session — Stage C Acceptance Evidence
+- Generated persistent matched CRA/Next screenshots across 1440, 1024, 768, 430, 390, and 360; iteration 137 completed independent functional, raw HTML, and hydration checks without mocked APIs.
+- Stage C correctly remains **NOT READY**: P1 drift at 1440 and P0 visual drift at 1024/768/430/390/360 affect header, hero, CTAs, fixed controls, and mobile layout. The internal dashboard now displays this evidence.
+- Stage D is blocked; no production or CRA changes were made.
+
 ## Current Session — Next.js Stage C Foundation
 - Added the staging-only `/__migration-parity` acceptance dashboard and secured it with noindex, robots exclusion, and sitemap exclusion; iteration 135 independently passed the route fix and boundary checks.
 - Replaced the homepage snapshot with server-rendered accepted Phase 1 content and a small `HomeCounters` client island. Raw HTML retained the approved H1, hero CTAs, canonical, JSON-LD, and final counter values.

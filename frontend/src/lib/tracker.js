@@ -29,6 +29,10 @@ function send(event, extra = {}) {
   }).catch(() => {});
 }
 
+export function trackEvent(event, extra = {}) {
+  send(event, extra);
+}
+
 export function trackPageView(page) {
   send('page_view', { page: page || window.location.pathname });
 }

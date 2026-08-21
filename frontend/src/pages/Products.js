@@ -1,7 +1,7 @@
 import { cdnUrl } from '../config/cdn';
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, Monitor, ChevronDown, Grid3X3, LayoutList, Zap, ArrowRight, X, Cpu, Eye } from 'lucide-react';
+import { Search, SlidersHorizontal, Monitor, ChevronDown, Grid3X3, LayoutList, Zap, ArrowRight, X, Cpu, Eye, GitCompareArrows, Sparkles } from 'lucide-react';
 import { getProducts } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { resolveImage, BASE_URL } from '../components/SEO';
@@ -9,6 +9,8 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import TiltCard from '../components/TiltCard';
+import { ProductFinder } from '../components/products/ProductFinder';
+import { trackEvent } from '../lib/tracker';
 
 // Hero background image
 const HERO_IMAGE = 'https://files.ihgbrands.com/site-images_opt_ext_00eecd7267f8.webp';
@@ -63,6 +65,14 @@ const CATEGORIES = [
   { value: 'art-immersive', label: 'Art & XR' },
 ];
 
+const DISCOVERY_PATHS = [
+  { key: 'product', title: 'Shop by Product', copy: 'Browse display types without needing technical terminology.', items: [{ label: 'Indoor LED', category: 'indoor' }, { label: 'Outdoor LED', category: 'outdoor' }, { label: 'COB / MicroLED', category: 'cob-microled' }, { label: 'Transparent LED', category: 'transparent' }, { label: 'Interactive Displays', category: 'interactive' }, { label: 'Creative LED', category: 'flexible' }] },
+  { key: 'application', title: 'Shop by Application', copy: 'Start with the space, audience and operating environment.', items: [{ label: 'Retail', to: '/solutions/retail' }, { label: 'Corporate', to: '/solutions/corporate' }, { label: 'Control Rooms', to: '/solutions/control-rooms' }, { label: 'Transportation', to: '/solutions/transportation' }, { label: 'Events & XR', to: '/solutions/entertainment' }, { label: 'Architecture', to: '/solutions/architecture' }] },
+  { key: 'technology', title: 'Shop by Technology', copy: 'For specification teams and technical buyers.', items: [{ label: 'COB Technology', to: '/technology/cob' }, { label: 'MicroLED & MiP', to: '/technology/microled' }, { label: 'Fine Pitch LED', category: 'indoor' }, { label: 'Transparent LED', category: 'transparent' }, { label: 'Flexible LED', category: 'flexible' }, { label: 'Interactive Display', category: 'interactive' }] },
+];
+
+const CATEGORY_LABELS = Object.fromEntries(CATEGORIES.filter(({ value }) => value).map(({ value, label }) => [value, label]));
+
 /* Elegant Product Card with 3D Tilt Effect - Matches Solutions Page Style */
 const ProductCard = ({ product, index }) => {
   // Extract pitch value for prominent display
@@ -82,11 +92,8 @@ const ProductCard = ({ product, index }) => {
         glareMaxOpacity={0.12}
         className="rounded-2xl"
       >
-        <Link
-          to={`/products/${product.slug}`}
-          className="group relative block overflow-hidden rounded-2xl aspect-[3/4]"
-          data-testid="products-product-card"
-        >
+        <article className="group relative overflow-hidden rounded-lg border border-white/10 bg-black/20" data-testid={`products-product-card-${product.slug}`}>
+          <Link to={`/products/${product.slug}`} className="relative z-0 block aspect-[4/3] overflow-hidden" data-testid={`products-product-image-${product.slug}`}>
           {/* Background Image */}
           <div className="absolute inset-0">
             {product.image_url ? (
@@ -102,7 +109,7 @@ const ProductCard = ({ product, index }) => {
                 <Monitor size={48} className="text-cyan-500/30" />
               </div>
             )}
-            {/* Gradient overlay */}
+          {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             {/* Hover glow */}
             <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -117,52 +124,15 @@ const ProductCard = ({ product, index }) => {
             </div>
           )}
 
-          {/* Content - Centered at Bottom */}
-          <div className="relative z-10 h-full flex flex-col items-center justify-end p-5 text-center">
-            {/* Icon Badge */}
-            <div 
-              className="w-10 h-10 rounded-full flex items-center justify-center mb-3 backdrop-blur-sm transition-all duration-500 group-hover:scale-110"
-              style={{ 
-                backgroundColor: 'rgba(255,255,255,0.1)', 
-                border: '1px solid rgba(255,255,255,0.2)' 
-              }}
-            >
-              {product.category?.toLowerCase().includes('cob') || product.category?.toLowerCase().includes('micro') ? (
-                <Cpu size={16} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
-              ) : (
-                <Monitor size={16} className="text-white group-hover:text-cyan-400 transition-colors duration-300" />
-              )}
-            </div>
-
-            {/* Product Name */}
-            <h3 
-              className="text-sm font-semibold tracking-wide mb-1 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2"
-              style={{ color: '#ffffff' }}
-            >
-              {product.name}
-            </h3>
-
-            {/* Brightness Spec */}
-            {product.brightness && (
-              <span className="text-[10px] text-amber-400/80 font-medium flex items-center gap-1 mb-3">
-                <Zap size={10} />
-                {product.brightness}
-              </span>
-            )}
-
-            {/* View Details CTA - appears on hover */}
-            <div 
-              className="flex items-center gap-1.5 text-xs font-medium tracking-wider opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
-              style={{ color: '#22d3ee' }}
-            >
-              <span>View Details</span>
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </div>
+          </Link>
+          <div className="relative z-10 p-5">
+            <p className="text-[10px] font-bold tracking-[0.14em] uppercase text-cyan-300">{CATEGORY_LABELS[product.category] || product.category || 'Professional LED display'}</p>
+            <h3 className="mt-2 text-base font-bold leading-snug text-white line-clamp-2">{product.name}</h3>
+            {product.application && <p className="mt-2 line-clamp-2 text-xs leading-5 text-white/60">Best for: {product.application}</p>}
+            <div className="mt-4 flex flex-wrap gap-2 text-[10px] font-semibold text-white/80">{product.pixel_pitch && <span className="border border-white/15 px-2 py-1">{product.pixel_pitch}</span>}{product.brightness && <span className="border border-white/15 px-2 py-1">{product.brightness}</span>}{product.refresh_rate && <span className="border border-white/15 px-2 py-1">{product.refresh_rate}</span>}</div>
+            <div className="mt-5 flex items-center justify-between gap-3"><Link to={`/products/${product.slug}`} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-cyan-300 hover:text-cyan-100" data-testid={`products-view-product-${product.slug}`} onClick={() => trackEvent('product_view', { product_slug: product.slug, source: 'catalogue' })}>View Product <ArrowRight size={14} aria-hidden="true" /></Link><Link to="/compare" className="inline-flex min-h-9 items-center gap-1 text-xs text-white/65 hover:text-white" data-testid={`products-compare-${product.slug}`} onClick={() => trackEvent('compare_clicked', { product_slug: product.slug })}><GitCompareArrows size={14} aria-hidden="true" /> Compare</Link></div>
           </div>
-
-          {/* Border on hover */}
-          <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-cyan-500/30 transition-colors duration-500 pointer-events-none" />
-        </Link>
+        </article>
       </TiltCard>
     </motion.div>
   );
@@ -209,6 +179,7 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('grid');
   const [showFilters, setShowFilters] = useState(false);
+  const [activeDiscovery, setActiveDiscovery] = useState('product');
 
   const pageBg = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
   const textPrimary = isDark ? 'text-white' : 'text-neutral-900';
@@ -224,6 +195,7 @@ const Products = () => {
     }
     params.delete('sub');
     setSearchParams(params);
+    trackEvent('product_category_view', { category: cat || 'all' });
   };
 
   const setActiveSub = (sub) => {
@@ -244,11 +216,22 @@ const Products = () => {
       params.delete('pitch');
     }
     setSearchParams(params);
+    trackEvent('product_filter_used', { filter: 'pixel_pitch', value: pitch || 'all' });
   };
 
   const clearAllFilters = () => {
     setSearchParams({});
     setSearchQuery('');
+  };
+
+  const updateSearch = (value) => {
+    setSearchQuery(value);
+    if (value.trim().length >= 2) trackEvent('product_search', { query: value.trim().slice(0, 80) });
+  };
+
+  const applyFinder = (category) => {
+    setActiveCategory(category);
+    document.getElementById('products-catalogue')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   // Sub-category label for breadcrumbs
@@ -340,6 +323,17 @@ const Products = () => {
         </div>
       </section>
 
+      <section className={`border-b ${borderColor}`} data-testid="products-discovery-hub">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 py-10 md:py-14">
+          <div className="flex flex-wrap gap-2" role="tablist" aria-label="Product discovery paths">
+            {DISCOVERY_PATHS.map((path) => <button key={path.key} type="button" role="tab" aria-selected={activeDiscovery === path.key} onClick={() => setActiveDiscovery(path.key)} className={`min-h-11 px-4 text-xs font-bold uppercase tracking-[0.12em] transition-colors ${activeDiscovery === path.key ? 'bg-cyan-300 text-black' : (isDark ? 'border border-white/15 text-white/70 hover:border-cyan-300' : 'border border-neutral-300 text-neutral-700 hover:border-cyan-600')}`} data-testid={`products-discovery-tab-${path.key}`}>{path.title}</button>)}
+          </div>
+          {DISCOVERY_PATHS.filter((path) => path.key === activeDiscovery).map((path) => <div key={path.key} className="mt-7 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]"><div><h2 className={`text-2xl font-bold ${textPrimary}`}>{path.title}</h2><p className={`mt-3 max-w-md text-sm leading-7 ${textSecondary}`}>{path.copy}</p>{path.key === 'product' && <button type="button" onClick={() => { trackEvent('product_finder_started', { source: 'products_hub' }); document.getElementById('product-finder')?.scrollIntoView({ behavior: 'smooth' }); }} className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-cyan-300 hover:text-cyan-100" data-testid="products-open-finder"><Sparkles size={16} aria-hidden="true" /> Find the Right Display</button>}</div><div className="grid grid-cols-2 sm:grid-cols-3 border-l border-t border-white/10">{path.items.map((item) => item.to ? <Link key={item.label} to={item.to} className={`border-r border-b ${borderColor} p-4 text-sm font-semibold ${textPrimary} hover:text-cyan-400`} data-testid={`products-discovery-link-${item.label.toLowerCase().replace(/[^a-z]+/g, '-')}`}>{item.label}<ArrowRight className="mt-3 text-cyan-400" size={15} aria-hidden="true" /></Link> : <button key={item.label} type="button" onClick={() => setActiveCategory(item.category)} className={`border-r border-b ${borderColor} p-4 text-left text-sm font-semibold ${textPrimary} hover:text-cyan-400`} data-testid={`products-discovery-category-${item.category}`}>{item.label}<ArrowRight className="mt-3 text-cyan-400" size={15} aria-hidden="true" /></button>)}</div></div>)}
+        </div>
+      </section>
+
+      <ProductFinder onApply={applyFinder} />
+
       {/* Category Filter Header Bar */}
       <section className={`sticky top-16 z-40 ${isDark ? 'bg-[#0A0A0D]/95' : 'bg-white/95'} backdrop-blur-lg border-b ${borderColor}`}>
         <div className="max-w-[1400px] mx-auto px-4 md:px-12 lg:px-24">
@@ -351,7 +345,7 @@ const Products = () => {
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => updateSearch(e.target.value)}
                 className={`w-full blx-search-input ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pr-10 py-2.5 outline-none focus:border-cyan-500 transition-colors text-sm`}
                 data-testid="products-search-input-mobile"
               />
@@ -359,6 +353,7 @@ const Products = () => {
                 <button 
                   onClick={() => setSearchQuery('')}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-cyan-400"
+                  data-testid="products-search-clear-mobile"
                 >
                   <X size={16} />
                 </button>
@@ -375,7 +370,7 @@ const Products = () => {
                 type="text"
                 placeholder="Search..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => updateSearch(e.target.value)}
                 className={`w-48 blx-search-input ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500' : 'bg-neutral-100 border-neutral-200 text-neutral-900 placeholder:text-neutral-400'} border rounded-full pr-4 py-2 outline-none focus:border-cyan-500 transition-colors text-sm`}
                 data-testid="products-search-input"
               />
@@ -383,6 +378,7 @@ const Products = () => {
                 <button 
                   onClick={() => setSearchQuery('')}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                  data-testid="products-search-clear"
                 >
                   <X size={14} />
                 </button>
@@ -465,7 +461,7 @@ const Products = () => {
       )}
 
       {/* Main Content */}
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 py-8">
+      <div id="products-catalogue" className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 py-8">
         <div className="flex gap-8 lg:gap-12">
           
           {/* Sidebar Filters - Desktop */}
@@ -490,8 +486,8 @@ const Products = () => {
                 ))}
               </FilterAccordion>
 
-              {/* Pixel Pitch Range Filter */}
-              <FilterAccordion title="Pixel Pitch" defaultOpen={true} isDark={isDark}>
+              {/* Advanced technical filter */}
+              <FilterAccordion title="Advanced filters" defaultOpen={false} isDark={isDark}>
                 <div className="space-y-1">
                   {PITCH_RANGES.map((range) => (
                     <button
@@ -561,6 +557,7 @@ const Products = () => {
                   <button 
                     onClick={clearAllFilters}
                     className={`text-xs ${isDark ? 'text-gray-500 hover:text-cyan-400' : 'text-neutral-500 hover:text-cyan-600'} flex items-center gap-1 transition-colors`}
+                  data-testid="products-clear-filters"
                   >
                     <X size={12} /> Clear filters
                   </button>
@@ -571,6 +568,7 @@ const Products = () => {
               <button 
                 onClick={() => setShowFilters(!showFilters)}
                 className={`lg:hidden flex items-center gap-2 px-3 py-2 ${isDark ? 'bg-white/5 border-white/10 text-gray-400' : 'bg-neutral-100 border-neutral-200 text-neutral-600'} border rounded-lg text-xs uppercase tracking-wider`}
+                data-testid="products-mobile-filters-toggle"
               >
                 <SlidersHorizontal size={14} /> Filters
               </button>
@@ -583,9 +581,11 @@ const Products = () => {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="lg:hidden overflow-hidden mb-6"
+                  className="lg:hidden fixed inset-x-0 bottom-0 z-[70] max-h-[78vh] overflow-y-auto rounded-t-2xl border border-white/10 bg-[#0A0A0D] p-5 shadow-2xl"
+                  data-testid="products-mobile-filter-sheet"
                 >
-                  <div className={`${isDark ? 'bg-[#0A0A0D] border-white/5' : 'bg-white border-neutral-200'} border rounded-lg p-4 space-y-4`}>
+                  <div className="space-y-5">
+                    <div className="flex items-center justify-between"><h3 className="text-base font-bold text-white">Filters</h3><button type="button" onClick={() => setShowFilters(false)} className="min-h-11 min-w-11 text-white/70 hover:text-white" data-testid="products-mobile-filters-close" aria-label="Close filters"><X size={19} aria-hidden="true" /></button></div>
                     {/* Pixel Pitch Filter */}
                     <div>
                       <h4 className={`text-xs font-bold uppercase tracking-widest ${textSecondary} mb-2`}>Pixel Pitch</h4>
@@ -610,7 +610,7 @@ const Products = () => {
                     <div>
                       <h4 className={`text-xs font-bold uppercase tracking-widest ${textSecondary} mb-2`}>Categories</h4>
                       <div className="flex flex-wrap gap-2">
-                        {CATEGORIES.slice(0, 15).map((cat) => (
+                        {MAJOR_CATEGORIES.map((cat) => (
                           <button
                             key={cat.value}
                             onClick={() => { setActiveCategory(cat.value); }}
@@ -619,6 +619,7 @@ const Products = () => {
                                 ? 'bg-cyan-500 text-black'
                                 : (isDark ? 'bg-transparent text-gray-500 border border-white/10 hover:border-cyan-500/50' : 'bg-transparent text-neutral-600 border border-neutral-200 hover:border-cyan-500/50')
                             }`}
+                            data-testid={`products-mobile-category-${cat.value || 'all'}`}
                           >
                             {cat.label}
                           </button>

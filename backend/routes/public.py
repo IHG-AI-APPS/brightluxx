@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import RedirectResponse
 from typing import Optional, List
+import re
 
 from database import products_col, inspirations_col, projects_col, leads_col
 from models import Lead
@@ -10,6 +11,50 @@ from email_service import notify_new_lead
 import uuid
 
 router = APIRouter()
+
+PRODUCT_SEARCH_SYNONYMS = {
+    "video wall": ["led wall", "video wall", "dvled", "videobrick"],
+    "led wall": ["led wall", "video wall", "dvled", "videobrick"],
+    "digital totem": ["digital totem", "totem", "poster", "standee"],
+    "transparent display": ["transparent display", "transparent led", "led film", "smart glass"],
+    "meeting room": ["meeting room", "conference", "all-in-one", "iconference"],
+    "boardroom": ["boardroom", "conference", "all-in-one", "iconference"],
+    "control room": ["control room", "command centre", "command center", "noc"],
+    "hotel": ["hotel", "hospitality"],
+    "restaurant": ["restaurant", "menu", "digital signage"],
+    "kiosk": ["kiosk", "interactive", "self service"],
+    "poster": ["poster", "totem", "standee"],
+}
+
+
+def product_search_terms(search: str) -> list[str]:
+    normalized = " ".join(search.lower().split())
+    terms = [normalized, *PRODUCT_SEARCH_SYNONYMS.get(normalized, [])]
+    pitch_match = re.fullmatch(r"p(\d+(?:\.\d+)?)", normalized)
+    if pitch_match:
+        terms.append(pitch_match.group(1))
+    return list(dict.fromkeys(terms))
+
+
+def product_search_query(search: str) -> dict:
+    patterns = [re.escape(term) for term in product_search_terms(search) if term]
+    if not patterns:
+        return {}
+    regex = "|".join(patterns)
+    return {"$or": [{field: {"$regex": regex, "$options": "i"}} for field in (
+        "name", "product_code", "description", "application", "category",
+        "pixel_pitch", "brightness", "technology", "display_type", "product_family",
+    )]}
+
+
+def catalogue_product(doc: dict) -> dict:
+    product = serialize_doc(doc)
+    if not product.get("refresh_rate"):
+        for spec in product.get("key_specs") or []:
+            if str(spec.get("label", "")).strip().lower() == "refresh rate" and spec.get("value"):
+                product["refresh_rate"] = spec["value"]
+                break
+    return product
 
 
 @router.get("/api/products")
@@ -35,15 +80,10 @@ async def get_products(
     if new_arrival is not None:
         query["new_arrival"] = new_arrival
     if search:
-        query["$or"] = [
-            {"name": {"$regex": search, "$options": "i"}},
-            {"product_code": {"$regex": search, "$options": "i"}},
-            {"description": {"$regex": search, "$options": "i"}},
-            {"application": {"$regex": search, "$options": "i"}},
-        ]
+        query.update(product_search_query(search))
     
     cursor = products_col.find(query).sort("created_at", -1)
-    products = [serialize_doc(doc) for doc in await cursor.to_list(length=200)]
+    products = [catalogue_product(doc) for doc in await cursor.to_list(length=200)]
     
     # Filter by pitch range if specified (done in Python for flexibility with various formats)
     if pitch_range:
@@ -146,7 +186,7 @@ async def get_product(slug: str):
     product = await products_col.find_one({"slug": slug})
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    return serialize_doc(product)
+    return catalogue_product(product)
 
 
 @router.get("/api/inspirations")
@@ -219,12 +259,6 @@ async def create_lead(lead: Lead, request: Request):
 @router.get("/api/search")
 async def search(q: str):
     results = {"products": [], "inspirations": [], "projects": []}
-    prod_cursor = products_col.find({
-        "$or": [
-            {"name": {"$regex": q, "$options": "i"}},
-            {"product_code": {"$regex": q, "$options": "i"}},
-            {"description": {"$regex": q, "$options": "i"}},
-        ]
-    }).limit(5)
+    prod_cursor = products_col.find(product_search_query(q)).limit(5)
     results["products"] = [serialize_doc(doc) for doc in await prod_cursor.to_list(length=5)]
     return results

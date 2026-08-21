@@ -1,5 +1,10 @@
 # Brightluxx Changelog
 
+## Current Session — Commercial UX + SEO Upgrade, Phase 2
+- Rebuilt product discovery around By Product / By Application / By Technology paths in `/products`, desktop navigation, and mobile navigation. Added the lightweight non-indexable four-step product finder and mobile filter bottom sheet.
+- Improved search for pitch notation and buyer terminology, upgraded product cards with available decision data and working Compare action, and normalized existing refresh-rate values from `key_specs` without fabricating specifications.
+- Verified: build 337 prerendered routes / 0 errors; SEO regression PASS / 0 critical failures. Iteration 130 caught compare CTA overlap and refresh-rate field parity; both were fixed and self-verified.
+
 ## Current Session — Commercial UX + SEO Upgrade, Phase 1
 - Updated homepage hero positioning: **ENGINEERING BRILLIANCE** is now a tagline, with a single descriptive H1 and clear `Explore Solutions` / `Start Your Project` CTA hierarchy.
 - Added solution-first discovery, evidence-led project cards from existing project data, technology-first product-family cards, industry/application paths, professional/digital-signage/resource pathways, and static technical-insight links. Homepage prerender output now contains the final offer, semantic final counters, and crawlable internal links.

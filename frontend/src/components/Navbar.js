@@ -9,7 +9,7 @@ import DropdownWrap from './navbar/DropdownWrap';
 import FamilyDropdown from './navbar/FamilyDropdown';
 import NavMobileMenu from './navbar/NavMobileMenu';
 import {
-  productCategories, CATEGORY_ICONS, solutionItems,
+  solutionItems,
   moreMenuSections, productFamilies, familyOrder,
 } from './navbar/navbarData';
 
@@ -76,37 +76,11 @@ const Navbar = () => {
 
   /* ─── Products Dropdown Content ─── */
   const ProductsPanel = () => (
-    <div className="shadow-2xl py-4 px-4 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '680px' }}>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-1">
-        {productCategories.map((group) => (
-          <div key={group.label} className="mb-2">
-            <div className={`px-2 pt-1 pb-2 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{group.label}</div>
-            {group.items.map((item) => {
-              const Icon = CATEGORY_ICONS[item.cat] || Monitor;
-              return (
-                <Link key={item.cat} to={item.isLanding || `/products?category=${item.cat}`} onClick={closeAll}
-                  className={`flex items-center gap-2.5 px-2 py-1.5 rounded-lg transition-colors duration-150 ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100'}`}
-                  data-testid={`nav-product-cat-${item.cat}`}>
-                  <Icon size={12} className={isDark ? 'text-neutral-500' : 'text-neutral-400'} />
-                  <div>
-                    <div className={`text-[0.625rem] font-semibold tracking-wider uppercase ${isDark ? 'text-white' : 'text-neutral-900'}`}>{item.name}</div>
-                    <div className={`text-[0.45rem] tracking-wider ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>{item.desc}</div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        ))}
+    <div className="shadow-2xl p-5" style={{ ...panelStyle, width: '680px' }} data-testid="products-mega-menu">
+      <div className="grid grid-cols-3 gap-6">
+        {[{ label: 'BY PRODUCT', links: [['Indoor LED Displays', '/products?category=indoor'], ['Outdoor LED Displays', '/products?category=outdoor'], ['COB / MicroLED', '/products?category=cob-microled'], ['Transparent LED', '/products?category=transparent'], ['Interactive Displays', '/products?category=interactive'], ['Creative LED', '/products?category=flexible']] }, { label: 'BY APPLICATION', links: [['Retail', '/solutions/retail'], ['Corporate', '/solutions/corporate'], ['Control Rooms', '/solutions/control-rooms'], ['Transportation', '/solutions/transportation'], ['Events & XR', '/solutions/entertainment'], ['Architecture', '/solutions/architecture']] }, { label: 'BY TECHNOLOGY', links: [['COB Technology', '/technology/cob'], ['MicroLED & MiP', '/technology/microled'], ['Fine-Pitch LED', '/products?category=indoor'], ['Transparent LED', '/products?category=transparent'], ['Flexible LED', '/products?category=flexible'], ['Interactive Display', '/products?category=interactive']] }].map((group) => <div key={group.label}><p className={`mb-3 text-[0.55rem] font-bold tracking-[0.18em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{group.label}</p>{group.links.map(([label, path]) => <Link key={`${group.label}-${label}`} to={path} onClick={closeAll} className={`block py-1.5 text-xs font-semibold transition-colors ${isDark ? 'text-white/80 hover:text-cyan-300' : 'text-neutral-800 hover:text-cyan-700'}`} data-testid={`nav-products-${group.label.toLowerCase().replace(/\s+/g, '-')}-${label.toLowerCase().replace(/[^a-z]+/g, '-')}`}>{label}</Link>)}</div>)}
       </div>
-      <div className={`mt-3 pt-3 border-t ${isDark ? 'border-white/[0.06]' : 'border-neutral-200'}`}>
-        <div className={`px-3 pt-1 pb-1.5 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-amber-400/80' : 'text-amber-600'}`}>LED SERIES</div>
-        <div className="flex gap-2 px-3 mb-3">
-          <Link to="/indoor-led" onClick={closeAll} className={`flex-1 px-3 py-2 rounded-lg text-center text-[0.6rem] font-semibold transition-colors ${isDark ? 'bg-purple-500/10 text-purple-400 hover:bg-purple-500/20' : 'bg-purple-50 text-purple-600 hover:bg-purple-100'}`} data-testid="nav-indoor-led">Indoor P0.5-P4</Link>
-          <Link to="/outdoor-led" onClick={closeAll} className={`flex-1 px-3 py-2 rounded-lg text-center text-[0.6rem] font-semibold transition-colors ${isDark ? 'bg-orange-500/10 text-orange-400 hover:bg-orange-500/20' : 'bg-orange-50 text-orange-600 hover:bg-orange-100'}`} data-testid="nav-outdoor-led">Outdoor P2.5-P8</Link>
-        </div>
-        <Link to="/product-families" onClick={closeAll} className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-rose-400 transition-colors duration-150 mb-2 uppercase ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100'}`} data-testid="nav-products-families">PRODUCT FAMILIES</Link>
-        <Link to="/products" onClick={closeAll} className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-[0.625rem] font-bold tracking-[0.15em] text-cyan-400 transition-colors duration-150 uppercase ${isDark ? 'hover:bg-cyan-400/10' : 'hover:bg-cyan-50'}`} data-testid="nav-products-view-all">VIEW ALL PRODUCTS</Link>
-      </div>
+      <div className={`mt-5 flex items-center gap-5 border-t pt-4 text-[0.65rem] font-bold tracking-[0.1em] uppercase ${isDark ? 'border-white/[0.08]' : 'border-neutral-200'}`}><Link to="/products" onClick={closeAll} className="text-cyan-400" data-testid="nav-products-view-all">View All Products</Link><Link to="/products#product-finder" onClick={closeAll} className={isDark ? 'text-white/75 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'} data-testid="nav-products-finder">Find the Right Display</Link><Link to="/compare" onClick={closeAll} className={isDark ? 'text-white/75 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'} data-testid="nav-products-compare">Compare Displays</Link><Link to="/for-architects" onClick={closeAll} className={isDark ? 'text-white/75 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'} data-testid="nav-products-architects">For Architects</Link></div>
     </div>
   );
 
@@ -259,25 +233,7 @@ const Navbar = () => {
           <div className="hidden lg:flex xl:hidden items-center gap-3 flex-shrink-0">
             <DropdownWrap isOpen={productsOpen} setOpen={setProductsOpen}
               trigger={<NavBtn label="PRODUCTS" href="/products" isOpenState={productsOpen} isActiveState={isActivePrefix('/products')} testId="nav-products-lg" />}>
-              <div className="shadow-2xl py-4 px-4 max-h-[70vh] overflow-y-auto" style={{ ...panelStyle, width: '580px' }}>
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                  {productCategories.map((group) => (
-                    <div key={group.label} className="mb-2">
-                      <div className={`px-2 pt-1 pb-2 text-[0.5rem] font-bold tracking-[0.2em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>{group.label}</div>
-                      {group.items.slice(0, 3).map((item) => {
-                        const Icon = CATEGORY_ICONS[item.cat] || Monitor;
-                        return (
-                          <Link key={item.cat} to={item.isLanding || `/products?category=${item.cat}`} onClick={closeAll} className={`flex items-center gap-2 px-2 py-1 rounded-lg transition-colors ${isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-neutral-100'}`}>
-                            <Icon size={11} className={isDark ? 'text-neutral-500' : 'text-neutral-400'} />
-                            <span className={`text-[0.6rem] font-semibold tracking-wider uppercase ${isDark ? 'text-white' : 'text-neutral-900'}`}>{item.name}</span>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  ))}
-                </div>
-                <Link to="/products" onClick={closeAll} className="flex items-center justify-center gap-2 px-4 py-2 mt-2 rounded-lg text-[0.6rem] font-bold tracking-[0.15em] text-cyan-400 hover:bg-cyan-400/10 uppercase">VIEW ALL PRODUCTS</Link>
-              </div>
+              <ProductsPanel />
             </DropdownWrap>
 
             <DropdownWrap isOpen={solutionsOpen} setOpen={setSolutionsOpen}

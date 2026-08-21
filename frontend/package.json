@@ -60,7 +60,8 @@
   "scripts": {
     "start": "node prerender-server.js",
     "start:cra": "craco start",
-    "build": "craco build && node postbuild-prerender.js",
+    "build": "craco build && node postbuild-prerender.js && node seo-regression.js",
+    "seo:test": "node seo-regression.js",
     "test": "craco test"
   },
   "browserslist": {

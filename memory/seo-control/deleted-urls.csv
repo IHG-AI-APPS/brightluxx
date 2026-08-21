@@ -1,0 +1,7 @@
+# Deleted URLs — Permanent 410 Control Sheet
+# URLs intentionally removed with no replacement. Ideal response: HTTP 410 Gone.
+# Current platform limitation: Cloudflare worker returns 200 SPA fallback for unknown
+# routes; genuine 404/410 requires Emergent platform worker change (requested, pending).
+# Mitigation shipped: noindex tombstone stubs in the build.
+URL,Reason,Ideal HTTP,Current Behavior,Notes
+/products/hjdba,Test product deleted from catalog,410,200 + noindex tombstone stub redirecting to /products,API /api/products/hjdba returns 404; page-level 410 blocked by platform worker

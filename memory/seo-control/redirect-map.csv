@@ -1,0 +1,27 @@
+# Redirect Map — Permanent Control Sheet
+# Purpose: single source of truth for legacy URL 301s. These MUST be configured
+# as Cloudflare Redirect Rules (301, preserve query string) in the brightluxx.com zone.
+# Until Cloudflare rules are live, the build ships noindex meta-refresh stubs as mitigation
+# (NOT real 301s). Status column tracks Cloudflare state.
+# Verify each after Cloudflare setup:  curl -I https://brightluxx.com/<old-url>  ->  301 + direct final Location
+Old URL,New URL,Reason,HTTP,Status,Notes
+/our-works,/projects,WordPress-era portfolio page renamed,301,pending-cloudflare,Semantic match: projects gallery
+/our-works/*,/projects,Catch child paths,301,pending-cloudflare,Wildcard rule
+/portfolio,/projects,Legacy alias,301,pending-cloudflare,
+/gallery,/projects,Legacy alias,301,pending-cloudflare,
+/digital-solutions,/solutions,Legacy nav name,301,pending-cloudflare,
+/about-us,/about,Legacy slug,301,pending-cloudflare,
+/contact-us,/contact,Legacy slug,301,pending-cloudflare,
+/download-catalog,/products,No standalone catalog page exists; products is closest hub,301,pending-cloudflare,If a /catalog page is built later update this target
+/products/led-display,/products,Generic legacy category,301,pending-cloudflare,
+/products/indoor-led-display,/indoor-led,Semantic match: indoor LED hub,301,pending-cloudflare,
+/products/outdoor-led-display,/outdoor-led,Semantic match: outdoor LED hub,301,pending-cloudflare,
+/products/transparent-led-display,/glassmorph,Semantic match: transparent LED family,301,pending-cloudflare,
+/products/spherical-led-display,/products/sculptled-sphere-3d,Semantic match: current sphere product,301,pending-cloudflare,Better than generic /products
+/products/rental-led-display,/products,No rental hub exists yet,301,pending-cloudflare,If rental page is built later update target
+/products/flexible-led-display,/products/sculptled-ribbon-flex,Semantic match: current flexible product,301,pending-cloudflare,
+/led-screen-dubai,/led-screen-suppliers-dubai,Consolidate Dubai supplier intent,301,pending-cloudflare,
+/led-display-abu-dhabi,/abu-dhabi,City page,301,pending-cloudflare,
+/led-screen-saudi-arabia,/saudi-arabia,City page,301,pending-cloudflare,
+/led-screen-qatar,/qatar,City page,301,pending-cloudflare,
+/wp-content/uploads/2022/05/BRIGHTLUXX-CATALOG-2022-Ver1.pdf,/products,Old catalog PDF; nearest live equivalent,301,pending-cloudflare,Replace target with a real catalog download page when available

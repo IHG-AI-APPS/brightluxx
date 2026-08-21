@@ -299,8 +299,8 @@ function injectMeta(html, meta) {
       html = html.replace("</head>", `<meta name="keywords" content="${esc(meta.keywords)}">\n</head>`);
     }
   }
-  // Noscript H1
-  html = html.replace(/<noscript>\s*<div>\s*<h1>[^]*?<\/h1>/, `<noscript><div><h1>${esc(meta.h1)}</h1>`);
+  // Noscript heading (demoted from h1 so each page has exactly one h1 in #root)
+  html = html.replace(/<noscript>\s*<div>\s*<h1>[^]*?<\/h1>/, `<noscript><div><p><strong>${esc(meta.h1)}</strong></p>`);
   // Schemas
   if (meta.schemas && meta.schemas.length) {
     const scripts = meta.schemas.map(s => `<script type="application/ld+json">${s}</script>`).join("\n");
@@ -554,6 +554,10 @@ async function run() {
         }
       }
 
+      // Guarantee exactly one h1 inside #root
+      if (!/<h1[\s>]/.test(contentParts.join(""))) {
+        contentParts.unshift(`<h1>${esc(meta.h1 || meta.title)}</h1>`);
+      }
       if (contentParts.length) {
         html = html.replace('<div id="root"></div>', `<div id="root">${contentParts.join("")}</div>`);
       }

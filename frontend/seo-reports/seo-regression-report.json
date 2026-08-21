@@ -1,0 +1,269 @@
+{
+  "timestamp": "2026-08-21T09:58:17.336Z",
+  "pagesScanned": 349,
+  "indexable": 334,
+  "stubs": 15,
+  "result": "PASS",
+  "failCount": 0,
+  "warnCount": 43,
+  "issues": [
+    {
+      "level": "WARN",
+      "route": "/abu-dhabi",
+      "check": "description-long",
+      "detail": "180 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/blog/gcc-led-display-market-guide-qatar-kuwait-bahrain-oman",
+      "check": "title-long",
+      "detail": "74 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/case-studies/bespoke-lighting-custom-led-solutions",
+      "check": "title-long",
+      "detail": "73 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/case-studies/diya-gold-sharjah-led-display",
+      "check": "title-long",
+      "detail": "83 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/case-studies/dunkin-jlt-led-menu-display",
+      "check": "title-long",
+      "detail": "71 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/case-studies/fashion-boutique-led-display-dubai",
+      "check": "title-long",
+      "detail": "73 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/case-studies/finance-services-corporate-led-display",
+      "check": "title-long",
+      "detail": "75 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/case-studies/meralda-meena-bazaar-led-display",
+      "check": "title-long",
+      "detail": "79 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/case-studies/private-villa-smart-led-home-cinema",
+      "check": "title-long",
+      "detail": "74 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/case-studies/rdc-abu-dhabi-led-video-wall",
+      "check": "title-long",
+      "detail": "71 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/case-studies/touch-of-oud-al-zahia-led-display",
+      "check": "title-long",
+      "detail": "81 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/case-studies/uw-mall-mankhool-led-display",
+      "check": "title-long",
+      "detail": "81 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/dubai",
+      "check": "description-long",
+      "detail": "176 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/pixelvue/digi-standee",
+      "check": "title-long",
+      "detail": "78 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/pixelvue/iposter",
+      "check": "title-long",
+      "detail": "72 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/pixelvue/ishelf",
+      "check": "title-long",
+      "detail": "72 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/pixelvue/ooh-poster",
+      "check": "title-long",
+      "detail": "72 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/pixelvue/tablevision",
+      "check": "title-long",
+      "detail": "77 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/3d-fabricated-led-letters",
+      "check": "title-long",
+      "detail": "71 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/ambientscreen-15",
+      "check": "title-long",
+      "detail": "71 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/ambientscreen-curved-18",
+      "check": "title-long",
+      "detail": "73 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/bl-flx150",
+      "check": "title-long",
+      "detail": "71 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/bl-hol020",
+      "check": "title-long",
+      "detail": "72 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/bl-ifl290",
+      "check": "title-long",
+      "detail": "71 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/bl-ifl390",
+      "check": "title-long",
+      "detail": "73 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/bl-ifp195",
+      "check": "title-long",
+      "detail": "76 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/bl-ifp250",
+      "check": "title-long",
+      "detail": "74 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/bl-rpx150",
+      "check": "title-long",
+      "detail": "73 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/bl-rpx290",
+      "check": "title-long",
+      "detail": "73 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/bl-trx060",
+      "check": "title-long",
+      "detail": "71 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/cinemaled-ultra-09",
+      "check": "title-long",
+      "detail": "74 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/dual-lit-channel-letters-pro",
+      "check": "title-long",
+      "detail": "72 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/gas-station-price-led-sign",
+      "check": "title-long",
+      "detail": "71 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/interactive-directory-kiosk",
+      "check": "title-long",
+      "detail": "73 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/kineticled-responsive-p39",
+      "check": "title-long",
+      "detail": "72 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/meeting-room-led-136",
+      "check": "title-long",
+      "detail": "74 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/novastar-mctrl4k-controller",
+      "check": "title-long",
+      "detail": "72 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/poolview-p39",
+      "check": "title-long",
+      "detail": "72 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/portable-led-stand-p25",
+      "check": "title-long",
+      "detail": "71 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/touchwall-interactive-p25",
+      "check": "title-long",
+      "detail": "77 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/products/urbancanvas-transparent-mesh",
+      "check": "title-long",
+      "detail": "74 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/technology/fine-pitch-led",
+      "check": "title-long",
+      "detail": "71 chars"
+    },
+    {
+      "level": "WARN",
+      "route": "/technology/transparent-led",
+      "check": "title-long",
+      "detail": "71 chars"
+    }
+  ]
+}

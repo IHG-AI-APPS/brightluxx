@@ -1,11 +1,11 @@
 # Brightluxx — Product Requirements Document
 
-## LATEST: Stage D Accepted — Phase 2 Catalogue + Product Finder Migration (Aug 21, 2026)
-- **Server-first catalogue delivered at `/products`**: a dynamic Next.js Server Component fetches the real FastAPI `/api/products` source without permanent caching and renders all **94** products in initial OpenNext HTML. The legacy CRA implementation remains untouched.
-- **Isolated client islands delivered**: live synonym search via `/api/search`, By Product / By Application / By Technology discovery, taxonomy and pixel-pitch filtering, responsive mobile filter sheet, four-step Product Finder, and local comparison-tray handoff. All new interactive controls have stable test IDs.
-- **Stage D verification PASS (iteration 143)**: OpenNext build/worker preview returned 200; raw HTML had one H1 and exactly 94 product-card test IDs before hydration. API checks passed 3/3; desktop/mobile filters, search, finder, comparison tray, overflow, and console/hydration checks passed with **no mocked APIs**.
-- **Migration correction recorded**: excluded `/products` from the catch-all static legacy route generator so the concrete dynamic catalogue page owns its route. Removed the incompatible Next Edge Runtime declaration; OpenNext Cloudflare uses its supported Node-compat server bundle.
-- **Next P1**: add Stage D evidence to `/__migration-parity`, then migrate Phase 3 product detail and comparison surfaces. Production cutover remains forbidden.
+## LATEST: Stage D + Phase 3 Local Parity Verified (Aug 21, 2026)
+- **Stage D evidence recorded** at `/__migration-parity`: the dashboard now records the live source, raw 94-product HTML, filters, synonym search, Finder, mobile sheet, comparison handoff, API 3/3, E2E/hydration, and OpenNext local-worker results from iteration 143 as PASS.
+- **Server-first product details and comparison delivered**: `/products/[slug]` loads real FastAPI detail, specifications, FAQs, related products, canonical metadata and schema in raw HTML; `/compare` uses the live compare endpoint, persistent three-product selection, differences-only view, print, and pricing handoff. Finder results now explain the recommended category from the chosen criteria.
+- **Phase 3 local verification PASS (iteration 144)**: raw HTML contracts, gallery, compare tray, compare API, mobile overflow, product-code pricing handoff, Finder summary, 94-card catalogue SSR, and console/hydration checks all passed; **NO APIs are mocked**.
+- **Route ownership corrected**: the generic legacy catch-all no longer prerenders `/products`, `/products/*`, or `/compare`, allowing the dedicated dynamic Next routes to own those URLs. CRA remains untouched and production cutover remains forbidden.
+- **Remote Cloudflare preview remains BLOCKED**: `wrangler whoami` reports no authenticated account; no deployment or login was attempted. P1 next task is authenticated remote-preview verification, followed by the remaining RFQ/forms, analytics, performance warning resolution, and Phase 3 final acceptance.
 
 ## LATEST: Stage C Premium-Minimal Refinement — Functional/SEO PASS, Performance Pending
 - Homepage copy and hierarchy were refined under the approved premium-minimal direction: `Engineered Vision`, `Built For`, `Real Projects`, `Display Tech`, `For Specifiers`, `Latest Thinking`, and `Start Here`. Regional LED/digital-signage semantics remain visible in concise supporting content.

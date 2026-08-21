@@ -11,7 +11,7 @@ export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const pages = await getIndexableRoutes();
-  return pages.filter((page) => page.route !== '/' && page.route !== '/products').map((page) => ({ slug: page.route.slice(1).split('/') }));
+  return pages.filter((page) => page.route !== '/' && page.route !== '/products' && page.route !== '/compare' && !page.route.startsWith('/products/')).map((page) => ({ slug: page.route.slice(1).split('/') }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

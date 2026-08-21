@@ -1,0 +1,47 @@
+{
+  "summary": "Completed frontend-only Stage C performance evidence capture comparing CRA preview vs local OpenNext workerd homepage at desktop (1440x800) and mobile (390x800), with 3 runs per target and median reporting. No code fixes applied; evidence only, no PASS/FAIL declaration.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "OpenNext mobile homepage",
+        "issues": [
+          "Measured CLS median (0.0177425) is higher than CRA median (0.00061875); still below common 0.1 threshold but notably higher in this local run set."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/migration-baseline/stage-c-performance-report.json",
+    "/root/.emergent/automation_output/20260821_141009/console_20260821_141009.log",
+    "/root/.emergent/automation_output/20260821_141237/console_20260821_141237.log",
+    "/root/.emergent/automation_output/20260821_141124/console_20260821_141124.log",
+    "/root/.emergent/automation_output/20260821_141344/console_20260821_141344.log"
+  ],
+  "action_items": [
+    "Review /app/migration-baseline/stage-c-performance-report.json medians and per-run evidence for Stage C decisioning.",
+    "If strict initial-JS parity is required, investigate why OpenNext initial JS is non-zero while CRA median is zero in these runs.",
+    "For tighter comparability, optionally repeat in a controlled network/throttling harness for both targets."
+  ],
+  "critical_code_review_comments": [
+    "No new critical functional issue identified in this scope; this iteration focused on performance measurements only."
+  ],
+  "updated_files": [
+    "/app/migration-baseline/stage-c-performance-report.json",
+    "/app/test_reports/iteration_141.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (frontend-only scope)",
+    "frontend": "100% for requested measurement capture scope"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "All requested Stage C homepage measurements were captured for CRA and OpenNext across desktop/mobile with 3 runs each and medians recorded. INP remained null/unreliable; hydration is proxy-only; OpenNext image/font transfer shows 0 due likely cross-origin timing visibility limitations.",
+  "rca of the issue": "Initial JS regression classification on OpenNext (vs CRA median) is likely due different script delivery/execution timing boundary around FCP plus architecture differences (remote CRA CDN/app shell behavior vs local OpenNext SSR/hydration pipeline)."
+}

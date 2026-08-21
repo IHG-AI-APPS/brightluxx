@@ -1,0 +1,532 @@
+{
+  "stage": "C",
+  "status": "EVIDENCE_ONLY",
+  "timestamp_utc": "2026-08-21T14:15:00Z",
+  "scope": "Homepage performance comparison only (CRA baseline vs OpenNext local workerd)",
+  "targets": {
+    "cra_baseline": "https://product-detail-qa.preview.emergentagent.com/",
+    "opennext_local_workerd": "http://127.0.0.1:8787/"
+  },
+  "test_conditions": {
+    "viewports": [
+      {
+        "name": "desktop",
+        "width": 1440,
+        "height": 800
+      },
+      {
+        "name": "mobile",
+        "width": 390,
+        "height": 800
+      }
+    ],
+    "runs_per_target_per_viewport": 3,
+    "cache_handling": "Playwright CDP Network.setCacheDisabled(true), unique query params per run",
+    "wait_strategy": "domcontentloaded + fixed settle wait (CRA 10s, OpenNext 8s)",
+    "note": "No Stage D/cutover actions performed. CRA app untouched."
+  },
+  "metrics_definition_notes": {
+    "html_transfer": "navigation.transferSize",
+    "initial_js_transfer": "sum(transferSize of JS resources with responseEnd <= FCP)",
+    "total_js_transfer": "sum(transferSize of all JS resources)",
+    "main_thread_js_proxy": "sum(JS resource duration)",
+    "tbt_proxy": "sum(max(longtask_duration - 50ms, 0))",
+    "hydration_proxy": "last JS responseEnd - FCP (when available)"
+  },
+  "results": {
+    "desktop": {
+      "cra_runs": [
+        {
+          "run": 1,
+          "html_transfer": 6259,
+          "request_count": 35,
+          "total_transfer": 503402,
+          "initial_js_transfer": 0,
+          "total_js_transfer": 201695,
+          "initial_js_chunks": 2,
+          "total_js_chunks": 13,
+          "css_transfer": 123729,
+          "image_transfer": 159202,
+          "font_transfer": 93468,
+          "ttfb_ms": 155.1,
+          "fcp_ms": 404,
+          "lcp_ms": 1196,
+          "cls": 0.0013819444444444445,
+          "longtask_count": 2,
+          "longtask_duration_ms": 105,
+          "tbt_proxy_ms": 5,
+          "main_thread_js_proxy_ms": 1002.3,
+          "inp_ms": null,
+          "hydration_proxy_ms": 188.4,
+          "lcp_element": {
+            "type": "VIDEO",
+            "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
+          },
+          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+        },
+        {
+          "run": 2,
+          "html_transfer": 6259,
+          "request_count": 35,
+          "total_transfer": 503217,
+          "initial_js_transfer": 0,
+          "total_js_transfer": 201575,
+          "initial_js_chunks": 2,
+          "total_js_chunks": 13,
+          "css_transfer": 123664,
+          "image_transfer": 159202,
+          "font_transfer": 93468,
+          "ttfb_ms": 84.3,
+          "fcp_ms": 308,
+          "lcp_ms": 1180,
+          "cls": 0.0013819444444444445,
+          "longtask_count": 0,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 1192.4,
+          "inp_ms": null,
+          "hydration_proxy_ms": 342.4,
+          "lcp_element": {
+            "type": "VIDEO",
+            "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
+          },
+          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+        },
+        {
+          "run": 3,
+          "html_transfer": 6259,
+          "request_count": 36,
+          "total_transfer": 502846,
+          "initial_js_transfer": 163869,
+          "total_js_transfer": 201115,
+          "initial_js_chunks": 3,
+          "total_js_chunks": 13,
+          "css_transfer": 123753,
+          "image_transfer": 159202,
+          "font_transfer": 93468,
+          "ttfb_ms": 71,
+          "fcp_ms": 288,
+          "lcp_ms": 1212,
+          "cls": 0.0013819444444444445,
+          "longtask_count": 0,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 844.1,
+          "inp_ms": null,
+          "hydration_proxy_ms": 109.3,
+          "lcp_element": {
+            "type": "VIDEO",
+            "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
+          },
+          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+        }
+      ],
+      "next_runs": [
+        {
+          "run": 1,
+          "html_transfer": 7073,
+          "request_count": 26,
+          "total_transfer": 178012,
+          "initial_js_transfer": 141862,
+          "total_js_transfer": 141862,
+          "initial_js_chunks": 7,
+          "total_js_chunks": 7,
+          "css_transfer": 5582,
+          "image_transfer": 0,
+          "font_transfer": 0,
+          "ttfb_ms": 83.9,
+          "fcp_ms": 284,
+          "lcp_ms": 376,
+          "cls": 0,
+          "longtask_count": 3,
+          "longtask_duration_ms": 199,
+          "tbt_proxy_ms": 49,
+          "main_thread_js_proxy_ms": 440.8,
+          "inp_ms": null,
+          "hydration_proxy_ms": null,
+          "lcp_element": {
+            "type": "IMG",
+            "src": "https://files.ihgbrands.com/hero-video-poster.webp"
+          },
+          "lcp_url": "https://files.ihgbrands.com/hero-video-poster.webp"
+        },
+        {
+          "run": 2,
+          "html_transfer": 7073,
+          "request_count": 26,
+          "total_transfer": 178012,
+          "initial_js_transfer": 141862,
+          "total_js_transfer": 141862,
+          "initial_js_chunks": 7,
+          "total_js_chunks": 7,
+          "css_transfer": 5582,
+          "image_transfer": 0,
+          "font_transfer": 0,
+          "ttfb_ms": 79.8,
+          "fcp_ms": 360,
+          "lcp_ms": 388,
+          "cls": 0,
+          "longtask_count": 0,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 568.3,
+          "inp_ms": null,
+          "hydration_proxy_ms": null,
+          "lcp_element": {
+            "type": "IMG",
+            "src": "https://files.ihgbrands.com/hero-video-poster.webp"
+          },
+          "lcp_url": "https://files.ihgbrands.com/hero-video-poster.webp"
+        },
+        {
+          "run": 3,
+          "html_transfer": 7073,
+          "request_count": 26,
+          "total_transfer": 178012,
+          "initial_js_transfer": 2270,
+          "total_js_transfer": 141862,
+          "initial_js_chunks": 1,
+          "total_js_chunks": 7,
+          "css_transfer": 5582,
+          "image_transfer": 0,
+          "font_transfer": 0,
+          "ttfb_ms": 24.5,
+          "fcp_ms": 124,
+          "lcp_ms": 316,
+          "cls": 0,
+          "longtask_count": 0,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 748,
+          "inp_ms": null,
+          "hydration_proxy_ms": 90.2,
+          "lcp_element": {
+            "type": "IMG",
+            "src": "https://files.ihgbrands.com/hero-video-poster.webp"
+          },
+          "lcp_url": "https://files.ihgbrands.com/hero-video-poster.webp"
+        }
+      ],
+      "medians": {
+        "cra": {
+          "html_transfer": 6259,
+          "request_count": 35,
+          "total_transfer": 503217,
+          "initial_js_transfer": 0,
+          "total_js_transfer": 201575,
+          "initial_js_chunks": 2,
+          "total_js_chunks": 13,
+          "css_transfer": 123729,
+          "image_transfer": 159202,
+          "font_transfer": 93468,
+          "ttfb_ms": 84.3,
+          "fcp_ms": 308,
+          "lcp_ms": 1196,
+          "cls": 0.0013819444444444445,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 1002.3,
+          "inp_ms": null,
+          "hydration_proxy_ms": 188.4,
+          "lcp_element_type": "VIDEO"
+        },
+        "next": {
+          "html_transfer": 7073,
+          "request_count": 26,
+          "total_transfer": 178012,
+          "initial_js_transfer": 141862,
+          "total_js_transfer": 141862,
+          "initial_js_chunks": 7,
+          "total_js_chunks": 7,
+          "css_transfer": 5582,
+          "image_transfer": 0,
+          "font_transfer": 0,
+          "ttfb_ms": 79.8,
+          "fcp_ms": 284,
+          "lcp_ms": 376,
+          "cls": 0,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 568.3,
+          "inp_ms": null,
+          "hydration_proxy_ms": null,
+          "lcp_element_type": "IMG"
+        }
+      }
+    },
+    "mobile": {
+      "cra_runs": [
+        {
+          "run": 1,
+          "html_transfer": 6290,
+          "request_count": 36,
+          "total_transfer": 503165,
+          "initial_js_transfer": 0,
+          "total_js_transfer": 201518,
+          "initial_js_chunks": 2,
+          "total_js_chunks": 13,
+          "css_transfer": 123638,
+          "image_transfer": 159202,
+          "font_transfer": 93468,
+          "ttfb_ms": 116.5,
+          "fcp_ms": 380,
+          "lcp_ms": 1444,
+          "cls": 0.00061875,
+          "longtask_count": 0,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 1267.4,
+          "inp_ms": null,
+          "hydration_proxy_ms": 235.4,
+          "lcp_element": {
+            "type": "VIDEO",
+            "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
+          },
+          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+        },
+        {
+          "run": 2,
+          "html_transfer": 6279,
+          "request_count": 34,
+          "total_transfer": 502634,
+          "initial_js_transfer": 0,
+          "total_js_transfer": 201035,
+          "initial_js_chunks": 2,
+          "total_js_chunks": 13,
+          "css_transfer": 123601,
+          "image_transfer": 159202,
+          "font_transfer": 93468,
+          "ttfb_ms": 132.7,
+          "fcp_ms": 288,
+          "lcp_ms": 1288,
+          "cls": 0.00061875,
+          "longtask_count": 0,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 1063.4,
+          "inp_ms": null,
+          "hydration_proxy_ms": 215.6,
+          "lcp_element": {
+            "type": "VIDEO",
+            "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
+          },
+          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+        },
+        {
+          "run": 3,
+          "html_transfer": 6259,
+          "request_count": 35,
+          "total_transfer": 503140,
+          "initial_js_transfer": 0,
+          "total_js_transfer": 201530,
+          "initial_js_chunks": 2,
+          "total_js_chunks": 13,
+          "css_transfer": 123632,
+          "image_transfer": 159202,
+          "font_transfer": 93468,
+          "ttfb_ms": 88.2,
+          "fcp_ms": 224,
+          "lcp_ms": 1108,
+          "cls": 0.00061875,
+          "longtask_count": 0,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 1017.9,
+          "inp_ms": null,
+          "hydration_proxy_ms": 221.5,
+          "lcp_element": {
+            "type": "VIDEO",
+            "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
+          },
+          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+        }
+      ],
+      "next_runs": [
+        {
+          "run": 1,
+          "html_transfer": 7070,
+          "request_count": 20,
+          "total_transfer": 164061,
+          "initial_js_transfer": 2270,
+          "total_js_transfer": 141862,
+          "initial_js_chunks": 1,
+          "total_js_chunks": 7,
+          "css_transfer": 5582,
+          "image_transfer": 0,
+          "font_transfer": 0,
+          "ttfb_ms": 14.6,
+          "fcp_ms": 48,
+          "lcp_ms": 136,
+          "cls": 0.0177425,
+          "longtask_count": 0,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 298.1,
+          "inp_ms": null,
+          "hydration_proxy_ms": 59.2,
+          "lcp_element": {
+            "type": "IMG",
+            "src": "https://files.ihgbrands.com/hero-video-poster.webp"
+          },
+          "lcp_url": "https://files.ihgbrands.com/hero-video-poster.webp"
+        },
+        {
+          "run": 2,
+          "html_transfer": 7071,
+          "request_count": 20,
+          "total_transfer": 164062,
+          "initial_js_transfer": 141862,
+          "total_js_transfer": 141862,
+          "initial_js_chunks": 7,
+          "total_js_chunks": 7,
+          "css_transfer": 5582,
+          "image_transfer": 0,
+          "font_transfer": 0,
+          "ttfb_ms": 53.8,
+          "fcp_ms": 192,
+          "lcp_ms": 344,
+          "cls": 0.0177425,
+          "longtask_count": 1,
+          "longtask_duration_ms": 52,
+          "tbt_proxy_ms": 2,
+          "main_thread_js_proxy_ms": 515.8,
+          "inp_ms": null,
+          "hydration_proxy_ms": null,
+          "lcp_element": {
+            "type": "IMG",
+            "src": "https://files.ihgbrands.com/hero-video-poster.webp"
+          },
+          "lcp_url": "https://files.ihgbrands.com/hero-video-poster.webp"
+        },
+        {
+          "run": 3,
+          "html_transfer": 7072,
+          "request_count": 20,
+          "total_transfer": 164063,
+          "initial_js_transfer": 0,
+          "total_js_transfer": 141862,
+          "initial_js_chunks": 0,
+          "total_js_chunks": 7,
+          "css_transfer": 5582,
+          "image_transfer": 0,
+          "font_transfer": 0,
+          "ttfb_ms": 26.2,
+          "fcp_ms": 76,
+          "lcp_ms": 220,
+          "cls": 0.0177425,
+          "longtask_count": 0,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 554.2,
+          "inp_ms": null,
+          "hydration_proxy_ms": 75.8,
+          "lcp_element": {
+            "type": "IMG",
+            "src": "https://files.ihgbrands.com/hero-video-poster.webp"
+          },
+          "lcp_url": "https://files.ihgbrands.com/hero-video-poster.webp"
+        }
+      ],
+      "medians": {
+        "cra": {
+          "html_transfer": 6279,
+          "request_count": 35,
+          "total_transfer": 503140,
+          "initial_js_transfer": 0,
+          "total_js_transfer": 201518,
+          "initial_js_chunks": 2,
+          "total_js_chunks": 13,
+          "css_transfer": 123632,
+          "image_transfer": 159202,
+          "font_transfer": 93468,
+          "ttfb_ms": 116.5,
+          "fcp_ms": 288,
+          "lcp_ms": 1288,
+          "cls": 0.00061875,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 1063.4,
+          "inp_ms": null,
+          "hydration_proxy_ms": 221.5,
+          "lcp_element_type": "VIDEO"
+        },
+        "next": {
+          "html_transfer": 7071,
+          "request_count": 20,
+          "total_transfer": 164062,
+          "initial_js_transfer": 2270,
+          "total_js_transfer": 141862,
+          "initial_js_chunks": 1,
+          "total_js_chunks": 7,
+          "css_transfer": 5582,
+          "image_transfer": 0,
+          "font_transfer": 0,
+          "ttfb_ms": 26.2,
+          "fcp_ms": 76,
+          "lcp_ms": 220,
+          "cls": 0.0177425,
+          "longtask_duration_ms": 0,
+          "tbt_proxy_ms": 0,
+          "main_thread_js_proxy_ms": 515.8,
+          "inp_ms": null,
+          "hydration_proxy_ms": 67.5,
+          "lcp_element_type": "IMG"
+        }
+      }
+    }
+  },
+  "js_comparison_classification": {
+    "desktop": {
+      "initial_js_transfer": {
+        "cra_median": 0,
+        "next_median": 141862,
+        "classification": "REGRESSED"
+      },
+      "total_js_transfer": {
+        "cra_median": 201575,
+        "next_median": 141862,
+        "classification": "IMPROVED"
+      },
+      "total_js_chunk_count": {
+        "cra_median": 13,
+        "next_median": 7,
+        "classification": "IMPROVED"
+      }
+    },
+    "mobile": {
+      "initial_js_transfer": {
+        "cra_median": 0,
+        "next_median": 2270,
+        "classification": "REGRESSED"
+      },
+      "total_js_transfer": {
+        "cra_median": 201518,
+        "next_median": 141862,
+        "classification": "IMPROVED"
+      },
+      "total_js_chunk_count": {
+        "cra_median": 13,
+        "next_median": 7,
+        "classification": "IMPROVED"
+      }
+    }
+  },
+  "lcp_identification": {
+    "cra": {
+      "desktop": "Hero media (VIDEO element), LCP resource observed as hero poster URL",
+      "mobile": "Hero media (VIDEO element), LCP resource observed as hero poster URL"
+    },
+    "next": {
+      "desktop": "Hero image (IMG) https://files.ihgbrands.com/hero-video-poster.webp",
+      "mobile": "Hero image (IMG) https://files.ihgbrands.com/hero-video-poster.webp"
+    }
+  },
+  "limitations": [
+    "Environment differs by design: CRA is remote via Cloudflare preview; OpenNext is local workerd (127.0.0.1). Network/path differences affect absolute timings and transfer behavior.",
+    "Resource transfer sizes for some cross-origin assets can appear as 0 without Timing-Allow-Origin; observed especially for OpenNext image/font transfer fields.",
+    "INP was not reliably measurable in these synthetic no-interaction homepage runs (null across runs).",
+    "Hydration cost is a proxy metric from resource timing; not a direct framework-internal hydration trace.",
+    "Initial JS metric can vary by FCP boundary timing and JS arrival ordering; use with caution alongside total JS and chunk count."
+  ],
+  "conclusion": "Evidence captured for Stage C only. This report does not declare PASS/FAIL."
+}

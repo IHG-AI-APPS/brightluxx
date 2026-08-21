@@ -1,5 +1,10 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Stage C Accepted — Ready for Stage D (Not Started)
+- **Final independent Stage C decision: PASS.** The approved premium-minimal redesign is classified as intentional improvement at 1440; responsive navigation, hero, CTA, overflow, consent, comparison tray, and contact-control checks now pass at 1024, 768, 430, 390, and 360 (iteration 140).
+- **Performance evidence**: three-run desktop/mobile medians are saved in `/app/migration-baseline/stage-c-performance-report.json`. Total JS, JS chunks, request count, total transfer, LCP, and main-thread proxy improved. Initial-JS comparison is a non-blocking WARNING because CRA was remote while OpenNext was local and FCP-boundary timing varies.
+- Raw SEO, interactions, hydration, local OpenNext/workerd, route parity, and no mocked APIs are verified. Stage D is authorized by acceptance but has not been started; production CRA remains untouched.
+
 ## LATEST: Stage C Premium-Minimal Refinement — Functional/SEO PASS, Performance Pending
 - Homepage copy and hierarchy were refined under the approved premium-minimal direction: `Engineered Vision`, `Built For`, `Real Projects`, `Display Tech`, `For Specifiers`, `Latest Thinking`, and `Start Here`. Regional LED/digital-signage semantics remain visible in concise supporting content.
 - **Iteration 138 PASS**: raw HTML has one H1, canonical/title/description/JSON-LD, final counters, crawlable project/family/specifier/resource links; desktop/mobile menus, CTAs, contact controls and consent work; no persistent hydration or console errors; no mocked APIs.

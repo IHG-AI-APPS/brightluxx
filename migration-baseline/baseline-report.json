@@ -1,0 +1,22 @@
+{
+  "capturedAt": "2026-08-21T12:55:29.407Z",
+  "architecture": "CRA + React Router + custom static prerendering",
+  "productionOrigin": "https://brightluxx.com",
+  "baselinePreviewOrigin": "https://product-detail-qa.preview.emergentagent.com",
+  "counts": {
+    "totalRoutes": 352,
+    "indexable": 337,
+    "redirects": 15,
+    "nonIndexable": 0
+  },
+  "performanceBuildProxy": {
+    "javascriptBytes": 3242688,
+    "cssBytes": 180738,
+    "requestCount": 355
+  },
+  "notes": [
+    "Build asset byte counts are a reproducible payload proxy, not field Web Vitals.",
+    "The deployed production origin requires separate post-cutover HTTP verification.",
+    "The 43 existing metadata-length warnings are baseline warnings, not migration failures."
+  ]
+}

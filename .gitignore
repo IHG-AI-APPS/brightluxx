@@ -63,3 +63,4 @@ dump.rdb
 *.deb
 *.dylib
 credentials.json
+nextjs/node_modules/@cloudflare/workerd-linux-arm64/bin/workerd

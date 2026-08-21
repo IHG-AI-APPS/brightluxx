@@ -1,5 +1,11 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Next.js / Cloudflare Migration — FOUNDATION ONLY, CUTOVER BLOCKED
+- **Immutable baseline saved** in `/app/migration-baseline`: 352 current build routes (337 indexable plus 15 stubs), representative raw HTML, responsive reference captures, payload manifest, robots, llms, and route metadata/schema inventory.
+- **Isolated Next target created** at `/app/nextjs`; CRA remains untouched at `/app/frontend`. Next.js 16.3.2 App Router + OpenNext 1.20.2 builds successfully and uses server-rendered embedded snapshots for raw-HTML parity.
+- **Local Cloudflare/workerd result**: 333 canonical 200 routes plus 18 native 308 redirects, genuine 404, genuine 410, robots, sitemap, and llms all pass. The updated route-parity gate reports 0 failures for title, description, canonical, H1, and schema types.
+- **DO NOT CUT OVER**: this is not visual or functional parity. Phase 1/2/3 UI, client islands (filters/Finder/comparison/forms), analytics, visual comparison, performance measurement, remote Cloudflare preview, and post-migration Phase 3 acceptance remain required. Cloudflare remote preview cannot be run without scoped credentials.
+
 ## LATEST: Commercial UX + SEO Upgrade — Phase 3 Product Detail & Comparison — COMPLETE
 - **Persistent comparison accepted**: public comparison is LocalStorage-based, limited to three products, clears predictably, and never creates indexable comparison URLs. The product picker now closes after every selection or rejected fourth attempt so the next action stays available.
 - **Explicit limits and decision workflow**: attempting a fourth selection retains the original three and displays a clear max-limit notice on `/compare`; product-detail Add to Compare displays its own equivalent notice and a Compare now link when full. Differences-only mode and product removal remain functional.

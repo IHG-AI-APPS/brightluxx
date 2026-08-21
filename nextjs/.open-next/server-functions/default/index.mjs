@@ -1,0 +1,2186 @@
+globalThis.monorepoPackagePath = "";globalThis.openNextDebug = false;globalThis.openNextVersion = "4.1.0";globalThis.nextVersion = "16.3.2";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
+  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
+}) : x)(function(x) {
+  if (typeof require !== "undefined") return require.apply(this, arguments);
+  throw Error('Dynamic require of "' + x + '" is not supported');
+});
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+var __commonJS = (cb, mod3) => function __require2() {
+  return mod3 || (0, cb[__getOwnPropNames(cb)[0]])((mod3 = { exports: {} }).exports, mod3), mod3.exports;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __reExport = (target, mod3, secondTarget) => (__copyProps(target, mod3, "default"), secondTarget && __copyProps(secondTarget, mod3, "default"));
+var __toESM = (mod3, isNodeMode, target) => (target = mod3 != null ? __create(__getProtoOf(mod3)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod3 || !mod3.__esModule ? __defProp(target, "default", { value: mod3, enumerable: true }) : target,
+  mod3
+));
+var __toCommonJS = (mod3) => __copyProps(__defProp({}, "__esModule", { value: true }), mod3);
+
+// node_modules/@opennextjs/aws/dist/utils/error.js
+function isOpenNextError(e) {
+  try {
+    return "__openNextInternal" in e;
+  } catch {
+    return false;
+  }
+}
+var IgnorableError, FatalError;
+var init_error = __esm({
+  "node_modules/@opennextjs/aws/dist/utils/error.js"() {
+    IgnorableError = class extends Error {
+      __openNextInternal = true;
+      canIgnore = true;
+      logLevel = 0;
+      constructor(message) {
+        super(message);
+        this.name = "IgnorableError";
+      }
+    };
+    FatalError = class extends Error {
+      __openNextInternal = true;
+      canIgnore = false;
+      logLevel = 2;
+      constructor(message) {
+        super(message);
+        this.name = "FatalError";
+      }
+    };
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/adapters/logger.js
+function debug(...args) {
+  if (globalThis.openNextDebug) {
+    console.log(...args);
+  }
+}
+function warn(...args) {
+  console.warn(...args);
+}
+function error(...args) {
+  if (args.some((arg) => isDownplayedErrorLog(arg))) {
+    return debug(...args);
+  }
+  if (args.some((arg) => isOpenNextError(arg))) {
+    const error2 = args.find((arg) => isOpenNextError(arg));
+    if (error2.logLevel < getOpenNextErrorLogLevel()) {
+      return;
+    }
+    if (error2.logLevel === 0) {
+      return console.log(...args.map((arg) => isOpenNextError(arg) ? `${arg.name}: ${arg.message}` : arg));
+    }
+    if (error2.logLevel === 1) {
+      return warn(...args.map((arg) => isOpenNextError(arg) ? `${arg.name}: ${arg.message}` : arg));
+    }
+    return console.error(...args);
+  }
+  console.error(...args);
+}
+function getOpenNextErrorLogLevel() {
+  const strLevel = process.env.OPEN_NEXT_ERROR_LOG_LEVEL ?? "1";
+  switch (strLevel.toLowerCase()) {
+    case "debug":
+    case "0":
+      return 0;
+    case "error":
+    case "2":
+      return 2;
+    default:
+      return 1;
+  }
+}
+var DOWNPLAYED_ERROR_LOGS, isDownplayedErrorLog;
+var init_logger = __esm({
+  "node_modules/@opennextjs/aws/dist/adapters/logger.js"() {
+    init_error();
+    DOWNPLAYED_ERROR_LOGS = [
+      {
+        clientName: "S3Client",
+        commandName: "GetObjectCommand",
+        errorName: "NoSuchKey"
+      }
+    ];
+    isDownplayedErrorLog = (errorLog) => DOWNPLAYED_ERROR_LOGS.some((downplayedInput) => downplayedInput.clientName === errorLog?.clientName && downplayedInput.commandName === errorLog?.commandName && (downplayedInput.errorName === errorLog?.error?.name || downplayedInput.errorName === errorLog?.error?.Code));
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/http/util.js
+function parseSetCookieHeader(cookies) {
+  if (!cookies) {
+    return [];
+  }
+  if (typeof cookies === "string") {
+    return cookies.split(/(?<!Expires=\w+),/i).map((c) => c.trim());
+  }
+  return cookies;
+}
+function getQueryFromIterator(it) {
+  const query = {};
+  for (const [key, value] of it) {
+    if (key in query) {
+      if (Array.isArray(query[key])) {
+        query[key].push(value);
+      } else {
+        query[key] = [query[key], value];
+      }
+    } else {
+      query[key] = value;
+    }
+  }
+  return query;
+}
+var parseHeaders, convertHeader;
+var init_util = __esm({
+  "node_modules/@opennextjs/aws/dist/http/util.js"() {
+    init_logger();
+    parseHeaders = (headers) => {
+      const result = {};
+      if (!headers) {
+        return result;
+      }
+      for (const [key, value] of Object.entries(headers)) {
+        if (value === void 0) {
+          continue;
+        }
+        const keyLower = key.toLowerCase();
+        if (keyLower === "location" && Array.isArray(value)) {
+          if (value.length === 1 || value[0] === value[1]) {
+            result[keyLower] = value[0];
+          } else {
+            warn("Multiple different values for Location header found. Using the last one");
+            result[keyLower] = value[value.length - 1];
+          }
+          continue;
+        }
+        result[keyLower] = convertHeader(value);
+      }
+      return result;
+    };
+    convertHeader = (header) => {
+      if (typeof header === "string") {
+        return header;
+      }
+      if (Array.isArray(header)) {
+        return header.join(",");
+      }
+      return String(header);
+    };
+  }
+});
+
+// node-built-in-modules:node:module
+var node_module_exports = {};
+import * as node_module_star from "node:module";
+var init_node_module = __esm({
+  "node-built-in-modules:node:module"() {
+    __reExport(node_module_exports, node_module_star);
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/utils/stream.js
+import { ReadableStream as ReadableStream2 } from "node:stream/web";
+function emptyReadableStream() {
+  if (process.env.OPEN_NEXT_FORCE_NON_EMPTY_RESPONSE === "true") {
+    return new ReadableStream2({
+      pull(controller) {
+        maybeSomethingBuffer ??= Buffer.from("SOMETHING");
+        controller.enqueue(maybeSomethingBuffer);
+        controller.close();
+      }
+    }, { highWaterMark: 0 });
+  }
+  return new ReadableStream2({
+    start(controller) {
+      controller.close();
+    }
+  });
+}
+var maybeSomethingBuffer;
+var init_stream = __esm({
+  "node_modules/@opennextjs/aws/dist/utils/stream.js"() {
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/overrides/converters/utils.js
+function getQueryFromSearchParams(searchParams) {
+  return getQueryFromIterator(searchParams.entries());
+}
+var init_utils = __esm({
+  "node_modules/@opennextjs/aws/dist/overrides/converters/utils.js"() {
+    init_util();
+  }
+});
+
+// node_modules/cookie/dist/index.js
+var require_dist = __commonJS({
+  "node_modules/cookie/dist/index.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.parseCookie = parseCookie;
+    exports.parse = parseCookie;
+    exports.stringifyCookie = stringifyCookie;
+    exports.stringifySetCookie = stringifySetCookie;
+    exports.serialize = stringifySetCookie;
+    exports.parseSetCookie = parseSetCookie;
+    exports.stringifySetCookie = stringifySetCookie;
+    exports.serialize = stringifySetCookie;
+    var cookieNameRegExp = /^[\u0021-\u003A\u003C\u003E-\u007E]+$/;
+    var cookieValueRegExp = /^[\u0021-\u003A\u003C-\u007E]*$/;
+    var domainValueRegExp = /^([.]?[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)([.][a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$/i;
+    var pathValueRegExp = /^[\u0020-\u003A\u003D-\u007E]*$/;
+    var maxAgeRegExp = /^-?\d+$/;
+    var __toString = Object.prototype.toString;
+    var NullObject = /* @__PURE__ */ (() => {
+      const C = function() {
+      };
+      C.prototype = /* @__PURE__ */ Object.create(null);
+      return C;
+    })();
+    function parseCookie(str, options) {
+      const obj = new NullObject();
+      const len = str.length;
+      if (len < 2)
+        return obj;
+      const dec = options?.decode || decode;
+      let index = 0;
+      do {
+        const eqIdx = eqIndex(str, index, len);
+        if (eqIdx === -1)
+          break;
+        const endIdx = endIndex(str, index, len);
+        if (eqIdx > endIdx) {
+          index = str.lastIndexOf(";", eqIdx - 1) + 1;
+          continue;
+        }
+        const key = valueSlice(str, index, eqIdx);
+        if (obj[key] === void 0) {
+          obj[key] = dec(valueSlice(str, eqIdx + 1, endIdx));
+        }
+        index = endIdx + 1;
+      } while (index < len);
+      return obj;
+    }
+    function stringifyCookie(cookie, options) {
+      const enc = options?.encode || encodeURIComponent;
+      const cookieStrings = [];
+      for (const name of Object.keys(cookie)) {
+        const val = cookie[name];
+        if (val === void 0)
+          continue;
+        if (!cookieNameRegExp.test(name)) {
+          throw new TypeError(`cookie name is invalid: ${name}`);
+        }
+        const value = enc(val);
+        if (!cookieValueRegExp.test(value)) {
+          throw new TypeError(`cookie val is invalid: ${val}`);
+        }
+        cookieStrings.push(`${name}=${value}`);
+      }
+      return cookieStrings.join("; ");
+    }
+    function stringifySetCookie(_name, _val, _opts) {
+      const cookie = typeof _name === "object" ? _name : { ..._opts, name: _name, value: String(_val) };
+      const options = typeof _val === "object" ? _val : _opts;
+      const enc = options?.encode || encodeURIComponent;
+      if (!cookieNameRegExp.test(cookie.name)) {
+        throw new TypeError(`argument name is invalid: ${cookie.name}`);
+      }
+      const value = cookie.value ? enc(cookie.value) : "";
+      if (!cookieValueRegExp.test(value)) {
+        throw new TypeError(`argument val is invalid: ${cookie.value}`);
+      }
+      let str = cookie.name + "=" + value;
+      if (cookie.maxAge !== void 0) {
+        if (!Number.isInteger(cookie.maxAge)) {
+          throw new TypeError(`option maxAge is invalid: ${cookie.maxAge}`);
+        }
+        str += "; Max-Age=" + cookie.maxAge;
+      }
+      if (cookie.domain) {
+        if (!domainValueRegExp.test(cookie.domain)) {
+          throw new TypeError(`option domain is invalid: ${cookie.domain}`);
+        }
+        str += "; Domain=" + cookie.domain;
+      }
+      if (cookie.path) {
+        if (!pathValueRegExp.test(cookie.path)) {
+          throw new TypeError(`option path is invalid: ${cookie.path}`);
+        }
+        str += "; Path=" + cookie.path;
+      }
+      if (cookie.expires) {
+        if (!isDate(cookie.expires) || !Number.isFinite(cookie.expires.valueOf())) {
+          throw new TypeError(`option expires is invalid: ${cookie.expires}`);
+        }
+        str += "; Expires=" + cookie.expires.toUTCString();
+      }
+      if (cookie.httpOnly) {
+        str += "; HttpOnly";
+      }
+      if (cookie.secure) {
+        str += "; Secure";
+      }
+      if (cookie.partitioned) {
+        str += "; Partitioned";
+      }
+      if (cookie.priority) {
+        const priority = typeof cookie.priority === "string" ? cookie.priority.toLowerCase() : void 0;
+        switch (priority) {
+          case "low":
+            str += "; Priority=Low";
+            break;
+          case "medium":
+            str += "; Priority=Medium";
+            break;
+          case "high":
+            str += "; Priority=High";
+            break;
+          default:
+            throw new TypeError(`option priority is invalid: ${cookie.priority}`);
+        }
+      }
+      if (cookie.sameSite) {
+        const sameSite = typeof cookie.sameSite === "string" ? cookie.sameSite.toLowerCase() : cookie.sameSite;
+        switch (sameSite) {
+          case true:
+          case "strict":
+            str += "; SameSite=Strict";
+            break;
+          case "lax":
+            str += "; SameSite=Lax";
+            break;
+          case "none":
+            str += "; SameSite=None";
+            break;
+          default:
+            throw new TypeError(`option sameSite is invalid: ${cookie.sameSite}`);
+        }
+      }
+      return str;
+    }
+    function parseSetCookie(str, options) {
+      const dec = options?.decode || decode;
+      const len = str.length;
+      const endIdx = endIndex(str, 0, len);
+      const eqIdx = eqIndex(str, 0, endIdx);
+      const setCookie = eqIdx === -1 ? { name: "", value: dec(valueSlice(str, 0, endIdx)) } : {
+        name: valueSlice(str, 0, eqIdx),
+        value: dec(valueSlice(str, eqIdx + 1, endIdx))
+      };
+      let index = endIdx + 1;
+      while (index < len) {
+        const endIdx2 = endIndex(str, index, len);
+        const eqIdx2 = eqIndex(str, index, endIdx2);
+        const attr = eqIdx2 === -1 ? valueSlice(str, index, endIdx2) : valueSlice(str, index, eqIdx2);
+        const val = eqIdx2 === -1 ? void 0 : valueSlice(str, eqIdx2 + 1, endIdx2);
+        switch (attr.toLowerCase()) {
+          case "httponly":
+            setCookie.httpOnly = true;
+            break;
+          case "secure":
+            setCookie.secure = true;
+            break;
+          case "partitioned":
+            setCookie.partitioned = true;
+            break;
+          case "domain":
+            setCookie.domain = val;
+            break;
+          case "path":
+            setCookie.path = val;
+            break;
+          case "max-age":
+            if (val && maxAgeRegExp.test(val))
+              setCookie.maxAge = Number(val);
+            break;
+          case "expires":
+            if (!val)
+              break;
+            const date = new Date(val);
+            if (Number.isFinite(date.valueOf()))
+              setCookie.expires = date;
+            break;
+          case "priority":
+            if (!val)
+              break;
+            const priority = val.toLowerCase();
+            if (priority === "low" || priority === "medium" || priority === "high") {
+              setCookie.priority = priority;
+            }
+            break;
+          case "samesite":
+            if (!val)
+              break;
+            const sameSite = val.toLowerCase();
+            if (sameSite === "lax" || sameSite === "strict" || sameSite === "none") {
+              setCookie.sameSite = sameSite;
+            }
+            break;
+        }
+        index = endIdx2 + 1;
+      }
+      return setCookie;
+    }
+    function endIndex(str, min, len) {
+      const index = str.indexOf(";", min);
+      return index === -1 ? len : index;
+    }
+    function eqIndex(str, min, max) {
+      const index = str.indexOf("=", min);
+      return index < max ? index : -1;
+    }
+    function valueSlice(str, min, max) {
+      let start = min;
+      let end = max;
+      do {
+        const code = str.charCodeAt(start);
+        if (code !== 32 && code !== 9)
+          break;
+      } while (++start < end);
+      while (end > start) {
+        const code = str.charCodeAt(end - 1);
+        if (code !== 32 && code !== 9)
+          break;
+        end--;
+      }
+      return str.slice(start, end);
+    }
+    function decode(str) {
+      if (str.indexOf("%") === -1)
+        return str;
+      try {
+        return decodeURIComponent(str);
+      } catch (e) {
+        return str;
+      }
+    }
+    function isDate(val) {
+      return __toString.call(val) === "[object Date]";
+    }
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/overrides/converters/edge.js
+var edge_exports = {};
+__export(edge_exports, {
+  default: () => edge_default
+});
+import { Buffer as Buffer2 } from "node:buffer";
+var import_cookie, NULL_BODY_STATUSES, converter, edge_default;
+var init_edge = __esm({
+  "node_modules/@opennextjs/aws/dist/overrides/converters/edge.js"() {
+    import_cookie = __toESM(require_dist(), 1);
+    init_util();
+    init_utils();
+    NULL_BODY_STATUSES = /* @__PURE__ */ new Set([101, 103, 204, 205, 304]);
+    converter = {
+      convertFrom: async (event) => {
+        const url = new URL(event.url);
+        const searchParams = url.searchParams;
+        const query = getQueryFromSearchParams(searchParams);
+        const headers = {};
+        event.headers.forEach((value, key) => {
+          headers[key] = value;
+        });
+        const rawPath = url.pathname;
+        const method = event.method;
+        const shouldHaveBody = method !== "GET" && method !== "HEAD";
+        const body = shouldHaveBody ? Buffer2.from(await event.arrayBuffer()) : void 0;
+        const cookieHeader = event.headers.get("cookie");
+        const cookies = cookieHeader ? import_cookie.default.parse(cookieHeader) : {};
+        return {
+          type: "core",
+          method,
+          rawPath,
+          url: event.url,
+          body,
+          headers,
+          remoteAddress: event.headers.get("x-forwarded-for") ?? "::1",
+          query,
+          cookies
+        };
+      },
+      convertTo: async (result) => {
+        if ("internalEvent" in result) {
+          const request = new Request(result.internalEvent.url, {
+            body: result.internalEvent.body,
+            method: result.internalEvent.method,
+            headers: {
+              ...result.internalEvent.headers,
+              "x-forwarded-host": result.internalEvent.headers.host
+            }
+          });
+          if (globalThis.__dangerous_ON_edge_converter_returns_request === true) {
+            return request;
+          }
+          const cfCache = (result.isISR || result.internalEvent.rawPath.startsWith("/_next/image")) && process.env.DISABLE_CACHE !== "true" ? { cacheEverything: true } : {};
+          return fetch(request, {
+            // This is a hack to make sure that the response is cached by Cloudflare
+            // See https://developers.cloudflare.com/workers/examples/cache-using-fetch/#caching-html-resources
+            // @ts-expect-error - This is a Cloudflare specific option
+            cf: cfCache
+          });
+        }
+        const headers = new Headers();
+        for (const [key, value] of Object.entries(result.headers)) {
+          if (key === "set-cookie" && typeof value === "string") {
+            const cookies = parseSetCookieHeader(value);
+            for (const cookie of cookies) {
+              headers.append(key, cookie);
+            }
+            continue;
+          }
+          if (Array.isArray(value)) {
+            for (const v of value) {
+              headers.append(key, v);
+            }
+          } else {
+            headers.set(key, value);
+          }
+        }
+        const body = NULL_BODY_STATUSES.has(result.statusCode) ? null : result.body;
+        return new Response(body, {
+          status: result.statusCode,
+          headers
+        });
+      },
+      name: "edge"
+    };
+    edge_default = converter;
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/overrides/wrappers/cloudflare-node.js
+var cloudflare_node_exports = {};
+__export(cloudflare_node_exports, {
+  default: () => cloudflare_node_default
+});
+import { Writable } from "node:stream";
+var NULL_BODY_STATUSES2, handler, cloudflare_node_default;
+var init_cloudflare_node = __esm({
+  "node_modules/@opennextjs/aws/dist/overrides/wrappers/cloudflare-node.js"() {
+    NULL_BODY_STATUSES2 = /* @__PURE__ */ new Set([101, 204, 205, 304]);
+    handler = async (handler3, converter2) => async (request, env, ctx, abortSignal) => {
+      globalThis.process = process;
+      for (const [key, value] of Object.entries(env)) {
+        if (typeof value === "string") {
+          process.env[key] = value;
+        }
+      }
+      const internalEvent = await converter2.convertFrom(request);
+      const url = new URL(request.url);
+      const { promise: promiseResponse, resolve: resolveResponse } = Promise.withResolvers();
+      const streamCreator = {
+        writeHeaders(prelude) {
+          const { statusCode, cookies, headers } = prelude;
+          const responseHeaders = new Headers(headers);
+          for (const cookie of cookies) {
+            responseHeaders.append("Set-Cookie", cookie);
+          }
+          if (url.hostname === "localhost") {
+            responseHeaders.set("Content-Encoding", "identity");
+          }
+          if (NULL_BODY_STATUSES2.has(statusCode)) {
+            const response2 = new Response(null, {
+              status: statusCode,
+              headers: responseHeaders
+            });
+            resolveResponse(response2);
+            return new Writable({
+              write(chunk, encoding, callback) {
+                callback();
+              }
+            });
+          }
+          let controller;
+          const readable = new ReadableStream({
+            start(c) {
+              controller = c;
+            }
+          });
+          const response = new Response(readable, {
+            status: statusCode,
+            headers: responseHeaders
+          });
+          resolveResponse(response);
+          return new Writable({
+            write(chunk, encoding, callback) {
+              try {
+                controller.enqueue(chunk);
+              } catch (e) {
+                return callback(e);
+              }
+              callback();
+            },
+            final(callback) {
+              controller.close();
+              callback();
+            },
+            destroy(error2, callback) {
+              if (error2) {
+                controller.error(error2);
+              } else {
+                try {
+                  controller.close();
+                } catch {
+                }
+              }
+              callback(error2);
+            }
+          });
+        },
+        // This is for passing along the original abort signal from the initial Request you retrieve in your worker
+        // Ensures that the response we pass to NextServer is aborted if the request is aborted
+        // By doing this `request.signal.onabort` will work in route handlers
+        abortSignal,
+        // There is no need to retain the chunks that were pushed to the response stream.
+        retainChunks: false
+      };
+      ctx.waitUntil(handler3(internalEvent, {
+        streamCreator,
+        waitUntil: ctx.waitUntil.bind(ctx)
+      }));
+      return promiseResponse;
+    };
+    cloudflare_node_default = {
+      wrapper: handler,
+      name: "cloudflare-node",
+      supportStreaming: true
+    };
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/overrides/tagCache/dummy.js
+var dummy_exports = {};
+__export(dummy_exports, {
+  default: () => dummy_default
+});
+var dummyTagCache, dummy_default;
+var init_dummy = __esm({
+  "node_modules/@opennextjs/aws/dist/overrides/tagCache/dummy.js"() {
+    dummyTagCache = {
+      name: "dummy",
+      mode: "original",
+      getByPath: async () => {
+        return [];
+      },
+      getByTag: async () => {
+        return [];
+      },
+      getLastModified: async (_, lastModified) => {
+        return lastModified ?? Date.now();
+      },
+      writeTags: async () => {
+        return;
+      },
+      isStale: async (_path) => {
+        return false;
+      }
+    };
+    dummy_default = dummyTagCache;
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/overrides/queue/dummy.js
+var dummy_exports2 = {};
+__export(dummy_exports2, {
+  default: () => dummy_default2
+});
+var dummyQueue, dummy_default2;
+var init_dummy2 = __esm({
+  "node_modules/@opennextjs/aws/dist/overrides/queue/dummy.js"() {
+    init_error();
+    dummyQueue = {
+      name: "dummy",
+      send: async () => {
+        throw new FatalError("Dummy queue is not implemented");
+      }
+    };
+    dummy_default2 = dummyQueue;
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/overrides/incrementalCache/dummy.js
+var dummy_exports3 = {};
+__export(dummy_exports3, {
+  default: () => dummy_default3
+});
+var dummyIncrementalCache, dummy_default3;
+var init_dummy3 = __esm({
+  "node_modules/@opennextjs/aws/dist/overrides/incrementalCache/dummy.js"() {
+    init_error();
+    dummyIncrementalCache = {
+      name: "dummy",
+      get: async () => {
+        throw new IgnorableError('"Dummy" cache does not cache anything');
+      },
+      set: async () => {
+        throw new IgnorableError('"Dummy" cache does not cache anything');
+      },
+      delete: async () => {
+        throw new IgnorableError('"Dummy" cache does not cache anything');
+      }
+    };
+    dummy_default3 = dummyIncrementalCache;
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/overrides/assetResolver/dummy.js
+var dummy_exports4 = {};
+__export(dummy_exports4, {
+  default: () => dummy_default4
+});
+var resolver, dummy_default4;
+var init_dummy4 = __esm({
+  "node_modules/@opennextjs/aws/dist/overrides/assetResolver/dummy.js"() {
+    resolver = {
+      name: "dummy"
+    };
+    dummy_default4 = resolver;
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/overrides/proxyExternalRequest/fetch.js
+var fetch_exports = {};
+__export(fetch_exports, {
+  default: () => fetch_default
+});
+var fetchProxy, fetch_default;
+var init_fetch = __esm({
+  "node_modules/@opennextjs/aws/dist/overrides/proxyExternalRequest/fetch.js"() {
+    init_stream();
+    fetchProxy = {
+      name: "fetch-proxy",
+      // @ts-ignore
+      proxy: async (internalEvent) => {
+        const { url, headers: eventHeaders, method, body } = internalEvent;
+        const headers = Object.fromEntries(Object.entries(eventHeaders).filter(([key]) => key.toLowerCase() !== "cf-connecting-ip"));
+        const response = await fetch(url, {
+          method,
+          headers,
+          body
+        });
+        const responseHeaders = {};
+        response.headers.forEach((value, key) => {
+          const cur = responseHeaders[key];
+          if (cur === void 0) {
+            responseHeaders[key] = value;
+          } else if (Array.isArray(cur)) {
+            cur.push(value);
+          } else {
+            responseHeaders[key] = [cur, value];
+          }
+        });
+        return {
+          type: "core",
+          headers: responseHeaders,
+          statusCode: response.status,
+          isBase64Encoded: true,
+          body: response.body ?? emptyReadableStream()
+        };
+      }
+    };
+    fetch_default = fetchProxy;
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/overrides/cdnInvalidation/dummy.js
+var dummy_exports5 = {};
+__export(dummy_exports5, {
+  default: () => dummy_default5
+});
+var dummy_default5;
+var init_dummy5 = __esm({
+  "node_modules/@opennextjs/aws/dist/overrides/cdnInvalidation/dummy.js"() {
+    dummy_default5 = {
+      name: "dummy",
+      invalidatePaths: (_) => {
+        return Promise.resolve();
+      }
+    };
+  }
+});
+
+// node_modules/@opennextjs/aws/dist/core/createMainHandler.js
+init_logger();
+
+// node_modules/@opennextjs/aws/dist/adapters/util.js
+function setNodeEnv() {
+  const processEnv = process.env;
+  processEnv.NODE_ENV = process.env.NODE_ENV ?? "production";
+}
+function generateUniqueId() {
+  return Math.random().toString(36).slice(2, 8);
+}
+
+// node_modules/@opennextjs/aws/dist/core/requestHandler.js
+import { AsyncLocalStorage } from "node:async_hooks";
+
+// node_modules/@opennextjs/aws/dist/http/openNextResponse.js
+init_logger();
+init_util();
+import { Transform } from "node:stream";
+var SET_COOKIE_HEADER = "set-cookie";
+var CANNOT_BE_USED = "This cannot be used in OpenNext";
+var OpenNextNodeResponse = class extends Transform {
+  fixHeadersFn;
+  onEnd;
+  streamCreator;
+  initialHeaders;
+  statusCode;
+  statusMessage = "";
+  headers = {};
+  headersSent = false;
+  _chunks = [];
+  headersAlreadyFixed = false;
+  _cookies = [];
+  responseStream;
+  bodyLength = 0;
+  // To comply with the ServerResponse interface :
+  strictContentLength = false;
+  assignSocket(_socket) {
+    throw new Error(CANNOT_BE_USED);
+  }
+  detachSocket(_socket) {
+    throw new Error(CANNOT_BE_USED);
+  }
+  // We might have to revisit those 3 in the future
+  writeContinue(_callback) {
+    throw new Error(CANNOT_BE_USED);
+  }
+  writeEarlyHints(_hints, _callback) {
+    throw new Error(CANNOT_BE_USED);
+  }
+  writeProcessing() {
+    throw new Error(CANNOT_BE_USED);
+  }
+  /**
+   * This is a dummy request object to comply with the ServerResponse interface
+   * It will never be defined
+   */
+  req;
+  chunkedEncoding = false;
+  shouldKeepAlive = true;
+  useChunkedEncodingByDefault = true;
+  sendDate = false;
+  connection = null;
+  socket = null;
+  setTimeout(_msecs, _callback) {
+    throw new Error(CANNOT_BE_USED);
+  }
+  addTrailers(_headers) {
+    throw new Error(CANNOT_BE_USED);
+  }
+  constructor(fixHeadersFn, onEnd, streamCreator, initialHeaders, statusCode) {
+    super();
+    this.fixHeadersFn = fixHeadersFn;
+    this.onEnd = onEnd;
+    this.streamCreator = streamCreator;
+    this.initialHeaders = initialHeaders;
+    if (statusCode && Number.isInteger(statusCode) && statusCode >= 100 && statusCode <= 599) {
+      this.statusCode = statusCode;
+    }
+    streamCreator?.abortSignal?.addEventListener("abort", () => {
+      this.destroy();
+    });
+  }
+  // Necessary for next 12
+  // We might have to implement all the methods here
+  get originalResponse() {
+    return this;
+  }
+  get finished() {
+    return this.responseStream ? this.responseStream?.writableFinished : this.writableFinished;
+  }
+  setHeader(name, value) {
+    const key = name.toLowerCase();
+    if (key === SET_COOKIE_HEADER) {
+      if (Array.isArray(value)) {
+        this._cookies = value;
+      } else {
+        this._cookies = [value];
+      }
+    }
+    this.headers[key] = value;
+    return this;
+  }
+  removeHeader(name) {
+    const key = name.toLowerCase();
+    if (key === SET_COOKIE_HEADER) {
+      this._cookies = [];
+    } else {
+      delete this.headers[key];
+    }
+    return this;
+  }
+  hasHeader(name) {
+    const key = name.toLowerCase();
+    if (key === SET_COOKIE_HEADER) {
+      return this._cookies.length > 0;
+    }
+    return this.headers[key] !== void 0;
+  }
+  getHeaders() {
+    return this.headers;
+  }
+  getHeader(name) {
+    return this.headers[name.toLowerCase()];
+  }
+  getHeaderNames() {
+    return Object.keys(this.headers);
+  }
+  // Only used directly in next@14+
+  flushHeaders() {
+    this.headersSent = true;
+    const mergeHeadersPriority = globalThis.__openNextAls?.getStore()?.mergeHeadersPriority ?? "middleware";
+    if (this.initialHeaders) {
+      this.headers = mergeHeadersPriority === "middleware" ? {
+        ...this.headers,
+        ...this.initialHeaders
+      } : {
+        ...this.initialHeaders,
+        ...this.headers
+      };
+      const initialCookies = parseSetCookieHeader(this.initialHeaders[SET_COOKIE_HEADER]?.toString());
+      this._cookies = mergeHeadersPriority === "middleware" ? [...this._cookies, ...initialCookies] : [...initialCookies, ...this._cookies];
+    }
+    this.fixHeaders(this.headers);
+    this.fixHeadersForError();
+    this.headers[SET_COOKIE_HEADER] = this._cookies;
+    const parsedHeaders = parseHeaders(this.headers);
+    delete parsedHeaders[SET_COOKIE_HEADER];
+    if (this.streamCreator) {
+      this.responseStream = this.streamCreator?.writeHeaders({
+        statusCode: this.statusCode ?? 200,
+        cookies: this._cookies,
+        headers: parsedHeaders
+      });
+      this.pipe(this.responseStream);
+    }
+  }
+  appendHeader(name, value) {
+    const key = name.toLowerCase();
+    if (!this.hasHeader(key)) {
+      return this.setHeader(key, value);
+    }
+    const existingHeader = this.getHeader(key);
+    const toAppend = Array.isArray(value) ? value : [value];
+    const newValue = Array.isArray(existingHeader) ? [...existingHeader, ...toAppend] : [existingHeader, ...toAppend];
+    return this.setHeader(key, newValue);
+  }
+  writeHead(statusCode, statusMessage, headers) {
+    let _headers = headers;
+    let _statusMessage;
+    if (typeof statusMessage === "string") {
+      _statusMessage = statusMessage;
+    } else {
+      _headers = statusMessage;
+    }
+    const finalHeaders = this.headers;
+    if (_headers) {
+      if (Array.isArray(_headers)) {
+        for (let i = 0; i < _headers.length; i += 2) {
+          finalHeaders[_headers[i]] = _headers[i + 1];
+        }
+      } else {
+        for (const key of Object.keys(_headers)) {
+          finalHeaders[key] = _headers[key];
+        }
+      }
+    }
+    this.statusCode = statusCode;
+    if (headers) {
+      this.headers = finalHeaders;
+    }
+    this.flushHeaders();
+    return this;
+  }
+  /**
+   * OpenNext specific method
+   */
+  fixHeaders(headers) {
+    if (this.headersAlreadyFixed) {
+      return;
+    }
+    this.fixHeadersFn(headers);
+    this.headersAlreadyFixed = true;
+  }
+  getFixedHeaders() {
+    this.fixHeaders(this.headers);
+    this.fixHeadersForError();
+    this.headers[SET_COOKIE_HEADER] = this._cookies;
+    return this.headers;
+  }
+  getBody() {
+    return Buffer.concat(this._chunks);
+  }
+  _internalWrite(chunk, encoding) {
+    const buffer = encoding === "buffer" ? chunk : Buffer.from(chunk, encoding);
+    this.bodyLength += buffer.length;
+    if (this.streamCreator?.retainChunks !== false) {
+      this._chunks.push(buffer);
+    }
+    this.push(buffer);
+    this.streamCreator?.onWrite?.();
+  }
+  _transform(chunk, encoding, callback) {
+    if (!this.headersSent) {
+      this.flushHeaders();
+    }
+    this._internalWrite(chunk, encoding);
+    callback();
+  }
+  _flush(callback) {
+    if (!this.headersSent) {
+      this.flushHeaders();
+    }
+    globalThis.__openNextAls?.getStore()?.pendingPromiseRunner.add(this.onEnd(this.headers));
+    this.streamCreator?.onFinish?.(this.bodyLength);
+    if (this.bodyLength === 0 && // We use an env variable here because not all aws account have the same behavior
+    // On some aws accounts the response will hang if the body is empty
+    // We are modifying the response body here, this is not a good practice
+    process.env.OPEN_NEXT_FORCE_NON_EMPTY_RESPONSE === "true") {
+      debug('Force writing "SOMETHING" to the response body');
+      this.push("SOMETHING");
+    }
+    callback();
+  }
+  /**
+   * New method in Node 18.15+
+   * There are probably not used right now in Next.js, but better be safe than sorry
+   */
+  setHeaders(headers) {
+    headers.forEach((value, key) => {
+      this.setHeader(key, Array.isArray(value) ? value : value.toString());
+    });
+    return this;
+  }
+  /**
+   * Next specific methods
+   * On earlier versions of next.js, those methods are mandatory to make everything work
+   */
+  get sent() {
+    return this.finished || this.headersSent;
+  }
+  getHeaderValues(name) {
+    const values = this.getHeader(name);
+    if (values === void 0)
+      return void 0;
+    return (Array.isArray(values) ? values : [values]).map((value) => value.toString());
+  }
+  send() {
+    for (const chunk of this._chunks) {
+      this.write(chunk);
+    }
+    this.end();
+  }
+  body(value) {
+    this.write(value);
+    return this;
+  }
+  onClose(callback) {
+    this.on("close", callback);
+  }
+  redirect(destination, statusCode) {
+    this.setHeader("Location", destination);
+    this.statusCode = statusCode;
+    if (statusCode === 308) {
+      this.setHeader("Refresh", `0;url=${destination}`);
+    }
+    return this;
+  }
+  // For some reason, next returns the 500 error page with some cache-control headers
+  // We need to fix that
+  fixHeadersForError() {
+    if (process.env.OPEN_NEXT_DANGEROUSLY_SET_ERROR_HEADERS === "true") {
+      return;
+    }
+    if (this.statusCode === 404 || this.statusCode === 500) {
+      this.headers["cache-control"] = "private, no-cache, no-store, max-age=0, must-revalidate";
+    }
+  }
+};
+
+// node_modules/@opennextjs/aws/dist/http/request.js
+import http from "node:http";
+var IncomingMessage = class extends http.IncomingMessage {
+  constructor({ method, url, headers, body, remoteAddress }) {
+    super({
+      encrypted: true,
+      readable: false,
+      remoteAddress,
+      address: () => ({ port: 443 }),
+      end: Function.prototype,
+      destroy: Function.prototype
+    });
+    if (body) {
+      headers["content-length"] ??= String(Buffer.byteLength(body));
+    }
+    Object.assign(this, {
+      ip: remoteAddress,
+      complete: true,
+      httpVersion: "1.1",
+      httpVersionMajor: "1",
+      httpVersionMinor: "1",
+      method,
+      headers,
+      body,
+      url
+    });
+    this._read = () => {
+      this.push(body);
+      this.push(null);
+    };
+  }
+};
+
+// node_modules/@opennextjs/aws/dist/utils/promise.js
+init_logger();
+
+// node_modules/@opennextjs/aws/dist/utils/requestCache.js
+var RequestCache = class {
+  _caches = /* @__PURE__ */ new Map();
+  /**
+   * Returns the Map registered under `key`.
+   * If no Map exists yet for that key, a new empty Map is created, stored, and returned.
+   * Repeated calls with the same key always return the **same** Map instance.
+   */
+  getOrCreate(key) {
+    let cache = this._caches.get(key);
+    if (!cache) {
+      cache = /* @__PURE__ */ new Map();
+      this._caches.set(key, cache);
+    }
+    return cache;
+  }
+};
+
+// node_modules/@opennextjs/aws/dist/utils/promise.js
+var DetachedPromise = class {
+  resolve;
+  reject;
+  promise;
+  constructor() {
+    let resolve;
+    let reject;
+    this.promise = new Promise((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
+    this.resolve = resolve;
+    this.reject = reject;
+  }
+};
+var DetachedPromiseRunner = class {
+  promises = [];
+  withResolvers() {
+    const detachedPromise = new DetachedPromise();
+    this.promises.push(detachedPromise);
+    return detachedPromise;
+  }
+  add(promise) {
+    const detachedPromise = new DetachedPromise();
+    this.promises.push(detachedPromise);
+    promise.then(detachedPromise.resolve, detachedPromise.reject);
+  }
+  async await() {
+    debug(`Awaiting ${this.promises.length} detached promises`);
+    const results = await Promise.allSettled(this.promises.map((p) => p.promise));
+    const rejectedPromises = results.filter((r) => r.status === "rejected");
+    rejectedPromises.forEach((r) => {
+      error(r.reason);
+    });
+  }
+};
+async function awaitAllDetachedPromise() {
+  const store = globalThis.__openNextAls.getStore();
+  const promisesToAwait = store?.pendingPromiseRunner.await() ?? Promise.resolve();
+  if (store?.waitUntil) {
+    store.waitUntil(promisesToAwait);
+    return;
+  }
+  await promisesToAwait;
+}
+function provideNextAfterProvider() {
+  const NEXT_REQUEST_CONTEXT_SYMBOL = Symbol.for("@next/request-context");
+  const VERCEL_REQUEST_CONTEXT_SYMBOL = Symbol.for("@vercel/request-context");
+  const store = globalThis.__openNextAls.getStore();
+  const waitUntil = store?.waitUntil ?? ((promise) => store?.pendingPromiseRunner.add(promise));
+  const nextAfterContext = {
+    get: () => ({
+      waitUntil
+    })
+  };
+  globalThis[NEXT_REQUEST_CONTEXT_SYMBOL] = nextAfterContext;
+  if (process.env.EMULATE_VERCEL_REQUEST_CONTEXT) {
+    globalThis[VERCEL_REQUEST_CONTEXT_SYMBOL] = nextAfterContext;
+  }
+}
+function runWithOpenNextRequestContext({ isISRRevalidation, waitUntil, requestId = Math.random().toString(36) }, fn) {
+  return globalThis.__openNextAls.run({
+    requestId,
+    pendingPromiseRunner: new DetachedPromiseRunner(),
+    isISRRevalidation,
+    waitUntil,
+    writtenTags: /* @__PURE__ */ new Set(),
+    requestCache: new RequestCache()
+  }, async () => {
+    provideNextAfterProvider();
+    let result;
+    try {
+      result = await fn();
+    } finally {
+      await awaitAllDetachedPromise();
+    }
+    return result;
+  });
+}
+
+// node_modules/@opennextjs/aws/dist/adapters/config/index.js
+init_logger();
+import path from "node:path";
+globalThis.__dirname ??= "";
+var NEXT_DIR = path.join(__dirname, ".next");
+var OPEN_NEXT_DIR = path.join(__dirname, ".open-next");
+debug({ NEXT_DIR, OPEN_NEXT_DIR });
+var NextConfig = { "env": {}, "webpack": null, "typescript": { "ignoreBuildErrors": false }, "typedRoutes": false, "distDir": ".next", "cleanDistDir": true, "assetPrefix": "", "cacheMaxMemorySize": 52428800, "configOrigin": "next.config.ts", "useFileSystemPublicRoutes": true, "generateEtags": true, "pageExtensions": ["tsx", "ts", "jsx", "js"], "instrumentationClientInject": [], "poweredByHeader": true, "compress": true, "images": { "deviceSizes": [640, 750, 828, 1080, 1200, 1920, 2048, 3840], "imageSizes": [32, 48, 64, 96, 128, 256, 384], "path": "/_next/image", "loader": "default", "loaderFile": "", "domains": [], "disableStaticImages": false, "minimumCacheTTL": 14400, "formats": ["image/webp"], "maximumRedirects": 3, "maximumResponseBody": 5e7, "dangerouslyAllowLocalIP": false, "dangerouslyAllowSVG": false, "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox;", "contentDispositionType": "attachment", "localPatterns": [{ "pathname": "**", "search": "" }], "remotePatterns": [], "qualities": [75], "unoptimized": false, "customCacheHandler": false }, "devIndicators": { "position": "bottom-left" }, "onDemandEntries": { "maxInactiveAge": 6e4, "pagesBufferLength": 5 }, "basePath": "", "sassOptions": {}, "trailingSlash": false, "i18n": null, "productionBrowserSourceMaps": false, "excludeDefaultMomentLocales": true, "reactProductionProfiling": false, "reactStrictMode": null, "reactMaxHeadersLength": 6e3, "httpAgentOptions": { "keepAlive": true }, "logging": { "serverFunctions": true, "browserToTerminal": "warn" }, "compiler": {}, "expireTime": 31536e3, "staticPageGenerationTimeout": 60, "output": "standalone", "modularizeImports": { "@mui/icons-material": { "transform": "@mui/icons-material/{{member}}" }, "lodash": { "transform": "lodash/{{member}}" } }, "outputFileTracingRoot": "/app/nextjs", "enablePrerenderSourceMaps": true, "cacheComponents": false, "cacheLife": { "default": { "stale": 300, "revalidate": 900, "expire": 4294967294 }, "seconds": { "stale": 30, "revalidate": 1, "expire": 60 }, "minutes": { "stale": 300, "revalidate": 60, "expire": 3600 }, "hours": { "stale": 300, "revalidate": 3600, "expire": 86400 }, "days": { "stale": 300, "revalidate": 86400, "expire": 604800 }, "weeks": { "stale": 300, "revalidate": 604800, "expire": 2592e3 }, "max": { "stale": 300, "revalidate": 2592e3, "expire": 31536e3 } }, "cacheHandlers": {}, "experimental": { "appNewScrollHandler": true, "coldCacheBadge": false, "devValidationWorker": true, "useSkewCookie": false, "cssChunking": true, "multiZoneDraftMode": false, "appNavFailHandling": false, "prerenderEarlyExit": true, "serverMinification": true, "linkNoTouchStart": false, "caseSensitiveRoutes": false, "cachedNavigations": false, "dynamicOnHover": false, "useOffline": false, "varyParams": true, "optimisticRouting": true, "instrumentationClientRouterTransitionEvents": false, "prefetchInlining": { "maxSize": 2048, "maxBundleSize": 10240 }, "preloadEntriesOnStart": true, "clientRouterFilter": true, "clientRouterFilterRedirects": false, "fetchCacheKeyPrefix": "", "proxyPrefetch": "flexible", "optimisticClientCache": true, "manualClientBasePath": false, "cpus": 7, "memoryBasedWorkersCount": false, "imgOptConcurrency": null, "imgOptOperationCache": null, "imgOptTimeoutInSeconds": 7, "imgOptMaxInputPixels": 268402689, "imgOptSequentialRead": null, "isrFlushToDisk": true, "workerThreads": false, "optimizeCss": false, "nextScriptWorkers": false, "scrollRestoration": false, "externalDir": false, "devMemoryThresholdRestart": true, "disableOptimizedLoading": false, "gzipSize": true, "craCompat": false, "esmExternals": true, "fullySpecified": false, "swcTraceProfiling": false, "forceSwcTransforms": false, "requestInsights": false, "largePageDataBytes": 128e3, "typedEnv": false, "parallelServerCompiles": false, "parallelServerBuildTraces": false, "ppr": false, "authInterrupts": false, "webpackMemoryOptimizations": false, "optimizeServerReact": true, "strictRouteTypes": false, "useTypeScriptCli": true, "removeUncaughtErrorAndRejectionListeners": false, "validateRSCRequestHeaders": true, "staleTimes": { "dynamic": 0, "static": 300 }, "reactDebugChannel": true, "serverComponentsHmrCache": true, "serverComponentsHmrCancellation": false, "staticGenerationMaxConcurrency": 8, "staticGenerationMinPagesPerWorker": 25, "transitionIndicator": false, "gestureTransition": false, "inlineCss": false, "useCache": false, "globalNotFound": false, "browserDebugInfoInTerminal": "warn", "lockDistDir": true, "proxyClientMaxBodySize": 10485760, "hideLogsAfterAbort": false, "mcpServer": true, "turbopackFileSystemCacheForDev": true, "turbopackFileSystemCacheForBuild": true, "turbopackInferModuleSideEffects": true, "turbopackPluginRuntimeStrategy": "childProcesses", "turbopackMemoryEvictionMode": "auto", "optimizePackageImports": ["lucide-react", "date-fns", "lodash-es", "ramda", "antd", "react-bootstrap", "ahooks", "@ant-design/icons", "@headlessui/react", "@headlessui-float/react", "@heroicons/react/20/solid", "@heroicons/react/24/solid", "@heroicons/react/24/outline", "@visx/visx", "@tremor/react", "rxjs", "@mui/material", "@mui/icons-material", "recharts", "react-use", "effect", "@effect/schema", "@effect/platform", "@effect/platform-node", "@effect/platform-browser", "@effect/platform-bun", "@effect/sql", "@effect/sql-mssql", "@effect/sql-mysql2", "@effect/sql-pg", "@effect/sql-sqlite-node", "@effect/sql-sqlite-bun", "@effect/sql-sqlite-wasm", "@effect/sql-sqlite-react-native", "@effect/rpc", "@effect/rpc-http", "@effect/typeclass", "@effect/experimental", "@effect/opentelemetry", "@material-ui/core", "@material-ui/icons", "@tabler/icons-react", "mui-core", "react-icons/ai", "react-icons/bi", "react-icons/bs", "react-icons/cg", "react-icons/ci", "react-icons/di", "react-icons/fa", "react-icons/fa6", "react-icons/fc", "react-icons/fi", "react-icons/gi", "react-icons/go", "react-icons/gr", "react-icons/hi", "react-icons/hi2", "react-icons/im", "react-icons/io", "react-icons/io5", "react-icons/lia", "react-icons/lib", "react-icons/lu", "react-icons/md", "react-icons/pi", "react-icons/ri", "react-icons/rx", "react-icons/si", "react-icons/sl", "react-icons/tb", "react-icons/tfi", "react-icons/ti", "react-icons/vsc", "react-icons/wi"], "useCacheTimeout": 54, "instantInsights": { "validationLevel": "warning" }, "trustHostHeader": false, "isExperimentalCompile": false }, "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight", "bundlePagesRouterDependencies": false, "configFileName": "next.config.ts", "turbopack": { "root": "/app/nextjs" }, "repoRoot": "/app/nextjs", "distDirRoot": ".next", "_originalRewrites": { "beforeFiles": [], "afterFiles": [{ "source": "/api/:path*", "destination": "https://product-detail-qa.preview.emergentagent.com/api/:path*" }], "fallback": [] }, "_originalRedirects": [{ "source": "/our-works", "destination": "/projects", "permanent": true }, { "source": "/digital-solutions", "destination": "/solutions", "permanent": true }, { "source": "/products/led-display", "destination": "/products", "permanent": true }, { "source": "/products/indoor-led-display", "destination": "/indoor-led", "permanent": true }, { "source": "/products/outdoor-led-display", "destination": "/outdoor-led", "permanent": true }, { "source": "/products/spherical-led-display", "destination": "/products", "permanent": true }, { "source": "/products/transparent-led-display", "destination": "/glassmorph", "permanent": true }, { "source": "/products/rental-led-display", "destination": "/products", "permanent": true }, { "source": "/products/flexible-led-display", "destination": "/products", "permanent": true }, { "source": "/download-catalog", "destination": "/products", "permanent": true }, { "source": "/about-us", "destination": "/about", "permanent": true }, { "source": "/contact-us", "destination": "/contact", "permanent": true }, { "source": "/portfolio", "destination": "/projects", "permanent": true }, { "source": "/gallery", "destination": "/projects", "permanent": true }, { "source": "/led-screen-dubai", "destination": "/led-screen-suppliers-dubai", "permanent": true }, { "source": "/led-display-abu-dhabi", "destination": "/abu-dhabi", "permanent": true }, { "source": "/led-screen-saudi-arabia", "destination": "/saudi-arabia", "permanent": true }, { "source": "/led-screen-qatar", "destination": "/qatar", "permanent": true }] };
+var BuildId = "0VevTopRFbkV79u5_PhIJ";
+var HtmlPages = ["/404", "/500"];
+var RoutesManifest = { "basePath": "", "rewrites": { "beforeFiles": [], "afterFiles": [{ "source": "/api/:path*", "destination": "https://product-detail-qa.preview.emergentagent.com/api/:path*", "regex": "^/api(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$" }], "fallback": [] }, "redirects": [{ "source": "/:path+/", "destination": "/:path+", "internal": true, "priority": true, "statusCode": 308, "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$" }, { "source": "/our-works", "destination": "/projects", "statusCode": 308, "regex": "^(?!/_next)/our-works(?:/)?$" }, { "source": "/digital-solutions", "destination": "/solutions", "statusCode": 308, "regex": "^(?!/_next)/digital-solutions(?:/)?$" }, { "source": "/products/led-display", "destination": "/products", "statusCode": 308, "regex": "^(?!/_next)/products/led-display(?:/)?$" }, { "source": "/products/indoor-led-display", "destination": "/indoor-led", "statusCode": 308, "regex": "^(?!/_next)/products/indoor-led-display(?:/)?$" }, { "source": "/products/outdoor-led-display", "destination": "/outdoor-led", "statusCode": 308, "regex": "^(?!/_next)/products/outdoor-led-display(?:/)?$" }, { "source": "/products/spherical-led-display", "destination": "/products", "statusCode": 308, "regex": "^(?!/_next)/products/spherical-led-display(?:/)?$" }, { "source": "/products/transparent-led-display", "destination": "/glassmorph", "statusCode": 308, "regex": "^(?!/_next)/products/transparent-led-display(?:/)?$" }, { "source": "/products/rental-led-display", "destination": "/products", "statusCode": 308, "regex": "^(?!/_next)/products/rental-led-display(?:/)?$" }, { "source": "/products/flexible-led-display", "destination": "/products", "statusCode": 308, "regex": "^(?!/_next)/products/flexible-led-display(?:/)?$" }, { "source": "/download-catalog", "destination": "/products", "statusCode": 308, "regex": "^(?!/_next)/download-catalog(?:/)?$" }, { "source": "/about-us", "destination": "/about", "statusCode": 308, "regex": "^(?!/_next)/about-us(?:/)?$" }, { "source": "/contact-us", "destination": "/contact", "statusCode": 308, "regex": "^(?!/_next)/contact-us(?:/)?$" }, { "source": "/portfolio", "destination": "/projects", "statusCode": 308, "regex": "^(?!/_next)/portfolio(?:/)?$" }, { "source": "/gallery", "destination": "/projects", "statusCode": 308, "regex": "^(?!/_next)/gallery(?:/)?$" }, { "source": "/led-screen-dubai", "destination": "/led-screen-suppliers-dubai", "statusCode": 308, "regex": "^(?!/_next)/led-screen-dubai(?:/)?$" }, { "source": "/led-display-abu-dhabi", "destination": "/abu-dhabi", "statusCode": 308, "regex": "^(?!/_next)/led-display-abu-dhabi(?:/)?$" }, { "source": "/led-screen-saudi-arabia", "destination": "/saudi-arabia", "statusCode": 308, "regex": "^(?!/_next)/led-screen-saudi-arabia(?:/)?$" }, { "source": "/led-screen-qatar", "destination": "/qatar", "statusCode": 308, "regex": "^(?!/_next)/led-screen-qatar(?:/)?$" }], "routes": { "static": [{ "page": "/", "regex": "^/(?:/)?$", "routeKeys": {}, "namedRegex": "^/(?:/)?$" }, { "page": "/_global-error", "regex": "^/_global\\-error(?:/)?$", "routeKeys": {}, "namedRegex": "^/_global\\-error(?:/)?$" }, { "page": "/_not-found", "regex": "^/_not\\-found(?:/)?$", "routeKeys": {}, "namedRegex": "^/_not\\-found(?:/)?$" }, { "page": "/products/hjdba", "regex": "^/products/hjdba(?:/)?$", "routeKeys": {}, "namedRegex": "^/products/hjdba(?:/)?$" }, { "page": "/robots.txt", "regex": "^/robots\\.txt(?:/)?$", "routeKeys": {}, "namedRegex": "^/robots\\.txt(?:/)?$" }, { "page": "/sitemap.xml", "regex": "^/sitemap\\.xml(?:/)?$", "routeKeys": {}, "namedRegex": "^/sitemap\\.xml(?:/)?$" }], "dynamic": [{ "page": "/[...slug]", "regex": "^/(.+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/(?<nxtPslug>.+?)(?:/)?$" }], "data": { "static": [], "dynamic": [] } }, "locales": [] };
+var PrerenderManifest = { "version": 4, "routes": { "/": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15711, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/", "dataRoute": "/index.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/_global-error": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 8760, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/_global-error", "dataRoute": "/_global-error.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/_not-found": { "initialStatus": 404, "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 5188, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/_not-found", "dataRoute": "/_not-found.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/about": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12294, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/about.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/abu-dhabi": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24098, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/abu-dhabi.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12011, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/broadcasting": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11764, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/broadcasting.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/corporate": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11698, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/corporate.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/corporate-av": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11764, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/corporate-av.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/education": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11698, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/education.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/entertainment": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11786, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/entertainment.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/healthcare": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11720, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/healthcare.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/hospitality": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11742, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/hospitality.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/outdoor": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11654, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/outdoor.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/retail": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11632, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/retail.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/retail-signage": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11808, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/retail-signage.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/transport": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11698, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/transport.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/transportation": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11808, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/transportation.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/applications/worship": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11654, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/applications/worship.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/ar-ae": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 9728, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/ar-ae.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/ar-ae/dubai": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 9976, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/ar-ae/dubai.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/ar-ae/uae": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 10052, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/ar-ae/uae.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/art-immersive": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12194, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/art-immersive.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/bahrain": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22106, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/bahrain.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15670, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/3d-anamorphic-led-displays-viral-marketing": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 26078, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/3d-anamorphic-led-displays-viral-marketing.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/ai-powered-digital-signage-2026": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 28456, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/ai-powered-digital-signage-2026.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/choosing-pixel-pitch-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 26321, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/choosing-pixel-pitch-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/cob-led-technology-explained": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 26382, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/cob-led-technology-explained.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/dubai-expo-2020-led-displays-legacy": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 26995, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/dubai-expo-2020-led-displays-legacy.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/energy-efficient-led-displays-sustainability": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 26541, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/energy-efficient-led-displays-sustainability.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/gcc-led-display-market-guide-qatar-kuwait-bahrain-oman": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 31401, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/gcc-led-display-market-guide-qatar-kuwait-bahrain-oman.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/indoor-vs-outdoor-led-screen-dubai": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22292, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/indoor-vs-outdoor-led-screen-dubai.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/led-display-pricing-guide-uae": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24443, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/led-display-pricing-guide-uae.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/led-display-roi-calculator-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 28232, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/led-display-roi-calculator-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/led-display-solutions-abu-dhabi-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 29882, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/led-display-solutions-abu-dhabi-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/led-displays-dubai-retail": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 25999, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/led-displays-dubai-retail.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/led-wall-buyers-checklist": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23582, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/led-wall-buyers-checklist.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/led-walls-control-rooms-mission-critical": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 25509, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/led-walls-control-rooms-mission-critical.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/microled-vs-oled-2025": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 27276, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/microled-vs-oled-2025.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/outdoor-led-uae-heat-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 27130, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/outdoor-led-uae-heat-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/saudi-arabia-vision-2030-led-projects": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 30591, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/saudi-arabia-vision-2030-led-projects.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/blog/transparent-led-displays-architect-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 28248, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/blog/transparent-led-displays-architect-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/budget-estimator": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11784, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/budget-estimator.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/calculator": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11845, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/calculator.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 18124, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/adnoc-hq-command-center": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 14535, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/adnoc-hq-command-center.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/bespoke-lighting-custom-led-solutions": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15233, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/bespoke-lighting-custom-led-solutions.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/cleveland-clinic-abu-dhabi": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 14650, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/cleveland-clinic-abu-dhabi.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/diya-gold-sharjah-led-display": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 14761, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/diya-gold-sharjah-led-display.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/dubai-mall-flagship-retail": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 14619, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/dubai-mall-flagship-retail.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/dunkin-jlt-led-menu-display": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15175, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/dunkin-jlt-led-menu-display.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/expo-city-dubai-event-hall": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 14655, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/expo-city-dubai-event-hall.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/fashion-boutique-led-display-dubai": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15242, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/fashion-boutique-led-display-dubai.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/finance-services-corporate-led-display": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15270, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/finance-services-corporate-led-display.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/hospital-led-wayfinding-digital-signage": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15294, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/hospital-led-wayfinding-digital-signage.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/jewellery-showroom-led-display-lighting": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15230, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/jewellery-showroom-led-display-lighting.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/jumeirah-al-naseem-lobby": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 14589, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/jumeirah-al-naseem-lobby.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/kapsarc-3d-anamorphic": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 14524, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/kapsarc-3d-anamorphic.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/meralda-meena-bazaar-led-display": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15068, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/meralda-meena-bazaar-led-display.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/private-villa-smart-led-home-cinema": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15562, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/private-villa-smart-led-home-cinema.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/rdc-abu-dhabi-led-video-wall": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15286, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/rdc-abu-dhabi-led-video-wall.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/restaurant-led-ambient-lighting-dubai": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15179, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/restaurant-led-ambient-lighting-dubai.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/retail-store-led-display-fitout": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15039, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/retail-store-led-display-fitout.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/riyadh-metro-passenger-info": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 14667, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/riyadh-metro-passenger-info.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/salon-spa-led-ambient-lighting": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15172, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/salon-spa-led-ambient-lighting.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/supermarket-led-lighting-digital-signage": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15296, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/supermarket-led-lighting-digital-signage.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/the-view-at-the-palm-transparent": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 14730, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/the-view-at-the-palm-transparent.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/touch-of-oud-al-zahia-led-display": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15716, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/touch-of-oud-al-zahia-led-display.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/case-studies/uw-mall-mankhool-led-display": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15391, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/case-studies/uw-mall-mankhool-led-display.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/compare": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11732, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/compare.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/compare-brands": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11772, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/compare-brands.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/compare-products": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11919, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/compare-products.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/configurator": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11801, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/configurator.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/contact": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12022, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/contact.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/contractors/dvled-vs-lcd": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12366, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/contractors/dvled-vs-lcd.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/contractors/led-cost-per-sqm": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12454, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/contractors/led-cost-per-sqm.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/contractors/led-installation-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12586, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/contractors/led-installation-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/cpd-programme": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12214, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/cpd-programme.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/design-assist": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12125, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/design-assist.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/digital-experience": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12074, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/digital-experience.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/digital-experience/immersive-led-rooms": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11790, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/digital-experience/immersive-led-rooms.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/digital-experience/media-facades": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11658, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/digital-experience/media-facades.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/digital-experience/retail-experiential-screens": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11966, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/digital-experience/retail-experiential-screens.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/digital-experience-architecture": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11549, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/digital-experience-architecture.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/distribution": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11877, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/distribution.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/dubai": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 33410, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/dubai.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/factory-tour": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12165, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/factory-tour.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/faq": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11779, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/faq.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/for-architects": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12478, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/for-architects.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/for-contractors": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11902, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/for-contractors.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/glassmorph": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12622, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/glassmorph.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/glassmorph/flying-display": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12334, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/glassmorph/flying-display.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/glassmorph/hanging-led": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12043, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/glassmorph/hanging-led.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/glassmorph/led-film": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12502, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/glassmorph/led-film.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/glassmorph/media-glass": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12270, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/glassmorph/media-glass.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/glassmorph/smart-film": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12879, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/glassmorph/smart-film.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/glassmorph/switchable-glass": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12092, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/glassmorph/switchable-glass.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/government-solutions": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11984, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/government-solutions.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/indoor-led": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11845, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/indoor-led.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11850, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/all-in-one-boardroom": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11680, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/all-in-one-boardroom.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/architectural-media-facade": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11812, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/architectural-media-facade.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/cinema-led-premiere": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11658, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/cinema-led-premiere.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/concert-stage-design": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11680, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/concert-stage-design.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/corporate-command-centre": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11768, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/corporate-command-centre.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/digital-highway-billboard": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11790, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/digital-highway-billboard.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/digital-shelf-edge": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11636, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/digital-shelf-edge.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/expo-pavilion-ceiling": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11702, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/expo-pavilion-ceiling.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/holographic-storefront": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11724, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/holographic-storefront.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/home-cinema-dvled": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11614, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/home-cinema-dvled.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/immersive-retail": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11592, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/immersive-retail.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/immersive-room-360": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11636, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/immersive-room-360.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/interactive-floor-experience": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11856, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/interactive-floor-experience.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/led-sphere-museum": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11614, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/led-sphere-museum.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/luxury-hotel-lobby": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11636, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/luxury-hotel-lobby.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/museum-interactive-gallery": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11812, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/museum-interactive-gallery.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/naked-eye-3d-billboard": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11724, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/naked-eye-3d-billboard.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/sky-ceiling-mall": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11592, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/sky-ceiling-mall.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/smart-city-dooh-network": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11746, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/smart-city-dooh-network.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/stadium-spectacle": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11614, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/stadium-spectacle.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/transparent-storefront": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11724, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/transparent-storefront.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/inspirations/virtual-production-film": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11746, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/inspirations/virtual-production-film.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/installation-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11871, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/installation-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/knowledge": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11877, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/knowledge.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/knowledge/brightness-nits-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 13267, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/knowledge/brightness-nits-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/knowledge/cms-multi-site": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 13110, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/knowledge/cms-multi-site.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/knowledge/cob-vs-mip-vs-smd": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 13299, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/knowledge/cob-vs-mip-vs-smd.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/knowledge/ip-rating-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 13383, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/knowledge/ip-rating-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/knowledge/pixel-pitch-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 13276, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/knowledge/pixel-pitch-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/knowledge/processing-calibration": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 13253, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/knowledge/processing-calibration.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/knowledge/refresh-rate-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 13213, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/knowledge/refresh-rate-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/kuwait": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22549, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/kuwait.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/latest-tech": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11877, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/latest-tech.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/latest-tech/ai-powered": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12300, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/latest-tech/ai-powered.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/latest-tech/glasses-free-3d": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12410, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/latest-tech/glasses-free-3d.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/latest-tech/microled": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12256, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/latest-tech/microled.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/latest-tech/transparent-led": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12410, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/latest-tech/transparent-led.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/led-calculator": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11899, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/led-calculator.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/led-display-abu-dhabi": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12205, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/led-display-abu-dhabi.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/led-screen-dubai": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12204, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/led-screen-dubai.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/led-screen-kuwait": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12177, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/led-screen-kuwait.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/led-screen-qatar": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12131, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/led-screen-qatar.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/led-screen-saudi-arabia": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12192, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/led-screen-saudi-arabia.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/led-screen-suppliers-dubai": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 20290, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/led-screen-suppliers-dubai.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/lp/specifier-toolkit": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11394, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/lp/specifier-toolkit.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/lumimorph": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12082, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/lumimorph.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/lumimorph/elite": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12582, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/lumimorph/elite.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/lumimorph/grande": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12518, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/lumimorph/grande.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/lumimorph/mini": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12516, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/lumimorph/mini.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/lumimorph-elite": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11443, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/lumimorph-elite.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/luxury-home-cinema": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12369, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/luxury-home-cinema.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/mission-critical-displays": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12342, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/mission-critical-displays.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/naturatex": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12660, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/naturatex.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/naturatex/holoveil": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12413, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/naturatex/holoveil.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/oman": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 21891, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/oman.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/outdoor-led": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11846, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/outdoor-led.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12437, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/creative-shapes": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11482, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/creative-shapes.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/crystalflex": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11394, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/crystalflex.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/digi-standee": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11985, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/digi-standee.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/eagle-wing": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11372, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/eagle-wing.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/ellipse-counter": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11482, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/ellipse-counter.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/ezeesign": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11861, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/ezeesign.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/iconference": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11911, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/iconference.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/iflex-pro": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11350, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/iflex-pro.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/iflip": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11822, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/iflip.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/interactive": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11394, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/interactive.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/iposter": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11921, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/iposter.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/ishelf": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11943, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/ishelf.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/itransformers": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11438, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/itransformers.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/magic-blanket": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11438, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/magic-blanket.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/magic-garments": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11460, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/magic-garments.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/magicsky": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11328, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/magicsky.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/magicstage": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11372, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/magicstage.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/ooh-poster": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11873, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/ooh-poster.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/rolling-floor": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11438, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/rolling-floor.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/tablevision": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12071, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/tablevision.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/tetris": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11841, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/tetris.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/ultra-flip": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11911, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/ultra-flip.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/unity": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11881, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/unity.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/pixelvue/videobrick": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11917, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/pixelvue/videobrick.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/power-estimator": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11881, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/power-estimator.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/product-families": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12277, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/product-families.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 16326, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/3d-fabricated-led-letters": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22674, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/3d-fabricated-led-letters.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/airport-fids-display-p15": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22855, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/airport-fids-display-p15.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/ambientscreen-15": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24436, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/ambientscreen-15.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/ambientscreen-curved-18": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23028, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/ambientscreen-curved-18.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/artframe-gallery-12": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22689, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/artframe-gallery-12.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/artframe-pro-09": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24397, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/artframe-pro-09.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-3dl250": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23228, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-3dl250.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-3dl390": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22206, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-3dl390.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-aio110": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22557, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-aio110.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-aio136": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22524, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-aio136.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-cnx093": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 25226, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-cnx093.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-cnx125": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24206, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-cnx125.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-cob060": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23608, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-cob060.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-cob093": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22200, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-cob093.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-cob125": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22820, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-cob125.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-cvx160": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23553, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-cvx160.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-dvl084": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22724, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-dvl084.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-dvl120": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23408, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-dvl120.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-dvl220": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22662, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-dvl220.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-flx150": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23058, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-flx150.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-flx780": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23672, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-flx780.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-grn250": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22456, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-grn250.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-hol020": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23604, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-hol020.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-ifl290": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22190, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-ifl290.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-ifl390": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22164, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-ifl390.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-ifp195": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22222, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-ifp195.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-ifp250": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 21604, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-ifp250.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-mip040": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23240, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-mip040.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-mip150": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22760, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-mip150.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-obx390": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22108, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-obx390.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-obx680": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22684, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-obx680.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-ofp150": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22162, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-ofp150.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-ptr150": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22856, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-ptr150.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-ptr250": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 21862, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-ptr250.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-rpx150": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22848, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-rpx150.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-rpx290": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22600, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-rpx290.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-shf120": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22696, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-shf120.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-shf188": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 21830, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-shf188.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-sky250": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23334, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-sky250.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-sky390": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24340, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-sky390.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-sph300": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23578, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-sph300.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-sph500": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24e3, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-sph500.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-spx470": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23704, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-spx470.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-trx060": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22686, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-trx060.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-trx380": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22470, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-trx380.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-vpx093": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23172, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-vpx093.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/bl-vpx150": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23631, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/bl-vpx150.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/cinemaled-pro-12": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23750, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/cinemaled-pro-12.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/cinemaled-ultra-09": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23251, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/cinemaled-ultra-09.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/colorlight-z6-media-server": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23095, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/colorlight-z6-media-server.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/commercial-smart-tv-85": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23926, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/commercial-smart-tv-85.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/cone-led-display-p4": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23812, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/cone-led-display-p4.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/cube-led-display-p3": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23840, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/cube-led-display-p3.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/digital-kiosk-interactive-43": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24355, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/digital-kiosk-interactive-43.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/digital-signage-outdoor-75": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23903, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/digital-signage-outdoor-75.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/digital-signage-pro-55": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24686, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/digital-signage-pro-55.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/drive-thru-led-menu-p25": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23052, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/drive-thru-led-menu-p25.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/dual-lit-channel-letters-pro": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23212, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/dual-lit-channel-letters-pro.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/frontlit-channel-letters-rgb": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22706, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/frontlit-channel-letters-rgb.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/gamewall-240hz": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23282, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/gamewall-240hz.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/gamewall-sim-180": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24095, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/gamewall-sim-180.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/gas-station-price-led-sign": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22122, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/gas-station-price-led-sign.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/halo-lit-channel-letters": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23560, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/halo-lit-channel-letters.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/immersafloor-p39": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22624, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/immersafloor-p39.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/immersawall-360": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23933, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/immersawall-360.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/interactive-directory-kiosk": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22822, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/interactive-directory-kiosk.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/kineticled-responsive-p39": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23248, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/kineticled-responsive-p39.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/led-power-supply-200w": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22906, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/led-power-supply-200w.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/meeting-room-led-136": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24725, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/meeting-room-led-136.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/metaportal-18": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24386, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/metaportal-18.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/metaroom-cube": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24802, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/metaroom-cube.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/mini-channel-letters-indoor": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22625, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/mini-channel-letters-indoor.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/mounting-bracket-wall": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22086, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/mounting-bracket-wall.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/neoflex-led-letters": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24108, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/neoflex-led-letters.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/novastar-mctrl4k-controller": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23545, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/novastar-mctrl4k-controller.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/outdoor-smart-tv-65": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23672, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/outdoor-smart-tv-65.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/plug-play-videowall-2x2": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22560, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/plug-play-videowall-2x2.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/poolview-p39": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24504, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/poolview-p39.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/poolview-retractable-p29": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23334, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/poolview-retractable-p29.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/portable-led-stand-p25": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23172, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/portable-led-stand-p25.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/pylon-led-wayfinding-sign": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24166, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/pylon-led-wayfinding-sign.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/qsr-digital-menu-board-55": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23029, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/qsr-digital-menu-board-55.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/round-led-display-p25": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23107, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/round-led-display-p25.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/sculptled-ribbon-flex": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23035, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/sculptled-ribbon-flex.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/sculptled-sphere-3d": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22521, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/sculptled-sphere-3d.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/theaterpro-complete": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23828, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/theaterpro-complete.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/theaterpro-mini": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23055, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/theaterpro-mini.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/touchwall-interactive-p25": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23038, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/touchwall-interactive-p25.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/urbancanvas-p6-outdoor": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 24402, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/urbancanvas-p6-outdoor.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/urbancanvas-transparent-mesh": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22866, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/urbancanvas-transparent-mesh.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/video-wall-menu-system-3x3": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23820, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/video-wall-menu-system-3x3.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/window-led-signage-film": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23768, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/window-led-signage-film.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/xr-curve-26": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 21957, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/xr-curve-26.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/products/xr-stage-pro-15": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 23816, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/products/xr-stage-pro-15.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/project-planner": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11856, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/project-planner.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/projects": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11813, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/projects.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/qatar": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 21845, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/qatar.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/resource-library": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11829, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/resource-library.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/resources": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11793, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/resources.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/robots.txt": { "initialHeaders": { "cache-control": "public, max-age=0, must-revalidate", "content-type": "text/plain", "x-next-cache-tags": "_N_T_/layout,_N_T_/robots.txt/layout,_N_T_/robots.txt/route,_N_T_/robots.txt" }, "routeType": "route", "response": "complete", "compute": "static", "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/robots.txt", "dataRoute": null, "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/saudi-arabia": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 22495, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/saudi-arabia.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/showroom": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11590, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/showroom.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/signage-solutions": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12504, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/signage-solutions.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/signatouch": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12468, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/signatouch.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/signatouch/self-service": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12739, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/signatouch/self-service.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/signatouch/smart-signage": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12761, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/signatouch/smart-signage.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/signatouch/touch-kiosk": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12711, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/signatouch/touch-kiosk.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/sitemap.xml": { "initialHeaders": { "cache-control": "public, max-age=0, must-revalidate", "content-type": "application/xml", "x-next-cache-tags": "_N_T_/layout,_N_T_/sitemap.xml/layout,_N_T_/sitemap.xml/route,_N_T_/sitemap.xml" }, "routeType": "route", "response": "complete", "compute": "static", "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/sitemap.xml", "dataRoute": null, "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/sla-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11065, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/sla-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11812, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/architecture": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12555, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/architecture.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/control-rooms": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12415, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/control-rooms.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/corporate": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 16232, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/corporate.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/creative": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15603, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/creative.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/education": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15466, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/education.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/entertainment": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12457, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/entertainment.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/events": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15326, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/events.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/healthcare": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15479, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/healthcare.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/immersive": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15551, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/immersive.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/outdoor": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15711, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/outdoor.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/retail": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 16118, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/retail.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/sports": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15211, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/sports.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/traffic": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15530, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/traffic.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/transparent": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 15493, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/transparent.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/transportation": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12467, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/transportation.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/virtual-production": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12455, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/virtual-production.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/solutions/worship": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12483, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/solutions/worship.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/spec-substitution": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11896, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/spec-substitution.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/supplier-registration": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11329, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/supplier-registration.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/tech-guide": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12083, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/tech-guide.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technical-support": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11241, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technical-support.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11822, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/3d-anamorphic-led": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 13172, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/3d-anamorphic-led.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/all-in-one-dvled": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12869, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/all-in-one-dvled.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/cob": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12731, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/cob.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/cob-led": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12710, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/cob-led.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/creative-led": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12895, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/creative-led.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/driving-ic": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12787, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/driving-ic.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/fine-pitch-led": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12909, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/fine-pitch-led.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/flexible": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12224, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/flexible.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/gob": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12663, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/gob.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/hdr": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12669, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/hdr.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/interactive": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12290, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/interactive.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/media-facade": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12853, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/media-facade.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/microled": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12808, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/microled.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/mip-led": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12681, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/mip-led.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/smd": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12114, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/smd.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/transparent": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12290, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/transparent.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology/transparent-led": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12887, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology/transparent-led.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/technology-selector": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11911, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/technology-selector.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/tools": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11941, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/tools.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/tools/led-wall-size-calculator": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12101, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/tools/led-wall-size-calculator.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/tools/roi-calculator": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11932, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/tools/roi-calculator.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/tools/video-wall-resolution-calculator": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 12173, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/tools/video-wall-resolution-calculator.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/value-engineering": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11946, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/value-engineering.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] }, "/viewing-distance": { "routeType": "page", "response": "complete", "compute": "static", "htmlSize": 11884, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/[...slug]", "dataRoute": "/viewing-distance.rsc", "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] } }, "dynamicRoutes": { "/[...slug]": { "routeType": "page", "response": "empty", "compute": "blocking", "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "routeRegex": "^/(.+?)(?:/)?$", "dataRoute": "/[...slug].rsc", "fallback": null, "fallbackRootParams": [], "fallbackRouteParams": [], "dataRouteRegex": "^/(.+?)\\.rsc$", "prefetchDataRoute": null, "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] } }, "notFoundRoutes": [], "preview": { "previewModeId": "80c30bba20e41617d1496368f35928a7", "previewModeSigningKey": "0d18075d63a8cabd942545f28cebeee6d8731c905a532ab8393df91666291f2d", "previewModeEncryptionKey": "e1da6756310e1aa045a451b19ddc2cd8cf4da1ee34c6c184cb60f3124be61e59" } };
+var MiddlewareManifest = { "version": 3, "middleware": {}, "sortedMiddleware": [], "functions": {} };
+var AppPathRoutesManifest = { "/[...slug]/page": "/[...slug]", "/_global-error/page": "/_global-error", "/_not-found/page": "/_not-found", "/page": "/", "/products/hjdba/route": "/products/hjdba", "/robots.txt/route": "/robots.txt", "/sitemap.xml/route": "/sitemap.xml" };
+var FunctionsConfigManifest = { "version": 1, "functions": {} };
+var PagesManifest = { "/404": "pages/404.html", "/500": "pages/500.html" };
+process.env.NEXT_BUILD_ID = BuildId;
+process.env.OPEN_NEXT_BUILD_ID = NextConfig.deploymentId ?? BuildId;
+process.env.NEXT_PREVIEW_MODE_ID = PrerenderManifest?.preview?.previewModeId;
+
+// node_modules/@opennextjs/aws/dist/core/requestHandler.js
+init_logger();
+
+// node_modules/@opennextjs/aws/dist/core/patchAsyncStorage.js
+var mod = (init_node_module(), __toCommonJS(node_module_exports));
+var resolveFilename = mod._resolveFilename;
+
+// node_modules/@opennextjs/aws/dist/core/routing/util.js
+import crypto from "node:crypto";
+init_util();
+init_logger();
+import { ReadableStream as ReadableStream3 } from "node:stream/web";
+
+// node_modules/@opennextjs/aws/dist/utils/binary.js
+var commonBinaryMimeTypes = /* @__PURE__ */ new Set([
+  "application/octet-stream",
+  // Docs
+  "application/epub+zip",
+  "application/msword",
+  "application/pdf",
+  "application/rtf",
+  "application/vnd.amazon.ebook",
+  "application/vnd.ms-excel",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  // Fonts
+  "font/otf",
+  "font/woff",
+  "font/woff2",
+  // Images
+  "image/bmp",
+  "image/gif",
+  "image/jpeg",
+  "image/png",
+  "image/tiff",
+  "image/vnd.microsoft.icon",
+  "image/webp",
+  // Audio
+  "audio/3gpp",
+  "audio/aac",
+  "audio/basic",
+  "audio/flac",
+  "audio/mpeg",
+  "audio/ogg",
+  "audio/wavaudio/webm",
+  "audio/x-aiff",
+  "audio/x-midi",
+  "audio/x-wav",
+  // Video
+  "video/3gpp",
+  "video/mp2t",
+  "video/mpeg",
+  "video/ogg",
+  "video/quicktime",
+  "video/webm",
+  "video/x-msvideo",
+  // Archives
+  "application/java-archive",
+  "application/vnd.apple.installer+xml",
+  "application/x-7z-compressed",
+  "application/x-apple-diskimage",
+  "application/x-bzip",
+  "application/x-bzip2",
+  "application/x-gzip",
+  "application/x-java-archive",
+  "application/x-rar-compressed",
+  "application/x-tar",
+  "application/x-zip",
+  "application/zip",
+  // Serialized data
+  "application/x-protobuf"
+]);
+function isBinaryContentType(contentType) {
+  if (!contentType)
+    return false;
+  const value = contentType.split(";")[0];
+  return commonBinaryMimeTypes.has(value);
+}
+
+// node_modules/@opennextjs/aws/dist/core/routing/i18n/index.js
+init_stream();
+init_logger();
+
+// node_modules/@opennextjs/aws/dist/core/routing/i18n/accept-header.js
+function parse(raw, preferences, options) {
+  const lowers = /* @__PURE__ */ new Map();
+  const header = raw.replace(/[ \t]/g, "");
+  if (preferences) {
+    let pos = 0;
+    for (const preference of preferences) {
+      const lower = preference.toLowerCase();
+      lowers.set(lower, { orig: preference, pos: pos++ });
+      if (options.prefixMatch) {
+        const parts2 = lower.split("-");
+        while (parts2.pop(), parts2.length > 0) {
+          const joined = parts2.join("-");
+          if (!lowers.has(joined)) {
+            lowers.set(joined, { orig: preference, pos: pos++ });
+          }
+        }
+      }
+    }
+  }
+  const parts = header.split(",");
+  const selections = [];
+  const map = /* @__PURE__ */ new Set();
+  for (let i = 0; i < parts.length; ++i) {
+    const part = parts[i];
+    if (!part) {
+      continue;
+    }
+    const params = part.split(";");
+    if (params.length > 2) {
+      throw new Error(`Invalid ${options.type} header`);
+    }
+    const token = params[0].toLowerCase();
+    if (!token) {
+      throw new Error(`Invalid ${options.type} header`);
+    }
+    const selection = { token, pos: i, q: 1 };
+    if (preferences && lowers.has(token)) {
+      selection.pref = lowers.get(token).pos;
+    }
+    map.add(selection.token);
+    if (params.length === 2) {
+      const q = params[1];
+      const [key, value] = q.split("=");
+      if (!value || key !== "q" && key !== "Q") {
+        throw new Error(`Invalid ${options.type} header`);
+      }
+      const score = Number.parseFloat(value);
+      if (score === 0) {
+        continue;
+      }
+      if (Number.isFinite(score) && score <= 1 && score >= 1e-3) {
+        selection.q = score;
+      }
+    }
+    selections.push(selection);
+  }
+  selections.sort((a, b) => {
+    if (b.q !== a.q) {
+      return b.q - a.q;
+    }
+    if (b.pref !== a.pref) {
+      if (a.pref === void 0) {
+        return 1;
+      }
+      if (b.pref === void 0) {
+        return -1;
+      }
+      return a.pref - b.pref;
+    }
+    return a.pos - b.pos;
+  });
+  const values = selections.map((selection) => selection.token);
+  if (!preferences || !preferences.length) {
+    return values;
+  }
+  const preferred = [];
+  for (const selection of values) {
+    if (selection === "*") {
+      for (const [preference, value] of lowers) {
+        if (!map.has(preference)) {
+          preferred.push(value.orig);
+        }
+      }
+    } else {
+      const lower = selection.toLowerCase();
+      if (lowers.has(lower)) {
+        preferred.push(lowers.get(lower).orig);
+      }
+    }
+  }
+  return preferred;
+}
+function acceptLanguage(header = "", preferences) {
+  return parse(header, preferences, {
+    type: "accept-language",
+    prefixMatch: true
+  })[0] || void 0;
+}
+
+// node_modules/@opennextjs/aws/dist/core/routing/i18n/index.js
+function isLocalizedPath(path2) {
+  return NextConfig.i18n?.locales.includes(path2.split("/")[1].toLowerCase()) ?? false;
+}
+function getLocaleFromCookie(cookies) {
+  const i18n = NextConfig.i18n;
+  const nextLocale = cookies.NEXT_LOCALE?.toLowerCase();
+  return nextLocale ? i18n?.locales.find((locale) => nextLocale === locale.toLowerCase()) : void 0;
+}
+function detectDomainLocale({ hostname, detectedLocale }) {
+  const i18n = NextConfig.i18n;
+  const domains = i18n?.domains;
+  if (!domains) {
+    return;
+  }
+  const lowercasedLocale = detectedLocale?.toLowerCase();
+  for (const domain of domains) {
+    const domainHostname = domain.domain.split(":", 1)[0].toLowerCase();
+    if (hostname === domainHostname || lowercasedLocale === domain.defaultLocale.toLowerCase() || domain.locales?.some((locale) => lowercasedLocale === locale.toLowerCase())) {
+      return domain;
+    }
+  }
+}
+function detectLocale(internalEvent, i18n) {
+  const domainLocale = detectDomainLocale({
+    hostname: internalEvent.headers.host
+  });
+  if (i18n.localeDetection === false) {
+    return domainLocale?.defaultLocale ?? i18n.defaultLocale;
+  }
+  const cookiesLocale = getLocaleFromCookie(internalEvent.cookies);
+  const preferredLocale = acceptLanguage(internalEvent.headers["accept-language"], i18n?.locales);
+  debug({
+    cookiesLocale,
+    preferredLocale,
+    defaultLocale: i18n.defaultLocale,
+    domainLocale
+  });
+  return domainLocale?.defaultLocale ?? cookiesLocale ?? preferredLocale ?? i18n.defaultLocale;
+}
+function localizePath(internalEvent) {
+  const i18n = NextConfig.i18n;
+  if (!i18n) {
+    return internalEvent.rawPath;
+  }
+  if (isLocalizedPath(internalEvent.rawPath)) {
+    return internalEvent.rawPath;
+  }
+  const detectedLocale = detectLocale(internalEvent, i18n);
+  return `/${detectedLocale}${internalEvent.rawPath}`;
+}
+
+// node_modules/@opennextjs/aws/dist/core/routing/queue.js
+function generateShardId(rawPath, maxConcurrency, prefix) {
+  let a = cyrb128(rawPath);
+  let t = a += 1831565813;
+  t = Math.imul(t ^ t >>> 15, t | 1);
+  t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+  const randomFloat = ((t ^ t >>> 14) >>> 0) / 4294967296;
+  const randomInt = Math.floor(randomFloat * maxConcurrency);
+  return `${prefix}-${randomInt}`;
+}
+function generateMessageGroupId(rawPath) {
+  const maxConcurrency = Number.parseInt(process.env.MAX_REVALIDATE_CONCURRENCY ?? "10");
+  return generateShardId(rawPath, maxConcurrency, "revalidate");
+}
+function cyrb128(str) {
+  let h1 = 1779033703;
+  let h2 = 3144134277;
+  let h3 = 1013904242;
+  let h4 = 2773480762;
+  for (let i = 0, k; i < str.length; i++) {
+    k = str.charCodeAt(i);
+    h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
+    h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
+    h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
+    h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
+  }
+  h1 = Math.imul(h3 ^ h1 >>> 18, 597399067);
+  h2 = Math.imul(h4 ^ h2 >>> 22, 2869860233);
+  h3 = Math.imul(h1 ^ h3 >>> 17, 951274213);
+  h4 = Math.imul(h2 ^ h4 >>> 19, 2716044179);
+  h1 ^= h2 ^ h3 ^ h4, h2 ^= h1, h3 ^= h1, h4 ^= h1;
+  return h1 >>> 0;
+}
+
+// node_modules/@opennextjs/aws/dist/core/routing/util.js
+function constructNextUrl(baseUrl, path2) {
+  const nextBasePath = NextConfig.basePath ?? "";
+  const url = new URL(`${nextBasePath}${path2}`, baseUrl);
+  return url.href;
+}
+function convertRes(res) {
+  const statusCode = res.statusCode || 200;
+  const headers = parseHeaders(res.getFixedHeaders());
+  const isBase64Encoded = isBinaryContentType(headers["content-type"]) || !!headers["content-encoding"];
+  const body = new ReadableStream3({
+    pull(controller) {
+      if (!res._chunks || res._chunks.length === 0) {
+        controller.close();
+        return;
+      }
+      controller.enqueue(res._chunks.shift());
+    }
+  });
+  return {
+    type: "core",
+    statusCode,
+    headers,
+    body,
+    isBase64Encoded
+  };
+}
+function convertToQueryString(query) {
+  const queryStrings = [];
+  Object.entries(query).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach((entry) => queryStrings.push(`${key}=${entry}`));
+    } else {
+      queryStrings.push(`${key}=${value}`);
+    }
+  });
+  return queryStrings.length > 0 ? `?${queryStrings.join("&")}` : "";
+}
+function convertToQuery(querystring) {
+  if (!querystring)
+    return {};
+  const query = new URLSearchParams(querystring);
+  const queryObject = {};
+  for (const key of query.keys()) {
+    const queries = query.getAll(key);
+    queryObject[key] = queries.length > 1 ? queries : queries[0];
+  }
+  return queryObject;
+}
+function getMiddlewareMatch(middlewareManifest2, functionsManifest) {
+  if (functionsManifest?.functions?.["/_middleware"]) {
+    return functionsManifest.functions["/_middleware"].matchers?.map(({ regexp }) => new RegExp(regexp)) ?? [/.*/];
+  }
+  const rootMiddleware = middlewareManifest2.middleware["/"];
+  if (!rootMiddleware?.matchers)
+    return [];
+  return rootMiddleware.matchers.map(({ regexp }) => new RegExp(regexp));
+}
+var CommonHeaders;
+(function(CommonHeaders2) {
+  CommonHeaders2["CACHE_CONTROL"] = "cache-control";
+  CommonHeaders2["NEXT_CACHE"] = "x-nextjs-cache";
+})(CommonHeaders || (CommonHeaders = {}));
+function fixCacheHeaderForHtmlPages(internalEvent, headers) {
+  if (internalEvent.rawPath === "/404" || internalEvent.rawPath === "/500") {
+    if (process.env.OPEN_NEXT_DANGEROUSLY_SET_ERROR_HEADERS === "true") {
+      return;
+    }
+    headers[CommonHeaders.CACHE_CONTROL] = "private, no-cache, no-store, max-age=0, must-revalidate";
+    return;
+  }
+  const localizedPath = localizePath(internalEvent);
+  if (HtmlPages.includes(localizedPath) && !internalEvent.headers["x-middleware-prefetch"]) {
+    headers[CommonHeaders.CACHE_CONTROL] = "public, max-age=0, s-maxage=31536000, must-revalidate";
+  }
+}
+function fixSWRCacheHeader(headers) {
+  let cacheControl = headers[CommonHeaders.CACHE_CONTROL];
+  if (!cacheControl)
+    return;
+  if (Array.isArray(cacheControl)) {
+    cacheControl = cacheControl.join(",");
+  }
+  if (typeof cacheControl !== "string")
+    return;
+  headers[CommonHeaders.CACHE_CONTROL] = cacheControl.replace(/\bstale-while-revalidate(?!=)/, "stale-while-revalidate=2592000");
+}
+function addOpenNextHeader(headers) {
+  if (NextConfig.poweredByHeader) {
+    headers["X-OpenNext"] = "1";
+  }
+  if (globalThis.openNextDebug) {
+    headers["X-OpenNext-Version"] = globalThis.openNextVersion;
+  }
+  if (process.env.OPEN_NEXT_REQUEST_ID_HEADER || globalThis.openNextDebug) {
+    headers["X-OpenNext-RequestId"] = globalThis.__openNextAls.getStore()?.requestId;
+  }
+}
+async function revalidateIfRequired(host, rawPath, headers, req) {
+  if (headers[CommonHeaders.NEXT_CACHE] === "STALE") {
+    const internalMeta = req?.[Symbol.for("NextInternalRequestMeta")];
+    const revalidateUrl = internalMeta?._nextDidRewrite ? rawPath.startsWith("/_next/data/") ? `/_next/data/${BuildId}${internalMeta?._nextRewroteUrl}.json` : internalMeta?._nextRewroteUrl : rawPath;
+    try {
+      const hash = (str) => crypto.createHash("md5").update(str).digest("hex");
+      const lastModified = globalThis.__openNextAls.getStore()?.lastModified ?? 0;
+      const eTag = `${headers.etag ?? headers.ETag ?? ""}`;
+      await globalThis.queue.send({
+        MessageBody: { host, url: revalidateUrl, eTag, lastModified },
+        MessageDeduplicationId: hash(`${rawPath}-${lastModified}-${eTag}`),
+        MessageGroupId: generateMessageGroupId(rawPath)
+      });
+    } catch (e) {
+      error(`Failed to revalidate stale page ${rawPath}`, e);
+    }
+  }
+}
+function fixISRHeaders(headers) {
+  const sMaxAgeRegex = /s-maxage=(\d+)/;
+  const match = headers[CommonHeaders.CACHE_CONTROL]?.match(sMaxAgeRegex);
+  const sMaxAge = match ? Number.parseInt(match[1]) : void 0;
+  if (!sMaxAge) {
+    return;
+  }
+  if (headers[CommonHeaders.NEXT_CACHE] === "REVALIDATED") {
+    headers[CommonHeaders.CACHE_CONTROL] = "private, no-cache, no-store, max-age=0, must-revalidate";
+    return;
+  }
+  const _lastModified = globalThis.__openNextAls.getStore()?.lastModified ?? 0;
+  if (headers[CommonHeaders.NEXT_CACHE] === "HIT" && _lastModified > 0) {
+    debug("cache-control", headers[CommonHeaders.CACHE_CONTROL], _lastModified, Date.now());
+    if (sMaxAge && sMaxAge !== 31536e3) {
+      const age = Math.round((Date.now() - _lastModified) / 1e3);
+      const remainingTtl = Math.max(sMaxAge - age, 1);
+      headers[CommonHeaders.CACHE_CONTROL] = `s-maxage=${remainingTtl}, stale-while-revalidate=2592000`;
+    }
+  }
+  if (headers[CommonHeaders.NEXT_CACHE] !== "STALE")
+    return;
+  headers[CommonHeaders.CACHE_CONTROL] = "s-maxage=2, stale-while-revalidate=2592000";
+}
+function createServerResponse(routingResult, headers, responseStream) {
+  const internalEvent = routingResult.internalEvent;
+  return new OpenNextNodeResponse((_headers) => {
+    fixCacheHeaderForHtmlPages(internalEvent, _headers);
+    fixSWRCacheHeader(_headers);
+    addOpenNextHeader(_headers);
+    fixISRHeaders(_headers);
+  }, async (_headers) => {
+    await revalidateIfRequired(internalEvent.headers.host, internalEvent.rawPath, _headers);
+    await invalidateCDNOnRequest(routingResult, _headers);
+  }, responseStream, headers, routingResult.rewriteStatusCode);
+}
+async function invalidateCDNOnRequest(params, headers) {
+  const { internalEvent, resolvedRoutes, initialURL } = params;
+  const initialPath = new URL(initialURL).pathname;
+  const isIsrRevalidation = internalEvent.headers["x-isr"] === "1";
+  if (!isIsrRevalidation && headers[CommonHeaders.NEXT_CACHE] === "REVALIDATED") {
+    await globalThis.cdnInvalidationHandler.invalidatePaths([
+      {
+        initialPath,
+        rawPath: internalEvent.rawPath,
+        resolvedRoutes
+      }
+    ]);
+  }
+}
+
+// node_modules/@opennextjs/aws/dist/core/routingHandler.js
+init_logger();
+
+// node_modules/@opennextjs/aws/dist/core/routing/cacheInterceptor.js
+init_stream();
+
+// node_modules/@opennextjs/aws/dist/utils/cache.js
+init_logger();
+
+// node_modules/@opennextjs/aws/dist/core/routing/cacheInterceptor.js
+init_logger();
+var CACHE_ONE_YEAR = 60 * 60 * 24 * 365;
+var CACHE_ONE_MONTH = 60 * 60 * 24 * 30;
+
+// node_modules/@opennextjs/aws/dist/core/routing/matcher.js
+init_stream();
+init_logger();
+
+// node_modules/@opennextjs/aws/dist/core/routing/routeMatcher.js
+var optionalLocalePrefixRegex = `^/(?:${RoutesManifest.locales.map((locale) => `${locale}/?`).join("|")})?`;
+var optionalBasepathPrefixRegex = RoutesManifest.basePath ? `^${RoutesManifest.basePath}/?` : "^/";
+var optionalPrefix = optionalLocalePrefixRegex.replace("^/", optionalBasepathPrefixRegex);
+function routeMatcher(routeDefinitions) {
+  const regexp = routeDefinitions.map((route) => ({
+    page: route.page,
+    regexp: new RegExp(route.regex.replace("^/", optionalPrefix))
+  }));
+  const appPathsSet = /* @__PURE__ */ new Set();
+  const routePathsSet = /* @__PURE__ */ new Set();
+  for (const [k, v] of Object.entries(AppPathRoutesManifest)) {
+    if (k.endsWith("page")) {
+      appPathsSet.add(v);
+    } else if (k.endsWith("route")) {
+      routePathsSet.add(v);
+    }
+  }
+  return function matchRoute(path2) {
+    const foundRoutes = regexp.filter((route) => route.regexp.test(path2));
+    return foundRoutes.map((foundRoute) => {
+      let routeType = "page";
+      if (appPathsSet.has(foundRoute.page)) {
+        routeType = "app";
+      } else if (routePathsSet.has(foundRoute.page)) {
+        routeType = "route";
+      }
+      return {
+        route: foundRoute.page,
+        type: routeType
+      };
+    });
+  };
+}
+var staticRouteMatcher = routeMatcher([
+  ...RoutesManifest.routes.static,
+  ...getStaticAPIRoutes()
+]);
+var dynamicRouteMatcher = routeMatcher(RoutesManifest.routes.dynamic);
+function getStaticAPIRoutes() {
+  const createRouteDefinition = (route) => ({
+    page: route,
+    regex: `^${route}(?:/)?$`
+  });
+  const dynamicRoutePages = new Set(RoutesManifest.routes.dynamic.map(({ page }) => page));
+  const pagesStaticAPIRoutes = Object.keys(PagesManifest).filter((route) => route.startsWith("/api/") && !dynamicRoutePages.has(route)).map(createRouteDefinition);
+  const appPathsStaticAPIRoutes = Object.values(AppPathRoutesManifest).filter((route) => (route.startsWith("/api/") || route === "/api") && !dynamicRoutePages.has(route)).map(createRouteDefinition);
+  return [...pagesStaticAPIRoutes, ...appPathsStaticAPIRoutes];
+}
+
+// node_modules/@opennextjs/aws/dist/core/routing/middleware.js
+init_stream();
+init_utils();
+var middlewareManifest = MiddlewareManifest;
+var functionsConfigManifest = FunctionsConfigManifest;
+var middleMatch = getMiddlewareMatch(middlewareManifest, functionsConfigManifest);
+
+// node_modules/@opennextjs/aws/dist/core/routingHandler.js
+var MIDDLEWARE_HEADER_PREFIX = "x-middleware-response-";
+var MIDDLEWARE_HEADER_PREFIX_LEN = MIDDLEWARE_HEADER_PREFIX.length;
+var INTERNAL_HEADER_PREFIX = "x-opennext-";
+var INTERNAL_HEADER_INITIAL_URL = `${INTERNAL_HEADER_PREFIX}initial-url`;
+var INTERNAL_HEADER_LOCALE = `${INTERNAL_HEADER_PREFIX}locale`;
+var INTERNAL_HEADER_RESOLVED_ROUTES = `${INTERNAL_HEADER_PREFIX}resolved-routes`;
+var INTERNAL_HEADER_REWRITE_STATUS_CODE = `${INTERNAL_HEADER_PREFIX}rewrite-status-code`;
+var INTERNAL_EVENT_REQUEST_ID = `${INTERNAL_HEADER_PREFIX}request-id`;
+
+// node_modules/@opennextjs/aws/dist/core/util.js
+init_logger();
+import NextServer from "next/dist/server/next-server.js";
+
+// node_modules/@opennextjs/aws/dist/core/require-hooks.js
+init_logger();
+var mod2 = (init_node_module(), __toCommonJS(node_module_exports));
+var resolveFilename2 = mod2._resolveFilename;
+
+// node_modules/@opennextjs/aws/dist/core/util.js
+var cacheHandlerPath = __require.resolve("./cache.cjs");
+var composableCacheHandlerPath = __require.resolve("./composable-cache.cjs");
+var nextServer = new NextServer.default({
+  conf: {
+    ...NextConfig,
+    // Next.js compression should be disabled because of a bug in the bundled
+    // `compression` package — https://github.com/vercel/next.js/issues/11669
+    compress: false,
+    // By default, Next.js uses local disk to store ISR cache. We will use
+    // our own cache handler to store the cache on S3.
+    //#override stableIncrementalCache
+    cacheHandler: cacheHandlerPath,
+    cacheMaxMemorySize: 0,
+    // We need to disable memory cache
+    //#endOverride
+    experimental: {
+      ...NextConfig.experimental,
+      // This uses the request.headers.host as the URL
+      // https://github.com/vercel/next.js/blob/canary/packages/next/src/server/next-server.ts#L1749-L1754
+      //#override trustHostHeader
+      trustHostHeader: true,
+      //#endOverride
+      //#override composableCache
+      cacheHandlers: {
+        default: composableCacheHandlerPath
+      }
+      //#endOverride
+    }
+  },
+  customServer: false,
+  dev: false,
+  dir: __dirname
+});
+var routesLoaded = false;
+globalThis.__next_route_preloader = async (stage) => {
+  if (routesLoaded) {
+    return;
+  }
+  const thisFunction = globalThis.fnName ? globalThis.openNextConfig.functions[globalThis.fnName] : globalThis.openNextConfig.default;
+  const routePreloadingBehavior = thisFunction?.routePreloadingBehavior ?? "none";
+  if (routePreloadingBehavior === "none") {
+    routesLoaded = true;
+    return;
+  }
+  if (!("unstable_preloadEntries" in nextServer)) {
+    debug("The current version of Next.js does not support route preloading. Skipping route preloading.");
+    routesLoaded = true;
+    return;
+  }
+  if (stage === "waitUntil" && routePreloadingBehavior === "withWaitUntil") {
+    const waitUntil = globalThis.__openNextAls.getStore()?.waitUntil;
+    if (!waitUntil) {
+      error("You've tried to use the 'withWaitUntil' route preloading behavior, but the 'waitUntil' function is not available.");
+      routesLoaded = true;
+      return;
+    }
+    debug("Preloading entries with waitUntil");
+    waitUntil?.(nextServer.unstable_preloadEntries());
+    routesLoaded = true;
+  } else if (stage === "start" && routePreloadingBehavior === "onStart" || stage === "warmerEvent" && routePreloadingBehavior === "onWarmerEvent" || stage === "onDemand") {
+    const startTimestamp = Date.now();
+    debug("Preloading entries");
+    await nextServer.unstable_preloadEntries();
+    debug("Preloading entries took", Date.now() - startTimestamp, "ms");
+    routesLoaded = true;
+  }
+};
+var requestHandler = (metadata) => "getRequestHandlerWithMetadata" in nextServer ? nextServer.getRequestHandlerWithMetadata(metadata) : nextServer.getRequestHandler();
+
+// node_modules/@opennextjs/aws/dist/core/requestHandler.js
+globalThis.__openNextAls = new AsyncLocalStorage();
+async function openNextHandler(internalEvent, options) {
+  const initialHeaders = internalEvent.headers;
+  const requestId = globalThis.openNextConfig.middleware?.external ? internalEvent.headers[INTERNAL_EVENT_REQUEST_ID] : Math.random().toString(36);
+  return runWithOpenNextRequestContext({
+    isISRRevalidation: initialHeaders["x-isr"] === "1",
+    waitUntil: options?.waitUntil,
+    requestId
+  }, async () => {
+    await globalThis.__next_route_preloader("waitUntil");
+    if (initialHeaders["x-forwarded-host"]) {
+      initialHeaders.host = initialHeaders["x-forwarded-host"];
+    }
+    debug("internalEvent", internalEvent);
+    const internalHeaders = {
+      initialPath: initialHeaders[INTERNAL_HEADER_INITIAL_URL] ?? internalEvent.rawPath,
+      resolvedRoutes: initialHeaders[INTERNAL_HEADER_RESOLVED_ROUTES] ? JSON.parse(initialHeaders[INTERNAL_HEADER_RESOLVED_ROUTES]) : [],
+      rewriteStatusCode: Number.parseInt(initialHeaders[INTERNAL_HEADER_REWRITE_STATUS_CODE])
+    };
+    let routingResult = {
+      internalEvent,
+      isExternalRewrite: false,
+      origin: false,
+      isISR: false,
+      initialURL: internalEvent.url,
+      ...internalHeaders
+    };
+    const headers = "type" in routingResult ? routingResult.headers : routingResult.internalEvent.headers;
+    const overwrittenResponseHeaders = {};
+    for (const [rawKey, value] of Object.entries(headers)) {
+      if (!rawKey.startsWith(MIDDLEWARE_HEADER_PREFIX)) {
+        continue;
+      }
+      const key = rawKey.slice(MIDDLEWARE_HEADER_PREFIX_LEN);
+      if (key !== "x-middleware-set-cookie") {
+        overwrittenResponseHeaders[key] = value;
+      }
+      headers[key] = value;
+      delete headers[rawKey];
+    }
+    if ("isExternalRewrite" in routingResult && routingResult.isExternalRewrite === true) {
+      try {
+        routingResult = await globalThis.proxyExternalRequest.proxy(routingResult.internalEvent);
+      } catch (e) {
+        error("External request failed.", e);
+        routingResult = {
+          internalEvent: {
+            type: "core",
+            rawPath: "/500",
+            method: "GET",
+            headers: {},
+            url: constructNextUrl(internalEvent.url, "/500"),
+            query: {},
+            cookies: {},
+            remoteAddress: ""
+          },
+          // On error we need to rewrite to the 500 page which is an internal rewrite
+          isExternalRewrite: false,
+          isISR: false,
+          origin: false,
+          initialURL: internalEvent.url,
+          resolvedRoutes: [{ route: "/500", type: "page" }]
+        };
+      }
+    }
+    if ("type" in routingResult) {
+      if (options?.streamCreator) {
+        const response = createServerResponse({
+          internalEvent,
+          isExternalRewrite: false,
+          isISR: false,
+          resolvedRoutes: [],
+          origin: false,
+          initialURL: internalEvent.url
+        }, routingResult.headers, options.streamCreator);
+        response.statusCode = routingResult.statusCode;
+        response.flushHeaders();
+        const [bodyToConsume, bodyToReturn] = routingResult.body.tee();
+        for await (const chunk of bodyToConsume) {
+          response.write(chunk);
+        }
+        response.end();
+        routingResult.body = bodyToReturn;
+      }
+      return routingResult;
+    }
+    const preprocessedEvent = routingResult.internalEvent;
+    debug("preprocessedEvent", preprocessedEvent);
+    const { search, pathname, hash } = new URL(preprocessedEvent.url);
+    const reqProps = {
+      method: preprocessedEvent.method,
+      url: `${pathname}${search}${hash}`,
+      //WORKAROUND: We pass this header to the serverless function to mimic a prefetch request which will not trigger revalidation since we handle revalidation differently
+      // There is 3 way we can handle revalidation:
+      // 1. We could just let the revalidation go as normal, but due to race conditions the revalidation will be unreliable
+      // 2. We could alter the lastModified time of our cache to make next believe that the cache is fresh, but this could cause issues with stale data since the cdn will cache the stale data as if it was fresh
+      // 3. OUR CHOICE: We could pass a purpose prefetch header to the serverless function to make next believe that the request is a prefetch request and not trigger revalidation (This could potentially break in the future if next changes the behavior of prefetch requests)
+      headers: {
+        ...headers
+      },
+      body: preprocessedEvent.body,
+      remoteAddress: preprocessedEvent.remoteAddress
+    };
+    const mergeHeadersPriority = globalThis.openNextConfig.dangerous?.headersAndCookiesPriority ? globalThis.openNextConfig.dangerous.headersAndCookiesPriority(preprocessedEvent) : "middleware";
+    const store = globalThis.__openNextAls.getStore();
+    if (store) {
+      store.mergeHeadersPriority = mergeHeadersPriority;
+    }
+    const req = new IncomingMessage(reqProps);
+    const res = createServerResponse(routingResult, overwrittenResponseHeaders, options?.streamCreator);
+    await processRequest(req, res, routingResult);
+    const { statusCode, headers: responseHeaders, isBase64Encoded, body } = convertRes(res);
+    const internalResult = {
+      type: internalEvent.type,
+      statusCode,
+      headers: responseHeaders,
+      body,
+      isBase64Encoded
+    };
+    return internalResult;
+  });
+}
+async function processRequest(req, res, routingResult) {
+  delete req.body;
+  const initialURL = new URL(
+    // We always assume that only the routing layer can set this header.
+    routingResult.internalEvent.headers[INTERNAL_HEADER_INITIAL_URL] ?? routingResult.initialURL
+  );
+  let invokeStatus;
+  if (routingResult.internalEvent.rawPath === "/500") {
+    invokeStatus = 500;
+  } else if (routingResult.internalEvent.rawPath === "/404") {
+    invokeStatus = 404;
+  }
+  const requestMetadata = {
+    isNextDataReq: routingResult.internalEvent.query.__nextDataReq === "1",
+    initURL: routingResult.initialURL,
+    initQuery: convertToQuery(initialURL.search),
+    initProtocol: initialURL.protocol,
+    defaultLocale: NextConfig.i18n?.defaultLocale,
+    locale: routingResult.locale,
+    middlewareInvoke: false,
+    // By setting invokePath and invokeQuery we can bypass some of the routing logic in Next.js
+    invokePath: routingResult.internalEvent.rawPath,
+    invokeQuery: routingResult.internalEvent.query,
+    // invokeStatus is only used for error pages
+    invokeStatus
+  };
+  try {
+    req.url = initialURL.pathname + convertToQueryString(routingResult.internalEvent.query);
+    await requestHandler(requestMetadata)(req, res);
+  } catch (e) {
+    if (e.constructor.name === "NoFallbackError") {
+      await handleNoFallbackError(req, res, routingResult, requestMetadata);
+    } else {
+      error("NextJS request failed.", e);
+      await tryRenderError("500", res, routingResult.internalEvent);
+    }
+  }
+}
+async function handleNoFallbackError(req, res, routingResult, metadata, index = 1) {
+  if (index >= 5) {
+    await tryRenderError("500", res, routingResult.internalEvent);
+    return;
+  }
+  if (index >= routingResult.resolvedRoutes.length) {
+    await tryRenderError("404", res, routingResult.internalEvent);
+    return;
+  }
+  try {
+    await requestHandler({
+      ...routingResult,
+      invokeOutput: routingResult.resolvedRoutes[index].route,
+      ...metadata
+    })(req, res);
+  } catch (e) {
+    if (e.constructor.name === "NoFallbackError") {
+      await handleNoFallbackError(req, res, routingResult, metadata, index + 1);
+    } else {
+      error("NextJS request failed.", e);
+      await tryRenderError("500", res, routingResult.internalEvent);
+    }
+  }
+}
+async function tryRenderError(type, res, internalEvent) {
+  try {
+    const _req = new IncomingMessage({
+      method: "GET",
+      url: `/${type}`,
+      headers: internalEvent.headers,
+      body: internalEvent.body,
+      remoteAddress: internalEvent.remoteAddress
+    });
+    const requestMetadata = {
+      // By setting invokePath and invokeQuery we can bypass some of the routing logic in Next.js
+      invokePath: type === "404" ? "/404" : "/500",
+      invokeStatus: type === "404" ? 404 : 500,
+      middlewareInvoke: false
+    };
+    await requestHandler(requestMetadata)(_req, res);
+  } catch (e) {
+    error("NextJS request failed.", e);
+    res.statusCode = 500;
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({
+      message: "Server failed to respond.",
+      details: e
+    }, null, 2));
+  }
+}
+
+// node_modules/@opennextjs/aws/dist/core/resolve.js
+async function resolveConverter(converter2) {
+  if (typeof converter2 === "function") {
+    return converter2();
+  }
+  const m_1 = await Promise.resolve().then(() => (init_edge(), edge_exports));
+  return m_1.default;
+}
+async function resolveWrapper(wrapper) {
+  if (typeof wrapper === "function") {
+    return wrapper();
+  }
+  const m_1 = await Promise.resolve().then(() => (init_cloudflare_node(), cloudflare_node_exports));
+  return m_1.default;
+}
+async function resolveTagCache(tagCache) {
+  if (typeof tagCache === "function") {
+    return tagCache();
+  }
+  const m_1 = await Promise.resolve().then(() => (init_dummy(), dummy_exports));
+  return m_1.default;
+}
+async function resolveQueue(queue) {
+  if (typeof queue === "function") {
+    return queue();
+  }
+  const m_1 = await Promise.resolve().then(() => (init_dummy2(), dummy_exports2));
+  return m_1.default;
+}
+async function resolveIncrementalCache(incrementalCache) {
+  if (typeof incrementalCache === "function") {
+    return incrementalCache();
+  }
+  const m_1 = await Promise.resolve().then(() => (init_dummy3(), dummy_exports3));
+  return m_1.default;
+}
+async function resolveAssetResolver(assetResolver) {
+  if (typeof assetResolver === "function") {
+    return assetResolver();
+  }
+  const m_1 = await Promise.resolve().then(() => (init_dummy4(), dummy_exports4));
+  return m_1.default;
+}
+async function resolveProxyRequest(proxyRequest) {
+  if (typeof proxyRequest === "function") {
+    return proxyRequest();
+  }
+  const m_1 = await Promise.resolve().then(() => (init_fetch(), fetch_exports));
+  return m_1.default;
+}
+async function resolveCdnInvalidation(cdnInvalidation) {
+  if (typeof cdnInvalidation === "function") {
+    return cdnInvalidation();
+  }
+  const m_1 = await Promise.resolve().then(() => (init_dummy5(), dummy_exports5));
+  return m_1.default;
+}
+
+// node_modules/@opennextjs/aws/dist/core/createMainHandler.js
+async function createMainHandler() {
+  const config = await import("./open-next.config.mjs").then((m) => m.default);
+  const thisFunction = globalThis.fnName ? config.functions[globalThis.fnName] : config.default;
+  globalThis.serverId = generateUniqueId();
+  globalThis.openNextConfig = config;
+  await globalThis.__next_route_preloader("start");
+  globalThis.queue = await resolveQueue(thisFunction.override?.queue);
+  globalThis.incrementalCache = await resolveIncrementalCache(thisFunction.override?.incrementalCache);
+  globalThis.tagCache = await resolveTagCache(thisFunction.override?.tagCache);
+  if (config.middleware?.external !== true) {
+    globalThis.assetResolver = await resolveAssetResolver(globalThis.openNextConfig.middleware?.assetResolver);
+  }
+  globalThis.proxyExternalRequest = await resolveProxyRequest(thisFunction.override?.proxyExternalRequest);
+  globalThis.cdnInvalidationHandler = await resolveCdnInvalidation(thisFunction.override?.cdnInvalidation);
+  const converter2 = await resolveConverter(thisFunction.override?.converter);
+  const { wrapper, name } = await resolveWrapper(thisFunction.override?.wrapper);
+  debug("Using wrapper", name);
+  return wrapper(openNextHandler, converter2);
+}
+
+// node_modules/@opennextjs/aws/dist/adapters/server-adapter.js
+setNodeEnv();
+setNextjsServerWorkingDirectory();
+globalThis.internalFetch = fetch;
+var handler2 = await createMainHandler();
+function setNextjsServerWorkingDirectory() {
+  process.chdir(__dirname);
+}
+export {
+  handler2 as handler
+};

@@ -1,5 +1,10 @@
 # Brightluxx Changelog
 
+## Current Session — Next.js Migration Foundation (Not Deployable)
+- Captured a CRA baseline and created a separate Next.js App Router/OpenNext target without modifying or deleting the working CRA release.
+- Verified local workerd HTTP behavior and 333 canonical raw-HTML parity routes with zero metadata/canonical/H1/schema mismatches; redirects, 404, 410, robots, sitemap, and llms pass.
+- **Not accepted:** visual parity and all interactive Phase 1/2/3 features are still CRA-only. Cloudflare remote preview requires scoped credentials; no production deployment or cutover occurred.
+
 ## Current Session — Commercial UX + SEO Upgrade, Phase 3 Complete
 - Finalized the persistent three-product comparison journey: explicit fourth-product feedback, picker close behavior, difference-only mode, reliable clear behavior, and mobile tray clearance above the bottom navigation.
 - Completed comparison-to-RFQ handoff: selected codes now appear on `/contact?products=...` and submit as `product_interest` with `comparison_request` source.

@@ -1,0 +1,126 @@
+{
+  "checkedAt": "2026-08-21T13:09:49.402Z",
+  "origin": "http://127.0.0.1:8787",
+  "expectedRoutes": 333,
+  "failedRoutes": 0,
+  "missingSitemapRoutes": [],
+  "statusTests": [
+    {
+      "route": "/our-works",
+      "destination": "/projects",
+      "status": 308,
+      "location": "/projects"
+    },
+    {
+      "route": "/digital-solutions",
+      "destination": "/solutions",
+      "status": 308,
+      "location": "/solutions"
+    },
+    {
+      "route": "/products/led-display",
+      "destination": "/products",
+      "status": 308,
+      "location": "/products"
+    },
+    {
+      "route": "/products/indoor-led-display",
+      "destination": "/indoor-led",
+      "status": 308,
+      "location": "/indoor-led"
+    },
+    {
+      "route": "/products/outdoor-led-display",
+      "destination": "/outdoor-led",
+      "status": 308,
+      "location": "/outdoor-led"
+    },
+    {
+      "route": "/products/spherical-led-display",
+      "destination": "/products",
+      "status": 308,
+      "location": "/products"
+    },
+    {
+      "route": "/products/transparent-led-display",
+      "destination": "/glassmorph",
+      "status": 308,
+      "location": "/glassmorph"
+    },
+    {
+      "route": "/products/rental-led-display",
+      "destination": "/products",
+      "status": 308,
+      "location": "/products"
+    },
+    {
+      "route": "/products/flexible-led-display",
+      "destination": "/products",
+      "status": 308,
+      "location": "/products"
+    },
+    {
+      "route": "/download-catalog",
+      "destination": "/products",
+      "status": 308,
+      "location": "/products"
+    },
+    {
+      "route": "/about-us",
+      "destination": "/about",
+      "status": 308,
+      "location": "/about"
+    },
+    {
+      "route": "/contact-us",
+      "destination": "/contact",
+      "status": 308,
+      "location": "/contact"
+    },
+    {
+      "route": "/portfolio",
+      "destination": "/projects",
+      "status": 308,
+      "location": "/projects"
+    },
+    {
+      "route": "/gallery",
+      "destination": "/projects",
+      "status": 308,
+      "location": "/projects"
+    },
+    {
+      "route": "/led-screen-dubai",
+      "destination": "/led-screen-suppliers-dubai",
+      "status": 308,
+      "location": "/led-screen-suppliers-dubai"
+    },
+    {
+      "route": "/led-display-abu-dhabi",
+      "destination": "/abu-dhabi",
+      "status": 308,
+      "location": "/abu-dhabi"
+    },
+    {
+      "route": "/led-screen-saudi-arabia",
+      "destination": "/saudi-arabia",
+      "status": 308,
+      "location": "/saudi-arabia"
+    },
+    {
+      "route": "/led-screen-qatar",
+      "destination": "/qatar",
+      "status": 308,
+      "location": "/qatar"
+    },
+    {
+      "route": "/definitely-missing",
+      "status": 404
+    },
+    {
+      "route": "/products/hjdba",
+      "status": 410
+    }
+  ],
+  "failures": []
+}

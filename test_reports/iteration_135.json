@@ -1,0 +1,33 @@
+{
+  "summary": "Frontend-only retest completed on http://127.0.0.1:8787 for the /__migration-parity route fix and homepage Stage C regression boundary. All requested checks passed.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/tests/test_iteration135_migration_parity_retest.py",
+    "/app/test_reports/pytest/iteration135.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Maintainability risk: /app/nextjs/app/__migration-parity/page.tsx duplicates dashboard markup now shared in /app/nextjs/components/migration-parity-dashboard.tsx; keep one source of truth to avoid drift."
+  ],
+  "updated_files": [
+    "/app/tests/test_iteration135_migration_parity_retest.py",
+    "/app/test_reports/iteration_135.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (frontend-only scope)",
+    "frontend": "100%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Validated exact required boundary after 404 fix: GET /__migration-parity now returns 200, contains data-testid=\"migration-parity-dashboard\", displays 352/333/18/1/0 with corresponding labels, and includes robots noindex directive. Confirmed /__migration-parity is absent from /sitemap.xml and disallowed in /robots.txt. Confirmed homepage raw HTML remains 200 with approved single H1 and both hero CTA test IDs (home-hero-primary-cta, home-hero-secondary-cta).",
+  "rca of the issue": "Previously failing 404 on /__migration-parity is resolved by routing through public catch-all logic while keeping noindex metadata and shared dashboard rendering."
+}

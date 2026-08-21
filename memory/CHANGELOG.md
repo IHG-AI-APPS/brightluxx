@@ -1,5 +1,10 @@
 # Brightluxx Changelog
 
+## Current Session — Next.js Stage C Foundation
+- Added the staging-only `/__migration-parity` acceptance dashboard and secured it with noindex, robots exclusion, and sitemap exclusion; iteration 135 independently passed the route fix and boundary checks.
+- Replaced the homepage snapshot with server-rendered accepted Phase 1 content and a small `HomeCounters` client island. Raw HTML retained the approved H1, hero CTAs, canonical, JSON-LD, and final counter values.
+- **Not accepted:** full visual/performance homepage parity and the entire Stage D catalogue/Finder migration remain outstanding; no cutover occurred.
+
 ## Current Session — Next.js Migration Stages A/B
 - Reconciled all 352 CRA baseline routes with the Next target: 333 canonical statics, 18 native redirects, and one native 410 tombstone; the manifest-backed check was independently retested in iteration 133.
 - Added an isolated Next shared visual shell: responsive header/mega menu, mobile navigation, footer, cookie consent, fixed WhatsApp/phone actions, and comparison tray count as small client islands around a server layout.

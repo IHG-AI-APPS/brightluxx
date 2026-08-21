@@ -1,0 +1,53 @@
+{
+  "summary": "Frontend-only Stage C foundation testing completed against http://127.0.0.1:8787. Homepage raw HTML and desktop/mobile shell smoke checks passed, but the required internal route /__migration-parity is returning 404 instead of 200.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Migration parity dashboard route",
+        "issue": "GET /__migration-parity returns 404 and renders not-found shell instead of internal dashboard",
+        "selector": "[data-testid=\"migration-parity-dashboard\"]",
+        "priority": "CRITICAL"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Stage C internal dashboard boundary validation",
+        "issue": "Required route summary checks (352/333/18/1/0) cannot be validated at runtime because the route is not reachable",
+        "affected_selectors": [
+          "[data-testid=\"migration-parity-dashboard\"]"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/tests/test_iteration134_stage_c_foundation.py",
+    "/app/test_reports/pytest/iteration134.xml"
+  ],
+  "action_items": [
+    "Fix routability of /__migration-parity (currently 404 on workerd preview).",
+    "Likely RCA: app directory segment starts with underscore and is treated as private in Next App Router; rename route segment to escaped form (e.g. %5F%5Fmigration-parity) or equivalent approach that preserves URL /__migration-parity.",
+    "After route fix, revalidate 200 status, noindex directive on the actual dashboard page, dashboard data-testid, and 352/333/18/1/0 summary visibility."
+  ],
+  "critical_code_review_comments": [
+    "Critical routing defect: /app/nextjs/app/__migration-parity/page.tsx is not being served at /__migration-parity in runtime; request is handled by catch-all/not-found path instead.",
+    "Maintainability risk: homepage JSX in /app/nextjs/app/page.tsx is fully minified into one line, making parity reviews and future diffs harder."
+  ],
+  "updated_files": [
+    "/app/tests/test_iteration134_stage_c_foundation.py",
+    "/app/test_reports/iteration_134.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (frontend-only scope)",
+    "frontend": "75% (homepage raw HTML + desktop/mobile smoke passed; parity dashboard route failed)"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Validated via pytest + direct HTTP + Playwright smoke against local OpenNext workerd URL only. Homepage checks passed: single approved H1, Engineering Brilliance, both hero CTAs visible in raw HTML and UI, canonical/title/description/JSON-LD present, crawlable links present, counters non-zero in source, no root-level 'use client' in app/page.tsx, no shell console errors on desktop/mobile (390px), and no horizontal overflow. /sitemap.xml does not include /__migration-parity. Blocking issue is /__migration-parity returning 404 at runtime.",
+  "rca of the issue": "Reproduction: GET http://127.0.0.1:8787/__migration-parity returns 404, response body includes not-found rendering markers and lacks data-testid=\"migration-parity-dashboard\". Source file exists at /app/nextjs/app/__migration-parity/page.tsx but is not routable in runtime. Probable root cause is Next App Router private-folder semantics for underscore-prefixed segments, causing this segment to be excluded from route generation and falling through to catch-all/notFound path. Mitigation: expose the path using an escaped segment naming approach while preserving URL /__migration-parity, then rerun this scoped suite."
+}

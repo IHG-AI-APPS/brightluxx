@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getIndexableRoutes, getLegacyPage } from '../../lib/legacy-content';
 import { StructuredData } from '../../components/structured-data';
+import { MigrationParityDashboard } from '../../components/migration-parity-dashboard';
 
 type Props = { params: Promise<{ slug: string[] }> };
 const routeFromParams = (slug: string[]) => `/${slug.join('/')}`;
@@ -14,13 +15,17 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const page = await getLegacyPage(routeFromParams((await params).slug));
+  const route = routeFromParams((await params).slug);
+  if (route === '/__migration-parity') return { title: 'Migration Parity Dashboard', robots: { index: false, follow: false } };
+  const page = await getLegacyPage(route);
   if (!page) return {};
   return { title: page.title, description: page.description, alternates: { canonical: page.canonical }, robots: page.route === '/compare' ? { index: false, follow: true } : undefined };
 }
 
 export default async function LegacyParityPage({ params }: Props) {
-  const page = await getLegacyPage(routeFromParams((await params).slug));
+  const route = routeFromParams((await params).slug);
+  if (route === '/__migration-parity') return <MigrationParityDashboard />;
+  const page = await getLegacyPage(route);
   if (!page) notFound();
   return <main data-testid="next-server-rendered-parity-page"><StructuredData items={page.jsonLd || []} /><div dangerouslySetInnerHTML={{ __html: page.html }} /></main>;
 }

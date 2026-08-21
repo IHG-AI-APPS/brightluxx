@@ -1,5 +1,10 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Next.js Migration — Stage C Foundation Verified, Stage D Not Started
+- **Migration parity dashboard** is available only at `/__migration-parity` in the isolated target. It is noindex, disallowed by robots, excluded from the sitemap, and independently retested in iteration 135 after a private-segment routing defect was fixed.
+- **Homepage foundation** now uses a server-rendered Phase 1 structure for hero copy, links, counters, discovery paths, generic-first product-family positioning, Why Brightluxx, and CTA content. `HomeCounters` is the only homepage client island; raw HTML test coverage confirms the approved H1, hero CTAs, JSON-LD, canonical, and non-zero counter values.
+- **Still blocked from acceptance/cutover**: complete visual parity across all viewport baselines, full homepage project/resource sections and performance comparison, plus all Stage D catalogue/search/filter/Finder work remain pending. CRA remains unchanged.
+
 ## LATEST: Next.js Migration — Stages A/B Complete, Migration Still Not Accepted
 - **Route reconciliation independently verified** (iteration 133): the immutable 352-route baseline is fully accounted for as 333 canonical Next static routes, 18 native 308 redirects, and one native 410 tombstone. The reconciliation script now reads the actual Next prerender manifest; no hidden route-gap masking remains. Reference: `/app/migration-baseline/route-reconciliation.md`.
 - **Shared shell migrated in the isolated Next target**: server-owned root layout now composes a client-island desktop/mobile header, product mega menu, footer, cookie consent, floating WhatsApp/phone controls, and persistent comparison-count tray. Existing CRA remains untouched.

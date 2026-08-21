@@ -5,7 +5,8 @@ import { getProduct, getProducts, createLead } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { trackProductView, trackQuoteRequest } from '../lib/tracker';
+import { trackProductView, trackQuoteRequest, trackEvent } from '../lib/tracker';
+import { toggleComparedCode } from '../lib/comparison';
 import QuickInquiry from '../components/QuickInquiry';
 import ReviewSection from '../components/ReviewSection';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -273,8 +274,9 @@ export default function ProductDetail() {
                 className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-6 py-3 rounded-full inline-flex items-center gap-2 transition-colors"
                 data-testid="request-quote-btn"
               >
-                <Send size={16} /> Get Quote
+                <Send size={16} /> Request Project Pricing
               </a>
+              <button type="button" onClick={() => { const result = toggleComparedCode(product.product_code); trackEvent('product_compare_add', { product_slug: product.slug, status: result.status }); }} className={`border ${isDark ? 'border-white/20 text-white hover:bg-white/10' : 'border-neutral-300 text-neutral-700 hover:bg-neutral-100'} font-semibold px-6 py-3 rounded-full`} data-testid="product-compare-button">Add to Compare</button>
               <a
                 href={`https://wa.me/971559954274?text=${encodeURIComponent(`Hi, I need pricing for ${product.product_code} - ${product.name}`)}`}
                 target="_blank"
@@ -288,12 +290,12 @@ export default function ProductDetail() {
         </div>
       </section>
 
-      {/* ===== APPLICATIONS ===== */}
-      {apps.length > 0 && (
+      {/* ===== BEST FOR / APPLICATIONS ===== */}
+      {(apps.length > 0 || (product.applications && product.applications.length > 0)) && (
         <section className={`py-16 ${isDark ? 'bg-white/[0.01]' : 'bg-white'}`}>
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-3">Applications</p>
-            <h2 className={`text-2xl font-bold ${text1} mb-6`}>Ideal For</h2>
+            <h2 className={`text-2xl font-bold ${text1} mb-6`}>Best For / Applications</h2>
             <div className="flex flex-wrap gap-2">
               {apps.map((app, i) => (
                 <span key={i} className={`px-4 py-2 rounded-full text-sm border ${card} ${text2} inline-flex items-center gap-2`}>
@@ -409,34 +411,6 @@ export default function ProductDetail() {
         </div>
       </section>
 
-      {/* ===== APPLICATIONS ===== */}
-      {product.applications && product.applications.length > 0 && (
-        <section className={`py-16 ${isDark ? 'bg-white/[0.02]' : 'bg-neutral-50'}`}>
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-            <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-2">Ideal Applications</p>
-            <h2 className={`text-2xl font-bold ${text1} mb-8`}>Where {product.name} Excels</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {product.applications.map((app) => {
-                const ICONS = { ShoppingBag, Building2, Theater, TrafficCone, Globe, Grid3X3, Box, Cuboid, GraduationCap, Tv, Monitor, Sparkles, Eye, Zap, Shield, Layers };
-                const Icon = ICONS[app.icon] || Monitor;
-                return (
-                  <div key={app.title} className={`p-5 rounded-xl border ${card}`} data-testid={`app-${app.title}`}>
-                    <div className="flex items-start gap-3">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${isDark ? 'bg-cyan-500/10' : 'bg-cyan-50'}`}>
-                        <Icon size={18} className="text-cyan-500" />
-                      </div>
-                      <div>
-                        <h3 className={`text-sm font-bold ${text1} mb-1`}>{app.title}</h3>
-                        <p className={`text-xs ${text2} leading-relaxed`}>{app.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* ===== FAQ ===== */}
       {product.faq && product.faq.length > 0 && (

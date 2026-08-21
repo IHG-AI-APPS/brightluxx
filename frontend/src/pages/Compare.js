@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, X, ArrowRight, GitCompareArrows, Plus, Check } from 'lucide-react';
+import { Search, X, ArrowRight, GitCompareArrows, Plus, Check, Printer } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { getProducts, compareProducts } from '../api';
+import { MAX_PRODUCTS, getComparedCodes, saveComparedCodes, clearComparedCodes } from '../lib/comparison';
 
 const Compare = () => {
   const [allProducts, setAllProducts] = useState([]);
-  const [selectedCodes, setSelectedCodes] = useState([]);
+  const [selectedCodes, setSelectedCodes] = useState(getComparedCodes);
   const [comparisonData, setComparisonData] = useState(null);
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
@@ -14,6 +15,7 @@ const Compare = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [fetchingProducts, setFetchingProducts] = useState(true);
+  const [differencesOnly, setDifferencesOnly] = useState(false);
 
   // Close dropdown on outside click
   const handleClickOutside = useCallback((e) => {
@@ -29,6 +31,8 @@ const Compare = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [handleClickOutside]);
+
+  useEffect(() => { saveComparedCodes(selectedCodes); }, [selectedCodes]);
 
   // Fetch all products for selection
   useEffect(() => {
@@ -59,7 +63,7 @@ const Compare = () => {
     if (selectedCodes.includes(code)) {
       setSelectedCodes(selectedCodes.filter((c) => c !== code));
       setComparisonData(null);
-    } else if (selectedCodes.length < 4) {
+    } else if (selectedCodes.length < MAX_PRODUCTS) {
       setSelectedCodes([...selectedCodes, code]);
       setComparisonData(null);
     }
@@ -103,7 +107,7 @@ const Compare = () => {
         <div className="mb-10">
           <h1 data-testid="compare-page-title">Compare Products</h1>
           <p className="text-sm text-[var(--blx-text-2)] mt-2 tracking-wider">
-            Select 2 to 4 products to compare specifications side by side.
+            Select up to 3 products to compare engineering specifications side by side.
           </p>
         </div>
 
@@ -111,7 +115,7 @@ const Compare = () => {
         <div className="glass-panel p-6 sm:p-8 mb-8">
           <h3 className="text-base font-bold mb-4 flex items-center gap-2">
             <GitCompareArrows size={18} className="text-[var(--blx-gold-3)]" />
-            Select Products ({selectedCodes.length}/4)
+            Select Products ({selectedCodes.length}/{MAX_PRODUCTS})
           </h3>
 
           {/* Selected Chips */}
@@ -129,7 +133,7 @@ const Compare = () => {
                     {product && <span className="opacity-70">- {product.name}</span>}
                     <button
                       onClick={() => toggleProduct(code)}
-                      className="ml-1 hover:opacity-70 transition-opacity duration-200"
+                    className="ml-1 hover:opacity-70 transition-opacity duration-200" aria-label={`Remove ${product?.name || code} from comparison`}
                       data-testid={`compare-remove-${code}`}
                     >
                       <X size={12} />
@@ -167,7 +171,7 @@ const Compare = () => {
                 ) : (
                   filteredProducts.map((p) => {
                     const isSelected = selectedCodes.includes(p.product_code);
-                    const isDisabled = !isSelected && selectedCodes.length >= 4;
+                    const isDisabled = !isSelected && selectedCodes.length >= MAX_PRODUCTS;
                     return (
                       <button
                         key={p.product_code}
@@ -229,13 +233,13 @@ const Compare = () => {
             {selectedCodes.length > 0 && (
               <button
                 onClick={() => {
-                  setSelectedCodes([]);
+                  clearComparedCodes(); setSelectedCodes([]);
                   setComparisonData(null);
                 }}
                 className="btn-glass px-6 py-3.5"
                 data-testid="compare-clear-button"
               >
-                Clear All
+                Clear comparison
               </button>
             )}
           </div>
@@ -245,8 +249,9 @@ const Compare = () => {
         {comparisonData && comparisonData.length > 0 && (
           <div className="animate-fade-up" data-testid="compare-results">
             {/* Scroll hint on mobile */}
-            <div className="sm:hidden mb-3 flex items-center gap-2 text-[0.625rem] text-[var(--blx-muted)] tracking-[0.15em]">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3 text-[0.625rem] text-[var(--blx-muted)] tracking-[0.15em]">
               <ArrowRight size={12} /> Scroll horizontally to see all specs
+              <div className="flex gap-3"><label className="flex items-center gap-2"><input type="checkbox" checked={differencesOnly} onChange={(e) => setDifferencesOnly(e.target.checked)} data-testid="compare-differences-toggle" /> Show differences only</label><button type="button" onClick={() => window.print()} className="inline-flex items-center gap-1" data-testid="compare-print-button"><Printer size={13} /> Print / Save PDF</button></div>
             </div>
 
             {/* Scrollable comparison table */}
@@ -275,28 +280,28 @@ const Compare = () => {
                   { label: 'Brightness', key: 'brightness' },
                   { label: 'Resolution', key: 'resolution' },
                   { label: 'Application', key: 'application' },
-                ].map((row) => (
+                ].filter((row) => !differencesOnly || new Set(comparisonData.map((p) => p[row.key] || 'Not published')).size > 1).map((row) => (
                   <div key={row.label} className="grid hover:bg-[rgba(255,255,255,0.02)] transition-colors duration-200" style={{ gridTemplateColumns: `120px repeat(${comparisonData.length}, minmax(160px, 1fr))` }}>
                     <div className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] text-[0.5625rem] sm:text-[0.6875rem] font-bold text-[var(--blx-muted)] tracking-[0.1em] sticky left-0 z-10" style={{ background: 'var(--blx-bg)' }}>
                       {row.label}
                     </div>
                     {comparisonData.map((p) => (
                       <div key={p.product_code} className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] last:border-r-0 text-xs sm:text-sm text-[var(--blx-text-2)] tracking-wider" style={{ fontVariantNumeric: 'tabular-nums', }}>
-                        {p[row.key] || '—'}
+                        {p[row.key] || 'Not published'}
                       </div>
                     ))}
                   </div>
                 ))}
 
                 {/* Spec Rows */}
-                {getSpecLabels().map((label) => (
+                {getSpecLabels().filter((label) => !differencesOnly || new Set(comparisonData.map((p) => getSpecValue(p, label))).size > 1).map((label) => (
                   <div key={label} className="grid hover:bg-[rgba(255,255,255,0.02)] transition-colors duration-200" style={{ gridTemplateColumns: `120px repeat(${comparisonData.length}, minmax(160px, 1fr))` }}>
                     <div className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] text-[0.5625rem] sm:text-[0.6875rem] font-bold text-[var(--blx-muted)] tracking-[0.1em] sticky left-0 z-10" style={{ background: 'var(--blx-bg)' }}>
                       {label}
                     </div>
                     {comparisonData.map((p) => (
                       <div key={p.product_code} className="p-3 sm:p-4 border-b border-r border-[var(--blx-border)] last:border-r-0 text-xs sm:text-sm text-[var(--blx-text-2)] tracking-wider" style={{ fontVariantNumeric: 'tabular-nums', }}>
-                        {getSpecValue(p, label)}
+                        {getSpecValue(p, label) === '—' ? 'Not published' : getSpecValue(p, label)}
                       </div>
                     ))}
                   </div>
@@ -325,7 +330,7 @@ const Compare = () => {
             <GitCompareArrows size={48} className="mx-auto text-[var(--blx-muted)] mb-4" />
             <h3 className="text-base font-bold mb-2">Select Products to Compare</h3>
             <p className="text-sm text-[var(--blx-text-2)] tracking-wider mb-6">
-              Choose 2 to 4 products from the search above to see a detailed side-by-side comparison of specifications.
+              Choose up to 3 products from the search above to see a detailed side-by-side comparison of specifications.
             </p>
             <Link to="/products" className="btn-glass px-6 py-3 inline-flex items-center gap-2">
               Browse Products <ArrowRight size={14} />

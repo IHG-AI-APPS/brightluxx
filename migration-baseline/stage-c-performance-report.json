@@ -4,7 +4,7 @@
   "timestamp_utc": "2026-08-21T14:15:00Z",
   "scope": "Homepage performance comparison only (CRA baseline vs OpenNext local workerd)",
   "targets": {
-    "cra_baseline": "https://product-detail-qa.preview.emergentagent.com/",
+    "cra_baseline": "https://brightluxx-catalog.preview.emergentagent.com/",
     "opennext_local_workerd": "http://127.0.0.1:8787/"
   },
   "test_conditions": {
@@ -62,7 +62,7 @@
             "type": "VIDEO",
             "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
           },
-          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+          "lcp_url": "https://brightluxx-catalog.preview.emergentagent.com/api/media/images/hero-poster.webp"
         },
         {
           "run": 2,
@@ -90,7 +90,7 @@
             "type": "VIDEO",
             "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
           },
-          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+          "lcp_url": "https://brightluxx-catalog.preview.emergentagent.com/api/media/images/hero-poster.webp"
         },
         {
           "run": 3,
@@ -118,7 +118,7 @@
             "type": "VIDEO",
             "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
           },
-          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+          "lcp_url": "https://brightluxx-catalog.preview.emergentagent.com/api/media/images/hero-poster.webp"
         }
       ],
       "next_runs": [
@@ -282,7 +282,7 @@
             "type": "VIDEO",
             "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
           },
-          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+          "lcp_url": "https://brightluxx-catalog.preview.emergentagent.com/api/media/images/hero-poster.webp"
         },
         {
           "run": 2,
@@ -310,7 +310,7 @@
             "type": "VIDEO",
             "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
           },
-          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+          "lcp_url": "https://brightluxx-catalog.preview.emergentagent.com/api/media/images/hero-poster.webp"
         },
         {
           "run": 3,
@@ -338,7 +338,7 @@
             "type": "VIDEO",
             "src": "https://files.ihgbrands.com/videos_hero-video-converted.mp4"
           },
-          "lcp_url": "https://product-detail-qa.preview.emergentagent.com/api/media/images/hero-poster.webp"
+          "lcp_url": "https://brightluxx-catalog.preview.emergentagent.com/api/media/images/hero-poster.webp"
         }
       ],
       "next_runs": [

@@ -2,7 +2,7 @@
   "capturedAt": "2026-08-21T12:55:29.407Z",
   "architecture": "CRA + React Router + custom static prerendering",
   "productionOrigin": "https://brightluxx.com",
-  "baselinePreviewOrigin": "https://product-detail-qa.preview.emergentagent.com",
+  "baselinePreviewOrigin": "https://brightluxx-catalog.preview.emergentagent.com",
   "counts": {
     "totalRoutes": 352,
     "indexable": 337,

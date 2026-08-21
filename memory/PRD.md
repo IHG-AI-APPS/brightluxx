@@ -1,9 +1,11 @@
 # Brightluxx — Product Requirements Document
 
-## LATEST: Stage C Accepted — Ready for Stage D (Not Started)
-- **Final independent Stage C decision: PASS.** The approved premium-minimal redesign is classified as intentional improvement at 1440; responsive navigation, hero, CTA, overflow, consent, comparison tray, and contact-control checks now pass at 1024, 768, 430, 390, and 360 (iteration 140).
-- **Performance evidence**: three-run desktop/mobile medians are saved in `/app/migration-baseline/stage-c-performance-report.json`. Total JS, JS chunks, request count, total transfer, LCP, and main-thread proxy improved. Initial-JS comparison is a non-blocking WARNING because CRA was remote while OpenNext was local and FCP-boundary timing varies.
-- Raw SEO, interactions, hydration, local OpenNext/workerd, route parity, and no mocked APIs are verified. Stage D is authorized by acceptance but has not been started; production CRA remains untouched.
+## LATEST: Stage D Accepted — Phase 2 Catalogue + Product Finder Migration (Aug 21, 2026)
+- **Server-first catalogue delivered at `/products`**: a dynamic Next.js Server Component fetches the real FastAPI `/api/products` source without permanent caching and renders all **94** products in initial OpenNext HTML. The legacy CRA implementation remains untouched.
+- **Isolated client islands delivered**: live synonym search via `/api/search`, By Product / By Application / By Technology discovery, taxonomy and pixel-pitch filtering, responsive mobile filter sheet, four-step Product Finder, and local comparison-tray handoff. All new interactive controls have stable test IDs.
+- **Stage D verification PASS (iteration 143)**: OpenNext build/worker preview returned 200; raw HTML had one H1 and exactly 94 product-card test IDs before hydration. API checks passed 3/3; desktop/mobile filters, search, finder, comparison tray, overflow, and console/hydration checks passed with **no mocked APIs**.
+- **Migration correction recorded**: excluded `/products` from the catch-all static legacy route generator so the concrete dynamic catalogue page owns its route. Removed the incompatible Next Edge Runtime declaration; OpenNext Cloudflare uses its supported Node-compat server bundle.
+- **Next P1**: add Stage D evidence to `/__migration-parity`, then migrate Phase 3 product detail and comparison surfaces. Production cutover remains forbidden.
 
 ## LATEST: Stage C Premium-Minimal Refinement — Functional/SEO PASS, Performance Pending
 - Homepage copy and hierarchy were refined under the approved premium-minimal direction: `Engineered Vision`, `Built For`, `Real Projects`, `Display Tech`, `For Specifiers`, `Latest Thinking`, and `Start Here`. Regional LED/digital-signage semantics remain visible in concise supporting content.

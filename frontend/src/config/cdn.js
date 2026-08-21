@@ -1,7 +1,15 @@
 /**
- * CDN configuration — All media served from files.ihgbrands.com
+ * CDN configuration — supplied by the environment for each deployment.
  */
-export const EXTERNAL_CDN = 'https://files.ihgbrands.com';
+const configuredCdn = process.env.REACT_APP_CDN_URL;
+
+if (!configuredCdn) {
+  throw new Error('REACT_APP_CDN_URL must be configured');
+}
+
+export const EXTERNAL_CDN = configuredCdn.replace(/\/+$/, '');
+
+const isConfiguredCdnUrl = (value) => value.startsWith(EXTERNAL_CDN);
 
 /**
  * Helper function to get the full CDN URL for an asset.
@@ -12,7 +20,7 @@ export function cdnUrl(path) {
   if (!path) return '';
   
   // Already a full URL pointing to our CDN
-  if (path.startsWith('https://files.ihgbrands.com')) {
+  if (isConfiguredCdnUrl(path)) {
     return path;
   }
   
@@ -56,7 +64,7 @@ export function cdnUrl(path) {
  */
 export function cdnVideoUrl(filename) {
   if (!filename) return '';
-  if (filename.startsWith('https://files.ihgbrands.com')) return filename;
+  if (isConfiguredCdnUrl(filename)) return filename;
   if (filename.startsWith('http')) return filename;
   
   const cleanName = filename.startsWith('/') ? filename.slice(1) : filename;
@@ -71,7 +79,7 @@ export function cdnVideoUrl(filename) {
  */
 export function cdnAssetUrl(filename) {
   if (!filename) return '';
-  if (filename.startsWith('https://files.ihgbrands.com')) return filename;
+  if (isConfiguredCdnUrl(filename)) return filename;
   if (filename.startsWith('http')) return filename;
   
   const cleanName = filename.startsWith('/') ? filename.slice(1) : filename;

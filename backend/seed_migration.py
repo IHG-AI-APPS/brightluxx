@@ -113,16 +113,3 @@ async def run_seed(db):
     else:
         print("Seed: All content up to date, no changes needed")
 
-    # Clean up: remove products that exist in DB but NOT in seed (e.g. deleted test products)
-    if "products" in seed:
-        seed_slugs = {d.get("slug") for d in seed["products"] if d.get("slug")}
-        if seed_slugs:
-            result = await db["products"].delete_many(
-                {"$or": [
-                    {"slug": {"$exists": True, "$nin": list(seed_slugs)}},
-                    {"slug": {"$exists": False}},
-                    {"product_code": "test"},
-                ]}
-            )
-            if result.deleted_count > 0:
-                print(f"  Seed: Cleaned up {result.deleted_count} orphan product(s) not in seed")

@@ -1,5 +1,12 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Deployment Readiness Remediation — Current Session
+- **Non-destructive Atlas-safe startup**: removed the automatic `delete_many` product cleanup from seed migration. Deployment startup now only inserts or updates seed records and will not delete production-only catalog data.
+- **Environment-only CDN configuration**: frontend CDN host now requires `REACT_APP_CDN_URL`; the source no longer embeds a deployment-specific CDN hostname or a fallback value.
+- **Production-safe CORS**: the backend now fails fast unless `CORS_ORIGINS` contains explicit allowed origins, preventing an insecure wildcard-plus-credentials configuration. Preview, current Emergent host, and custom domain are configured through the environment.
+- **Repository hygiene**: replaced malformed duplicated `.gitignore` rules and explicitly ignore `memory/test_credentials.md`.
+- **Verification (agent-tested)**: backend health returned 200 locally, production-style frontend build prerendered 337 routes with 0 errors and SEO regression passed. Final deployment-agent scan: **PASS**, no code-level blockers; no Docker changes were made.
+
 ## LATEST: Arabic Landing Pages + Static SEO Coverage — Current Session
 - **Arabic phase 1 delivered** at `/ar-ae/`, `/ar-ae/dubai`, and `/ar-ae/uae` with professionally authored, RTL-native Arabic content for LED display project discovery. Content avoids unsupported commercial claims, fabricated project credentials, ratings, prices, or locations.
 - **SEO-safe static delivery**: all three Arabic routes are included in CRA/CRACO build-time prerender output with Arabic `lang` + `dir`, self canonicals, meaningful body copy, one H1, and parseable WebPage/FAQ JSON-LD. `/ar-ae/` and `/ar-ae/dubai` include `en-AE` + `x-default` alternates only to their real English counterparts; `/ar-ae/uae` intentionally has no missing-page hreflang alternate.

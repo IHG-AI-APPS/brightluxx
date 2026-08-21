@@ -57,13 +57,12 @@ from api_cache import APICacheMiddleware
 app.add_middleware(APICacheMiddleware)
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
-cors_origins_str = os.environ.get("CORS_ORIGINS", "")
-if cors_origins_str:
-    cors_origins = [o.strip() for o in cors_origins_str.split(",")]
-else:
-    # Auto-detect from FRONTEND_URL or allow all for dev
-    frontend_url = os.environ.get("FRONTEND_URL", "")
-    cors_origins = [frontend_url] if frontend_url else ["*"]
+cors_origins_str = os.environ.get("CORS_ORIGINS")
+if not cors_origins_str:
+    raise RuntimeError("CORS_ORIGINS must be configured with explicit allowed origins")
+cors_origins = [origin.strip().rstrip("/") for origin in cors_origins_str.split(",") if origin.strip()]
+if not cors_origins or "*" in cors_origins:
+    raise RuntimeError("CORS_ORIGINS must contain explicit origins when credentials are enabled")
 
 app.add_middleware(
     CORSMiddleware,

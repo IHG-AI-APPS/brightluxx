@@ -6,6 +6,10 @@
 - Added Arabic paths to dynamic sitemap and SEO required-route regression checks. Verification: build gate passed at 337 prerendered pages / 0 errors; SEO regression 0 failures; iteration 128 passed 7/7 backend/static checks and all preview route checks.
 - Cloudflare rule application and true edge 301/404/410 behavior remain unverified and platform/account-dependent; no claim of live status-code correction is made.
 
+## Current Session — Cloudflare Edge Reverification
+- Raw production `curl -I` retested all 19 legacy redirect mappings, one wildcard child path, `/products/hjdba`, and a random unknown path. Every response remains HTTP 200; no mapped legacy path emitted `Location`; public HTML retains forced `no-cache, no-store, must-revalidate`.
+- Added `memory/seo-control/emergent-worker-support-request.md`: an evidence-backed, ready-to-send request for genuine 301/404/410 status preservation and configurable static/HTML cache behavior. It is prepared, **not submitted**; Cloudflare/user support-account access is required.
+
 ## Aug 10, 2026 — Production Site Audit Fixes (Phase 1-3)
 
 ### SEO/AI Visibility (Critical)

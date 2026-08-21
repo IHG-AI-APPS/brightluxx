@@ -7,6 +7,7 @@
 - **Verification (agent-tested)**: `yarn build` completed with 337 prerendered routes / 0 prerender errors; SEO regression PASS / 0 failures. Iteration 128 additionally passed 7/7 static sitemap/SEO checks and all three preview UI flows.
 - **P0 still external**: Cloudflare rules have not been applied by the agent because the zone is user-owned. Raw production redirects/404/410 cannot be claimed until the rules and managed Worker changes are live and raw-curl verified.
 - **Platform support request**: the Worker HTTP-status/cache requirement has been prepared; Emergent infrastructure must preserve configured 301, 404, and 410 responses instead of serving SPA fallback HTTP 200.
+- **Fresh production audit**: raw `curl -I` reconfirmed all 19 mapped legacy paths still return HTTP 200 without `Location`; `/products/hjdba` and a random unknown URL also return 200. Ready-to-send request: `memory/seo-control/emergent-worker-support-request.md`.
 
 ## LATEST: Broken Images + Backend Performance Fix — Jun 2026 (this session)
 - **Projects collection dead paths fixed**: all 8 projects pointed at deleted local paths (`/downloaded-images/...`, `/generated-images/...`). Downloaded originals from CDN (2 were gone entirely — regenerated with AI), optimized to ≤140KB WebP (from 1.4–4.6MB!), uploaded to `files.ihgbrands.com/brightluxx/site-images/opt-proj-*.webp`, updated DB + seed_data_full.json. Zero dead-path refs in built HTML.

@@ -1,177 +1,130 @@
 {
-  "theme": "dark",
-  "archetype": "Swiss & High-Contrast mixed with Architectural Luxury",
-  "emotions": ["Precision", "Scale", "Engineering Authority", "Premium Quality"],
-  "forbidden_elements": [
-    "Generic electronics seller vibe",
-    "Gaming/crypto neon aesthetics",
-    "Inter/Roboto/Open Sans for headings",
-    "Centered generic layouts",
-    "Complete transparent backgrounds over content",
-    "Space Grotesk font"
-  ],
+  "theme": "dark_mode_default_with_toggle",
+  "archetype": "ARCHETYPE 4: SWISS & HIGH-CONTRAST + ARCHETYPE 5: LUXURY",
+  "brand_identity": "Premium minimal visual technology brand. Apple-like restraint, architectural editorial design, high-end display technology, GCC engineering credibility.",
   "typography": {
     "headings": {
-      "family": "Outfit",
-      "weights": ["300", "500", "700"],
-      "styling": "tracking-tight, uppercase for tags with tracking-[0.2em]"
+      "font_family": "Manrope, sans-serif",
+      "weights": ["300", "500", "800"],
+      "usage": "Use Manrope for all H1-H4 headings. STRICTLY FORBIDDEN: Inter. Ensure tight tracking (tracking-tight) and tight leading (leading-none)."
     },
     "body": {
-      "family": "Manrope",
+      "font_family": "IBM Plex Sans, sans-serif",
       "weights": ["400", "500"],
-      "styling": "leading-relaxed text-zinc-400"
+      "usage": "Use IBM Plex Sans for body text, descriptions, and lists. Use leading-relaxed for optimal legibility."
     },
-    "scale_rules": {
-      "h1": "text-4xl sm:text-5xl lg:text-6xl font-light",
-      "h2": "text-2xl sm:text-3xl lg:text-4xl font-medium",
-      "h3": "text-xl sm:text-2xl",
-      "overline": "text-xs font-bold tracking-[0.2em] uppercase text-zinc-500"
+    "labels_overlines": {
+      "styling": "uppercase, text-xs, tracking-[0.2em], font-bold",
+      "usage": "Use for the 'ENGINEERING BRILLIANCE' label and category tags."
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tighter",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight",
+      "h3": "text-xl sm:text-2xl tracking-tight",
+      "h4": "text-lg sm:text-xl",
+      "body": "text-base sm:text-lg text-neutral-400"
     }
   },
   "colors": {
-    "background": {
-      "primary": "#050505",
-      "secondary": "#0A0A0A",
-      "tertiary": "#111111"
+    "dark": {
+      "background": "#050505",
+      "surface": "#0F0F0F",
+      "surface_glass": "rgba(15, 15, 15, 0.7)",
+      "border": "#262626",
+      "border_subtle": "rgba(255, 255, 255, 0.05)",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#A3A3A3",
+      "accent": "#F5F5F5",
+      "accent_hover": "#D4D4D4"
     },
-    "surface": {
-      "card": "#0F0F0F",
-      "glass": "bg-white/5 backdrop-blur-xl border border-white/10"
+    "light": {
+      "background": "#F5F5F5",
+      "surface": "#FFFFFF",
+      "surface_glass": "rgba(255, 255, 255, 0.7)",
+      "border": "#E5E5E5",
+      "border_subtle": "rgba(0, 0, 0, 0.05)",
+      "text_primary": "#0A0A0A",
+      "text_secondary": "#525252",
+      "accent": "#0A0A0A",
+      "accent_hover": "#262626"
     },
-    "text": {
-      "primary": "#FFFFFF",
-      "secondary": "#A1A1AA",
-      "muted": "#52525B"
-    },
-    "accent": {
-      "primary": "#F4F4F5",
-      "hover": "#D4D4D8",
-      "highlight": "#E43D12"
-    }
+    "forbidden_colors": ["#7351B7", "#1B93A4", "Neon Green", "Cyber Yellow", "Generic Tech Blue"]
   },
-  "layouts": {
-    "spacing": "Generous. Use p-8, p-12, py-24. Never cramp elements.",
-    "grid": "Bento 'Tetris' Grid (Mode A) for featured installations. Asymmetrical grids for technology sections.",
-    "alignment": "Strictly left-aligned text for architectural precision. Only center when explicitly required for visual balance.",
-    "borders": "1px solid border-white/10. Grid borders for technical sections. Exposed skeleton layout."
+  "layouts_and_grids": {
+    "spacing_philosophy": "Generous spacing. Use 2-3x more spacing than typical templates (p-8, p-12, p-24, py-32). Let the whitespace create a sense of premium luxury and architectural scale.",
+    "bento_grid": "MODE A (Tetris Grid) for Project & Industry presentations. Use asymmetric spans (e.g., col-span-8 for hero project, col-span-4 for supporting), gap-8 or gap-12.",
+    "alignment": "Left-align dense text and headings. Avoid centering everything. Tension creates interest."
   },
   "visual_enhancers": {
-    "surfaces": "The 'Grid Borders' look for technical specs. 'Glassmorphism (Crystal)' for floating headers and menus.",
-    "textures": "Subtle noise overlay (opacity 2-5%) to remove digital flatness.",
-    "shadows": "Minimal. Rely on borders and background contrast for depth."
+    "surfaces": {
+      "header_and_floating_docks": "GLASSMORPHISM (Crystal Variant): backdrop-blur-2xl with bg-black/60 (dark) or bg-white/70 (light), 1px delicate inner stroke border-white/10.",
+      "cards": "Cardless or minimal solid surfaces. No muddy gray transparency. If using cards, 1px subtle border, flat background, no soft shadow."
+    },
+    "overlays": "Hero images MUST have an overlay between bg-black/30 and bg-black/50. If using gradient overlay for text legibility, use bg-gradient-to-r from-black/70 via-black/40 to-transparent. DO NOT obscure the image entirely."
   },
-  "motion": {
-    "scroll": "Lenis for premium momentum scrolling.",
-    "animations": "Framer Motion. Slow, deliberate reveals. Fade-up with slight Y translation (y: 20, duration: 0.8, ease: [0.16, 1, 0.3, 1]).",
-    "interactions": "Hover states on cards should brighten the border (border-white/30) and slightly scale imagery (1.02)."
+  "components": {
+    "navigation": "Desktop/mobile shared structure. Sticky fixed header (z-50) using Crystal Glassmorphism. Must include Logo, Links (Products, Industries, Architect Path, Signage, Resources), and Contact CTA.",
+    "floating_contact_controls": "Fixed position (e.g., bottom-right or bottom-center dock). Pill-shaped, Glassmorphism finish. Contains contact CTA and potentially the small animated counter island.",
+    "buttons": "Restrained, sharp or pill-shaped. Dark mode: bg-white text-black hover:bg-neutral-200. Light mode: bg-black text-white hover:bg-neutral-800. No heavy gradients.",
+    "animated_counter_island": "A subtle, engineered micro-interaction island showing a numerical counter (e.g., projects completed, display pixels). Use Framer Motion for value ticker. Font: IBM Plex Sans."
   },
-  "accessibility": {
-    "contrast": "APCA standard. Text over images MUST have a gradient overlay or background blur.",
-    "testing": "All interactive elements MUST include data-testid.",
-    "animations": "Respect prefers-reduced-motion."
+  "pages_and_sections": {
+    "homepage": {
+      "hero": {
+        "copy": "Label: 'ENGINEERING BRILLIANCE'. H1: 1-3 words (e.g., 'Architectural Display Technology'). Subtitle: 1 short sentence.",
+        "visuals": "Full-bleed background image, dark gradient overlay for text contrast, restrained primary CTA."
+      },
+      "projects_presentation": {
+        "layout": "Asymmetric Bento Grid (col-span-full md:col-span-8, col-span-4). Emphasize strong imagery. Minimal UI chrome around images."
+      },
+      "paths_and_links": {
+        "items": ["Product Families", "Industries/Solutions", "Architect/Specifier Path", "Digital Signage Path", "Resources/Tools"],
+        "layout": "Clean list or tight grid. Hover states should feature a subtle translation (-translate-y-1) and text color shift."
+      }
+    }
   },
   "media": {
+    "image_strategy": "High-end, architectural, engineered displays. No generic stock. Clean, strong geometry.",
     "image_urls": {
-      "hero_bg": {
-        "url": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwxfHxkdWJhaSUyMHNreWxpbmUlMjBtb2Rlcm4lMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzg3MzExNTg2fDA&ixlib=rb-4.1.0&q=85",
-        "description": "Dubai skyline, used as a dark tinted background for the hero section."
-      },
-      "led_close_up": {
-        "url": "https://images.unsplash.com/photo-1707581785295-c2119a0e9fdc?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwyfHxwcmVtaXVtJTIwbGVkJTIwZGlzcGxheSUyMGluc3RhbGxhdGlvbnxlbnwwfHx8fDE3ODczMTE1ODZ8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Close up of LED technology, for 'Core Technology' section."
-      },
-      "curved_display": {
-        "url": "https://images.unsplash.com/photo-1604355714851-c1d5990e1696?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwbGVkJTIwZGlzcGxheSUyMGluc3RhbGxhdGlvbnxlbnwwfHx8fDE3ODczMTE1ODZ8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Curved LED wall, for 'Featured Installations'."
-      },
-      "outdoor_display": {
-        "url": "https://images.unsplash.com/photo-1736374726012-8e1b5b16f36e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHw0fHxwcmVtaXVtJTIwbGVkJTIwZGlzcGxheSUyMGluc3RhbGxhdGlvbnxlbnwwfHx8fDE3ODczMTE1ODZ8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Large outdoor building LED display, for 'Featured Installations'."
-      },
-      "transparent_glass": {
-        "url": "https://images.unsplash.com/photo-1621831337128-35676ca30868?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzR8MHwxfHNlYXJjaHwzfHx0cmFuc3BhcmVudCUyMHNtYXJ0JTIwZ2xhc3MlMjBidWlsZGluZ3xlbnwwfHx8fDE3ODczMTE1ODZ8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Transparent smart glass architecture, for 'GlassMorph' product category."
-      },
-      "control_room": {
-        "url": "https://images.unsplash.com/photo-1782945217386-300f33f22069?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNTl8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjb250cm9sJTIwcm9vbSUyMGRpc3BsYXlzfGVufDB8fHx8MTc4NzMxMTU4Nnww&ixlib=rb-4.1.0&q=85",
-        "description": "High-tech control room, for 'Industries / Applications' section."
-      }
-    },
-    "hero_overlay": "bg-black/60 to bg-black/80 gradient to ensure H1 contrast.",
-    "treatment": "Images should be desaturated slightly or have a cool tint to fit the architectural vibe. Never use flat blanket overlays that kill the image completely; use gradients."
-  },
-  "content_hierarchy": [
-    {
-      "section": "Hero",
-      "tagline": "ENGINEERING BRILLIANCE",
-      "h1": "LED Display & Digital Signage Solutions for UAE & GCC",
-      "description": "Design, supply, engineering, installation and lifecycle support for premium LED displays, digital signage, MicroLED, transparent displays and immersive visual systems.",
-      "ctas": ["Explore Solutions", "Start Your Project", "Talk to an Engineer"]
-    },
-    {
-      "section": "High-Profile Project/Customer Credibility",
-      "content": "Logos of top GCC clients and quick stats (e.g., '500+ GCC Installations'). Stat counters must render final values in semantic HTML first."
-    },
-    {
-      "section": "Choose Your Solution",
-      "content": "Interactive or grid-based selector for visitor needs (Retail, Corporate, Control Room, Architecture)."
-    },
-    {
-      "section": "Featured Installations",
-      "content": "Project-led visual storytelling cards. Includes: Project/Location, Industry, Technology, Result, and 'View Project' CTA. Real imagery only."
-    },
-    {
-      "section": "Core Technology / Product Categories",
-      "content": "Focus on clarity before brand names: Fine-Pitch & MicroLED (LumiMorph), Architectural Displays (NaturaTex), Interactive Signage (SignaTouch), Transparent LED (GlassMorph), Professional LED (PixelVue)."
-    },
-    {
-      "section": "Why Brightluxx",
-      "content": "Grid-based list of engineering advantages and GCC-specific expertise."
-    },
-    {
-      "section": "Industries / Applications",
-      "content": "Showcasing where the tech is used (e.g., control rooms, luxury retail)."
-    },
-    {
-      "section": "Architect & Consultant Section",
-      "content": "Dedicated portal link for professionals. Highlight '24/7 Virtual Showroom'."
-    },
-    {
-      "section": "Digital Signage Solutions",
-      "content": "Software & management aspect of the displays."
-    },
-    {
-      "section": "Technical Resources",
-      "content": "Calculators and documentation."
-    },
-    {
-      "section": "Project Enquiry & Footer",
-      "content": "Final CTA and comprehensive footer with dark contrast."
+      "hero_background": "https://images.unsplash.com/photo-1527576539890-dfa815648363?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzN8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBidWlsZGluZ3xlbnwwfHx8fDE3ODczMjAyMzJ8MA&ixlib=rb-4.1.0&q=85",
+      "project_1": "https://images.unsplash.com/photo-1487958449943-2429e8be8625?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzN8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBidWlsZGluZ3xlbnwwfHx8fDE3ODczMjAyMzJ8MA&ixlib=rb-4.1.0&q=85",
+      "project_2": "https://images.unsplash.com/photo-1451438143976-4e1aa4f7f153?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1OTN8MHwxfHNlYXJjaHwyfHxhcmNoaXRlY3R1cmFsJTIwaW50ZXJpb3IlMjBsaWdodGluZ3xlbnwwfHx8fDE3ODczMjAyMzJ8MA&ixlib=rb-4.1.0&q=85",
+      "signage_path": "https://images.pexels.com/photos/6009286/pexels-photo-6009286.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "architect_path": "https://images.pexels.com/photos/11829875/pexels-photo-11829875.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
     }
-  ],
-  "technical_constraints": {
-    "seo": "Homepage must remain SEO-regression clean. One H1 only. Initial HTML must contain final hero content.",
-    "architecture": "Preserve existing CRA + CRACO static prerender architecture. Do not change routing or frameworks.",
-    "counters": "Final values MUST be present in semantic HTML. Do not expose 0 to crawlers.",
-    "libraries": [
-      "framer-motion",
-      "lucide-react",
-      "@radix-ui/react-icons",
-      "clsx",
-      "tailwind-merge"
-    ]
   },
+  "motion_and_interactions": {
+    "scrolling": "Use 'lenis' for smooth, momentum-based scrolling. This is critical for the premium architectural feel.",
+    "animations": "Intentional subtle motion. Use Framer Motion. Apple-like ease springs (duration: 0.8, ease: [0.16, 1, 0.3, 1]). Staggered entrance for lists.",
+    "hover_states": "Interactive elements MUST explicitly change color or slightly lift on hover. No jarring scales."
+  },
+  "accessibility_and_seo": {
+    "seo_preservation": "CRITICAL: Preserve existing URLs, SEO metadata, canonicals, schema, sitemap, routing. Do NOT modify the core semantic structure (nav > ul > li, article, section) representing Phase 2/3.",
+    "content_meaning": "Preserve SEO semantic coverage in supporting/body content. Headings can be visually refined to 1-3 words, but ensure the underlying HTML semantics (H1, H2) maintain keyword context if necessary (e.g., via sr-only text paired with minimal visible text, or strictly adhering to approved concise copy).",
+    "performance": "No CLS (Cumulative Layout Shift) or hydration failures. Define explicit aspect-ratios for all imagery. Maintain server-rendered homepage integrity.",
+    "testing": "All interactive and key informational elements MUST include a 'data-testid' attribute (kebab-case, role-based)."
+  },
+  "instructions_to_main_agent": [
+    "This is a visual and copy refinement strictly for Stage C of the Next.js migration.",
+    "DO NOT cut over production or start Stage D.",
+    "PRESERVE ALL backend/API behavior, analytics, forms, routing, and product data logic.",
+    "IMPLEMENT a 'Premium minimal visual technology brand' aesthetic. Remove all generic, wordy, template-driven, or neon-tech UI elements.",
+    "REFINE copy: Prominent headings should be 1-3 words. Hero is concise. Keep 'ENGINEERING BRILLIANCE' as a small label.",
+    "APPLY the color palette, typography (Manrope/IBM Plex Sans), and strict Glassmorphism overlays detailed in these guidelines.",
+    "ENSURE the animated counter island and fixed contact controls are implemented as floating, sticky elements.",
+    "USE standard .js files for React components, avoid .tsx since this project uses .js.",
+    "CRITICAL: Validate no CLS shifts by setting image dimensions/aspect ratios."
+  ],
   "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
-    "You tend to converge toward generic, 'on distribution' outputs. Avoid the 'AI slop' aesthetic.",
-    "Do not use dark colors as gradients. Solid dark colors look premium.",
-    "Do not make generic centered layouts. Use asymmetrical grids.",
-    "Create depth through layered design elements with z-index hierarchy and glass-morphism.",
-    "You MUST NOT apply universal transition (e.g., 'transition: all'). Add transitions for specific properties.",
-    "You MUST NOT center align the app container (.App { text-align: center; } is banned).",
-    "Use modern button styles (sharp geometric shapes for this architectural brand, NOT pill-shaped).",
-    "Every interaction needs micro-animations - hover states, transitions.",
-    "Use 2-3x more spacing than feels comfortable.",
-    "Subtle grain textures, custom cursors, and crisp 1px borders separate good from extraordinary.",
-    "Never use placeholder text for images or logos."
+    "Create depth through layered design elements with z-index hierarchy and glass-morphism effects (12-24px blur).",
+    "DO NOT use dark colors as gradients. Use solid colors with noise/textures.",
+    "DO NOT apply universal transition (e.g., 'transition: all'). Add transitions for specific interactive properties.",
+    "DO NOT center align the app container. Disrupts natural reading flow.",
+    "NEVER use completely transparent backgrounds for headers or overlays that content scrolls under.",
+    "NEVER use AI assistant emojis.",
+    "Use 2-3x more spacing (p-8, p-12, py-24) than feels comfortable to achieve a premium look.",
+    "Prioritize Shadcn UI for complex components, custom HTML/Tailwind for expressive layouts.",
+    "Include 'data-testid' attributes on all interactive elements.",
+    "Use 'sonner' for toasts if applicable."
   ]
 }

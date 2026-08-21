@@ -1,5 +1,10 @@
 # Brightluxx Changelog
 
+## Current Session — Approved Premium-Minimal Stage C Refinement
+- Refined Stage C homepage copy to the approved concise architectural direction while preserving SEO semantics in visible supporting copy and server HTML.
+- Iteration 138 independently passed raw SEO, interaction, desktop/mobile hydration, and no-console-error checks; no API is mocked.
+- Performance measurement remains the sole Stage C acceptance blocker. Stage D and production cutover remain blocked.
+
 ## Current Session — Stage C Acceptance Evidence
 - Generated persistent matched CRA/Next screenshots across 1440, 1024, 768, 430, 390, and 360; iteration 137 completed independent functional, raw HTML, and hydration checks without mocked APIs.
 - Stage C correctly remains **NOT READY**: P1 drift at 1440 and P0 visual drift at 1024/768/430/390/360 affect header, hero, CTAs, fixed controls, and mobile layout. The internal dashboard now displays this evidence.

@@ -1,5 +1,10 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Stage C Premium-Minimal Refinement — Functional/SEO PASS, Performance Pending
+- Homepage copy and hierarchy were refined under the approved premium-minimal direction: `Engineered Vision`, `Built For`, `Real Projects`, `Display Tech`, `For Specifiers`, `Latest Thinking`, and `Start Here`. Regional LED/digital-signage semantics remain visible in concise supporting content.
+- **Iteration 138 PASS**: raw HTML has one H1, canonical/title/description/JSON-LD, final counters, crawlable project/family/specifier/resource links; desktop/mobile menus, CTAs, contact controls and consent work; no persistent hydration or console errors; no mocked APIs.
+- **Stage C is still not accepted**: baseline-versus-Next performance metrics and their equal-or-better interpretation remain required. Stage D remains blocked; no production/CRA change or cutover occurred.
+
 ## LATEST: Next.js Migration — Stage C Acceptance Result: NOT READY
 - **Independent evidence captured** (iteration 137): matched CRA/Next screenshots now persist at all six required viewports and are classified in `/app/migration-baseline/stage-c-visual-parity-report.json`.
 - **Passes**: homepage interactions, raw server HTML, approved single H1, metadata/canonical/JSON-LD, final counters, crawlable homepage links, hydration audit, and OpenNext build/workerd smoke all pass; no mocked APIs.

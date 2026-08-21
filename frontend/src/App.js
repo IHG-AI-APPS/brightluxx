@@ -163,6 +163,7 @@ const LuxuryHomeCinemaLanding = lazy(() => import('./pages/homecinema').then(m =
 
 // Signage Solutions - Lazy loaded
 const SignageSolutionsLanding = lazy(() => import('./pages/signage/SignageSolutionsLanding'));
+const ArabicLandingPage = lazy(() => import('./pages/ArabicLandingPage'));
 
 // Admin Context - Always loaded
 import { AdminProvider, useAdmin } from './admin/AdminContext';
@@ -216,6 +217,10 @@ function AppRoutes() {
       <Route path="/solutions" element={<PublicLayout><Solutions /></PublicLayout>} />
       <Route path="/solutions/:id" element={<PublicLayout><SolutionDetail /></PublicLayout>} />
       <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
+      <Route path="/ar-ae" element={<PublicLayout><ArabicLandingPage /></PublicLayout>} />
+      <Route path="/ar-ae/" element={<PublicLayout><ArabicLandingPage /></PublicLayout>} />
+      <Route path="/ar-ae/dubai" element={<PublicLayout><ArabicLandingPage /></PublicLayout>} />
+      <Route path="/ar-ae/uae" element={<PublicLayout><ArabicLandingPage /></PublicLayout>} />
       
       {/* SEO Landing Pages */}
       <Route path="/led-screen-suppliers-dubai" element={<PublicLayout><LEDScreenDubai /></PublicLayout>} />

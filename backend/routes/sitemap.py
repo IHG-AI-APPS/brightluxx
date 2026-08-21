@@ -164,6 +164,10 @@ STATIC_ROUTES = {
     "/supplier-registration": (0.5, "monthly"),
     "/technical-support": (0.5, "monthly"),
     "/inspirations": (0.7, "weekly"),
+    # Arabic landing pages — static, prerendered, canonical Arabic content
+    "/ar-ae/": (0.9, "monthly"),
+    "/ar-ae/dubai": (0.85, "monthly"),
+    "/ar-ae/uae": (0.85, "monthly"),
 }
 
 

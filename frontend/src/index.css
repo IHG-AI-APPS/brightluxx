@@ -485,6 +485,20 @@ p, .body-text {
   letter-spacing: 0.01em;
 }
 
+/* Arabic landing pages use RTL-native spacing and a reliable Arabic-capable fallback stack. */
+.arabic-landing,
+.arabic-landing * {
+  font-family: FreeSerif, Tahoma, "Segoe UI", serif !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+.arabic-landing h1,
+.arabic-landing h2,
+.arabic-landing h3 {
+  line-height: 1.45;
+}
+
 /* Mobile typography adjustments */
 @media (max-width: 639px) {
   body {

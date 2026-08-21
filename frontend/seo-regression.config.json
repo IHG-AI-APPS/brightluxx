@@ -11,7 +11,8 @@
     "/case-studies", "/resources", "/projects", "/tools", "/faq",
     "/dubai", "/abu-dhabi", "/saudi-arabia", "/qatar", "/oman", "/kuwait", "/bahrain",
     "/led-screen-suppliers-dubai", "/mission-critical-displays",
-    "/tools/led-wall-size-calculator", "/tools/video-wall-resolution-calculator"
+    "/tools/led-wall-size-calculator", "/tools/video-wall-resolution-calculator",
+    "/ar-ae", "/ar-ae/dubai", "/ar-ae/uae"
   ],
   "minRouteCounts": {
     "/products/": 80,

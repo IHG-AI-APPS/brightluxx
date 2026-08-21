@@ -333,7 +333,9 @@ export default function SEO({
   faqs,
   product,
   service,
-  keywords
+  keywords,
+  locale = 'en_AE',
+  alternates = []
 }) {
   const location = useLocation();
   const pagePath = path || location.pathname;
@@ -390,7 +392,17 @@ export default function SEO({
     setMeta('og:url', canonicalUrl, 'property');
     setMeta('og:type', type, 'property');
     setMeta('og:site_name', SITE_NAME, 'property');
-    setMeta('og:locale', 'en_AE', 'property');
+    setMeta('og:locale', locale, 'property');
+
+    document.querySelectorAll('link[data-seo-alternate]').forEach(el => el.remove());
+    alternates.forEach(({ hrefLang, path: alternatePath }) => {
+      const link = document.createElement('link');
+      link.rel = 'alternate';
+      link.hreflang = hrefLang;
+      link.href = `${PRODUCTION_URL}${alternatePath}`;
+      link.setAttribute('data-seo-alternate', hrefLang);
+      document.head.appendChild(link);
+    });
 
     // OG Image Alt (critical for image SEO)
     const imageAlt = adminSeo?.image_alt || effectiveTitle || 'Brightluxx LED Display';
@@ -450,8 +462,9 @@ export default function SEO({
 
     return () => {
       setJsonLd(null);
+      document.querySelectorAll('link[data-seo-alternate]').forEach(el => el.remove());
     };
-  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, effectiveNoIndex, effectiveKeywords, effectiveOgTitle, effectiveOgDesc, effectiveTitle, adminSeo, jsonLd, pagePath, faqs, product, service]);
+  }, [pageTitle, pageDescription, canonicalUrl, ogImage, type, effectiveNoIndex, effectiveKeywords, effectiveOgTitle, effectiveOgDesc, effectiveTitle, adminSeo, jsonLd, pagePath, faqs, product, service, locale, alternates]);
 
   return null;
 }

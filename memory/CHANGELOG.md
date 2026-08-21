@@ -1,5 +1,11 @@
 # Brightluxx Changelog
 
+## Current Session — Arabic Phase 1 + SEO Regression Coverage
+- Added native RTL Arabic landing pages for homepage (`/ar-ae/`), Dubai (`/ar-ae/dubai`), and UAE (`/ar-ae/uae`) with project-led copy, Arabic FAQs, enquiry/product CTAs, and an English-language path where a real counterpart exists.
+- Extended static prerendering with Arabic initial HTML, `lang="ar"`, `dir="rtl"`, canonical metadata, JSON-LD, and narrowly scoped `en-AE`/`x-default` hreflang. `/ar-ae/uae` correctly omits an alternate to the nonexistent `/uae` English route.
+- Added Arabic paths to dynamic sitemap and SEO required-route regression checks. Verification: build gate passed at 337 prerendered pages / 0 errors; SEO regression 0 failures; iteration 128 passed 7/7 backend/static checks and all preview route checks.
+- Cloudflare rule application and true edge 301/404/410 behavior remain unverified and platform/account-dependent; no claim of live status-code correction is made.
+
 ## Aug 10, 2026 — Production Site Audit Fixes (Phase 1-3)
 
 ### SEO/AI Visibility (Critical)

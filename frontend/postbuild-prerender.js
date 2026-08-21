@@ -23,6 +23,24 @@ const SITE_NAME = "Brightluxx";
 const DEFAULT_OG_IMAGE = "https://files.ihgbrands.com/uploads_hero_banner.webp";
 const BACKEND = "http://localhost:8001";
 
+const ARABIC_PAGES = {
+  "/ar-ae/": {
+    title: "حلول شاشات LED للمشاريع في الإمارات", description: "حلول احترافية لشاشات LED والجدران المرئية واللافتات الرقمية للمشاريع التجارية والضيافة والمساحات العامة في الإمارات.",
+    h1: "حلول شاشات LED للمشاريع في الإمارات", englishPath: "/", label: "الرئيسية العربية",
+    sections: [["حلول تُبنى حول متطلبات الموقع", "نساعد فرق التصميم والمقاولين وأصحاب المشاريع على تحويل متطلبات العرض الرقمي إلى حلول واضحة وقابلة للتنفيذ، من دراسة الاستخدام ومسافة المشاهدة إلى المواصفات والتركيب والدعم."], ["اختيار عملي للتقنية", "يتغير الاختيار الصحيح بحسب المكان والإضاءة المحيطة والمحتوى وقيود الهيكل والطاقة. تبدأ المواصفة المهنية بهذه الأسئلة قبل مقارنة أي منتج."]]
+  },
+  "/ar-ae/dubai": {
+    title: "شاشات LED وحلول العرض الرقمي في دبي", description: "حلول شاشات LED في دبي للمشاريع الداخلية والخارجية والجدران المرئية واللافتات الرقمية، مع توجيه هندسي من مرحلة المواصفات إلى التنفيذ.",
+    h1: "شاشات LED وحلول العرض الرقمي في دبي", englishPath: "/dubai", label: "دبي",
+    sections: [["اعتبارات العرض في بيئات دبي", "تتغير المتطلبات بين واجهة متجر مضاءة نهاراً وردهة فندقية وقاعة فعاليات ومساحة عمل. لذلك تُراجع الإضاءة وساعات التشغيل ومسافة المشاهدة ومسار الكابلات والوصول للصيانة قبل اعتماد الحل."], ["مواصفات تساعد فرق المشروع على التنسيق", "يمكن أن تشمل المواصفة أبعاد الشاشة الفعلية ودرجة البكسل والسطوع ومعدل التحديث واستهلاك الطاقة ونوع التركيب وخطة الوصول للصيانة."]]
+  },
+  "/ar-ae/uae": {
+    title: "حلول شاشات LED في الإمارات العربية المتحدة", description: "دليل عربي احترافي لاختيار شاشات LED والجدران المرئية واللافتات الرقمية للمشاريع في الإمارات، من متطلبات الموقع إلى المواصفات الفنية.",
+    h1: "حلول شاشات LED في الإمارات العربية المتحدة", label: "الإمارات العربية المتحدة",
+    sections: [["اختيار التقنية حسب الاستخدام", "تبدأ المواصفة الجيدة بما يحتاجه المستخدم فعلياً: عرض معلومات تشغيلية، محتوى إعلاني، تجربة غامرة أو شاشة مشاهدة قريبة. يحدد ذلك دقة العرض ودرجة البكسل والحجم ونظام المعالجة المناسب."], ["عوامل الموقع والاعتمادية", "لا تقتصر المواصفة على جودة الصورة. يجب أن تُراجع حماية المكونات والتهوية وتبديد الحرارة ومتطلبات الطاقة وهيكل التثبيت والوصول الآمن للصيانة."]]
+  }
+};
+
 function esc(s) {
   return String(s || "")
     .replace(/&/g, "&amp;")
@@ -299,6 +317,12 @@ function injectMeta(html, meta) {
       html = html.replace("</head>", `<meta name="keywords" content="${esc(meta.keywords)}">\n</head>`);
     }
   }
+  if (meta.locale) html = html.replace(/<meta property="og:locale" content="[^"]*"/, `<meta property="og:locale" content="${esc(meta.locale)}"`);
+  if (meta.lang) html = html.replace(/<html lang="[^"]*"/, `<html lang="${esc(meta.lang)}" dir="${esc(meta.dir || "rtl")}"`);
+  if (meta.alternates && meta.alternates.length) {
+    const alternateLinks = meta.alternates.map(({ hrefLang, path: alternatePath }) => `<link rel="alternate" hreflang="${esc(hrefLang)}" href="${esc(`${PROD_URL}${alternatePath}`)}">`).join("\n");
+    html = html.replace("</head>", `${alternateLinks}\n</head>`);
+  }
   // Noscript heading (demoted from h1 so each page has exactly one h1 in #root)
   html = html.replace(/<noscript>\s*<div>\s*<h1>[^]*?<\/h1>/, `<noscript><div><p><strong>${esc(meta.h1)}</strong></p>`);
   // Schemas
@@ -412,6 +436,7 @@ async function run() {
     "/digital-experience/media-facades", "/digital-experience/immersive-led-rooms",
     "/digital-experience/retail-experiential-screens",
     "/tools/roi-calculator",
+    "/ar-ae/", "/ar-ae/dubai", "/ar-ae/uae",
   ].forEach(r => allRoutes.add(r));
   allRoutes.add("/");
 
@@ -422,9 +447,10 @@ async function run() {
 
   for (const route of routes) {
     try {
-      // Try backend first (richer data), fall back to seed
+      const arabicPage = ARABIC_PAGES[route];
+      // Try backend first (richer data), fall back to seed. Arabic pages are static source-of-truth.
       let meta = null;
-      const ssrMeta = await fetchJSON(`${BACKEND}/api/ssr/meta?path=${encodeURIComponent(route)}`);
+      const ssrMeta = arabicPage ? null : await fetchJSON(`${BACKEND}/api/ssr/meta?path=${encodeURIComponent(route)}`);
       if (ssrMeta && ssrMeta.title) {
         meta = {
           title: ssrMeta.title,
@@ -437,6 +463,15 @@ async function run() {
           schemas: ssrMeta.schemas || [],
           h1: ssrMeta.h1 || ssrMeta.title,
         };
+      } else if (arabicPage) {
+        const canonical = `${PROD_URL}${route}`;
+        const alternates = arabicPage.englishPath ? [{ hrefLang: "en-AE", path: arabicPage.englishPath }, { hrefLang: "x-default", path: arabicPage.englishPath }] : [];
+        meta = {
+          title: `${arabicPage.title} | ${SITE_NAME}`, description: arabicPage.description, canonical, keywords: "شاشات LED, جدار فيديو, لافتات رقمية, الإمارات, دبي",
+          ogTitle: arabicPage.title, ogDescription: arabicPage.description, ogImage: "https://files.ihgbrands.com/brightluxx/site-images/hero_dubai.webp", h1: arabicPage.h1,
+          lang: "ar", dir: "rtl", locale: "ar_AE", alternates,
+          schemas: [JSON.stringify({ "@context": "https://schema.org", "@type": "WebPage", name: arabicPage.title, description: arabicPage.description, url: canonical, inLanguage: "ar-AE", isPartOf: { "@type": "WebSite", name: SITE_NAME, url: PROD_URL } })],
+        };
       } else {
         // Offline: build from seed data
         meta = buildMetaFromSeed(route, seoIndex, productsIndex, blogsIndex, caseStudiesIndex, solutionsIndex);
@@ -447,14 +482,21 @@ async function run() {
       // Build rich content snippet for div#root
       let contentParts = [];
 
+      // Static Arabic content is the build-time source of truth for Arabic landing pages.
+      if (arabicPage) {
+        contentParts.push(`<p>${esc(arabicPage.description)}</p>`);
+        arabicPage.sections.forEach(([heading, text]) => contentParts.push(`<h2>${esc(heading)}</h2><p>${esc(text)}</p>`));
+        contentParts.push(`<nav aria-label="Arabic landing pages"><a href="/ar-ae/">حلول شاشات LED في الإمارات</a> · <a href="/ar-ae/dubai">شاشات LED في دبي</a> · <a href="/ar-ae/uae">حلول العرض في الإمارات العربية المتحدة</a> · <a href="/contact">تواصل معنا</a></nav>`);
+      }
+
       // Heading hierarchy from heading-data.json
       const headings = headingData[route];
-      if (headings && headings.length) {
+      if (!arabicPage && headings && headings.length) {
         contentParts.push(headings.map(h => `<${h.tag}>${esc(h.text)}</${h.tag}>`).join(""));
       }
 
       // Description paragraph
-      if (meta.description) {
+      if (meta.description && !arabicPage) {
         contentParts.push(`<p>${esc(meta.description)}</p>`);
       }
 

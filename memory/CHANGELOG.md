@@ -8,8 +8,9 @@
 
 ## Current Session — Deployment Readiness Remediation
 - Removed destructive product cleanup from startup seed migration; Atlas/production deployments now preserve data not present in the packaged seed file.
-- Made frontend CDN configuration mandatory through `REACT_APP_CDN_URL`, enforced explicit CORS origins when credentialed cookies are enabled, and cleaned malformed `.gitignore` entries while ignoring `memory/test_credentials.md`.
+- Made frontend CDN configuration mandatory through `REACT_APP_CDN_URL`, added wildcard CORS compatibility that disables cross-origin credentials in wildcard mode, and cleaned malformed `.gitignore` entries while ignoring `memory/test_credentials.md`.
 - Verified: local backend health 200; `yarn build` prerendered 337 routes with 0 errors and SEO regression passed; final deployment-agent result **PASS** with no blockers. No Docker changes made.
+- Confirmed the earlier Kubernetes readiness timeout was caused by the backend aborting before port 8001 bound; current deployment-agent analysis passes against the exact CORS startup error.
 
 ## Current Session — Arabic Phase 1 + SEO Regression Coverage
 - Added native RTL Arabic landing pages for homepage (`/ar-ae/`), Dubai (`/ar-ae/dubai`), and UAE (`/ar-ae/uae`) with project-led copy, Arabic FAQs, enquiry/product CTAs, and an English-language path where a real counterpart exists.

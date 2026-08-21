@@ -11,9 +11,10 @@
 ## LATEST: Deployment Readiness Remediation — Current Session
 - **Non-destructive Atlas-safe startup**: removed the automatic `delete_many` product cleanup from seed migration. Deployment startup now only inserts or updates seed records and will not delete production-only catalog data.
 - **Environment-only CDN configuration**: frontend CDN host now requires `REACT_APP_CDN_URL`; the source no longer embeds a deployment-specific CDN hostname or a fallback value.
-- **Production-safe CORS**: the backend now fails fast unless `CORS_ORIGINS` contains explicit allowed origins, preventing an insecure wildcard-plus-credentials configuration. Preview, current Emergent host, and custom domain are configured through the environment.
+- **Production-safe CORS compatibility**: the backend accepts the managed deployment wildcard origin without crashing. In wildcard mode it disables cross-origin credentials (which browsers prohibit with `*`); explicit origin lists continue to enable credentialed CORS.
 - **Repository hygiene**: replaced malformed duplicated `.gitignore` rules and explicitly ignore `memory/test_credentials.md`.
 - **Verification (agent-tested)**: backend health returned 200 locally, production-style frontend build prerendered 337 routes with 0 errors and SEO regression passed. Final deployment-agent scan: **PASS**, no code-level blockers; no Docker changes were made.
+- **Rollout RCA confirmed**: the prior Kubernetes readiness timeout was a cascade from the CORS import-time exception; the backend never bound to port 8001, so nginx health probes received connection refused. The corrected current source passes the deployment-agent scan against this exact failure.
 
 ## LATEST: Arabic Landing Pages + Static SEO Coverage — Current Session
 - **Arabic phase 1 delivered** at `/ar-ae/`, `/ar-ae/dubai`, and `/ar-ae/uae` with professionally authored, RTL-native Arabic content for LED display project discovery. Content avoids unsupported commercial claims, fabricated project credentials, ratings, prices, or locations.

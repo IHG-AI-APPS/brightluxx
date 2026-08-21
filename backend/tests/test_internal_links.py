@@ -19,7 +19,7 @@ import requests
 
 BASE_URL = os.environ.get(
     "REACT_APP_BACKEND_URL",
-    "https://space-modern-build.preview.emergentagent.com",
+    "https://product-detail-qa.preview.emergentagent.com",
 ).rstrip("/")
 
 _SESSION = requests.Session()

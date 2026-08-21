@@ -1,4 +1,4 @@
-# SEO Regression Report — 2026-08-21T12:31:16.489Z
+# SEO Regression Report — 2026-08-21T12:50:53.554Z
 
 **Result: PASS** — 352 pages scanned (337 indexable, 15 redirect stubs)
 Failures: 0 · Warnings: 43

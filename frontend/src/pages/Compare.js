@@ -63,11 +63,18 @@ const Compare = () => {
   const toggleProduct = (code) => {
     if (selectedCodes.includes(code)) {
       setSelectedCodes(selectedCodes.filter((c) => c !== code));
+      setSelectionNotice('');
+      setShowDropdown(false);
       setComparisonData(null);
     } else if (selectedCodes.length < MAX_PRODUCTS) {
       setSelectedCodes([...selectedCodes, code]);
+      setSelectionNotice('');
+      setShowDropdown(false);
       setComparisonData(null);
-    } else setSelectionNotice('You can compare a maximum of 3 products. Remove one to add another.');
+    } else {
+      setSelectionNotice('You can compare a maximum of 3 products. Remove one to add another.');
+      setShowDropdown(false);
+    }
   };
 
   const handleCompare = async () => {
@@ -113,7 +120,7 @@ const Compare = () => {
         </div>
 
         {/* Product Selection */}
-        <div className="glass-panel p-6 sm:p-8 mb-8">
+        <div className="glass-panel p-6 sm:p-8 mb-8" data-testid="compare-selection-panel">
           <h3 className="text-base font-bold mb-4 flex items-center gap-2">
             <GitCompareArrows size={18} className="text-[var(--blx-gold-3)]" />
             Select Products ({selectedCodes.length}/{MAX_PRODUCTS})
@@ -173,19 +180,19 @@ const Compare = () => {
                 ) : (
                   filteredProducts.map((p) => {
                     const isSelected = selectedCodes.includes(p.product_code);
-                    const isDisabled = !isSelected && selectedCodes.length >= MAX_PRODUCTS;
+                    const isAtLimit = !isSelected && selectedCodes.length >= MAX_PRODUCTS;
                     return (
                       <button
                         key={p.product_code}
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (!isDisabled) toggleProduct(p.product_code);
+                          toggleProduct(p.product_code);
                         }}
-                        disabled={isDisabled}
+                        data-at-limit={isAtLimit ? 'true' : 'false'}
                         className={`w-full flex items-center gap-4 p-3 text-left transition-colors duration-200 border-b border-[var(--blx-border)] last:border-0 ${
                           isSelected
                             ? 'bg-[rgba(229,197,116,0.08)]'
-                            : isDisabled
+                            : isAtLimit
                             ? 'opacity-40 cursor-not-allowed'
                             : 'hover:bg-[rgba(255,255,255,0.04)]'
                         }`}
@@ -253,7 +260,7 @@ const Compare = () => {
             {/* Scroll hint on mobile */}
             <div className="mb-3 flex flex-wrap items-center justify-between gap-3 text-[0.625rem] text-[var(--blx-muted)] tracking-[0.15em]">
               <ArrowRight size={12} /> Scroll horizontally to see all specs
-              <div className="flex gap-3"><label className="flex items-center gap-2"><input type="checkbox" checked={differencesOnly} onChange={(e) => setDifferencesOnly(e.target.checked)} data-testid="compare-differences-toggle" /> Show differences only</label><button type="button" onClick={() => window.print()} className="inline-flex items-center gap-1" data-testid="compare-print-button"><Printer size={13} /> Print / Save PDF</button></div>
+              <div className="flex gap-3" data-testid="compare-result-controls"><label className="flex items-center gap-2"><input type="checkbox" checked={differencesOnly} onChange={(e) => setDifferencesOnly(e.target.checked)} data-testid="compare-differences-toggle" /> Show differences only</label><button type="button" onClick={() => window.print()} className="inline-flex items-center gap-1" data-testid="compare-print-button"><Printer size={13} /> Print / Save PDF</button></div>
             </div>
 
             {/* Scrollable comparison table */}
@@ -315,7 +322,7 @@ const Compare = () => {
             <div className="mt-10 text-center">
               <h3 className="text-lg mb-3">Need help choosing?</h3>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/calculator" className="btn-glass px-8 py-3.5 inline-flex items-center gap-2">
+                <Link to="/calculator" className="btn-glass px-8 py-3.5 inline-flex items-center gap-2" data-testid="compare-calculator-link">
                   Screen Calculator <ArrowRight size={14} />
                 </Link>
                 <Link to={`/contact?products=${encodeURIComponent(selectedCodes.join(','))}`} className="btn-gold px-8 py-3.5 inline-flex items-center gap-2" data-testid="compare-pricing-link">

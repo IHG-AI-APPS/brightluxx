@@ -1,5 +1,12 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Commercial UX + SEO Upgrade — Phase 3 Product Detail & Comparison — COMPLETE
+- **Persistent comparison accepted**: public comparison is LocalStorage-based, limited to three products, clears predictably, and never creates indexable comparison URLs. The product picker now closes after every selection or rejected fourth attempt so the next action stays available.
+- **Explicit limits and decision workflow**: attempting a fourth selection retains the original three and displays a clear max-limit notice on `/compare`; product-detail Add to Compare displays its own equivalent notice and a Compare now link when full. Differences-only mode and product removal remain functional.
+- **Quote handoff completed**: Request Project Pricing passes selected product codes through `/contact?products=...`; the contact form visibly confirms the codes and submits them as `product_interest` with `comparison_request` source.
+- **Print and mobile readiness**: print/PDF output hides selection and action controls while preserving a black-on-white comparison table in landscape. At 390×844, the comparison tray sits above the mobile navigation and its clear control removes persistent state.
+- **Verification (agent-tested)**: iteration 131 reports 100% Phase 3 frontend pass rate with no UI/integration issues. Representative indoor, outdoor, and COB product pages load with H1s. Final `yarn build` prerendered 337 indexable pages plus 15 stubs with 0 errors; SEO regression PASS / 0 critical failures (43 existing metadata-length warnings remain deferred).
+
 ## LATEST: Commercial UX + SEO Upgrade — Phase 2 Product Discovery — Current Session
 - **Discovery audit resolved**: the old catalogue made product families and technical categories the primary entry point, exposed filters too early, had no guided discovery, and product cards hid decision data. Desktop navigation also repeated a long technical category menu; mobile started with family names.
 - **Three user-first paths delivered** on `/products` and the desktop Products mega menu: **By Product**, **By Application**, and **By Technology**. Categories only use existing Brightluxx routes/category data. The mega menu now promotes View All Products, Find the Right Display, Compare Displays, and Architects instead of requiring proprietary-family knowledge.

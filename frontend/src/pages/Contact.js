@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { MapPin, Phone, Mail, MessageCircle, CheckCircle, ArrowRight, Clock, Building2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { createLead } from '../api';
@@ -48,6 +49,12 @@ const GlassCard = ({ children, className = '', hover = true, isDark = true, ...p
 
 const Contact = () => {
   const { isDark } = useTheme();
+  const [searchParams] = useSearchParams();
+  const requestedProducts = (searchParams.get('products') || '')
+    .split(',')
+    .map((code) => code.trim())
+    .filter(Boolean)
+    .slice(0, 3);
   
   // Theme-aware classes
   const pageBg = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
@@ -76,7 +83,11 @@ const Contact = () => {
     setError('');
     
     try {
-      await createLead({ ...formData, source: 'contact_form' });
+      await createLead({
+        ...formData,
+        product_interest: requestedProducts.length ? requestedProducts.join(', ') : undefined,
+        source: requestedProducts.length ? 'comparison_request' : 'contact_form',
+      });
       setSubmitted(true);
       setFormData({ name: '', company: '', email: '', phone: '', city: '', application: '', timeline: '', budget: '', message: '', website: '', fax: '' });
     } catch (err) {
@@ -255,6 +266,12 @@ const Contact = () => {
                   <GlassCard className="p-6 sm:p-8 lg:p-10" hover={false} isDark={isDark}>
                     <form onSubmit={handleSubmit} data-testid="lead-capture-form">
                       <h3 className={`text-xl font-bold uppercase tracking-wide mb-8 ${textPrimary}`}>Request a Quote</h3>
+
+                      {requestedProducts.length > 0 && (
+                        <div className={`mb-6 border border-cyan-500/30 bg-cyan-500/10 p-4 text-sm ${textSecondary}`} data-testid="comparison-product-context">
+                          Requesting project pricing for: <strong className={textPrimary}>{requestedProducts.join(', ')}</strong>
+                        </div>
+                      )}
 
                       {error && (
                         <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400" data-testid="contact-form-error">

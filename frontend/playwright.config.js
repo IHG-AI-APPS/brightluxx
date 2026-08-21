@@ -10,7 +10,7 @@ module.exports = defineConfig({
   reporter: [['html', { open: 'never' }], ['list']],
   timeout: 30000,
   use: {
-    baseURL: process.env.BASE_URL || 'https://space-modern-build.preview.emergentagent.com',
+    baseURL: process.env.BASE_URL || 'https://product-detail-qa.preview.emergentagent.com',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     headless: true,

@@ -1,5 +1,11 @@
 # Brightluxx Changelog
 
+## Current Session — Commercial UX + SEO Upgrade, Phase 3 Complete
+- Finalized the persistent three-product comparison journey: explicit fourth-product feedback, picker close behavior, difference-only mode, reliable clear behavior, and mobile tray clearance above the bottom navigation.
+- Completed comparison-to-RFQ handoff: selected codes now appear on `/contact?products=...` and submit as `product_interest` with `comparison_request` source.
+- Added print/PDF comparison styling that removes controls and preserves a readable black-on-white landscape table.
+- Verification: iteration 131 passed all scoped frontend checks; final build produced 337 prerendered pages plus 15 stubs with 0 errors and SEO regression PASS / 0 failures (43 pre-existing metadata warnings).
+
 ## Current Session — Commercial UX + SEO Upgrade, Phase 2
 - Rebuilt product discovery around By Product / By Application / By Technology paths in `/products`, desktop navigation, and mobile navigation. Added the lightweight non-indexable four-step product finder and mobile filter bottom sheet.
 - Improved search for pitch notation and buyer terminology, upgraded product cards with available decision data and working Compare action, and normalized existing refresh-rate values from `key_specs` without fabricating specifications.

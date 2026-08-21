@@ -16,6 +16,7 @@ const Compare = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [fetchingProducts, setFetchingProducts] = useState(true);
   const [differencesOnly, setDifferencesOnly] = useState(false);
+  const [selectionNotice, setSelectionNotice] = useState('');
 
   // Close dropdown on outside click
   const handleClickOutside = useCallback((e) => {
@@ -66,7 +67,7 @@ const Compare = () => {
     } else if (selectedCodes.length < MAX_PRODUCTS) {
       setSelectedCodes([...selectedCodes, code]);
       setComparisonData(null);
-    }
+    } else setSelectionNotice('You can compare a maximum of 3 products. Remove one to add another.');
   };
 
   const handleCompare = async () => {
@@ -117,6 +118,7 @@ const Compare = () => {
             <GitCompareArrows size={18} className="text-[var(--blx-gold-3)]" />
             Select Products ({selectedCodes.length}/{MAX_PRODUCTS})
           </h3>
+          {selectionNotice && <p className="mb-3 text-sm text-cyan-300" role="status" data-testid="compare-max-notice">{selectionNotice}</p>}
 
           {/* Selected Chips */}
           {selectedCodes.length > 0 && (
@@ -316,8 +318,8 @@ const Compare = () => {
                 <Link to="/calculator" className="btn-glass px-8 py-3.5 inline-flex items-center gap-2">
                   Screen Calculator <ArrowRight size={14} />
                 </Link>
-                <Link to="/contact" className="btn-gold px-8 py-3.5 inline-flex items-center gap-2">
-                  Request Quote <ArrowRight size={14} />
+                <Link to={`/contact?products=${encodeURIComponent(selectedCodes.join(','))}`} className="btn-gold px-8 py-3.5 inline-flex items-center gap-2" data-testid="compare-pricing-link">
+                  Request Project Pricing <ArrowRight size={14} />
                 </Link>
               </div>
             </div>

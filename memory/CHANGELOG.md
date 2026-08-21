@@ -162,3 +162,10 @@ Deferred deliberately: array-index keys bulk rewrite (previously broke 14 pages 
 - Reports: frontend/seo-reports/seo-regression-report.{json,md}. Standalone: `yarn seo:test`.
 - Preview smoke-tested: /dubai renders correctly after H1 changes.
 - NOT DONE (external dependencies): Cloudflare redirect rules (user must add in dashboard per redirect-map.csv), genuine 404/410 (platform worker), HTML cache rules, Arabic SEO phase 1, author profiles, GSC revalidation.
+
+## 2026-06 — Production Deployment (verified live)
+- Deploy run 4e4559c3-a102-4b45-a0f6-0bf37c900615 LIVE at brightluxx-showcase.emergent.host / brightluxx.com.
+- Two pipeline failures fixed en route: (1) pre-existing ReferenceError in postbuild-prerender.js — buildMetaFromSeed lacked solutionsIndex param, only surfaced in offline Cloud Build mode; fixed with 2-line scope fix, verified locally with backend stopped (334 pages, 0 errors, suite PASS). (2) Deployer fixed Dockerfile.cloudbuild manifest — frontend-build stage now COPYs backend/seed_data_full.json.
+- Live raw-HTML verification (17 routes, no JS): /, /products, all 7 city pages, /blog, /case-studies, /resources, product/solution/blog/case-study/knowledge representatives — ALL PASS: 200, title, description, exactly 1 H1, correct self-canonical, body copy, valid JSON-LD, OG tags. Single-H1 fix confirmed live (<noscript><div><p><strong> signal present).
+- robots.txt, sitemap index -> /api/sitemap.xml (317 URLs), llms.txt all live.
+- Still pending (external): Cloudflare 301 rules (sheets in /app/memory/seo-control/cloudflare-implementation-sheet.md), platform worker 404/410 fix (http-status-handoff.md has exact support request), cache rules (cloudflare-cache-rules.md). Legacy + unknown URLs still return 200; HTML still no-store.

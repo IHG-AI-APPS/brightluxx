@@ -107,7 +107,7 @@ function titleFromPath(p) {
 }
 
 /** Build metadata from seed data (offline — no backend needed) */
-function buildMetaFromSeed(route, seoIndex, productsIndex, blogsIndex, caseStudiesIndex) {
+function buildMetaFromSeed(route, seoIndex, productsIndex, blogsIndex, caseStudiesIndex, solutionsIndex) {
   const seo = seoIndex[route];
   
   let rawTitle, description, canonical, keywords, ogImage, schemas;
@@ -439,7 +439,7 @@ async function run() {
         };
       } else {
         // Offline: build from seed data
-        meta = buildMetaFromSeed(route, seoIndex, productsIndex, blogsIndex, caseStudiesIndex);
+        meta = buildMetaFromSeed(route, seoIndex, productsIndex, blogsIndex, caseStudiesIndex, solutionsIndex);
       }
 
       let html = indexHtml;

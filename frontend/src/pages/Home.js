@@ -1,25 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Award, Factory, Package, Truck, ChevronDown, Layers, Leaf, Tv, Monitor, Sparkles } from 'lucide-react';
+import { ArrowRight, Award, Factory, Package, Truck, ChevronDown, Layers, Leaf, Tv, Monitor, Sparkles, FileText, Calculator, BookOpen, MonitorPlay } from 'lucide-react';
 import { getProducts, getProjects } from '../api';
 import CdnImage from '../components/CdnImage';
 import SEO, { BASE_URL, useSeoData } from '../components/SEO';
-import { EXTERNAL_CDN, cdnUrl } from '../config/cdn';
+import { cdnUrl } from '../config/cdn';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { 
   ScrollReveal, 
   StaggerContainer, 
   StaggerItem, 
-  GlassCard, 
-  MagneticButton,
-  FloatingElement,
-  BlurFade,
-  MorphingShape,
   SpotlightCard
 } from '../components/AppleAnimations';
 
-const API = process.env.REACT_APP_BACKEND_URL || '';
+const API = process.env.REACT_APP_BACKEND_URL;
+
+if (!API) {
+  throw new Error('REACT_APP_BACKEND_URL must be configured');
+}
 
 // Icon mapping for dynamic content
 const ICON_MAP = { Factory, Package, Truck, Award };
@@ -218,17 +217,9 @@ const HeroWithParallax = ({ hero, isLoaded }) => {
         )}
       </motion.div>
       
-      {/* Floating morphing shapes for depth - parallax at different rates */}
-      <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], [0, 80]) }}>
-        <MorphingShape className="w-[600px] h-[600px] -top-20 -right-40 opacity-30" />
-      </motion.div>
-      <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], [0, 120]) }}>
-        <MorphingShape className="w-[400px] h-[400px] bottom-40 -left-20 opacity-20" />
-      </motion.div>
-      
       {/* Hero Content - Moves faster (parallax effect) and fades out */}
       <motion.div 
-        className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 pb-20 lg:pb-28"
+        className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 pb-72 sm:pb-24 lg:pb-28"
         style={{ y: smoothContentY, opacity: contentOpacity }}
       >
         <motion.div
@@ -236,29 +227,15 @@ const HeroWithParallax = ({ hero, isLoaded }) => {
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
         >
-          <h1 className="text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight leading-[0.9] mb-8" data-testid="hero-title" style={{ textShadow: '0 4px 40px rgba(0,0,0,0.4)' }}>
-            <motion.span 
-              style={{ color: '#ffffff', display: 'inline-block' }}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-              ENGINEERING
-            </motion.span>
-            <br />
-            <motion.span 
-              className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500 inline-block"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                backgroundSize: '200% 100%',
-                animation: 'gradientShift 8s ease infinite'
-              }}
-            >
-              BRILLIANCE
-            </motion.span>
+          <motion.p className="mb-5 text-xs font-bold tracking-[0.22em] text-cyan-300 uppercase" data-testid="hero-brand-tagline" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }}>
+            Engineering Brilliance
+          </motion.p>
+          <h1 className="max-w-5xl text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.02] mb-6" data-testid="hero-title" style={{ textShadow: '0 4px 40px rgba(0,0,0,0.4)' }}>
+            LED Display &amp; Digital Signage Solutions for UAE &amp; GCC
           </h1>
+          <p className="max-w-3xl text-sm sm:text-base md:text-lg leading-7 md:leading-8 text-white/80 mb-8" data-testid="hero-description">
+            Design, supply, engineering, installation and lifecycle support for premium LED displays, digital signage, MicroLED, transparent displays and immersive visual systems.
+          </p>
           
           <motion.div 
             className="flex items-center gap-6"
@@ -266,26 +243,16 @@ const HeroWithParallax = ({ hero, isLoaded }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            <MagneticButton
-              className={`relative group overflow-hidden font-bold tracking-[0.1em] uppercase px-8 py-4 text-xs transition-colors duration-500 ${isDark ? 'bg-white text-black hover:text-white' : 'bg-white text-neutral-900 hover:text-white'}`}
-              onClick={() => window.location.href = hero.cta_link || '/contact'}
-              data-testid="home-hero-primary-cta"
-            >
-              <span className={`relative z-10 ${isDark ? '' : 'text-neutral-900'}`}>GET QUOTE</span>
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-cyan-500"
-                initial={{ x: '-100%' }}
-                whileHover={{ x: 0 }}
-                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              />
-            </MagneticButton>
+            <Link to="/solutions" className={`relative group overflow-hidden font-bold tracking-[0.1em] uppercase px-7 py-4 text-xs transition-colors duration-300 ${isDark ? 'bg-white text-black hover:bg-cyan-300' : 'bg-neutral-900 text-white hover:bg-cyan-500'}`} data-testid="home-hero-primary-cta">
+              Explore Solutions
+            </Link>
             <Link 
-              to="/products" 
-              className="group font-medium tracking-[0.1em] uppercase text-xs transition-colors text-white/90 hover:text-white flex items-center gap-2"
+              to="/contact" 
+              className="group font-bold tracking-[0.1em] uppercase text-xs transition-colors text-white/90 hover:text-cyan-200 flex items-center gap-2 border-b border-white/35 hover:border-cyan-200 pb-1"
               data-testid="home-hero-secondary-cta"
               style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}
             >
-              EXPLORE 
+              Start Your Project
               <motion.span
                 className="inline-block"
                 animate={{ x: [0, 4, 0] }}
@@ -323,10 +290,10 @@ const HeroWithParallax = ({ hero, isLoaded }) => {
 
 /* Default data */
 const DEFAULT_STATS = [
-  { value: '1500', suffix: '+', label: 'SCREENS' },
-  { value: '500', suffix: '+', label: 'CLIENTS' },
-  { value: '800', suffix: '+', label: 'PROJECTS' },
-  { value: '12000', suffix: 'm²', label: 'LED AREA' },
+  { value: '2000', suffix: '+', label: 'Screens Installed' },
+  { value: '750', suffix: '+', label: 'Satisfied Clients' },
+  { value: '1000', suffix: '+', label: 'Projects Completed' },
+  { value: '15000', suffix: ' m²', label: 'LED Installed' },
 ];
 
 const DEFAULT_WHY_CHOOSE = [
@@ -341,7 +308,7 @@ const PRODUCT_FAMILIES = [
   { 
     id: 'lumimorph', 
     name: 'LUMIMORPH', 
-    tagline: 'TEXTURED LED PANELS',
+    tagline: 'FINE-PITCH & MICROLED',
     color: 'cyan',
     icon: Layers,
     image: 'https://files.ihgbrands.com/brightluxx/site-images/opt-family-lumimorph.webp',
@@ -350,7 +317,7 @@ const PRODUCT_FAMILIES = [
   { 
     id: 'naturatex', 
     name: 'NATURATEX', 
-    tagline: 'NATURAL TEXTURE SCREENS',
+    tagline: 'ARCHITECTURAL / TEXTURE DISPLAYS',
     color: 'emerald',
     icon: Leaf,
     image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_naturatex.webp',
@@ -359,7 +326,7 @@ const PRODUCT_FAMILIES = [
   { 
     id: 'signatouch', 
     name: 'SIGNATOUCH', 
-    tagline: 'INTERACTIVE KIOSKS',
+    tagline: 'INTERACTIVE DIGITAL SIGNAGE',
     color: 'amber',
     icon: Monitor,
     image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_signatouch.webp',
@@ -368,7 +335,7 @@ const PRODUCT_FAMILIES = [
   { 
     id: 'glassmorph', 
     name: 'GLASSMORPH', 
-    tagline: 'SMART GLASS SOLUTIONS',
+    tagline: 'TRANSPARENT LED & SMART GLASS',
     color: 'violet',
     icon: Sparkles,
     image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_glassmorph.webp',
@@ -383,6 +350,34 @@ const PRODUCT_FAMILIES = [
     image: 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_pixelvue.webp',
     link: '/pixelvue'
   },
+];
+
+const SOLUTION_PATHS = [
+  { title: 'Retail & Hospitality', copy: 'Customer-facing LED, video walls and digital experiences for premium spaces.', link: '/solutions/retail' },
+  { title: 'Corporate & Control Rooms', copy: 'Reliable visual systems for collaboration, monitoring and mission-critical information.', link: '/solutions/corporate' },
+  { title: 'Architecture & Public Realm', copy: 'Integrated display surfaces for façades, atria and high-impact public environments.', link: '/solutions/architecture' },
+  { title: 'Digital Signage', copy: 'Commercial displays, interactive touchpoints and content-led visual communication.', link: '/signage-solutions' },
+];
+
+const PROJECT_CONTEXT = {
+  'dubai-mall-digital-atrium': { application: 'Retail atrium', technology: 'COB LED' },
+  'szr-dooh-network': { application: 'Outdoor / DOOH', technology: 'High-brightness LED' },
+  'adnoc-command-centre': { application: 'Command centre', technology: 'COB MicroLED video wall' },
+};
+
+const INDUSTRY_PATHS = [
+  { title: 'Retail', link: '/solutions/retail' },
+  { title: 'Hospitality', link: '/solutions/retail' },
+  { title: 'Corporate', link: '/solutions/corporate' },
+  { title: 'Government', link: '/government-solutions' },
+  { title: 'Control Rooms', link: '/solutions/control-rooms' },
+  { title: 'Events & XR', link: '/solutions/entertainment' },
+];
+
+const TECHNICAL_INSIGHTS = [
+  { title: 'LED Display Pricing Guide UAE (2026)', copy: 'Cost drivers by LED type, plus the questions that shape a project estimate.', link: '/blog/led-display-pricing-guide-uae' },
+  { title: 'Indoor vs Outdoor LED Screen', copy: 'A practical guide to brightness, IP rating, pixel pitch and operating conditions.', link: '/blog/indoor-vs-outdoor-led-screen-dubai' },
+  { title: 'LED Wall Buyer’s Checklist', copy: 'Twelve questions that help project teams evaluate display capability and lifecycle support.', link: '/blog/led-wall-buyers-checklist' },
 ];
 
 const COLOR_CLASSES = {
@@ -472,9 +467,10 @@ const Home = () => {
               {stats.map((stat, index) => (
                 <StaggerItem key={stat.label}>
                   <SpotlightCard className={`glass-card rounded-2xl p-6 lg:p-8 text-center group hover:scale-[1.02] transition-transform duration-300`}>
-                    <div className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-2 font-mono text-transparent bg-clip-text ${isDark ? 'bg-gradient-to-b from-white to-white/60' : 'bg-gradient-to-b from-neutral-900 to-neutral-600'}`} data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
-                      <AnimatedCounter end={stat.value} suffix={stat.suffix || ''} prefix={stat.prefix || ''} />
-                    </div>
+                    <output className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-2 font-mono text-transparent bg-clip-text ${isDark ? 'bg-gradient-to-b from-white to-white/60' : 'bg-gradient-to-b from-neutral-900 to-neutral-600'}`} data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`} aria-label={`${Number(stat.value).toLocaleString()}${stat.suffix || ''} ${stat.label}`}>
+                      <span aria-hidden="true"><AnimatedCounter end={stat.value} suffix={stat.suffix || ''} prefix={stat.prefix || ''} /></span>
+                      <span className="sr-only">{Number(stat.value).toLocaleString()}{stat.suffix || ''} {stat.label}</span>
+                    </output>
                     <div className={`text-[10px] tracking-[0.25em] uppercase font-medium ${textMuted}`}>
                       {stat.label}
                     </div>
@@ -489,58 +485,28 @@ const Home = () => {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          PRODUCT FAMILIES — Apple-style immersive cards with hover effects
+          DISCOVERY PATHS — Solution intent before proprietary product families
       ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="py-20 lg:py-32 relative" data-testid="product-families-section">
+      <section className={`py-20 lg:py-28 border-y ${borderColor}`} data-testid="home-discovery-paths">
         <div className="max-w-[1600px] mx-auto px-4 md:px-8">
           <ScrollReveal>
-            <div className="text-center mb-16">
-              <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight uppercase ${textPrimary}`}>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-rose-400" style={{ backgroundSize: '200% 100%', animation: 'gradientShift 8s ease infinite' }}>
-                  PRODUCT FAMILIES
-                </span>
+            <div className="max-w-2xl mb-12 lg:mb-16">
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-4">Start with the project</p>
+              <h2 className={`text-3xl md:text-4xl font-bold tracking-tight ${textPrimary}`}>
+                Choose your solution
               </h2>
+              <p className={`mt-4 text-sm md:text-base leading-7 ${textSecondary}`}>Begin with the environment and experience you need to create. Our teams then guide the technology, engineering and support requirements.</p>
             </div>
           </ScrollReveal>
-
-          {/* Product Family Cards - Horizontal scroll on mobile, grid on desktop */}
-          <StaggerContainer staggerDelay={0.1} className="flex lg:grid lg:grid-cols-5 gap-4 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 snap-x snap-mandatory scrollbar-hide">
-            {PRODUCT_FAMILIES.map((family, index) => {
-              const colors = COLOR_CLASSES[family.color];
-              return (
-                <StaggerItem key={family.id} className="flex-shrink-0 w-[280px] lg:w-auto snap-center">
-                  <Link 
-                    to={family.link} 
-                    className={`group block relative overflow-hidden rounded-2xl border ${colors.border} transition-all duration-500 ${isDark ? '' : 'shadow-lg'}`}
-                    style={{ aspectRatio: '3/4' }}
-                    data-testid={`home-family-${family.id}`}
-                  >
-                    {/* Image with parallax-like scale on hover */}
-                    <motion.img 
-                      src={family.image} 
-                      alt={family.name}
-                      loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-                    
-                    {/* Shine effect on hover */}
-                    <motion.div 
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
-                    />
-                    
-                    {/* Content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
-                      <p className={`text-[10px] tracking-[0.2em] uppercase mb-1 ${colors.text}`}>{family.tagline}</p>
-                      <h3 className="text-xl font-bold text-white uppercase tracking-wide">{family.name}</h3>
-                    </div>
-                  </Link>
-                </StaggerItem>
-              );
-            })}
-          </StaggerContainer>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 border-t border-l border-white/10">
+            {SOLUTION_PATHS.map((solution) => (
+              <Link key={solution.title} to={solution.link} className={`group min-h-[210px] border-r border-b ${borderColor} p-7 md:p-8 transition-colors duration-300 ${isDark ? 'hover:bg-white/[0.05]' : 'hover:bg-neutral-50'}`} data-testid={`home-solution-${solution.title.toLowerCase().replace(/[^a-z]+/g, '-')}`}>
+                <ArrowRight className="mb-10 text-cyan-400 transition-transform duration-300 group-hover:translate-x-1" size={22} aria-hidden="true" />
+                <h3 className={`text-xl font-bold mb-3 ${textPrimary}`}>{solution.title}</h3>
+                <p className={`text-sm leading-6 ${textSecondary}`}>{solution.copy}</p>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -551,18 +517,23 @@ const Home = () => {
         <section className="py-20 lg:py-28" data-testid="featured-projects-section">
           <div className="max-w-[1600px] mx-auto px-4 md:px-8">
             <FadeIn>
-              <div className="flex items-end justify-between mb-12">
-                <h2 className={`text-3xl md:text-4xl font-bold tracking-tight uppercase ${textPrimary}`}>PROJECTS</h2>
-                <Link to="/projects" className={`${textSecondary} hover:${textPrimary} font-medium tracking-[0.1em] uppercase text-xs transition-colors`}>
-                  VIEW ALL →
+              <div className="flex items-end justify-between gap-6 mb-12">
+                <div>
+                  <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-3">Project evidence</p>
+                  <h2 className={`text-3xl md:text-4xl font-bold tracking-tight ${textPrimary}`}>Featured installations</h2>
+                </div>
+                <Link to="/projects" className={`${textSecondary} hover:${textPrimary} font-medium tracking-[0.1em] uppercase text-xs transition-colors`} data-testid="home-projects-view-all">
+                  View all →
                 </Link>
               </div>
             </FadeIn>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {featuredProjects.map((project, index) => (
+              {featuredProjects.map((project, index) => {
+                const context = PROJECT_CONTEXT[project.slug] || {};
+                return (
                 <FadeIn key={project._id || project.id} delay={index}>
-                  <Link to="/projects" className={`group block relative overflow-hidden ${isDark ? '' : 'shadow-lg rounded-lg'}`} style={{ aspectRatio: '4/3' }} data-testid="home-featured-project">
+                  <Link to="/projects" className={`group block relative overflow-hidden ${isDark ? '' : 'shadow-lg rounded-lg'}`} style={{ aspectRatio: '4/3' }} data-testid={`home-featured-project-${project.slug || index}`}>
                     <CdnImage 
                       src={project.image_url || project.thumbnail_url} 
                       alt={project.name || project.title} 
@@ -572,21 +543,58 @@ const Home = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                     
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
                       {project.location && (
                         <p className="text-[10px] tracking-[0.2em] uppercase text-white/60 mb-1">{project.location}</p>
                       )}
                       <h3 className="text-lg font-bold text-white uppercase tracking-wide">
                         {project.name || project.title}
                       </h3>
+                      <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[10px] font-bold tracking-[0.12em] uppercase text-cyan-200">
+                        {context.application && <span>{context.application}</span>}
+                        {context.technology && <span className="text-white/75">{context.technology}</span>}
+                      </div>
+                      {project.description && <p className="mt-3 line-clamp-2 text-xs leading-5 text-white/75">{project.description}</p>}
+                      <span className="mt-4 inline-flex items-center gap-2 text-xs font-bold tracking-[0.12em] uppercase text-white">View Project <ArrowRight size={14} aria-hidden="true" /></span>
                     </div>
                   </Link>
                 </FadeIn>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
       )}
+
+      <section className="py-20 lg:py-28 relative" data-testid="product-families-section">
+        <div className="max-w-[1600px] mx-auto px-4 md:px-8">
+          <ScrollReveal>
+            <div className="max-w-2xl mb-12 lg:mb-16">
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-4">Core technologies</p>
+              <h2 className={`text-3xl md:text-4xl font-bold tracking-tight ${textPrimary}`}>Technology first. Brightluxx family second.</h2>
+              <p className={`mt-4 text-sm md:text-base leading-7 ${textSecondary}`}>Start with the display capability your project needs, then explore the Brightluxx family built around it.</p>
+            </div>
+          </ScrollReveal>
+          <StaggerContainer staggerDelay={0.1} className="flex lg:grid lg:grid-cols-5 gap-4 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 snap-x snap-mandatory scrollbar-hide">
+            {PRODUCT_FAMILIES.map((family) => {
+              const colors = COLOR_CLASSES[family.color];
+              return (
+                <StaggerItem key={family.id} className="flex-shrink-0 w-[280px] lg:w-auto snap-center">
+                  <Link to={family.link} className={`group block relative overflow-hidden rounded-lg border ${colors.border} transition-colors duration-300 ${colors.hover} ${isDark ? '' : 'shadow-lg'}`} style={{ aspectRatio: '3/4' }} data-testid={`home-family-${family.id}`}>
+                    <motion.img src={family.image} alt={`${family.tagline} — ${family.name}`} loading="lazy" className="absolute inset-0 w-full h-full object-cover" whileHover={{ scale: 1.04 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/35 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                      <p className={`text-[10px] tracking-[0.16em] uppercase mb-2 ${colors.text}`}>{family.tagline}</p>
+                      <h3 className="text-xl font-bold text-white uppercase tracking-wide">{family.name}</h3>
+                      <p className="mt-2 text-xs text-white/70">Brightluxx product family</p>
+                    </div>
+                  </Link>
+                </StaggerItem>
+              );
+            })}
+          </StaggerContainer>
+        </div>
+      </section>
 
       {/* ═══════════════════════════════════════════════════════════════════════
           WHY BRIGHTLUXX — Minimal icon grid
@@ -609,11 +617,57 @@ const Home = () => {
                       <Icon size={28} className="text-cyan-400" strokeWidth={1.5} />
                     </div>
                     <h3 className={`text-sm font-bold uppercase tracking-wide mb-2 ${textPrimary}`}>{item.title}</h3>
-                    <p className={`text-xs leading-relaxed ${textMuted}`}>{item.desc}</p>
+                    <p className={`text-xs leading-relaxed ${textMuted}`}>{item.desc || item.description}</p>
                   </div>
                 </FadeIn>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      <section className={`border-t ${borderColor}`} data-testid="home-industries-section">
+        <div className="mx-auto grid max-w-[1400px] lg:grid-cols-[0.9fr_1.1fr]">
+          <div className={`px-6 py-16 md:px-12 md:py-20 lg:border-r ${borderColor}`}>
+            <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-4">Built around the brief</p>
+            <h2 className={`text-3xl md:text-4xl font-bold tracking-tight ${textPrimary}`}>Visual systems for the places people work, visit and gather.</h2>
+            <p className={`mt-5 max-w-xl text-sm md:text-base leading-7 ${textSecondary}`}>Explore applications before products to find the right balance of viewing distance, visual impact, service access and operating conditions.</p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 border-l border-t border-white/10">
+            {INDUSTRY_PATHS.map((industry) => (
+              <Link key={industry.title} to={industry.link} className={`min-h-[124px] border-r border-b ${borderColor} p-5 text-sm font-bold transition-colors duration-300 ${isDark ? 'hover:bg-white/[0.05]' : 'hover:bg-neutral-50'} ${textPrimary}`} data-testid={`home-industry-${industry.title.toLowerCase().replace(/[^a-z]+/g, '-')}`}>
+                <span className="block h-full content-end">{industry.title}<ArrowRight className="mt-3 text-cyan-400" size={16} aria-hidden="true" /></span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={`border-t ${borderColor}`} data-testid="home-professional-pathways">
+        <div className="mx-auto grid max-w-[1400px] lg:grid-cols-3">
+          <div className={`p-8 md:p-10 lg:border-r ${borderColor}`}>
+            <FileText className="mb-8 text-cyan-400" size={24} aria-hidden="true" />
+            <p className="text-xs font-bold tracking-[0.18em] uppercase text-cyan-400 mb-3">For professionals</p>
+            <h2 className={`text-2xl font-bold ${textPrimary}`}>Architects &amp; consultants</h2>
+            <p className={`mt-4 text-sm leading-7 ${textSecondary}`}>Bring display, structural and specification requirements together early in the project process.</p>
+            <Link to="/for-architects" className={`mt-7 inline-flex items-center gap-2 text-xs font-bold tracking-[0.12em] uppercase ${textPrimary} hover:text-cyan-400 transition-colors`} data-testid="home-architects-link">Explore professional resources <ArrowRight size={15} aria-hidden="true" /></Link>
+          </div>
+          <div className={`p-8 md:p-10 lg:border-r ${borderColor}`}>
+            <MonitorPlay className="mb-8 text-cyan-400" size={24} aria-hidden="true" />
+            <p className="text-xs font-bold tracking-[0.18em] uppercase text-cyan-400 mb-3">Digital environments</p>
+            <h2 className={`text-2xl font-bold ${textPrimary}`}>Digital signage solutions</h2>
+            <p className={`mt-4 text-sm leading-7 ${textSecondary}`}>Discover commercial signage, display hardware and interactive experiences for visitor-facing environments.</p>
+            <Link to="/signage-solutions" className={`mt-7 inline-flex items-center gap-2 text-xs font-bold tracking-[0.12em] uppercase ${textPrimary} hover:text-cyan-400 transition-colors`} data-testid="home-digital-signage-link">Explore digital signage <ArrowRight size={15} aria-hidden="true" /></Link>
+          </div>
+          <div className="p-8 md:p-10">
+            <BookOpen className="mb-8 text-cyan-400" size={24} aria-hidden="true" />
+            <p className="text-xs font-bold tracking-[0.18em] uppercase text-cyan-400 mb-3">Technical planning</p>
+            <h2 className={`text-2xl font-bold ${textPrimary}`}>Resources &amp; calculators</h2>
+            <p className={`mt-4 text-sm leading-7 ${textSecondary}`}>Use practical tools to plan screen size, viewing distance, power and project budgets before specification.</p>
+            <div className="mt-7 flex flex-wrap gap-x-5 gap-y-3">
+              <Link to="/calculator" className={`inline-flex items-center gap-2 text-xs font-bold tracking-[0.12em] uppercase ${textPrimary} hover:text-cyan-400 transition-colors`} data-testid="home-calculator-link"><Calculator size={15} aria-hidden="true" /> Screen calculator</Link>
+              <Link to="/knowledge" className={`inline-flex items-center gap-2 text-xs font-bold tracking-[0.12em] uppercase ${textPrimary} hover:text-cyan-400 transition-colors`} data-testid="home-knowledge-link">Knowledge hub <ArrowRight size={15} aria-hidden="true" /></Link>
+            </div>
           </div>
         </div>
       </section>
@@ -736,6 +790,28 @@ const Home = () => {
         </div>
       </section>
 
+      <section className={`py-20 lg:py-28 border-t ${borderColor}`} data-testid="home-insights-section">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-12">
+            <div className="max-w-2xl">
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-3">From the technical desk</p>
+              <h2 className={`text-3xl md:text-4xl font-bold tracking-tight ${textPrimary}`}>Latest technical insights</h2>
+            </div>
+            <Link to="/blog" className={`inline-flex items-center gap-2 text-xs font-bold tracking-[0.12em] uppercase ${textPrimary} hover:text-cyan-400 transition-colors`} data-testid="home-insights-view-all">View all insights <ArrowRight size={15} aria-hidden="true" /></Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {TECHNICAL_INSIGHTS.map((insight) => (
+              <Link key={insight.link} to={insight.link} className={`group border ${borderColor} p-6 md:p-7 transition-colors duration-300 ${isDark ? 'hover:bg-white/[0.05]' : 'hover:bg-neutral-50'}`} data-testid={`home-insight-${insight.link.split('/').pop()}`}>
+                <BookOpen className="mb-12 text-cyan-400" size={21} aria-hidden="true" />
+                <h3 className={`text-xl font-bold leading-snug ${textPrimary}`}>{insight.title}</h3>
+                <p className={`mt-4 text-sm leading-6 ${textSecondary}`}>{insight.copy}</p>
+                <span className={`mt-7 inline-flex items-center gap-2 text-xs font-bold tracking-[0.12em] uppercase ${textPrimary} group-hover:text-cyan-400 transition-colors`}>Read insight <ArrowRight size={15} aria-hidden="true" /></span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ═══════════════════════════════════════════════════════════════════════
           CTA SECTION — Clean, minimal
       ═══════════════════════════════════════════════════════════════════════ */}
@@ -743,7 +819,7 @@ const Home = () => {
         <div className="max-w-[800px] mx-auto px-6 text-center">
           <FadeIn>
             <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight uppercase mb-8 ${textPrimary}`}>
-              LET'S BUILD<br />
+              LET’S BUILD<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-300">SOMETHING BRILLIANT</span>
             </h2>
             

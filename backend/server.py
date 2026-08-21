@@ -61,13 +61,18 @@ cors_origins_str = os.environ.get("CORS_ORIGINS")
 if not cors_origins_str:
     raise RuntimeError("CORS_ORIGINS must be configured with explicit allowed origins")
 cors_origins = [origin.strip().rstrip("/") for origin in cors_origins_str.split(",") if origin.strip()]
-if not cors_origins or "*" in cors_origins:
-    raise RuntimeError("CORS_ORIGINS must contain explicit origins when credentials are enabled")
+if not cors_origins:
+    raise RuntimeError("CORS_ORIGINS must contain at least one allowed origin")
+
+# The managed production runtime may provide a wildcard origin. Browsers cannot
+# combine wildcard CORS with credentialed cookies, so keep wildcard access
+# non-credentialed while retaining credential support for explicit origin lists.
+cors_allows_credentials = "*" not in cors_origins
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
-    allow_credentials=True,
+    allow_credentials=cors_allows_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["Set-Cookie"],

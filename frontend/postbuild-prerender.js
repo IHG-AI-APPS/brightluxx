@@ -41,6 +41,17 @@ const ARABIC_PAGES = {
   }
 };
 
+const HOME_PRERENDER_CONTENT = [
+  '<p><strong>ENGINEERING BRILLIANCE</strong></p>',
+  '<p>Design, supply, engineering, installation and lifecycle support for premium LED displays, digital signage, MicroLED, transparent displays and immersive visual systems across the UAE and GCC.</p>',
+  '<dl aria-label="Brightluxx project track record"><div><dt>Screens Installed</dt><dd>2,000+</dd></div><div><dt>Satisfied Clients</dt><dd>750+</dd></div><div><dt>Projects Completed</dt><dd>1,000+</dd></div><div><dt>LED Installed</dt><dd>15,000 m²</dd></div></dl>',
+  '<h2>Choose Your Solution</h2><nav aria-label="Solution discovery"><a href="/solutions/retail">Retail &amp; Hospitality</a> · <a href="/solutions/corporate">Corporate &amp; Control Rooms</a> · <a href="/solutions/architecture">Architecture &amp; Public Realm</a> · <a href="/signage-solutions">Digital Signage</a></nav>',
+  '<h2>Featured Installations</h2><ul><li><a href="/projects">Dubai Mall Digital Atrium</a> — Dubai, UAE · Retail atrium · COB LED</li><li><a href="/projects">Sheikh Zayed Road DOOH Network</a> — Dubai, UAE · Outdoor / DOOH · High-brightness LED</li><li><a href="/projects">ADNOC HQ Command Centre</a> — Abu Dhabi, UAE · Command centre · COB MicroLED video wall</li></ul>',
+  '<h2>Core Technologies</h2><nav aria-label="Brightluxx technology families"><a href="/lumimorph">Fine-Pitch &amp; MicroLED — LumiMorph</a> · <a href="/naturatex">Architectural / Texture Displays — NaturaTex</a> · <a href="/signatouch">Interactive Digital Signage — SignaTouch</a> · <a href="/glassmorph">Transparent LED &amp; Smart Glass — GlassMorph</a> · <a href="/pixelvue">Professional LED Displays — PixelVue</a></nav>',
+  '<h2>For Architects &amp; Consultants</h2><p><a href="/for-architects">Explore professional resources</a> · <a href="/calculator">Screen Calculator</a> · <a href="/knowledge">Knowledge Hub</a></p>',
+  '<h2>Latest Technical Insights</h2><nav aria-label="Latest technical insights"><a href="/blog/led-display-pricing-guide-uae">LED Display Pricing Guide UAE (2026)</a> · <a href="/blog/indoor-vs-outdoor-led-screen-dubai">Indoor vs Outdoor LED Screen</a> · <a href="/blog/led-wall-buyers-checklist">LED Wall Buyer’s Checklist</a></nav>'
+].join('');
+
 function esc(s) {
   return String(s || "")
     .replace(/&/g, "&amp;")
@@ -493,6 +504,10 @@ async function run() {
       const headings = headingData[route];
       if (!arabicPage && headings && headings.length) {
         contentParts.push(headings.map(h => `<${h.tag}>${esc(h.text)}</${h.tag}>`).join(""));
+      }
+
+      if (route === "/") {
+        contentParts.push(HOME_PRERENDER_CONTENT);
       }
 
       // Description paragraph

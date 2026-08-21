@@ -1,5 +1,11 @@
 # Brightluxx Changelog
 
+## Current Session — Commercial UX + SEO Upgrade, Phase 1
+- Updated homepage hero positioning: **ENGINEERING BRILLIANCE** is now a tagline, with a single descriptive H1 and clear `Explore Solutions` / `Start Your Project` CTA hierarchy.
+- Added solution-first discovery, evidence-led project cards from existing project data, technology-first product-family cards, industry/application paths, professional/digital-signage/resource pathways, and static technical-insight links. Homepage prerender output now contains the final offer, semantic final counters, and crawlable internal links.
+- Fixed the mobile hero CTA safe zone after iteration 129: at 390×844 both CTAs clear the consent banner and fixed mobile nav, with no horizontal overflow. `yarn build`: 337 prerendered routes / 0 errors; SEO regression: PASS / 0 critical failures.
+- Naming audit note: homepage labels are now clear; existing LumiMorph terminology differs between older static homepage copy (fine-pitch/MicroLED) and its landing pages (textured luminous panels). No cross-site metadata/page rewrite was made in this phase.
+
 ## Current Session — Deployment Readiness Remediation
 - Removed destructive product cleanup from startup seed migration; Atlas/production deployments now preserve data not present in the packaged seed file.
 - Made frontend CDN configuration mandatory through `REACT_APP_CDN_URL`, enforced explicit CORS origins when credentialed cookies are enabled, and cleaned malformed `.gitignore` entries while ignoring `memory/test_credentials.md`.

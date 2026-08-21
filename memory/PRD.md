@@ -1,5 +1,13 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Commercial UX + SEO Upgrade — Phase 1 Homepage — Current Session
+- **Homepage positioning delivered**: the hero now keeps **ENGINEERING BRILLIANCE** as a brand tagline while making the sole descriptive H1 `LED Display & Digital Signage Solutions for UAE & GCC`. Supporting copy states the design, supply, engineering, installation, and lifecycle-support offer without changing canonical URLs, routes, redirects, or the static prerender architecture.
+- **Hierarchy and commercial clarity**: reordered the homepage around final project-track-record counters, solution discovery, evidence-led installations, technology-first family discovery, engineering credibility, industries, professional resources, digital signage, calculators, technical insights, and project enquiry. Existing project records only were used; no new client, project, certification, location, or performance claims were created.
+- **Crawler-safe improvements**: static prerendered `/` HTML now includes the final H1/tagline/offer, semantic final counter values (`2,000+`, `750+`, `1,000+`, `15,000 m²`), real internal href links, and technology-first family labels. One H1 and `https://brightluxx.com/` canonical are preserved.
+- **Mobile correction**: introduced a dedicated homepage hero safe zone. At 390×844, both CTAs clear the cookie banner and fixed mobile nav; no horizontal overflow observed. Test-ID namespace collision was removed.
+- **Naming audit**: Phase 1 homepage labels now lead with technology before family names. A pre-existing content conflict remains outside this phase: LumiMorph is called a textured luminous panel on its own landing pages but older static homepage copy called it fine-pitch/MicroLED. Resolve that product-page/metadata terminology under a separately approved content audit before making broad claims.
+- **Verification (agent-tested)**: `yarn build` prerendered 337 pages with 0 errors; SEO regression PASS / 0 critical failures (43 existing non-blocking length warnings). Generated HTML and preview desktop/mobile checks passed. Iteration 129’s mobile CTA overlap was fixed and self-verified with CTA bottom 620px, cookie top 678px, nav top 763px at 390×844.
+
 ## LATEST: Deployment Readiness Remediation — Current Session
 - **Non-destructive Atlas-safe startup**: removed the automatic `delete_many` product cleanup from seed migration. Deployment startup now only inserts or updates seed records and will not delete production-only catalog data.
 - **Environment-only CDN configuration**: frontend CDN host now requires `REACT_APP_CDN_URL`; the source no longer embeds a deployment-specific CDN hostname or a fallback value.

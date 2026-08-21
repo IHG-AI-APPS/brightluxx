@@ -8,7 +8,6 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { trackProductView, trackQuoteRequest, trackEvent } from '../lib/tracker';
 import { toggleComparedCode } from '../lib/comparison';
 import QuickInquiry from '../components/QuickInquiry';
-import ReviewSection from '../components/ReviewSection';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -73,6 +72,7 @@ export default function ProductDetail() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [activeImage, setActiveImage] = useState(null);
+  const [compareNotice, setCompareNotice] = useState('');
 
   const bg = isDark ? 'bg-[#050508]' : 'bg-neutral-50';
   const text1 = isDark ? 'text-white' : 'text-neutral-900';
@@ -149,6 +149,7 @@ export default function ProductDetail() {
     product.refresh_rate && { icon: RefreshCw, label: 'Refresh Rate', value: product.refresh_rate },
     ...(product.key_specs || []).slice(0, 4).map(s => ({ icon: Layers, label: s.label, value: s.value }))
   ].filter(Boolean).slice(0, 6);
+  const fullSpecs = (product.key_specs || []).filter((spec) => spec?.label && spec?.value);
 
   return (
     <div className={`min-h-screen ${bg}`} data-testid={`product-detail-${product.slug}`}>
@@ -276,7 +277,7 @@ export default function ProductDetail() {
               >
                 <Send size={16} /> Request Project Pricing
               </a>
-              <button type="button" onClick={() => { const result = toggleComparedCode(product.product_code); trackEvent('product_compare_add', { product_slug: product.slug, status: result.status }); }} className={`border ${isDark ? 'border-white/20 text-white hover:bg-white/10' : 'border-neutral-300 text-neutral-700 hover:bg-neutral-100'} font-semibold px-6 py-3 rounded-full`} data-testid="product-compare-button">Add to Compare</button>
+              <button type="button" onClick={() => { const result = toggleComparedCode(product.product_code); setCompareNotice(result.status === 'max' ? 'Comparison already has 3 products.' : result.status === 'added' ? 'Added to comparison — view compare.' : 'Removed from comparison.'); trackEvent('product_compare_add', { product_slug: product.slug, status: result.status }); }} className={`border ${isDark ? 'border-white/20 text-white hover:bg-white/10' : 'border-neutral-300 text-neutral-700 hover:bg-neutral-100'} font-semibold px-6 py-3 rounded-full`} data-testid="product-compare-button">Add to Compare</button>
               <a
                 href={`https://wa.me/971559954274?text=${encodeURIComponent(`Hi, I need pricing for ${product.product_code} - ${product.name}`)}`}
                 target="_blank"
@@ -286,6 +287,7 @@ export default function ProductDetail() {
                 <MessageCircle size={16} /> WhatsApp
               </a>
             </div>
+            {compareNotice && <p className="text-sm text-cyan-400" role="status" data-testid="product-compare-notice">{compareNotice} <Link to="/compare" className="underline">Compare now</Link></p>}
           </motion.div>
         </div>
       </section>
@@ -307,6 +309,12 @@ export default function ProductDetail() {
         </section>
       )}
 
+      {fullSpecs.length > 0 && (
+        <section id="specifications" className={`py-16 ${isDark ? 'bg-white/[0.02]' : 'bg-white'}`} data-testid="product-full-specifications">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12"><p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-3">Technical data</p><h2 className={`text-2xl font-bold ${text1} mb-8`}>Full Specifications</h2><dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px border border-white/10">{fullSpecs.map((spec) => <div key={`${spec.label}-${spec.value}`} className={`p-4 ${card}`}><dt className={`text-[10px] uppercase tracking-[0.12em] ${text2}`}>{spec.label}</dt><dd className={`mt-2 text-sm font-semibold ${text1}`}>{spec.value}</dd></div>)}</dl></div>
+        </section>
+      )}
+
       {/* ===== QUOTE FORM ===== */}
       <section id="quote" className={`py-16 ${bg}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
@@ -316,19 +324,7 @@ export default function ProductDetail() {
               <div>
                 <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-500 mb-3">Get Pricing</p>
                 <h2 className={`text-2xl md:text-3xl font-bold ${text1} mb-4`}>Request a Quote</h2>
-                <p className={`${text2} mb-6`}>
-                  Get competitive pricing, delivery times, and custom configurations. We respond within 2 hours.
-                </p>
-                
-                {/* Benefits */}
-                <div className="space-y-3">
-                  {['Free consultation', 'Custom sizes available', 'Volume discounts', '2-year warranty', 'Dubai stock'].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <Check size={16} className="text-cyan-400" />
-                      <span className={`text-sm ${text2}`}>{item}</span>
-                    </div>
-                  ))}
-                </div>
+                <p className={`${text2} mb-6`}>Share your project context, display dimensions and application requirements for a relevant technical and commercial response.</p>
 
                 {/* Product Preview */}
                 <div className={`mt-8 p-4 rounded-xl border ${card} flex items-center gap-4`}>
@@ -426,9 +422,6 @@ export default function ProductDetail() {
           </div>
         </section>
       )}
-
-      {/* ===== REVIEWS ===== */}
-      <ReviewSection slug={slug} productName={product.name} isDark={isDark} text1={text1} text2={text2} card={card} />
 
       {/* ===== RELATED PRODUCTS ===== */}
       {related.length > 0 && (

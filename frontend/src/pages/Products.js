@@ -11,6 +11,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import TiltCard from '../components/TiltCard';
 import { ProductFinder } from '../components/products/ProductFinder';
 import { trackEvent } from '../lib/tracker';
+import { toggleComparedCode } from '../lib/comparison';
 
 // Hero background image
 const HERO_IMAGE = 'https://files.ihgbrands.com/site-images_opt_ext_00eecd7267f8.webp';
@@ -130,7 +131,7 @@ const ProductCard = ({ product, index }) => {
             <h3 className="mt-2 text-base font-bold leading-snug text-white line-clamp-2">{product.name}</h3>
             {product.application && <p className="mt-2 line-clamp-2 text-xs leading-5 text-white/60">Best for: {product.application}</p>}
             <div className="mt-4 flex flex-wrap gap-2 text-[10px] font-semibold text-white/80">{product.pixel_pitch && <span className="border border-white/15 px-2 py-1">{product.pixel_pitch}</span>}{product.brightness && <span className="border border-white/15 px-2 py-1">{product.brightness}</span>}{product.refresh_rate && <span className="border border-white/15 px-2 py-1">{product.refresh_rate}</span>}</div>
-            <div className="mt-5 flex items-center justify-between gap-3"><Link to={`/products/${product.slug}`} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-cyan-300 hover:text-cyan-100" data-testid={`products-view-product-${product.slug}`} onClick={() => trackEvent('product_view', { product_slug: product.slug, source: 'catalogue' })}>View Product <ArrowRight size={14} aria-hidden="true" /></Link><Link to="/compare" className="inline-flex min-h-9 items-center gap-1 text-xs text-white/65 hover:text-white" data-testid={`products-compare-${product.slug}`} onClick={() => trackEvent('compare_clicked', { product_slug: product.slug })}><GitCompareArrows size={14} aria-hidden="true" /> Compare</Link></div>
+            <div className="mt-5 flex items-center justify-between gap-3"><Link to={`/products/${product.slug}`} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-cyan-300 hover:text-cyan-100" data-testid={`products-view-product-${product.slug}`} onClick={() => trackEvent('product_view', { product_slug: product.slug, source: 'catalogue' })}>View Product <ArrowRight size={14} aria-hidden="true" /></Link><button type="button" className="inline-flex min-h-9 items-center gap-1 text-xs text-white/65 hover:text-white" data-testid={`products-compare-${product.slug}`} onClick={() => { const result = toggleComparedCode(product.product_code); trackEvent('compare_clicked', { product_slug: product.slug, status: result.status }); }}><GitCompareArrows size={14} aria-hidden="true" /> Compare</button></div>
           </div>
         </article>
       </TiltCard>

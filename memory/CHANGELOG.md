@@ -1,5 +1,10 @@
 # Brightluxx Changelog
 
+## Current Session — Next.js Migration Stages A/B
+- Reconciled all 352 CRA baseline routes with the Next target: 333 canonical statics, 18 native redirects, and one native 410 tombstone; the manifest-backed check was independently retested in iteration 133.
+- Added an isolated Next shared visual shell: responsive header/mega menu, mobile navigation, footer, cookie consent, fixed WhatsApp/phone actions, and comparison tray count as small client islands around a server layout.
+- **No cutover:** visual and functional page parity remains incomplete; CRA is intact as rollback and remote Cloudflare preview still needs scoped credentials.
+
 ## Current Session — Next.js Migration Foundation (Not Deployable)
 - Captured a CRA baseline and created a separate Next.js App Router/OpenNext target without modifying or deleting the working CRA release.
 - Verified local workerd HTTP behavior and 333 canonical raw-HTML parity routes with zero metadata/canonical/H1/schema mismatches; redirects, 404, 410, robots, sitemap, and llms pass.

@@ -1,0 +1,38 @@
+{
+  "summary": "Frontend-only scoped verification completed against OpenNext workerd preview (http://127.0.0.1:8787). Required route reconciliation totals, legacy redirects, tombstone/404 behavior, required public endpoints, and shared shell desktop/mobile interactions were tested.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/tests/test_iteration132_nextjs_route_shell.py",
+    "/app/test_reports/pytest/iteration132.xml",
+    "/app/nextjs/scripts/reconcile-routes.js",
+    "/app/migration-baseline/route-reconciliation.md"
+  ],
+  "action_items": [
+    "Fix reconcile script logic: remove forced `.filter(() => false)` so unexplained-route detection is truly computed instead of always returning 0.",
+    "After script fix, rerun `/app/nextjs/scripts/reconcile-routes.js` to ensure unexplained gap remains 0 from real data, not hardcoded behavior."
+  ],
+  "critical_code_review_comments": [
+    "Critical: /app/nextjs/scripts/reconcile-routes.js masks potential route gaps by forcing `unexplained` to empty via `.filter(() => false)` (line 28), which can hide real reconciliation defects."
+  ],
+  "updated_files": [
+    "/app/tests/test_iteration132_nextjs_route_shell.py",
+    "/app/test_reports/iteration_132.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (frontend-only scope)",
+    "frontend": "100% requested runtime checks passed; 1 critical code-review finding"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Validated with pytest + Playwright on local OpenNext workerd preview only (127.0.0.1:8787), not CRA external preview. Runtime behavior matches requested scope: 18 legacy redirects returned 308 with expected targets; /products/hjdba returned 410; unknown route returned 404; /, /products, /products/bl-cob060, /sitemap.xml, /robots.txt, /llms.txt returned 200; shell data-testid checks passed on desktop/mobile with no in-page error selectors and no console errors emitted by shell interactions.",
+  "rca of the issue": "RCA: Reconciliation script currently computes baseline set then discards unexplained candidates unconditionally using `.filter(() => false)`. This guarantees "unexplained route gap" is always reported as 0 regardless of actual mismatch, creating false confidence. Reproduction: inspect line 28 in reconcile-routes.js and run script after introducing any non-accounted baseline route; output will still show gap 0. Mitigation: remove forced filter and compare baseline routes against canonical + redirects + tombstones source-of-truth."
+}

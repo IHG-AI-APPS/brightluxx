@@ -1,5 +1,11 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Next.js Migration — Stages A/B Complete, Migration Still Not Accepted
+- **Route reconciliation independently verified** (iteration 133): the immutable 352-route baseline is fully accounted for as 333 canonical Next static routes, 18 native 308 redirects, and one native 410 tombstone. The reconciliation script now reads the actual Next prerender manifest; no hidden route-gap masking remains. Reference: `/app/migration-baseline/route-reconciliation.md`.
+- **Shared shell migrated in the isolated Next target**: server-owned root layout now composes a client-island desktop/mobile header, product mega menu, footer, cookie consent, floating WhatsApp/phone controls, and persistent comparison-count tray. Existing CRA remains untouched.
+- **Verification**: iteration 132 passed scoped workerd route and responsive shell tests; iteration 133 independently passed the reconciliation fix. OpenNext build passes under the local workerd-compatible configuration.
+- **Cutover remains forbidden**: homepage, catalogue/filter/Finder, product detail, comparison, RFQ/forms, downloads, analytics, visual/performance parity, remote Cloudflare preview, and post-migration Phase 3 acceptance are still outstanding.
+
 ## LATEST: Next.js / Cloudflare Migration — FOUNDATION ONLY, CUTOVER BLOCKED
 - **Immutable baseline saved** in `/app/migration-baseline`: 352 current build routes (337 indexable plus 15 stubs), representative raw HTML, responsive reference captures, payload manifest, robots, llms, and route metadata/schema inventory.
 - **Isolated Next target created** at `/app/nextjs`; CRA remains untouched at `/app/frontend`. Next.js 16.3.2 App Router + OpenNext 1.20.2 builds successfully and uses server-rendered embedded snapshots for raw-HTML parity.

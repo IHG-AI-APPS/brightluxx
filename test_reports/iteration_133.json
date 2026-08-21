@@ -1,0 +1,33 @@
+{
+  "summary": "Retest completed for route reconciliation integrity. Verified reconcile-routes script uses Next prerender manifest route keys, no forced-empty unexplained filtering exists, and reconciliation accounting matches required totals.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/tests/test_iteration133_route_reconciliation.js",
+    "/app/nextjs/scripts/reconcile-routes.js",
+    "/app/migration-baseline/route-reconciliation.md",
+    "/app/nextjs/.next/prerender-manifest.json"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [],
+  "updated_files": [
+    "/app/tests/test_iteration133_route_reconciliation.js",
+    "/app/test_reports/iteration_133.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (frontend-only scope)",
+    "frontend": "100%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Scope was strictly route-reconciliation integrity for Next migration. Executed node /app/nextjs/scripts/reconcile-routes.js and dedicated regression script /app/tests/test_iteration133_route_reconciliation.js. Confirmed expected totals: baseline 352, canonical 333, redirects 18, tombstones 1, unexplained 0, with accounting identity satisfied (333+18+1=352). route-reconciliation.md contains all 19 non-canonical routes and success statement.",
+  "rca of the issue": "Previously reported risk was forced-empty unexplained filtering via .filter(() => false), which could hide real route gaps. Current script now computes canonical and unexplained sets against prerender-manifest route keys, and report numbers are derived from actual manifest comparison."
+}

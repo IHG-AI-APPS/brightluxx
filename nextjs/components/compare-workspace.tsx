@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { SafeLink as Link } from './safe-link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Product } from '../lib/catalogue';
 import { trackEvent } from '../lib/analytics';

@@ -13,5 +13,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ProductsPage() {
   const [products, page] = await Promise.all([getCatalogue(), getLegacyPage('/products')]);
-  return <main className="products-page" data-testid="products-page"><StructuredData items={page?.jsonLd || []} /><section className="products-hero" data-testid="products-hero"><img src="https://files.ihgbrands.com/site-images_opt_ext_00eecd7267f8.webp" alt="LED display technology" fetchPriority="high" /><div><p className="eyebrow">Brightluxx catalogue</p><h1 data-testid="products-page-title">LED Display Products</h1><p>94 professional LED display solutions for every application.</p></div></section><ProductCatalogue products={products} /></main>;
+  return <main className="products-page" data-testid="products-page"><StructuredData items={page?.jsonLd || []} /><section className="products-hero" data-testid="products-hero"><img src="https://files.ihgbrands.com/site-images_opt_ext_00eecd7267f8.webp" alt="LED display technology" fetchPriority="high" /><div><p className="eyebrow">Brightluxx catalogue</p><h1 data-testid="products-page-title">LED Displays</h1><p>94 professional LED display solutions for every application.</p></div></section><ProductCatalogue products={products} /></main>;
 }

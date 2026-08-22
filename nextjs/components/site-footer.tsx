@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { SafeLink as Link } from './safe-link';
 
 type FooterLink = readonly [string, string];
 const sections: ReadonlyArray<{ heading: string; links: readonly FooterLink[] }> = [

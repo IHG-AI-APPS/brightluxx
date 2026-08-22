@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { SafeLink as Link } from '../components/safe-link';
 import { getLegacyPage } from '../lib/legacy-content';
 import { StructuredData } from '../components/structured-data';
 import { HomeCounters } from '../components/home-counters';

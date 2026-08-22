@@ -41,7 +41,14 @@ export function getPageKeywords(page: LegacyPage) {
   return Array.from(new Set([...page.title.replace(/[|—–]/g, ' ').split(/\s+/), ...routeTerms, 'LED display', 'digital signage', 'Brightluxx', 'UAE', 'GCC'])).filter((term) => term.length > 2).slice(0, 14);
 }
 
+export function getShortHeading(page: LegacyPage) {
+  const words = page.h1.replace(/<[^>]+>/g, '').replace(/[|—–:]/g, ' ').split(/\s+/).filter((word) => word && !/^(the|for|and|in|of|to|with)$/i.test(word));
+  if (words.length <= 3) return page.h1;
+  return words.slice(0, 2).join(' ');
+}
+
 export function enrichLegacyHtml(html: string, page: LegacyPage) {
   const alt = `${page.h1} — Brightluxx LED display and digital signage solution`.replace(/"/g, '&quot;');
-  return html.replace(/<img(?![^>]*\balt=)/gi, `<img alt="${alt}"`);
+  const heading = getShortHeading(page).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return html.replace(/<img(?![^>]*\balt=)/gi, `<img alt="${alt}"`).replace(/(<h1\b[^>]*>)[\s\S]*?(<\/h1>)/i, `$1${heading}$2`);
 }

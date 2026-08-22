@@ -9,7 +9,8 @@ export function PageViewTracker() {
   const searchParams = useSearchParams();
   useEffect(() => {
     const query = searchParams.toString();
-    trackEvent('page_view', { page: query ? `${pathname}?${query}` : pathname });
+    const timer = window.setTimeout(() => trackEvent('page_view', { page: query ? `${pathname}?${query}` : pathname }), 350);
+    return () => window.clearTimeout(timer);
   }, [pathname, searchParams]);
   return null;
 }

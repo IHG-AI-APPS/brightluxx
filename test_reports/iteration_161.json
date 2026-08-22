@@ -1,0 +1,61 @@
+{
+  "summary": "Re-ran iteration-160 visual/SEO/cards/flow regression on local OpenNext worker (http://127.0.0.1:8787). Functional flows passed (home/products/detail/finder/search/filter/gallery/compare/RFQ/contact), backend contracts passed, but strict network-noise gate failed due recurring net::ERR_ABORTED on _rsc and /api/track during rapid navigation.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Rapid navigation + prefetch transport",
+        "issue": "11 failed RSC requests observed as net::ERR_ABORTED (e.g., /products?...&_rsc=..., /contact?...&_rsc=..., /signatouch?_rsc=...). This violates zero-failed-request gate.",
+        "affected_selectors": [
+          "[data-testid=\"nav-signatouch\"]",
+          "[data-testid=\"nav-lumimorph\"]",
+          "[data-testid=\"nav-glassmorph\"]",
+          "[data-testid=\"products-view-product-*\"]"
+        ]
+      },
+      {
+        "flow": "Analytics transport (fetch fallback instrumentation run)",
+        "issue": "7 /api/track requests marked net::ERR_ABORTED during route transitions when sendBeacon was forced off for inspection, despite payloads being generated; zero-failed-request requirement for /api/track is not met.",
+        "affected_selectors": [
+          "[data-testid=\"products-search-input\"]",
+          "[data-testid=\"product-compare-button\"]",
+          "[data-testid=\"compare-search-input\"]"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration160_heading_glass_cards.py",
+    "/app/backend/tests/test_iteration161_tracking_and_transport.py",
+    "/app/test_reports/pytest/iteration161_backend.xml",
+    "/app/test_reports/pytest/iteration161_transport.xml"
+  ],
+  "action_items": [
+    "Eliminate client-side aborted _rsc prefetch requests under rapid route changes (prefetch policy currently still allows speculative requests on non-product-card links).",
+    "Harden analytics transport so /api/track requests are not emitted as failed/aborted during navigation-heavy flows (especially fallback path).",
+    "Re-run rapid-navigation gate and require zero requestfailed entries for both /api/track and _rsc URLs."
+  ],
+  "critical_code_review_comments": [
+    "No MOCKED APIs were used; all checks hit live local worker endpoints.",
+    "Prefetch disabling is implemented on product cards and some SEO links, but remaining Next Link surfaces (header/product detail/other internal links) still trigger speculative _rsc requests that can abort under fast navigation.",
+    "analytics.ts fallback uses keepalive fetch during navigation; this transport still shows aborted-request noise in automation traces under rapid route changes."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_iteration161_tracking_and_transport.py",
+    "/app/test_reports/iteration_161.json"
+  ],
+  "success_rate": {
+    "backend": "100% (7/7 across iteration160 + iteration161 suites)",
+    "frontend": "88% (all requested functional flows passed; strict network-noise gate failed)"
+  },
+  "seed_data_creation": "Submitted contact lead via UI: qa.iter161@brightluxx-example.test",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Functional parity remains green: concise key H1s, 235 generic route content blocks, 94 products SSR/cards on desktop/tablet/mobile, finder/search/filter, product gallery, compare/RFQ/contact all passed. Remaining blocker is strict noise gate: requestfailed logs still include _rsc aborts and /api/track aborts in navigation-heavy traces.",
+  "rca of the issue": "RCA: net::ERR_ABORTED is reproduced during quick route transitions where in-flight RSC/speculative requests and analytics sends are canceled by client navigation lifecycle. Product-card prefetch=false reduced one source, but not all Link surfaces are constrained, so _rsc aborts persist. Analytics sendBeacon path avoids visible body capture and fallback fetch path still exhibits aborted requests during rapid transitions. Repro: rapidly navigate / -> /products -> detail -> /compare -> /contact while tracking requestfailed events; observe repeated *_rsc and /api/track abort entries. Mitigation direction: unify prefetch strategy for all critical links and ensure analytics dispatch is cancellation-safe/noise-free across route transitions."
+}

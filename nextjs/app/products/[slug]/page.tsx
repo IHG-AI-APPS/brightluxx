@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { SafeLink as Link } from '../../../components/safe-link';
 import { notFound } from 'next/navigation';
 import { ProductDetailActions } from '../../../components/product-detail-actions';
 import { ProductFaq } from '../../../components/product-faq';

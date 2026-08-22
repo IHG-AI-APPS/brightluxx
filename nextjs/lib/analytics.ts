@@ -10,5 +10,8 @@ function sessionId() {
 }
 
 export function trackEvent(event: string, details: EventData = {}) {
-  fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'omit', keepalive: true, body: JSON.stringify({ event, page: window.location.pathname, referrer: document.referrer || '', session_id: sessionId(), screen_width: window.innerWidth, ...details }) }).catch(() => undefined);
+  const body = JSON.stringify({ event, page: window.location.pathname, referrer: document.referrer || '', session_id: sessionId(), screen_width: window.innerWidth, ...details });
+  const payload = new Blob([body], { type: 'application/json' });
+  if (navigator.sendBeacon?.('/api/track', payload)) return;
+  window.setTimeout(() => { fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'omit', keepalive: true, body }).catch(() => undefined); }, 500);
 }

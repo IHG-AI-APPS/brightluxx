@@ -1,20 +1,31 @@
+import { validateTrustedHtml } from './content-safety';
+
 export type LegacyPage = { route: string; title: string; description: string; canonical: string; h1: string; schemaTypes: string[] };
 
 type EmbeddedPage = LegacyPage & { classification: string; html: string; jsonLd: string[] };
 const assetPath = '/_data/legacy-pages.json';
 let pagesPromise: Promise<EmbeddedPage[]> | undefined;
+const displayHeadings: Record<string, string> = {
+  '/dubai': 'Dubai Displays', '/abu-dhabi': 'Abu Dhabi', '/oman': 'Oman Displays', '/qatar': 'Qatar Displays', '/saudi-arabia': 'Saudi Displays', '/bahrain': 'Bahrain Displays', '/kuwait': 'Kuwait Displays',
+  '/solutions/education': 'Education Displays', '/solutions/retail': 'Retail Displays', '/solutions/corporate': 'Corporate Displays', '/solutions/hospitality': 'Hospitality Displays', '/solutions/outdoor': 'Outdoor Displays', '/solutions/control-rooms': 'Control Rooms',
+  '/resources': 'LED Resources', '/case-studies': 'Project Stories', '/inspirations': 'Display Ideas', '/ar-ae/dubai': 'شاشات دبي',
+};
 
 async function loadPages(): Promise<EmbeddedPage[]> {
   if (process.env.NEXT_PHASE === 'phase-production-build') {
     const { readFile } = await import('node:fs/promises');
-    return JSON.parse(await readFile(`${process.cwd()}/public/_data/legacy-pages.json`, 'utf8')) as EmbeddedPage[];
+    return validatePages(JSON.parse(await readFile(`${process.cwd()}/public/_data/legacy-pages.json`, 'utf8')) as EmbeddedPage[]);
   }
   const { getCloudflareContext } = await import('@opennextjs/cloudflare');
   const assets = getCloudflareContext().env.ASSETS;
   if (!assets) throw new Error('Legacy page asset binding is unavailable');
   const response = await assets.fetch(`https://brightluxx.com${assetPath}`);
   if (!response.ok) throw new Error(`Legacy page asset request failed: ${response.status}`);
-  return response.json() as Promise<EmbeddedPage[]>;
+  return validatePages(await response.json() as EmbeddedPage[]);
+}
+
+function validatePages(pages: EmbeddedPage[]) {
+  return pages.map((page) => ({ ...page, html: validateTrustedHtml(page.html), jsonLd: page.jsonLd.filter((item) => typeof item === 'string') }));
 }
 
 async function getPages() {
@@ -42,9 +53,7 @@ export function getPageKeywords(page: LegacyPage) {
 }
 
 export function getShortHeading(page: LegacyPage) {
-  const words = page.h1.replace(/<[^>]+>/g, '').replace(/[|—–:]/g, ' ').split(/\s+/).filter((word) => word && !/^(the|for|and|in|of|to|with)$/i.test(word));
-  if (words.length <= 3) return page.h1;
-  return words.slice(0, 2).join(' ');
+  return displayHeadings[page.route] || page.h1;
 }
 
 export function enrichLegacyHtml(html: string, page: LegacyPage) {

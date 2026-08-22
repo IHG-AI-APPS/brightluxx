@@ -11,7 +11,7 @@ export function ProductCard({ product }: { product: Product }) {
   const addToCompare = () => {
     const current = comparedCodes();
     if (current.includes(product.product_code)) return;
-    if (current.length >= 3) { window.alert('You can compare up to three products at a time.'); return; }
+    if (current.length >= 3) { window.dispatchEvent(new CustomEvent('brightluxx-compare-notice', { detail: 'You can compare up to three products at a time.' })); return; }
     window.localStorage.setItem('brightluxx_compare_products', JSON.stringify([...current, product.product_code]));
     window.dispatchEvent(new Event('brightluxx-compare-change'));
   };

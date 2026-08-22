@@ -1,0 +1,300 @@
+{
+  "gate": "Bundle Size Reduction Gate",
+  "before": {
+    "worker_raw_bytes": 11582580,
+    "worker_gzip_bytes": 1646066,
+    "worker_raw_kib": 11311.11,
+    "worker_gzip_kib": 1607.49
+  },
+  "after": {
+    "worker_raw_bytes": 5530941,
+    "worker_gzip_bytes": 1072337,
+    "worker_raw_kib": 5401.31,
+    "worker_gzip_kib": 1047.2,
+    "asset_raw_bytes": 2549782
+  },
+  "savings": {
+    "raw_bytes": 6041639,
+    "raw_percent": 52.16,
+    "gzip_bytes": 573729,
+    "gzip_percent": 34.85
+  },
+  "static_asset": {
+    "path": "public/_data/legacy-pages.json",
+    "raw_bytes": 1883095,
+    "gzip_bytes": 188781,
+    "reason": "Immutable legacy route payload moved out of Worker code; build-time SSR reads it from disk and workerd runtime reads the same asset through ASSETS."
+  },
+  "top_30": [
+    {
+      "rank": 1,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js",
+      "bundled_bytes": 751045,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 2,
+      "module": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0j26pto._.js",
+      "bundled_bytes": 230085,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 3,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.prod.js",
+      "bundled_bytes": 196900,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 4,
+      "module": ".open-next/server-functions/default/index.mjs",
+      "bundled_bytes": 175123,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 5,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/server/load-manifest.external.js",
+      "bundled_bytes": 161940,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 6,
+      "module": ".open-next/server-functions/default/node_modules/react-dom/cjs/react-dom-server.edge.production.js",
+      "bundled_bytes": 160369,
+      "package_or_module": "React runtime",
+      "why_included": "Required server/client React rendering",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 7,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/compiled/next-server/pages-turbo.runtime.prod.js",
+      "bundled_bytes": 133850,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 8,
+      "module": ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_1f8t_rp._.js",
+      "bundled_bytes": 130474,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 9,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/compiled/jsonwebtoken/index.js",
+      "bundled_bytes": 126261,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 10,
+      "module": ".open-next/server-functions/default/.next/server/chunks/node_modules_next_1lohfnm._.js",
+      "bundled_bytes": 95969,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 11,
+      "module": ".open-next/server-functions/default/.next/server/chunks/[root-of-the-server]__15bjnu5._.js",
+      "bundled_bytes": 88283,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 12,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/compiled/@mswjs/interceptors/ClientRequest/index.js",
+      "bundled_bytes": 63014,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 13,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/server/base-server.js",
+      "bundled_bytes": 55534,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 14,
+      "module": ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_1bunoni._.js",
+      "bundled_bytes": 54849,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 15,
+      "module": ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_0x3i8za._.js",
+      "bundled_bytes": 53964,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 16,
+      "module": ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_0drixxt._.js",
+      "bundled_bytes": 53001,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 17,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/dynamic-rendering.js",
+      "bundled_bytes": 31280,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 18,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/compiled/@opentelemetry/api/index.js",
+      "bundled_bytes": 28644,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 19,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/server/next-server.js",
+      "bundled_bytes": 28148,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 20,
+      "module": ".open-next/server-functions/default/.next/server/chunks/ssr/node_modules_next_dist_1n3w9lb._.js",
+      "bundled_bytes": 25349,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 21,
+      "module": ".open-next/server-functions/default/.next/server/chunks/ssr/[turbopack]_runtime.js",
+      "bundled_bytes": 20175,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 22,
+      "module": ".open-next/server-functions/default/.next/server/chunks/[turbopack]_runtime.js",
+      "bundled_bytes": 20160,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 23,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/server/stream-utils/node-web-streams-helper.js",
+      "bundled_bytes": 19721,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 24,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/server/lib/incremental-cache/index.js",
+      "bundled_bytes": 14880,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 25,
+      "module": ".open-next/server-functions/default/cache.cjs",
+      "bundled_bytes": 13440,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 26,
+      "module": ".open-next/server-functions/default/.next/server/chunks/ssr/components_product-catalogue_tsx_0krp5da._.js",
+      "bundled_bytes": 12989,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 27,
+      "module": ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1oh-s1f._.js",
+      "bundled_bytes": 12887,
+      "package_or_module": "Bundler module",
+      "why_included": "Required by generated server handler",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 28,
+      "module": ".open-next/server-functions/default/node_modules/react/cjs/react.production.js",
+      "bundled_bytes": 12705,
+      "package_or_module": "React runtime",
+      "why_included": "Required server/client React rendering",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 29,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/server/node-environment-extensions/unhandled-rejection.external.js",
+      "bundled_bytes": 12270,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    },
+    {
+      "rank": 30,
+      "module": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/blocking-route-messages.js",
+      "bundled_bytes": 12013,
+      "package_or_module": "Next.js server runtime",
+      "why_included": "Shared App Router/runtime code; all server routes",
+      "routes_or_features": "All server-rendered routes",
+      "safe_optimization": "Keep"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+This folder contains the built output assets for the worker "brightluxx-next-staging" generated at 2026-08-21T21:03:52.674Z.

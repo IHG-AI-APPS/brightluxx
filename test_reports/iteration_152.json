@@ -1,0 +1,45 @@
+{
+  "summary": "Executed local OpenNext regression at http://127.0.0.1:8787 for the bundle-size asset refactor gate. Raw SSR/SEO contracts, product/API integrations, compare/contact workflows, and static asset checks passed.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "Compare page load",
+        "issues": [
+          "Browser console warning observed: preloaded hero poster not used quickly after load (performance warning only, no functional break)."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration152_bundle_size_asset_gate.py",
+    "/app/test_reports/pytest/iteration152.xml"
+  ],
+  "action_items": [
+    "Optional: review preload strategy for hero-video-poster.webp to remove browser warning.",
+    "No blocking fix required for the tested bundle-size gate scope."
+  ],
+  "critical_code_review_comments": [
+    "No CRITICAL regression found in scoped files (/lib/legacy-content.ts, /public/_data/legacy-pages.json, catch-all page, wrangler assets binding).",
+    "Static payload is served from /_data/legacy-pages.json and runtime routes did not surface legacy asset-binding runtime errors.",
+    "No MOCKED APIs were used."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_iteration152_bundle_size_asset_gate.py",
+    "/app/test_reports/iteration_152.json"
+  ],
+  "success_rate": {
+    "backend": "100% (16/16)",
+    "frontend": "100% (scoped critical UI/integration flows passed)"
+  },
+  "seed_data_creation": "Submitted one live QA lead payload via /api/leads from browser flow and one from pytest (non-sensitive test data).",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Local-only run against 127.0.0.1:8787. Verified raw HTML contracts for /, /products, /products/bl-cob125, /dubai, /compare, /contact; dynamic picks for solution/case-study/resource from sitemap; /our-works 308->/projects; /products/hjdba 410; unknown 404; sitemap/robots/llms responses; /products raw card count 94; /api/products, /api/products/{slug}, /api/search, /api/products/compare, /api/leads validation+submission; compare max-3 enforcement and compare-to-RFQ carry-over; contact form UI validation/submission. Persistence check is valid when seeded with real API-derived product codes.",
+  "rca of the issue": "No functional regression issue reproduced for the optimization gate. The temporary compare persistence anomaly seen once was test-timing/data-related (read before hydration and with non-catalogue codes), not an app defect."
+}

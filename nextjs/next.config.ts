@@ -18,7 +18,7 @@ const legacyRedirects = [
 const nextConfig: NextConfig = {
   turbopack: { root: process.cwd() },
   async redirects() {
-    return legacyRedirects.map(([source, destination]) => ({ source, destination, permanent: true }));
+    return legacyRedirects.map(([source, destination]) => ({ source, destination, statusCode: 301 }));
   },
   async rewrites() {
     return [{ source: '/api/:path*', destination: `${process.env.API_ORIGIN}/api/:path*` }];

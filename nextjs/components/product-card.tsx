@@ -17,7 +17,7 @@ export function ProductCard({ product }: { product: Product }) {
   };
   return <article className="catalogue-card" data-testid={`products-product-card-${product.slug}`}>
     <Link href={`/products/${product.slug}`} className="catalogue-card__image" data-testid={`products-product-image-${product.slug}`}>
-      {product.image_url ? <img src={product.image_url} alt={product.name} loading="lazy" /> : <span aria-hidden="true">LED</span>}
+      {product.image_url ? <img src={product.image_url} alt={`${product.name}${product.pixel_pitch ? ` ${product.pixel_pitch}` : ''} LED display for ${product.application || 'professional installations'}`} loading="lazy" /> : <span aria-hidden="true">LED</span>}
       {product.pixel_pitch && <b>{product.pixel_pitch}</b>}
     </Link>
     <div className="catalogue-card__body"><p>{product.category.replaceAll('-', ' ')}</p><h3>{product.name}</h3>

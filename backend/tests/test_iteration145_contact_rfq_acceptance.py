@@ -108,7 +108,7 @@ def test_contact_raw_html_has_canonical_single_h1_and_form_fields():
     html = response.text
 
     assert '<link rel="canonical"' in html
-    assert len(re.findall(r"<h1[\\s>]", html, flags=re.IGNORECASE)) == 1
+    assert len(re.findall(r"<h1[\s>]", html, flags=re.IGNORECASE)) == 1
     assert 'data-testid="contact-form"' in html
     assert 'data-testid="contact-name-input"' in html
     assert 'data-testid="contact-email-input"' in html
@@ -140,7 +140,7 @@ def test_contact_products_query_raw_html_contains_exact_context_codes():
         ("/solutions", 200),
         ("/case-studies", 200),
         ("/resources", 200),
-        ("/our-works", 308),
+        ("/our-works", 301),
         ("/products/hjdba", 410),
         ("/sitemap.xml", 200),
         ("/robots.txt", 200),

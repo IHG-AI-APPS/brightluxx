@@ -1,0 +1,16 @@
+{
+  "totals": {
+    "baseline_total": 352,
+    "baseline_indexable": 333,
+    "baseline_redirect": 18,
+    "baseline_410": 1,
+    "indexable_passed": 333,
+    "redirect_passed": 18,
+    "status_mismatches": 0,
+    "unexplained_gaps": 0,
+    "unexpected_status_changes": 0,
+    "critical_seo_failures": 0
+  },
+  "sample_issues": [],
+  "all_issue_count": 0
+}

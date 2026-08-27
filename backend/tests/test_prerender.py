@@ -9,7 +9,7 @@ import time
 import pytest
 import requests
 
-BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://brightluxx-catalog.preview.emergentagent.com").rstrip("/")
+BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://app-router-parity.preview.emergentagent.com").rstrip("/")
 
 # Small delay between crawler requests — the prerender proxy has a known
 # stability issue under concurrent load (see iteration report).

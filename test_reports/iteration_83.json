@@ -43,7 +43,7 @@
     {
       "feature": "View All link navigates to /case-studies",
       "status": "PASS",
-      "details": "Clicking View All link successfully navigates to https://brightluxx-catalog.preview.emergentagent.com/case-studies"
+      "details": "Clicking View All link successfully navigates to https://app-router-parity.preview.emergentagent.com/case-studies"
     },
     {
       "feature": "Loading skeleton displayed while fetching",

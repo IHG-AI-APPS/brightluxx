@@ -2,14 +2,81 @@
 
 import { useEffect, useState } from 'react';
 import { trackEvent } from '../lib/analytics';
+import { ContactFormFields } from './contact-form-fields';
+import { emptyContactFields, type ContactFields } from './contact-form-types';
 
-type Fields = { name: string; company: string; email: string; phone: string; city: string; application: string; timeline: string; budget: string; message: string; website: string; fax: string };
-const empty: Fields = { name: '', company: '', email: '', phone: '', city: '', application: '', timeline: '', budget: '', message: '', website: '', fax: '' };
+type SubmissionStatus = 'idle' | 'success' | 'error';
 
 export function ContactForm({ productCodes }: { productCodes: string[] }) {
-  const [fields, setFields] = useState<Fields>(empty); const [submitting, setSubmitting] = useState(false); const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle'); const [message, setMessage] = useState('');
-  useEffect(() => { if (productCodes.length) trackEvent('RFQ_started', { comparison_codes: productCodes, form_type: 'contact_rfq' }); }, [productCodes.join(',')]);
-  const change = (key: keyof Fields, value: string) => setFields((current) => ({ ...current, [key]: value }));
-  const submit = async (event: React.FormEvent<HTMLFormElement>) => { event.preventDefault(); setSubmitting(true); setStatus('idle'); try { const response = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...fields, product_interest: productCodes.length ? productCodes.join(', ') : undefined, source: productCodes.length ? 'comparison_request' : 'contact_form' }) }); const data = await response.json(); if (!response.ok) throw new Error(data.detail || 'Unable to submit your request.'); setStatus('success'); setMessage(data.message || 'Thank you. Our team will be in touch shortly.'); trackEvent('contact_submission', { form_type: productCodes.length ? 'comparison_request' : 'contact_form', comparison_codes: productCodes }); if (productCodes.length) trackEvent('RFQ_completed', { form_type: 'comparison_request', comparison_codes: productCodes }); setFields(empty); } catch (error) { setStatus('error'); setMessage(error instanceof Error ? error.message : 'Unable to submit your request.'); } finally { setSubmitting(false); } };
-  return <form className="contact-form" onSubmit={submit} data-testid="contact-form"><h2>Request project pricing</h2>{productCodes.length > 0 && <p className="contact-product-context" data-testid="contact-product-context">Pricing request for <strong>{productCodes.join(', ')}</strong></p>}{status !== 'idle' && <p className={`contact-form__status ${status}`} role="status" data-testid="contact-form-status">{message}</p>}<div className="contact-form__grid"><label>Full name <b>*</b><input required value={fields.name} onChange={(event) => change('name', event.target.value)} data-testid="contact-name-input" /></label><label>Company<input value={fields.company} onChange={(event) => change('company', event.target.value)} data-testid="contact-company-input" /></label><label>Email <b>*</b><input type="email" required value={fields.email} onChange={(event) => change('email', event.target.value)} data-testid="contact-email-input" /></label><label>Phone <b>*</b><input type="tel" required value={fields.phone} onChange={(event) => change('phone', event.target.value)} data-testid="contact-phone-input" /></label><label>City <b>*</b><input required value={fields.city} onChange={(event) => change('city', event.target.value)} data-testid="contact-city-input" /></label><label>Application <b>*</b><select required value={fields.application} onChange={(event) => change('application', event.target.value)} data-testid="contact-application-select"><option value="">Select application</option><option value="Retail">Retail & shopping malls</option><option value="Corporate">Corporate & boardrooms</option><option value="Outdoor">Outdoor advertising</option><option value="Events">Events & staging</option><option value="Hospitality">Hospitality</option><option value="Government">Government</option><option value="Other">Other</option></select></label><label>Timeline<select value={fields.timeline} onChange={(event) => change('timeline', event.target.value)} data-testid="contact-timeline-select"><option value="">Select timeline</option><option value="Urgent (1-2 weeks)">Urgent (1–2 weeks)</option><option value="1-3 months">1–3 months</option><option value="3-6 months">3–6 months</option><option value="6+ months">6+ months</option><option value="Just exploring">Just exploring</option></select></label><label>Budget range<select value={fields.budget} onChange={(event) => change('budget', event.target.value)} data-testid="contact-budget-select"><option value="">Select budget</option><option value="Under AED 200k">Under AED 200k</option><option value="AED 200k - 400k">AED 200k – 400k</option><option value="AED 400k - 1M">AED 400k – 1M</option><option value="AED 1M+">AED 1M+</option><option value="Not decided">Not decided</option></select></label></div><label>Project details<textarea rows={5} value={fields.message} onChange={(event) => change('message', event.target.value)} data-testid="contact-message-input" /></label><div className="contact-honeypot" aria-hidden="true"><input tabIndex={-1} autoComplete="off" value={fields.website} onChange={(event) => change('website', event.target.value)} data-testid="contact-website-honeypot" /><input tabIndex={-1} autoComplete="off" value={fields.fax} onChange={(event) => change('fax', event.target.value)} data-testid="contact-fax-honeypot" /></div><button type="submit" disabled={submitting} data-testid="contact-submit-button">{submitting ? 'Submitting…' : 'Send request →'}</button><p className="contact-form__note" data-testid="contact-form-note">Hardware, processing and cabling are scoped first. Installation and structural works follow a site survey.</p></form>;
+  const [fields, setFields] = useState<ContactFields>(emptyContactFields);
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState<SubmissionStatus>('idle');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (productCodes.length) {
+      trackEvent('RFQ_started', { comparison_codes: productCodes, form_type: 'contact_rfq' });
+    }
+  }, [productCodes.join(',')]);
+
+  const change = (key: keyof ContactFields, value: string) => {
+    setFields((current) => ({ ...current, [key]: value }));
+  };
+
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmitting(true);
+    setStatus('idle');
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...fields,
+          product_interest: productCodes.length ? productCodes.join(', ') : undefined,
+          source: productCodes.length ? 'comparison_request' : 'contact_form',
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.detail || 'Unable to submit your request.');
+      setStatus('success');
+      setMessage(data.message || 'Thank you. Our team will be in touch shortly.');
+      trackEvent('contact_submission', {
+        form_type: productCodes.length ? 'comparison_request' : 'contact_form',
+        comparison_codes: productCodes,
+      });
+      if (productCodes.length) {
+        trackEvent('RFQ_completed', { form_type: 'comparison_request', comparison_codes: productCodes });
+      }
+      setFields(emptyContactFields);
+    } catch (error) {
+      setStatus('error');
+      setMessage(error instanceof Error ? error.message : 'Unable to submit your request.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <form className="contact-form" onSubmit={submit} data-testid="contact-form">
+      <h2 data-testid="contact-form-title">Request project pricing</h2>
+      {productCodes.length > 0 && (
+        <p className="contact-product-context" data-testid="contact-product-context">
+          Pricing request for <strong>{productCodes.join(', ')}</strong>
+        </p>
+      )}
+      {status !== 'idle' && (
+        <p className={`contact-form__status ${status}`} role="status" data-testid="contact-form-status">
+          {message}
+        </p>
+      )}
+      <ContactFormFields fields={fields} onChange={change} />
+      <button type="submit" disabled={submitting} data-testid="contact-submit-button">
+        {submitting ? 'Submitting…' : 'Send request →'}
+      </button>
+      <p className="contact-form__note" data-testid="contact-form-note">
+        Hardware, processing and cabling are scoped first. Installation and structural works follow a site survey.
+      </p>
+    </form>
+  );
 }

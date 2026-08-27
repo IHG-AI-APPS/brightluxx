@@ -1,5 +1,10 @@
 # Brightluxx Changelog
 
+## Aug 27, 2026 — P3 Next.js Component Maintainability Refactor
+- Split the isolated target’s dense navigation, comparison and RFQ components into focused reusable modules; reformatted the legacy catch-all, compare and contact route files without changing their behavior or visual system.
+- Added pathname-change menu reset for the persistent App Router header. The navigation inventory is unchanged from the pre-refactor Next target; no valid route, API or static parity behavior was removed.
+- Verification: ESLint, `yarn cf:build`, TypeScript and OpenNext bundling passed. Iteration 164 source/build review confirmed comparison and RFQ behavior. **NO APIs are mocked.** Local workerd browser testing is blocked only because this fork currently exposes Node 20 while Wrangler 4.125 requires Node 22+.
+
 ## Current Session — Stage C Accepted
 - Iteration 140 independently resolved and verified the mobile consent/comparison/contact-control collision at 430, 390, and 360.
 - Final Stage C evidence decision: PASS. The 1440 redesign is intentional; all responsive interaction, raw SEO, hydration, and workerd checks pass.

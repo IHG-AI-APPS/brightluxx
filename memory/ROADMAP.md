@@ -1,13 +1,16 @@
 # Brightluxx — Delivery Roadmap
 
-## P0 — Next
-- **Phase 4: Architect, Consultant & Specifier Hub**: BIM/CAD discovery, technical submittals, and tender-spec upload flow, without changing indexable URL architecture.
+## P0 — Blocked external validation gate
+- **Authorized Next.js staging preview**: provide an isolated Node 22 workerd runner or authorize the scoped remote Cloudflare staging path. Do not deploy to production automatically.
+- **Browser parity rerun**: validate the refactored header close behavior, comparison-to-RFQ carry-over, legacy renderer output and settled analytics in the isolated Next target.
 
-## P1 — Planned
-- **Phase 5: Conversion UX & Smart RFQ**: contextual CTAs and progressive disclosure in enquiry capture.
-- **Phase 6: Digital Signage Expansion**: signage hub for retail, corporate, and F&B applications.
-- **Cloudflare Worker HTTP statuses**: pending platform support; preserve genuine 301, 404, and 410 responses instead of SPA HTTP 200 fallback.
+## P1 — After staging is available
+- **Remote acceptance**: complete fair CRA-versus-Next performance measurement, full analytics event validation, and GSC-facing checks for 301 redirects, 410 tombstone, robots and sitemap behavior.
+- **Production cutover decision**: proceed only after all acceptance gates pass and explicit user approval is given.
 
-## P2 — Backlog
-- Service SEO pages; commercial keyword landing-page architecture; price/cost/ROI content and calculators; decision/comparison content; mobile performance polish; final UX/SEO/conversion audit.
-- Address the 43 existing metadata-length warnings only as a deliberate content pass; do not mass-edit during feature work.
+## P2 — Product backlog
+- **Phase 4: Architect, Consultant & Specifier Hub**: BIM/CAD discovery, technical submittals, and tender-spec upload flow without changing indexable URL architecture.
+- Saved comparison presets for recurring project types and editorial, market-specific case studies.
+
+## P3 — Maintenance
+- Continue incremental component modularity only where it preserves the established Crystal Glass design and strict parity. The first navigation/comparison/RFQ refactor is complete.

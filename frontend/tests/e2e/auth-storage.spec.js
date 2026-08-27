@@ -5,7 +5,7 @@
  */
 const { test, expect } = require('@playwright/test');
 
-const BASE = process.env.REACT_APP_BACKEND_URL || 'https://brightluxx-catalog.preview.emergentagent.com';
+const BASE = process.env.REACT_APP_BACKEND_URL || 'https://app-router-parity.preview.emergentagent.com';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@brightluxx.com';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'brightluxx2025';
 

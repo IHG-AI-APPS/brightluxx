@@ -1,8 +1,8 @@
 # Brightluxx — Delivery Roadmap
 
 ## P0 — Blocked external validation gate
-- **Authorized Next.js staging preview**: provide an isolated Node 22 workerd runner or authorize the scoped remote Cloudflare staging path. Do not deploy to production automatically.
-- **Browser parity rerun**: validate the refactored header close behavior, comparison-to-RFQ carry-over, legacy renderer output and settled analytics in the isolated Next target.
+- **Authorized Next.js staging preview**: local Node 22 workerd validation is complete; authorize the scoped remote Cloudflare staging path for remote acceptance. Do not deploy to production automatically.
+- **Remote browser parity rerun**: validate the refactored header close behavior, comparison-to-RFQ carry-over, legacy renderer output and settled analytics in the isolated deployed target.
 
 ## P1 — After staging is available
 - **Remote acceptance**: complete fair CRA-versus-Next performance measurement, full analytics event validation, and GSC-facing checks for 301 redirects, 410 tombstone, robots and sitemap behavior.

@@ -3,7 +3,8 @@
 ## Aug 27, 2026 — P3 Next.js Component Maintainability Refactor
 - Split the isolated target’s dense navigation, comparison and RFQ components into focused reusable modules; reformatted the legacy catch-all, compare and contact route files without changing their behavior or visual system.
 - Added pathname-change menu reset for the persistent App Router header. The navigation inventory is unchanged from the pre-refactor Next target; no valid route, API or static parity behavior was removed.
-- Verification: ESLint, `yarn cf:build`, TypeScript and OpenNext bundling passed. Iteration 164 source/build review confirmed comparison and RFQ behavior. **NO APIs are mocked.** Local workerd browser testing is blocked only because this fork currently exposes Node 20 while Wrangler 4.125 requires Node 22+.
+- Verification: ESLint, `yarn cf:build`, TypeScript and OpenNext bundling passed. An isolated Node 22.23.0 runtime restored local workerd preview; browser checks now pass header closure, comparison, differences-only and RFQ carry-over. Iteration 165 also passed representative SSR/SEO route contracts and local timing probes. **NO APIs are mocked.**
+- Remote Cloudflare and GSC acceptance remain blocked pending authorized staging; local timings are not a fair remote CRA comparison. The documented rapid-transition analytics abort trace remains non-user-facing; settled navigation works.
 
 ## Current Session — Stage C Accepted
 - Iteration 140 independently resolved and verified the mobile consent/comparison/contact-control collision at 430, 390, and 360.

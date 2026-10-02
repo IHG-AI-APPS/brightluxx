@@ -46,6 +46,16 @@ export async function getCatalogue(): Promise<Product[]> {
   return products.map(normalizedProduct);
 }
 
+export async function getCachedCatalogue(): Promise<Product[]> {
+  const apiOrigin = process.env.API_ORIGIN;
+  if (!apiOrigin) throw new Error('API_ORIGIN must be configured');
+  const response = await fetch(`${apiOrigin}/api/products`, { next: { revalidate: 3600 } });
+  if (!response.ok) throw new Error(`Catalogue request failed: ${response.status}`);
+  const payload = await response.json() as ProductsResponse;
+  const products = Array.isArray(payload) ? payload : (payload.products || payload.data || []);
+  return products.map(normalizedProduct);
+}
+
 export async function getProduct(slug: string): Promise<Product | null> {
   const apiOrigin = process.env.API_ORIGIN;
   if (!apiOrigin) throw new Error('API_ORIGIN must be configured');

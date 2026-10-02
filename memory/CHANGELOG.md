@@ -1,5 +1,11 @@
 # Brightluxx Changelog
 
+## Oct 2, 2026 — SEO Fix Brief Remediation + File Storage Safety
+- Added direct legacy 301 mappings, trailing-slash redirect handling, luxury-home-cinema category/canonical/sitemap entry, redirect-only sitemap exclusion, and precise robots compare rule.
+- Added server-rendered application/support guidance, Abu Dhabi SEO metadata/H1/internal links, and Product/AggregateOffer schema for the five family routes without ratings.
+- Replaced pod-local spec-submission uploads with Emergent Object Storage metadata persistence, 10 MB per-file limit and safe unavailable-storage handling. **MOCKED (UNIT-ONLY):** storage HTTP fakes were limited to unit tests.
+- Verification: local Node 22 workerd, `yarn cf:build`, and iteration 166 regression coverage passed **33/33**. Remote Search Console and performance acceptance remain staging-only work; no production change occurred.
+
 ## Aug 27, 2026 — P3 Next.js Component Maintainability Refactor
 - Split the isolated target’s dense navigation, comparison and RFQ components into focused reusable modules; reformatted the legacy catch-all, compare and contact route files without changing their behavior or visual system.
 - Added pathname-change menu reset for the persistent App Router header. The navigation inventory is unchanged from the pre-refactor Next target; no valid route, API or static parity behavior was removed.

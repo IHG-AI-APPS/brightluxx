@@ -7,7 +7,7 @@ import { HomeCounters } from '../components/home-counters';
 const solutionPaths = [['Retail & Hospitality', '/solutions/retail'], ['Corporate & Control Rooms', '/solutions/corporate'], ['Architecture & Public Realm', '/solutions/architecture'], ['Digital Signage', '/signage-solutions']];
 const projects = [['Dubai Mall', 'Retail LED', '/projects'], ['SZR Network', 'DOOH', '/projects'], ['ADNOC HQ', 'Control Room', '/projects']];
 const families = [['FINE-PITCH & MICROLED', 'LumiMorph™', '/lumimorph', 'https://files.ihgbrands.com/brightluxx/site-images/opt-family-lumimorph.webp'], ['ARCHITECTURAL DISPLAYS', 'NaturaTex™', '/naturatex', 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_naturatex.webp'], ['INTERACTIVE SIGNAGE', 'SignaTouch™', '/signatouch', 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_signatouch.webp'], ['TRANSPARENT LED', 'GlassMorph™', '/glassmorph', 'https://files.ihgbrands.com/brightluxx/site-images/opt_fam_glassmorph.webp']];
-const pathways = [['For Specifiers', '/for-architects'], ['Smart Signage', '/signage-solutions'], ['Expert Resources', '/resources'], ['Virtual Showroom', '/showroom']];
+const pathways = [['For Specifiers', '/for-architects'], ['Abu Dhabi Video Walls', '/abu-dhabi'], ['Smart Signage', '/signage-solutions'], ['Expert Resources', '/resources'], ['Virtual Showroom', '/showroom']];
 
 export async function generateMetadata(): Promise<Metadata> { const page = await getLegacyPage('/'); return { title: page?.title, description: page?.description, alternates: { canonical: page?.canonical } }; }
 

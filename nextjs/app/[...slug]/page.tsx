@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { MigrationParityDashboard } from '../../components/migration-parity-dashboard';
+import { FamilyProductSchema } from '../../components/family-product-schema';
+import { RouteSeoDetail } from '../../components/route-seo-detail';
 import { SeoContentBlock } from '../../components/seo-content-block';
 import { StructuredData } from '../../components/structured-data';
-import { enrichLegacyHtml, getIndexableRoutes, getLegacyPage, getPageKeywords } from '../../lib/legacy-content';
+import { enrichLegacyHtml, getIndexableRoutes, getLegacyPage, getPageKeywords, getSeoDescription, getSeoTitle } from '../../lib/legacy-content';
 
 type Props = {
   params: Promise<{ slug: string[] }>;
@@ -15,6 +17,7 @@ const isDedicatedRoute = (route: string) => (
   route === '/products' ||
   route === '/compare' ||
   route === '/contact' ||
+  route === '/luxury-home-cinema' ||
   route.startsWith('/products/')
 );
 
@@ -38,8 +41,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = await getLegacyPage(route);
   if (!page) return {};
   return {
-    title: page.title,
-    description: page.description,
+    title: getSeoTitle(page),
+    description: getSeoDescription(page),
     keywords: getPageKeywords(page),
     alternates: { canonical: page.canonical },
   };
@@ -55,12 +58,14 @@ export default async function LegacyParityPage({ params }: Props) {
   return (
     <main className="legacy-page" data-testid="next-server-rendered-parity-page">
       <StructuredData items={page.jsonLd || []} />
+      <FamilyProductSchema route={route} />
       <article
         className="legacy-page__content"
         data-testid="legacy-page-content"
         dangerouslySetInnerHTML={{ __html: enrichLegacyHtml(page.html, page) }}
       />
       <SeoContentBlock page={page} />
+      <RouteSeoDetail route={route} />
     </main>
   );
 }

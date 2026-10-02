@@ -1,4 +1,5 @@
 import { validateTrustedHtml } from './content-safety';
+import { citySeo } from './seo-overrides';
 
 export type LegacyPage = { route: string; title: string; description: string; canonical: string; h1: string; schemaTypes: string[] };
 
@@ -53,7 +54,18 @@ export function getPageKeywords(page: LegacyPage) {
 }
 
 export function getShortHeading(page: LegacyPage) {
-  return displayHeadings[page.route] || page.h1;
+  const city = citySeo[page.route as keyof typeof citySeo];
+  return city?.heading || displayHeadings[page.route] || page.h1;
+}
+
+export function getSeoTitle(page: LegacyPage) {
+  const city = citySeo[page.route as keyof typeof citySeo];
+  return (city?.title || page.title).replace(/(\|\s*Brightluxx){2,}$/i, '| Brightluxx');
+}
+
+export function getSeoDescription(page: LegacyPage) {
+  const city = citySeo[page.route as keyof typeof citySeo];
+  return city?.description || page.description;
 }
 
 export function enrichLegacyHtml(html: string, page: LegacyPage) {

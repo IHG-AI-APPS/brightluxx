@@ -1,5 +1,6 @@
 """Specification substitution service endpoints."""
 from fastapi import APIRouter, UploadFile, File, Form, Request, HTTPException
+from starlette.concurrency import run_in_threadpool
 from typing import List, Optional
 from datetime import datetime, timezone
 import os
@@ -9,12 +10,12 @@ from database import leads_col
 from email_service import send_email, NOTIFICATION_EMAIL
 from email_templates import spec_substitution_email
 from anti_spam import validate_submission_full, check_recaptcha
+from object_storage import APP_NAME, put_object
 from utils import get_client_ip
 
 router = APIRouter()
 
-UPLOAD_DIR = os.path.join(os.path.dirname(__file__), '..', 'uploads', 'spec-submissions')
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+MAX_FILE_SIZE = 10 * 1024 * 1024
 
 
 @router.post("/api/spec-substitution")
@@ -42,16 +43,30 @@ async def submit_spec_substitution(
 
     submission_id = str(uuid.uuid4())[:8]
 
-    # Save uploaded files
     saved_files = []
     for f in files[:5]:
         if f.filename:
-            safe_name = f"{submission_id}_{f.filename.replace(' ', '_')}"
-            file_path = os.path.join(UPLOAD_DIR, safe_name)
             content = await f.read()
-            with open(file_path, "wb") as out:
-                out.write(content)
-            saved_files.append({"name": f.filename, "path": safe_name, "size": len(content)})
+            if len(content) > MAX_FILE_SIZE:
+                raise HTTPException(status_code=413, detail=f"{f.filename} exceeds the 10 MB upload limit")
+            extension = os.path.splitext(f.filename)[1].lower().lstrip(".") or "bin"
+            object_path = f"{APP_NAME}/uploads/spec-submissions/{submission_id}/{uuid.uuid4()}.{extension}"
+            try:
+                stored = await run_in_threadpool(
+                    put_object,
+                    object_path,
+                    content,
+                    f.content_type or "application/octet-stream",
+                )
+            except Exception as exc:
+                raise HTTPException(status_code=503, detail="File upload is temporarily unavailable") from exc
+            saved_files.append({
+                "name": f.filename,
+                "storage_path": stored["path"],
+                "content_type": f.content_type or "application/octet-stream",
+                "size": stored["size"],
+                "is_deleted": False,
+            })
 
     # Save to database
     lead_data = {

@@ -1,5 +1,10 @@
 # Brightluxx Changelog
 
+## Oct 2, 2026 — Internal Redirect-Monitor Dashboard
+- Added internal `/__migration-parity` redirect-monitor view with local redirect evidence, intentional 410 summary, and remote GSC/performance acceptance checklist.
+- Kept the route noindex/nofollow and out of the sitemap; mobile uses redirect cards rather than a wide table to avoid viewport overflow.
+- Verification: iteration 170 passed desktop/mobile, noindex/sitemap and guardrail checks. **NO APIs are mocked.**
+
 ## Oct 2, 2026 — SEO Fix Brief Remediation + File Storage Safety
 - Added direct legacy 301 mappings, trailing-slash redirect handling, luxury-home-cinema category/canonical/sitemap entry, redirect-only sitemap exclusion, and precise robots compare rule.
 - Added server-rendered application/support guidance, Abu Dhabi SEO metadata/H1/internal links, and Product/AggregateOffer schema for the five family routes without ratings.

@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
+import { MigrationParityDashboard } from '../../components/migration-parity-dashboard';
 
-export const metadata: Metadata = { title: 'Migration Parity Dashboard', robots: { index: false, follow: false } };
-const areas = [
-  ['Shared shell', 'PASS'], ['Homepage', 'PASS'], ['Products catalogue', 'PASS'], ['Filters', 'PASS'], ['Search', 'PASS'], ['Finder', 'PASS'], ['Product details', 'PASS'], ['Comparison', 'PASS'], ['RFQ/forms', 'NOT STARTED'], ['Analytics', 'NOT STARTED'], ['Visual parity', 'PASS'], ['Mobile parity', 'PASS'], ['Performance', 'WARNING'], ['SEO', 'PASS'], ['Cloudflare local', 'PASS'], ['Cloudflare remote', 'BLOCKED'], ['Phase 3 final acceptance', 'IN PROGRESS'],
-];
-const stageDEvidence = [['Live product source', 'PASS'], ['94-product raw HTML', 'PASS'], ['Category and pitch filters', 'PASS'], ['Synonym search', 'PASS'], ['Four-step finder', 'PASS'], ['Mobile filter sheet', 'PASS'], ['Compare tray handoff', 'PASS'], ['API tests', '3/3 PASS'], ['E2E / hydration', 'PASS'], ['OpenNext local worker', 'PASS']];
-export default function MigrationParityDashboard() { return <main className="migration-dashboard" data-testid="migration-parity-dashboard"><p className="eyebrow">Internal migration review</p><h1>Parity dashboard</h1><p>This route is staging-only, noindex, excluded from the sitemap, and must not ship at production cutover.</p><section className="parity-summary"><div><strong>352</strong><span>Baseline routes</span></div><div><strong>333</strong><span>Canonical routes</span></div><div><strong>18</strong><span>Native redirects</span></div><div><strong>1</strong><span>Native 410</span></div><div><strong>0</strong><span>Unexplained</span></div></section><section><h2>Migration areas</h2><div className="parity-grid">{areas.map(([name, status]) => <div key={name} data-testid={`parity-area-${name.toLowerCase().replace(/[^a-z]+/g, '-')}`}><span>{name}</span><b className={`status-${status.toLowerCase().replace(/\s+/g, '-')}`}>{status}</b></div>)}</div></section><section data-testid="stage-d-evidence"><h2>Stage D evidence · iteration 143</h2><div className="parity-grid">{stageDEvidence.map(([name, status]) => <div key={name} data-testid={`stage-d-evidence-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}><span>{name}</span><b className="status-pass">{status}</b></div>)}</div></section><section><h2>Evidence</h2><ul><li>Route reconciliation — manifest-backed, 0 unexplained routes</li><li>OpenNext local workerd — build and native status checks passed</li><li>Stage D — 94 products rendered before hydration; API and E2E checks passed</li><li>Cloudflare remote preview — blocked until an authenticated Cloudflare account is available</li></ul></section></main>; }
+export const metadata: Metadata = {
+  title: 'Migration Parity Dashboard',
+  robots: { index: false, follow: false },
+};
+
+export default function MigrationParityPage() {
+  return <MigrationParityDashboard />;
+}

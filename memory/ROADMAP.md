@@ -3,6 +3,7 @@
 ## P0 — Blocked external validation gate
 - **Authorized Next.js staging preview**: local Node 22 workerd validation is complete; authorize the scoped remote Cloudflare staging path for remote acceptance. Do not deploy to production automatically.
 - **Remote browser and SEO parity rerun**: validate the refactored header close behavior, comparison-to-RFQ carry-over, legacy renderer output, settled analytics, GSC-facing redirects/robots/sitemap and remote performance in the isolated deployed target.
+- **Use the internal redirect monitor**: once staging is authorized, populate the remote acceptance checklist with staging evidence; keep the route internal/noindex.
 
 ## P1 — After staging is available
 - **Remote acceptance**: complete fair CRA-versus-Next performance measurement, full analytics event validation, and GSC-facing checks for 301 redirects, 410 tombstone, robots and sitemap behavior.

@@ -1,5 +1,10 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Internal Redirect-Monitor Dashboard — Verified (Oct 2, 2026)
+- **Built**: added a Search Console-ready redirect monitor at the internal `/__migration-parity` route. It presents the 12 documented legacy mappings, local redirect/410 summary, and an explicit remote GSC/performance acceptance checklist without touching Cloudflare, Search Console or production.
+- **Guardrails**: the route remains noindex/nofollow, omitted from the sitemap, and clearly states that remote checks require scoped staging authorization. Desktop uses an audit table; mobile switches to readable redirect cards with no horizontal overflow.
+- **Verification**: iteration 170 passed all scoped checks: HTTP 200, noindex metadata, sitemap exclusion, desktop mappings, mobile card layout, no overflow, and no external/mutating calls. **NO APIs are mocked.**
+
 ## LATEST: SEO Fix Brief Remediation + Object Storage Migration — Verified (Oct 2, 2026)
 - **Routing and index control**: added direct one-hop 301s (including trailing-slash forms) for the documented legacy product URLs, `/lumimorph-elite`, and the luxury-home-cinema category query; `/products/hjdba` remains a real 410 while unknown URLs remain 404. Redirect-only `/lumimorph-elite` is excluded from the sitemap.
 - **Search presentation**: added the indexable `/luxury-home-cinema` category page with one-hour revalidation, clean canonical, CollectionPage schema and real catalogue cards. Narrowed the robots compare rule to `/compare$`; sitemap includes the new category page and preserves reachable inspiration routes.

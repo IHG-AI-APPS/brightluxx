@@ -1,5 +1,35 @@
-const areas = [['Routes', 'PASS'], ['Shared shell', 'PASS'], ['Homepage', 'PASS'], ['Products catalogue', 'PASS'], ['Filters', 'PASS'], ['Search', 'PASS'], ['Finder', 'PASS'], ['Product details', 'PASS'], ['Comparison', 'PASS'], ['RFQ/forms', 'PASS'], ['Analytics', 'BLOCKED'], ['Visual parity', 'PASS'], ['Mobile parity', 'PASS'], ['Performance', 'WARNING'], ['Raw SEO', 'PASS'], ['SEO regression', 'IN PROGRESS'], ['Hydration', 'PASS'], ['Cloudflare local', 'PASS'], ['Cloudflare remote', 'BLOCKED'], ['Phase 3 final acceptance', 'IN PROGRESS']];
-const stageCEvidence = [['Homepage server rendering', 'PASS'], ['Homepage raw SEO', 'PASS'], ['1440 visual', 'INTENTIONAL IMPROVEMENT'], ['1024 visual', 'PASS'], ['768 visual', 'PASS'], ['430 visual', 'PASS'], ['390 visual', 'PASS'], ['360 visual', 'PASS'], ['Interactions', 'PASS'], ['Hydration', 'PASS'], ['Performance', 'WARNING'], ['OpenNext/workerd', 'PASS']];
-const stageDEvidence = [['Live product source', 'PASS'], ['94-product raw HTML', 'PASS'], ['Category and pitch filters', 'PASS'], ['Synonym search', 'PASS'], ['Four-step finder', 'PASS'], ['Mobile filter sheet', 'PASS'], ['Compare tray handoff', 'PASS'], ['API tests', '3/3 PASS'], ['E2E / hydration', 'PASS'], ['OpenNext local worker', 'PASS']];
+import { RedirectMonitorDashboard } from './redirect-monitor-dashboard';
 
-export function MigrationParityDashboard() { return <main className="migration-dashboard" data-testid="migration-parity-dashboard"><p className="eyebrow">Internal migration review</p><h1>Parity dashboard</h1><p>This route is staging-only, noindex, excluded from the sitemap, and must not ship at production cutover.</p><section className="parity-summary"><div><strong>352</strong><span>Baseline routes</span></div><div><strong>333</strong><span>Canonical routes</span></div><div><strong>18</strong><span>Native redirects</span></div><div><strong>1</strong><span>Native 410</span></div><div><strong>0</strong><span>Unexplained</span></div></section><section><h2>Migration areas</h2><div className="parity-grid">{areas.map(([name, status]) => <div key={name} data-testid={`parity-area-${name.toLowerCase().replace(/[^a-z]+/g, '-')}`}><span>{name}</span><b className={`status-${status.toLowerCase().replace(/\s+/g, '-')}`}>{status}</b></div>)}</div></section><section><h2>Stage C evidence</h2><div className="parity-grid">{stageCEvidence.map(([name, status]) => <div key={name}><span>{name}</span><b className={`status-${status.toLowerCase().replace(/\s+/g, '-')}`}>{status}</b></div>)}</div></section><section data-testid="stage-d-evidence"><h2>Stage D evidence · iteration 143</h2><div className="parity-grid">{stageDEvidence.map(([name, status]) => <div key={name} data-testid={`stage-d-evidence-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}><span>{name}</span><b className="status-pass">{status}</b></div>)}</div></section><section><h2>Acceptance evidence</h2><ul><li>Route reconciliation — manifest-backed, 0 unexplained routes</li><li>OpenNext local workerd — build and native status checks passed</li><li>Stage D — 94 products rendered before hydration; API and E2E checks passed</li><li>RFQ/forms — real lead submission, comparison carry-over, validation, mobile and failure-state checks passed (iteration 145)</li><li>Contact raw semantic H1 — 25/25 repeated local source, query-context, browser and route-contract checks passed (iteration 150)</li><li>Cloudflare remote preview — BLOCKED: credential-free temporary deployment rejected the 11 MiB OpenNext Worker at its 1 MiB script limit; no Worker URL was deployed</li><li>Analytics and fair remote performance comparison — not yet complete; do not infer a pass from local workerd</li></ul></section></main>; }
+const areas = [
+  ['Routes', 'PASS'], ['Shared shell', 'PASS'], ['Homepage', 'PASS'], ['Products catalogue', 'PASS'],
+  ['Filters', 'PASS'], ['Finder', 'PASS'], ['Product details', 'PASS'], ['Comparison', 'PASS'],
+  ['RFQ/forms', 'PASS'], ['Analytics', 'LOCAL PASS'], ['Visual parity', 'PASS'], ['Mobile parity', 'PASS'],
+  ['Performance', 'LOCAL ONLY'], ['SEO regression', 'PASS'], ['Cloudflare local', 'PASS'],
+  ['Cloudflare remote', 'BLOCKED'], ['Phase 3 final acceptance', 'REMOTE GATE'],
+] as const;
+
+const evidence = [
+  '352-route baseline reconciliation is manifest-backed with no unexplained local routes.',
+  'OpenNext local workerd is verified on a single healthy Node 22 process.',
+  'Product, comparison and RFQ flows use real catalogue and lead APIs.',
+  'SEO routing, sitemap, robots, SSR metadata and schema passed iteration 169 locally.',
+] as const;
+
+export function MigrationParityDashboard() {
+  return (
+    <main className="migration-dashboard" data-testid="migration-parity-dashboard">
+      <p className="eyebrow">Internal migration review</p>
+      <h1 data-testid="migration-dashboard-title">Parity dashboard</h1>
+      <p data-testid="migration-dashboard-notice">This route is staging-only, noindex, excluded from the sitemap, and must not ship at production cutover.</p>
+      <section className="parity-summary" data-testid="parity-summary">
+        <div><strong>352</strong><span>Baseline routes</span></div><div><strong>333</strong><span>Canonical routes</span></div>
+        <div><strong>30+</strong><span>Native redirects</span></div><div><strong>1</strong><span>Native 410</span></div><div><strong>0</strong><span>Local failures</span></div>
+      </section>
+      <section data-testid="migration-area-statuses"><h2>Migration areas</h2><div className="parity-grid">
+        {areas.map(([name, status]) => <div key={name} data-testid={`parity-area-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}><span>{name}</span><b className={`status-${status.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>{status}</b></div>)}
+      </div></section>
+      <RedirectMonitorDashboard />
+      <section data-testid="migration-acceptance-evidence"><h2>Local acceptance evidence</h2><ul>{evidence.map((item) => <li key={item}>{item}</li>)}</ul></section>
+    </main>
+  );
+}

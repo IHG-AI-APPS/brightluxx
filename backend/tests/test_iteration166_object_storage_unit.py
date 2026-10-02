@@ -6,12 +6,10 @@ Iteration 166
 from __future__ import annotations
 
 import importlib
-import json
 import sys
 from pathlib import Path
 
 import pytest
-
 
 if "/app/backend" not in sys.path:
     sys.path.insert(0, "/app/backend")

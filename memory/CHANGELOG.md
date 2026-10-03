@@ -1,5 +1,10 @@
 # Brightluxx Changelog
 
+## Oct 3, 2026 — Homepage Capability Film + Design Refresh
+- Replaced the static Next.js homepage hero with the user-provided Brightluxx film, video fallback/poster, accessible pause/play control and reduced-motion behavior.
+- Moved the former homepage MP4 to About and the earlier MP4 reel to Solutions. Refined the homepage’s opening discovery section for a more editorial, premium first impression.
+- Verification: design blueprint reviewed and iteration 171 passed all frontend video, CTA, source-placement, fallback, mobile-overflow and reduced-motion tests. **NO APIs are mocked.**
+
 ## Oct 2, 2026 — Internal Redirect-Monitor Dashboard
 - Added internal `/__migration-parity` redirect-monitor view with local redirect evidence, intentional 410 summary, and remote GSC/performance acceptance checklist.
 - Kept the route noindex/nofollow and out of the sitemap; mobile uses redirect cards rather than a wide table to avoid viewport overflow.

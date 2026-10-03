@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { MigrationParityDashboard } from '../../components/migration-parity-dashboard';
 import { FamilyProductSchema } from '../../components/family-product-schema';
+import { BrandVideoShowcase } from '../../components/brand-video-showcase';
 import { RouteSeoDetail } from '../../components/route-seo-detail';
 import { SeoContentBlock } from '../../components/seo-content-block';
 import { StructuredData } from '../../components/structured-data';
@@ -66,6 +67,7 @@ export default async function LegacyParityPage({ params }: Props) {
       />
       <SeoContentBlock page={page} />
       <RouteSeoDetail route={route} />
+      <BrandVideoShowcase route={route} />
     </main>
   );
 }

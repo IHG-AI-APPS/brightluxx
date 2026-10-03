@@ -1,108 +1,95 @@
 {
-  "theme": "dark",
-  "design_philosophy": "Apple-style premium tech hardware. High contrast, dark mode dominant to make LED displays pop, utilizing 'Crystal Glass' (Glassmorphism) for surfaces to signify modern, high-end engineering. Focus on UI consistency, rigorous grid alignments, and concise, high-impact copy.",
+  "project_name": "Brightluxx LED Displays Redesign",
+  "design_archetype": "LUXURY & PERFORMANCE PRO (Dark Crystal Glass)",
+  "context_type": "MARKETING_SITE",
+  "file_type_extension": ".js",
+  "theme": {
+    "mode": "dark",
+    "background": "#090A0F",
+    "surface": "#12141D",
+    "surface_glass": "rgba(18, 20, 29, 0.75)",
+    "border_glass": "rgba(255, 255, 255, 0.12)",
+    "primary_accent": "#00E5FF",
+    "secondary_accent": "#7C3AED",
+    "text_primary": "#F8FAFC",
+    "text_secondary": "#94A3B8",
+    "gold_accent": "#F59E0B"
+  },
   "typography": {
     "headings": {
-      "family": "Outfit, sans-serif",
-      "weight": "font-medium to font-semibold",
-      "rules": "Never use Inter for headings. Keep H1 strictly under 5 words (e.g., 'Brilliant Displays. Infinite Possibilities.'). No verbose text in hero. Use tracking-tight (-0.02em to -0.04em)."
+      "font_family": "Cabinet Grotesk, Clash Display, sans-serif",
+      "h1": "text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight",
+      "h3": "text-xl sm:text-2xl font-semibold",
+      "h4": "text-lg sm:text-xl font-medium"
     },
     "body": {
-      "family": "Manrope, sans-serif",
-      "weight": "font-normal",
-      "rules": "Use text-zinc-300 for readable paragraphs. High contrast text-white for primary data."
+      "font_family": "Plus Jakarta Sans, Inter, sans-serif",
+      "size": "text-base sm:text-lg text-slate-300 leading-relaxed"
     },
-    "scale": {
-      "h1": "text-5xl md:text-6xl lg:text-7xl tracking-tighter leading-none",
-      "h2": "text-3xl md:text-4xl tracking-tight",
-      "h3": "text-xl md:text-2xl",
-      "body": "text-base md:text-lg leading-relaxed"
+    "labels": "text-xs uppercase tracking-[0.25em] text-cyan-400 font-mono"
+  },
+  "video_assets_mapping": {
+    "new_hero_video": {
+      "url": "https://customer-assets-jt897jd0.emergentagent.net/job_ac1c0cf4-c62d-45c1-91c0-8447971ba1b1/artifacts/a1d6k1sy_brightluxx%20video.MOV",
+      "placement": "Homepage Hero Section",
+      "recommended_crop_timestamp": "00:18 - 00:28 (Highlighting Dubai dusk exterior & high-resolution interior LED installation)",
+      "mobile_treatment": "aspect-[9/16] or aspect-[4/5] overlay frame with object-cover, center focus to avoid edge clipping",
+      "desktop_treatment": "full-width hero background with object-cover, subtle radial vignette overlay bg-radial-vignette"
+    },
+    "relocated_current_hero_video": {
+      "placement": "About Us Page / Engineering Craftsmanship Showcase Section",
+      "description": "Demonstrates precision manufacturing, quality testing, and brand heritage."
+    },
+    "relocated_previous_hero_video": {
+      "placement": "Solutions & Showroom Immersive Video Banner / Applications Page",
+      "description": "Highlights architectural installations, commercial displays, and live project executions."
     }
   },
-  "colors": {
-    "background": "#09090B",
-    "surface": "rgba(255, 255, 255, 0.03)",
-    "surface_hover": "rgba(255, 255, 255, 0.08)",
-    "border": "rgba(255, 255, 255, 0.1)",
-    "text_primary": "#FAFAFA",
-    "text_secondary": "#A1A1AA",
-    "accent_primary": "#00E5FF",
-    "accent_secondary": "#FF0055",
-    "rules": "Do not use generic blue. For buttons, use glassmorphic layers instead of flat solid colors. Accent colors should be used for subtle glows or active states, mimicking LED lights."
+  "layout_and_spacing": {
+    "grid_system": "Bento Mode A - Tetris Grid with asymmetric spanking (col-span-full md:col-span-8, col-span-4)",
+    "padding_rules": "Generous spacing philosophy (p-8, p-12, p-16, py-24). Containers with borders must have minimum p-6 internal padding.",
+    "header_nav": "Sticky header with backdrop-blur-xl bg-[#090A0F]/80 border-b border-white/10 z-50. NO pure transparent background allowed."
   },
-  "visual_enhancers": {
-    "glassmorphism": "Use 'Crystal Glass' variant: backdrop-blur-xl or backdrop-blur-2xl with bg-white/5 and border border-white/10. Add a subtle shadow: shadow-[0_8px_32px_rgba(0,0,0,0.5)].",
-    "ambient_glow": "For hero product images, place a div behind the image with absolute positioning, blur-3xl, and an accent color (e.g., bg-cyan-500/20) to simulate LED glow.",
-    "buttons": "Apple-style pill buttons: rounded-full, backdrop-blur-lg, bg-white/10, border border-white/20, text-white, transition-all duration-300, hover:bg-white/20 hover:scale-105 active:scale-95."
+  "component_guidelines": {
+    "hero_section": "Dark Crystal Glass container, subtle moving gradient borders, overlay gradient from black/70 via black/40 to transparent. Must include primary CTA 'Explore Displays' and secondary CTA 'View Projects'.",
+    "video_player_containers": "Responsive HTML5 video element with muted, autoPlay, loop, playsInline attributes. Fallback poster image and glassmorphic play/pause toggle controls.",
+    "cards_and_surfaces": "Glassmorphism style with backdrop-blur-xl, border border-white/10, subtle drop shadow, hover elevation hover:-translate-y-1 hover:border-cyan-500/40."
   },
-  "layouts": {
-    "hero": "Short heading (H1), minimal subtext, large centered or asymmetrical 3D/HD LED image with ambient glow. Generous padding (py-24 to py-32).",
-    "product_cards": "Must be uniform! Use `flex flex-col h-full bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl overflow-hidden`. Image must have `aspect-[4/3] w-full object-cover`. Content wrapper gets `p-6 flex flex-col flex-grow`. Button/footer gets `mt-auto` to push to bottom and perfectly align all cards in the grid.",
-    "product_detail_page": "Split layout: Sticky gallery on left (`md:sticky md:top-24`), rich SEO-optimized content on right. Use Accordions for technical specs. Add a 'Related Products' grid at the bottom for internal linking.",
-    "spacing": "Use p-6 or p-8 inside cards. gap-6 or gap-8 for grids. Sections should have py-24 for breathing room."
+  "testing_and_accessibility": {
+    "data_testid_convention": "kebab-case, role-based identifiers on all interactive elements",
+    "required_data_testids": [
+      "homepage-hero-video-container",
+      "homepage-hero-video-element",
+      "homepage-hero-cta-primary",
+      "homepage-hero-cta-secondary",
+      "about-us-relocated-video",
+      "solutions-relocated-video",
+      "nav-brand-logo",
+      "nav-link-products",
+      "nav-link-solutions",
+      "nav-link-about",
+      "nav-link-contact"
+    ],
+    "motion": "Respect prefers-reduced-motion, aria-hidden for decorative ambient videos"
   },
-  "components": {
-    "Header": "Sticky header with backdrop-blur-xl bg-black/50 border-b border-white/10. Must not be fully transparent.",
-    "ProductCard": "Standardized height via flex-col + flex-grow + mt-auto. Fixed image aspect ratio.",
-    "Buttons": "Glassmorphic pill-shaped buttons. Avoid flat Vercel/Stripe styles.",
-    "SEO_ContentBlock": "Rich text area utilizing semantic HTML (h2, h3, p, ul) with keyword-rich content. Include schema.org structured data in a hidden script tag if applicable."
-  },
-  "motion": {
-    "hover": "Subtle lifts (-translate-y-1) and brightness increases on cards.",
-    "transitions": "Use specific transitions: `transition-[transform,background-color,border-color] duration-300 ease-out`. Never use `transition-all` on structural elements.",
-    "entrance": "Staggered fade-up for product grids using framer-motion."
-  },
-  "accessibility": {
-    "contrast": "Ensure text over glassmorphism has sufficient APCA contrast. Use text-shadow if necessary.",
-    "images": "CRITICAL: Every image MUST have descriptive SEO-rich `alt` text. Not just 'product', but 'Outdoor 4K LED Display Panel for Concerts'.",
-    "testing": "All interactive elements MUST include a `data-testid` attribute (e.g., data-testid='add-to-cart-btn')."
-  },
-  "media": {
-    "images": [
-      {
-        "url": "https://images.unsplash.com/photo-1545164415-0fae860defbd?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwyfHxsZWQlMjBzY3JlZW4lMjBkaXNwbGF5fGVufDB8fHx8MTc4NzM3NjcxOHww&ixlib=rb-4.1.0&q=85",
-        "description": "Abstract LED pixel wall",
-        "category": "Hero Background / Ambient Texture"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1604355714851-c1d5990e1696?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwxfHxsZWQlMjBzY3JlZW4lMjBkaXNwbGF5fGVufDB8fHx8MTc4NzM3NjcxOHww&ixlib=rb-4.1.0&q=85",
-        "description": "Vibrant blue and pink LED glow on surface",
-        "category": "Feature Section / Color Accent"
-      },
-      {
-        "url": "https://images.pexels.com/photos/33966530/pexels-photo-33966530.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        "description": "Close up of an LED panel with glowing light patterns",
-        "category": "Product Detail Macro Shot"
-      },
-      {
-        "url": "https://images.pexels.com/photos/17315442/pexels-photo-17315442.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        "description": "Stunning DJ booth setup with green LED panels",
-        "category": "Use Case / Concert LED Display"
-      }
-    ]
-  },
-  "instructions_to_main_agent": [
-    "Fix Hero Copy: Replace long, verbose headings like 'LED DISPPLAY & etc' with short, 3-5 word high-impact H1s. Move secondary info to a smaller, readable sub-headline.",
-    "Fix Product Cards: Implement the equal-height layout exactly. Container: `flex flex-col h-full`. Image: `aspect-[4/3] object-cover`. Content: `flex-grow`. Button/Footer: `mt-auto`. This natively solves the uneven sizing.",
-    "Apply Glassmorphism universally: Remove flat opaque buttons. Replace with `backdrop-blur-xl bg-white/10 border border-white/20 rounded-full` Apple-style buttons across all pages.",
-    "Boost SEO & Content: On the 333 SEO routes/PDPs, do not leave descriptions short. Generate long-form, detailed feature descriptions utilizing semantic HTML. Include rich internal linking ('Explore our Transparent LED range').",
-    "Alt Tags: Inject highly descriptive, keyword-rich alt tags on all product images.",
-    "Component Strategy: Use raw HTML/Tailwind for the marketing layouts and Shadcn customized for forms/inputs. Ensure no generic 'Vercel' look remains."
+  "image_urls": [
+    {
+      "category": "architectural_led_interior",
+      "url": "https://images.unsplash.com/photo-1780257563050-0ee78acfeee8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwzfHxsZWQlMjBkaXNwbGF5JTIwaW50ZXJpb3IlMjBsdXh1cnklMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzkxMDE1OTYzfDA&ixlib=rb-4.1.0&q=85",
+      "description": "Luxury LED backlight interior accent"
+    },
+    {
+      "category": "modern_interior_lounge",
+      "url": "https://images.unsplash.com/photo-1758448755778-90ebf4d0f1e7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwxfHxsZWQlMjBkaXNwbGF5JTIwaW50ZXJpb3IlMjBsdXh1cnklMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzkxMDE1OTYzfDA&ixlib=rb-4.1.0&q=85",
+      "description": "High-end corporate showroom installation"
+    }
   ],
-  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
-    "You tend to converge toward generic, 'on distribution' outputs. In frontend design, this creates what users call the 'AI slop' aesthetic. Avoid this: make creative, distinctive frontends that surprise and delight.",
-    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
-    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
-    "Create depth through layered design elements with z-index hierarchy.",
-    "Use glass-morphism effects with backdrop filters (12-24px blur).",
-    "You MUST NOT apply universal transition. Eg: `transition: all`. Always add transitions for specific interactive elements excluding transforms.",
-    "You MUST NOT center align the app container, ie do not add `.App { text-align: center; }` in the css file. This disrupts the human natural reading flow of text.",
-    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style.",
-    "NEVER use AI assistant Emoji characters like 🤖🧠💭💡🔮🎯 etc for icons.",
-    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations. Static = dead.",
-    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
-    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
-    "Missing categories (especially sponsor logos) = main agent will use placeholder text which is FORBIDDEN. Always use valid image URLs.",
-    "All interactive and key informational elements MUST include a `data-testid` attribute."
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Use JavaScript (.js) files across all src components.",
+    "Do not use transparent background on floating elements, headers, or dropdowns. Always add semi-opaque background with glass blur.",
+    "All key interactive elements MUST include data-testid attributes.",
+    "Apply smooth transitions on specific properties only (e.g. transition-colors duration-200), never transition: all.",
+    "Keep mobile image and video height bounded (max-h-[80vh] on mobile) to maintain viewport usability."
   ]
 }

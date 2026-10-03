@@ -15,3 +15,4 @@
 
 ## P3 — Maintenance
 - Continue incremental component modularity only where it preserves the established Crystal Glass design and strict parity. The first navigation/comparison/RFQ refactor is complete.
+- Optional: move static homepage and showcase video URLs into managed content/config once the editable-CMS scope is approved, retaining the current poster fallback for MOV compatibility.

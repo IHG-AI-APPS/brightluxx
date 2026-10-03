@@ -1,5 +1,10 @@
 # Brightluxx — Product Requirements Document
 
+## LATEST: Homepage Capability Film + Design Refresh — Verified (Oct 3, 2026)
+- **Hero refresh**: replaced the static homepage hero with the user-provided Brightluxx capability film, a cinematic Crystal Glass treatment, resilient poster fallback, accessible pause/play control, reduced-motion handling, strong product/projects CTAs and responsive desktop/mobile framing.
+- **Asset reuse**: relocated the former homepage film to the About engineering showcase and the earlier reel to the Solutions showcase; both are server-rendered in the isolated Next.js target. The homepage’s first discovery band was refreshed with a clearer editorial hierarchy.
+- **Design review and testing**: applied the design-agent blueprint in `/app/design_guidelines.json`. Iteration 171 passed **100%** of scoped video, CTA, fallback, video relocation, desktop/mobile overflow and reduced-motion checks. **NO APIs are mocked.** The current direct MOV asset returns `video/quicktime`; the poster remains visible while unsupported browsers fail over.
+
 ## LATEST: Internal Redirect-Monitor Dashboard — Verified (Oct 2, 2026)
 - **Built**: added a Search Console-ready redirect monitor at the internal `/__migration-parity` route. It presents the 12 documented legacy mappings, local redirect/410 summary, and an explicit remote GSC/performance acceptance checklist without touching Cloudflare, Search Console or production.
 - **Guardrails**: the route remains noindex/nofollow, omitted from the sitemap, and clearly states that remote checks require scoped staging authorization. Desktop uses an audit table; mobile switches to readable redirect cards with no horizontal overflow.

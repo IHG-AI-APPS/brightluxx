@@ -65,3 +65,4 @@ dump.rdb
 credentials.json
 nextjs/node_modules/@cloudflare/workerd-linux-arm64/bin/workerd
 .cache/brightluxx-node22/bin/node
+nextjs/.node-runtime/bin/node
